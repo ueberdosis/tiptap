@@ -152,4 +152,31 @@ describe('filterInvalidContent', () => {
     disableCollab!()
     expect(destroySpy).toHaveBeenCalled()
   })
+
+  it('recovers from invalid initial content via disableCollaboration + setContent (#7493)', () => {
+    const ydoc = new Y.Doc()
+
+    el = document.createElement('div')
+    document.body.appendChild(el)
+
+    let ranHandler = false
+
+    expect(() => {
+      editor = new Editor({
+        element: el as HTMLElement,
+        extensions: [Document, Paragraph, Text, Collaboration.configure({ document: ydoc })],
+        content: '<p>keepme</p><foobar></foobar>',
+        enableContentCheck: true,
+        onContentError: ({ editor: contentErrorEditor, disableCollaboration }) => {
+          ranHandler = true
+          disableCollaboration()
+          contentErrorEditor.commands.setContent('<p>recovered</p>')
+        },
+      })
+    }).not.toThrow()
+
+    expect(ranHandler).toBe(true)
+    expect(editor!.storage.collaboration).toBeUndefined()
+    expect(editor!.getText()).toBe('recovered')
+  })
 })

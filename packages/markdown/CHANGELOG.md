@@ -1,5 +1,51 @@
 # @tiptap/markdown
 
+## 3.29.0
+
+### Patch Changes
+
+- 9af2f2b: Fixed blank lines being dropped after block elements (headings, tables, etc.) when parsing markdown. Blank lines were being absorbed into the block token instead of being preserved, causing content to lose a blank line on each parse/serialize cycle.
+- Updated dependencies [d26840f]
+- Updated dependencies [e150ee0]
+- Updated dependencies [935e63f]
+- Updated dependencies [b4c5a2d]
+- Updated dependencies [a963d48]
+- Updated dependencies [51f45b6]
+- Updated dependencies [0f63969]
+- Updated dependencies [9acaa65]
+  - @tiptap/core@3.29.0
+  - @tiptap/pm@3.29.0
+
+## 3.28.0
+
+### Patch Changes
+
+- @tiptap/core@3.28.0
+- @tiptap/pm@3.28.0
+
+## 3.27.4
+
+### Patch Changes
+
+- @tiptap/core@3.27.4
+- @tiptap/pm@3.27.4
+
+## 3.27.3
+
+### Patch Changes
+
+- Updated dependencies [023f98c]
+  - @tiptap/core@3.27.3
+  - @tiptap/pm@3.27.3
+
+## 3.27.2
+
+### Patch Changes
+
+- Updated dependencies [ceebb31]
+  - @tiptap/pm@3.27.2
+  - @tiptap/core@3.27.2
+
 ## 3.27.1
 
 ### Patch Changes
@@ -509,9 +555,9 @@
   - **`contentType`**: Control the type of content that is inserted into the editor. Can be `json`, `html` or `markdown` - defaults to `json` and will automatically detect invalid content types (like JSON when it is actually Markdown).
     ```typescript
     new Editor({
-      content: '# Hello World',
-      contentType: 'markdown',
-    })
+      content: "# Hello World",
+      contentType: "markdown",
+    });
     ```
 
   **Command Options:** All content commands now support an `contentType` option:

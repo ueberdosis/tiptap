@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.0.3
+
+### Patch Changes
+
+- a1c6243: Allow KaTeX 0.17
+
 ## 3.0.2
 
 ### Patch Changes

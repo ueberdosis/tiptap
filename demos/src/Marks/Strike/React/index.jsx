@@ -4,7 +4,7 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Strike from '@tiptap/extension-strike'
 import Text from '@tiptap/extension-text'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import React from 'react'
 
 export default () => {
@@ -18,6 +18,12 @@ export default () => {
           <p style="text-decoration: line-through">This as well.</p>
         `,
   })
+  const { isStrike } = useEditorState({
+    editor,
+    selector: ctx => ({
+      isStrike: ctx.editor.isActive('strike') ?? false,
+    }),
+  })
 
   if (!editor) {
     return null
@@ -29,20 +35,14 @@ export default () => {
         <div className="button-group">
           <button
             onClick={() => editor.chain().focus().toggleStrike().run()}
-            className={editor.isActive('strike') ? 'is-active' : ''}
+            className={isStrike ? 'is-active' : ''}
           >
             Toggle strike
           </button>
-          <button
-            onClick={() => editor.chain().focus().setStrike().run()}
-            disabled={editor.isActive('strike')}
-          >
+          <button onClick={() => editor.chain().focus().setStrike().run()} disabled={isStrike}>
             Set strike
           </button>
-          <button
-            onClick={() => editor.chain().focus().unsetStrike().run()}
-            disabled={!editor.isActive('strike')}
-          >
+          <button onClick={() => editor.chain().focus().unsetStrike().run()} disabled={!isStrike}>
             Unset strike
           </button>
         </div>

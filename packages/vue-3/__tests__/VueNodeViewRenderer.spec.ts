@@ -7,7 +7,11 @@ import { defineComponent } from 'vue'
 
 import { NodeViewContent } from '../src/NodeViewContent.js'
 import { NodeViewWrapper } from '../src/NodeViewWrapper.js'
-import { nodeViewProps, VueNodeViewRenderer } from '../src/VueNodeViewRenderer.js'
+import {
+  nodeViewProps,
+  VueNodeViewRenderer,
+  type VueNodeViewRendererOptions,
+} from '../src/VueNodeViewRenderer.js'
 import { Editor as VueEditor } from '../src/Editor.js'
 
 const ComponentWithoutContent = defineComponent({
@@ -26,6 +30,13 @@ const ComponentWithContent = defineComponent({
   components: { NodeViewWrapper, NodeViewContent },
 })
 
+const ComponentWithTbodyContent = defineComponent({
+  name: 'WithTbodyContent',
+  props: nodeViewProps,
+  template: '<node-view-wrapper as="table"><node-view-content as="tbody" /></node-view-wrapper>',
+  components: { NodeViewWrapper, NodeViewContent },
+})
+
 const LeafComponent = defineComponent({
   name: 'LeafComponent',
   props: nodeViewProps,
@@ -34,14 +45,17 @@ const LeafComponent = defineComponent({
   components: { NodeViewWrapper },
 })
 
-function createBlockNode(component: ReturnType<typeof defineComponent>) {
+function createBlockNode(
+  component: ReturnType<typeof defineComponent>,
+  options?: Partial<VueNodeViewRendererOptions>,
+) {
   return Node.create({
     name: 'customBlock',
     group: 'block',
     content: 'inline*',
     parseHTML: () => [{ tag: 'custom-block' }],
     renderHTML: ({ HTMLAttributes }) => ['custom-block', mergeAttributes(HTMLAttributes), 0],
-    addNodeView: () => VueNodeViewRenderer(component),
+    addNodeView: () => VueNodeViewRenderer(component, options),
   })
 }
 
@@ -77,6 +91,7 @@ describe('VueNodeViewRenderer contentDOM', () => {
     content: string,
     component: ReturnType<typeof defineComponent>,
     leaf = false,
+    options?: Partial<VueNodeViewRendererOptions>,
   ) {
     editor = createVueEditor({
       element: el!,
@@ -84,7 +99,7 @@ describe('VueNodeViewRenderer contentDOM', () => {
         Document,
         Paragraph,
         Text,
-        leaf ? createLeafNode(component) : createBlockNode(component),
+        leaf ? createLeafNode(component) : createBlockNode(component, options),
       ],
       content,
     })
@@ -130,8 +145,43 @@ describe('VueNodeViewRenderer contentDOM', () => {
     expect(content!.textContent).toContain('Hello World')
   })
 
+  it('adopts <node-view-content as="tbody"> as the contentDOM instead of nesting a wrapper div inside it', async () => {
+    await withEditor('<custom-block>Hello World</custom-block>', ComponentWithTbodyContent)
+    const tbody = el!.querySelector('tbody[data-node-view-content]')
+    expect(tbody).toBeTruthy()
+    // A <tbody> may only contain <tr> elements, so the placeholder wrapper div
+    // must never be nested inside it.
+    expect(tbody!.querySelector('[data-node-view-content-vue]')).toBeFalsy()
+    expect(tbody!.children.length).toBe(0)
+    expect(tbody!.textContent).toContain('Hello World')
+  })
+
   it('does not throw on destroy', async () => {
     await withEditor('<custom-block>Hello World</custom-block>', ComponentWithoutContent)
     expect(() => editor!.destroy()).not.toThrow()
+  })
+
+  // Uses `<node-view-content>` as `contentDOM`; `contentDOMElementTag` only defines the fallback when none is rendered.
+  it('ignores contentDOMElementTag when a real <node-view-content> is present', async () => {
+    await withEditor('<custom-block>Hello World</custom-block>', ComponentWithContent, false, {
+      contentDOMElementTag: 'custom-content-dom',
+    })
+    expect(el!.querySelector('custom-content-dom')).toBeFalsy()
+    const content = el!.querySelector('[data-node-view-content]')
+    expect(content).toBeTruthy()
+    expect(content!.tagName.toLowerCase()).toBe('div')
+    expect(content!.textContent).toContain('Hello World')
+  })
+
+  it('use custom content dom element tag as the fallback when there is no <node-view-content>', async () => {
+    await withEditor('<custom-block>Hello World</custom-block>', ComponentWithoutContent, false, {
+      contentDOMElementTag: 'custom-content-dom',
+    })
+    // The fallback placeholder stays detached (see "does not thrash the DOM" above),
+    // so we assert on the internal contentDOM rather than querying the live DOM.
+    const wrapperDesc = (el!.querySelector('[data-node-view-wrapper]') as any)?.pmViewDesc
+    const contentDOM = wrapperDesc?.spec?.contentDOM as HTMLElement | undefined
+    expect(contentDOM).toBeTruthy()
+    expect(contentDOM!.tagName.toLowerCase()).toBe('custom-content-dom')
   })
 })

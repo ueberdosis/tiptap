@@ -2,7 +2,7 @@
 
 Contributions are **welcome** and will be fully **credited**.
 
-Please read and understand the [contribution guide](https://www.tiptap.dev/overview/contributing/) before creating an issue or pull request.
+Please read and understand the [contribution guide](https://tiptap.dev/docs/resources/contributing) before creating an issue or pull request.
 
 ## Etiquette
 
@@ -83,6 +83,15 @@ When adding a new package to the repository that does not yet exist on NPM, addi
 2. **Configure trusted publishing** - After the initial publish, set up [NPM trusted publishing](https://docs.npmjs.com/trusted-publishers) (also known as provenance) for the package on NPM. This allows the GitHub Actions workflow to publish subsequent versions automatically.
 
 Without this setup, the publish CI will fail when attempting to release a new package.
+
+### Adding a new release branch
+
+When setting up a new release line (e.g., `v2`), you need to update two places:
+
+1. **Workflow trigger** — Add the branch name to the `on.push.branches` list in `.github/workflows/publish.yml`.
+2. **Publish configuration** — Add a matching entry in `.github/publish-config.json` with the desired dist-tag and release messages.
+
+Both lists must stay in sync. A branch present in one but not the other will either never trigger the workflow or produce a harmless no-op. See [`agents/VERSIONING.md`](agents/VERSIONING.md) for the full documentation.
 
 ## Requirements
 

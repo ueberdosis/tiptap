@@ -12,9 +12,15 @@ const getParsedDimension = (value: string | null) => {
     return null
   }
 
-  const parsedValue = Number.parseInt(value, 10)
+  const trimmedValue = value.trim()
 
-  return Number.isNaN(parsedValue) ? null : parsedValue
+  if (trimmedValue === '') {
+    return null
+  }
+
+  const parsedValue = Number(trimmedValue)
+
+  return Number.isNaN(parsedValue) ? trimmedValue : parsedValue
 }
 
 const getParsedYoutubeAttributes = (element: HTMLElement) => {
@@ -110,8 +116,9 @@ export interface YoutubeOptions {
    * The height of the youtube video.
    * @default 480
    * @example 720
+   * @example '100%'
    */
-  height: number
+  height: number | string
 
   /**
    * The language of the youtube video.
@@ -187,8 +194,9 @@ export interface YoutubeOptions {
    * The width of the youtube video.
    * @default 640
    * @example 1280
+   * @example '100%'
    */
-  width: number
+  width: number | string
 
   /**
    * Controls if the related youtube videos at the end are from the same channel.
@@ -201,7 +209,12 @@ export interface YoutubeOptions {
 /**
  * The options for setting a youtube video.
  */
-type SetYoutubeVideoOptions = { src: string; width?: number; height?: number; start?: number }
+type SetYoutubeVideoOptions = {
+  src: string
+  width?: number | string
+  height?: number | string
+  start?: number
+}
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

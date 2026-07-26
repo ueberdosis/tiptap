@@ -1,5 +1,6 @@
 import type { Extensions, JSONContent } from '@tiptap/core'
 import type { Mark, Node } from '@tiptap/pm/model'
+import { TableMap } from '@tiptap/pm/tables'
 
 import type { TiptapStaticRendererOptions } from '../../json/renderer.js'
 import type { StaticEditorOptions } from '../extensionRenderer.js'
@@ -88,14 +89,49 @@ export function renderToMarkdown({
             return `\n${serializeChildrenToHTMLString(children)}\n`
           }
 
-          const columnCount = node.children[0].childCount
+          // Use the table's real column count (accounting for row/colspan) rather than
+          // assuming the first row spans every column.
+          const columnCount = TableMap.get(node).width
           return `\n${serializeChildrenToHTMLString(children[0])}| ${Array.from<string>({ length: columnCount }).fill('---').join(' | ')} |\n${serializeChildrenToHTMLString(children.slice(1))}\n`
         },
-        tableRow({ children }) {
-          if (Array.isArray(children)) {
+        tableRow({ node, children, parent }) {
+          if (!Array.isArray(children) || !parent) {
+            return `${serializeChildrenToHTMLString(children)}\n`
+          }
+
+          const map = TableMap.get(parent)
+
+          let rowIndex = -1
+          parent.forEach((rowNode, _offset, index) => {
+            if (rowNode === node) {
+              rowIndex = index
+            }
+          })
+
+          if (rowIndex === -1) {
+            // Should not happen, but fall back to the previous (naive) behavior rather than throwing.
             return `| ${children.join(' | ')} |\n`
           }
-          return `${serializeChildrenToHTMLString(children)}\n`
+
+          const cells: string[] = []
+          let cellIndex = 0
+
+          for (let col = 0; col < map.width; col += 1) {
+            const cellPos = map.map[rowIndex * map.width + col]
+            const rect = map.findCell(cellPos)
+
+            // Only the cell's top-left slot corresponds to an actual rendered child of this row.
+            // Every other slot it covers (via rowspan/colspan) needs a blank placeholder so the
+            // markdown grid stays rectangular.
+            if (rect.top === rowIndex && rect.left === col) {
+              cells.push(children[cellIndex] ?? '')
+              cellIndex += 1
+            } else {
+              cells.push('')
+            }
+          }
+
+          return `| ${cells.join(' | ')} |\n`
         },
         tableHeader({ children }) {
           return serializeChildrenToHTMLString(children).trim()

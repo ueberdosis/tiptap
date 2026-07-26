@@ -27,17 +27,21 @@ export const ORDERED_LIST_ITEM_REGEX = new RegExp(
 )
 
 /**
- * Matches the start of an ordered list line (used by markdown tokenizer).
- */
-export const ORDERED_LIST_LINE_START_REGEX = new RegExp(
-  `^(\\s*)(${ORDERED_LIST_MARKER_PATTERN})([.)])\\s+`,
-)
-
-/**
  * Matches any line that starts with whitespace (indented content).
  * Used to identify continuation content that belongs to a list item.
  */
 const INDENTED_LINE_REGEX = /^\s/
+
+/**
+ * This are blocks that can interrupt a paragraph, so a line starting with one of
+ * them can never be lazy continuation text of a list item
+ */
+const PARAGRAPH_INTERRUPTERS = {
+  heading: /^#{1,6}(?:\s|$)/,
+  bulletItem: /^[-+*]\s+/,
+  codeFence: /^(?:```|~~~)/,
+  thematicBreak: /^(?:(?:-[ \t]*){3,}|(?:_[ \t]*){3,}|(?:\*[ \t]*){3,})$/,
+}
 
 /**
  * Represents a parsed ordered list item with indentation information
@@ -59,16 +63,20 @@ function isBlockContentLine(line: string): boolean {
   const trimmedLine = line.trimStart()
 
   return (
-    // oxlint-disable-next-line prefer-string-starts-ends-with
-    /^[-+*]\s+/.test(trimmedLine) ||
+    PARAGRAPH_INTERRUPTERS.bulletItem.test(trimmedLine) ||
     isOrderedListMarkerLine(trimmedLine) ||
+    PARAGRAPH_INTERRUPTERS.heading.test(trimmedLine) ||
+    // dash breaks are excluded: "---" directly below paragraph text is a
+    // setext heading underline, not a thematic break
+    (PARAGRAPH_INTERRUPTERS.thematicBreak.test(trimmedLine) && !trimmedLine.startsWith('-')) ||
     // oxlint-disable-next-line prefer-string-starts-ends-with
     /^>\s?/.test(trimmedLine) ||
-    // oxlint-disable-next-line prefer-string-starts-ends-with
-    /^```/.test(trimmedLine) ||
-    // oxlint-disable-next-line prefer-string-starts-ends-with
-    /^~~~/.test(trimmedLine)
+    PARAGRAPH_INTERRUPTERS.codeFence.test(trimmedLine)
   )
+}
+
+function interruptsLazyContinuation(line: string): boolean {
+  return Object.values(PARAGRAPH_INTERRUPTERS).some(pattern => pattern.test(line))
 }
 
 function splitItemContent(contentLines: string[]): {
@@ -166,7 +174,7 @@ export function collectOrderedListItems(lines: string[]): [OrderedListItem[], nu
         itemContentLines.push(nextLine.slice(Math.min(leadingWhitespace, contentIndent)))
         nextLineIndex += 1
       } else {
-        if (sawBlankLine) {
+        if (sawBlankLine || interruptsLazyContinuation(nextLine)) {
           break
         }
 

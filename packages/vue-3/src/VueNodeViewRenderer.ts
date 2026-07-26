@@ -162,12 +162,16 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
         provide('onDragStart', onDragStart)
         provide('decorationClasses', this.decorationClasses)
         provide('nodeViewContentRef', (el: HTMLElement | null) => {
-          if (!this.contentDOMElement) return
+          if (!el || el === this.contentDOMElement) return
 
-          if (el && el.firstChild !== this.contentDOMElement) {
-            // NodeViewContent mounted: move the contentDOMElement inside it
-            el.appendChild(this.contentDOMElement)
+          // Adopt this stable element as contentDOM, preserving existing children.
+          // Do not conditionally remount it; use v-show instead of v-if).
+          if (this.contentDOMElement) {
+            while (this.contentDOMElement.firstChild) {
+              el.appendChild(this.contentDOMElement.firstChild)
+            }
           }
+          this.contentDOMElement = el
         })
 
         return (this.component as any).setup?.(reactiveProps, {
@@ -200,7 +204,11 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
       // Create the content DOM element BEFORE rendering the Vue component,
       // so it is available immediately when ProseMirror accesses contentDOM
       // during the initial DOM build.
-      this.contentDOMElement = document.createElement(this.node.isInline ? 'span' : 'div')
+      if (this.options.contentDOMElementTag) {
+        this.contentDOMElement = document.createElement(this.options.contentDOMElementTag)
+      } else {
+        this.contentDOMElement = document.createElement(this.node.isInline ? 'span' : 'div')
+      }
       this.contentDOMElement.style.whiteSpace = 'inherit'
       // Use a distinct attribute to avoid clashing with the user's
       // <node-view-content> element (which carries data-node-view-content).

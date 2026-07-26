@@ -1,5 +1,47 @@
 # Change Log
 
+## 3.29.0
+
+### Patch Changes
+
+- Updated dependencies [d26840f]
+- Updated dependencies [935e63f]
+- Updated dependencies [b4c5a2d]
+- Updated dependencies [a963d48]
+- Updated dependencies [51f45b6]
+- Updated dependencies [0f63969]
+- Updated dependencies [9acaa65]
+  - @tiptap/core@3.29.0
+
+## 3.28.0
+
+### Minor Changes
+
+- 1939086: Allow string `width` and `height` values like `'100%'` or `'20rem'` in the YouTube extension. Non-numeric values in parsed HTML are now preserved instead of being converted to numbers.
+
+### Patch Changes
+
+- @tiptap/core@3.28.0
+
+## 3.27.4
+
+### Patch Changes
+
+- @tiptap/core@3.27.4
+
+## 3.27.3
+
+### Patch Changes
+
+- Updated dependencies [023f98c]
+  - @tiptap/core@3.27.3
+
+## 3.27.2
+
+### Patch Changes
+
+- @tiptap/core@3.27.2
+
 ## 3.27.1
 
 ### Patch Changes

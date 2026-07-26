@@ -1,5 +1,62 @@
 # Change Log
 
+## 3.29.0
+
+### Patch Changes
+
+- Updated dependencies [d26840f]
+- Updated dependencies [e150ee0]
+- Updated dependencies [935e63f]
+- Updated dependencies [b4c5a2d]
+- Updated dependencies [a963d48]
+- Updated dependencies [51f45b6]
+- Updated dependencies [0f63969]
+- Updated dependencies [9acaa65]
+  - @tiptap/core@3.29.0
+  - @tiptap/pm@3.29.0
+
+## 3.28.0
+
+### Patch Changes
+
+- c1254c1: Fix markdown parsing a line like `(216) 555-1234` as an ordered list. A number followed by `)` mid-line is no longer treated as a list marker.
+  - @tiptap/core@3.28.0
+  - @tiptap/pm@3.28.0
+
+## 3.27.4
+
+### Patch Changes
+
+- c28d888: Fix a markdown parsing bug where a plain bullet (`- item`) nested under a task-list parent (`- [ ]`) was silently dropped from the parsed document. The task-list tokenizer's nested parser stopped at the first non-checkbox line and discarded everything after it; that remainder is now lexed and kept as sibling blocks (a bullet list or paragraph inside the parent task item), matching how mixed lists already behave at the top level.
+  - @tiptap/core@3.27.4
+  - @tiptap/pm@3.27.4
+
+## 3.27.3
+
+### Patch Changes
+
+- b4600b6: Fix markdown parsing bugs where block elements right after an ordered list item (with no blank line in between) were wrongly treated as lazy continuation of the list item, instead of terminating the list the way other markdown parsers do:
+
+  - Thematic breaks (`---`, `***`, `___`, `* * *`) were swallowed into the list item as literal paragraph text — along with every line after them. They now terminate the list and become a horizontal rule.
+  - Fenced code blocks (` ``` ` and `~~~`) were nested inside the list item. They now terminate the list and become a top-level code block.
+  - Unindented bullet markers (`- item`) were nested inside the ordered list item. They now terminate the ordered list and start a new top-level bullet list. Indented bullets still nest inside the item as before.
+
+  An indented `***`/`___` inside item content is now also parsed as a horizontal rule inside the item instead of literal text. A `---` line directly below item paragraph text keeps its current behavior because it is a setext heading underline per CommonMark, not a thematic break.
+
+- 1f3ca7a: Fix indented ordered list items (e.g. one leading space before the marker, as happens when a top-level ordered list is itself nested inside another list) losing inline formatting during markdown parsing. The custom ordered-list markdown tokenizer built its nested structure with a hardcoded base indentation of 0, so an item whose actual indentation was non-zero never matched, causing the tokenizer to silently produce zero items and bail out — falling back to a path that left the item's content as literal, unparsed text instead of running it through inline tokenization (bold, italic, etc. were lost). The base indentation is now taken from the first collected item instead of being hardcoded.
+- Updated dependencies [023f98c]
+  - @tiptap/core@3.27.3
+  - @tiptap/pm@3.27.3
+
+## 3.27.2
+
+### Patch Changes
+
+- f586b6f: Fix a markdown parsing bug where a heading right after an ordered list item (with no blank line in between) got pulled into the list item as plain text, so you'd see a literal `###` inside the list instead of an actual heading. Headings now end the list and get parsed properly, the way other markdown parsers handle it. Indented headings inside a list item are also parsed as real headings now instead of literal text.
+- Updated dependencies [ceebb31]
+  - @tiptap/pm@3.27.2
+  - @tiptap/core@3.27.2
+
 ## 3.27.1
 
 ### Patch Changes

@@ -1,5 +1,56 @@
 # @tiptap/extension-file-handler
 
+## 3.29.0
+
+### Patch Changes
+
+- Updated dependencies [d26840f]
+- Updated dependencies [e150ee0]
+- Updated dependencies [935e63f]
+- Updated dependencies [b4c5a2d]
+- Updated dependencies [a963d48]
+- Updated dependencies [51f45b6]
+- Updated dependencies [0f63969]
+- Updated dependencies [9acaa65]
+  - @tiptap/core@3.29.0
+  - @tiptap/pm@3.29.0
+  - @tiptap/extension-text-style@3.29.0
+
+## 3.28.0
+
+### Patch Changes
+
+- @tiptap/core@3.28.0
+- @tiptap/extension-text-style@3.28.0
+- @tiptap/pm@3.28.0
+
+## 3.27.4
+
+### Patch Changes
+
+- @tiptap/core@3.27.4
+- @tiptap/extension-text-style@3.27.4
+- @tiptap/pm@3.27.4
+
+## 3.27.3
+
+### Patch Changes
+
+- Updated dependencies [023f98c]
+  - @tiptap/core@3.27.3
+  - @tiptap/extension-text-style@3.27.3
+  - @tiptap/pm@3.27.3
+
+## 3.27.2
+
+### Patch Changes
+
+- 06b4274: Add `consumePasteEvent` option to the file-handler extension. When `true`, `handlePaste` returns `true` even when HTML content is present in the clipboard, preventing paste rules from other extensions from creating duplicate content. Default is `false`.
+- Updated dependencies [ceebb31]
+  - @tiptap/pm@3.27.2
+  - @tiptap/core@3.27.2
+  - @tiptap/extension-text-style@3.27.2
+
 ## 3.27.1
 
 ### Patch Changes

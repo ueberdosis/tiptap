@@ -1,3 +1,5 @@
+'use client'
+
 export * from './Context.js'
 export * from './EditorContent.js'
 export * from './NodeViewContent.js'

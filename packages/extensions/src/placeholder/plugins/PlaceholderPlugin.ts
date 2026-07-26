@@ -1,11 +1,12 @@
 import type { Editor } from '@tiptap/core'
 import { Plugin } from '@tiptap/pm/state'
+import { DecorationSet } from '@tiptap/pm/view'
 
 import { DEFAULT_DATA_ATTRIBUTE, PLUGIN_KEY } from '../constants.js'
 import type { PlaceholderOptions } from '../types.js'
 import { buildPlaceholderDecorations } from '../utils/buildPlaceholderDecorations.js'
+import { createPlaceholderStateField } from '../utils/placeholderStateField.js'
 import { preparePlaceholderAttribute } from '../utils/preparePlaceholderAttribute.js'
-import { createViewportPluginView, viewportPluginState } from '../utils/viewportTracking.js'
 
 export type CreatePluginOptions = {
   editor: Editor
@@ -23,13 +24,26 @@ export function createPlaceholderPlugin({ editor, options }: CreatePluginOptions
     ? `data-${preparePlaceholderAttribute(options.dataAttribute)}`
     : `data-${DEFAULT_DATA_ATTRIBUTE}`
 
+  const useResolvedPath = options.showOnlyCurrent && !options.includeChildren
+
   return new Plugin({
     key: PLUGIN_KEY,
-    state: viewportPluginState,
-    view: createViewportPluginView,
+    ...(useResolvedPath
+      ? {}
+      : {
+          state: createPlaceholderStateField({ editor, options, dataAttribute }),
+        }),
     props: {
-      decorations: ({ doc, selection }) =>
-        buildPlaceholderDecorations({ editor, options, dataAttribute, doc, selection }),
+      decorations: useResolvedPath
+        ? ({ doc, selection }) =>
+            buildPlaceholderDecorations({ editor, options, dataAttribute, doc, selection })
+        : state => {
+            if (options.showOnlyWhenEditable && !editor.isEditable) {
+              return DecorationSet.empty
+            }
+
+            return PLUGIN_KEY.getState(state) ?? DecorationSet.empty
+          },
     },
   })
 }

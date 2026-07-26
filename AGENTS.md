@@ -20,7 +20,7 @@ How to work on the Tiptap monorepo. Written for humans and AI coding assistants.
 
 - Work in small, iterative steps. If a task is too broad, say so and propose smaller steps.
 - After changes, ask the user to review them.
-- Disclose AI usage in the PR.
+- Keep PR descriptions short, clear, and easy to read. Use simple English and explain why the change is needed.
 - Make single-purpose, small diffs. No sweeping changes in one PR.
 - Never autocommit. Ask before committing or opening PRs.
 - Run the [validation checklist](#validation-run-before-opening-a-pr) after edits.

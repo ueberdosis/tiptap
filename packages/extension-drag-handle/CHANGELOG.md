@@ -1,5 +1,64 @@
 # @tiptap/extension-drag-handle
 
+## 3.29.0
+
+### Patch Changes
+
+- Updated dependencies [d26840f]
+- Updated dependencies [e150ee0]
+- Updated dependencies [935e63f]
+- Updated dependencies [b4c5a2d]
+- Updated dependencies [a963d48]
+- Updated dependencies [51f45b6]
+- Updated dependencies [0f63969]
+- Updated dependencies [9acaa65]
+  - @tiptap/core@3.29.0
+  - @tiptap/pm@3.29.0
+  - @tiptap/extension-collaboration@3.29.0
+  - @tiptap/extension-node-range@3.29.0
+
+## 3.28.0
+
+### Patch Changes
+
+- 3c8da6a: Bump @tiptap/y-tiptap version to ensure users use latest version
+- Updated dependencies [3c8da6a]
+  - @tiptap/extension-collaboration@3.28.0
+  - @tiptap/core@3.28.0
+  - @tiptap/extension-node-range@3.28.0
+  - @tiptap/pm@3.28.0
+
+## 3.27.4
+
+### Patch Changes
+
+- @tiptap/core@3.27.4
+- @tiptap/extension-collaboration@3.27.4
+- @tiptap/extension-node-range@3.27.4
+- @tiptap/pm@3.27.4
+
+## 3.27.3
+
+### Patch Changes
+
+- Updated dependencies [023f98c]
+  - @tiptap/core@3.27.3
+  - @tiptap/extension-collaboration@3.27.3
+  - @tiptap/extension-node-range@3.27.3
+  - @tiptap/pm@3.27.3
+
+## 3.27.2
+
+### Patch Changes
+
+- ec41238: Fix NodeRangeSelection not being restored after drag-and-drop when Collaboration (Yjs) is enabled. Drop anchor positions are now tracked with Yjs relative positions and remapped across `isChangeOrigin` document rebuilds, and selection restore runs via `appendTransaction` after the drop transaction settles.
+- 82d9c81: Fix the drag handle when the editor renders zero-size widget decorations, such as the page chrome injected by the Pages extension. The handle now resolves to the correct block instead of failing to position or aligning to a decoration, and it stays above positioned page chrome so it remains clickable.
+- Updated dependencies [ceebb31]
+  - @tiptap/pm@3.27.2
+  - @tiptap/core@3.27.2
+  - @tiptap/extension-collaboration@3.27.2
+  - @tiptap/extension-node-range@3.27.2
+
 ## 3.27.1
 
 ### Patch Changes

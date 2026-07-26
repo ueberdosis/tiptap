@@ -102,5 +102,16 @@ describe('DragHandle', () => {
     it('should have pointer events set to auto initially', () => {
       expect(dragHandleElement.style.pointerEvents).toBe('auto')
     })
+
+    it('should render the handle wrapper above editor decorations via a z-index', () => {
+      // The wrapper competes in the stacking context with positioned editor
+      // content and decorations (for example the Pages page header/footer chrome
+      // at z-index 2). Without a z-index the handle is painted behind that chrome
+      // and becomes impossible to click, so the wrapper must assert its own.
+      const wrapper = dragHandleElement.parentElement
+
+      expect(wrapper).not.toBeNull()
+      expect(wrapper?.style.zIndex).toBe('10')
+    })
   })
 })

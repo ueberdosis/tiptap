@@ -25,6 +25,7 @@ import { type Lexer, type Token, type TokenizerExtension, type TokenizerThis, ma
 
 import {
   closeMarksBeforeNode,
+  extractAbsorbedBlankLines,
   findMarksToClose,
   findMarksToCloseAtEnd,
   findMarksToOpen,
@@ -365,7 +366,12 @@ export class MarkdownManager {
     tokens: MarkdownToken[],
     parseImplicitEmptyParagraphs = false,
   ): JSONContent[] {
-    const nonSpaceTokenIndexes = tokens.reduce<number[]>((indexes, token, index) => {
+    // Normalize absorbed blank lines into `space` tokens so they survive round-trips.
+    const normalizedTokens = parseImplicitEmptyParagraphs
+      ? extractAbsorbedBlankLines(tokens)
+      : tokens
+
+    const nonSpaceTokenIndexes = normalizedTokens.reduce<number[]>((indexes, token, index) => {
       if (token.type !== 'space') {
         indexes.push(index)
       }
@@ -376,7 +382,7 @@ export class MarkdownManager {
     let previousNonSpaceTokenIndex = -1
     let nextNonSpaceTokenPointer = 0
 
-    return tokens.flatMap((token, index) => {
+    return normalizedTokens.flatMap((token, index) => {
       while (
         nextNonSpaceTokenPointer < nonSpaceTokenIndexes.length &&
         nonSpaceTokenIndexes[nextNonSpaceTokenPointer] < index

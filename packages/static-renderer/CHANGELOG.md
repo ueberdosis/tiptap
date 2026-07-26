@@ -1,5 +1,52 @@
 # Change Log
 
+## 3.29.0
+
+### Patch Changes
+
+- 8afd05c: Fix Markdown table serialization for merged cells by preserving the correct column layout for rowspan and colspan.
+- Updated dependencies [d26840f]
+- Updated dependencies [e150ee0]
+- Updated dependencies [935e63f]
+- Updated dependencies [b4c5a2d]
+- Updated dependencies [a963d48]
+- Updated dependencies [51f45b6]
+- Updated dependencies [0f63969]
+- Updated dependencies [9acaa65]
+  - @tiptap/core@3.29.0
+  - @tiptap/pm@3.29.0
+
+## 3.28.0
+
+### Patch Changes
+
+- @tiptap/core@3.28.0
+- @tiptap/pm@3.28.0
+
+## 3.27.4
+
+### Patch Changes
+
+- @tiptap/core@3.27.4
+- @tiptap/pm@3.27.4
+
+## 3.27.3
+
+### Patch Changes
+
+- Updated dependencies [023f98c]
+  - @tiptap/core@3.27.3
+  - @tiptap/pm@3.27.3
+
+## 3.27.2
+
+### Patch Changes
+
+- e5316b9: Fix the static renderer ignoring `unhandledNode` and `unhandledMark` for node or mark types missing from the schema; such content now falls back to those renderers instead of throwing in `Node.fromJSON`
+- Updated dependencies [ceebb31]
+  - @tiptap/pm@3.27.2
+  - @tiptap/core@3.27.2
+
 ## 3.27.1
 
 ### Patch Changes
@@ -741,8 +788,8 @@
   Render a Tiptap document to an HTML string:
 
   ```js
-  import StarterKit from '@tiptap/starter-kit'
-  import { renderToHTMLString } from '@tiptap/static-renderer'
+  import StarterKit from "@tiptap/starter-kit";
+  import { renderToHTMLString } from "@tiptap/static-renderer";
 
   renderToHTMLString({
     extensions: [StarterKit], // using your extensions
@@ -756,37 +803,37 @@
       },
       unhandledNode: ({ node }) => {
         // handle unhandled nodes
-        return `[unknown node ${node.type.name}]`
+        return `[unknown node ${node.type.name}]`;
       },
       unhandledMark: ({ mark }) => {
         // handle unhandled marks
-        return `[unknown node ${mark.type.name}]`
+        return `[unknown node ${mark.type.name}]`;
       },
     },
     // the source content to render
     content: {
-      type: 'doc',
+      type: "doc",
       content: [
         {
-          type: 'paragraph',
+          type: "paragraph",
           content: [
             {
-              type: 'text',
-              text: 'Hello World!',
+              type: "text",
+              text: "Hello World!",
             },
           ],
         },
       ],
     },
-  })
+  });
   // returns: '<p>Hello World!</p>'
   ```
 
   Render to a React component:
 
   ```js
-  import StarterKit from '@tiptap/starter-kit'
-  import { renderToReactElement } from '@tiptap/static-renderer'
+  import StarterKit from "@tiptap/starter-kit";
+  import { renderToReactElement } from "@tiptap/static-renderer";
 
   renderToReactElement({
     extensions: [StarterKit], // using your extensions
@@ -800,29 +847,29 @@
       },
       unhandledNode: ({ node }) => {
         // handle unhandled nodes
-        return `[unknown node ${node.type.name}]`
+        return `[unknown node ${node.type.name}]`;
       },
       unhandledMark: ({ mark }) => {
         // handle unhandled marks
-        return `[unknown node ${mark.type.name}]`
+        return `[unknown node ${mark.type.name}]`;
       },
     },
     // the source content to render
     content: {
-      type: 'doc',
+      type: "doc",
       content: [
         {
-          type: 'paragraph',
+          type: "paragraph",
           content: [
             {
-              type: 'text',
-              text: 'Hello World!',
+              type: "text",
+              text: "Hello World!",
             },
           ],
         },
       ],
     },
-  })
+  });
   // returns a react node that, when evaluated, would be equivalent to: '<p>Hello World!</p>'
   ```
 
@@ -834,10 +881,10 @@
 
   ```ts
   function renderToHTMLString(options: {
-    extensions: Extension[]
-    content: ProsemirrorNode | JSONContent
-    options?: TiptapHTMLStaticRendererOptions
-  }): string
+    extensions: Extension[];
+    content: ProsemirrorNode | JSONContent;
+    options?: TiptapHTMLStaticRendererOptions;
+  }): string;
   ```
 
   #### `renderToHTMLString` Options
@@ -854,10 +901,10 @@
 
   ```ts
   function renderToReactElement(options: {
-    extensions: Extension[]
-    content: ProsemirrorNode | JSONContent
-    options?: TiptapReactStaticRendererOptions
-  }): ReactElement
+    extensions: Extension[];
+    content: ProsemirrorNode | JSONContent;
+    options?: TiptapReactStaticRendererOptions;
+  }): ReactElement;
   ```
 
   #### `renderToReactElement` Options
@@ -1289,8 +1336,8 @@
   Render a Tiptap document to an HTML string:
 
   ```js
-  import StarterKit from '@tiptap/starter-kit'
-  import { renderToHTMLString } from '@tiptap/static-renderer'
+  import StarterKit from "@tiptap/starter-kit";
+  import { renderToHTMLString } from "@tiptap/static-renderer";
 
   renderToHTMLString({
     extensions: [StarterKit], // using your extensions
@@ -1304,37 +1351,37 @@
       },
       unhandledNode: ({ node }) => {
         // handle unhandled nodes
-        return `[unknown node ${node.type.name}]`
+        return `[unknown node ${node.type.name}]`;
       },
       unhandledMark: ({ mark }) => {
         // handle unhandled marks
-        return `[unknown node ${mark.type.name}]`
+        return `[unknown node ${mark.type.name}]`;
       },
     },
     // the source content to render
     content: {
-      type: 'doc',
+      type: "doc",
       content: [
         {
-          type: 'paragraph',
+          type: "paragraph",
           content: [
             {
-              type: 'text',
-              text: 'Hello World!',
+              type: "text",
+              text: "Hello World!",
             },
           ],
         },
       ],
     },
-  })
+  });
   // returns: '<p>Hello World!</p>'
   ```
 
   Render to a React component:
 
   ```js
-  import StarterKit from '@tiptap/starter-kit'
-  import { renderToReactElement } from '@tiptap/static-renderer'
+  import StarterKit from "@tiptap/starter-kit";
+  import { renderToReactElement } from "@tiptap/static-renderer";
 
   renderToReactElement({
     extensions: [StarterKit], // using your extensions
@@ -1348,29 +1395,29 @@
       },
       unhandledNode: ({ node }) => {
         // handle unhandled nodes
-        return `[unknown node ${node.type.name}]`
+        return `[unknown node ${node.type.name}]`;
       },
       unhandledMark: ({ mark }) => {
         // handle unhandled marks
-        return `[unknown node ${mark.type.name}]`
+        return `[unknown node ${mark.type.name}]`;
       },
     },
     // the source content to render
     content: {
-      type: 'doc',
+      type: "doc",
       content: [
         {
-          type: 'paragraph',
+          type: "paragraph",
           content: [
             {
-              type: 'text',
-              text: 'Hello World!',
+              type: "text",
+              text: "Hello World!",
             },
           ],
         },
       ],
     },
-  })
+  });
   // returns a react node that, when evaluated, would be equivalent to: '<p>Hello World!</p>'
   ```
 
@@ -1382,10 +1429,10 @@
 
   ```ts
   function renderToHTMLString(options: {
-    extensions: Extension[]
-    content: ProsemirrorNode | JSONContent
-    options?: TiptapHTMLStaticRendererOptions
-  }): string
+    extensions: Extension[];
+    content: ProsemirrorNode | JSONContent;
+    options?: TiptapHTMLStaticRendererOptions;
+  }): string;
   ```
 
   #### `renderToHTMLString` Options
@@ -1402,10 +1449,10 @@
 
   ```ts
   function renderToReactElement(options: {
-    extensions: Extension[]
-    content: ProsemirrorNode | JSONContent
-    options?: TiptapReactStaticRendererOptions
-  }): ReactElement
+    extensions: Extension[];
+    content: ProsemirrorNode | JSONContent;
+    options?: TiptapReactStaticRendererOptions;
+  }): ReactElement;
   ```
 
   #### `renderToReactElement` Options
@@ -1565,8 +1612,8 @@
   Render a Tiptap document to an HTML string:
 
   ```js
-  import StarterKit from '@tiptap/starter-kit'
-  import { renderToHTMLString } from '@tiptap/static-renderer'
+  import StarterKit from "@tiptap/starter-kit";
+  import { renderToHTMLString } from "@tiptap/static-renderer";
 
   renderToHTMLString({
     extensions: [StarterKit], // using your extensions
@@ -1580,37 +1627,37 @@
       },
       unhandledNode: ({ node }) => {
         // handle unhandled nodes
-        return `[unknown node ${node.type.name}]`
+        return `[unknown node ${node.type.name}]`;
       },
       unhandledMark: ({ mark }) => {
         // handle unhandled marks
-        return `[unknown node ${mark.type.name}]`
+        return `[unknown node ${mark.type.name}]`;
       },
     },
     // the source content to render
     content: {
-      type: 'doc',
+      type: "doc",
       content: [
         {
-          type: 'paragraph',
+          type: "paragraph",
           content: [
             {
-              type: 'text',
-              text: 'Hello World!',
+              type: "text",
+              text: "Hello World!",
             },
           ],
         },
       ],
     },
-  })
+  });
   // returns: '<p>Hello World!</p>'
   ```
 
   Render to a React component:
 
   ```js
-  import StarterKit from '@tiptap/starter-kit'
-  import { renderToReactElement } from '@tiptap/static-renderer'
+  import StarterKit from "@tiptap/starter-kit";
+  import { renderToReactElement } from "@tiptap/static-renderer";
 
   renderToReactElement({
     extensions: [StarterKit], // using your extensions
@@ -1624,29 +1671,29 @@
       },
       unhandledNode: ({ node }) => {
         // handle unhandled nodes
-        return `[unknown node ${node.type.name}]`
+        return `[unknown node ${node.type.name}]`;
       },
       unhandledMark: ({ mark }) => {
         // handle unhandled marks
-        return `[unknown node ${mark.type.name}]`
+        return `[unknown node ${mark.type.name}]`;
       },
     },
     // the source content to render
     content: {
-      type: 'doc',
+      type: "doc",
       content: [
         {
-          type: 'paragraph',
+          type: "paragraph",
           content: [
             {
-              type: 'text',
-              text: 'Hello World!',
+              type: "text",
+              text: "Hello World!",
             },
           ],
         },
       ],
     },
-  })
+  });
   // returns a react node that, when evaluated, would be equivalent to: '<p>Hello World!</p>'
   ```
 
@@ -1658,10 +1705,10 @@
 
   ```ts
   function renderToHTMLString(options: {
-    extensions: Extension[]
-    content: ProsemirrorNode | JSONContent
-    options?: TiptapHTMLStaticRendererOptions
-  }): string
+    extensions: Extension[];
+    content: ProsemirrorNode | JSONContent;
+    options?: TiptapHTMLStaticRendererOptions;
+  }): string;
   ```
 
   #### `renderToHTMLString` Options
@@ -1678,10 +1725,10 @@
 
   ```ts
   function renderToReactElement(options: {
-    extensions: Extension[]
-    content: ProsemirrorNode | JSONContent
-    options?: TiptapReactStaticRendererOptions
-  }): ReactElement
+    extensions: Extension[];
+    content: ProsemirrorNode | JSONContent;
+    options?: TiptapReactStaticRendererOptions;
+  }): ReactElement;
   ```
 
   #### `renderToReactElement` Options

@@ -1,5 +1,6 @@
 import type { JSONContent } from '@tiptap/core'
 import { Editor } from '@tiptap/core'
+import Bold from '@tiptap/extension-bold'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
@@ -399,6 +400,25 @@ describe('OrderedList type attribute', () => {
 
       const md = markdownManager.serialize(json)
       expect(md).toBe(original)
+    })
+
+    it('parses inline formatting inside an indented ordered list item', () => {
+      // A single leading space before the marker (e.g. a top-level ordered
+      // list nested one level inside another list) previously made the
+      // custom ordered-list tokenizer bail out silently, falling back to a
+      // path that left the item's content as literal, unparsed text.
+      const markdownManager = new MarkdownManager({
+        extensions: [Document, Paragraph, Text, Bold, ListItem, OrderedList],
+      })
+
+      const noIndent = markdownManager.parse('1. **bold** item')
+      const indented = markdownManager.parse(' 1. **bold** item')
+
+      expect(indented.content).toEqual(noIndent.content)
+
+      const textNode = indented.content[0].content[0].content[0].content[0]
+      expect(textNode.text).toBe('bold')
+      expect(textNode.marks?.[0]?.type).toBe('bold')
     })
   })
 
