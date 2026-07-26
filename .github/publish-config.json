@@ -1,10 +1,10 @@
 {
   "branches": {
     "main": {
-      "distTag": "latest",
-      "label": "stable",
-      "title": "Release new stable release",
-      "commit": "chore(release): release new stable release"
+      "distTag": "next",
+      "label": "next",
+      "title": "Release new next release",
+      "commit": "chore(release): release new next release"
     },
     "v2": {
       "distTag": "v2-latest",
