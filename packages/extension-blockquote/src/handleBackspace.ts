@@ -66,8 +66,9 @@ export const handleBackspace = (editor: Editor, type: NodeType): boolean => {
     const slice = content.size ? new Slice(content, 0, 0) : Slice.empty
 
     tr.replace(targetPos, $from.after(), slice)
-    tr.setSelection(TextSelection.create(tr.doc, targetPos))
+    tr.setSelection(TextSelection.create(tr.doc, targetPos + content.size))
     tr.scrollIntoView()
+    dispatch(tr)
 
     return true
   })
