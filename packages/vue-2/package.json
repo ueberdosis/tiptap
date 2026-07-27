@@ -56,7 +56,7 @@
   "devDependencies": {
     "@tiptap/core": "workspace:^",
     "@tiptap/pm": "workspace:^",
-    "vue": "^2.7.16"
+    "vue": "^3.0.0"
   },
   "peerDependencies": {
     "@tiptap/core": "workspace:*",
