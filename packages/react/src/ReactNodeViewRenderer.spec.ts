@@ -198,10 +198,19 @@ describe('ReactNodeViewRenderer', () => {
     editor.commands.setTextSelection(6)
     editor.commands.splitBlock()
 
+    const secondParagraphPosition = editor.state.doc.firstChild!.nodeSize
+
+    expect(editor.state.selection.from).toBe(secondParagraphPosition + 1)
+
     const contentElements = container.querySelectorAll('[data-node-view-content-react]')
 
     expect(contentElements).toHaveLength(2)
     expect(contentElements[1].isConnected).toBe(true)
+
+    editor.commands.insertContent('Second')
+
+    expect(editor.state.doc.child(0).textContent).toBe('Hello')
+    expect(editor.state.doc.child(1).textContent).toBe('Second')
 
     await flushMicrotasks()
 
