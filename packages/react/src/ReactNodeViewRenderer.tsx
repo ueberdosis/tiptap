@@ -118,11 +118,12 @@ export class ReactNodeView<
 
       const contentTarget = this.dom.querySelector('[data-node-view-content]')
 
-      if (!contentTarget) {
-        return
+      if (contentTarget) {
+        contentTarget.appendChild(this.contentDOMElement)
+      } else {
+        // ProseMirror maps the selection before the queued portal render.
+        this.dom.appendChild(this.contentDOMElement)
       }
-
-      contentTarget.appendChild(this.contentDOMElement)
     }
 
     if (this.options.trackNodeViewPosition) {
