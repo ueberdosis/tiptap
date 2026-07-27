@@ -233,15 +233,15 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   /**
    * An object of all registered commands.
-   *
-   * After `destroy()` the underlying `commandManager` is released, so this returns a no-op
-   * proxy whose properties resolve to functions returning `false`. This prevents
-   * `TypeError: Cannot read properties of null (reading 'commands')` when stale async
-   * callbacks (effects, subscriptions, scheduled tasks) race the editor lifecycle.
    */
   public get commands(): SingleCommands {
     if (!this.commandManager) {
-      return new Proxy({}, { get: () => () => false }) as SingleCommands
+      return new Proxy(
+        {},
+        {
+          get: (_target, prop) => (prop === 'then' ? undefined : () => false),
+        },
+      ) as SingleCommands
     }
     return this.commandManager.commands
   }
@@ -258,6 +258,9 @@ export class Editor extends EventEmitter<EditorEvents> {
           if (prop === 'run') {
             return target.run
           }
+          if (prop === 'then') {
+            return undefined
+          }
           return () => noopChain
         },
       },
@@ -267,9 +270,6 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   /**
    * Create a command chain to call multiple commands at once.
-   *
-   * After `destroy()` returns a no-op chain where every chainable method returns the
-   * chain itself and `.run()` returns `false`.
    */
   public chain(): ChainedCommands {
     if (!this.commandManager) {
@@ -294,6 +294,9 @@ export class Editor extends EventEmitter<EditorEvents> {
           get: (_target, prop) => {
             if (prop === 'chain') {
               return createNoopChain
+            }
+            if (prop === 'then') {
+              return undefined
             }
             return () => false
           },
@@ -815,9 +818,6 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   /**
    * Get the document as HTML.
-   *
-   * After `destroy()` the schema is released; returns an empty string instead of
-   * throwing on `getHTMLFromFragment(..., null)`.
    */
   public getHTML(): string {
     if (!this.schema) {
@@ -828,9 +828,6 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   /**
    * Get the document as text.
-   *
-   * After `destroy()` the schema is released; returns an empty string instead of
-   * throwing inside `getTextSerializersFromSchema(null)`.
    */
   public getText(options?: {
     blockSeparator?: string

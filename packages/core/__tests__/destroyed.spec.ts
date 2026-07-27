@@ -54,6 +54,23 @@ describe('post-destroy access', () => {
     expect(editor.can().chain().toggleBold().run()).toBe(false)
   })
 
+  it('does not expose a callable `then` on the no-op proxies after destroy', () => {
+    const editor = createEditor()
+    editor.destroy()
+    expect((editor.commands as any).then).toBeUndefined()
+    expect((editor.chain() as any).then).toBeUndefined()
+    expect((editor.can() as any).then).toBeUndefined()
+    expect((editor.can().chain() as any).then).toBeUndefined()
+  })
+
+  it('settles when awaiting the no-op proxies after destroy', async () => {
+    const editor = createEditor()
+    editor.destroy()
+    await expect(Promise.resolve(editor.commands)).resolves.toBeDefined()
+    await expect(Promise.resolve(editor.chain())).resolves.toBeDefined()
+    await expect(Promise.resolve(editor.can())).resolves.toBeDefined()
+  })
+
   it('returns "" from getHTML() after destroy', () => {
     const editor = createEditor()
     editor.destroy()
