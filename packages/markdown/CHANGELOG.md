@@ -1,5 +1,12 @@
 # @tiptap/markdown
 
+## 3.29.1
+
+### Patch Changes
+
+- @tiptap/core@3.29.1
+- @tiptap/pm@3.29.1
+
 ## 3.29.0
 
 ### Patch Changes

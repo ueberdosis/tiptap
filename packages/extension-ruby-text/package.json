@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/extension-ruby-text",
-  "version": "3.29.0",
+  "version": "3.29.1",
   "description": "HTML ruby text annotation extension for tiptap",
   "keywords": [
     "tiptap",
