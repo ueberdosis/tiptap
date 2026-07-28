@@ -1,5 +1,13 @@
 # @tiptap/extension-find-and-replace
 
+## 3.29.2
+
+### Patch Changes
+
+- 07415fe: Ensure only the active find-and-replace result keeps the current-result highlight while navigating matches.
+  - @tiptap/core@3.29.2
+  - @tiptap/pm@3.29.2
+
 ## 3.29.1
 
 ### Patch Changes
