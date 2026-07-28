@@ -42,8 +42,7 @@
     }
   },
   "scripts": {
-    "build": "tsdown",
-    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
+    "build": "tsdown"
   },
   "devDependencies": {
     "@tiptap/core": "workspace:^",
