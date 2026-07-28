@@ -17,7 +17,8 @@ export function findDecorations(
 
   results.forEach(result => {
     decorations
-      .find(result.from, result.to, decoration => {
+      .find(result.from, result.to)
+      .filter(decoration => {
         return decoration.from === result.from && decoration.to === result.to
       })
       .forEach(decoration => found.add(decoration))
