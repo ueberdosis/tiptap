@@ -1,7 +1,7 @@
 ---
-"@tiptap/svelte": "minor"
+'@tiptap/svelte': 'minor'
 ---
 
-Official, first-class support for Svelte 5 is here, built natively for the new reactivity model and runes. Install it from `@tiptap/svelte`.
+Added `@tiptap/svelte`, official support for Svelte 5 built on runes and the new reactivity model.
 
-It comes fully loaded and batteries included right out of the box. There is no tedious boilerplate or complex state syncing required, giving you zero-configuration access to the entire extension ecosystem instantly.
+The package includes bindings for creating and rendering editors, reactive editor state helpers, context components, Svelte node and mark view renderers, and Bubble Menu and Floating Menu components from `@tiptap/svelte/menus`.
