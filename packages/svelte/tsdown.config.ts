@@ -55,29 +55,19 @@ const sveltePlugin = () => ({
 
 const entries = ['src/components/menus/index.ts', 'src/index.ts']
 
-export default defineConfig([
-  ...entries.map<UserConfig>(entry => ({
+export default defineConfig(
+  entries.map<UserConfig>(entry => ({
     entry: [entry],
     tsconfig: '../../tsconfig.build.json',
     outDir: `dist/${entry.replace('src/', '').replace('components/', '').split('/').slice(0, -1).join('/')}`,
-    dts: true,
+    // cjsReexport lets the .d.cts re-export the .d.mts. A standalone CJS
+    // declaration build runs without our plugin and fails on .svelte files.
+    dts: { cjsReexport: true },
     sourcemap: true,
-    format: 'esm',
+    format: ['esm', 'cjs'],
     deps: {
       neverBundle: [/^[^./]/],
     },
     plugins: [sveltePlugin()],
   })),
-  ...entries.map<UserConfig>(entry => ({
-    entry: [entry],
-    tsconfig: '../../tsconfig.build.json',
-    outDir: `dist/${entry.replace('src/', '').replace('components/', '').split('/').slice(0, -1).join('/')}`,
-    dts: false,
-    sourcemap: true,
-    format: 'cjs',
-    deps: {
-      neverBundle: [/^[^./]/],
-    },
-    plugins: [sveltePlugin()],
-  })),
-])
+)
