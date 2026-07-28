@@ -288,19 +288,31 @@ describe('FindAndReplace', () => {
     editor = createEditor('<p>one two one two one</p>')
     editor.commands.setSearchTerm('one')
 
+    const currentResultPositions = () => {
+      return Array.from(editor.view.dom.querySelectorAll('.find-and-replace-result-current')).map(
+        element => editor.view.posAtDOM(element, 0),
+      )
+    }
+
     expect(editor.storage.findAndReplace.currentIndex).toBe(0)
+    expect(currentResultPositions()).toEqual([1])
 
     editor.commands.goToNextResult()
     expect(editor.storage.findAndReplace.currentIndex).toBe(1)
     expect(editor.state.selection.from).toBe(9)
     expect(editor.state.selection.to).toBe(12)
+    expect(currentResultPositions()).toEqual([9])
 
     editor.commands.goToNextResult()
+    expect(currentResultPositions()).toEqual([17])
+
     editor.commands.goToNextResult()
     expect(editor.storage.findAndReplace.currentIndex).toBe(0)
+    expect(currentResultPositions()).toEqual([1])
 
     editor.commands.goToPreviousResult()
     expect(editor.storage.findAndReplace.currentIndex).toBe(2)
+    expect(currentResultPositions()).toEqual([17])
   })
 
   it('replaces the current result and jumps to the next one', () => {
