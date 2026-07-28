@@ -11,6 +11,7 @@ import type { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } fr
 import type { ComponentType, NamedExoticComponent } from 'react'
 import { createElement, createRef, memo } from 'react'
 
+import { captureDOMSelection } from './captureDOMSelection.js'
 import type { EditorWithContentComponent } from './Editor.js'
 import { ReactRenderer } from './ReactRenderer.js'
 import type { ReactNodeViewProps } from './types.js'
@@ -193,7 +194,13 @@ export class ReactNodeView<
         if (element.hasAttribute('data-node-view-wrapper')) {
           element.removeAttribute('data-node-view-wrapper')
         }
+
+        // The caret can already be inside here. Moving would lose it.
+        const restoreSelection = captureDOMSelection(this.contentDOMElement)
+
         element.appendChild(this.contentDOMElement)
+
+        restoreSelection?.()
       }
     }
     const context = { onDragStart, nodeViewContentRef }
