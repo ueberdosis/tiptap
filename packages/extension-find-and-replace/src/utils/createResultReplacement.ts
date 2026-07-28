@@ -1,0 +1,61 @@
+import type { Node } from '@tiptap/pm/model'
+
+import type { SearchRegex } from '../search/regex.js'
+import type { SearchResult } from '../search/search.js'
+import { createTextblockSearchContext, textOffsetAtPos } from '../search/text-segments.js'
+import {
+  createReplacementExpander,
+  expandReplacement,
+  type ReplacementExpander,
+} from './expandReplacement.js'
+
+export type ResultReplacement = (result: SearchResult) => string
+
+interface ReplacementContext {
+  expand: ReplacementExpander | null
+  search: ReturnType<typeof createTextblockSearchContext>
+}
+
+/**
+ * Creates a replacement resolver that re-matches results in their textblock context.
+ * @param doc The document containing the search results.
+ * @param replacement The replacement template.
+ * @param regex The compiled regex, or `null` for literal replacement.
+ * @param indexMatches Whether to index every textblock match for a batch replacement.
+ * @returns A resolver for the replacement text of each result.
+ */
+export function createResultReplacement(
+  doc: Node,
+  replacement: string,
+  regex: SearchRegex | null,
+  indexMatches = false,
+): ResultReplacement {
+  if (!regex) {
+    return () => replacement
+  }
+
+  const contexts = new WeakMap<Node, ReplacementContext>()
+
+  return result => {
+    const $from = doc.resolve(result.from)
+    const textblock = $from.parent
+    let context = contexts.get(textblock)
+
+    if (!context) {
+      const search = createTextblockSearchContext(textblock, $from.start() - 1)
+
+      context = {
+        expand: indexMatches ? createReplacementExpander(regex, search.text, replacement) : null,
+        search,
+      }
+      contexts.set(textblock, context)
+    }
+
+    const from = textOffsetAtPos(context.search, result.from)
+    const to = textOffsetAtPos(context.search, result.to)
+
+    return context.expand
+      ? context.expand(from, to)
+      : expandReplacement(regex, context.search.text, replacement, from, to)
+  }
+}

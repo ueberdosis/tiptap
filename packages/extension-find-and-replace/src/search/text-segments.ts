@@ -8,9 +8,14 @@ interface TextSegment {
   textOffset: number
 }
 
+interface TextblockSearchContext {
+  segments: TextSegment[]
+  text: string
+}
+
 // Non-text inline nodes (hard break, mention, ...) contribute a placeholder
 // so matches never silently span across them.
-export function getTextSegments(textblock: Node, pos: number): TextSegment[] {
+function getTextSegments(textblock: Node, pos: number): TextSegment[] {
   const segments: TextSegment[] = []
   let textOffset = 0
 
@@ -28,6 +33,43 @@ export function getTextSegments(textblock: Node, pos: number): TextSegment[] {
   })
 
   return segments
+}
+
+export function createTextblockSearchContext(textblock: Node, pos: number): TextblockSearchContext {
+  const segments = getTextSegments(textblock, pos)
+
+  return {
+    segments,
+    text: segments.map(segment => segment.text).join(''),
+  }
+}
+
+function findPositionSegment(segments: TextSegment[], pos: number): TextSegment | undefined {
+  let low = 0
+  let high = segments.length
+
+  while (low < high) {
+    const middle = Math.floor((low + high) / 2)
+    const segment = segments[middle]
+
+    if (pos <= segment.pos + segment.length) {
+      high = middle
+    } else {
+      low = middle + 1
+    }
+  }
+
+  return segments[low] ?? segments.at(-1)
+}
+
+export function textOffsetAtPos(context: TextblockSearchContext, pos: number): number {
+  const segment = findPositionSegment(context.segments, pos)
+
+  if (!segment) {
+    return context.text.length
+  }
+
+  return segment.textOffset + Math.max(0, Math.min(pos - segment.pos, segment.text.length))
 }
 
 function findOffsetSegment(segments: TextSegment[], offset: number): TextSegment | undefined {

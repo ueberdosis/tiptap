@@ -9,9 +9,10 @@ import {
 } from './state/debounced-search-state.js'
 import type { FindAndReplaceMeta, FindAndReplacePluginState } from './plugin/plugin.js'
 import { FindAndReplacePlugin, FindAndReplacePluginKey } from './plugin/plugin.js'
-import { findNextIndex, searchDocument } from './search/search.js'
+import { createSearchRegex, findNextIndex, searchDocument } from './search/search.js'
 import type { SearchResult } from './search/search.js'
 import type { FindAndReplaceOptions, FindAndReplaceStorage } from './types.js'
+import { createResultReplacement } from './utils/createResultReplacement.js'
 import { replaceAllResults } from './utils/replaceAllResults.js'
 
 declare module '@tiptap/core' {
@@ -26,8 +27,10 @@ declare module '@tiptap/core' {
 
       /**
        * Set the replace term used by the replace commands.
-       * @param term The replacement text.
-       * @example editor.commands.setReplaceTerm('World')
+       * In regex mode, supports `$$`, `$&`, `$1`–`$99`, and `$<name>` substitutions.
+       * Before-match and after-match tokens are left unchanged. Literal mode never expands tokens.
+       * @param term The replacement text or regex replacement template.
+       * @example editor.commands.setReplaceTerm('[$1]')
        */
       setReplaceTerm: (term: string) => ReturnType
 
@@ -184,13 +187,17 @@ function replaceResult(
   result: SearchResult,
 ): void {
   const { searchTerm, replaceTerm, caseSensitive, useRegex, wholeWord } = pluginState
+  const regex = useRegex
+    ? createSearchRegex(searchTerm, { caseSensitive, useRegex, wholeWord })
+    : null
+  const replacement = createResultReplacement(tr.doc, replaceTerm, regex)(result)
 
-  tr.insertText(replaceTerm, result.from, result.to)
+  tr.insertText(replacement, result.from, result.to)
 
   // Jump to the first result behind the inserted text, so a replacement
   // that still matches the search (e.g. "foo" -> "foobar") is skipped.
   const results = searchDocument(tr.doc, searchTerm, { caseSensitive, useRegex, wholeWord })
-  const nextIndex = findNextIndex(results, result.from + replaceTerm.length)
+  const nextIndex = findNextIndex(results, result.from + replacement.length)
 
   if (nextIndex === null) {
     mergePluginMeta(tr, { currentIndex: null })
@@ -370,7 +377,15 @@ export const FindAndReplace = Extension.create<FindAndReplaceOptions, FindAndRep
           }
 
           if (dispatch) {
-            replaceAllResults(tr, state, pluginState.results, pluginState.replaceTerm)
+            const regex = pluginState.useRegex
+              ? createSearchRegex(pluginState.searchTerm, {
+                  caseSensitive: pluginState.caseSensitive,
+                  useRegex: pluginState.useRegex,
+                  wholeWord: pluginState.wholeWord,
+                })
+              : null
+
+            replaceAllResults(tr, state, pluginState.results, pluginState.replaceTerm, regex)
           }
 
           return true
