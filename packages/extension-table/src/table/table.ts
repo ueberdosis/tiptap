@@ -33,6 +33,7 @@ import type { EditorView, NodeView } from '@tiptap/pm/view'
 
 import { type TableCellAlign, normalizeTableCellAlign } from '../utils/parseAlign.js'
 import { TableView } from './TableView.js'
+import { columnResizingSnapshot } from './columnResizingSnapshot.js'
 import { createColGroup } from './utilities/createColGroup.js'
 import { createTable } from './utilities/createTable.js'
 import { deleteTableWhenAllCellsSelected } from './utilities/deleteTableWhenAllCellsSelected.js'
@@ -567,6 +568,7 @@ export const Table = Node.create<TableOptions>({
     return [
       ...(isResizable
         ? [
+            columnResizingSnapshot(),
             columnResizing({
               handleWidth: this.options.handleWidth,
               cellMinWidth: this.options.cellMinWidth,
