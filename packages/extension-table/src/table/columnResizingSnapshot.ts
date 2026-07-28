@@ -34,6 +34,13 @@ function readRenderedColumnWidths(view: EditorView, tableStart: number, columnCo
   return widths
 }
 
+function cellNeedsColwidthSnapshot(cell: { attrs: Record<string, unknown> }) {
+  const colwidth = cell.attrs.colwidth as number[] | null
+  const colspan = cell.attrs.colspan as number
+
+  return !colwidth || colwidth.length !== colspan || colwidth.some(width => !width)
+}
+
 function snapshotColumnWidths(view: EditorView, cellPos: number) {
   const $cell = view.state.doc.resolve(cellPos)
   const table = $cell.node(-1)
@@ -43,9 +50,8 @@ function snapshotColumnWidths(view: EditorView, cellPos: number) {
 
   const needsSnapshot = cellPositions.some(pos => {
     const cell = table.nodeAt(pos)
-    const colwidth = cell?.attrs.colwidth as number[] | null
 
-    return !colwidth || colwidth.length !== cell?.attrs.colspan || colwidth.some(width => !width)
+    return cell ? cellNeedsColwidthSnapshot(cell) : false
   })
 
   if (!needsSnapshot) {
@@ -63,7 +69,7 @@ function snapshotColumnWidths(view: EditorView, cellPos: number) {
   cellPositions.forEach(pos => {
     const cell = table.nodeAt(pos)
 
-    if (!cell) {
+    if (!cell || !cellNeedsColwidthSnapshot(cell)) {
       return
     }
 

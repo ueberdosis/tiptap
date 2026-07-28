@@ -138,6 +138,23 @@ describe('column resizing width snapshot', () => {
     expect(getFirstRowWidths()).toEqual([[100], [250], [300]])
   })
 
+  it('preserves valid colwidths while snapshotting missing ones', () => {
+    editor = createResizableEditor()
+    editor.commands.setContent(
+      '<table><tbody><tr><td colwidth="100">A</td><td>B</td><td colwidth="300">C</td></tr></tbody></table>',
+    )
+
+    mockColWidths([111, 222, 333])
+
+    const win = beginColumnResize(getCellPositions()[1])
+
+    expect(getFirstRowWidths()).toEqual([[100], [222], [300]])
+
+    finishColumnResize(win, 50)
+
+    expect(getFirstRowWidths()).toEqual([[100], [272], [300]])
+  })
+
   it('snapshots multi-value colwidth for colspan cells', () => {
     editor = createResizableEditor()
     editor.commands.setContent(
