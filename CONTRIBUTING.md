@@ -91,7 +91,18 @@ When setting up a new release line (e.g., `v2`), you need to update two places:
 1. **Workflow trigger** — Add the branch name to the `on.push.branches` list in `.github/workflows/publish.yml`.
 2. **Publish configuration** — Add a matching entry in `.github/publish-config.json` with the desired dist-tag and release messages.
 
-Both lists must stay in sync. A branch present in one but not the other will either never trigger the workflow or produce a harmless no-op. See [`agents/VERSIONING.md`](agents/VERSIONING.md) for the full documentation.
+Both lists must stay in sync. A branch present in one but not the other will either never trigger the workflow or produce a harmless no-op.
+
+Each entry in `.github/publish-config.json` takes four fields:
+
+| Field     | Description                                                                                |
+| --------- | ------------------------------------------------------------------------------------------ |
+| `distTag` | npm dist-tag passed to `pnpm changeset publish --tag`, e.g. `latest`, `next`, `v2-latest`. |
+| `label`   | Label used in the Slack release announcement, e.g. `stable` or `prerelease`.               |
+| `title`   | Title of the Changesets version PR created by CI.                                          |
+| `commit`  | Commit message of that version PR.                                                         |
+
+The resolver job looks up the current branch by exact name. If it is missing, the workflow exits cleanly without building, publishing, or notifying. Make sure the dist-tag exists on npm (`npm dist-tag add <package>@<version> <tag>`) before the first release from a new branch.
 
 ## Requirements
 
