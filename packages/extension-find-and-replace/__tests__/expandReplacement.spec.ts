@@ -1,7 +1,7 @@
 import { createSearchRegex } from '@tiptap/extension-find-and-replace'
 import { describe, expect, it } from 'vitest'
 
-import { expandReplacement } from '../src/utils/expandReplacement.js'
+import { expandReplacement, hasReplacementTokens } from '../src/utils/expandReplacement.js'
 
 function createRegex(source: string) {
   const regex = createSearchRegex(source, {
@@ -18,6 +18,25 @@ function createRegex(source: string) {
 }
 
 describe('expandReplacement', () => {
+  it('detects only supported replacement tokens', () => {
+    expect(['$$', '$&', '$1', '$01', '$99', '$<word>'].map(hasReplacementTokens)).toEqual([
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+    ])
+    expect(['$', '$0', '$00', '$x', '$`', "$'"].map(hasReplacementTokens)).toEqual([
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+    ])
+  })
+
   it('expands dollar, whole-match, and numbered capture tokens', () => {
     const regex = createRegex('(cat)')
 
@@ -73,7 +92,32 @@ describe('expandReplacement', () => {
       {
         source: '(a)(b)?',
         text: 'a',
-        replacements: ['$1', '$2', '$12', '$99', '$$', '$&', '$x', '$0', '$1-$2'],
+        replacements: [
+          '$1',
+          '$01',
+          '$2',
+          '$02',
+          '$00',
+          '$001',
+          '$09',
+          '$010',
+          '$10',
+          '$20',
+          '$29',
+          '$100',
+          '$12',
+          '$99',
+          '$$',
+          '$$1',
+          '$$$1',
+          '$$&',
+          '$$$&',
+          '$$$$',
+          '$&',
+          '$x',
+          '$0',
+          '$1-$2',
+        ],
       },
       {
         source: '(?<word>cat)(?<suffix>s)?',
@@ -88,7 +132,12 @@ describe('expandReplacement', () => {
       {
         source: '(a)(b)(c)(d)(e)(f)(g)(h)(i)(j)(k)(l)',
         text: 'abcdefghijkl',
-        replacements: ['$12:$1', '$10:$99', '$11$12'],
+        replacements: [
+          '$12:$1',
+          '$10:$99',
+          '$11$12',
+          ...Array.from({ length: 100 }, (_, index) => `$${String(index).padStart(2, '0')}`),
+        ],
       },
     ]
 
@@ -99,6 +148,37 @@ describe('expandReplacement', () => {
       for (const replacement of replacements) {
         expect(expandReplacement(regex, text, replacement), `${source} with ${replacement}`).toBe(
           text.replace(nativeRegex, replacement),
+        )
+      }
+    }
+  })
+
+  it('matches String.prototype.replace for adjacent supported token combinations', () => {
+    const regex = createRegex('(?<word>a)(b)?')
+    const nativeRegex = /(?<word>a)(b)?/u
+    const parts = [
+      '$',
+      '$$',
+      '$&',
+      '$1',
+      '$01',
+      '$2',
+      '$02',
+      '$9',
+      '$09',
+      '$<word>',
+      '$<missing>',
+      '$x',
+      '$0',
+      'x',
+    ]
+
+    for (const first of parts) {
+      for (const second of parts) {
+        const replacement = `${first}${second}`
+
+        expect(expandReplacement(regex, 'a', replacement), replacement).toBe(
+          'a'.replace(nativeRegex, replacement),
         )
       }
     }

@@ -479,6 +479,20 @@ describe('FindAndReplace', () => {
     expect(editor.state.selection.to).toBe(11)
   })
 
+  it('advances past a Unicode capture after a single replacement', () => {
+    editor.destroy()
+    editor = createEditor('<p>😀 😀</p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('(😀)')
+    editor.commands.setReplaceTerm('[$1]')
+    editor.commands.replace()
+
+    expect(editor.getText()).toBe('[😀] 😀')
+    expect(editor.storage.findAndReplace.currentIndex).toBe(1)
+    expect(editor.state.selection.from).toBe(6)
+    expect(editor.state.selection.to).toBe(8)
+  })
+
   it('expands captures for regex matches split across marks', () => {
     editor.destroy()
     editor = createEditor('<p>he<strong>llo</strong> he<strong>llo</strong></p>')
@@ -488,6 +502,26 @@ describe('FindAndReplace', () => {
     editor.commands.replaceAll()
 
     expect(editor.getText()).toBe('[hello] [hello]')
+  })
+
+  it('expands captures around non-text inline nodes', () => {
+    editor.destroy()
+    editor = new Editor({
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        HardBreak,
+        FindAndReplace.configure({ searchDebounceMs: 0 }),
+      ],
+      content: '<p>cat<br>cat</p>',
+    })
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('(cat)')
+    editor.commands.setReplaceTerm('[$1]')
+    editor.commands.replaceAll()
+
+    expect(editor.getHTML()).toBe('<p>[cat]<br>[cat]</p>')
   })
 
   it('preserves boundary context when a regex match starts at a mark', () => {
@@ -510,6 +544,23 @@ describe('FindAndReplace', () => {
     editor.commands.replaceAll()
 
     expect(editor.getHTML()).toBe('<p>[cat]</p><p>[dog]</p>')
+  })
+
+  it('expands captures independently when textblocks share a node instance', () => {
+    const textblock = editor.schema.node('paragraph', null, [editor.schema.text('cat')])
+
+    editor.view.dispatch(
+      editor.state.tr.replaceWith(0, editor.state.doc.content.size, [textblock, textblock]),
+    )
+
+    expect(editor.state.doc.child(0)).toBe(editor.state.doc.child(1))
+
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('(cat)')
+    editor.commands.setReplaceTerm('[$1]')
+    editor.commands.replaceAll()
+
+    expect(editor.getHTML()).toBe('<p>[cat]</p><p>[cat]</p>')
   })
 
   it('matches String.prototype.replaceAll across supported regex replacements', () => {
@@ -558,6 +609,11 @@ describe('FindAndReplace', () => {
         text: 'cat CAT',
         source: '(cat)',
         replacement: '<$1>',
+      },
+      {
+        text: 'cat',
+        source: '(cat)',
+        replacement: '[$01]',
       },
       {
         text: '😀 😀',

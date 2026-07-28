@@ -11,9 +11,19 @@ interface LocatedReplacementMatch extends ReplacementMatch {
   to: number
 }
 
-const replacementTokenRegex = /\$(\$|&|[1-9]\d?|<[^>]*>)/g
+const replacementTokenRegex = /\$(\$|&|0[1-9]|[1-9]\d?|<[^>]*>)/g
+const replacementTokenPattern = /\$(?:\$|&|0[1-9]|[1-9]\d?|<[^>]*>)/
 
 type SafeMatcher = ReturnType<Exclude<SearchRegex, RegExp>['matcher']>
+
+/**
+ * Checks whether a replacement contains a supported substitution token.
+ * @param replacement The replacement template.
+ * @returns Whether the template needs capture expansion.
+ */
+export function hasReplacementTokens(replacement: string): boolean {
+  return replacementTokenPattern.test(replacement)
+}
 
 function advanceStringIndex(text: string, index: number, unicode: boolean): number {
   if (!unicode) {
@@ -126,7 +136,7 @@ function findReplacementMatch(
 }
 
 function hasCapture(captures: ReplacementMatch['captures'], group: number): boolean {
-  return group <= captures.length
+  return group > 0 && group <= captures.length
 }
 
 function captureValue(captures: ReplacementMatch['captures'], group: number): string {

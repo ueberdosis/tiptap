@@ -35,6 +35,12 @@ function getTextSegments(textblock: Node, pos: number): TextSegment[] {
   return segments
 }
 
+/**
+ * Builds searchable text and position segments for a textblock.
+ * @param textblock The textblock to flatten.
+ * @param pos The textblock's document position.
+ * @returns The flattened text and its position mapping.
+ */
 export function createTextblockSearchContext(textblock: Node, pos: number): TextblockSearchContext {
   const segments = getTextSegments(textblock, pos)
 
@@ -62,6 +68,12 @@ function findPositionSegment(segments: TextSegment[], pos: number): TextSegment 
   return segments[low] ?? segments.at(-1)
 }
 
+/**
+ * Converts a document position to an offset in flattened textblock text.
+ * @param context The textblock search context.
+ * @param pos The absolute document position.
+ * @returns The corresponding text offset.
+ */
 export function textOffsetAtPos(context: TextblockSearchContext, pos: number): number {
   const segment = findPositionSegment(context.segments, pos)
 

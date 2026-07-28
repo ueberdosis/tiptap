@@ -6,6 +6,7 @@ import { createTextblockSearchContext, textOffsetAtPos } from '../search/text-se
 import {
   createReplacementExpander,
   expandReplacement,
+  hasReplacementTokens,
   type ReplacementExpander,
 } from './expandReplacement.js'
 
@@ -30,25 +31,26 @@ export function createResultReplacement(
   regex: SearchRegex | null,
   indexMatches = false,
 ): ResultReplacement {
-  if (!regex) {
+  if (!regex || !hasReplacementTokens(replacement)) {
     return () => replacement
   }
 
-  const contexts = new WeakMap<Node, ReplacementContext>()
+  const contexts = new Map<number, ReplacementContext>()
 
   return result => {
     const $from = doc.resolve(result.from)
     const textblock = $from.parent
-    let context = contexts.get(textblock)
+    const textblockPos = $from.start() - 1
+    let context = contexts.get(textblockPos)
 
     if (!context) {
-      const search = createTextblockSearchContext(textblock, $from.start() - 1)
+      const search = createTextblockSearchContext(textblock, textblockPos)
 
       context = {
         expand: indexMatches ? createReplacementExpander(regex, search.text, replacement) : null,
         search,
       }
-      contexts.set(textblock, context)
+      contexts.set(textblockPos, context)
     }
 
     const from = textOffsetAtPos(context.search, result.from)
