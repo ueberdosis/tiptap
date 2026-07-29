@@ -779,6 +779,57 @@ describe('Markdown Conversion Tests', () => {
       })
     })
 
+    describe('serializing: leading block syntax → backslash-escaped markdown', () => {
+      const paragraph = (text: string) => ({
+        type: 'doc',
+        content: [{ type: 'paragraph', content: [{ type: 'text', text }] }],
+      })
+
+      it('should escape a leading heading marker', () => {
+        expect(markdownManager.serialize(paragraph('# not a heading'))).toBe('\\# not a heading')
+      })
+
+      it('should escape a leading multi-level heading marker', () => {
+        expect(markdownManager.serialize(paragraph('## not a heading'))).toBe('\\## not a heading')
+      })
+
+      it('should escape a leading bullet-list marker', () => {
+        expect(markdownManager.serialize(paragraph('- not a list'))).toBe('\\- not a list')
+        expect(markdownManager.serialize(paragraph('+ not a list'))).toBe('\\+ not a list')
+      })
+
+      it('should escape a leading ordered-list marker', () => {
+        expect(markdownManager.serialize(paragraph('1. not a list'))).toBe('1\\. not a list')
+        expect(markdownManager.serialize(paragraph('1) not a list'))).toBe('1\\) not a list')
+      })
+
+      it('should escape a thematic-break line', () => {
+        expect(markdownManager.serialize(paragraph('---'))).toBe('\\---')
+      })
+
+      it('should not escape a block marker in the middle of a line', () => {
+        expect(markdownManager.serialize(paragraph('a # b'))).toBe('a # b')
+      })
+
+      it('should not escape a heading marker without a following space', () => {
+        expect(markdownManager.serialize(paragraph('#tag'))).toBe('#tag')
+      })
+    })
+
+    describe('round-trip: leading block syntax stays a paragraph', () => {
+      const roundTripType = (input: string) => {
+        const md = markdownManager.serialize(markdownManager.parse(input))
+        return markdownManager.parse(md).content[0].type
+      }
+
+      it('should keep escaped block syntax as a paragraph after round-trip', () => {
+        expect(roundTripType('\\# not a heading')).toBe('paragraph')
+        expect(roundTripType('1\\. not a list')).toBe('paragraph')
+        expect(roundTripType('\\- not a list')).toBe('paragraph')
+        expect(roundTripType('\\+ not a list')).toBe('paragraph')
+      })
+    })
+
     describe('edge cases: code blocks and nested syntax', () => {
       it('should NOT backslash-escape inside inline code marks (parsing)', () => {
         const json = markdownManager.parse('`\\*not italic\\*`')

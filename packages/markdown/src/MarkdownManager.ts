@@ -1094,7 +1094,12 @@ export class MarkdownManager {
    * Also backslash-escape markdown-significant characters in non-code text to
    * prevent them from being misinterpreted as formatting delimiters.
    */
-  private encodeTextForMarkdown(text: string, node: JSONContent, parentNode?: JSONContent): string {
+  private encodeTextForMarkdown(
+    text: string,
+    node: JSONContent,
+    parentNode?: JSONContent,
+    isLineStart = false,
+  ): string {
     const isInsideCode =
       (parentNode?.type != null && this.codeTypes.has(parentNode.type)) ||
       (node.marks || []).some(m => this.codeTypes.has(typeof m === 'string' ? m : m.type))
@@ -1103,7 +1108,8 @@ export class MarkdownManager {
       return text
     }
 
-    return this.escapeMarkdownSyntax(encodeHtmlEntities(text))
+    const escaped = this.escapeMarkdownSyntax(encodeHtmlEntities(text))
+    return isLineStart ? this.escapeBlockSyntax(escaped) : escaped
   }
 
   /**
@@ -1117,6 +1123,22 @@ export class MarkdownManager {
    */
   private escapeMarkdownSyntax(text: string): string {
     return text.replace(/([\\`*_[\]~])/g, '\\$1')
+  }
+
+  /**
+   * Backslash-escape leading syntax that would otherwise start a block, so a
+   * text node keeps its meaning when the serialized markdown is parsed again.
+   *
+   * Only relevant at the start of a line: block markers like `#`, `-`, `+` and
+   * ordered-list numbers are significant just after a line break. The caller
+   * passes `isLineStart` for the first inline child of a top-level paragraph.
+   */
+  private escapeBlockSyntax(text: string): string {
+    return text
+      .replace(/^(#{1,6})(\s|$)/, '\\$1$2')
+      .replace(/^([-+])(\s|$)/, '\\$1$2')
+      .replace(/^(\d{1,9})([.)])(\s|$)/, '$1\\$2$3')
+      .replace(/^(-{3,})(\s*)$/, '\\$1$2')
   }
 
   renderNodeToMarkdown(
@@ -1233,7 +1255,9 @@ export class MarkdownManager {
       }
 
       if (node.type === 'text') {
-        let textContent = this.encodeTextForMarkdown(node.text || '', node, parentNode)
+        const isLineStart =
+          level === 0 && i === 0 && parentNode?.type === 'paragraph' && !node.marks?.length
+        let textContent = this.encodeTextForMarkdown(node.text || '', node, parentNode, isLineStart)
         const currentMarks = new Map((node.marks || []).map(mark => [mark.type, mark]))
 
         // Find marks that need to be closed and opened
