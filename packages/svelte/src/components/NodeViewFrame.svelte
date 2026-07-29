@@ -9,7 +9,9 @@
   } = $props()
 
   setContext('onDragStart', onDragStart)
-  setContext('decorationClasses', decorationClasses)
+  // Context is only set once, so we pass a getter to let consumers read the
+  // current prop value when decorations change.
+  setContext('decorationClasses', () => decorationClasses)
 </script>
 
 <Component {...props} />
