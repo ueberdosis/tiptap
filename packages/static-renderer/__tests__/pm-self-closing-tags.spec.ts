@@ -55,4 +55,22 @@ describe('static renderer: non-void elements get a closing tag', () => {
 
     expect(html).toBe('<video src="https://example.com/v.mp4"></video>')
   })
+
+  it('keeps multiple audio players as siblings instead of nesting them', () => {
+    const html = renderToHTMLString({
+      content: {
+        type: 'doc',
+        content: [
+          { type: 'audio', attrs: { src: 'https://example.com/a.mp3' } },
+          { type: 'paragraph', content: [{ type: 'text', text: 'between' }] },
+          { type: 'audio', attrs: { src: 'https://example.com/b.mp3' } },
+        ],
+      },
+      extensions,
+    })
+
+    expect(html).toBe(
+      '<audio src="https://example.com/a.mp3"></audio><p>between</p><audio src="https://example.com/b.mp3"></audio>',
+    )
+  })
 })
