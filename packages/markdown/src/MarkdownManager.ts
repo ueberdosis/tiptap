@@ -1129,16 +1129,24 @@ export class MarkdownManager {
    * Backslash-escape leading syntax that would otherwise start a block, so a
    * text node keeps its meaning when the serialized markdown is parsed again.
    *
-   * Only relevant at the start of a line: block markers like `#`, `-`, `+` and
-   * ordered-list numbers are significant just after a line break. The caller
-   * passes `isLineStart` for the first inline child of a top-level paragraph.
+   * Relevant at the start of every line, not just the start of the whole
+   * string: a text node can contain literal `\n` characters (e.g. pasted or
+   * API-constructed content), and each of those lines is its own block-start
+   * context once serialized. Up to three leading spaces are still considered
+   * "line start" per CommonMark's block-indentation rule. The caller passes
+   * `isLineStart` for the first inline child of a top-level paragraph, and
+   * for the text run right after a hard break.
    */
   private escapeBlockSyntax(text: string): string {
-    return text
-      .replace(/^(#{1,6})(\s|$)/, '\\$1$2')
-      .replace(/^([-+])(\s|$)/, '\\$1$2')
-      .replace(/^(\d{1,9})([.)])(\s|$)/, '$1\\$2$3')
-      .replace(/^(-{3,})(\s*)$/, '\\$1$2')
+    const escapeLine = (line: string): string =>
+      line
+        .replace(/^( {0,3})(#{1,6})(\s|$)/, '$1\\$2$3')
+        .replace(/^( {0,3})([-+])(\s|$)/, '$1\\$2$3')
+        .replace(/^( {0,3})(\d{1,9})([.)])(\s|$)/, '$1$2\\$3$4')
+        .replace(/^( {0,3})(-{2,}|={1,})(\s*)$/, '$1\\$2$3')
+        .replace(/^( {0,3})(\|)/, '$1\\$2')
+
+    return text.split('\n').map(escapeLine).join('\n')
   }
 
   renderNodeToMarkdown(
@@ -1256,7 +1264,10 @@ export class MarkdownManager {
 
       if (node.type === 'text') {
         const isLineStart =
-          level === 0 && i === 0 && parentNode?.type === 'paragraph' && !node.marks?.length
+          level === 0 &&
+          parentNode?.type === 'paragraph' &&
+          !node.marks?.length &&
+          (i === 0 || nodes[i - 1]?.type === 'hardBreak')
         let textContent = this.encodeTextForMarkdown(node.text || '', node, parentNode, isLineStart)
         const currentMarks = new Map((node.marks || []).map(mark => [mark.type, mark]))
 

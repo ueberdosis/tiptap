@@ -814,6 +814,43 @@ describe('Markdown Conversion Tests', () => {
       it('should not escape a heading marker without a following space', () => {
         expect(markdownManager.serialize(paragraph('#tag'))).toBe('#tag')
       })
+
+      it('should escape a setext heading underline on a later line', () => {
+        expect(markdownManager.serialize(paragraph('Title\n---'))).toBe('Title\n\\---')
+        expect(markdownManager.serialize(paragraph('Title\n==='))).toBe('Title\n\\===')
+      })
+
+      it('should escape a two-dash underline (invalid as a thematic break, valid as setext)', () => {
+        expect(markdownManager.serialize(paragraph('Title\n--'))).toBe('Title\n\\--')
+      })
+
+      it('should escape a leading table-row pipe on a later line', () => {
+        expect(markdownManager.serialize(paragraph('a\n| b | c |'))).toBe('a\n\\| b | c |')
+      })
+
+      it('should escape a block marker indented up to three spaces', () => {
+        expect(markdownManager.serialize(paragraph('  # not a heading'))).toBe(
+          '  \\# not a heading',
+        )
+      })
+
+      it('should escape a leading block marker after a hard break', () => {
+        const input = {
+          type: 'doc',
+          content: [
+            {
+              type: 'paragraph',
+              content: [
+                { type: 'text', text: 'Title' },
+                { type: 'hardBreak' },
+                { type: 'text', text: '# not a heading' },
+              ],
+            },
+          ],
+        }
+
+        expect(markdownManager.serialize(input)).toBe('Title  \n\\# not a heading')
+      })
     })
 
     describe('round-trip: leading block syntax stays a paragraph', () => {
