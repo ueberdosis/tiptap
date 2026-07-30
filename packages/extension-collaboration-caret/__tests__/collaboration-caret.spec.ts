@@ -142,6 +142,54 @@ describe('extension-collaboration-caret', () => {
   })
 
   /**
+   * Regression test: when an editor is destroyed but the provider/awareness
+   * lives on (e.g. multiple editors sharing one provider), the awareness
+   * 'update' listener registered by CollaborationCaret must be removed.
+   * Otherwise the closure keeps the destroyed editor reachable and leaks memory.
+   */
+  it('should remove its awareness listener when the editor is destroyed', () => {
+    const ydoc = new Y.Doc()
+
+    const updateListeners = new Set<(...args: any[]) => void>()
+    const mockAwareness = {
+      states: new Map(),
+      setLocalStateField: () => {},
+      on: (event: string, fn: (...args: any[]) => void) => {
+        if (event === 'update') updateListeners.add(fn)
+      },
+      off: (event: string, fn: (...args: any[]) => void) => {
+        if (event === 'update') updateListeners.delete(fn)
+      },
+      getStates: () => new Map(),
+    }
+    const mockProvider = { awareness: mockAwareness }
+
+    const editorEl = createEditorEl()
+
+    const editor = new Editor({
+      element: editorEl,
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Collaboration.configure({ document: ydoc }),
+        CollaborationCaret.configure({
+          provider: mockProvider,
+          user: { name: 'Test User', color: '#ff0000' },
+        }),
+      ],
+    })
+
+    expect(updateListeners.size).toBe(1)
+
+    editor.destroy()
+
+    expect(updateListeners.size).toBe(0)
+
+    getEditorEl()?.remove()
+  })
+
+  /**
    * Test that the editor can be initialized without any content
    * when using Collaboration and CollaborationCaret extensions.
    */
@@ -183,6 +231,68 @@ describe('extension-collaboration-caret', () => {
       editor.destroy()
     }).not.toThrow()
 
+    getEditorEl()?.remove()
+  })
+
+  it('should handle null or undefined awareness state values without crashing', () => {
+    const ydoc = new Y.Doc()
+
+    const states = new Map<number, Record<string, any> | null>()
+
+    states.set(1, { user: { name: 'Alice', color: '#ff0000' } })
+    states.set(2, null as any)
+    states.set(3, undefined as any)
+    states.set(4, { user: { name: 'Bob', color: '#00ff00' } })
+
+    const mockProvider = {
+      awareness: {
+        states,
+        setLocalStateField: () => {},
+        on: () => {},
+        off: () => {},
+        getStates: () => states,
+      },
+    }
+
+    const editorEl = createEditorEl()
+
+    const editor = new Editor({
+      element: editorEl,
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Collaboration.configure({
+          document: ydoc,
+        }),
+        CollaborationCaret.configure({
+          provider: mockProvider,
+          user: {
+            name: 'Test User',
+            color: '#0000ff',
+          },
+        }),
+      ],
+    })
+
+    const users = editor.storage.collaborationCaret.users
+
+    expect(users).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ clientId: 1, name: 'Alice', color: '#ff0000' }),
+        expect.objectContaining({ clientId: 4, name: 'Bob', color: '#00ff00' }),
+      ]),
+    )
+
+    const nullUser = users.find((u: any) => u.clientId === 2)
+
+    expect(nullUser).toEqual({ clientId: 2 })
+
+    const undefinedUser = users.find((u: any) => u.clientId === 3)
+
+    expect(undefinedUser).toEqual({ clientId: 3 })
+
+    editor.destroy()
     getEditorEl()?.remove()
   })
 })

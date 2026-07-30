@@ -62,8 +62,14 @@ export const Mathematics = Extension.create<MathematicsOptions>({
 
   addExtensions() {
     return [
-      BlockMath.configure({ ...this.options.blockOptions, katexOptions: this.options.katexOptions }),
-      InlineMath.configure({ ...this.options.inlineOptions, katexOptions: this.options.katexOptions }),
+      BlockMath.configure({
+        ...this.options.blockOptions,
+        katexOptions: this.options.katexOptions,
+      }),
+      InlineMath.configure({
+        ...this.options.inlineOptions,
+        katexOptions: this.options.katexOptions,
+      }),
     ]
   },
 })

@@ -1,11 +1,12 @@
-/* eslint-disable no-plusplus, @typescript-eslint/no-explicit-any */
+/* oslint-disable no-plusplus,no-explicit-any */
 import type { DOMOutputSpecArray, Extensions, JSONContent } from '@tiptap/core'
 import type { DOMOutputSpec, Mark, Node } from '@tiptap/pm/model'
 import React from 'react'
 
 import { renderJSONContentToReactElement } from '../../json/react/react.js'
 import type { TiptapStaticRendererOptions } from '../../json/renderer.js'
-import { renderToElement } from '../extensionRenderer.js'
+import type { StaticEditorOptions } from '../extensionRenderer.js'
+import { applyStaticEditorOptionsToExtensions, renderToElement } from '../extensionRenderer.js'
 
 /**
  * This function maps the attributes of a node or mark to HTML attributes
@@ -13,7 +14,10 @@ import { renderToElement } from '../extensionRenderer.js'
  * @param key The key to use for the React element
  * @returns The mapped HTML attributes as an object
  */
-export function mapAttrsToHTMLAttributes(attrs?: Record<string, any>, key?: string): Record<string, any> {
+export function mapAttrsToHTMLAttributes(
+  attrs?: Record<string, any>,
+  key?: string,
+): Record<string, any> {
   if (!attrs) {
     return { key }
   }
@@ -58,7 +62,7 @@ export function domOutputSpecToReactElement(
     return () => content
   }
   if (typeof content === 'object' && 'length' in content) {
-    // eslint-disable-next-line prefer-const
+    // oxlint-disable-next-line prefer-const
     let [tag, attrs, children, ...rest] = content as DOMOutputSpecArray
     const parts = tag.split(' ')
 
@@ -84,7 +88,8 @@ export function domOutputSpecToReactElement(
       return () => React.createElement(tag, mapAttrsToHTMLAttributes(undefined, key.toString()))
     }
     if (attrs === 0) {
-      return child => React.createElement(tag, mapAttrsToHTMLAttributes(undefined, key.toString()), child)
+      return child =>
+        React.createElement(tag, mapAttrsToHTMLAttributes(undefined, key.toString()), child)
     }
     if (typeof attrs === 'object') {
       if (Array.isArray(attrs)) {
@@ -109,21 +114,26 @@ export function domOutputSpecToReactElement(
             tag,
             mapAttrsToHTMLAttributes(undefined, key.toString()),
             domOutputSpecToReactElement(attrs as DOMOutputSpecArray)(child),
-            [children].concat(rest).map(outputSpec => domOutputSpecToReactElement(outputSpec, key++)(child)),
+            [children]
+              .concat(rest)
+              .map(outputSpec => domOutputSpecToReactElement(outputSpec, key++)(child)),
           )
       }
       if (children === undefined) {
         return () => React.createElement(tag, mapAttrsToHTMLAttributes(attrs, key.toString()))
       }
       if (children === 0) {
-        return child => React.createElement(tag, mapAttrsToHTMLAttributes(attrs, key.toString()), child)
+        return child =>
+          React.createElement(tag, mapAttrsToHTMLAttributes(attrs, key.toString()), child)
       }
 
       return child =>
         React.createElement(
           tag,
           mapAttrsToHTMLAttributes(attrs, key.toString()),
-          [children].concat(rest).map(outputSpec => domOutputSpecToReactElement(outputSpec, key++)(child)),
+          [children]
+            .concat(rest)
+            .map(outputSpec => domOutputSpecToReactElement(outputSpec, key++)(child)),
         )
     }
   }
@@ -138,19 +148,26 @@ export function domOutputSpecToReactElement(
 }
 
 /**
- * This function will statically render a Prosemirror Node to a React component using the given extensions
+ * This function will statically render a Prosemirror Node to a React component using the given extensions.
+ *
+ * Limitations: see `renderToHTMLString` — extensions that mutate the document
+ * via plugins/onCreate (UniqueID, TableOfContents) need to be pre-processed.
+ *
  * @param content The content to render to a React component
  * @param extensions The extensions to use for rendering
+ * @param staticEditorOptions Optional editor-level options that affect rendered output — mirrors a subset of `EditorOptions`.
  * @param options The options to use for rendering
  * @returns The React element that represents the rendered content
  */
 export function renderToReactElement({
   content,
   extensions,
+  staticEditorOptions,
   options,
 }: {
   content: Node | JSONContent
   extensions: Extensions
+  staticEditorOptions?: StaticEditorOptions
   options?: Partial<TiptapStaticRendererOptions<React.ReactNode, Mark, Node>>
 }): React.ReactNode {
   return renderToElement<React.ReactNode>({
@@ -163,7 +180,7 @@ export function renderToReactElement({
       text: ({ node }) => node.text ?? '',
     },
     content,
-    extensions,
+    extensions: applyStaticEditorOptionsToExtensions(extensions, staticEditorOptions),
     options,
   })
 }

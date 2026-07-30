@@ -9,7 +9,12 @@ import type { EditorState } from '@tiptap/pm/state'
  * @param maxDepth The maximum depth to search.
  * @returns The node and the depth as an array.
  */
-export const getNodeAtPosition = (state: EditorState, typeOrName: string | NodeType, pos: number, maxDepth = 20) => {
+export const getNodeAtPosition = (
+  state: EditorState,
+  typeOrName: string | NodeType,
+  pos: number,
+  maxDepth = 20,
+) => {
   const $pos = state.doc.resolve(pos)
 
   let currentDepth = maxDepth

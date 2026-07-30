@@ -1,6 +1,7 @@
 import { prettyDOM, render } from '@testing-library/react'
 import Bold from '@tiptap/extension-bold'
 import Document from '@tiptap/extension-document'
+import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { Mark, Node } from '@tiptap/pm/model'
@@ -178,5 +179,29 @@ describe('static render json to react elements (with prosemirror)', () => {
     </p>
   </doc>
 </div>`)
+  })
+
+  it('honors textDirection via staticEditorOptions', () => {
+    const json = {
+      type: 'doc',
+      content: [
+        {
+          type: 'heading',
+          attrs: { level: 1 },
+          content: [{ type: 'text', text: 'test' }],
+        },
+      ],
+    }
+
+    const view = render(
+      renderToReactElement({
+        content: json,
+        extensions: [Document, Paragraph, Text, Heading],
+        staticEditorOptions: { textDirection: 'rtl' },
+      }),
+    )
+
+    const heading = view.container.querySelector('h1')
+    expect(heading?.getAttribute('dir')).toBe('rtl')
   })
 })

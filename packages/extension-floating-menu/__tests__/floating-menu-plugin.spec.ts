@@ -188,4 +188,63 @@ describe('FloatingMenuView cross-contamination', () => {
     view.destroy()
     editor.destroy()
   })
+  it('should only process show for its own pluginKey', () => {
+    const editor = createEditor()
+
+    const view1 = createFloatingMenuView(editor, { pluginKey: 'floatingMenu1' })
+    const view2 = createFloatingMenuView(editor, { pluginKey: 'floatingMenu2' })
+
+    const spy1 = vi.spyOn(view1, 'show')
+    const spy2 = vi.spyOn(view2, 'show')
+
+    editor.view.dispatch(editor.state.tr.setMeta('floatingMenu1', 'show'))
+
+    expect(spy1).toHaveBeenCalledTimes(1)
+    expect(spy2).not.toHaveBeenCalled()
+
+    view1.destroy()
+    view2.destroy()
+    editor.destroy()
+  })
+  it('should only process hide for its own pluginKey', () => {
+    const editor = createEditor()
+
+    const view1 = createFloatingMenuView(editor, { pluginKey: 'floatingMenu1' })
+    const view2 = createFloatingMenuView(editor, { pluginKey: 'floatingMenu2' })
+
+    const spy1 = vi.spyOn(view1, 'hide')
+    const spy2 = vi.spyOn(view2, 'hide')
+
+    editor.view.dispatch(editor.state.tr.setMeta('floatingMenu1', 'hide'))
+
+    expect(spy1).toHaveBeenCalledTimes(1)
+    expect(spy2).not.toHaveBeenCalled()
+
+    view1.destroy()
+    view2.destroy()
+    editor.destroy()
+  })
+})
+
+describe('FloatingMenuView destroy safety', () => {
+  it('updatePosition should not call coordsAtPos when the editor view is detached from the DOM', () => {
+    const editor = createEditor()
+    const view = createFloatingMenuView(editor)
+    const coordsSpy = vi.spyOn(editor.view, 'coordsAtPos')
+
+    try {
+      // Simulate the real-world teardown race: the editor is destroyed while a
+      // pending updatePosition call (debounced resize/scroll) is still in flight.
+      // ProseMirror's destroy removes view.dom from its parent and nulls docView;
+      // without a guard, posToDOMRect -> coordsAtPos throws on the null docView.
+      editor.destroy()
+
+      expect(() => view.updatePosition()).not.toThrow(
+        /Cannot read properties of null \(reading 'domFromPos'\)/,
+      )
+      expect(coordsSpy).not.toHaveBeenCalled()
+    } finally {
+      view.destroy()
+    }
+  })
 })

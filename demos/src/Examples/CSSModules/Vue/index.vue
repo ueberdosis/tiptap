@@ -1,20 +1,35 @@
 <template>
   <div v-if="editor" class="toolbar" :class="styles.toolbar">
-    <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
+    <button
+      @click="editor.chain().focus().toggleBold().run()"
+      :class="{ 'is-active': editor.isActive('bold') }"
+    >
       Bold
     </button>
-    <button @click="editor.chain().focus().toggleItalic().run()" :class="{ 'is-active': editor.isActive('italic') }">
+    <button
+      @click="editor.chain().focus().toggleItalic().run()"
+      :class="{ 'is-active': editor.isActive('italic') }"
+    >
       Italic
     </button>
-    <button @click="editor.chain().focus().toggleStrike().run()" :class="{ 'is-active': editor.isActive('strike') }">
+    <button
+      @click="editor.chain().focus().toggleStrike().run()"
+      :class="{ 'is-active': editor.isActive('strike') }"
+    >
       Strike
     </button>
-    <button @click="editor.chain().focus().toggleCode().run()" :class="{ 'is-active': editor.isActive('code') }">
+    <button
+      @click="editor.chain().focus().toggleCode().run()"
+      :class="{ 'is-active': editor.isActive('code') }"
+    >
       Code
     </button>
     <button @click="editor.chain().focus().unsetAllMarks().run()">Clear marks</button>
     <button @click="editor.chain().focus().clearNodes().run()">Clear nodes</button>
-    <button @click="editor.chain().focus().setParagraph().run()" :class="{ 'is-active': editor.isActive('paragraph') }">
+    <button
+      @click="editor.chain().focus().setParagraph().run()"
+      :class="{ 'is-active': editor.isActive('paragraph') }"
+    >
       Paragraph
     </button>
     <button

@@ -1,4 +1,9 @@
-import { starInputRegex, starPasteRegex, underscoreInputRegex, underscorePasteRegex } from '@tiptap/extension-bold'
+import {
+  starInputRegex,
+  starPasteRegex,
+  underscoreInputRegex,
+  underscorePasteRegex,
+} from '@tiptap/extension-bold'
 import { describe, expect, it } from 'vitest'
 
 describe('bold regex test', () => {

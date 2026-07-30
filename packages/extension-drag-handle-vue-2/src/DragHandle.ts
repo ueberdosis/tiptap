@@ -13,7 +13,10 @@ import { Vue } from './Vue.js'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
-export type DragHandleProps = Omit<Optional<DragHandlePluginProps, 'pluginKey'>, 'element' | 'nestedOptions'> & {
+export type DragHandleProps = Omit<
+  Optional<DragHandlePluginProps, 'pluginKey'>,
+  'element' | 'nestedOptions'
+> & {
   class?: string
   onNodeChange?: (data: { node: Node | null; editor: Editor; pos: number }) => void
   /**
@@ -74,7 +77,8 @@ export const DragHandle = Vue.extend({
   },
 
   mounted() {
-    const { editor, pluginKey, onNodeChange, onElementDragStart, onElementDragEnd, nested } = this.$props
+    const { editor, pluginKey, onNodeChange, onElementDragStart, onElementDragEnd, nested } =
+      this.$props
 
     const nestedOptions = normalizeNestedOptions(nested)
 
@@ -92,7 +96,7 @@ export const DragHandle = Vue.extend({
     )
   },
 
-  // eslint-disable-next-line vue/no-deprecated-destroyed-lifecycle
+  // oxlint-disable-next-line vue/no-deprecated-destroyed-lifecycle
   beforeDestroy() {
     const { pluginKey, editor } = this.$props
 

@@ -46,7 +46,9 @@ export const BubbleMenu = defineComponent({
     },
 
     getReferencedVirtualElement: {
-      type: Function as PropType<Exclude<Required<BubbleMenuPluginProps>['getReferencedVirtualElement'], null>>,
+      type: Function as PropType<
+        Exclude<Required<BubbleMenuPluginProps>['getReferencedVirtualElement'], null>
+      >,
       default: undefined,
     },
   },
@@ -56,7 +58,15 @@ export const BubbleMenu = defineComponent({
     const resolvedPluginKey = props.pluginKey ?? new PluginKey('bubbleMenu')
 
     onMounted(() => {
-      const { editor, options, resizeDelay, appendTo, shouldShow, getReferencedVirtualElement, updateDelay } = props
+      const {
+        editor,
+        options,
+        resizeDelay,
+        appendTo,
+        shouldShow,
+        getReferencedVirtualElement,
+        updateDelay,
+      } = props
 
       const el = root.value
 

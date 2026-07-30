@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/rules-of-hooks */
+/* oslint-disable react-hooks/rules-of-hooks */
 import type { EditorOptions, Storage } from '@tiptap/core'
 import { Editor as CoreEditor } from '@tiptap/core'
 import type { EditorState, Plugin, PluginKey } from '@tiptap/pm/state'
@@ -51,7 +51,7 @@ export class Editor extends CoreEditor {
       this.reactiveExtensionStorage.value = this.extensionStorage
     })
 
-    return markRaw(this) // eslint-disable-line
+    return markRaw(this) // oxlint-disable-line
   }
 
   get state() {

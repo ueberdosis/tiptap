@@ -153,7 +153,12 @@ export const NodeRange = Extension.create<NodeRangeOptions>({
                     return
                   }
 
-                  const nodeRangeSelection = NodeRangeSelection.create(doc, $anchor.pos, $head.pos, this.options.depth)
+                  const nodeRangeSelection = NodeRangeSelection.create(
+                    doc,
+                    $anchor.pos,
+                    $head.pos,
+                    this.options.depth,
+                  )
 
                   tr.setSelection(nodeRangeSelection)
                   view.dispatch(tr)

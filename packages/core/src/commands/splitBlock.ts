@@ -7,7 +7,8 @@ import { getSplittedAttributes } from '../helpers/getSplittedAttributes.js'
 import type { RawCommands } from '../types.js'
 
 function ensureMarks(state: EditorState, splittableMarks?: string[]) {
-  const marks = state.storedMarks || (state.selection.$to.parentOffset && state.selection.$from.marks())
+  const marks =
+    state.storedMarks || (state.selection.$to.parentOffset && state.selection.$from.marks())
 
   if (marks) {
     const filteredMarks = marks.filter(mark => splittableMarks?.includes(mark.type.name))
@@ -36,7 +37,11 @@ export const splitBlock: RawCommands['splitBlock'] =
     const { selection, doc } = tr
     const { $from, $to } = selection
     const extensionAttributes = editor.extensionManager.attributes
-    const newAttributes = getSplittedAttributes(extensionAttributes, $from.node().type.name, $from.node().attrs)
+    const newAttributes = getSplittedAttributes(
+      extensionAttributes,
+      $from.node().type.name,
+      $from.node().attrs,
+    )
 
     if (selection instanceof NodeSelection && selection.node.isBlock) {
       if (!$from.parentOffset || !canSplit(doc, $from.pos)) {
@@ -60,7 +65,10 @@ export const splitBlock: RawCommands['splitBlock'] =
 
     const atEnd = $to.parentOffset === $to.parent.content.size
 
-    const deflt = $from.depth === 0 ? undefined : defaultBlockAt($from.node(-1).contentMatchAt($from.indexAfter(-1)))
+    const deflt =
+      $from.depth === 0
+        ? undefined
+        : defaultBlockAt($from.node(-1).contentMatchAt($from.indexAfter(-1)))
 
     let types =
       atEnd && deflt
@@ -74,7 +82,11 @@ export const splitBlock: RawCommands['splitBlock'] =
 
     let can = canSplit(tr.doc, tr.mapping.map($from.pos), 1, types)
 
-    if (!types && !can && canSplit(tr.doc, tr.mapping.map($from.pos), 1, deflt ? [{ type: deflt }] : undefined)) {
+    if (
+      !types &&
+      !can &&
+      canSplit(tr.doc, tr.mapping.map($from.pos), 1, deflt ? [{ type: deflt }] : undefined)
+    ) {
       can = true
       types = deflt
         ? [

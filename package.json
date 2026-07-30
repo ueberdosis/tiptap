@@ -1,26 +1,34 @@
 {
   "name": "tiptap",
   "private": true,
-  "packageManager": "pnpm@9.15.4",
-  "engines": {
-    "node": ">=20"
+  "publishConfig": {
+    "provenance": true
   },
-  "browserslist": [
-    "defaults",
-    "not IE 11"
-  ],
   "scripts": {
     "cz": "cz",
     "start": "pnpm --prefix ./demos run start",
     "dev": "pnpm run start",
-    "lint": "turbo run lint",
-    "lint:fix": "prettier -w --log-level warn . && eslint --fix --cache --quiet --no-error-on-unmatched-pattern .",
+    "check": "pnpm run format && pnpm run lint",
+    "check:fix": "pnpm run format:fix && pnpm run lint:fix",
+    "format": "oxfmt --check",
+    "format:fix": "oxfmt",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
     "lint:staged": "lint-staged",
-    "test:e2e:open": "cypress open --project tests",
-    "test:e2e": "cypress run --project tests",
+    "fallow": "fallow",
+    "fallow:audit": "fallow audit",
+    "fallow:health": "fallow health --score --targets",
     "test:unit": "vitest run",
     "test:unit:dev": "vitest",
-    "test": "turbo run build && pnpm run test:e2e && pnpm run test:unit",
+    "test:e2e": "playwright test --project=chromium",
+    "test:e2e:firefox": "playwright test --project=firefox",
+    "test:e2e:all": "playwright test",
+    "test:e2e:open": "playwright test --ui --project=chromium",
+    "test:e2e:open:firefox": "playwright test --ui --project=firefox",
+    "test:e2e:open:all": "playwright test --ui",
+    "test:e2e:report": "playwright show-report",
+    "test:publish-config": "node --test .github/scripts/__tests__/*.test.mjs",
+    "test": "turbo run build && pnpm run test:unit",
     "build": "turbo build",
     "build:demos": "pnpm --prefix demos run build:demos",
     "serve": "pnpm run build:demos && http-server ./demos/dist -s -p 3000",
@@ -39,73 +47,90 @@
     "version:markdown": "pnpm run changeset version --snapshot markdown"
   },
   "devDependencies": {
-    "@babel/core": "^7.26.0",
+    "@babel/core": "^7.29.6",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.18.6",
     "@babel/plugin-proposal-optional-chaining": "^7.21.0",
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-react": "^7.26.3",
+    "@changesets/changelog-github": "^0.6.0",
     "@changesets/cli": "^2.27.11",
     "@changesets/get-release-plan": "^4.0.13",
     "@commitlint/cli": "^19.6.1",
     "@commitlint/config-conventional": "^19.6.0",
-    "@cypress/webpack-preprocessor": "^6.0.2",
+    "@playwright/test": "^1.54.2",
     "@testing-library/react": "16.2.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "@typescript-eslint/eslint-plugin": "^8.19.0",
-    "@typescript-eslint/parser": "^8.19.0",
-    "@vitest/ui": "^4.0.7",
+    "@vitest/ui": "^4.1.2",
     "babel-loader": "^9.2.1",
-    "cypress": "^15.9.0",
     "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^8.57.1",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-prettier": "9.1.0",
-    "eslint-plugin-cypress": "^2.15.2",
-    "eslint-plugin-html": "^6.2.0",
-    "eslint-plugin-import": "^2.31.0",
-    "eslint-plugin-react-hooks": "4.6.2",
-    "eslint-plugin-simple-import-sort": "^7.0.0",
-    "eslint-plugin-vue": "^9.32.0",
+    "fallow": "^2.98.0",
     "fast-glob": "^3.3.2",
-    "happy-dom": "^20.8.8",
+    "happy-dom": "^20.8.9",
     "http-server": "14.1.1",
     "husky": "^8.0.3",
     "lint-staged": "^15.3.0",
     "lowlight": "^3.3.0",
     "minimist": "^1.2.8",
-    "pkg-pr-new": "0.0.32",
-    "prettier": "3.3.3",
+    "oxfmt": "^0.51.0",
+    "oxlint": "^1.66.0",
+    "pkg-pr-new": "0.0.66",
     "react": "^19.0.0",
     "tinyglobby": "0.2.10",
     "ts-loader": "9.3.1",
+    "tsconfig-paths": "^4.2.0",
     "tsup": "^8.5.1",
-    "turbo": "2.3.3",
-    "typescript": "^5.9.3",
-    "vitest": "^4.0.7",
+    "turbo": "2.9.14",
+    "typescript": "^5.7.3",
+    "vitest": "^4.1.2",
     "webpack": "^5.97.1"
   },
   "overrides": {
+    "@octokit/action>undici": "6.24.1",
     "@rollup/pluginutils": "^5.1.4",
+    "@rollup/pluginutils>picomatch": "2.3.2",
+    "anymatch>picomatch": "2.3.2",
     "glob": "^10.5.0",
-    "qs": "^6.14.1"
+    "micromatch>picomatch": "2.3.2",
+    "minimatch@^3.0.5": "3.1.4",
+    "minimatch@^3.1.2": "3.1.4",
+    "qs": "^6.14.1",
+    "readdirp>picomatch": "2.3.2",
+    "rollup": "4.60.1",
+    "sass>immutable": "5.1.5",
+    "terser-webpack-plugin>serialize-javascript": "7.0.5",
+    "tinyglobby>picomatch": "4.0.4",
+    "vitest>picomatch": "4.0.4"
   },
-  "publishConfig": {
-    "provenance": true
+  "browserslist": [
+    "defaults",
+    "not IE 11"
+  ],
+  "engines": {
+    "node": ">=24"
   },
-  "lint-staged": {
-    "./**/*.{ts,tsx,js,jsx,vue}": [
-      "prettier --write",
-      "eslint --fix --quiet --no-error-on-unmatched-pattern"
-    ]
-  },
+  "packageManager": "pnpm@11.2.2",
   "pnpm": {
     "patchedDependencies": {
-      "@changesets/assemble-release-plan": "patches/@changesets__assemble-release-plan.patch"
+      "@changesets/assemble-release-plan@6.0.5": "patches/@changesets__assemble-release-plan.patch",
+      "@changesets/assemble-release-plan@6.0.9": "patches/@changesets__assemble-release-plan@6.0.9.patch"
     },
     "overrides": {
+      "@rollup/pluginutils>picomatch": "2.3.2",
+      "prosemirror-model": "^1.25.11",
+      "@octokit/action>undici": "6.24.1",
+      "anymatch>picomatch": "2.3.2",
       "glob": "^10.5.0",
-      "qs": "^6.14.1"
+      "micromatch>picomatch": "2.3.2",
+      "minimatch@^3.0.5": "3.1.4",
+      "minimatch@^3.1.2": "3.1.4",
+      "qs": "^6.14.1",
+      "rollup": "4.60.1",
+      "readdirp>picomatch": "2.3.2",
+      "sass>immutable": "5.1.5",
+      "terser-webpack-plugin>serialize-javascript": "7.0.5",
+      "tinyglobby>picomatch": "4.0.4",
+      "vitest>picomatch": "4.0.4"
     }
   }
 }

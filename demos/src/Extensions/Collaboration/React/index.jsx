@@ -12,7 +12,7 @@ import * as Y from 'yjs'
 
 const ydoc = new Y.Doc()
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// oxlint-disable-next-line no-unused-vars
 const provider = new WebrtcProvider('tiptap-collaboration-extension', ydoc)
 
 export default () => {
@@ -25,7 +25,8 @@ export default () => {
         document: ydoc,
       }),
       Placeholder.configure({
-        placeholder: 'Write something … It’ll be shared with everyone else looking at this example.',
+        placeholder:
+          'Write something … It’ll be shared with everyone else looking at this example.',
       }),
     ],
   })

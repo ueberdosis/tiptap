@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest'
 
-import { calculateEdgeDeduction, isNearEdge, normalizeEdgeDetection } from '../src/helpers/edgeDetection.js'
+import {
+  calculateEdgeDeduction,
+  isNearEdge,
+  normalizeEdgeDetection,
+} from '../src/helpers/edgeDetection.js'
 
 describe('normalizeEdgeDetection', () => {
   describe('presets', () => {

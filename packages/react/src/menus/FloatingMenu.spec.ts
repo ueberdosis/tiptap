@@ -77,7 +77,9 @@ describe('FloatingMenu', () => {
     expect(editor.registerPlugin).toHaveBeenCalledTimes(1)
     expect(floatingMenuPluginMock).toHaveBeenCalledTimes(1)
 
-    const [{ element }] = floatingMenuPluginMock.mock.calls[0] as unknown as [{ element: HTMLDivElement }]
+    const [{ element }] = floatingMenuPluginMock.mock.calls[0] as unknown as [
+      { element: HTMLDivElement },
+    ]
 
     expect(element).toBeInstanceOf(HTMLDivElement)
     expect(element).toBe(ref.current)
@@ -146,7 +148,9 @@ describe('FloatingMenu', () => {
 
     expect(floatingMenuPluginMock).toHaveBeenCalledTimes(2)
 
-    const pluginCalls = floatingMenuPluginMock.mock.calls as unknown as Array<[{ pluginKey: unknown }]>
+    const pluginCalls = floatingMenuPluginMock.mock.calls as unknown as Array<
+      [{ pluginKey: unknown }]
+    >
     const firstPluginKey = pluginCalls[0][0].pluginKey
     const secondPluginKey = pluginCalls[1][0].pluginKey
 

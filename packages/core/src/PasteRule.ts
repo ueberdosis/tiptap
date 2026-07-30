@@ -7,7 +7,13 @@ import { CommandManager } from './CommandManager.js'
 import type { Editor } from './Editor.js'
 import { createChainableState } from './helpers/createChainableState.js'
 import { getHTMLFromFragment } from './helpers/getHTMLFromFragment.js'
-import type { CanCommands, ChainedCommands, ExtendedRegExpMatchArray, Range, SingleCommands } from './types.js'
+import type {
+  CanCommands,
+  ChainedCommands,
+  ExtendedRegExpMatchArray,
+  Range,
+  SingleCommands,
+} from './types.js'
 import { isNumber } from './utilities/isNumber.js'
 import { isRegExp } from './utilities/isRegExp.js'
 
@@ -83,7 +89,9 @@ const pasteRuleMatcherHandler = (
 
     if (pasteRuleMatch.replaceWith) {
       if (!pasteRuleMatch.text.includes(pasteRuleMatch.replaceWith)) {
-        console.warn('[tiptap warn]: "pasteRuleMatch.replaceWith" must be part of "pasteRuleMatch.text".')
+        console.warn(
+          '[tiptap warn]: "pasteRuleMatch.replaceWith" must be part of "pasteRuleMatch.text".',
+        )
       }
 
       result.push(pasteRuleMatch.replaceWith)
@@ -251,7 +259,9 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
       // we register a global drag handler to track the current drag source element
       view(view) {
         const handleDragstart = (event: DragEvent) => {
-          dragSourceElement = view.dom.parentElement?.contains(event.target as Element) ? view.dom.parentElement : null
+          dragSourceElement = view.dom.parentElement?.contains(event.target as Element)
+            ? view.dom.parentElement
+            : null
 
           if (dragSourceElement) {
             tiptapDragFromOtherEditor = editor
@@ -290,7 +300,10 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
                   const selection = dragFromOtherEditor.state.selection
 
                   if (selection) {
-                    dragFromOtherEditor.commands.deleteRange({ from: selection.from, to: selection.to })
+                    dragFromOtherEditor.commands.deleteRange({
+                      from: selection.from,
+                      to: selection.to,
+                    })
                   }
                 }, 10)
               }

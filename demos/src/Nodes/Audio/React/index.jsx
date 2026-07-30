@@ -79,7 +79,11 @@ export default () => {
 
         <Control>
           <label htmlFor="preload">Preload</label>
-          <select id="preload" value={preload ?? ''} onChange={event => setPreload(event.target.value)}>
+          <select
+            id="preload"
+            value={preload ?? ''}
+            onChange={event => setPreload(event.target.value)}
+          >
             <option value="metadata">metadata</option>
             <option value="auto">auto</option>
             <option value="none">none</option>
@@ -100,7 +104,11 @@ export default () => {
 
         <Control>
           <label htmlFor="crossorigin">crossorigin</label>
-          <select id="crossorigin" value={crossorigin} onChange={event => setCrossorigin(event.target.value)}>
+          <select
+            id="crossorigin"
+            value={crossorigin}
+            onChange={event => setCrossorigin(event.target.value)}
+          >
             <option value="">(unset)</option>
             <option value="anonymous">anonymous</option>
             <option value="use-credentials">use-credentials</option>
@@ -111,25 +119,41 @@ export default () => {
       <div className="control-group toggles">
         <Control>
           <label>
-            <input type="checkbox" checked={controls} onChange={event => setControls(event.target.checked)} />
+            <input
+              type="checkbox"
+              checked={controls}
+              onChange={event => setControls(event.target.checked)}
+            />
             Show controls
           </label>
         </Control>
         <Control>
           <label>
-            <input type="checkbox" checked={autoplay} onChange={event => setAutoplay(event.target.checked)} />
+            <input
+              type="checkbox"
+              checked={autoplay}
+              onChange={event => setAutoplay(event.target.checked)}
+            />
             Autoplay
           </label>
         </Control>
         <Control>
           <label>
-            <input type="checkbox" checked={loop} onChange={event => setLoop(event.target.checked)} />
+            <input
+              type="checkbox"
+              checked={loop}
+              onChange={event => setLoop(event.target.checked)}
+            />
             Loop
           </label>
         </Control>
         <Control>
           <label>
-            <input type="checkbox" checked={muted} onChange={event => setMuted(event.target.checked)} />
+            <input
+              type="checkbox"
+              checked={muted}
+              onChange={event => setMuted(event.target.checked)}
+            />
             Muted
           </label>
         </Control>

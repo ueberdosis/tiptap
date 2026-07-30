@@ -1,5 +1,78 @@
 # Change Log
 
+## 3.29.2
+
+## 3.29.1
+
+## 3.29.0
+
+### Patch Changes
+
+- e150ee0: Bump `prosemirror-model` to `^1.25.11`, fixing pasting content copied from the editor inserting extra empty paragraphs (a regression introduced in `prosemirror-view` 1.42.0).
+
+## 3.28.0
+
+## 3.27.4
+
+## 3.27.3
+
+## 3.27.2
+
+### Patch Changes
+
+- ceebb31: Updated all ProseMirror packages to the latest publicly available versions
+
+## 3.27.1
+
+## 3.27.0
+
+## 3.26.1
+
+## 3.26.0
+
+## 3.25.0
+
+### Patch Changes
+
+- c1a2ce8: Bump `prosemirror-tables` to `^1.8.0` so `findTable` is available from `@tiptap/pm`, and align the related ProseMirror dependencies with the versions required by `prosemirror-tables`.
+
+## 3.24.0
+
+### Patch Changes
+
+- 7c0499b: Add missing `@tiptap/pm/inputrules` export
+
+## 3.23.6
+
+## 3.23.5
+
+## 3.23.4
+
+## 3.23.3
+
+## 3.23.2
+
+## 3.23.1
+
+## 3.23.0
+
+## 3.22.5
+
+## 3.22.4
+
+### Patch Changes
+
+- 27ea931: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- 032f8f1: Remove unused ProseMirror packages from @tiptap/pm to reduce bundle size
+
+## 3.22.3
+
+## 3.22.2
+
+## 3.22.1
+
+## 3.22.0
+
 ## 3.21.0
 
 ## 3.20.6

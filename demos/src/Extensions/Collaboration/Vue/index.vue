@@ -38,7 +38,8 @@ export default {
           document: ydoc,
         }),
         Placeholder.configure({
-          placeholder: 'Write something … It’ll be shared with everyone else looking at this example.',
+          placeholder:
+            'Write something … It’ll be shared with everyone else looking at this example.',
         }),
       ],
     })

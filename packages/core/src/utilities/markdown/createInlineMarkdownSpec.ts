@@ -222,7 +222,9 @@ export function createInlineMarkdownSpec(options: InlineMarkdownSpecOptions): {
         // Use non-global regex to match from the start of the string
         const tokenPattern = selfClosing
           ? new RegExp(`^\\[${escapedShortcode}\\s*([^\\]]*)\\]`)
-          : new RegExp(`^\\[${escapedShortcode}\\s*([^\\]]*)\\]([\\s\\S]*?)\\[\\/${escapedShortcode}\\]`)
+          : new RegExp(
+              `^\\[${escapedShortcode}\\s*([^\\]]*)\\]([\\s\\S]*?)\\[\\/${escapedShortcode}\\]`,
+            )
 
         const match = src.match(tokenPattern)
 

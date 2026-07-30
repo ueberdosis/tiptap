@@ -2,13 +2,27 @@ import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 import type { FileHandlePluginOptions } from './types.js'
 
-export const FileHandlePlugin = ({ key, editor, onPaste, onDrop, allowedMimeTypes }: FileHandlePluginOptions) => {
+export const FileHandlePlugin = ({
+  key,
+  editor,
+  onPaste,
+  onDrop,
+  allowedMimeTypes,
+  consumePasteEvent,
+}: FileHandlePluginOptions) => {
   return new Plugin({
     key: key || new PluginKey('fileHandler'),
 
     props: {
       handleDrop(_view, event) {
         if (!onDrop) {
+          return false
+        }
+
+        // If the drop contains ProseMirror internal slice data, let ProseMirror
+        // handle it — this is an internal content drag (e.g. moving an image),
+        // not an external file drop
+        if (event.dataTransfer?.types.includes('application/x-prosemirror-slice')) {
           return false
         }
 
@@ -64,12 +78,10 @@ export const FileHandlePlugin = ({ key, editor, onPaste, onDrop, allowedMimeType
 
         onPaste(editor, filesArray, htmlContent)
 
-        // if there is also file data inside the clipboard html,
-        // we won't use the files array and instead get the file url from the html
-        // this mostly happens for gifs or webms as they are not copied correctly as a file
-        // and will always be transformed into a PNG
-        // in this case we will let other extensions handle the incoming html via their inputRules
-        if (htmlContent.length > 0) {
+        // When HTML content is present alongside files (e.g. animated GIFs
+        // copied as PNG), and consumePasteEvent is not set, let other
+        // extensions handle the HTML content via their parseHTML/paste rules.
+        if (htmlContent.length > 0 && !consumePasteEvent) {
           return false
         }
 

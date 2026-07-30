@@ -1,23 +1,33 @@
 {
   "name": "@tiptap/extension-mathematics",
+  "version": "3.29.2",
   "description": "latex math extension for tiptap",
-  "version": "3.21.0",
-  "homepage": "https://tiptap.dev/api/extensions/mathematics",
   "keywords": [
     "tiptap",
     "tiptap extension"
   ],
-  "license": "MIT",
-  "funding": {
-    "type": "github",
-    "url": "https://github.com/sponsors/ueberdosis"
+  "homepage": "https://tiptap.dev/api/extensions/mathematics",
+  "bugs": {
+    "url": "https://github.com/ueberdosis/tiptap/issues"
   },
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
     "directory": "packages/extension-mathematics"
   },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "files": [
+    "src",
+    "dist"
+  ],
   "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "types": {
@@ -28,25 +38,17 @@
       "require": "./dist/index.cjs"
     }
   },
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "src",
-    "dist"
-  ],
+  "scripts": {
+    "build": "tsup"
+  },
   "devDependencies": {
     "@tiptap/core": "workspace:^",
     "@tiptap/pm": "workspace:^",
-    "@types/katex": "^0.16.7"
+    "@types/katex": "^0.16.7 || ^0.17.0"
   },
   "peerDependencies": {
-    "@tiptap/core": "workspace:^",
-    "@tiptap/pm": "workspace:^",
-    "katex": "^0.16.4"
-  },
-  "scripts": {
-    "build": "tsup",
-    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
+    "@tiptap/core": "workspace:*",
+    "@tiptap/pm": "workspace:*",
+    "katex": "^0.16.4 || ^0.17.0"
   }
 }

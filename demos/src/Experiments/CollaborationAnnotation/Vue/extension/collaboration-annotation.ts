@@ -80,7 +80,7 @@ export const CollaborationAnnotation = Extension.create<AnnotationOptions>({
     const map = getMapFromOptions(this.options)
 
     map.observe(() => {
-      // eslint-disable-next-line
+      // oxlint-disable-next-line
       console.log(`[${this.options.instance}] map updated  → createDecorations`)
 
       const transaction = this.editor.state.tr.setMeta(AnnotationPluginKey, {

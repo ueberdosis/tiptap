@@ -1,7 +1,44 @@
+import { attrsEqual } from '@tiptap/core'
 import type { Content, MarkdownToken } from '@tiptap/core'
 import type { Fragment, Node } from '@tiptap/pm/model'
 
 import type { ContentType } from './types.js'
+
+/**
+ * Matches a run of two or more consecutive line breaks (a blank line) at the
+ * end of a string, allowing horizontal whitespace between the breaks.
+ *
+ * @example
+ * TRAILING_BLANK_LINES.test('paragraph\n  \n')
+ * // => true
+ */
+const TRAILING_BLANK_LINES = /\n[^\S\n]*(?:\n[^\S\n]*)+$/
+
+/**
+ * Extracts blank lines absorbed into marked token `raw` back into explicit
+ * `space` tokens so they're handled uniformly by the reconstruction path.
+ * @param tokens The marked token stream to normalize.
+ * @returns A new token array with absorbed blank lines as `space` tokens.
+ */
+export function extractAbsorbedBlankLines(tokens: MarkdownToken[]): MarkdownToken[] {
+  return tokens.flatMap((token, index) => {
+    // A following `space` token already carries the blank lines for this gap.
+    if (token.type === 'space' || tokens[index + 1]?.type === 'space') {
+      return [token]
+    }
+
+    const trailingBlankLines = (token.raw || '').match(TRAILING_BLANK_LINES)
+
+    if (!trailingBlankLines) {
+      return [token]
+    }
+
+    return [
+      { ...token, raw: (token.raw || '').slice(0, -trailingBlankLines[0].length) },
+      { type: 'space', raw: trailingBlankLines[0] } as MarkdownToken,
+    ]
+  })
+}
 
 /**
  * Wraps each line of the content with the given prefix.
@@ -25,13 +62,24 @@ export function wrapInMarkdownBlock(prefix: string, content: string) {
 }
 
 /**
- * Identifies marks that need to be closed, based on the marks in the next node.
+ * Determines which marks to close based on the next node's marks,
+ * treating same-type marks with different attributes as distinct.
  */
 export function findMarksToClose(currentMarks: Map<string, any>, nextNode: any): string[] {
   const marksToClose: string[] = []
 
-  Array.from(currentMarks.keys()).forEach(markType => {
-    if (!nextNode || !nextNode.marks || !nextNode.marks.map((mark: any) => mark.type).includes(markType)) {
+  Array.from(currentMarks.entries()).forEach(([markType, currentMark]) => {
+    if (!nextNode) {
+      marksToClose.push(markType)
+      return
+    }
+
+    // Check if the next node has a mark of the same type with matching attributes
+    const nextMark = (nextNode.marks || []).find(
+      (mark: any) => mark.type === markType && attrsEqual(mark.attrs, currentMark.attrs),
+    )
+
+    if (!nextMark) {
       marksToClose.push(markType)
     }
   })
@@ -39,7 +87,8 @@ export function findMarksToClose(currentMarks: Map<string, any>, nextNode: any):
 }
 
 /**
- * Identifies marks that need to be opened (in current node but not active).
+ * Determines which marks need to open, treating same-type marks with
+ * different attributes as distinct (close + reopen).
  */
 export function findMarksToOpen(
   activeMarks: Map<string, any>,
@@ -47,7 +96,10 @@ export function findMarksToOpen(
 ): Array<{ type: string; mark: any }> {
   const marksToOpen: Array<{ type: string; mark: any }> = []
   Array.from(currentMarks.entries()).forEach(([markType, mark]) => {
-    if (!activeMarks.has(markType)) {
+    const activeMark = activeMarks.get(markType)
+
+    // Open if the mark type is not active, or if the attributes differ
+    if (!activeMark || !attrsEqual(activeMark.attrs, mark.attrs)) {
       marksToOpen.push({ type: markType, mark })
     }
   })
@@ -55,32 +107,33 @@ export function findMarksToOpen(
 }
 
 /**
- * Determines which marks need to be closed at the end of the current text node.
- * This handles cases where marks end at node boundaries or when transitioning
- * to nodes with different mark sets.
+ * Determines which marks to close at the node end, treating same-type marks
+ * with different attributes as distinct (close + reopen).
  */
 export function findMarksToCloseAtEnd(
   activeMarks: Map<string, any>,
   currentMarks: Map<string, any>,
   nextNode: any,
-  markSetsEqual: (a: Map<string, any>, b: Map<string, any>) => boolean,
+  markSetsEqual: (a: Map<string, { type: string }>, b: Map<string, { type: string }>) => boolean,
 ): string[] {
   const isLastNode = !nextNode
-  const nextNodeHasNoMarks = nextNode && nextNode.type === 'text' && (!nextNode.marks || nextNode.marks.length === 0)
+  const nextNodeHasNoMarks = nextNode && (!nextNode.marks || nextNode.marks.length === 0)
   const nextNodeHasDifferentMarks =
     nextNode &&
-    nextNode.type === 'text' &&
     nextNode.marks &&
     !markSetsEqual(currentMarks, new Map(nextNode.marks.map((mark: any) => [mark.type, mark])))
 
   const marksToCloseAtEnd: string[] = []
   if (isLastNode || nextNodeHasNoMarks || nextNodeHasDifferentMarks) {
-    if (nextNode && nextNode.type === 'text' && nextNode.marks) {
-      const nextMarks = new Map(nextNode.marks.map((mark: any) => [mark.type, mark]))
-      Array.from(activeMarks.keys())
+    if (nextNode && nextNode.marks) {
+      Array.from(activeMarks.entries())
         .reverse()
-        .forEach(markType => {
-          if (!nextMarks.has(markType)) {
+        .forEach(([markType, activeMark]) => {
+          // Check if nextNode has a mark of the same type with matching attrs
+          const nextMark = nextNode.marks.find(
+            (m: any) => m.type === markType && attrsEqual(m.attrs, activeMark.attrs),
+          )
+          if (!nextMark) {
             marksToCloseAtEnd.push(markType)
           }
         })
@@ -148,7 +201,11 @@ export function reopenMarksAfterNode(
  * isTaskItem({ raw: '- Regular' }) // { isTask: false, indentLevel: 0 }
  * ```
  */
-export function isTaskItem(item: MarkdownToken): { isTask: boolean; checked?: boolean; indentLevel: number } {
+export function isTaskItem(item: MarkdownToken): {
+  isTask: boolean
+  checked?: boolean
+  indentLevel: number
+} {
   const raw = item.raw || item.text || ''
 
   // Match patterns like "- [ ] " or "  - [x] "

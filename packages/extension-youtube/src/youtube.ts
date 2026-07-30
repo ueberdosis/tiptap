@@ -1,9 +1,52 @@
 import { createAtomBlockMarkdownSpec, mergeAttributes, Node, nodePasteRule } from '@tiptap/core'
 
-import { getEmbedUrlFromYoutubeUrl, isValidYoutubeUrl, YOUTUBE_REGEX_GLOBAL } from './utils.js'
+import {
+  getAttributesFromYoutubeEmbedUrl,
+  getEmbedUrlFromYoutubeUrl,
+  isValidYoutubeUrl,
+  YOUTUBE_REGEX_GLOBAL,
+} from './utils.js'
+
+const getParsedDimension = (value: string | null) => {
+  if (!value) {
+    return null
+  }
+
+  const trimmedValue = value.trim()
+
+  if (trimmedValue === '') {
+    return null
+  }
+
+  const parsedValue = Number(trimmedValue)
+
+  return Number.isNaN(parsedValue) ? trimmedValue : parsedValue
+}
+
+const getParsedYoutubeAttributes = (element: HTMLElement) => {
+  const src = element.getAttribute('src')
+
+  if (!src) {
+    return null
+  }
+
+  const embedAttributes = getAttributesFromYoutubeEmbedUrl(src)
+
+  if (embedAttributes) {
+    return embedAttributes
+  }
+
+  return {
+    src,
+  }
+}
 
 export type { GetEmbedUrlOptions } from './utils.js'
-export { getEmbedUrlFromYoutubeUrl, isValidYoutubeUrl } from './utils.js'
+export {
+  getAttributesFromYoutubeEmbedUrl,
+  getEmbedUrlFromYoutubeUrl,
+  isValidYoutubeUrl,
+} from './utils.js'
 
 export interface YoutubeOptions {
   /**
@@ -73,8 +116,9 @@ export interface YoutubeOptions {
    * The height of the youtube video.
    * @default 480
    * @example 720
+   * @example '100%'
    */
-  height: number
+  height: number | string
 
   /**
    * The language of the youtube video.
@@ -150,8 +194,9 @@ export interface YoutubeOptions {
    * The width of the youtube video.
    * @default 640
    * @example 1280
+   * @example '100%'
    */
-  width: number
+  width: number | string
 
   /**
    * Controls if the related youtube videos at the end are from the same channel.
@@ -164,7 +209,12 @@ export interface YoutubeOptions {
 /**
  * The options for setting a youtube video.
  */
-type SetYoutubeVideoOptions = { src: string; width?: number; height?: number; start?: number }
+type SetYoutubeVideoOptions = {
+  src: string
+  width?: number | string
+  height?: number | string
+  start?: number
+}
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -227,15 +277,19 @@ export const Youtube = Node.create<YoutubeOptions>({
     return {
       src: {
         default: null,
+        parseHTML: element => getParsedYoutubeAttributes(element)?.src,
       },
       start: {
         default: 0,
+        parseHTML: element => getParsedYoutubeAttributes(element)?.start,
       },
       width: {
         default: this.options.width,
+        parseHTML: element => getParsedDimension(element.getAttribute('width')),
       },
       height: {
         default: this.options.height,
+        parseHTML: element => getParsedDimension(element.getAttribute('height')),
       },
     }
   },

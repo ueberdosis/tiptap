@@ -33,7 +33,9 @@ export class InvisibleCharacter {
     return textContent.reduce((oldDecorations, currentPosition) => {
       return currentPosition.text.split('').reduce((innerDecorations, char, i) => {
         return this.test(char)
-          ? innerDecorations.add(doc, [createDecorationWidget(currentPosition.pos + i, this.type, this.content)])
+          ? innerDecorations.add(doc, [
+              createDecorationWidget(currentPosition.pos + i, this.type, this.content),
+            ])
           : innerDecorations
       }, oldDecorations)
     }, decorations)

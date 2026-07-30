@@ -37,7 +37,7 @@ export default {
       ],
       content: `
         <p>
-          The selection extension adds a class to the selection when the editor is blurred. That enables you to visually preserve the selection even though the editor is blurred. By default, it’ll add <code>.selection</code> classname.
+          The selection extension adds a class to the selected text when the editor loses focus. This lets you keep the selection visible even while the editor is blurred. By default, it adds the <code>.selection</code> class name.
         </p>
       `,
       onCreate: ({ editor }) => {

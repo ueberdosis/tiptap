@@ -11,7 +11,10 @@ import { getSchemaTypeNameByName } from './getSchemaTypeNameByName.js'
  * @param typeOrName The node or mark type or name
  * @returns The attributes of the node or mark or an empty object
  */
-export function getAttributes(state: EditorState, typeOrName: string | NodeType | MarkType): Record<string, any> {
+export function getAttributes(
+  state: EditorState,
+  typeOrName: string | NodeType | MarkType,
+): Record<string, any> {
   const schemaType = getSchemaTypeNameByName(
     typeof typeOrName === 'string' ? typeOrName : typeOrName.name,
     state.schema,

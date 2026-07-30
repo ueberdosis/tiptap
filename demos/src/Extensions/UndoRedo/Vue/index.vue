@@ -2,8 +2,12 @@
   <div v-if="editor" class="container">
     <div class="control-group">
       <div class="button-group">
-        <button @click="editor.chain().focus().undo().run()" :disabled="!editor.can().undo()">Undo</button>
-        <button @click="editor.chain().focus().redo().run()" :disabled="!editor.can().redo()">Redo</button>
+        <button @click="editor.chain().focus().undo().run()" :disabled="!editor.can().undo()">
+          Undo
+        </button>
+        <button @click="editor.chain().focus().redo().run()" :disabled="!editor.can().redo()">
+          Redo
+        </button>
       </div>
     </div>
     <editor-content :editor="editor" />

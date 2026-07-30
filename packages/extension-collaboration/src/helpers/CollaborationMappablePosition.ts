@@ -6,7 +6,11 @@ import {
 import type { EditorState, Transaction } from '@tiptap/pm/state'
 
 import { isChangeOrigin } from './isChangeOrigin.js'
-import { type YRelativePosition, getYAbsolutePosition, getYRelativePosition } from './yRelativePosition.js'
+import {
+  type YRelativePosition,
+  getYAbsolutePosition,
+  getYRelativePosition,
+} from './yRelativePosition.js'
 
 /**
  * A MappablePosition subclass that includes Y.js relative position information
@@ -45,7 +49,10 @@ export class CollaborationMappablePosition extends MappablePosition {
  * Creates a MappablePosition from a position number.
  * This is the collaboration implementation that returns a CollaborationMappablePosition.
  */
-export function createMappablePosition(position: number, state: EditorState): CollaborationMappablePosition {
+export function createMappablePosition(
+  position: number,
+  state: EditorState,
+): CollaborationMappablePosition {
   const yRelativePosition = getYRelativePosition(state, position)
   return new CollaborationMappablePosition(position, yRelativePosition)
 }
@@ -59,7 +66,8 @@ export function getUpdatedPosition(
   transaction: Transaction,
   state: EditorState,
 ): GetUpdatedPositionResult {
-  const yRelativePosition = position instanceof CollaborationMappablePosition ? position.yRelativePosition : null
+  const yRelativePosition =
+    position instanceof CollaborationMappablePosition ? position.yRelativePosition : null
 
   if (isChangeOrigin(transaction) && yRelativePosition) {
     const absolutePosition = getYAbsolutePosition(state, yRelativePosition)

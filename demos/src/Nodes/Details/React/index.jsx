@@ -2,7 +2,7 @@ import './styles.scss'
 
 import { Details, DetailsContent, DetailsSummary } from '@tiptap/extension-details'
 import { Placeholder } from '@tiptap/extensions'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 
@@ -47,6 +47,14 @@ export default () => {
     `,
   })
 
+  const { canSetDetails, canUnsetDetails } = useEditorState({
+    editor,
+    selector: ctx => ({
+      canSetDetails: ctx.editor.can().setDetails() ?? false,
+      canUnsetDetails: ctx.editor.can().unsetDetails() ?? false,
+    }),
+  })
+
   if (!editor) {
     return null
   }
@@ -55,10 +63,16 @@ export default () => {
     <>
       <div className="control-group">
         <div className="button-group">
-          <button onClick={() => editor.chain().focus().setDetails().run()} disabled={!editor.can().setDetails()}>
+          <button
+            onClick={() => editor.chain().focus().setDetails().run()}
+            disabled={!canSetDetails}
+          >
             Set details
           </button>
-          <button onClick={() => editor.chain().focus().unsetDetails().run()} disabled={!editor.can().unsetDetails()}>
+          <button
+            onClick={() => editor.chain().focus().unsetDetails().run()}
+            disabled={!canUnsetDetails}
+          >
             Unset details
           </button>
           <button

@@ -9,7 +9,10 @@ import { useMenuElementProps } from './useMenuElementProps.js'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
-export type BubbleMenuProps = Optional<Omit<Optional<BubbleMenuPluginProps, 'pluginKey'>, 'element'>, 'editor'> &
+export type BubbleMenuProps = Optional<
+  Omit<Optional<BubbleMenuPluginProps, 'pluginKey'>, 'element'>,
+  'editor'
+> &
   React.HTMLAttributes<HTMLDivElement>
 
 export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
@@ -29,7 +32,9 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
     ref,
   ) => {
     const menuEl = useRef(document.createElement('div'))
-    const resolvedPluginKey = useRef<PluginKey | string>(getAutoPluginKey(pluginKey, 'bubbleMenu')).current
+    const resolvedPluginKey = useRef<PluginKey | string>(
+      getAutoPluginKey(pluginKey, 'bubbleMenu'),
+    ).current
 
     useMenuElementProps(menuEl.current, restProps)
 
@@ -83,7 +88,9 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
       }
 
       if (!pluginEditor) {
-        console.warn('BubbleMenu component is not rendered inside of an editor component or does not have editor prop.')
+        console.warn(
+          'BubbleMenu component is not rendered inside of an editor component or does not have editor prop.',
+        )
         return
       }
 

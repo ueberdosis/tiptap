@@ -7,13 +7,16 @@ import {
   normalizeNestedOptions,
 } from '@tiptap/extension-drag-handle'
 import type { Node } from '@tiptap/pm/model'
-import type { Plugin } from '@tiptap/pm/state'
 import type { Editor } from '@tiptap/react'
-import { type ReactNode, useEffect, useMemo, useRef, useState } from 'react'
+import { type ReactNode, useEffect, useMemo, useRef } from 'react'
+import { createPortal } from 'react-dom'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
-export type DragHandleProps = Omit<Optional<DragHandlePluginProps, 'pluginKey'>, 'element' | 'nestedOptions'> & {
+export type DragHandleProps = Omit<
+  Optional<DragHandlePluginProps, 'pluginKey'>,
+  'element' | 'nestedOptions'
+> & {
   className?: string
   onNodeChange?: (data: { node: Node | null; editor: Editor; pos: number }) => void
   children: ReactNode
@@ -71,64 +74,73 @@ export const DragHandle = (props: DragHandleProps) => {
     onNodeChange,
     onElementDragStart,
     onElementDragEnd,
+    getReferencedVirtualElement,
     computePositionConfig = defaultComputePositionConfig,
     nested = false,
   } = props
-  const [element, setElement] = useState<HTMLDivElement | null>(null)
-  const plugin = useRef<Plugin | null>(null)
+  const elementRef = useRef<HTMLDivElement | null>(null)
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  if (elementRef.current === null && typeof document !== 'undefined') {
+    elementRef.current = document.createElement('div')
+  }
+
+  // oxlint-disable-next-line react-hooks/exhaustive-deps
   const nestedOptions = useMemo(() => normalizeNestedOptions(nested), [JSON.stringify(nested)])
 
   useEffect(() => {
-    let initPlugin: {
-      plugin: Plugin
-      unbind: () => void
-    } | null = null
-
+    const element = elementRef.current
     if (!element) {
-      return () => {
-        plugin.current = null
-      }
+      return
+    }
+
+    element.className = className
+  }, [className])
+
+  useEffect(() => {
+    if (typeof document === 'undefined') {
+      return
     }
 
     if (editor.isDestroyed) {
-      return () => {
-        plugin.current = null
-      }
+      return
     }
 
-    if (!plugin.current) {
-      initPlugin = DragHandlePlugin({
-        editor,
-        element,
-        pluginKey,
-        computePositionConfig: {
-          ...defaultComputePositionConfig,
-          ...computePositionConfig,
-        },
-        onElementDragStart,
-        onElementDragEnd,
-        onNodeChange,
-        nestedOptions,
-      })
-      plugin.current = initPlugin.plugin
-
-      editor.registerPlugin(plugin.current)
+    const element = elementRef.current
+    if (!element) {
+      return
     }
+
+    element.style.visibility = 'hidden'
+    element.style.position = 'absolute'
+    element.dataset.dragging = 'false'
+
+    const { plugin, unbind } = DragHandlePlugin({
+      editor,
+      element,
+      pluginKey,
+      computePositionConfig: {
+        ...defaultComputePositionConfig,
+        ...computePositionConfig,
+      },
+      onElementDragStart,
+      onElementDragEnd,
+      onNodeChange,
+      getReferencedVirtualElement,
+      nestedOptions,
+    })
+
+    editor.registerPlugin(plugin)
 
     return () => {
-      editor.unregisterPlugin(pluginKey)
-      plugin.current = null
-      if (initPlugin) {
-        initPlugin.unbind()
-        initPlugin = null
+      if (!editor.isDestroyed) {
+        editor.unregisterPlugin(pluginKey)
       }
+      unbind()
     }
   }, [
-    element,
     editor,
     onNodeChange,
+    getReferencedVirtualElement,
     pluginKey,
     computePositionConfig,
     onElementDragStart,
@@ -136,14 +148,10 @@ export const DragHandle = (props: DragHandleProps) => {
     nestedOptions,
   ])
 
-  return (
-    <div
-      className={className}
-      style={{ visibility: 'hidden', position: 'absolute' }}
-      data-dragging="false"
-      ref={setElement}
-    >
-      {children}
-    </div>
-  )
+  const element = elementRef.current
+  if (!element) {
+    return null
+  }
+
+  return createPortal(children, element)
 }

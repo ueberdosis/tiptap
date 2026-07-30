@@ -2,7 +2,7 @@
 
 Contributions are **welcome** and will be fully **credited**.
 
-Please read and understand the [contribution guide](https://www.tiptap.dev/overview/contributing/) before creating an issue or pull request.
+Please read and understand the [contribution guide](https://tiptap.dev/docs/resources/contributing) before creating an issue or pull request.
 
 ## Etiquette
 
@@ -84,6 +84,26 @@ When adding a new package to the repository that does not yet exist on NPM, addi
 
 Without this setup, the publish CI will fail when attempting to release a new package.
 
+### Adding a new release branch
+
+When setting up a new release line (e.g., `v2`), you need to update two places:
+
+1. **Workflow trigger** — Add the branch name to the `on.push.branches` list in `.github/workflows/publish.yml`.
+2. **Publish configuration** — Add a matching entry in `.github/publish-config.json` with the desired dist-tag and release messages.
+
+Both lists must stay in sync. A branch present in one but not the other will either never trigger the workflow or produce a harmless no-op.
+
+Each entry in `.github/publish-config.json` takes four fields:
+
+| Field     | Description                                                                                |
+| --------- | ------------------------------------------------------------------------------------------ |
+| `distTag` | npm dist-tag passed to `pnpm changeset publish --tag`, e.g. `latest`, `next`, `v2-latest`. |
+| `label`   | Label used in the Slack release announcement, e.g. `stable` or `prerelease`.               |
+| `title`   | Title of the Changesets version PR created by CI.                                          |
+| `commit`  | Commit message of that version PR.                                                         |
+
+The resolver job looks up the current branch by exact name. If it is missing, the workflow exits cleanly without building, publishing, or notifying. Make sure the dist-tag exists on npm (`npm dist-tag add <package>@<version> <tag>`) before the first release from a new branch.
+
 ## Requirements
 
 If the project maintainer has any additional requirements, you will find them listed here.
@@ -93,5 +113,11 @@ If the project maintainer has any additional requirements, you will find them li
 - **One pull request per feature** - If you want to do more than one thing, send multiple pull requests.
 
 - **Send coherent history** - Make sure each individual commit in your pull request is meaningful. If you had to make multiple intermediate commits while developing, please [squash them](https://www.git-scm.com/book/en/v2/Git-Tools-Rewriting-History#Changing-Multiple-Commit-Messages) before submitting.
+
+- **Disclose AI usage** — If you used AI tools (e.g., ChatGPT, Claude, GitHub Copilot) to generate any part of your contribution, you must clearly disclose this in your pull request description.
+
+- **Link your pull request to an issue** — Pull requests must be linked to an existing issue that has been assigned to you. Before opening a PR, ensure there is an issue describing the bug or feature you're addressing. Trivial fixes (e.g., typos, broken links) are exempt.
+
+- **Respond to feedback** — Maintainers may ask follow-up questions or request changes on your pull request. If you do not respond within 30 days, your PR may be closed. You are welcome to reopen it or submit a new PR once you're able to address the feedback.
 
 **Happy coding**!

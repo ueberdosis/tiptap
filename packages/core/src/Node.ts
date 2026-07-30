@@ -5,8 +5,12 @@ import type { ExtendableConfig } from './Extendable.js'
 import { Extendable } from './Extendable.js'
 import type { Attributes, NodeViewRenderer, ParentConfig } from './types.js'
 
-export interface NodeConfig<Options = any, Storage = any>
-  extends ExtendableConfig<Options, Storage, NodeConfig<Options, Storage>, NodeType> {
+export interface NodeConfig<Options = any, Storage = any> extends ExtendableConfig<
+  Options,
+  Storage,
+  NodeConfig<Options, Storage>,
+  NodeType
+> {
   /**
    * Node View
    */
@@ -329,7 +333,7 @@ export interface NodeConfig<Options = any, Storage = any>
     storage: Storage
     parent: ParentConfig<NodeConfig<Options, Storage>>['addAttributes']
     editor?: Editor
-    // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+    // oxlint-disable-next-lineno-empty-object-type
   }) => Attributes | {}
 }
 
@@ -337,14 +341,20 @@ export interface NodeConfig<Options = any, Storage = any>
  * The Node class is used to create custom node extensions.
  * @see https://tiptap.dev/api/extensions#create-a-new-extension
  */
-export class Node<Options = any, Storage = any> extends Extendable<Options, Storage, NodeConfig<Options, Storage>> {
+export class Node<Options = any, Storage = any> extends Extendable<
+  Options,
+  Storage,
+  NodeConfig<Options, Storage>
+> {
   type = 'node'
 
   /**
    * Create a new Node instance
    * @param config - Node configuration object or a function that returns a configuration object
    */
-  static create<O = any, S = any>(config: Partial<NodeConfig<O, S>> | (() => Partial<NodeConfig<O, S>>) = {}) {
+  static create<O = any, S = any>(
+    config: Partial<NodeConfig<O, S>> | (() => Partial<NodeConfig<O, S>>) = {},
+  ) {
     // If the config is a function, execute it to get the configuration object
     const resolvedConfig = typeof config === 'function' ? config() : config
     return new Node<O, S>(resolvedConfig)
@@ -357,7 +367,10 @@ export class Node<Options = any, Storage = any> extends Extendable<Options, Stor
   extend<
     ExtendedOptions = Options,
     ExtendedStorage = Storage,
-    ExtendedConfig extends NodeConfig<ExtendedOptions, ExtendedStorage> = NodeConfig<ExtendedOptions, ExtendedStorage>,
+    ExtendedConfig extends NodeConfig<ExtendedOptions, ExtendedStorage> = NodeConfig<
+      ExtendedOptions,
+      ExtendedStorage
+    >,
   >(
     extendedConfig?:
       | (() => Partial<ExtendedConfig>)

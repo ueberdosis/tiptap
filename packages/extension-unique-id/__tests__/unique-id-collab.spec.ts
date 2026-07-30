@@ -35,6 +35,52 @@ function createEditor(options: { withCollaboration?: boolean } = {}) {
   return new Editor({ extensions })
 }
 
+/**
+ * Minimal stand-in for a Hocuspocus/TiptapCloud provider's event emitter,
+ * tracking how many `synced` listeners are currently attached.
+ */
+function createMockProvider() {
+  const listeners: Record<string, ((...args: any[]) => void)[]> = {}
+
+  return {
+    on(event: string, cb: (...args: any[]) => void) {
+      ;(listeners[event] ??= []).push(cb)
+    },
+    off(event: string, cb: (...args: any[]) => void) {
+      listeners[event] = (listeners[event] ?? []).filter(fn => fn !== cb)
+    },
+    emit(event: string) {
+      ;(listeners[event] ?? []).slice().forEach(fn => fn())
+    },
+    listenerCount(event: string) {
+      return (listeners[event] ?? []).length
+    },
+  }
+}
+
+/**
+ * Mirrors the common collaboration setup: the Collaboration extension carries
+ * no provider (only the Y.Doc), while the provider lives on CollaborationCaret.
+ */
+function createCollabEditorWithProvider(provider: ReturnType<typeof createMockProvider>) {
+  idCounter = 0
+
+  return new Editor({
+    extensions: [
+      Document,
+      Paragraph,
+      Text,
+      UniqueID.configure({
+        attributeName: ATTR,
+        types: ['paragraph'],
+        generateID,
+      }),
+      Extension.create({ name: 'collaboration' }),
+      Extension.create({ name: 'collaborationCaret' }).configure({ provider }),
+    ],
+  })
+}
+
 function getParagraphIds(editor: Editor): (string | null)[] {
   const ids: (string | null)[] = []
 
@@ -123,6 +169,45 @@ describe('UniqueID collaboration handling', () => {
     expect(idsAfterOnCreate).toEqual(idsBeforeOnCreate)
 
     editor.destroy()
+  })
+
+  it('detaches the provider "synced" listener when destroyed before syncing', () => {
+    const provider = createMockProvider()
+    const editor = createCollabEditorWithProvider(provider)
+
+    // Flush the setTimeout(0) that triggers onCreate, which attaches the listener
+    vi.runAllTimers()
+
+    // While waiting for the provider to sync, exactly one listener is attached
+    expect(provider.listenerCount('synced')).toBe(1)
+
+    // Destroying before the provider syncs must detach the listener — otherwise
+    // the createIds closure keeps the whole editor reachable from the shared
+    // provider's emitter (the reported memory leak).
+    editor.destroy()
+
+    expect(provider.listenerCount('synced')).toBe(0)
+  })
+
+  it('detaches the provider "synced" listener after the provider syncs', () => {
+    const provider = createMockProvider()
+    const editor = createCollabEditorWithProvider(provider)
+
+    vi.runAllTimers()
+    expect(provider.listenerCount('synced')).toBe(1)
+
+    // Provider syncs: createIds runs and removes its own listener
+    provider.emit('synced')
+    expect(provider.listenerCount('synced')).toBe(0)
+
+    // All paragraphs should now have unique IDs
+    const ids = getParagraphIds(editor)
+    expect(ids.length).toBeGreaterThan(0)
+    expect(ids.every(id => id !== null && typeof id === 'string')).toBe(true)
+
+    // A later destroy must not throw or double-detach
+    editor.destroy()
+    expect(provider.listenerCount('synced')).toBe(0)
   })
 
   it('still assigns IDs immediately when no collaboration extension', () => {

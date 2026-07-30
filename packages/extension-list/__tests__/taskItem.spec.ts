@@ -4,7 +4,7 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { afterEach, describe, expect, it } from 'vitest'
 
-import { TaskItem, TaskList } from '../src/index.js'
+import { BulletList, ListItem, OrderedList, TaskItem, TaskList } from '../src/index.js'
 
 describe('TaskItem', () => {
   let editor: Editor
@@ -294,5 +294,373 @@ describe('TaskItem', () => {
     const updatedTaskItemElement = editor.view.dom.querySelector('li[data-checked]')
 
     expect(updatedTaskItemElement?.getAttribute('class')).toBe('static-class')
+  })
+
+  it('toggles off an ordered list when the whole document is selected', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, ListItem, OrderedList, BulletList],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'orderedList',
+            content: [
+              {
+                type: 'listItem',
+                content: [
+                  {
+                    type: 'paragraph',
+                    content: [{ type: 'text', text: 'Test item' }],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    editor.commands.selectAll()
+    expect(editor.state.selection.from).toBe(0)
+    expect(editor.state.selection.to).toBe(editor.state.doc.content.size)
+    editor.commands.toggleOrderedList()
+
+    expect(editor.getJSON()).toEqual({
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [{ type: 'text', text: 'Test item' }],
+        },
+      ],
+    })
+  })
+
+  it('toggles off a bullet list when the whole document is selected', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, ListItem, OrderedList, BulletList],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'bulletList',
+            content: [
+              {
+                type: 'listItem',
+                content: [
+                  {
+                    type: 'paragraph',
+                    content: [{ type: 'text', text: 'Test item' }],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    editor.commands.selectAll()
+    expect(editor.state.selection.from).toBe(0)
+    expect(editor.state.selection.to).toBe(editor.state.doc.content.size)
+    editor.commands.toggleBulletList()
+
+    expect(editor.getJSON()).toEqual({
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [{ type: 'text', text: 'Test item' }],
+        },
+      ],
+    })
+  })
+
+  it('converts a bullet list to an ordered list when the whole document is selected', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, ListItem, OrderedList, BulletList],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'bulletList',
+            content: [
+              {
+                type: 'listItem',
+                content: [
+                  {
+                    type: 'paragraph',
+                    content: [{ type: 'text', text: 'Test item' }],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    editor.commands.selectAll()
+    expect(editor.state.selection.from).toBe(0)
+    expect(editor.state.selection.to).toBe(editor.state.doc.content.size)
+    editor.commands.toggleOrderedList()
+
+    expect(editor.getJSON()).toEqual({
+      type: 'doc',
+      content: [
+        {
+          type: 'orderedList',
+          attrs: {
+            start: 1,
+            type: null,
+          },
+          content: [
+            {
+              type: 'listItem',
+              content: [
+                {
+                  type: 'paragraph',
+                  content: [{ type: 'text', text: 'Test item' }],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    })
+  })
+  it('reports ordered list toggle as available when the whole ordered list document is selected', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, ListItem, OrderedList, BulletList],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'orderedList',
+            attrs: {
+              start: 1,
+              type: null,
+            },
+            content: [
+              {
+                type: 'listItem',
+                content: [
+                  {
+                    type: 'paragraph',
+                    content: [{ type: 'text', text: 'Test item' }],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    editor.commands.selectAll()
+
+    expect(editor.can().toggleOrderedList()).toBe(true)
+  })
+  it('reports bullet list toggle as available when the whole bullet list document is selected', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, ListItem, OrderedList, BulletList],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'bulletList',
+            content: [
+              {
+                type: 'listItem',
+                content: [
+                  {
+                    type: 'paragraph',
+                    content: [{ type: 'text', text: 'Test item' }],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    editor.commands.selectAll()
+
+    expect(editor.can().toggleBulletList()).toBe(true)
+  })
+  it('reports ordered list toggle as available when the whole bullet list document is selected', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, ListItem, OrderedList, BulletList],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'bulletList',
+            content: [
+              {
+                type: 'listItem',
+                content: [
+                  {
+                    type: 'paragraph',
+                    content: [{ type: 'text', text: 'Test item' }],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    editor.commands.selectAll()
+
+    expect(editor.can().toggleOrderedList()).toBe(true)
+  })
+
+  it('reports bullet list toggle as available when the whole ordered list document is selected', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, ListItem, OrderedList, BulletList],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'orderedList',
+            content: [
+              {
+                type: 'listItem',
+                content: [
+                  {
+                    type: 'paragraph',
+                    content: [{ type: 'text', text: 'Test item' }],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    editor.commands.selectAll()
+
+    expect(editor.can().toggleBulletList()).toBe(true)
+  })
+
+  it('preserves text selection after toggling off an ordered list with AllSelection', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, ListItem, OrderedList, BulletList],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'orderedList',
+            content: [
+              {
+                type: 'listItem',
+                content: [
+                  {
+                    type: 'paragraph',
+                    content: [{ type: 'text', text: 'Test item' }],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    editor.commands.selectAll()
+    expect(editor.state.selection.from).toBe(0)
+    expect(editor.state.selection.to).toBe(editor.state.doc.content.size)
+
+    editor.commands.toggleOrderedList()
+
+    const { from, to } = editor.state.selection
+
+    expect(from).toBe(1)
+    expect(to).toBe(10)
+  })
+
+  it('preserves text selection after toggling off a bullet list with AllSelection', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, ListItem, OrderedList, BulletList],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'bulletList',
+            content: [
+              {
+                type: 'listItem',
+                content: [
+                  {
+                    type: 'paragraph',
+                    content: [{ type: 'text', text: 'Test item' }],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    editor.commands.selectAll()
+    expect(editor.state.selection.from).toBe(0)
+    expect(editor.state.selection.to).toBe(editor.state.doc.content.size)
+
+    editor.commands.toggleBulletList()
+
+    const { from, to } = editor.state.selection
+
+    expect(from).toBe(1)
+    expect(to).toBe(10)
+  })
+
+  it('preserves text selection after toggling off a multi-item ordered list with AllSelection', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, ListItem, OrderedList, BulletList],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'orderedList',
+            content: [
+              {
+                type: 'listItem',
+                content: [
+                  {
+                    type: 'paragraph',
+                    content: [{ type: 'text', text: 'First' }],
+                  },
+                ],
+              },
+              {
+                type: 'listItem',
+                content: [
+                  {
+                    type: 'paragraph',
+                    content: [{ type: 'text', text: 'Second' }],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    editor.commands.selectAll()
+    expect(editor.state.selection.from).toBe(0)
+    expect(editor.state.selection.to).toBe(editor.state.doc.content.size)
+
+    editor.commands.toggleOrderedList()
+
+    const { from, to } = editor.state.selection
+
+    expect(from).toBe(1)
+    expect(to).toBe(14)
   })
 })

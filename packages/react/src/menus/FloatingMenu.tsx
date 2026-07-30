@@ -10,18 +10,33 @@ import { useMenuElementProps } from './useMenuElementProps.js'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
-export type FloatingMenuProps = Omit<Optional<FloatingMenuPluginProps, 'pluginKey'>, 'element' | 'editor'> & {
+export type FloatingMenuProps = Omit<
+  Optional<FloatingMenuPluginProps, 'pluginKey'>,
+  'element' | 'editor'
+> & {
   editor: FloatingMenuPluginProps['editor'] | null
   options?: FloatingMenuPluginProps['options']
 } & React.HTMLAttributes<HTMLDivElement>
 
 export const FloatingMenu = React.forwardRef<HTMLDivElement, FloatingMenuProps>(
   (
-    { pluginKey, editor, updateDelay, resizeDelay, appendTo, shouldShow = null, options, children, ...restProps },
+    {
+      pluginKey,
+      editor,
+      updateDelay,
+      resizeDelay,
+      appendTo,
+      shouldShow = null,
+      options,
+      children,
+      ...restProps
+    },
     ref,
   ) => {
     const menuEl = useRef(document.createElement('div'))
-    const resolvedPluginKey = useRef<PluginKey | string>(getAutoPluginKey(pluginKey, 'floatingMenu')).current
+    const resolvedPluginKey = useRef<PluginKey | string>(
+      getAutoPluginKey(pluginKey, 'floatingMenu'),
+    ).current
 
     useMenuElementProps(menuEl.current, restProps)
 
@@ -130,7 +145,16 @@ export const FloatingMenu = React.forwardRef<HTMLDivElement, FloatingMenuProps>(
           options: floatingMenuPluginPropsRef.current,
         }),
       )
-    }, [pluginInitialized, pluginEditor, updateDelay, resizeDelay, shouldShow, options, appendTo, resolvedPluginKey])
+    }, [
+      pluginInitialized,
+      pluginEditor,
+      updateDelay,
+      resizeDelay,
+      shouldShow,
+      options,
+      appendTo,
+      resolvedPluginKey,
+    ])
 
     return createPortal(children, menuEl.current)
   },

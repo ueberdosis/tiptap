@@ -15,11 +15,11 @@ export type DOMOutputSpecArray =
 
 // JSX types for Tiptap's JSX runtime
 // These types only apply when using @jsxImportSource @tiptap/core
-// eslint-disable-next-line @typescript-eslint/no-namespace
+// oxlint-disable-next-lineno-namespace
 export namespace JSX {
   export type Element = DOMOutputSpecArray
   export interface IntrinsicElements {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-lineno-explicit-any
     [key: string]: any
   }
   export interface ElementChildrenAttribute {
@@ -51,7 +51,9 @@ export const h: JSXRenderer = (tag, attributes) => {
   const { children, ...rest } = attributes ?? {}
 
   if (tag === 'svg') {
-    throw new Error('SVG elements are not supported in the JSX syntax, use the array syntax instead')
+    throw new Error(
+      'SVG elements are not supported in the JSX syntax, use the array syntax instead',
+    )
   }
 
   // Otherwise, return the tag, attributes, and children

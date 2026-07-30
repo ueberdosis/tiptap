@@ -109,8 +109,11 @@ export const Paragraph = Node.create<ParagraphOptions>({
       // Emit &nbsp; for the second and later empty paragraphs in a consecutive
       // run at the current nesting level. The first empty paragraph stays empty
       // so markdown spacing is preserved naturally.
-      const previousContent = Array.isArray(ctx?.previousNode?.content) ? ctx.previousNode.content : []
-      const previousNodeIsEmptyParagraph = ctx?.previousNode?.type === 'paragraph' && previousContent.length === 0
+      const previousContent = Array.isArray(ctx?.previousNode?.content)
+        ? ctx.previousNode.content
+        : []
+      const previousNodeIsEmptyParagraph =
+        ctx?.previousNode?.type === 'paragraph' && previousContent.length === 0
 
       return previousNodeIsEmptyParagraph ? EMPTY_PARAGRAPH_MARKDOWN : ''
     }

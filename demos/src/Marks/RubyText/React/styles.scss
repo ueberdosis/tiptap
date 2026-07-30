@@ -1,0 +1,24 @@
+// fallow-ignore-file unused-file
+.tiptap {
+  :first-child {
+    margin-top: 0;
+  }
+
+  ruby {
+    ruby-position: over;
+  }
+
+  rt {
+    cursor: text;
+    pointer-events: auto;
+
+    input {
+      font: inherit;
+      margin: 0;
+    }
+  }
+}
+
+.control-group input {
+  margin-left: 0.5rem;
+}

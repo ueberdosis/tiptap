@@ -1,5 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { type ExtensionAttribute, type MarkType, type NodeType, mergeAttributes } from '@tiptap/core'
+/* oslint-disableno-explicit-any */
+import {
+  type ExtensionAttribute,
+  type MarkType,
+  type NodeType,
+  mergeAttributes,
+} from '@tiptap/core'
 
 /**
  * This function returns the attributes of a node or mark that are defined by the given extension attributes.
@@ -20,7 +25,9 @@ export function getAttributes(
 
   return extensionAttributes
     .filter(item => {
-      if (item.type !== (typeof nodeOrMark.type === 'string' ? nodeOrMark.type : nodeOrMark.type.name)) {
+      if (
+        item.type !== (typeof nodeOrMark.type === 'string' ? nodeOrMark.type : nodeOrMark.type.name)
+      ) {
         return false
       }
       if (onlyRenderedAttributes) {
@@ -31,13 +38,19 @@ export function getAttributes(
     .map(item => {
       if (!item.attribute.renderHTML) {
         return {
-          [item.name]: item.name in nodeOrMarkAttributes ? nodeOrMarkAttributes[item.name] : item.attribute.default,
+          [item.name]:
+            item.name in nodeOrMarkAttributes
+              ? nodeOrMarkAttributes[item.name]
+              : item.attribute.default,
         }
       }
 
       return (
         item.attribute.renderHTML(nodeOrMarkAttributes) || {
-          [item.name]: item.name in nodeOrMarkAttributes ? nodeOrMarkAttributes[item.name] : item.attribute.default,
+          [item.name]:
+            item.name in nodeOrMarkAttributes
+              ? nodeOrMarkAttributes[item.name]
+              : item.attribute.default,
         }
       )
     })
@@ -49,6 +62,9 @@ export function getAttributes(
  * @param nodeOrMark The node or mark to get the attributes from
  * @param extensionAttributes The extension attributes to use
  */
-export function getHTMLAttributes(nodeOrMark: NodeType | MarkType, extensionAttributes: ExtensionAttribute[]) {
+export function getHTMLAttributes(
+  nodeOrMark: NodeType | MarkType,
+  extensionAttributes: ExtensionAttribute[],
+) {
   return getAttributes(nodeOrMark, extensionAttributes, true)
 }

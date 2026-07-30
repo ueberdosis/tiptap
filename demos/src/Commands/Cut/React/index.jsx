@@ -7,7 +7,10 @@ import React, { useCallback } from 'react'
 
 const MenuBar = ({ editor }) => {
   const onCutToStart = useCallback(() => {
-    editor.chain().cut({ from: editor.state.selection.$from.pos, to: editor.state.selection.$to.pos }, 1).run()
+    editor
+      .chain()
+      .cut({ from: editor.state.selection.$from.pos, to: editor.state.selection.$to.pos }, 1)
+      .run()
   }, [editor])
 
   const onCutToEnd = useCallback(() => {

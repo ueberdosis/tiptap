@@ -2,7 +2,10 @@
   <div v-if="editor" class="container">
     <div class="control-group">
       <div class="button-group">
-        <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
+        <button
+          @click="editor.chain().focus().toggleBold().run()"
+          :class="{ 'is-active': editor.isActive('bold') }"
+        >
           Bold
         </button>
         <button
@@ -17,7 +20,10 @@
         >
           Strike
         </button>
-        <button @click="editor.chain().focus().toggleCode().run()" :class="{ 'is-active': editor.isActive('code') }">
+        <button
+          @click="editor.chain().focus().toggleCode().run()"
+          :class="{ 'is-active': editor.isActive('code') }"
+        >
           Code
         </button>
         <button @click="editor.chain().focus().unsetAllMarks().run()">Clear marks</button>

@@ -1,6 +1,6 @@
-import { computePosition } from '@floating-ui/dom'
 import { VueRenderer } from '@tiptap/vue-3'
 
+import { updatePosition } from '../../../utils/updatePosition.js'
 import EmojiList from './EmojiList.vue'
 
 export default {
@@ -18,25 +18,13 @@ export default {
   render: () => {
     let component
 
-    function repositionComponent(clientRect) {
-      if (!component || !component.element) {
-        return
-      }
-
-      const virtualElement = {
-        getBoundingClientRect() {
-          return clientRect
-        },
-      }
-
-      computePosition(virtualElement, component.element, {
+    function repositionComponent(editor) {
+      updatePosition({
+        editor,
+        element: component?.element,
         placement: 'bottom-start',
-      }).then(pos => {
-        Object.assign(component.element.style, {
-          left: `${pos.x}px`,
-          top: `${pos.y}px`,
-          position: pos.strategy === 'fixed' ? 'fixed' : 'absolute',
-        })
+        strategy: 'absolute',
+        middleware: [],
       })
     }
 
@@ -48,12 +36,12 @@ export default {
         })
 
         document.body.appendChild(component.element)
-        repositionComponent(props.clientRect())
+        repositionComponent(props.editor)
       },
 
       onUpdate(props) {
         component.updateProps(props)
-        repositionComponent(props.clientRect())
+        repositionComponent(props.editor)
       },
 
       onKeyDown(props) {

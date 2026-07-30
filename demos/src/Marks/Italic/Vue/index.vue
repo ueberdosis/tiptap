@@ -8,10 +8,16 @@
         >
           Toggle italic
         </button>
-        <button @click="editor.chain().focus().setItalic().run()" :disabled="editor.isActive('italic')">
+        <button
+          @click="editor.chain().focus().setItalic().run()"
+          :disabled="editor.isActive('italic')"
+        >
           Set italic
         </button>
-        <button @click="editor.chain().focus().unsetItalic().run()" :disabled="!editor.isActive('italic')">
+        <button
+          @click="editor.chain().focus().unsetItalic().run()"
+          :disabled="!editor.isActive('italic')"
+        >
           Unset italic
         </button>
       </div>

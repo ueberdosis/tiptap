@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-empty-object-type */
+/* oslint-disableno-empty-object-type */
 import type { MarkType, Node as ProseMirrorNode, NodeType, Schema } from '@tiptap/pm/model'
 import type { Plugin, PluginKey, Transaction } from '@tiptap/pm/state'
 import { EditorState } from '@tiptap/pm/state'
@@ -67,6 +67,8 @@ export class Editor extends EventEmitter<EditorEvents> {
   private editorView: EditorView | null = null
 
   public isFocused = false
+
+  private destroyed = false
 
   private editorState!: EditorState
 
@@ -141,14 +143,17 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.on('delete', this.options.onDelete)
 
     const initialDoc = this.createDoc()
-    const selection = resolveFocusPosition(initialDoc, this.options.autofocus)
 
-    // Set editor state immediately, so that it's available independently from the view
-    this.editorState = EditorState.create({
-      doc: initialDoc,
-      schema: this.schema,
-      selection: selection || undefined,
-    })
+    // createDoc() already seeds editorState from the fallback doc on a content error
+    if (!this.editorState) {
+      const selection = resolveFocusPosition(initialDoc, this.options.autofocus)
+
+      this.editorState = EditorState.create({
+        doc: initialDoc,
+        schema: this.schema,
+        selection: selection || undefined,
+      })
+    }
 
     if (this.options.element) {
       this.mount(this.options.element)
@@ -426,12 +431,15 @@ export class Editor extends EventEmitter<EditorEvents> {
       ? [
           Editable,
           ClipboardTextSerializer.configure({
-            blockSeparator: this.options.coreExtensionOptions?.clipboardTextSerializer?.blockSeparator,
+            blockSeparator:
+              this.options.coreExtensionOptions?.clipboardTextSerializer?.blockSeparator,
           }),
           Commands,
           FocusEvents,
           Keymap,
-          Tabindex,
+          Tabindex.configure({
+            value: this.options.coreExtensionOptions?.tabindex?.value,
+          }),
           Drop,
           Paste,
           Delete,
@@ -441,7 +449,9 @@ export class Editor extends EventEmitter<EditorEvents> {
         ].filter(ext => {
           if (typeof this.options.enableCoreExtensions === 'object') {
             return (
-              this.options.enableCoreExtensions[ext.name as keyof typeof this.options.enableCoreExtensions] !== false
+              this.options.enableCoreExtensions[
+                ext.name as keyof typeof this.options.enableCoreExtensions
+              ] !== false
             )
           }
           return true
@@ -483,11 +493,31 @@ export class Editor extends EventEmitter<EditorEvents> {
     } catch (e) {
       if (
         !(e instanceof Error) ||
-        !['[tiptap error]: Invalid JSON content', '[tiptap error]: Invalid HTML content'].includes(e.message)
+        !['[tiptap error]: Invalid JSON content', '[tiptap error]: Invalid HTML content'].includes(
+          e.message,
+        )
       ) {
         // Not the content error we were expecting
         throw e
       }
+
+      // Content is invalid, but attempt to create it anyway, stripping out the invalid parts
+      const fallbackDoc = createDocument(
+        this.options.content,
+        this.schema,
+        this.options.parseOptions,
+        {
+          errorOnInvalidContent: false,
+        },
+      )
+
+      // Seed editorState with the fallback doc so a handler can safely use `editor.commands`
+      this.editorState = EditorState.create({
+        doc: fallbackDoc,
+        schema: this.schema,
+        selection: resolveFocusPosition(fallbackDoc, this.options.autofocus) || undefined,
+      })
+
       this.emit('contentError', {
         editor: this,
         error: e as Error,
@@ -500,17 +530,16 @@ export class Editor extends EventEmitter<EditorEvents> {
             ;(this.storage.collaboration as any).isDisabled = true
           }
           // To avoid syncing back invalid content, reinitialize the extensions without the collaboration extension
-          this.options.extensions = this.options.extensions.filter(extension => extension.name !== 'collaboration')
+          this.options.extensions = this.options.extensions.filter(
+            extension => extension.name !== 'collaboration',
+          )
 
           // Restart the initialization process by recreating the extension manager with the new set of extensions
           this.createExtensionManager()
         },
       })
 
-      // Content is invalid, but attempt to create it anyway, stripping out the invalid parts
-      doc = createDocument(this.options.content, this.schema, this.options.parseOptions, {
-        errorOnInvalidContent: false,
-      })
+      return this.editorState.doc
     }
     return doc
   }
@@ -523,7 +552,8 @@ export class Editor extends EventEmitter<EditorEvents> {
     // If a user provided a custom `dispatchTransaction` through `editorProps`,
     // we use that as the base dispatch function.
     // Otherwise, we use Tiptap's internal `dispatchTransaction` method.
-    const baseDispatch = (editorProps as DirectEditorProps).dispatchTransaction || this.dispatchTransaction.bind(this)
+    const baseDispatch =
+      (editorProps as DirectEditorProps).dispatchTransaction || this.dispatchTransaction.bind(this)
     const dispatch = enableExtensionDispatchTransaction
       ? this.extensionManager.dispatchTransaction(baseDispatch)
       : baseDispatch
@@ -668,7 +698,7 @@ export class Editor extends EventEmitter<EditorEvents> {
       this.emit('focus', {
         editor: this,
         event: focus.event,
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        // oxlint-disable-next-lineno-non-null-assertion
         transaction: mostRecentFocusTr!,
       })
     }
@@ -677,7 +707,7 @@ export class Editor extends EventEmitter<EditorEvents> {
       this.emit('blur', {
         editor: this,
         event: blur.event,
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        // oxlint-disable-next-lineno-non-null-assertion
         transaction: mostRecentFocusTr!,
       })
     }
@@ -716,7 +746,8 @@ export class Editor extends EventEmitter<EditorEvents> {
   public isActive(nameOrAttributes: string, attributesOrUndefined?: {}): boolean {
     const name = typeof nameOrAttributes === 'string' ? nameOrAttributes : null
 
-    const attributes = typeof nameOrAttributes === 'string' ? attributesOrUndefined : nameOrAttributes
+    const attributes =
+      typeof nameOrAttributes === 'string' ? attributesOrUndefined : nameOrAttributes
 
     return isActive(this.state, name, attributes)
   }
@@ -741,7 +772,10 @@ export class Editor extends EventEmitter<EditorEvents> {
   /**
    * Get the document as text.
    */
-  public getText(options?: { blockSeparator?: string; textSerializers?: Record<string, TextSerializer> }): string {
+  public getText(options?: {
+    blockSeparator?: string
+    textSerializers?: Record<string, TextSerializer>
+  }): string {
     const { blockSeparator = '\n\n', textSerializers = {} } = options || {}
 
     return getText(this.state.doc, {
@@ -764,11 +798,23 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Destroy the editor.
    */
   public destroy(): void {
+    if (this.destroyed) {
+      return
+    }
+
+    this.destroyed = true
+
     this.emit('destroy')
 
     this.unmount()
 
     this.removeAllListeners()
+
+    this.extensionManager.destroy()
+    this.extensionManager = null as any
+    this.schema = null as any
+    this.commandManager = null as any
+    this.extensionStorage = {} as Storage
   }
 
   /**
@@ -788,8 +834,15 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   public $pos(pos: number) {
     const $pos = this.state.doc.resolve(pos)
+    // For positions directly before a non-text atom, resolvedPos.node() returns
+    // the parent, so pass the atom explicitly. Container nodes and $pos(0) keep
+    // resolving to the parent.
+    const node =
+      pos > 0 && $pos.nodeAfter && !$pos.nodeAfter.isText && $pos.nodeAfter.isAtom
+        ? $pos.nodeAfter
+        : null
 
-    return new NodePos($pos, this)
+    return new NodePos($pos, this, false, node)
   }
 
   get $doc() {

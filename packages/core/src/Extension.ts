@@ -1,9 +1,13 @@
 import type { Editor } from './Editor.js'
 import { type ExtendableConfig, Extendable } from './Extendable.js'
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface ExtensionConfig<Options = any, Storage = any>
-  extends ExtendableConfig<Options, Storage, ExtensionConfig<Options, Storage>, null> {}
+// oxlint-disable-next-lineno-empty-object-type
+export interface ExtensionConfig<Options = any, Storage = any> extends ExtendableConfig<
+  Options,
+  Storage,
+  ExtensionConfig<Options, Storage>,
+  null
+> {}
 
 /**
  * The Extension class is the base class for all extensions.

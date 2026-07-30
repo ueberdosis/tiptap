@@ -26,7 +26,7 @@ describe('generateHTML', () => {
 
     const html = generateHTML(json, [Document, Paragraph, Text])
 
-    expect(html).toBe('<p xmlns="http://www.w3.org/1999/xhtml">Example Text</p>')
+    expect(html).toBe('<p>Example Text</p>')
   })
 
   it('can convert from & to html', async () => {
@@ -62,7 +62,7 @@ describe('generateHTML', () => {
     })
 
     expect(generateHTML(json, extensions)).toBe(
-      '<p xmlns="http://www.w3.org/1999/xhtml">Tiptap now supports YouTube embeds! Awesome!</p><div xmlns="http://www.w3.org/1999/xhtml" data-youtube-video=""><iframe width="640" height="480" allowfullscreen="true" autoplay="false" disablekbcontrols="false" enableiframeapi="false" endtime="0" ivloadpolicy="0" loop="false" modestbranding="false" origin="" playlist="" rel="1" src="https://www.youtube.com/embed/cqHqLQgVCgY?rel=1" start="0"></iframe></div>',
+      '<p>Tiptap now supports YouTube embeds! Awesome!</p><div data-youtube-video=""><iframe width="640" height="480" allowfullscreen="true" autoplay="false" disablekbcontrols="false" enableiframeapi="false" endtime="0" ivloadpolicy="0" loop="false" modestbranding="false" origin="" playlist="" rel="1" src="https://www.youtube.com/embed/cqHqLQgVCgY?rel=1" start="0"></iframe></div>',
     )
   })
 
@@ -239,9 +239,9 @@ describe('generateHTML', () => {
     expect(json).toEqual(expected)
 
     expect(generateHTML(json, extensions)).toBe(
-      `<h2 xmlns="http://www.w3.org/1999/xhtml">Hi there,</h2><p xmlns="http://www.w3.org/1999/xhtml">this is a <em>basic</em> example of <strong>Tiptap</strong>. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:</p><ul xmlns="http://www.w3.org/1999/xhtml"><li><p>That’s a bullet list with one …</p></li><li><p>… or two list items.</p></li></ul><p xmlns="http://www.w3.org/1999/xhtml">Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:</p><pre xmlns="http://www.w3.org/1999/xhtml"><code class="language-css">body {
+      `<h2>Hi there,</h2><p>this is a <em>basic</em> example of <strong>Tiptap</strong>. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:</p><ul><li><p>That’s a bullet list with one …</p></li><li><p>… or two list items.</p></li></ul><p>Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:</p><pre><code class="language-css">body {
   display: none;
-}</code></pre><p xmlns="http://www.w3.org/1999/xhtml">I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.</p><blockquote xmlns="http://www.w3.org/1999/xhtml"><p>Wow, that’s amazing. Good work, boy! 👏 <br />— Mom</p></blockquote>`,
+}</code></pre><p>I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.</p><blockquote><p>Wow, that’s amazing. Good work, boy! 👏 <br>— Mom</p></blockquote>`,
     )
   })
 })

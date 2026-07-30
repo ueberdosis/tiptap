@@ -88,13 +88,20 @@ export function mergeAttributes(...objects: Record<string, any>[]): Record<strin
 
         if (key === 'class') {
           const valueClasses: string[] = value ? String(value).split(' ') : []
-          const existingClasses: string[] = mergedAttributes[key] ? mergedAttributes[key].split(' ') : []
+          const existingClasses: string[] = mergedAttributes[key]
+            ? mergedAttributes[key].split(' ')
+            : []
 
-          const insertClasses = valueClasses.filter(valueClass => !existingClasses.includes(valueClass))
+          const insertClasses = valueClasses.filter(
+            valueClass => !existingClasses.includes(valueClass),
+          )
 
           mergedAttributes[key] = [...existingClasses, ...insertClasses].join(' ')
         } else if (key === 'style') {
-          const styleMap = new Map([...parseStyleEntries(mergedAttributes[key]), ...parseStyleEntries(value)])
+          const styleMap = new Map([
+            ...parseStyleEntries(mergedAttributes[key]),
+            ...parseStyleEntries(value),
+          ])
 
           mergedAttributes[key] = Array.from(styleMap.entries())
             .map(([property, val]) => `${property}: ${val}`)

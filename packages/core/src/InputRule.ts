@@ -8,7 +8,13 @@ import type { Editor } from './Editor.js'
 import { createChainableState } from './helpers/createChainableState.js'
 import { getHTMLFromFragment } from './helpers/getHTMLFromFragment.js'
 import { getTextContentFromNodes } from './helpers/getTextContentFromNodes.js'
-import type { CanCommands, ChainedCommands, ExtendedRegExpMatchArray, Range, SingleCommands } from './types.js'
+import type {
+  CanCommands,
+  ChainedCommands,
+  ExtendedRegExpMatchArray,
+  Range,
+  SingleCommands,
+} from './types.js'
 import { isRegExp } from './utilities/isRegExp.js'
 
 export type InputRuleMatch = {
@@ -53,7 +59,10 @@ export class InputRule {
   }
 }
 
-const inputRuleMatcherHandler = (text: string, find: InputRuleFinder): ExtendedRegExpMatchArray | null => {
+const inputRuleMatcherHandler = (
+  text: string,
+  find: InputRuleFinder,
+): ExtendedRegExpMatchArray | null => {
   if (isRegExp(find)) {
     return find.exec(text)
   }
@@ -72,7 +81,9 @@ const inputRuleMatcherHandler = (text: string, find: InputRuleFinder): ExtendedR
 
   if (inputRuleMatch.replaceWith) {
     if (!inputRuleMatch.text.includes(inputRuleMatch.replaceWith)) {
-      console.warn('[tiptap warn]: "inputRuleMatch.replaceWith" must be part of "inputRuleMatch.text".')
+      console.warn(
+        '[tiptap warn]: "inputRuleMatch.replaceWith" must be part of "inputRuleMatch.text".',
+      )
     }
 
     result.push(inputRuleMatch.replaceWith)
@@ -120,6 +131,22 @@ function run(config: {
 
     if (!match) {
       return
+    }
+
+    // Leaf nodes have a different length in text and the document.
+    // Skip matches across them to avoid wrong document positions.
+    const matchedDocLength = match[0].length - text.length
+
+    if (matchedDocLength > 0) {
+      const matchStartOffset = $from.parentOffset - matchedDocLength
+
+      if (
+        matchStartOffset < 0 ||
+        $from.parent.textBetween(matchStartOffset, $from.parentOffset) !==
+          match[0].slice(0, matchedDocLength)
+      ) {
+        return
+      }
     }
 
     const tr = view.state.tr

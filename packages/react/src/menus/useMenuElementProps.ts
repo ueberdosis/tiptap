@@ -24,7 +24,14 @@ type EventListenerEntry = {
   options?: MenuEventListenerOptions
 }
 
-const PLUGIN_MANAGED_STYLE_PROPERTIES = new Set(['left', 'opacity', 'position', 'top', 'visibility', 'width'])
+const PLUGIN_MANAGED_STYLE_PROPERTIES = new Set([
+  'left',
+  'opacity',
+  'position',
+  'top',
+  'visibility',
+  'width',
+])
 const UNITLESS_STYLE_PROPERTIES = new Set([
   'animationIterationCount',
   'aspectRatio',
@@ -219,7 +226,11 @@ function applyStyleProperty(element: HTMLDivElement, styleName: string, value: s
   element.style.setProperty(toStylePropertyName(styleName), toStyleValue(styleName, value))
 }
 
-function syncAttributes(element: HTMLDivElement, prevProps: MenuElementProps, nextProps: MenuElementProps) {
+function syncAttributes(
+  element: HTMLDivElement,
+  prevProps: MenuElementProps,
+  nextProps: MenuElementProps,
+) {
   const allKeys = new Set([...Object.keys(prevProps), ...Object.keys(nextProps)])
 
   allKeys.forEach(key => {
@@ -307,7 +318,11 @@ function syncStyles(
   })
 }
 
-function syncEventListeners(element: HTMLDivElement, prevListeners: EventListenerEntry[], nextProps: MenuElementProps) {
+function syncEventListeners(
+  element: HTMLDivElement,
+  prevListeners: EventListenerEntry[],
+  nextProps: MenuElementProps,
+) {
   prevListeners.forEach(({ eventName, listener, options }) => {
     element.removeEventListener(eventName, listener, options)
   })

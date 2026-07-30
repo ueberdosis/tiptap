@@ -86,7 +86,10 @@ export const Details = Node.create<DetailsOptions>({
       openClassName: 'is-open',
       HTMLAttributes: {},
       renderToggleButton: ({ element, isOpen }) => {
-        element.setAttribute('aria-label', isOpen ? 'Collapse details content' : 'Expand details content')
+        element.setAttribute(
+          'aria-label',
+          isOpen ? 'Collapse details content' : 'Expand details content',
+        )
       },
     }
   },
@@ -212,7 +215,7 @@ export const Details = Node.create<DetailsOptions>({
             .command(({ tr }) => {
               const pos = getPos()
 
-              if (!pos) {
+              if (typeof pos !== 'number') {
                 return false
               }
 
@@ -245,7 +248,11 @@ export const Details = Node.create<DetailsOptions>({
             return false
           }
 
-          return !dom.contains(mutation.target) || dom === mutation.target
+          const target = mutation.target
+          const isInsideWrapper = dom.contains(target)
+          const isInsideToggleButton = toggle.contains(target)
+
+          return isInsideToggleButton || !isInsideWrapper || dom === target
         },
         update: updatedNode => {
           if (updatedNode.type !== this.type) {
@@ -323,8 +330,14 @@ export const Details = Node.create<DetailsOptions>({
             return false
           }
 
-          const detailsSummaries = findChildren(details.node, node => node.type === schema.nodes.detailsSummary)
-          const detailsContents = findChildren(details.node, node => node.type === schema.nodes.detailsContent)
+          const detailsSummaries = findChildren(
+            details.node,
+            node => node.type === schema.nodes.detailsSummary,
+          )
+          const detailsContents = findChildren(
+            details.node,
+            node => node.type === schema.nodes.detailsContent,
+          )
 
           if (!detailsSummaries.length || !detailsContents.length) {
             return false
@@ -340,7 +353,9 @@ export const Details = Node.create<DetailsOptions>({
           const defaultTypeForSummary = $from.parent.type.contentMatch.defaultType
 
           // TODO: this may break for some custom schemas
-          const summaryContent = defaultTypeForSummary?.create(null, detailsSummary.node.content).toJSON()
+          const summaryContent = defaultTypeForSummary
+            ?.create(null, detailsSummary.node.content)
+            .toJSON()
           const mergedContent = [summaryContent, ...content]
 
           return chain()
@@ -482,7 +497,8 @@ export const Details = Node.create<DetailsOptions>({
           }
 
           const detailsSummary = detailsSummaries[0]
-          const selectionDirection = oldState.selection.from < newState.selection.from ? 'forward' : 'backward'
+          const selectionDirection =
+            oldState.selection.from < newState.selection.from ? 'forward' : 'backward'
           const correctedPosition =
             selectionDirection === 'forward'
               ? details.start + detailsSummary.pos

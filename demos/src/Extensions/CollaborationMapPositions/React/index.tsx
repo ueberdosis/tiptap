@@ -69,7 +69,9 @@ const DecorationsExtension = Extension.create({
             }
 
             // If the transaction adds a decoration, add it to the decoration data.
-            const metadata = transaction.getMeta(DecorationsPluginKey) as MappablePosition | undefined
+            const metadata = transaction.getMeta(DecorationsPluginKey) as
+              | MappablePosition
+              | undefined
             if (metadata) {
               decorationData.push(metadata)
             }
@@ -92,7 +94,7 @@ const DecorationsExtension = Extension.create({
 
 const ydoc = new Y.Doc()
 
-// eslint-disable-next-line no-new
+// oxlint-disable-next-line no-new
 new WebrtcProvider('tiptap-collaboration-extension', ydoc)
 
 export default () => {
@@ -105,7 +107,8 @@ export default () => {
         document: ydoc,
       }),
       Placeholder.configure({
-        placeholder: 'Write something … It’ll be shared with everyone else looking at this example.',
+        placeholder:
+          'Write something … It’ll be shared with everyone else looking at this example.',
       }),
       DecorationsExtension,
     ],

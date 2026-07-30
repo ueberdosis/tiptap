@@ -152,15 +152,22 @@ const DecorationsExtension = Extension.create({
             if (transaction.docChanged && positions.length > 0) {
               const startTime = performance.now()
 
-              positions = positions.map(position => editor.utils.getUpdatedPosition(position, transaction).position)
+              positions = positions.map(
+                position => editor.utils.getUpdatedPosition(position, transaction).position,
+              )
               mappingDuration = performance.now() - startTime
 
               if (performanceCallback) {
-                performanceCallback(`Position mapping (${positions.length} positions)`, mappingDuration)
+                performanceCallback(
+                  `Position mapping (${positions.length} positions)`,
+                  mappingDuration,
+                )
               }
             }
 
-            const metadata = transaction.getMeta(DecorationsPluginKey) as DecorationsMeta | undefined
+            const metadata = transaction.getMeta(DecorationsPluginKey) as
+              | DecorationsMeta
+              | undefined
 
             if (metadata) {
               if (metadata.type === 'clear') {
@@ -191,7 +198,7 @@ const DecorationsExtension = Extension.create({
 
 const ydoc = new Y.Doc()
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// oxlint-disable-next-line no-unused-vars
 const provider = new WebrtcProvider('tiptap-collab-mapping-perf-experiment', ydoc)
 
 /**
@@ -403,7 +410,10 @@ export default () => {
 
         <div className="button-group">
           <label>Decorations:</label>
-          <select value={decorationCount} onChange={e => setDecorationCount(Number(e.target.value) as DecorationCount)}>
+          <select
+            value={decorationCount}
+            onChange={e => setDecorationCount(Number(e.target.value) as DecorationCount)}
+          >
             {DECORATION_COUNTS.map(count => (
               <option key={count} value={count}>
                 {count}
@@ -439,7 +449,8 @@ export default () => {
           </div>
           {performanceLog.map((entry, index) => (
             <div key={index} className="performance-log-entry">
-              {new Date(entry.timestamp).toLocaleTimeString()}: {entry.action} - {entry.duration.toFixed(2)}ms
+              {new Date(entry.timestamp).toLocaleTimeString()}: {entry.action} -{' '}
+              {entry.duration.toFixed(2)}ms
             </div>
           ))}
         </div>
