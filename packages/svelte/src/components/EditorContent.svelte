@@ -10,7 +10,9 @@
       return
     }
 
-    if (!editor.view.dom?.parentNode) {
+    // `editor.view` is a throwing proxy until the editor is mounted, and
+    // `isDestroyed` is true in that case, so check it before touching the view.
+    if (editor.isDestroyed || !editor.view.dom?.parentNode) {
       return
     }
 
