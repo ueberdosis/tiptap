@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.29.2
+
+### Patch Changes
+
+- e914605: Fixed the caret jumping back to the previous block when pressing Enter inside a React node view.
+  - @tiptap/core@3.29.2
+  - @tiptap/pm@3.29.2
+
 ## 3.29.1
 
 ### Patch Changes
