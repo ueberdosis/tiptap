@@ -566,7 +566,8 @@ export class Editor extends EventEmitter<EditorEvents> {
         error,
       )
 
-      return repairNode(doc) ?? doc
+      // A document that cannot be repaired would still crash the view, so start over empty.
+      return repairNode(doc) ?? this.schema.topNodeType.createAndFill() ?? doc
     }
   }
 
