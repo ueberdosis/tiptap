@@ -17,14 +17,31 @@
     }
 
     const element = rootEl
+    const mountedEditor = editor
 
-    rootEl.append(...editor.view.dom.parentNode.childNodes)
+    element.append(...editor.view.dom.parentNode.childNodes)
 
     editor.setOptions({
       element,
     })
 
     editor.createNodeViews()
+
+    return () => {
+      if (mountedEditor.isDestroyed) {
+        return
+      }
+
+      // Move the editor DOM out of our element so a replacement editor does not
+      // render next to it. The editor stays usable and can mount again later.
+      const detachedElement = document.createElement('div')
+
+      detachedElement.append(...element.childNodes)
+
+      mountedEditor.setOptions({
+        element: detachedElement,
+      })
+    }
   })
 </script>
 

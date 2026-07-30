@@ -5,7 +5,7 @@
 
   let { editor, children }: { editor: Editor; children?: Snippet } = $props()
 
-  setEditor(editor)
+  setEditor(() => editor)
 </script>
 
 {#if children}

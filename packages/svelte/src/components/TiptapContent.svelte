@@ -2,7 +2,7 @@
   import { getEditor } from './editorContext.js'
   import EditorContent from './EditorContent.svelte'
 
-  const editor = getEditor()
+  const editor = $derived(getEditor())
 </script>
 
 <EditorContent editor={editor} />
