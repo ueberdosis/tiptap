@@ -19,6 +19,10 @@ describe('EditorContent', () => {
     mountedElements.length = 0
   })
 
+  /**
+   * Mounts an `EditorContent` for the given editor inside a fresh shadow root
+   * attached to `document.body`, and returns the Vue app plus the shadow root.
+   */
   function mountEditorContentInShadowRoot(editor: Editor) {
     const host = document.createElement('div')
 
