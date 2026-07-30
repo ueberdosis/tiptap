@@ -558,10 +558,9 @@ export class Editor extends EventEmitter<EditorEvents> {
 
       return doc
     } catch (error) {
+      // The error names the node types that did not fit, so there is no need to log the content.
       console.warn(
         '[tiptap warn]: Invalid content. The content did not match the schema and was repaired.',
-        'Passed value:',
-        this.options.content,
         'Error:',
         error,
       )
