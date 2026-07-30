@@ -62,15 +62,16 @@
 </template>
 
 <script>
+import { BubbleMenu as BubbleMenuExtension } from '@tiptap/extension-bubble-menu'
 import { findParentNode, posToDOMRect } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
-import { BubbleMenu } from '@tiptap/vue-3/menus'
+import { BubbleMenu as BubbleMenuComponent } from '@tiptap/vue-3/menus'
 
 export default {
   components: {
     EditorContent,
-    BubbleMenu,
+    BubbleMenu: BubbleMenuComponent,
   },
 
   data() {
@@ -89,7 +90,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [StarterKit],
+      extensions: [StarterKit, BubbleMenuExtension],
       content: `
         <p>
           Hey, try to select some text here. There will popup a menu for selecting some inline styles. Remember: you have full control about content and styling of this menu.
