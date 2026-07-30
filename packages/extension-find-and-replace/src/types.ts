@@ -27,7 +27,7 @@ export interface FindAndReplaceOptions {
   useRegex: boolean
 
   /**
-   * Whether to match whole words only. Ignored when `useRegex` is enabled.
+   * Whether to constrain literal or regex matches to Unicode whole-word boundaries.
    * @default false
    */
   wholeWord: boolean
@@ -74,7 +74,7 @@ export interface FindAndReplaceStorage {
   useRegex: boolean
 
   /**
-   * Whether to match whole words only. Ignored when `useRegex` is enabled.
+   * Whether literal or regex matches are constrained to Unicode whole-word boundaries.
    */
   wholeWord: boolean
 

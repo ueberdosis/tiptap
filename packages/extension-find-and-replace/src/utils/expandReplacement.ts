@@ -1,4 +1,5 @@
 import type { SearchRegex } from '../search/regex.js'
+import { findSafeMatcherMatches } from '../search/find-safe-matcher-matches.js'
 
 interface ReplacementMatch {
   captures: readonly (string | null | undefined)[]
@@ -82,34 +83,40 @@ function safeNamedCaptures(
   return new Map(groupNames.map(name => [name, matcher.group(name)] as const))
 }
 
-function safeMatchValue(matcher: SafeMatcher): string {
-  return matcher.group() ?? ''
+function safeMatchValue(matcher: SafeMatcher, resultGroup: number): string {
+  return matcher.group(resultGroup) ?? ''
 }
 
 function* safeMatches(
   regex: Exclude<SearchRegex, RegExp>,
   text: string,
+  resultGroup: number,
 ): Generator<LocatedReplacementMatch> {
-  const matcher = regex.matcher(text)
-
-  while (matcher.find()) {
-    const value = safeMatchValue(matcher)
-    const from = matcher.start()
+  for (const matcher of findSafeMatcherMatches(regex, text, resultGroup)) {
+    const value = safeMatchValue(matcher, resultGroup)
+    const from = matcher.start(resultGroup)
+    const captureCount = matcher.groupCount() - resultGroup
 
     yield {
-      captures: Array.from({ length: matcher.groupCount() }, (_, index) =>
-        matcher.group(index + 1),
+      captures: Array.from({ length: captureCount }, (_, index) =>
+        matcher.group(resultGroup + index + 1),
       ),
       from,
       namedCaptures: safeNamedCaptures(regex, matcher),
-      to: matcher.end(),
+      to: matcher.end(resultGroup),
       value,
     }
   }
 }
 
-function replacementMatches(regex: SearchRegex, text: string): Generator<LocatedReplacementMatch> {
-  return regex instanceof RegExp ? nativeMatches(regex, text) : safeMatches(regex, text)
+function replacementMatches(
+  regex: SearchRegex,
+  text: string,
+  resultGroup: number,
+): Generator<LocatedReplacementMatch> {
+  return regex instanceof RegExp
+    ? nativeMatches(regex, text)
+    : safeMatches(regex, text, resultGroup)
 }
 
 function hasLocation(match: LocatedReplacementMatch, from: number, to: number): boolean {
@@ -121,8 +128,9 @@ function findReplacementMatch(
   text: string,
   from: number,
   to: number,
+  resultGroup: number,
 ): ReplacementMatch | null {
-  for (const match of replacementMatches(regex, text)) {
+  for (const match of replacementMatches(regex, text, resultGroup)) {
     if (hasLocation(match, from, to)) {
       return match
     }
@@ -220,10 +228,11 @@ export function createReplacementExpander(
   regex: SearchRegex,
   text: string,
   replacement: string,
+  resultGroup = 0,
 ): ReplacementExpander {
   const matches = new Map<string, ReplacementMatch>()
 
-  for (const match of replacementMatches(regex, text)) {
+  for (const match of replacementMatches(regex, text, resultGroup)) {
     matches.set(matchKey(match.from, match.to), match)
   }
 
@@ -245,6 +254,7 @@ export function expandReplacement(
   replacement: string,
   from = 0,
   to = text.length,
+  resultGroup = 0,
 ): string {
-  return expandMatch(findReplacementMatch(regex, text, from, to), replacement)
+  return expandMatch(findReplacementMatch(regex, text, from, to, resultGroup), replacement)
 }

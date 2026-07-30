@@ -790,14 +790,161 @@ describe('FindAndReplace', () => {
     ])
   })
 
-  it('ignores wholeWord when regex mode is enabled', () => {
+  it('finds only whole words when regex mode is enabled', () => {
     editor.destroy()
     editor = createEditor('<p>hello helloworld worldhello hello</p>')
     editor.commands.setUseRegex(true)
     editor.commands.setSearchTerm('hello')
     editor.commands.setWholeWord(true)
 
-    expect(editor.storage.findAndReplace.results).toHaveLength(4)
+    expect(editor.storage.findAndReplace.results).toEqual([
+      { from: 1, to: 6 },
+      { from: 29, to: 34 },
+    ])
+  })
+
+  it('finds Unicode whole words when regex mode is enabled', () => {
+    editor.destroy()
+    editor = createEditor('<p>café caféine café</p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('café')
+    editor.commands.setWholeWord(true)
+
+    expect(editor.storage.findAndReplace.results).toEqual([
+      { from: 1, to: 5 },
+      { from: 14, to: 18 },
+    ])
+  })
+
+  it('rejects regex matches adjacent to astral Unicode word characters', () => {
+    editor.destroy()
+    editor = createEditor('<p>𐐀cat cat𐐀 cat</p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('cat')
+    editor.commands.setWholeWord(true)
+
+    expect(editor.storage.findAndReplace.results).toEqual([{ from: 13, to: 16 }])
+  })
+
+  it('tries later regex alternatives when the first one is not a whole word', () => {
+    editor.destroy()
+    editor = createEditor('<p>catalog cat cats</p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('cat|catalog')
+    editor.commands.setWholeWord(true)
+
+    expect(editor.storage.findAndReplace.results).toEqual([
+      { from: 1, to: 8 },
+      { from: 9, to: 12 },
+    ])
+  })
+
+  it('tries longer regex alternatives when a boundary requires them', () => {
+    editor.destroy()
+    editor = createEditor('<p>cat cats</p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('cat|cats')
+    editor.commands.setWholeWord(true)
+
+    expect(editor.storage.findAndReplace.results).toEqual([
+      { from: 1, to: 4 },
+      { from: 5, to: 9 },
+    ])
+  })
+
+  it('reuses shared punctuation boundaries between consecutive matches', () => {
+    editor.destroy()
+    editor = createEditor('<p>cat-cat.cat</p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('cat')
+    editor.commands.setWholeWord(true)
+
+    expect(editor.storage.findAndReplace.results).toEqual([
+      { from: 1, to: 4 },
+      { from: 5, to: 8 },
+      { from: 9, to: 12 },
+    ])
+  })
+
+  it('preserves inline regex flags when whole-word mode wraps the pattern', () => {
+    editor.destroy()
+    editor = createEditor('<p>Catalog CAT cats</p>')
+    editor.commands.setCaseSensitive(true)
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('(?i)cat|catalog')
+    editor.commands.setWholeWord(true)
+
+    expect(editor.storage.findAndReplace.results).toEqual([
+      { from: 1, to: 8 },
+      { from: 9, to: 12 },
+    ])
+  })
+
+  it('backtracks quantified whitespace to preserve whole-word matches', () => {
+    editor.destroy()
+    editor = createEditor('<p>(cat) #cat cat! cat.cat cat-cat</p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('\\s*cat\\s*')
+    editor.commands.setWholeWord(true)
+
+    expect(editor.storage.findAndReplace.results).toEqual([
+      { from: 2, to: 5 },
+      { from: 8, to: 11 },
+      { from: 12, to: 15 },
+      { from: 16, to: 20 },
+      { from: 21, to: 24 },
+      { from: 25, to: 28 },
+      { from: 29, to: 32 },
+    ])
+  })
+
+  it('preserves numeric captures when replacing boundary-constrained alternatives', () => {
+    editor.destroy()
+    editor = createEditor('<p>catalog cat cats</p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('(cat|catalog)')
+    editor.commands.setWholeWord(true)
+    editor.commands.setReplaceTerm('[$1]')
+    editor.commands.replaceAll()
+
+    expect(editor.getText()).toBe('[catalog] [cat] cats')
+  })
+
+  it('preserves captures when replacing one boundary-constrained result', () => {
+    editor.destroy()
+    editor = createEditor('<p>catalog cat cats</p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('(cat|catalog)')
+    editor.commands.setWholeWord(true)
+    editor.commands.setReplaceTerm('[$1]-$&')
+    editor.commands.replace()
+
+    expect(editor.getText()).toBe('[catalog]-catalog cat cats')
+  })
+
+  it('preserves named captures when replacing boundary-constrained alternatives', () => {
+    editor.destroy()
+    editor = createEditor('<p>catalog cat cats</p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('(?P<word>cat|catalog)')
+    editor.commands.setWholeWord(true)
+    editor.commands.setReplaceTerm('[$<word>]-$&')
+    editor.commands.replaceAll()
+
+    expect(editor.getText()).toBe('[catalog]-catalog [cat]-cat cats')
+  })
+
+  it('finds Unicode alternatives that satisfy whole-word boundaries', () => {
+    editor.destroy()
+    editor = createEditor('<p>caféine café</p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('café|caféine')
+    editor.commands.setWholeWord(true)
+
+    expect(editor.storage.findAndReplace.results).toEqual([
+      { from: 1, to: 8 },
+      { from: 9, to: 13 },
+    ])
   })
 
   it('syncs wholeWord to the storage', () => {

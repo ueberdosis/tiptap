@@ -1,7 +1,7 @@
 import type { Node } from '@tiptap/pm/model'
 
 import { findMatches } from './matches.js'
-import type { SearchRegex } from './regex.js'
+import type { SearchMatcher } from './search-matcher.js'
 import {
   createTextblockSearchContext,
   offsetToPos,
@@ -9,11 +9,15 @@ import {
 } from './text-segments.js'
 import type { SearchResult } from './types.js'
 
-export function searchTextblock(regex: SearchRegex, textblock: Node, pos: number): SearchResult[] {
+export function searchTextblock(
+  matcher: SearchMatcher,
+  textblock: Node,
+  pos: number,
+): SearchResult[] {
   const { segments, text } = createTextblockSearchContext(textblock, pos)
   const results: SearchResult[] = []
 
-  for (const match of findMatches(regex, text)) {
+  for (const match of findMatches(matcher, text)) {
     if (match.value.length === 0) {
       continue
     }

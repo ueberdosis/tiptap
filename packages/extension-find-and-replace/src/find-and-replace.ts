@@ -9,8 +9,9 @@ import {
 } from './state/debounced-search-state.js'
 import type { FindAndReplaceMeta, FindAndReplacePluginState } from './plugin/plugin.js'
 import { FindAndReplacePlugin, FindAndReplacePluginKey } from './plugin/plugin.js'
-import { createSearchRegex, findNextIndex, searchDocument } from './search/search.js'
+import { findNextIndex, searchDocument } from './search/search.js'
 import type { SearchResult } from './search/search.js'
+import { createSearchMatcher } from './search/search-matcher.js'
 import type { FindAndReplaceOptions, FindAndReplaceStorage } from './types.js'
 import { createResultReplacement } from './utils/createResultReplacement.js'
 import { replaceAllResults } from './utils/replaceAllResults.js'
@@ -50,7 +51,7 @@ declare module '@tiptap/core' {
       setUseRegex: (useRegex: boolean) => ReturnType
 
       /**
-       * Set whether to match whole words only. Ignored when regex mode is enabled.
+       * Set whether to constrain matches to Unicode whole-word boundaries.
        * @param wholeWord The new whole word mode.
        * @example editor.commands.setWholeWord(true)
        */
@@ -187,10 +188,10 @@ function replaceResult(
   result: SearchResult,
 ): void {
   const { searchTerm, replaceTerm, caseSensitive, useRegex, wholeWord } = pluginState
-  const regex = useRegex
-    ? createSearchRegex(searchTerm, { caseSensitive, useRegex, wholeWord })
+  const matcher = useRegex
+    ? createSearchMatcher(searchTerm, { caseSensitive, useRegex, wholeWord })
     : null
-  const replacement = createResultReplacement(tr.doc, replaceTerm, regex)(result)
+  const replacement = createResultReplacement(tr.doc, replaceTerm, matcher)(result)
 
   tr.insertText(replacement, result.from, result.to)
 
@@ -377,15 +378,15 @@ export const FindAndReplace = Extension.create<FindAndReplaceOptions, FindAndRep
           }
 
           if (dispatch) {
-            const regex = pluginState.useRegex
-              ? createSearchRegex(pluginState.searchTerm, {
+            const matcher = pluginState.useRegex
+              ? createSearchMatcher(pluginState.searchTerm, {
                   caseSensitive: pluginState.caseSensitive,
                   useRegex: pluginState.useRegex,
                   wholeWord: pluginState.wholeWord,
                 })
               : null
 
-            replaceAllResults(tr, state, pluginState.results, pluginState.replaceTerm, regex)
+            replaceAllResults(tr, state, pluginState.results, pluginState.replaceTerm, matcher)
           }
 
           return true

@@ -1,7 +1,7 @@
 import type { Node } from '@tiptap/pm/model'
 
-import type { SearchRegex } from '../search/regex.js'
 import type { SearchResult } from '../search/search.js'
+import type { SearchMatcher } from '../search/search-matcher.js'
 import { createTextblockSearchContext, textOffsetAtPos } from '../search/text-segments.js'
 import {
   createReplacementExpander,
@@ -21,20 +21,21 @@ interface ReplacementContext {
  * Creates a replacement resolver that re-matches results in their textblock context.
  * @param doc The document containing the search results.
  * @param replacement The replacement template.
- * @param regex The compiled regex, or `null` for literal replacement.
+ * @param matcher The compiled matcher, or `null` for literal replacement.
  * @param indexMatches Whether to index every textblock match for a batch replacement.
  * @returns A resolver for the replacement text of each result.
  */
 export function createResultReplacement(
   doc: Node,
   replacement: string,
-  regex: SearchRegex | null,
+  matcher: SearchMatcher | null,
   indexMatches = false,
 ): ResultReplacement {
-  if (!regex || !hasReplacementTokens(replacement)) {
+  if (!matcher || !hasReplacementTokens(replacement)) {
     return () => replacement
   }
 
+  const { regex, resultGroup } = matcher
   const contexts = new Map<number, ReplacementContext>()
 
   return result => {
@@ -47,7 +48,9 @@ export function createResultReplacement(
       const search = createTextblockSearchContext(textblock, textblockPos)
 
       context = {
-        expand: indexMatches ? createReplacementExpander(regex, search.text, replacement) : null,
+        expand: indexMatches
+          ? createReplacementExpander(regex, search.text, replacement, resultGroup)
+          : null,
         search,
       }
       contexts.set(textblockPos, context)
@@ -58,6 +61,6 @@ export function createResultReplacement(
 
     return context.expand
       ? context.expand(from, to)
-      : expandReplacement(regex, context.search.text, replacement, from, to)
+      : expandReplacement(regex, context.search.text, replacement, from, to, resultGroup)
   }
 }
