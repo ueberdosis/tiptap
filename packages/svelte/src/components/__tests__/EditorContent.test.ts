@@ -29,6 +29,8 @@ describe('EditorContent', () => {
     const editor = createEditor(null)
 
     expect(() => render(EditorContent, { editor })).not.toThrow()
+
+    editor.destroy()
   })
 
   it('does not throw for a destroyed editor', () => {
