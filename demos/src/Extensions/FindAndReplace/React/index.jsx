@@ -86,7 +86,6 @@ export default () => {
             <input
               type="checkbox"
               checked={wholeWord}
-              disabled={useRegex}
               onChange={event => setWholeWord(event.currentTarget.checked)}
               data-testid="whole-word-checkbox"
             />

@@ -33,7 +33,6 @@
           <input
             type="checkbox"
             :checked="findAndReplace.wholeWord"
-            :disabled="findAndReplace.useRegex"
             @change="setWholeWord($event.target.checked)"
             data-testid="whole-word-checkbox"
           />
