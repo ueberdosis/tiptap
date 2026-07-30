@@ -45,6 +45,7 @@
     "build": "tsdown"
   },
   "devDependencies": {
+    "@testing-library/svelte": "^5.4.2",
     "@tiptap/core": "workspace:^",
     "@tiptap/pm": "workspace:^",
     "esbuild": "0.25.0",
