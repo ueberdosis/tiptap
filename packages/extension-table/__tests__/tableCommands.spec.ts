@@ -71,6 +71,48 @@ describe('Table commands', () => {
     expect(countCells(editor, 'table tr')).toBe(3)
   })
 
+  it('keeps the cursor inside the table when deleting the last row', () => {
+    editor.commands.insertContentAt(editor.state.doc.content.size, '<p>Text below table</p>')
+
+    let lastCellPos = 0
+    editor.state.doc.descendants((node, pos) => {
+      if (node.type.name === 'tableCell') {
+        lastCellPos = pos
+      }
+    })
+    editor
+      .chain()
+      .focus()
+      .setTextSelection(lastCellPos + 2)
+      .run()
+
+    editor.commands.deleteRow()
+
+    expect(countCells(editor, 'table tr')).toBe(2)
+    expect(editor.isActive('table')).toBe(true)
+  })
+
+  it('keeps the cursor inside the table when deleting the last column', () => {
+    editor.commands.insertContentAt(editor.state.doc.content.size, '<p>Text below table</p>')
+
+    let lastCellPos = 0
+    editor.state.doc.descendants((node, pos) => {
+      if (node.type.name === 'tableCell') {
+        lastCellPos = pos
+      }
+    })
+    editor
+      .chain()
+      .focus()
+      .setTextSelection(lastCellPos + 2)
+      .run()
+
+    editor.commands.deleteColumn()
+
+    expect(countCells(editor, 'table th')).toBe(2)
+    expect(editor.isActive('table')).toBe(true)
+  })
+
   it('deletes the table', () => {
     editor.commands.deleteTable()
     expect(countCells(editor, 'table')).toBe(0)

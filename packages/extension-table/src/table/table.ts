@@ -4,12 +4,13 @@ import {
   type JSONContent,
   type MarkdownToken,
   callOrReturn,
+  findParentNodeClosestToPos,
   getExtensionField,
   mergeAttributes,
   Node,
 } from '@tiptap/core'
 import type { DOMOutputSpec, Node as ProseMirrorNode } from '@tiptap/pm/model'
-import { TextSelection } from '@tiptap/pm/state'
+import { type EditorState, TextSelection, type Transaction } from '@tiptap/pm/state'
 import {
   addColumnAfter,
   addColumnBefore,
@@ -256,6 +257,40 @@ declare module '@tiptap/core' {
   }
 }
 
+// prosemirror-tables does not move the selection after a deletion, so removing the
+// last row or column can push the cursor out of the table into the content below.
+const keepCursorInTable =
+  (command: (state: EditorState, dispatch?: (tr: Transaction) => void) => boolean) =>
+  (state: EditorState, dispatch?: (tr: Transaction) => void): boolean => {
+    if (!dispatch) {
+      return command(state)
+    }
+
+    const table = findParentNodeClosestToPos(
+      state.selection.$from,
+      node => node.type.name === 'table',
+    )
+
+    return command(state, tr => {
+      const stillInTable = findParentNodeClosestToPos(
+        tr.selection.$from,
+        node => node.type.name === 'table',
+      )
+
+      if (table && !stillInTable) {
+        const tableNode = tr.doc.nodeAt(table.pos)
+
+        if (tableNode) {
+          const endOfTable = table.pos + tableNode.nodeSize - 1
+
+          tr.setSelection(TextSelection.near(tr.doc.resolve(endOfTable), -1))
+        }
+      }
+
+      dispatch(tr)
+    })
+  }
+
 /**
  * This extension allows you to create tables.
  * @see https://www.tiptap.dev/api/nodes/table
@@ -445,7 +480,7 @@ export const Table = Node.create<TableOptions>({
       deleteColumn:
         () =>
         ({ state, dispatch }) => {
-          return deleteColumn(state, dispatch)
+          return keepCursorInTable(deleteColumn)(state, dispatch)
         },
       addRowBefore:
         () =>
@@ -460,7 +495,7 @@ export const Table = Node.create<TableOptions>({
       deleteRow:
         () =>
         ({ state, dispatch }) => {
-          return deleteRow(state, dispatch)
+          return keepCursorInTable(deleteRow)(state, dispatch)
         },
       deleteTable:
         () =>
