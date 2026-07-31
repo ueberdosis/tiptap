@@ -86,6 +86,16 @@ const ItemComponent = () => {
   return React.createElement(NodeViewWrapper, null, React.createElement(NodeViewContent))
 }
 
+const ReactParagraphComponent = () => {
+  return React.createElement(NodeViewWrapper, null, React.createElement(NodeViewContent))
+}
+
+const ReactParagraph = Paragraph.extend({
+  addNodeView() {
+    return ReactNodeViewRenderer(ReactParagraphComponent)
+  },
+})
+
 const Container = Node.create({
   name: 'container',
   group: 'block',
@@ -137,6 +147,13 @@ const createEditorWithContainers = () => {
   })
 }
 
+const createEditorWithReactParagraph = () => {
+  return new Editor({
+    extensions: [Document, ReactParagraph, Text],
+    content: '<p>Hello</p>',
+  })
+}
+
 const flushMicrotasks = async () => {
   await act(async () => {
     await Promise.resolve()
@@ -168,6 +185,36 @@ describe('ReactNodeViewRenderer', () => {
     expect(container.querySelector('[data-node-view-wrapper]')).not.toBeNull()
     expect(renderedPositions.length).toBeGreaterThan(0)
     expect(renderedPositions).toContain(0)
+
+    editor.destroy()
+  })
+
+  it('keeps new React paragraph content connected while its portal is queued', async () => {
+    const editor = createEditorWithReactParagraph()
+    const { container } = render(React.createElement(EditorContent, { editor }))
+
+    await flushMicrotasks()
+
+    editor.commands.setTextSelection(6)
+    editor.commands.splitBlock()
+
+    const secondParagraphPosition = editor.state.doc.firstChild!.nodeSize
+
+    expect(editor.state.selection.from).toBe(secondParagraphPosition + 1)
+
+    const contentElements = container.querySelectorAll('[data-node-view-content-react]')
+
+    expect(contentElements).toHaveLength(2)
+    expect(contentElements[1].isConnected).toBe(true)
+
+    editor.commands.insertContent('Second')
+
+    expect(editor.state.doc.child(0).textContent).toBe('Hello')
+    expect(editor.state.doc.child(1).textContent).toBe('Second')
+
+    await flushMicrotasks()
+
+    expect(contentElements[1].parentElement?.hasAttribute('data-node-view-content')).toBe(true)
 
     editor.destroy()
   })

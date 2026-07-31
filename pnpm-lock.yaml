@@ -694,6 +694,19 @@ importers:
         specifier: workspace:^
         version: link:../pm
 
+  packages/extension-find-and-replace:
+    dependencies:
+      re2js:
+        specifier: ^2.8.6
+        version: 2.8.6
+    devDependencies:
+      '@tiptap/core':
+        specifier: workspace:^
+        version: link:../core
+      '@tiptap/pm':
+        specifier: workspace:^
+        version: link:../pm
+
   packages/extension-floating-menu:
     devDependencies:
       '@floating-ui/dom':
@@ -5968,6 +5981,10 @@ packages:
 
   randombytes@2.1.0:
     resolution: {integrity: sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ==}
+
+  re2js@2.8.6:
+    resolution: {integrity: sha512-xLgQil4kIUCrAzVk9fRSkxkFNwmygLFjVxXrLc65aE1F0+Zsb8rxumFBy4XKyvgMCTL6kilDq3EZ0piE2dP/Dg==}
+    engines: {node: '>=18.0.0'}
 
   react-dom@19.1.0:
     resolution: {integrity: sha512-Xs1hdnE+DyKgeHJeJznQmYMIBG3TKIHJJT95Q58nHLSrElKlGQqDTR2HQ9fx5CN/Gk6Vh/kupBTDLU11/nDk/g==}
@@ -11976,6 +11993,8 @@ snapshots:
   randombytes@2.1.0:
     dependencies:
       safe-buffer: 5.2.1
+
+  re2js@2.8.6: {}
 
   react-dom@19.1.0(react@19.1.0):
     dependencies:
