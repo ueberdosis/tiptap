@@ -153,7 +153,6 @@ describe('FindAndReplace', () => {
     editor.commands.setSearchTerm('([')
 
     expect(editor.storage.findAndReplace.results).toEqual([])
-    expect(() => editor.commands.replaceAll()).not.toThrow()
     expect(editor.commands.replaceAll()).toBe(false)
     expect(editor.getText()).toBe('Hello hello HELLO')
   })
@@ -501,6 +500,7 @@ describe('FindAndReplace', () => {
 
     expect(editor.getText()).toBe('[😀] 😀')
     expect(editor.storage.findAndReplace.currentIndex).toBe(1)
+    // JavaScript and ProseMirror count UTF-16 code units, so the emoji spans two positions.
     expect(editor.state.selection.from).toBe(6)
     expect(editor.state.selection.to).toBe(8)
   })
@@ -559,6 +559,7 @@ describe('FindAndReplace', () => {
   })
 
   it('expands captures independently when textblocks share a node instance', () => {
+    // ProseMirror nodes are immutable, so one instance may appear at multiple document positions.
     const textblock = editor.schema.node('paragraph', null, [editor.schema.text('cat')])
 
     editor.view.dispatch(
@@ -689,7 +690,7 @@ describe('FindAndReplace', () => {
     expect(transactions).toEqual([1])
   })
 
-  it('expands many regex captures with one indexed pass and one transaction step', () => {
+  it('expands many regex captures in one transaction step', () => {
     const resultCount = 5_000
     const content = Array.from({ length: resultCount }, () => 'a').join(' ')
     const transactions: number[] = []
@@ -816,9 +817,12 @@ describe('FindAndReplace', () => {
     ])
   })
 
-  it('rejects regex matches adjacent to astral Unicode word characters', () => {
+  it('rejects regex matches next to Unicode letters stored as surrogate pairs', () => {
+    // U+10400 is above 0xffff, so JavaScript stores this Deseret letter in two UTF-16 code units.
+    const deseretLetter = '𐐀'
+
     editor.destroy()
-    editor = createEditor('<p>𐐀cat cat𐐀 cat</p>')
+    editor = createEditor(`<p>${deseretLetter}cat cat${deseretLetter} cat</p>`)
     editor.commands.setUseRegex(true)
     editor.commands.setSearchTerm('cat')
     editor.commands.setWholeWord(true)

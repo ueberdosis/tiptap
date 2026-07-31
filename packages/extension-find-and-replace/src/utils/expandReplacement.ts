@@ -12,6 +12,8 @@ interface LocatedReplacementMatch extends ReplacementMatch {
   to: number
 }
 
+// The expansion regex scans globally and captures the part after `$` in tokens like `$1` and `$<name>`.
+// Detection stays non-global because repeated `test()` calls would mutate `lastIndex`.
 const replacementTokenRegex = /\$(\$|&|0[1-9]|[1-9]\d?|<[^>]*>)/g
 const replacementTokenPattern = /\$(?:\$|&|0[1-9]|[1-9]\d?|<[^>]*>)/
 
@@ -31,7 +33,12 @@ function advanceStringIndex(text: string, index: number, unicode: boolean): numb
     return index + 1
   }
 
-  return index + 1 + Number((text.codePointAt(index) ?? 0) > 0xffff)
+  // JS uses UTF-16; code points through 0xffff (65,535) use one code unit.
+  // For example, '😀' is larger and uses two code units, while 'A' uses one.
+  const codePoint = text.codePointAt(index) ?? 0
+  const codeUnitCount = codePoint > 0xffff ? 2 : 1
+
+  return index + codeUnitCount
 }
 
 function canContinueNativeMatches(regex: RegExp): boolean {
@@ -40,6 +47,7 @@ function canContinueNativeMatches(regex: RegExp): boolean {
 
 function advanceAfterEmptyMatch(regex: RegExp, text: string, value: string): void {
   if (value.length === 0) {
+    // `exec()` leaves `lastIndex` unchanged for an empty match, which would repeat forever.
     regex.lastIndex = advanceStringIndex(text, regex.lastIndex, regex.unicode)
   }
 }
@@ -55,6 +63,7 @@ function locateNativeMatch(match: RegExpExecArray): LocatedReplacementMatch {
 }
 
 function* nativeMatches(regex: RegExp, text: string): Generator<LocatedReplacementMatch> {
+  // Start at index 0 without reading or changing the caller's mutable `lastIndex`.
   const matcher = new RegExp(regex.source, regex.flags)
   let match = matcher.exec(text)
 
@@ -77,6 +86,7 @@ function safeNamedCaptures(
   const groupNames = Object.keys(regex.namedGroups())
 
   if (groupNames.length === 0) {
+    // `null` keeps `$<name>` literal when the regex defines no named groups.
     return null
   }
 
@@ -95,6 +105,8 @@ function* safeMatches(
   for (const matcher of findSafeMatcherMatches(regex, text, resultGroup)) {
     const value = safeMatchValue(matcher, resultGroup)
     const from = matcher.start(resultGroup)
+    // Whole-word matching wraps the result, shifting each user capture by one group.
+    // Start after `resultGroup` so replacement `$1` still means the user's first capture.
     const captureCount = matcher.groupCount() - resultGroup
 
     yield {
@@ -130,6 +142,7 @@ function findReplacementMatch(
   to: number,
   resultGroup: number,
 ): ReplacementMatch | null {
+  // Match the full text so `^`, `$`, and boundary assertions retain their original context.
   for (const match of replacementMatches(regex, text, resultGroup)) {
     if (hasLocation(match, from, to)) {
       return match
@@ -166,6 +179,7 @@ function expandNumericCapture(
     return token
   }
 
+  // Match `String.prototype.replace`: if group 12 is missing but group 1 exists, use `$1` plus `2`.
   const firstGroup = Number(reference[0])
 
   if (!hasCapture(captures, firstGroup)) {
@@ -222,6 +236,7 @@ export type ReplacementExpander = (from: number, to: number) => string
  * @param regex The compiled search matcher.
  * @param text The complete searchable textblock text.
  * @param replacement The replacement template.
+ * @param resultGroup The matcher group containing the reported result; later groups are captures.
  * @returns An expander addressed by match offsets in `text`.
  */
 export function createReplacementExpander(
@@ -246,6 +261,7 @@ export function createReplacementExpander(
  * @param replacement The replacement template.
  * @param from The match start offset in `text`.
  * @param to The match end offset in `text`.
+ * @param resultGroup The matcher group containing the reported result; later groups are captures.
  * @returns The expanded replacement, or the unchanged template when the text no longer matches.
  */
 export function expandReplacement(

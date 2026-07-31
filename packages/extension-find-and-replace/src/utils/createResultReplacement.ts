@@ -19,6 +19,7 @@ interface ReplacementContext {
 
 /**
  * Creates a replacement resolver that re-matches results in their textblock context.
+ * Search results store only positions, so capture values must be recovered from the textblock.
  * @param doc The document containing the search results.
  * @param replacement The replacement template.
  * @param matcher The compiled matcher, or `null` for literal replacement.
@@ -36,11 +37,13 @@ export function createResultReplacement(
   }
 
   const { regex, resultGroup } = matcher
+  // Key by position because one immutable ProseMirror node can appear in multiple places.
   const contexts = new Map<number, ReplacementContext>()
 
   return result => {
     const $from = doc.resolve(result.from)
     const textblock = $from.parent
+    // `start()` points inside the textblock; the node itself starts one position earlier.
     const textblockPos = $from.start() - 1
     let context = contexts.get(textblockPos)
 

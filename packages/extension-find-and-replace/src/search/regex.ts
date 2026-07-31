@@ -42,7 +42,7 @@ function compileRegex(
  * In regex mode, whole-word constraints are applied by `searchDocument` and
  * `searchTextblocks`; this low-level factory preserves the user pattern's capture numbering.
  * @param term The search term, treated as regex source when `useRegex` is enabled.
- * @param options Case sensitivity, regex mode, and whole word matching.
+ * @param options Case sensitivity, regex mode, and literal whole-word matching.
  * @returns A compiled matcher, or `null` when the term is invalid or unsupported.
  */
 export function createSearchRegex(term: string, options: SearchOptions): SearchRegex | null {

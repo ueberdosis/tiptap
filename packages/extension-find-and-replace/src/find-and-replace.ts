@@ -28,10 +28,15 @@ declare module '@tiptap/core' {
 
       /**
        * Set the replace term used by the replace commands.
-       * In regex mode, supports `$$`, `$&`, `$1`–`$99`, and `$<name>` substitutions.
-       * Before-match and after-match tokens are left unchanged. Literal mode never expands tokens.
+       * In regex mode, `$$` inserts `$`, `$&` inserts the full match, `$1`–`$99` insert
+       * numbered capture groups, and `$<name>` inserts a named capture group.
+       * JavaScript tokens for inserting text before or after the match stay literal.
+       * Literal mode does not expand any replacement tokens.
        * @param term The replacement text or regex replacement template.
-       * @example editor.commands.setReplaceTerm('[$1]')
+       * @example
+       * editor.commands.setUseRegex(true)
+       * editor.commands.setSearchTerm('(cat|dog)')
+       * editor.commands.setReplaceTerm('[$1]')
        */
       setReplaceTerm: (term: string) => ReturnType
 
@@ -52,6 +57,7 @@ declare module '@tiptap/core' {
 
       /**
        * Set whether to constrain matches to Unicode whole-word boundaries.
+       * For example, `cat` matches `cat` but not `catalog`.
        * @param wholeWord The new whole word mode.
        * @example editor.commands.setWholeWord(true)
        */

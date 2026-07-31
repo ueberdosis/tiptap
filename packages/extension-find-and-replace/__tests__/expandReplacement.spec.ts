@@ -43,7 +43,7 @@ describe('expandReplacement', () => {
     expect(expandReplacement(regex, 'cat', '$$ [$&] $1 $9 $x')).toBe('$ [cat] cat $9 $x')
   })
 
-  it('uses JavaScript two-digit capture fallback semantics', () => {
+  it('uses capture 1 plus a literal 2 when $12 has no capture 12', () => {
     const regex = createRegex('(a)(b)?')
 
     expect(expandReplacement(regex, 'a', '$1:$2:$12:$99')).toBe('a::a2:$99')
@@ -61,7 +61,7 @@ describe('expandReplacement', () => {
     expect(expandReplacement(regex, 'cat', '$<word>')).toBe('$<word>')
   })
 
-  it('keeps before-match and after-match tokens literal', () => {
+  it("keeps the before-match $` and after-match $' tokens literal", () => {
     const regex = createRegex('(cat)')
 
     expect(expandReplacement(regex, 'cat', "$`:$'")).toBe("$`:$'")
@@ -82,9 +82,12 @@ describe('expandReplacement', () => {
   it('preserves surrounding context for boundary assertions', () => {
     const regex = createRegex('(\\Bfoo)')
     const nativeRegex = /(\Bfoo)/gu
+    const matchFrom = 1
+    const matchTo = 4
 
-    expect(expandReplacement(regex, 'xfoo', '[$1]', 1, 4)).toBe('[foo]')
-    expect(expandReplacement(nativeRegex, 'xfoo', '[$1]', 1, 4)).toBe('[foo]')
+    // Only `foo` is replaced, but `\B` still needs the preceding `x` to verify the boundary.
+    expect(expandReplacement(regex, 'xfoo', '[$1]', matchFrom, matchTo)).toBe('[foo]')
+    expect(expandReplacement(nativeRegex, 'xfoo', '[$1]', matchFrom, matchTo)).toBe('[foo]')
   })
 
   it('matches String.prototype.replace for every supported token form', () => {
