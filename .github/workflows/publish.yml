@@ -57,6 +57,9 @@ jobs:
       - name: Run build
         run: vp run build && vp run build:demos
 
+      - name: Check package exports
+        run: vp run check:package-exports
+
       - name: Archive package dist artifacts
         run: tar -cf package-dist-artifacts.tar packages/*/dist packages-deprecated/*/dist
 
@@ -104,7 +107,7 @@ jobs:
         run: tar -xf package-dist-artifacts.tar
 
       - name: Verify package dist artifacts
-        run: bash ./scripts/check-package-dists.sh
+        run: bash ./scripts/check-package-dists.sh && vp run check:package-exports
 
       - name: Run changesets release flow
         id: changesets

@@ -70,6 +70,9 @@ jobs:
       - name: Build packages
         run: vp run build && vp run build:demos
 
+      - name: Check package exports
+        run: vp run check:package-exports
+
   check-linting-formatting:
     name: Check linting & formatting
     runs-on: ubuntu-latest

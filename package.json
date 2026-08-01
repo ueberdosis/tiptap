@@ -28,6 +28,7 @@
     "test:e2e:open:all": "playwright test --ui",
     "test:e2e:report": "playwright show-report",
     "test:publish-config": "node --test .github/scripts/__tests__/*.test.mjs",
+    "check:package-exports": "node scripts/check-package-exports.mjs",
     "test": "vp run -r build && vp run test:unit",
     "build": "vp run -r build",
     "build:demos": "vp run --filter ./demos build:demos",
