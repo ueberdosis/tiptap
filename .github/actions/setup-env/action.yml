@@ -1,5 +1,5 @@
-name: Setup Vite+ environment
-description: Install Vite+ (vp), setup Node.js, and optionally configure the pnpm store
+name: Setup Vite+ and pnpm environment
+description: Install Vite+ (vp) and pnpm, setup Node.js, and optionally configure the pnpm store
 
 inputs:
   node-version:
@@ -20,6 +20,10 @@ inputs:
 runs:
   using: composite
   steps:
+    - uses: pnpm/action-setup@v5
+      with:
+        version: ${{ inputs.pnpm-version }}
+
     - uses: voidzero-dev/setup-vp@v1
       with:
         node-version: ${{ inputs.node-version }}

@@ -37,7 +37,7 @@ jobs:
           store-dir: ${{ env.PNPM_STORE_DIR }}
 
       - name: Install dependencies
-        run: vp install --frozen-lockfile -- --strict-peer-dependencies
+        run: pnpm install --frozen-lockfile --strict-peer-dependencies
 
       - name: Pack dependency artifacts
         run: tar -czf /tmp/pnpm-store.tar.gz ${{ env.PNPM_STORE_DIR }}
