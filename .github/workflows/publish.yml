@@ -53,10 +53,10 @@ jobs:
           cache: 'true'
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile --strict-peer-dependencies
+        run: vp install --frozen-lockfile -- --strict-peer-dependencies
 
       - name: Run build
-        run: pnpm run build && pnpm run build:demos
+        run: vp run build && vp run build:demos
 
       - name: Archive package dist artifacts
         run: tar -cf package-dist-artifacts.tar packages/*/dist packages-deprecated/*/dist
@@ -94,7 +94,7 @@ jobs:
         run: npm install -g npm@11.6.2
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile --strict-peer-dependencies
+        run: vp install --frozen-lockfile -- --strict-peer-dependencies
 
       - name: Download package dist artifacts
         uses: actions/download-artifact@v8
@@ -113,7 +113,7 @@ jobs:
         uses: changesets/action@v1
         with:
           createGithubReleases: false
-          version: pnpm run version
+          version: vp run version
           publish: pnpm changeset publish --tag ${{ needs.resolve-config.outputs.dist_tag }}
           title: ${{ needs.resolve-config.outputs.title }}
           commit: ${{ needs.resolve-config.outputs.commit }}

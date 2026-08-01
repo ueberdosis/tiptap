@@ -50,7 +50,7 @@
     }
   },
   "scripts": {
-    "build": "tsup",
+    "build": "vp pack",
     "dev": "tsup --watch --sourcemap"
   },
   "dependencies": {

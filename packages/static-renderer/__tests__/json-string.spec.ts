@@ -19,7 +19,7 @@ import {
   domOutputSpecToHTMLString,
   renderToHTMLString,
 } from '@tiptap/static-renderer/pm/html-string'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 
 describe('static render json to string (no prosemirror)', () => {
   it('generate an HTML string from JSON without an editor instance', () => {

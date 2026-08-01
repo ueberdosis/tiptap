@@ -4,7 +4,7 @@ import { Heading } from '@tiptap/extension-heading'
 import { Paragraph } from '@tiptap/extension-paragraph'
 import { Text } from '@tiptap/extension-text'
 import { MarkdownManager } from '@tiptap/markdown'
-import { beforeEach, describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vite-plus/test'
 
 describe('Blockquote Markdown Conversion', () => {
   let markdownManager: MarkdownManager

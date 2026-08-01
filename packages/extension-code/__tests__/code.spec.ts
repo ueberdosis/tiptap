@@ -1,5 +1,5 @@
 import { inputRegex, inputRegexMatch, pasteRegex, pasteRegexMatch } from '@tiptap/extension-code'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 
 describe('code inputRegexMatch', () => {
   it('matches basic backtick code', () => {

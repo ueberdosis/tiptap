@@ -5,7 +5,7 @@ import { TextStyle } from '@tiptap/extension-text-style'
 import Youtube from '@tiptap/extension-youtube'
 import { generateHTML, generateJSON } from '@tiptap/html'
 import StarterKit from '@tiptap/starter-kit'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 
 describe('generateHTML', () => {
   it('generate HTML from JSON without an editor instance', () => {

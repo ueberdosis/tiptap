@@ -5,7 +5,7 @@ import Paragraph from '@tiptap/extension-paragraph'
 import { escapeTableCellPipes, TableKit } from '@tiptap/extension-table'
 import Text from '@tiptap/extension-text'
 import { MarkdownManager } from '@tiptap/markdown'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 
 describe('table markdown — inline code with pipe characters', () => {
   const manager = new MarkdownManager({

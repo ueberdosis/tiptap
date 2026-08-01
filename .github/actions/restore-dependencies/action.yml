@@ -22,4 +22,4 @@ runs:
 
     - name: Restore dependencies
       shell: bash
-      run: pnpm install --offline --frozen-lockfile --strict-peer-dependencies
+      run: vp install --offline --frozen-lockfile -- --strict-peer-dependencies
