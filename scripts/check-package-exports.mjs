@@ -33,7 +33,9 @@ for (const dir of ['packages', 'packages-deprecated']) {
     const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'))
     total += 1
 
-    const targets = fields.flatMap(field => (typeof manifest[field] === 'string' ? [manifest[field]] : []))
+    const targets = fields.flatMap(field =>
+      typeof manifest[field] === 'string' ? [manifest[field]] : [],
+    )
     targets.push(...collectTargets(manifest.exports))
 
     for (const target of new Set(targets)) {
