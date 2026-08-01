@@ -53,7 +53,7 @@ jobs:
           cache: 'true'
 
       - name: Install dependencies
-        run: vp install --frozen-lockfile -- --strict-peer-dependencies
+        run: pnpm install --frozen-lockfile --strict-peer-dependencies
 
       - name: Run build
         run: vp run build && vp run build:demos
@@ -94,7 +94,7 @@ jobs:
         run: npm install -g npm@11.6.2
 
       - name: Install dependencies
-        run: vp install --frozen-lockfile -- --strict-peer-dependencies
+        run: pnpm install --frozen-lockfile --strict-peer-dependencies
 
       - name: Download package dist artifacts
         uses: actions/download-artifact@v8
@@ -114,7 +114,7 @@ jobs:
         with:
           createGithubReleases: false
           version: vp run version
-          publish: pnpm changeset publish --tag ${{ needs.resolve-config.outputs.dist_tag }}
+          publish: vp exec changeset publish --tag ${{ needs.resolve-config.outputs.dist_tag }}
           title: ${{ needs.resolve-config.outputs.title }}
           commit: ${{ needs.resolve-config.outputs.commit }}
         env:
