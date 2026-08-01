@@ -257,6 +257,18 @@ declare module '@tiptap/core' {
   }
 }
 
+const moveCursorToTableEnd = (tr: Transaction, tablePos: number) => {
+  const tableNode = tr.doc.nodeAt(tablePos)
+
+  if (!tableNode) {
+    return
+  }
+
+  const endOfTable = tablePos + tableNode.nodeSize - 1
+
+  tr.setSelection(TextSelection.near(tr.doc.resolve(endOfTable), -1))
+}
+
 // prosemirror-tables does not move the selection after a deletion, so removing the
 // last row or column can push the cursor out of the table into the content below.
 const keepCursorInTable =
@@ -277,13 +289,13 @@ const keepCursorInTable =
         node => node.type.name === 'table',
       )
 
-      if (table && !stillInTable) {
-        const tableNode = tr.doc.nodeAt(table.pos)
+      if (table) {
+        // The delete can push the cursor into a following table, so compare the
+        // mapped position to confirm it is still the table we edited.
+        const originalTablePos = tr.mapping.map(table.pos)
 
-        if (tableNode) {
-          const endOfTable = table.pos + tableNode.nodeSize - 1
-
-          tr.setSelection(TextSelection.near(tr.doc.resolve(endOfTable), -1))
+        if (stillInTable?.pos !== originalTablePos) {
+          moveCursorToTableEnd(tr, originalTablePos)
         }
       }
 

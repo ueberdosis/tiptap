@@ -8,6 +8,18 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 const countCells = (editor: Editor, selector: string) =>
   editor.view.dom.querySelectorAll(selector).length
 
+const firstTableBounds = (editor: Editor) => {
+  let start = -1
+  let end = -1
+  editor.state.doc.descendants((node, pos) => {
+    if (node.type.name === 'table' && start === -1) {
+      start = pos
+      end = pos + node.nodeSize
+    }
+  })
+  return { start, end }
+}
+
 const selectFirstTwoHeaderCells = (editor: Editor) => {
   const positions: number[] = []
   editor.state.doc.descendants((node, pos) => {
@@ -111,6 +123,62 @@ describe('Table commands', () => {
 
     expect(countCells(editor, 'table th')).toBe(2)
     expect(editor.isActive('table')).toBe(true)
+  })
+
+  it('keeps the cursor in the edited table when deleting the last row with a table below', () => {
+    editor.commands.insertContentAt(
+      editor.state.doc.content.size,
+      '<table><tbody><tr><td><p>Following table</p></td></tr></tbody></table>',
+    )
+
+    const { end: firstTableEnd } = firstTableBounds(editor)
+    let lastCellPos = 0
+    editor.state.doc.descendants((node, pos) => {
+      if (node.type.name === 'tableCell' && pos < firstTableEnd) {
+        lastCellPos = pos
+      }
+    })
+    editor
+      .chain()
+      .focus()
+      .setTextSelection(lastCellPos + 2)
+      .run()
+
+    editor.commands.deleteRow()
+
+    const { start, end } = firstTableBounds(editor)
+    const cursor = editor.state.selection.from
+    expect(editor.isActive('table')).toBe(true)
+    expect(cursor).toBeGreaterThan(start)
+    expect(cursor).toBeLessThan(end)
+  })
+
+  it('keeps the cursor in the edited table when deleting the last column with a table below', () => {
+    editor.commands.insertContentAt(
+      editor.state.doc.content.size,
+      '<table><tbody><tr><td><p>Following table</p></td></tr></tbody></table>',
+    )
+
+    const { end: firstTableEnd } = firstTableBounds(editor)
+    let lastCellPos = 0
+    editor.state.doc.descendants((node, pos) => {
+      if (node.type.name === 'tableCell' && pos < firstTableEnd) {
+        lastCellPos = pos
+      }
+    })
+    editor
+      .chain()
+      .focus()
+      .setTextSelection(lastCellPos + 2)
+      .run()
+
+    editor.commands.deleteColumn()
+
+    const { start, end } = firstTableBounds(editor)
+    const cursor = editor.state.selection.from
+    expect(editor.isActive('table')).toBe(true)
+    expect(cursor).toBeGreaterThan(start)
+    expect(cursor).toBeLessThan(end)
   })
 
   it('deletes the table', () => {
