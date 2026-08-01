@@ -43,7 +43,7 @@
   },
   "scripts": {
     "build": "vp pack",
-    "dev": "tsup --watch --sourcemap"
+    "dev": "vp pack --watch"
   },
   "dependencies": {
     "es-toolkit": "^1.41.0",
