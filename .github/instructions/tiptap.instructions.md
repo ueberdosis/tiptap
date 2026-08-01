@@ -70,7 +70,7 @@ Scripts defined at the repo root. Run them with `vp run <script>` (or `pnpm run 
 - `vp run publish` - build and publish with Changesets
 - `vp run reset` - remove caches, build artifacts, and reinstall deps
 
-Scripts are cached by Vite Task (`run.cache.scripts` is enabled in `vite.config.ts`). Re-running an unchanged script replays its output instead of executing. Persistent scripts like `dev` never exit, so they are never cached. Clear the cache with `vp cache clean`.
+Scripts are cached by Vite Task (`run.cache.scripts` is enabled in `vite.config.mts`). Re-running an unchanged script replays its output instead of executing. Persistent scripts like `dev` never exit, so they are never cached. Clear the cache with `vp cache clean`.
 
 ---
 
