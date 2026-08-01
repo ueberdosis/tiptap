@@ -60,7 +60,6 @@
     "@testing-library/react": "16.2.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "@vitest/ui": "^4.1.2",
     "babel-loader": "^9.2.1",
     "cz-conventional-changelog": "^3.3.0",
     "fallow": "^2.98.0",
@@ -77,7 +76,8 @@
     "ts-loader": "9.3.1",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.7.3",
-    "vite-plus": "^0.2.7",
+    "vite": "catalog:",
+    "vite-plus": "catalog:",
     "webpack": "^5.97.1"
   },
   "overrides": {
@@ -103,27 +103,5 @@
   "engines": {
     "node": ">=24"
   },
-  "packageManager": "pnpm@11.2.2",
-  "pnpm": {
-    "patchedDependencies": {
-      "@changesets/assemble-release-plan@6.0.5": "patches/@changesets__assemble-release-plan.patch",
-      "@changesets/assemble-release-plan@6.0.9": "patches/@changesets__assemble-release-plan@6.0.9.patch"
-    },
-    "overrides": {
-      "@rollup/pluginutils>picomatch": "2.3.2",
-      "prosemirror-model": "^1.25.11",
-      "@octokit/action>undici": "6.24.1",
-      "anymatch>picomatch": "2.3.2",
-      "glob": "^10.5.0",
-      "micromatch>picomatch": "2.3.2",
-      "minimatch@^3.0.5": "3.1.4",
-      "minimatch@^3.1.2": "3.1.4",
-      "qs": "^6.14.1",
-      "rollup": "4.60.1",
-      "readdirp>picomatch": "2.3.2",
-      "sass>immutable": "5.1.5",
-      "terser-webpack-plugin>serialize-javascript": "7.0.5",
-      "tinyglobby>picomatch": "4.0.4"
-    }
-  }
+  "packageManager": "pnpm@11.2.2"
 }
