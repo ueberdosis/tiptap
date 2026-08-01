@@ -5,5 +5,6 @@ export default defineConfig({
   pack: {
     entry: ['src/index.ts'],
     ...basePackConfig(),
+    deps: { neverBundle: [/^[^./]/] },
   },
 })

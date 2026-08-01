@@ -21,7 +21,7 @@ export default defineConfig({
     dts: true,
     sourcemap: true,
     format: ['esm', 'cjs'],
-    external: [/^[^./]/],
+    deps: { neverBundle: [/^[^./]/] },
     outExtensions: tsupCompatibleExtensions,
   })),
 })
