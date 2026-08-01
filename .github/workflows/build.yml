@@ -35,6 +35,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           pnpm-version: ${{ env.PNPM_VERSION }}
           store-dir: ${{ env.PNPM_STORE_DIR }}
+          cache: 'true'
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --strict-peer-dependencies
@@ -69,20 +70,10 @@ jobs:
       - name: Build packages
         run: vp run build && vp run build:demos
 
-      - name: Pack build artifacts
-        run: tar -czf /tmp/build-output.tar.gz packages/*/dist packages-deprecated/*/dist demos/dist
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v7
-        with:
-          name: build-output
-          path: /tmp/build-output.tar.gz
-          retention-days: 1
-
   check-linting-formatting:
     name: Check linting & formatting
     runs-on: ubuntu-latest
-    needs: build-packages
+    needs: install-node-dependencies
     timeout-minutes: 15
 
     steps:
@@ -102,7 +93,7 @@ jobs:
   run-unit-tests:
     name: Run unit tests
     runs-on: ubuntu-latest
-    needs: build-packages
+    needs: install-node-dependencies
     timeout-minutes: 20
 
     steps:
@@ -115,8 +106,6 @@ jobs:
           store-dir: ${{ env.PNPM_STORE_DIR }}
 
       - uses: ./.github/actions/restore-dependencies
-
-      - uses: ./.github/actions/restore-build
 
       - name: Run unit tests
         run: vp run test:unit
@@ -143,8 +132,6 @@ jobs:
 
       - uses: ./.github/actions/restore-dependencies
 
-      - uses: ./.github/actions/restore-build
-
       - uses: ./.github/actions/setup-playwright
 
       - name: Run Playwright tests
@@ -161,8 +148,8 @@ jobs:
   merge-e2e-reports:
     name: Merge e2e reports
     runs-on: ubuntu-latest
-    needs: run-e2e-tests
-    if: always()
+    needs: [install-node-dependencies, run-e2e-tests]
+    if: always() && needs.install-node-dependencies.result == 'success'
     timeout-minutes: 10
 
     steps:

@@ -50,7 +50,6 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           pnpm-version: ${{ env.PNPM_VERSION }}
-          cache: 'true'
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --strict-peer-dependencies
@@ -88,7 +87,6 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           pnpm-version: ${{ env.PNPM_VERSION }}
-          cache: 'true'
 
       - name: Update npm for trusted publishing
         run: npm install -g npm@11.6.2

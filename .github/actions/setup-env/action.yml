@@ -24,13 +24,13 @@ runs:
       with:
         version: ${{ inputs.pnpm-version }}
 
+    - name: Configure pnpm store
+      if: inputs.store-dir != ''
+      shell: bash
+      run: pnpm config set store-dir ${{ github.workspace }}/${{ inputs.store-dir }}
+
     - uses: voidzero-dev/setup-vp@v1
       with:
         node-version: ${{ inputs.node-version }}
         cache: ${{ inputs.cache == 'true' && 'true' || 'false' }}
         run-install: false
-
-    - name: Configure pnpm store
-      if: inputs.store-dir != ''
-      shell: bash
-      run: pnpm config set store-dir ${{ github.workspace }}/${{ inputs.store-dir }}
