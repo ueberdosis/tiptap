@@ -9,7 +9,7 @@ import { Italic } from '@tiptap/extension-italic'
 import { Paragraph } from '@tiptap/extension-paragraph'
 import { Text } from '@tiptap/extension-text'
 import { MarkdownManager } from '@tiptap/markdown'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 
 /**
  * When markdown content contains text inside angle brackets that looks

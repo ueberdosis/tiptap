@@ -37,7 +37,7 @@ jobs:
           store-dir: ${{ env.PNPM_STORE_DIR }}
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile --strict-peer-dependencies
+        run: vp install --frozen-lockfile -- --strict-peer-dependencies
 
       - name: Pack dependency artifacts
         run: tar -czf /tmp/pnpm-store.tar.gz ${{ env.PNPM_STORE_DIR }}
@@ -67,7 +67,7 @@ jobs:
       - uses: ./.github/actions/restore-dependencies
 
       - name: Build packages
-        run: pnpm run build && pnpm run build:demos
+        run: vp run build && vp run build:demos
 
       - name: Pack build artifacts
         run: tar -czf /tmp/build-output.tar.gz packages/*/dist packages-deprecated/*/dist demos/dist
@@ -97,7 +97,7 @@ jobs:
       - uses: ./.github/actions/restore-dependencies
 
       - name: Run linting and formatting checks
-        run: pnpm run lint
+        run: vp run lint
 
   run-unit-tests:
     name: Run unit tests
@@ -119,7 +119,7 @@ jobs:
       - uses: ./.github/actions/restore-build
 
       - name: Run unit tests
-        run: pnpm run test:unit
+        run: vp run test:unit
 
   run-e2e-tests:
     name: Run e2e tests (shard ${{ matrix.shard }}/${{ matrix.total }})
@@ -148,7 +148,7 @@ jobs:
       - uses: ./.github/actions/setup-playwright
 
       - name: Run Playwright tests
-        run: pnpm exec playwright test --project=chromium --shard=${{ matrix.shard }}/${{ matrix.total }}
+        run: vp exec playwright test --project=chromium --shard=${{ matrix.shard }}/${{ matrix.total }}
 
       - name: Upload blob report
         if: always()
@@ -185,7 +185,7 @@ jobs:
 
       - name: Merge into HTML report
         if: ${{ hashFiles('all-blob-reports/**') != '' }}
-        run: pnpm exec playwright merge-reports --reporter html ./all-blob-reports
+        run: vp exec playwright merge-reports --reporter html ./all-blob-reports
 
       - name: Upload merged HTML report
         uses: actions/upload-artifact@v7

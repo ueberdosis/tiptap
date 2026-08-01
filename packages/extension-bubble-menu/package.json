@@ -40,7 +40,7 @@
     }
   },
   "scripts": {
-    "build": "tsup"
+    "build": "vp pack"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.0.0"

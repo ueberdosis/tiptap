@@ -1,5 +1,5 @@
 import { inputRegex, pasteRegex } from '@tiptap/extension-emoji'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 
 describe('emoji extension', () => {
   it('inputRegex matches typical shortcode', () => {

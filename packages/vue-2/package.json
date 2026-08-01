@@ -48,7 +48,7 @@
     }
   },
   "scripts": {
-    "build": "tsup"
+    "build": "vp pack"
   },
   "dependencies": {
     "vue-ts-types": "1.6.2"

@@ -8,7 +8,7 @@ import { Paragraph } from '@tiptap/extension-paragraph'
 import Strike from '@tiptap/extension-strike'
 import { Text } from '@tiptap/extension-text'
 import { Markdown } from '@tiptap/markdown'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 
 import { MarkdownManager } from '../src/MarkdownManager.js'
 

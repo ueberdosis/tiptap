@@ -7,7 +7,7 @@ import {
   htmlContainsUnrecognizedTag,
   isHtmlUnknownTagName,
 } from '../src/utils/htmlTagDetection.js'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 
 describe('htmlTagDetection', () => {
   describe('extractHtmlTagNames', () => {

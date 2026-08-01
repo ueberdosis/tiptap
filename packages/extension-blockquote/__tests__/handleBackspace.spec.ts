@@ -4,7 +4,7 @@ import Image from '@tiptap/extension-image'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { GapCursor } from '@tiptap/pm/gapcursor'
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it } from 'vite-plus/test'
 
 import { handleBackspace } from '../src/handleBackspace.js'
 import { Blockquote } from '../src/index.js'

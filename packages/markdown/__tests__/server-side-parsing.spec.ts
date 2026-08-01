@@ -9,7 +9,7 @@ import { Paragraph } from '@tiptap/extension-paragraph'
 import { Strike } from '@tiptap/extension-strike'
 import { Text } from '@tiptap/extension-text'
 import { MarkdownManager } from '@tiptap/markdown'
-import { beforeEach, describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vite-plus/test'
 
 describe('MarkdownManager Server-side Parsing', () => {
   let manager: MarkdownManager

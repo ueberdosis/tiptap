@@ -7,19 +7,19 @@
   "scripts": {
     "cz": "cz",
     "start": "pnpm --prefix ./demos run start",
-    "dev": "pnpm run start",
-    "check": "pnpm run format && pnpm run lint",
-    "check:fix": "pnpm run format:fix && pnpm run lint:fix",
+    "dev": "vp run start",
+    "check": "vp run format && vp run lint",
+    "check:fix": "vp run format:fix && vp run lint:fix",
     "format": "oxfmt --check",
     "format:fix": "oxfmt",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
-    "lint:staged": "lint-staged",
+    "lint:staged": "vp staged",
     "fallow": "fallow",
     "fallow:audit": "fallow audit",
     "fallow:health": "fallow health --score --targets",
-    "test:unit": "vitest run",
-    "test:unit:dev": "vitest",
+    "test:unit": "vp test",
+    "test:unit:dev": "vp test --watch",
     "test:e2e": "playwright test --project=chromium",
     "test:e2e:firefox": "playwright test --project=firefox",
     "test:e2e:all": "playwright test",
@@ -28,23 +28,22 @@
     "test:e2e:open:all": "playwright test --ui",
     "test:e2e:report": "playwright show-report",
     "test:publish-config": "node --test .github/scripts/__tests__/*.test.mjs",
-    "test": "turbo run build && pnpm run test:unit",
-    "build": "turbo build",
+    "test": "vp run -r build && vp run test:unit",
+    "build": "vp run -r build",
     "build:demos": "pnpm --prefix demos run build:demos",
-    "serve": "pnpm run build:demos && http-server ./demos/dist -s -p 3000",
-    "build:ci": "turbo run build",
-    "publish": "pnpm run build && pnpm changeset publish",
+    "serve": "vp run build:demos && http-server ./demos/dist -s -p 3000",
+    "build:ci": "vp run -r build",
+    "publish": "vp run build && pnpm changeset publish",
     "clean:packages": "rm -rf ./packages/*/dist && rm -rf ./packages/pm/*/dist && rm -rf ./packages-deprecated/*/dist",
     "clean:packs": "rm -rf ./packages/*/*.tgz && rm -rf ./packages-deprecated/*/*.tgz",
     "make:demo": "sh ./scripts/make-demo.sh",
-    "reset": "pnpm run clean:packages && pnpm run clean:packs && rm -rf ./**/.cache && rm -rf ./**/node_modules && rm -rf ./package-lock.json && pnpm install",
-    "prepare": "husky install",
-    "turbo": "turbo",
+    "reset": "vp run clean:packages && vp run clean:packs && rm -rf ./**/.cache && rm -rf ./**/node_modules && rm -rf ./package-lock.json && pnpm install",
+    "prepare": "vp config --no-agent",
     "changeset": "changeset",
     "changelog": "node ./scripts/aggregate-changeset.js",
-    "version": "pnpm run changelog && pnpm run changeset -- version && pnpm install --no-frozen-lockfile",
-    "publish:markdown": "pnpm run build && pnpm changeset publish --tag markdown",
-    "version:markdown": "pnpm run changeset version --snapshot markdown"
+    "version": "vp run changelog && vp run changeset -- version && pnpm install --no-frozen-lockfile",
+    "publish:markdown": "vp run build && pnpm changeset publish --tag markdown",
+    "version:markdown": "vp run changeset version --snapshot markdown"
   },
   "devDependencies": {
     "@babel/core": "^7.29.6",
@@ -68,8 +67,6 @@
     "fast-glob": "^3.3.2",
     "happy-dom": "^20.8.9",
     "http-server": "14.1.1",
-    "husky": "^8.0.3",
-    "lint-staged": "^15.3.0",
     "lowlight": "^3.3.0",
     "minimist": "^1.2.8",
     "oxfmt": "^0.51.0",
@@ -79,10 +76,8 @@
     "tinyglobby": "0.2.10",
     "ts-loader": "9.3.1",
     "tsconfig-paths": "^4.2.0",
-    "tsup": "^8.5.1",
-    "turbo": "2.9.14",
     "typescript": "^5.7.3",
-    "vitest": "^4.1.2",
+    "vite-plus": "^0.2.7",
     "webpack": "^5.97.1"
   },
   "overrides": {
@@ -99,8 +94,7 @@
     "rollup": "4.60.1",
     "sass>immutable": "5.1.5",
     "terser-webpack-plugin>serialize-javascript": "7.0.5",
-    "tinyglobby>picomatch": "4.0.4",
-    "vitest>picomatch": "4.0.4"
+    "tinyglobby>picomatch": "4.0.4"
   },
   "browserslist": [
     "defaults",
@@ -129,8 +123,7 @@
       "readdirp>picomatch": "2.3.2",
       "sass>immutable": "5.1.5",
       "terser-webpack-plugin>serialize-javascript": "7.0.5",
-      "tinyglobby>picomatch": "4.0.4",
-      "vitest>picomatch": "4.0.4"
+      "tinyglobby>picomatch": "4.0.4"
     }
   }
 }

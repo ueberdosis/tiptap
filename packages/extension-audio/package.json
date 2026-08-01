@@ -39,7 +39,6 @@
     }
   },
   "scripts": {
-    "build": "tsup"
   },
   "devDependencies": {
     "@tiptap/core": "workspace:^"

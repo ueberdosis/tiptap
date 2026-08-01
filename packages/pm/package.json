@@ -146,7 +146,7 @@
     }
   },
   "scripts": {
-    "build": "tsup"
+    "build": "vp pack"
   },
   "dependencies": {
     "prosemirror-changeset": "^2.4.1",

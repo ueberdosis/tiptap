@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 
 import { normalizeNestedOptions } from '../src/helpers/normalizeOptions.js'
 import type { DragHandleRule } from '../src/types/rules.js'

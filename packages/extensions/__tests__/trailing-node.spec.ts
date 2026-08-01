@@ -4,7 +4,7 @@ import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { skipTrailingNodeMeta, TrailingNode } from '@tiptap/extensions'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vite-plus/test'
 
 const headingDocument = {
   type: 'doc',

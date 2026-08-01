@@ -5,7 +5,7 @@ import Heading from '@tiptap/extension-heading'
 import InvisibleCharacters from '@tiptap/extension-invisible-characters'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it } from 'vite-plus/test'
 
 describe('InvisibleCharacters', () => {
   let editor: Editor

@@ -3,7 +3,7 @@ import Document from '@tiptap/extension-document'
 import { BulletList, ListItem } from '@tiptap/extension-list'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vite-plus/test'
 
 import { BlockMath, InlineMath } from '../src/index.js'
 

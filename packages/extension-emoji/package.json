@@ -39,7 +39,7 @@
     }
   },
   "scripts": {
-    "build": "tsup"
+    "build": "vp pack"
   },
   "dependencies": {
     "emoji-regex": "^10.6.0",
