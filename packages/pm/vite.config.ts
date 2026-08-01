@@ -21,7 +21,6 @@ export default defineConfig({
     tsconfig: '../../tsconfig.build.json',
     outDir: 'dist',
     dts: true,
-    splitting: true,
     clean: true,
     format: ['esm', 'cjs'],
     outExtensions: tsupCompatibleExtensions,

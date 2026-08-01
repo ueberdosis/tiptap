@@ -106,8 +106,8 @@
     },
     "./schema-list": {
       "types": {
-        "import": "./dist/schema/index.d.ts",
-        "require": "./dist/schema/index.d.cts"
+        "import": "./dist/schema-list/index.d.ts",
+        "require": "./dist/schema-list/index.d.cts"
       },
       "import": "./dist/schema-list/index.js",
       "require": "./dist/schema-list/index.cjs"

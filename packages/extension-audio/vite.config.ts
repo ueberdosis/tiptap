@@ -6,13 +6,4 @@ export default defineConfig({
     entry: ['src/index.ts'],
     ...basePackConfig(),
   },
-  run: {
-    tasks: {
-      build: {
-        command: 'vp pack',
-        input: [{ auto: true }, '!**/dist/**'],
-        output: ['dist/**'],
-      },
-    },
-  },
 })

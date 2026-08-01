@@ -8,7 +8,6 @@ export default defineConfig({
     outDir: 'dist',
     dts: true,
     clean: true,
-    splitting: true,
     sourcemap: true,
     format: ['esm', 'cjs'],
     outExtensions: tsupCompatibleExtensions,
