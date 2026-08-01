@@ -39,6 +39,7 @@
     }
   },
   "scripts": {
+    "build": "vp pack"
   },
   "devDependencies": {
     "@tiptap/core": "workspace:^"
