@@ -60,7 +60,6 @@
     "@testing-library/react": "16.2.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "@vitest/ui": "^4.1.2",
     "babel-loader": "^9.2.1",
     "cz-conventional-changelog": "^3.3.0",
     "fallow": "^2.98.0",
@@ -77,7 +76,8 @@
     "ts-loader": "9.3.1",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.7.3",
-    "vite-plus": "^0.2.7",
+    "vite": "catalog:",
+    "vite-plus": "catalog:",
     "webpack": "^5.97.1"
   },
   "overrides": {

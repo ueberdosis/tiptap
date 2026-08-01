@@ -28,6 +28,7 @@ runs:
       with:
         node-version: ${{ inputs.node-version }}
         cache: ${{ inputs.cache == 'true' && 'true' || 'false' }}
+        run-install: false
 
     - name: Configure pnpm store
       if: inputs.store-dir != ''
