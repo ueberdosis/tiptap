@@ -14,16 +14,7 @@ import { Editor, EditorContent, VueWidgetRenderer } from '@tiptap/vue-3'
 
 import Counter from './Counter.vue'
 
-/**
- * Renders an interactive Vue `Counter` widget at the end of every paragraph
- * using the declarative Decorations API + `VueWidgetRenderer`.
- *
- * Widgets are keyed by the paragraph's stable `id` (assigned by `UniqueID`), not
- * by its index. That is what lets the counter keep its value when you type,
- * insert, or reorder paragraphs — ProseMirror reuses the same component instance
- * because the key is stable. An index-based key would churn on every structural
- * change and remount the component, losing its state.
- */
+/** Renders a Counter widget at the end of every paragraph using VueWidgetRenderer. */
 const ParagraphCounters = Extension.create({
   name: 'paragraphCounters',
 
@@ -44,7 +35,7 @@ const ParagraphCounters = Extension.create({
             VueWidgetRenderer(Counter, {
               editor,
               pos: offset + node.nodeSize - 1,
-              // Stable domain key: the paragraph's id, not its position/index.
+              // Stable key: the paragraph's id, not its position.
               key: `paragraph-counter-${node.attrs.id}`,
               props: { index: currentIndex },
               side: 1,

@@ -3,11 +3,7 @@ import type { Editor } from '@tiptap/core'
 import type { EditorState } from '@tiptap/pm/state'
 
 export interface HighlightDecorationsOptions {
-  /**
-   * The term to highlight. Can be changed at runtime via storage:
-   * `editor.storage.highlightDecorations.term = 'foo'`, followed by
-   * `editor.commands.updateDecorations('highlightDecorations')`.
-   */
+  /** The term to highlight. Change at runtime via `editor.storage.highlightDecorations.term`. */
   term: string
 }
 
@@ -21,14 +17,7 @@ declare module '@tiptap/core' {
   }
 }
 
-/**
- * A demo extension showcasing the declarative Decorations API.
- *
- * It produces all three decoration kinds from a single `addDecorations`:
- * - `inline`  — highlights every occurrence of the search term
- * - `widget`  — a small star marker rendered before each match
- * - `node`    — outlines every heading in the document
- */
+/** Demo extension showing inline, widget, and node decorations. */
 export const HighlightDecorations = Extension.create<
   HighlightDecorationsOptions,
   HighlightDecorationsStorage
@@ -48,15 +37,14 @@ export const HighlightDecorations = Extension.create<
   },
 
   addDecorations() {
-    // Scans `[from, to]` of the document and produces the highlight decorations
-    // within it. `create` runs it over the whole document; `createInRange` runs
-    // it over just the block(s) an edit touched (see `update: 'changedRanges'` below).
+    // Scans [from, to] and returns decorations. `create` scans the whole doc,
+    // `createInRange` scans only the edited blocks.
     const scan = (editor: Editor, state: EditorState, from: number, to: number) => {
       const decorations: Decoration[] = []
       const term = editor.storage.highlightDecorations.term.trim().toLowerCase()
 
       state.doc.nodesBetween(from, to, (node, pos) => {
-        // node decoration: outline every heading
+        // node decoration: outline headings
         if (node.type.name === 'heading') {
           decorations.push(
             Decoration.Node(pos, pos + node.nodeSize, { class: 'decoration-heading' }),
@@ -77,12 +65,9 @@ export const HighlightDecorations = Extension.create<
           // inline decoration: highlight the match
           decorations.push(Decoration.Inline(matchFrom, matchTo, { class: 'decoration-highlight' }))
 
-          // widget decoration: a marker rendered just before the match.
-          // NOTE: The key uses the document position, which works here because
-          // this widget is stateless (a simple star character). For stateful
-          // widgets, always use a stable domain-based key (e.g. `comment-${id}`,
-          // `paragraph-${node.attrs.id}`) so the DOM and component state are
-          // preserved across edits.
+          // widget decoration: a star marker before each match.
+          // Position-based key is fine here because the widget is stateless.
+          // For stateful widgets, use a stable domain key like `comment-${id}`.
           decorations.push(
             Decoration.Widget(
               matchFrom,
@@ -106,7 +91,7 @@ export const HighlightDecorations = Extension.create<
     }
 
     return {
-      // Rescan changed blocks; the toolbar forces a full rebuild when the search term changes.
+      // Only rescan changed blocks on edits; force full rebuild on term change.
       update: 'changedRanges',
 
       create: ({ editor, state }) => scan(editor, state, 0, state.doc.content.size),
