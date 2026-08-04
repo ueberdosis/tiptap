@@ -23,4 +23,4 @@ Framework bindings:
 - `@tiptap/react`: `ReactWidgetRenderer` wraps a React component as a ProseMirror widget, preserving state across key-based reassignment
 - `@tiptap/vue-2` / `@tiptap/vue-3`: `VueWidgetRenderer` does the same for Vue components, with safeguards against deep reactivity crashes
 
-Use the `decoration` factory (`decoration.node()`, `decoration.inline()`, `decoration.widget()`) to build descriptors inside `addDecorations().create()`.
+Use the `Decoration` class static factories (`Decoration.Node()`, `Decoration.Inline()`, `Decoration.Widget()`) to build decoration instances inside `addDecorations().create()`.

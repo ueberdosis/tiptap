@@ -1,5 +1,5 @@
-import { decoration, liveWidgetKeys } from '@tiptap/core'
-import type { Editor, WidgetDecorationDescriptor, WidgetDecorationOptions } from '@tiptap/core'
+import { Decoration, liveWidgetKeys } from '@tiptap/core'
+import type { Editor, WidgetDecoration, WidgetDecorationOptions } from '@tiptap/core'
 import type { EditorView } from '@tiptap/pm/view'
 import type { ComponentType } from 'react'
 
@@ -101,9 +101,9 @@ function getCache(editor: Editor): WidgetCache {
  * Tiptap's existing `ReactRenderer` portal infrastructure so the component lives
  * in the editor's React tree (context and hooks work as usual).
  *
- * Returns a {@link WidgetDecorationDescriptor} ready to return from an
- * extension's `addDecorations().create()`, alongside `decoration.node` /
- * `decoration.inline`.
+ * Returns a {@link WidgetDecoration} ready to return from an
+ * extension's `addDecorations().create()`, alongside `Decoration.Node` /
+ * `Decoration.Inline`.
  *
  * Widget behavior options such as `stopEvent`, `ignoreSelection`, `side`, and
  * `relaxedSide` are passed through to ProseMirror. Use a stable `key` for
@@ -127,7 +127,7 @@ function getCache(editor: Editor): WidgetCache {
 export function ReactWidgetRenderer<P extends Record<string, any> = object>(
   component: ComponentType<P & ReactWidgetDecorationProps>,
   options: ReactWidgetRendererOptions<P>,
-): WidgetDecorationDescriptor {
+): WidgetDecoration {
   const {
     editor,
     pos,
@@ -188,7 +188,7 @@ export function ReactWidgetRenderer<P extends Record<string, any> = object>(
     return renderer.element
   }
 
-  return decoration.widget(pos, render, {
+  return Decoration.Widget(pos, render, {
     key,
     side,
     relaxedSide,

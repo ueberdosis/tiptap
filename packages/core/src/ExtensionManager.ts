@@ -4,10 +4,7 @@ import type { Plugin, Transaction } from '@tiptap/pm/state'
 import type { EditorView, MarkViewConstructor, NodeViewConstructor } from '@tiptap/pm/view'
 
 import type { Editor } from './Editor.js'
-import {
-  createDecorationPlugin,
-  type ResolvedDecorationEntry,
-} from './features/decorations/DecorationManager.js'
+import { DecorationManager, type DecorationManagerEntry } from './decorations/DecorationManager.js'
 import {
   flattenExtensions,
   getAttributesFromExtensions,
@@ -48,6 +45,8 @@ export class ExtensionManager {
   splittableMarks: string[] = []
 
   nonClearableMarks: string[] = []
+
+  decorationManager: DecorationManager | null = null
 
   constructor(extensions: Extensions, editor: Editor) {
     this.editor = editor
@@ -219,7 +218,7 @@ export class ExtensionManager {
   get decorationPlugin(): Plugin | null {
     const { editor } = this
 
-    const entries: ResolvedDecorationEntry[] = []
+    const entries: DecorationManagerEntry[] = []
 
     this.extensions.forEach(extension => {
       const context = {
@@ -240,18 +239,17 @@ export class ExtensionManager {
         return
       }
 
-      const spec = addDecorations()
-
-      if (spec) {
-        entries.push({ name: extension.name, spec })
-      }
+      entries.push({ name: extension.name, addDecorations })
     })
 
     if (!entries.length) {
+      this.decorationManager = null
       return null
     }
 
-    return createDecorationPlugin(editor, entries)
+    this.decorationManager = new DecorationManager({ editor, entries })
+
+    return this.decorationManager.plugin
   }
 
   /**

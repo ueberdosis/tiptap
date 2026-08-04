@@ -1,5 +1,5 @@
-import { decoration, liveWidgetKeys } from '@tiptap/core'
-import type { Editor, WidgetDecorationDescriptor, WidgetDecorationOptions } from '@tiptap/core'
+import { Decoration, liveWidgetKeys } from '@tiptap/core'
+import type { Editor, WidgetDecoration, WidgetDecorationOptions } from '@tiptap/core'
 import type { EditorView } from '@tiptap/pm/view'
 import type { Component } from 'vue'
 import { markRaw } from 'vue'
@@ -96,9 +96,9 @@ function getCache(editor: Editor): WidgetCache {
  * existing `VueRenderer` so the component shares the editor's app context
  * (provide/inject works as usual).
  *
- * Returns a {@link WidgetDecorationDescriptor} ready to return from an
- * extension's `addDecorations().create()`, alongside `decoration.node` /
- * `decoration.inline`. The component must render a single root element.
+ * Returns a {@link WidgetDecoration} ready to return from an
+ * extension's `addDecorations().create()`, alongside `Decoration.Node` /
+ * `Decoration.Inline`. The component must render a single root element.
  *
  * Widget behavior options such as `stopEvent`, `ignoreSelection`, `side`, and
  * `relaxedSide` are passed through to ProseMirror. Use a stable `key` for
@@ -122,7 +122,7 @@ function getCache(editor: Editor): WidgetCache {
 export function VueWidgetRenderer<P extends Record<string, any> = object>(
   component: Component,
   options: VueWidgetRendererOptions<P>,
-): WidgetDecorationDescriptor {
+): WidgetDecoration {
   const {
     editor,
     pos,
@@ -182,7 +182,7 @@ export function VueWidgetRenderer<P extends Record<string, any> = object>(
     return renderer.element as HTMLElement
   }
 
-  return decoration.widget(pos, render, {
+  return Decoration.Widget(pos, render, {
     key,
     side,
     relaxedSide,

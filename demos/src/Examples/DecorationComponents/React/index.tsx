@@ -1,7 +1,7 @@
 import '../styles.scss'
 
 import { Extension } from '@tiptap/core'
-import type { DecorationDescriptor } from '@tiptap/core'
+import type { Decoration } from '@tiptap/core'
 import UniqueID from '@tiptap/extension-unique-id'
 import StarterKit from '@tiptap/starter-kit'
 import { EditorContent, ReactWidgetRenderer, useEditor } from '@tiptap/react'
@@ -24,7 +24,7 @@ const ParagraphCounters = Extension.create({
   addDecorations() {
     return {
       create: ({ editor, state }) => {
-        const decorations: DecorationDescriptor[] = []
+        const decorations: Decoration[] = []
         let index = 0
 
         state.doc.forEach((node, offset) => {

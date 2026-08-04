@@ -1,4 +1,4 @@
-import { decorationManagerKey } from '../features/decorations/DecorationManager.js'
+import { DECORATION_MANAGER_PLUGIN_KEY } from '../decorations/constants.js'
 import type { RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
@@ -21,7 +21,7 @@ export const updateDecorations: RawCommands['updateDecorations'] =
   extensionName =>
   ({ tr, dispatch }) => {
     if (dispatch) {
-      tr.setMeta(decorationManagerKey, { type: 'force', name: extensionName })
+      tr.setMeta(DECORATION_MANAGER_PLUGIN_KEY, { type: 'force', name: extensionName })
     }
 
     return true
