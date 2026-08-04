@@ -18,9 +18,8 @@ export abstract class Decoration {
   abstract get anchor(): number
 
   /**
-   * Builds the ProseMirror decoration for this decoration.
-   *
-   * When `extensionName` is provided, it is embedded into the decorations spec.
+   * Builds the ProseMirror decoration. When `extensionName` is provided,
+   * it is embedded into the decoration spec for incremental merge tracking.
    * @param extensionName The name of the extension that produced this decoration.
    * @returns The ProseMirror decoration.
    */
