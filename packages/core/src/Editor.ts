@@ -28,6 +28,7 @@ import { isActive } from './helpers/isActive.js'
 import { isNodeEmpty } from './helpers/isNodeEmpty.js'
 import { createMappablePosition, getUpdatedPosition } from './helpers/MappablePosition.js'
 import { resolveFocusPosition } from './helpers/resolveFocusPosition.js'
+import { warnOnDuplicatedProseMirrorModel } from './helpers/warnOnDuplicatedProseMirrorModel.js'
 import type { Storage } from './index.js'
 import { NodePos } from './NodePos.js'
 import { style } from './style.js'
@@ -154,6 +155,8 @@ export class Editor extends EventEmitter<EditorEvents> {
         selection: selection || undefined,
       })
     }
+
+    warnOnDuplicatedProseMirrorModel(this.editorState.doc)
 
     if (this.options.element) {
       this.mount(this.options.element)

@@ -1,5 +1,5 @@
-import type { ParseOptions } from '@tiptap/pm/model'
-import { DOMParser, Fragment, Node as ProseMirrorNode, Schema } from '@tiptap/pm/model'
+import type { Node as ProseMirrorNode, ParseOptions } from '@tiptap/pm/model'
+import { DOMParser, Fragment, Schema } from '@tiptap/pm/model'
 
 import type { Content } from '../types.js'
 import { elementFromString } from '../utilities/elementFromString.js'
@@ -8,6 +8,16 @@ export type CreateNodeFromContentOptions = {
   slice?: boolean
   parseOptions?: ParseOptions
   errorOnInvalidContent?: boolean
+}
+
+// Matched by shape, not `instanceof`, which fails when the app loaded a second
+// copy of prosemirror-model. A node holds a NodeType object, JSON holds a string.
+const isProseMirrorContent = (content: object): content is ProseMirrorNode | Fragment => {
+  if ('type' in content) {
+    return typeof content.type === 'object'
+  }
+
+  return typeof (content as Fragment).size === 'number'
 }
 
 /**
@@ -22,16 +32,18 @@ export function createNodeFromContent(
   schema: Schema,
   options?: CreateNodeFromContentOptions,
 ): ProseMirrorNode | Fragment {
-  if (content instanceof ProseMirrorNode || content instanceof Fragment) {
+  const isJSONContent = typeof content === 'object' && content !== null
+
+  if (isJSONContent && isProseMirrorContent(content)) {
     return content
   }
+
   options = {
     slice: true,
     parseOptions: {},
     ...options,
   }
 
-  const isJSONContent = typeof content === 'object' && content !== null
   const isTextContent = typeof content === 'string'
 
   if (isJSONContent) {

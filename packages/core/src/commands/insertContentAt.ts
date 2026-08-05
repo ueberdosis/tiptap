@@ -1,5 +1,4 @@
-import type { Node as ProseMirrorNode, ParseOptions } from '@tiptap/pm/model'
-import { Fragment } from '@tiptap/pm/model'
+import type { Fragment, Node as ProseMirrorNode, ParseOptions } from '@tiptap/pm/model'
 
 import { createNodeFromContent } from '../helpers/createNodeFromContent.js'
 import { selectionToInsertionEnd } from '../helpers/selectionToInsertionEnd.js'
@@ -132,7 +131,7 @@ export const insertContentAt: RawCommands['insertContentAt'] =
 
       let isOnlyTextContent = true
       let isOnlyBlockContent = true
-      const nodes = isFragment(content) ? content : [content]
+      const nodes: readonly ProseMirrorNode[] = isFragment(content) ? content.content : [content]
 
       nodes.forEach(node => {
         // check if added node is valid
@@ -163,25 +162,9 @@ export const insertContentAt: RawCommands['insertContentAt'] =
       // if there is only plain text we have to use `insertText`
       // because this will keep the current marks
       if (isOnlyTextContent) {
-        // if value is string, we can use it directly
-        // otherwise if it is an array, we have to join it
-        if (Array.isArray(value)) {
-          newContent = value.map(v => v.text || '').join('')
-        } else if (value instanceof Fragment) {
-          let text = ''
-
-          value.forEach(node => {
-            if (node.text) {
-              text += node.text
-            }
-          })
-
-          newContent = text
-        } else if (typeof value === 'object' && !!value && !!value.text) {
-          newContent = value.text
-        } else {
-          newContent = value as string
-        }
+        // A string is inserted as written. Anything else is rebuilt from the parsed
+        // nodes, which also survives a duplicated prosemirror-model.
+        newContent = typeof value === 'string' ? value : nodes.map(node => node.text ?? '').join('')
 
         tr.insertText(newContent, from, to)
       } else {
@@ -197,7 +180,8 @@ export const insertContentAt: RawCommands['insertContentAt'] =
           from = Math.max(0, from - 1)
         }
 
-        tr.replaceWith(from, to, newContent)
+        // Nodes cross a duplicated prosemirror-model, a fragment does not.
+        tr.replaceWith(from, to, nodes)
       }
 
       // set cursor at end of inserted content
