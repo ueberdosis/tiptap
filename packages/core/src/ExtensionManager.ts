@@ -478,6 +478,7 @@ export class ExtensionManager {
 
     this.extensions = []
     this.baseExtensions = []
+    this.decorationManager = null
     this.schema = null as any
     this.editor = null as any
   }
