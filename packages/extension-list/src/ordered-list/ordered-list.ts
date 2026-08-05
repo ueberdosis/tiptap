@@ -24,21 +24,18 @@ export interface OrderedListOptions {
   /**
    * The HTML attributes for an ordered list node.
    * @default {}
-   * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
 
   /**
    * Keep the marks when splitting a list item.
    * @default false
-   * @example true
    */
   keepMarks: boolean
 
   /**
    * Keep the attributes when splitting a list item.
    * @default false
-   * @example true
    */
   keepAttributes: boolean
 }
@@ -91,8 +88,8 @@ function cssListStyleTypeToHtmlType(style: string): string | null {
 /**
  * This extension allows you to create ordered lists.
  * This requires the ListItem extension
- * @see https://www.tiptap.dev/api/nodes/ordered-list
- * @see https://www.tiptap.dev/api/nodes/list-item
+ * @see https://tiptap.dev/api/nodes/ordered-list
+ * @see https://tiptap.dev/api/nodes/list-item
  */
 export const OrderedList = Node.create<OrderedListOptions>({
   name: 'orderedList',

@@ -23,7 +23,7 @@ function nodeEqualsType({
 export interface TrailingNodeOptions {
   /**
    * The node type that should be inserted at the end of the document.
-   * @note the node will always be added to the `notAfter` lists to
+   * @remarks The node is always added to the `notAfter` list to
    * prevent an infinite loop.
    * @default undefined
    */
@@ -37,7 +37,7 @@ export interface TrailingNodeOptions {
 
 /**
  * This extension allows you to add an extra node at the end of the document.
- * @see https://www.tiptap.dev/api/extensions/trailing-node
+ * @see https://tiptap.dev/api/extensions/trailing-node
  */
 export const TrailingNode = Extension.create<TrailingNodeOptions>({
   name: 'trailingNode',

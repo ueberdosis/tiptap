@@ -4,7 +4,6 @@ export interface UnderlineOptions {
   /**
    * HTML attributes to add to the underline element.
    * @default {}
-   * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
 }
@@ -33,7 +32,7 @@ declare module '@tiptap/core' {
 
 /**
  * This extension allows you to create underline text.
- * @see https://www.tiptap.dev/api/marks/underline
+ * @see https://tiptap.dev/api/marks/underline
  */
 export const Underline = Mark.create<UnderlineOptions>({
   name: 'underline',

@@ -136,7 +136,6 @@ export interface SuggestionOptions<I = any, TSelected = any> {
   /**
    * Allow spaces in the suggestion query. Not compatible with `allowToIncludeChar`. Will be disabled if `allowToIncludeChar` is set to `true`.
    * @default false
-   * @example true
    */
   allowSpaces?: boolean
 
@@ -156,7 +155,6 @@ export interface SuggestionOptions<I = any, TSelected = any> {
   /**
    * Only match suggestions at the start of the line.
    * @default false
-   * @example true
    */
   startOfLine?: boolean
 

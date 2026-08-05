@@ -6,7 +6,6 @@ export interface TextStyleOptions {
   /**
    * HTML attributes to add to the span element.
    * @default {}
-   * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
   /**
@@ -85,7 +84,7 @@ const mergeNestedSpanStyles = (element: HTMLElement) => {
 /**
  * This extension allows you to create text styles. It is required by default
  * for the `text-color` and `font-family` extensions.
- * @see https://www.tiptap.dev/api/marks/text-style
+ * @see https://tiptap.dev/api/marks/text-style
  */
 export const TextStyle = Mark.create<TextStyleOptions>({
   name: 'textStyle',

@@ -4,7 +4,6 @@ export interface StrikeOptions {
   /**
    * HTML attributes to add to the strike element.
    * @default {}
-   * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
 }
@@ -43,7 +42,7 @@ export const pasteRegex = /(?:^|\s)(~~(?!\s+~~)((?:[^~]+))~~(?!\s+~~))/g
 
 /**
  * This extension allows you to create strike text.
- * @see https://www.tiptap.dev/api/marks/strike
+ * @see https://tiptap.dev/api/marks/strike
  */
 export const Strike = Mark.create<StrikeOptions>({
   name: 'strike',

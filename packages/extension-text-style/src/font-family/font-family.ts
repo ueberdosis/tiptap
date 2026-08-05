@@ -38,7 +38,7 @@ declare module '@tiptap/extension-text-style' {
 
 /**
  * This extension allows you to set a font family for text.
- * @see https://www.tiptap.dev/api/extensions/font-family
+ * @see https://tiptap.dev/api/extensions/font-family
  */
 export const FontFamily = Extension.create<FontFamilyOptions>({
   name: 'fontFamily',

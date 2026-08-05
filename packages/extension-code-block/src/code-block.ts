@@ -43,7 +43,6 @@ export interface CodeBlockOptions {
   /**
    * Custom HTML attributes that should be added to the rendered HTML tag.
    * @default {}
-   * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
 }

@@ -16,14 +16,7 @@ declare module '@tiptap/core' {
        * @example editor.commands.updateAttributes('mention', { userId: "2" })
        */
       updateAttributes: (
-        /**
-         * The type or name of the node or mark.
-         */
         typeOrName: string | NodeType | MarkType,
-
-        /**
-         * The attributes of the node or mark.
-         */
         attributes: Record<string, any>,
       ) => ReturnType
     }

@@ -36,7 +36,7 @@ declare module '@tiptap/core' {
 
 /**
  * This extension allows you to undo and redo recent changes.
- * @see https://www.tiptap.dev/api/extensions/undo-redo
+ * @see https://tiptap.dev/api/extensions/undo-redo
  *
  * **Important**: If the `@tiptap/extension-collaboration` package is used, make sure to remove
  * the `undo-redo` extension, as it is not compatible with the `collaboration` extension.

@@ -38,7 +38,7 @@ declare module '@tiptap/extension-text-style' {
 
 /**
  * This extension allows you to set the line-height for text.
- * @see https://www.tiptap.dev/api/extensions/line-height
+ * @see https://tiptap.dev/api/extensions/line-height
  */
 export const LineHeight = Extension.create<LineHeightOptions>({
   name: 'lineHeight',

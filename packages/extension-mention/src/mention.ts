@@ -33,7 +33,6 @@ export interface MentionOptions<
   /**
    * The HTML attributes for a mention node.
    * @default {}
-   * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
 
@@ -152,7 +151,7 @@ function getSuggestionFromChar(options: GetSuggestionsOptions, char: string) {
 
 /**
  * This extension allows you to insert mentions into the editor.
- * @see https://www.tiptap.dev/api/extensions/mention
+ * @see https://tiptap.dev/api/extensions/mention
  */
 export const Mention = Node.create<MentionOptions>({
   name: 'mention',

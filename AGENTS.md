@@ -57,7 +57,35 @@ decorations.filter(d => d.visible)
 - Comment only when the reason is not visible in the code. Never restate what the lines below already say.
 - Two lines max. Only genuinely complex or hard to follow code earns more.
 - Say why, not what: `// We keep the old value because the transaction may be reverted.`
-- JSDoc on public APIs with `@param`, `@returns` and a runnable example. Those examples generate our API docs.
+
+### JSDoc
+
+Public APIs get JSDoc. Keep it to 1-2 lines, 3 at most. `@remarks`, `@see` and `@example` do not count towards that.
+
+Say what it does and why it exists. Never restate the signature: `getMarkType` does not need "Gets the mark type."
+
+| Tag           | When to use it                                                                                                          |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `@param`      | Only when the name alone is unclear. Document a parameter once, either here or inline. Never both.                      |
+| `@returns`    | Only when the return value is not obvious from the type.                                                                |
+| `@default`    | On every option that has a default.                                                                                     |
+| `@example`    | On commands, entry points, and helpers whose call shape is not obvious. Never on an option that already has `@default`. |
+| `@see`        | Link to `https://tiptap.dev/docs/...`.                                                                                  |
+| `@remarks`    | Only for a real gotcha, like ordering or a ProseMirror quirk. Rare.                                                     |
+| `@deprecated` | Always name the replacement.                                                                                            |
+| `@property`   | Never. Document interface members inline.                                                                               |
+
+```ts
+export interface HighlightOptions {
+  /**
+   * Allow more than one highlight color.
+   * @default false
+   */
+  multicolor: boolean
+}
+```
+
+Do not document generated files, re-export barrels, or self-explanatory guards like `isString`.
 
 ### Writing
 

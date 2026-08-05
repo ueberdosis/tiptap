@@ -6,42 +6,36 @@ export interface AudioOptions {
   /**
    * Controls if the paste handler for audio sources should be added.
    * @default true
-   * @example false
    */
   addPasteHandler: boolean
 
   /**
    * Controls if the audio should autoplay.
    * @default false
-   * @example true
    */
   autoplay: boolean
 
   /**
    * Controls if the audio element should render the native controls.
    * @default true
-   * @example false
    */
   controls: boolean
 
   /**
    * Controls if the audio should loop.
    * @default false
-   * @example true
    */
   loop: boolean
 
   /**
    * Controls if the audio should be muted.
    * @default false
-   * @example true
    */
   muted: boolean
 
   /**
    * The preload behavior for the audio element.
    * @default 'metadata'
-   * @example 'none'
    */
   preload: 'auto' | 'metadata' | 'none' | null
 
@@ -55,35 +49,30 @@ export interface AudioOptions {
   /**
    * Sets the crossorigin attribute for the audio element.
    * @default undefined
-   * @example 'anonymous'
    */
   crossorigin?: '' | 'anonymous' | 'use-credentials'
 
   /**
    * Controls if remote playback should be disabled on the audio element.
    * @default false
-   * @example true
    */
   disableRemotePlayback: boolean
 
   /**
    * Allows data: URLs for audio sources.
    * @default false
-   * @example true
    */
   allowBase64: boolean
 
   /**
    * The HTML attributes for an audio node.
    * @default {}
-   * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
 
   /**
    * Controls if the audio node should be inline or not.
    * @default false
-   * @example true
    */
   inline: boolean
 }

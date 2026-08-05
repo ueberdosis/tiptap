@@ -310,7 +310,7 @@ export const threeQuarters = (override?: string) =>
 
 /**
  * This extension allows you to add typography replacements for specific characters.
- * @see https://www.tiptap.dev/api/extensions/typography
+ * @see https://tiptap.dev/api/extensions/typography
  */
 export const Typography = Extension.create<TypographyOptions>({
   name: 'typography',

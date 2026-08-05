@@ -28,19 +28,11 @@ declare module '@tiptap/core' {
       /**
        * Replace the whole document with new content.
        * @param content The new content.
-       * @param emitUpdate Whether to emit an update event.
-       * @param parseOptions Options for parsing the content.
+       * @param options Parse options, and whether to emit an update event.
        * @example editor.commands.setContent('<p>Example text</p>')
        */
       setContent: (
-        /**
-         * The new content.
-         */
         content: Content | Fragment | ProseMirrorNode,
-
-        /**
-         * Options for `setContent`.
-         */
         options?: SetContentOptions,
       ) => ReturnType
     }

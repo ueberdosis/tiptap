@@ -9,7 +9,6 @@ export interface ListItemOptions {
   /**
    * The HTML attributes for a list item node.
    * @default {}
-   * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
 
@@ -56,7 +55,7 @@ function parseSameLineOrderedListText(text: string, helpers: MarkdownParseHelper
 
 /**
  * This extension allows you to create list items.
- * @see https://www.tiptap.dev/api/nodes/list-item
+ * @see https://tiptap.dev/api/nodes/list-item
  */
 export const ListItem = Node.create<ListItemOptions>({
   name: 'listItem',

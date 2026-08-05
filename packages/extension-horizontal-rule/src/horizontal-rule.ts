@@ -5,7 +5,6 @@ export interface HorizontalRuleOptions {
   /**
    * The HTML attributes for a horizontal rule node.
    * @default {}
-   * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
   /**
@@ -30,7 +29,7 @@ declare module '@tiptap/core' {
 
 /**
  * This extension allows you to insert horizontal rules.
- * @see https://www.tiptap.dev/api/nodes/horizontal-rule
+ * @see https://tiptap.dev/api/nodes/horizontal-rule
  */
 export const HorizontalRule = Node.create<HorizontalRuleOptions>({
   name: 'horizontalRule',

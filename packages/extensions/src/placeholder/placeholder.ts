@@ -7,7 +7,7 @@ import type { PlaceholderOptions } from './types.js'
 /**
  * This extension allows you to add a placeholder to your editor.
  * A placeholder is a text that appears when the editor or a node is empty.
- * @see https://www.tiptap.dev/api/extensions/placeholder
+ * @see https://tiptap.dev/api/extensions/placeholder
  */
 export const Placeholder = Extension.create<PlaceholderOptions>({
   name: 'placeholder',

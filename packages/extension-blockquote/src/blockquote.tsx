@@ -7,7 +7,6 @@ export interface BlockquoteOptions {
   /**
    * HTML attributes to add to the blockquote element
    * @default {}
-   * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
 }

@@ -19,7 +19,7 @@ export type ListKeymapOptions = {
  * By default Prosemirror keyhandling will always lift or sink items so paragraphs are joined into
  * the adjacent or previous list item. This extension will prevent this behaviour and instead will
  * try to join paragraphs from two list items into a single list item.
- * @see https://www.tiptap.dev/api/extensions/list-keymap
+ * @see https://tiptap.dev/api/extensions/list-keymap
  */
 export const ListKeymap = Extension.create<ListKeymapOptions>({
   name: 'listKeymap',

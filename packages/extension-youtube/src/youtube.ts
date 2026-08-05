@@ -52,21 +52,18 @@ export interface YoutubeOptions {
   /**
    * Controls if the paste handler for youtube videos should be added.
    * @default true
-   * @example false
    */
   addPasteHandler: boolean
 
   /**
    * Controls if the youtube video should be allowed to go fullscreen.
    * @default true
-   * @example false
    */
   allowFullscreen: boolean
 
   /**
    * Controls if the youtube video should autoplay.
    * @default false
-   * @example true
    */
   autoplay: boolean
 
@@ -80,28 +77,24 @@ export interface YoutubeOptions {
   /**
    * Controls if the captions should be shown in the youtube video.
    * @default undefined
-   * @example true
    */
   ccLoadPolicy?: boolean
 
   /**
    * Controls if the controls should be shown in the youtube video.
    * @default true
-   * @example false
    */
   controls: boolean
 
   /**
    * Controls if the keyboard controls should be disabled in the youtube video.
    * @default false
-   * @example true
    */
   disableKBcontrols: boolean
 
   /**
    * Controls if the iframe api should be enabled in the youtube video.
    * @default false
-   * @example true
    */
   enableIFrameApi: boolean
 
@@ -137,35 +130,30 @@ export interface YoutubeOptions {
   /**
    * Controls if the youtube video should loop.
    * @default false
-   * @example true
    */
   loop: boolean
 
   /**
    * Controls if the youtube video should show a small youtube logo.
    * @default false
-   * @example true
    */
   modestBranding: boolean
 
   /**
    * The HTML attributes for a youtube video node.
    * @default {}
-   * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
 
   /**
    * Controls if the youtube node should be inline or not.
    * @default false
-   * @example true
    */
   inline: boolean
 
   /**
    * Controls if the youtube video should be loaded from youtube-nocookie.com.
    * @default false
-   * @example true
    */
   nocookie: boolean
 
@@ -231,7 +219,7 @@ declare module '@tiptap/core' {
 
 /**
  * This extension adds support for youtube videos.
- * @see https://www.tiptap.dev/api/nodes/youtube
+ * @see https://tiptap.dev/api/nodes/youtube
  */
 export const Youtube = Node.create<YoutubeOptions>({
   name: 'youtube',

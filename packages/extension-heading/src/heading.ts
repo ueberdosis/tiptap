@@ -16,7 +16,6 @@ export interface HeadingOptions {
   /**
    * The HTML attributes for a heading node.
    * @default {}
-   * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
 }
@@ -42,7 +41,7 @@ declare module '@tiptap/core' {
 
 /**
  * This extension allows you to create headings.
- * @see https://www.tiptap.dev/api/nodes/heading
+ * @see https://tiptap.dev/api/nodes/heading
  */
 export const Heading = Node.create<HeadingOptions>({
   name: 'heading',

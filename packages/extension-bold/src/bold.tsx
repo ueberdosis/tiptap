@@ -5,7 +5,6 @@ export interface BoldOptions {
   /**
    * HTML attributes to add to the bold element.
    * @default {}
-   * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
 }

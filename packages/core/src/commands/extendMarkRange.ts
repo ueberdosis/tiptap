@@ -17,14 +17,7 @@ declare module '@tiptap/core' {
        * @example editor.commands.extendMarkRange('mention', { userId: "1" })
        */
       extendMarkRange: (
-        /**
-         * The type or name of the mark.
-         */
         typeOrName: string | MarkType,
-
-        /**
-         * The attributes of the mark.
-         */
         attributes?: Record<string, any>,
       ) => ReturnType
     }

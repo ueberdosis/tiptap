@@ -4,7 +4,6 @@ export interface ParagraphOptions {
   /**
    * The HTML attributes for a paragraph node.
    * @default {}
-   * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
 }
@@ -36,7 +35,7 @@ const NBSP_CHAR = '\u00A0'
 
 /**
  * This extension allows you to create paragraphs.
- * @see https://www.tiptap.dev/api/nodes/paragraph
+ * @see https://tiptap.dev/api/nodes/paragraph
  */
 export const Paragraph = Node.create<ParagraphOptions>({
   name: 'paragraph',

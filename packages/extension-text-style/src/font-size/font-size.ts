@@ -38,7 +38,7 @@ declare module '@tiptap/extension-text-style' {
 
 /**
  * This extension allows you to set a font size for text.
- * @see https://www.tiptap.dev/api/extensions/font-size
+ * @see https://tiptap.dev/api/extensions/font-size
  */
 export const FontSize = Extension.create<FontSizeOptions>({
   name: 'fontSize',

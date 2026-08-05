@@ -11,24 +11,13 @@ declare module '@tiptap/core' {
        * Toggle a mark on and off.
        * @param typeOrName The mark type or name.
        * @param attributes The attributes of the mark.
-       * @param options.extendEmptyMarkRange Removes the mark even across the current selection. Defaults to `false`.
+       * @param options.extendEmptyMarkRange With an empty selection, act on the whole mark around the cursor. Defaults to `false`.
        * @example editor.commands.toggleMark('bold')
        */
       toggleMark: (
-        /**
-         * The mark type or name.
-         */
         typeOrName: string | MarkType,
-
-        /**
-         * The attributes of the mark.
-         */
         attributes?: Record<string, any>,
-
         options?: {
-          /**
-           * Removes the mark even across the current selection. Defaults to `false`.
-           */
           extendEmptyMarkRange?: boolean
         },
       ) => ReturnType

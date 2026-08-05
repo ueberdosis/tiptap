@@ -11,7 +11,6 @@ export interface ImageOptions {
   /**
    * Controls if the image node should be inline or not.
    * @default false
-   * @example true
    */
   inline: boolean
 
@@ -19,14 +18,12 @@ export interface ImageOptions {
    * Controls if base64 images are allowed. Enable this if you want to allow
    * base64 image urls in the `src` attribute.
    * @default false
-   * @example true
    */
   allowBase64: boolean
 
   /**
    * HTML attributes to add to the image element.
    * @default {}
-   * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
 
@@ -77,7 +74,7 @@ export const inputRegex = /(?:^|\s)(!\[(.+|:?)]\((\S+)(?:(?:\s+)["'](\S+)["'])?\
 
 /**
  * This extension allows you to insert images.
- * @see https://www.tiptap.dev/api/nodes/image
+ * @see https://tiptap.dev/api/nodes/image
  */
 export const Image = Node.create<ImageOptions>({
   name: 'image',

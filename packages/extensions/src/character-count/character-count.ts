@@ -13,14 +13,12 @@ export interface CharacterCountOptions {
    * The mode by which the size is calculated. If set to `textSize`, the textContent of the document is used.
    * If set to `nodeSize`, the nodeSize of the document is used.
    * @default 'textSize'
-   * @example 'textSize'
    */
   mode: 'textSize' | 'nodeSize'
   /**
    * Sets whether the content will be automatically trimmed when programatically setting content over the limit.
    * If set to false, the user will be able to trim the text manually.
    * @default true
-   * @example false
    */
   autoTrim?: boolean
   /**

@@ -5,7 +5,6 @@ export interface SubscriptExtensionOptions {
   /**
    * HTML attributes to add to the subscript element.
    * @default {}
-   * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
 }
@@ -34,7 +33,7 @@ declare module '@tiptap/core' {
 
 /**
  * This extension allows you to create subscript text.
- * @see https://www.tiptap.dev/api/marks/subscript
+ * @see https://tiptap.dev/api/marks/subscript
  */
 export const Subscript = Mark.create<SubscriptExtensionOptions>({
   name: 'subscript',

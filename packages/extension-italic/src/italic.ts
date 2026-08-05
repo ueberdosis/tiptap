@@ -4,7 +4,6 @@ export interface ItalicOptions {
   /**
    * HTML attributes to add to the italic element.
    * @default {}
-   * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
 }
@@ -53,7 +52,7 @@ export const underscorePasteRegex = /(?:^|\s)(_(?!\s+_)((?:[^_]+))_(?!\s+_))/g
 
 /**
  * This extension allows you to create italic text.
- * @see https://www.tiptap.dev/api/marks/italic
+ * @see https://tiptap.dev/api/marks/italic
  */
 export const Italic = Mark.create<ItalicOptions>({
   name: 'italic',

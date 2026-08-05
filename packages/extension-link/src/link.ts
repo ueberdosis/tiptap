@@ -21,7 +21,6 @@ export interface LinkProtocolOptions {
   /**
    * If enabled, it allows optional slashes after the protocol.
    * @default false
-   * @example true
    */
   optionalSlashes?: boolean
 }
@@ -38,7 +37,6 @@ export interface LinkOptions {
   /**
    * If enabled, the extension will automatically add links as you type.
    * @default true
-   * @example false
    */
   autolink: boolean
 
@@ -57,19 +55,16 @@ export interface LinkOptions {
   /**
    * If enabled, links will be opened on click.
    * @default true
-   * @example false
    */
   openOnClick: boolean | DeprecatedOpenWhenNotEditable
   /**
    * If enabled, the link will be selected when clicked.
    * @default false
-   * @example true
    */
   enableClickSelection: boolean
   /**
    * Adds a link to the current selection if the pasted content only contains an url.
    * @default true
-   * @example false
    */
   linkOnPaste: boolean
 
@@ -77,14 +72,12 @@ export interface LinkOptions {
    * If enabled, typing or pasting the Markdown link syntax, e.g. `[Tiptap](https://tiptap.dev)`
    * or `[Tiptap](https://tiptap.dev "Rich text editor")`, converts it into a link.
    * @default false
-   * @example true
    */
   markdownLinks: boolean
 
   /**
    * HTML attributes to add to the link element.
    * @default {}
-   * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
 
@@ -214,7 +207,7 @@ export function isAllowedUri(uri: string | undefined, protocols?: LinkOptions['p
 
 /**
  * This extension allows you to create links.
- * @see https://www.tiptap.dev/api/marks/link
+ * @see https://tiptap.dev/api/marks/link
  */
 export const Link = Mark.create<LinkOptions>({
   name: 'link',

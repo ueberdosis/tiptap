@@ -5,7 +5,6 @@ export interface SuperscriptExtensionOptions {
   /**
    * HTML attributes to add to the superscript element.
    * @default {}
-   * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
 }
@@ -34,7 +33,7 @@ declare module '@tiptap/core' {
 
 /**
  * This extension allows you to create superscript text.
- * @see https://www.tiptap.dev/api/marks/superscript
+ * @see https://tiptap.dev/api/marks/superscript
  */
 export const Superscript = Mark.create<SuperscriptExtensionOptions>({
   name: 'superscript',

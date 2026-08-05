@@ -4,14 +4,12 @@ export interface HardBreakOptions {
   /**
    * Controls if marks should be kept after being split by a hard break.
    * @default true
-   * @example false
    */
   keepMarks: boolean
 
   /**
    * HTML attributes to add to the hard break element.
    * @default {}
-   * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
 }
@@ -30,7 +28,7 @@ declare module '@tiptap/core' {
 
 /**
  * This extension allows you to insert hard breaks.
- * @see https://www.tiptap.dev/api/nodes/hard-break
+ * @see https://tiptap.dev/api/nodes/hard-break
  */
 export const HardBreak = Node.create<HardBreakOptions>({
   name: 'hardBreak',

@@ -49,7 +49,7 @@ declare module '@tiptap/core' {
 
 /**
  * This extension allows you to align text.
- * @see https://www.tiptap.dev/api/extensions/text-align
+ * @see https://tiptap.dev/api/extensions/text-align
  */
 export const TextAlign = Extension.create<TextAlignOptions>({
   name: 'textAlign',

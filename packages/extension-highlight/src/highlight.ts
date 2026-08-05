@@ -4,14 +4,12 @@ export interface HighlightOptions {
   /**
    * Allow multiple highlight colors
    * @default false
-   * @example true
    */
   multicolor: boolean
 
   /**
    * HTML attributes to add to the highlight element.
    * @default {}
-   * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
 }
@@ -52,7 +50,7 @@ export const pasteRegex = /(?:^|\s)(==(?!\s+==)((?:[^=]+))==(?!\s+==))/g
 
 /**
  * This extension allows you to highlight text.
- * @see https://www.tiptap.dev/api/marks/highlight
+ * @see https://tiptap.dev/api/marks/highlight
  */
 export const Highlight = Mark.create<HighlightOptions>({
   name: 'highlight',

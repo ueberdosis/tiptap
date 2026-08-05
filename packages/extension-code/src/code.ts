@@ -5,7 +5,6 @@ export interface CodeOptions {
   /**
    * The HTML attributes applied to the code element.
    * @default {}
-   * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
 }

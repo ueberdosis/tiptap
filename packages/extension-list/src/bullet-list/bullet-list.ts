@@ -14,21 +14,18 @@ export interface BulletListOptions {
   /**
    * HTML attributes to add to the bullet list element
    * @default {}
-   * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
 
   /**
    * Keep the marks when splitting the list
    * @default false
-   * @example true
    */
   keepMarks: boolean
 
   /**
    * Keep the attributes when splitting the list
    * @default false
-   * @example true
    */
   keepAttributes: boolean
 }
@@ -53,7 +50,7 @@ export const bulletListInputRegex = /^\s*([-+*])\s$/
  * This extension allows you to create bullet lists.
  * This requires the ListItem extension
  * @see https://tiptap.dev/api/nodes/bullet-list
- * @see https://tiptap.dev/api/nodes/list-item.
+ * @see https://tiptap.dev/api/nodes/list-item
  */
 export const BulletList = Node.create<BulletListOptions>({
   name: 'bulletList',

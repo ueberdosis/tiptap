@@ -11,20 +11,12 @@ declare module '@tiptap/core' {
       /**
        * Focus the editor at the given position.
        * @param position The position to focus at.
-       * @param options.scrollIntoView Scroll the focused position into view after focusing
+       * @param options.scrollIntoView Scroll the focused position into view. Defaults to `true`.
        * @example editor.commands.focus()
        * @example editor.commands.focus(32, { scrollIntoView: false })
        */
       focus: (
-        /**
-         * The position to focus at.
-         */
         position?: FocusPosition,
-
-        /**
-         * Optional options
-         * @default { scrollIntoView: true }
-         */
         options?: {
           scrollIntoView?: boolean
         },

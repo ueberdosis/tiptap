@@ -44,7 +44,7 @@ function restoreDomSelection(view: EditorView) {
  * This extension allows you to add a class to the selected text when the editor is blurred.
  * It clears the native browser selection on blur (so `::selection` styles do not overlap the
  * decoration) and restores it when the editor is focused again.
- * @see https://www.tiptap.dev/api/extensions/selection
+ * @see https://tiptap.dev/api/extensions/selection
  */
 export const Selection = Extension.create<SelectionOptions>({
   name: 'selection',

@@ -45,28 +45,24 @@ export interface TwitchOptions {
   /**
    * Controls if the paste handler for Twitch videos should be added.
    * @default true
-   * @example false
    */
   addPasteHandler: boolean
 
   /**
    * Controls if the Twitch video should be allowed to go fullscreen.
    * @default true
-   * @example false
    */
   allowFullscreen: boolean
 
   /**
    * Controls if the Twitch video should autoplay.
    * @default false
-   * @example true
    */
   autoplay: boolean
 
   /**
    * Controls if the Twitch video should start muted.
    * @default false
-   * @example true
    */
   muted: boolean
 
@@ -102,14 +98,12 @@ export interface TwitchOptions {
   /**
    * The HTML attributes for a Twitch video node.
    * @default {}
-   * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
 
   /**
    * Controls if the Twitch node should be inline or not.
    * @default false
-   * @example true
    */
   inline: boolean
 }
@@ -141,7 +135,7 @@ declare module '@tiptap/core' {
 
 /**
  * This extension adds support for Twitch videos.
- * @see https://www.tiptap.dev/api/nodes/twitch
+ * @see https://tiptap.dev/api/nodes/twitch
  *
  * @example
  * ```ts

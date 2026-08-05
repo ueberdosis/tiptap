@@ -11,7 +11,6 @@ export interface TaskListOptions {
   /**
    * The HTML attributes for a task list node.
    * @default {}
-   * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
 }
@@ -30,7 +29,7 @@ declare module '@tiptap/core' {
 
 /**
  * This extension allows you to create task lists.
- * @see https://www.tiptap.dev/api/nodes/task-list
+ * @see https://tiptap.dev/api/nodes/task-list
  */
 export const TaskList = Node.create<TaskListOptions>({
   name: 'taskList',

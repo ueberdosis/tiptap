@@ -142,32 +142,57 @@ Browser setup:
 
 ## Documentation style
 
-We focus heavily on **User Experience** and **Developer Experience**. Every public API must be documented with JSDoc, including:
+We focus heavily on **User Experience** and **Developer Experience**. Every public API is documented with JSDoc.
 
-* `@param` and `@returns` annotations
-* Argument descriptions
-* At least one runnable example
+Keep each description to 1-2 lines, 3 at most. `@remarks`, `@see` and `@example` do not count towards that. Say what the API does and why it exists, never restate the signature.
 
-This ensures our automated API docs are complete and examples are usable without extra context.
+When to use each tag:
 
-Example:
+* `@param` - only when the name alone is unclear. Document a parameter once, either in the block or inline. Never both.
+* `@returns` - only when the return value is not obvious from the type.
+* `@default` - on every option that has a default.
+* `@example` - on commands, entry points, and helpers whose call shape is not obvious. Never on an option that already has `@default`.
+* `@see` - link to `https://tiptap.dev/docs/...`.
+* `@remarks` - only for a real gotcha, like ordering or a ProseMirror quirk. Rare.
+* `@deprecated` - always name the replacement.
+* `@property` - never. Document interface members inline.
 
-````ts
-/**
- * Toggle bold mark on the current selection.
- *
- * Example
- * ```ts
- * editor.chain().focus().toggleBold().run()
- * ```
- *
- * @param editor - The editor instance
- * @returns true if the command was applied
- */
-export function toggleBold(editor: Editor): boolean {
-  // ...
+Every `@example` must be a call that really works: the command has to exist and the attributes have to be real. An example that says nothing, like `@example true` on a boolean, is worse than no example.
+
+Options interface:
+
+```ts
+export interface HighlightOptions {
+  /**
+   * Allow more than one highlight color.
+   * @default false
+   */
+  multicolor: boolean
 }
-````
+```
+
+Command:
+
+```ts
+/**
+ * Add a mark to the current selection.
+ * @param typeOrName The mark type or its name.
+ * @example editor.commands.setMark('highlight', { color: 'red' })
+ */
+setMark: (typeOrName: string | MarkType, attributes?: Record<string, any>) => ReturnType
+```
+
+Extension:
+
+```ts
+/**
+ * Highlights text, like a marker pen.
+ * @see https://tiptap.dev/docs/editor/extensions/marks/highlight
+ */
+export const Highlight = Mark.create<HighlightOptions>({ ... })
+```
+
+Do not document generated files, re-export barrels, or self-explanatory guards like `isString`.
 
 ---
 

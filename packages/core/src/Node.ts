@@ -28,7 +28,6 @@ export interface NodeConfig<Options = any, Storage = any> extends ExtendableConf
   /**
    * Defines if this node should be a top level node (doc)
    * @default false
-   * @example true
    */
   topNode?: boolean
 

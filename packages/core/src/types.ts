@@ -50,33 +50,18 @@ export type MaybeThisParameterType<T> =
 
 export interface EditorEvents {
   mount: {
-    /**
-     * The editor instance
-     */
     editor: Editor
   }
   unmount: {
-    /**
-     * The editor instance
-     */
     editor: Editor
   }
   beforeCreate: {
-    /**
-     * The editor instance
-     */
     editor: Editor
   }
   create: {
-    /**
-     * The editor instance
-     */
     editor: Editor
   }
   contentError: {
-    /**
-     * The editor instance
-     */
     editor: Editor
     /**
      * The error that occurred while parsing the content
@@ -89,9 +74,6 @@ export interface EditorEvents {
     disableCollaboration: () => void
   }
   update: {
-    /**
-     * The editor instance
-     */
     editor: Editor
     /**
      * The transaction that caused the update
@@ -103,9 +85,6 @@ export interface EditorEvents {
     appendedTransactions: Transaction[]
   }
   selectionUpdate: {
-    /**
-     * The editor instance
-     */
     editor: Editor
     /**
      * The transaction that caused the selection update
@@ -113,9 +92,6 @@ export interface EditorEvents {
     transaction: Transaction
   }
   beforeTransaction: {
-    /**
-     * The editor instance
-     */
     editor: Editor
     /**
      * The transaction that will be applied
@@ -127,9 +103,6 @@ export interface EditorEvents {
     nextState: EditorState
   }
   transaction: {
-    /**
-     * The editor instance
-     */
     editor: Editor
     /**
      * The initial transaction
@@ -141,9 +114,6 @@ export interface EditorEvents {
     appendedTransactions: Transaction[]
   }
   focus: {
-    /**
-     * The editor instance
-     */
     editor: Editor
     /**
      * The focus event
@@ -155,9 +125,6 @@ export interface EditorEvents {
     transaction: Transaction
   }
   blur: {
-    /**
-     * The editor instance
-     */
     editor: Editor
     /**
      * The focus event
@@ -170,9 +137,6 @@ export interface EditorEvents {
   }
   destroy: void
   paste: {
-    /**
-     * The editor instance
-     */
     editor: Editor
     /**
      * The clipboard event
@@ -184,9 +148,6 @@ export interface EditorEvents {
     slice: Slice
   }
   drop: {
-    /**
-     * The editor instance
-     */
     editor: Editor
     /**
      * The drag event
@@ -202,9 +163,6 @@ export interface EditorEvents {
     moved: boolean
   }
   delete: {
-    /**
-     * The editor instance
-     */
     editor: Editor
     /**
      * The range of the deleted content (before the deletion)
@@ -242,7 +200,7 @@ export interface EditorEvents {
         type: 'node'
         /**
          * The node which the deletion occurred in
-         * @note This can be a parent node of the deleted content
+         * @remarks This can be a parent node of the deleted content
          */
         node: ProseMirrorNode
         /**
@@ -780,9 +738,6 @@ export interface NodeViewRendererProps {
    */
   innerDecorations: Parameters<NodeViewConstructor>[4]
   // tiptap-specific
-  /**
-   * The editor instance.
-   */
   editor: Editor
   /**
    * The extension that is responsible for the node.
@@ -814,9 +769,6 @@ export interface MarkViewRendererProps {
    */
   inline: Parameters<MarkViewConstructor>[2]
   // tiptap-specific
-  /**
-   * The editor instance.
-   */
   editor: Editor
   /**
    * The extension that is responsible for the mark.

@@ -48,14 +48,12 @@ export interface TableOptions {
   /**
    * HTML attributes for the table element.
    * @default {}
-   * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
 
   /**
    * Enables the resizing of tables.
    * @default false
-   * @example true
    */
   resizable: boolean
 
@@ -63,7 +61,6 @@ export interface TableOptions {
    * Controls whether the table should be wrapped in a div with class "tableWrapper" when rendered.
    * In editable mode with resizable tables, this wrapper is always present via TableView.
    * @default false
-   * @example true
    */
   renderWrapper: boolean
 
@@ -97,14 +94,12 @@ export interface TableOptions {
   /**
    * Enables the resizing of the last column.
    * @default true
-   * @example false
    */
   lastColumnResizable: boolean
 
   /**
    * Allow table node selection.
    * @default false
-   * @example true
    */
   allowTableNodeSelection: boolean
 }
@@ -258,7 +253,7 @@ declare module '@tiptap/core' {
 
 /**
  * This extension allows you to create tables.
- * @see https://www.tiptap.dev/api/nodes/table
+ * @see https://tiptap.dev/api/nodes/table
  */
 export const Table = Node.create<TableOptions>({
   name: 'table',

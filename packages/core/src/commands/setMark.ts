@@ -12,7 +12,7 @@ declare module '@tiptap/core' {
       /**
        * Add a mark with new attributes.
        * @param typeOrName The mark type or name.
-       * @example editor.commands.setMark('bold', { level: 1 })
+       * @example editor.commands.setMark('highlight', { color: 'red' })
        */
       setMark: (typeOrName: string | MarkType, attributes?: Record<string, any>) => ReturnType
     }
