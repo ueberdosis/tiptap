@@ -248,9 +248,15 @@ export class DecorationManager {
     let set = mapDecorationSetForward(previousSet, tr.mapping, tr.doc, widgetKeys)
 
     for (const { from, to } of resolution.ranges) {
+      // because a decoration at `to` belongs to the next block, only clear it
+      // at the end of the document.
+      const endOfDoc = newState.doc.content.size
       const stale = set
         .find(from, to)
-        .filter(decoration => decoration.from >= from && decoration.from < to)
+        .filter(
+          decoration =>
+            decoration.from >= from && (decoration.from < to || decoration.from === endOfDoc),
+        )
 
       for (const decoration of stale) {
         const key = widgetKeyOf(decoration)

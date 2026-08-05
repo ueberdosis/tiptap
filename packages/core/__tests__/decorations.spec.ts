@@ -683,6 +683,37 @@ describe('changedRanges updates', () => {
     editor.destroy()
   })
 
+  it('keeps a widget placed at the end of the document (anchor === to)', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    // <p>aaa</p> -> doc.content.size === 5. The only top-level block range
+    // is [0, 5]. A widget at pos 5 (end of document) has anchor === to.
+    const endWidget = () => document.createElement('span')
+    const create = vi.fn(({ state }) => [
+      Decoration.Widget(state.doc.content.size, endWidget, { key: 'end-widget' }),
+    ])
+    const createInRange = vi.fn(({ state }) => [
+      Decoration.Widget(state.doc.content.size, endWidget, { key: 'end-widget' }),
+    ])
+    const extension = Extension.create({
+      name: 'endWidget',
+      addDecorations: () => ({ update: 'changedRanges', create, createInRange }),
+    })
+
+    const editor = createEditor(extension, '<p>aaa</p>')
+
+    // Edit inside the only block so createInRange runs with range [0, 5].
+    editor.commands.insertContentAt(1, 'x')
+
+    expect(warn).not.toHaveBeenCalledWith(expect.stringContaining('outside the requested range'))
+    expect(warn).not.toHaveBeenCalledWith(
+      expect.stringContaining('Duplicate widget decoration key'),
+    )
+    expect(liveWidgetKeys(editor).has('end-widget')).toBe(true)
+
+    warn.mockRestore()
+    editor.destroy()
+  })
+
   it('removes decorations from a deleted block during incremental recomputation', () => {
     const { extension } = incrementalExtension()
     const editor = createEditor(extension, '<p>x</p><p>x</p>')

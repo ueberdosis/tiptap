@@ -15,7 +15,7 @@ export function filterOutOfRangeDecorations(
   extensionName: string,
 ): Decoration[] {
   return decorations.filter(decoration => {
-    if (decoration.anchor >= from && decoration.anchor < to) {
+    if (decoration.anchor >= from && decoration.anchor <= to) {
       return true
     }
 
