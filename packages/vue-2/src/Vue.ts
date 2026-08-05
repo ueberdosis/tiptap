@@ -5,4 +5,7 @@ import VueDefault from 'vue'
 // We need to explicitly type it as VueConstructor to access static methods like extend and observable.
 // This is necessary because Vue 2's type definitions export Vue as VueConstructor, but nodenext
 // doesn't correctly infer the default export type.
+/**
+ * The Vue 2 constructor, resolved from either the default or the named export.
+ */
 export const Vue: VueConstructor = VueDefault as unknown as VueConstructor

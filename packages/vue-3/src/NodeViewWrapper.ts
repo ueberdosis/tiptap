@@ -1,5 +1,8 @@
 import { defineComponent, h } from 'vue'
 
+/**
+ * The outer element of a node view. Every Vue node view needs one.
+ */
 export const NodeViewWrapper = defineComponent({
   name: 'NodeViewWrapper',
 

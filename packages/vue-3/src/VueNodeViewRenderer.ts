@@ -15,6 +15,9 @@ import { defineComponent, provide, ref } from 'vue'
 import type { Editor } from './Editor.js'
 import { VueRenderer } from './VueRenderer.js'
 
+/**
+ * The props every Vue node view component receives.
+ */
 export const nodeViewProps = {
   editor: {
     type: Object as PropType<NodeViewProps['editor']>,
@@ -62,6 +65,9 @@ export const nodeViewProps = {
   },
 }
 
+/**
+ * Options for `VueNodeViewRenderer`.
+ */
 export interface VueNodeViewRendererOptions extends NodeViewRendererOptions {
   update:
     | ((props: {
@@ -419,6 +425,10 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
   }
 }
 
+/**
+ * Render a node with a Vue component.
+ * @see https://tiptap.dev/docs/editor/extensions/custom-extensions/node-views
+ */
 export function VueNodeViewRenderer(
   component: Component<NodeViewProps>,
   options?: Partial<VueNodeViewRendererOptions>,

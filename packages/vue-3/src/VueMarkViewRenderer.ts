@@ -7,12 +7,18 @@ import { defineComponent, h, toRaw } from 'vue'
 import type { Editor } from './Editor.js'
 import { VueRenderer } from './VueRenderer.js'
 
+/**
+ * Options for `VueMarkViewRenderer`.
+ */
 export interface VueMarkViewRendererOptions extends MarkViewRendererOptions {
   as?: string
   className?: string
   attrs?: { [key: string]: string }
 }
 
+/**
+ * The props every Vue mark view component receives.
+ */
 export const markViewProps = {
   editor: {
     type: Object as PropType<MarkViewProps['editor']>,
@@ -44,6 +50,9 @@ export const markViewProps = {
   },
 }
 
+/**
+ * Marks where the text covered by the mark goes.
+ */
 export const MarkViewContent = defineComponent({
   name: 'MarkViewContent',
 
@@ -64,6 +73,9 @@ export const MarkViewContent = defineComponent({
   },
 })
 
+/**
+ * The mark view that renders a Vue component.
+ */
 export class VueMarkView extends MarkView<Component, VueMarkViewRendererOptions> {
   renderer: VueRenderer
 
@@ -120,6 +132,9 @@ export class VueMarkView extends MarkView<Component, VueMarkViewRendererOptions>
   }
 }
 
+/**
+ * Render a mark with a Vue component.
+ */
 export function VueMarkViewRenderer(
   component: Component,
   options: Partial<VueMarkViewRendererOptions> = {},

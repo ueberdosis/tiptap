@@ -7,6 +7,9 @@ import type {
 } from '../findSuggestionMatch.js'
 import type { SuggestionOptions, SuggestionPluginState } from '../types.js'
 
+/**
+ * Options for the plugin state field.
+ */
 export interface CreateSuggestionStateOptions {
   editor: Editor
   char: string

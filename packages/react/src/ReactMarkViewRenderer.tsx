@@ -6,19 +6,31 @@ import React from 'react'
 // import { flushSync } from 'react-dom'
 import { ReactRenderer } from './ReactRenderer.js'
 
+/**
+ * The value the mark view context carries.
+ */
 export interface MarkViewContextProps {
   markViewContentRef: (element: HTMLElement | null) => void
 }
+/**
+ * Holds the mark view for the components below it.
+ */
 export const ReactMarkViewContext = React.createContext<MarkViewContextProps>({
   markViewContentRef: () => {
     // do nothing
   },
 })
 
+/**
+ * Props for `MarkViewContent`.
+ */
 export type MarkViewContentProps<T extends keyof React.JSX.IntrinsicElements = 'span'> = {
   as?: T
 } & Omit<React.ComponentProps<T>, 'as'>
 
+/**
+ * Marks where the text covered by the mark goes.
+ */
 export const MarkViewContent = <T extends keyof React.JSX.IntrinsicElements = 'span'>(
   props: MarkViewContentProps<T>,
 ) => {
@@ -31,6 +43,9 @@ export const MarkViewContent = <T extends keyof React.JSX.IntrinsicElements = 's
   )
 }
 
+/**
+ * Options for `ReactMarkViewRenderer`.
+ */
 export interface ReactMarkViewRendererOptions extends MarkViewRendererOptions {
   /**
    * The tag name of the element wrapping the React component.
@@ -40,6 +55,9 @@ export interface ReactMarkViewRendererOptions extends MarkViewRendererOptions {
   attrs?: { [key: string]: string }
 }
 
+/**
+ * The mark view that renders a React component.
+ */
 export class ReactMarkView extends MarkView<
   React.ComponentType<MarkViewProps>,
   ReactMarkViewRendererOptions
@@ -106,6 +124,9 @@ export class ReactMarkView extends MarkView<
   }
 }
 
+/**
+ * Render a mark with a React component.
+ */
 export function ReactMarkViewRenderer(
   component: React.ComponentType<MarkViewProps>,
   options: Partial<ReactMarkViewRendererOptions> = {},

@@ -4,6 +4,10 @@ import { PluginKey } from '@tiptap/pm/state'
 import type { PropType } from 'vue'
 import { defineComponent, h, onBeforeUnmount, onMounted, ref } from 'vue'
 
+/**
+ * A menu that appears next to an empty line.
+ * @see https://tiptap.dev/docs/editor/extensions/functionality/floatingmenu
+ */
 export const FloatingMenu = defineComponent({
   name: 'FloatingMenu',
 

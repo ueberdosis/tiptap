@@ -5,11 +5,17 @@ import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/shim/w
 
 const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect
 
+/**
+ * The editor plus a counter that changes on every transaction.
+ */
 export type EditorStateSnapshot<TEditor extends Editor | null = Editor | null> = {
   editor: TEditor
   transactionNumber: number
 }
 
+/**
+ * Options for `useEditorState`.
+ */
 export type UseEditorStateOptions<
   TSelectorResult,
   TEditor extends Editor | null = Editor | null,

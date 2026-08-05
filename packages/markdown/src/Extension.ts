@@ -65,6 +65,9 @@ declare module '@tiptap/core' {
   }
 }
 
+/**
+ * Options for the `Markdown` extension.
+ */
 export type MarkdownExtensionOptions = {
   /**
    * Configure the indentation style and size for lists and code blocks.
@@ -86,10 +89,16 @@ export type MarkdownExtensionOptions = {
   markedOptions?: Parameters<typeof marked.setOptions>[0]
 }
 
+/**
+ * What the extension keeps on `editor.storage.markdown`.
+ */
 export type MarkdownExtensionStorage = {
   manager: MarkdownManager
 }
 
+/**
+ * Reads and writes markdown, so the editor can load and save it.
+ */
 export const Markdown = Extension.create<MarkdownExtensionOptions, MarkdownExtensionStorage>({
   name: 'markdown',
 

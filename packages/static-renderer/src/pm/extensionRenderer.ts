@@ -24,6 +24,9 @@ import { Node, Schema } from '@tiptap/pm/model'
 import { getHTMLAttributes } from '../helpers.js'
 import type { MarkProps, NodeProps, TiptapStaticRendererOptions } from '../json/renderer.js'
 
+/**
+ * Turns a ProseMirror render spec into an element of the target format.
+ */
 export type DomOutputSpecToElement<T> = (content: DOMOutputSpec) => (children?: T | T[]) => T
 
 /**

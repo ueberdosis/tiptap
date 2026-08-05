@@ -10,6 +10,9 @@ import { useMenuElementProps } from './useMenuElementProps.js'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
+/**
+ * Props for `FloatingMenu`.
+ */
 export type FloatingMenuProps = Omit<
   Optional<FloatingMenuPluginProps, 'pluginKey'>,
   'element' | 'editor'
@@ -18,6 +21,10 @@ export type FloatingMenuProps = Omit<
   options?: FloatingMenuPluginProps['options']
 } & React.HTMLAttributes<HTMLDivElement>
 
+/**
+ * A menu that appears next to an empty line.
+ * @see https://tiptap.dev/docs/editor/extensions/functionality/floatingmenu
+ */
 export const FloatingMenu = React.forwardRef<HTMLDivElement, FloatingMenuProps>(
   (
     {

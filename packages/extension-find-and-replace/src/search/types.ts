@@ -21,6 +21,14 @@ export interface TextblockSearchTarget {
  */
 export interface SearchOptions {
   caseSensitive: boolean
+
+  /**
+   * Treat the search term as a regular expression.
+   */
   useRegex: boolean
+
+  /**
+   * Match whole words only. Ignored when `useRegex` is on.
+   */
   wholeWord: boolean
 }

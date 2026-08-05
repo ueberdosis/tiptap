@@ -35,6 +35,9 @@ import {
 } from './utils.js'
 import { htmlContainsUnrecognizedTag } from './utils/htmlTagDetection.js'
 
+/**
+ * Turns markdown into editor content and back, using the specs the extensions register.
+ */
 export class MarkdownManager {
   private markedInstance: typeof marked
   private activeParseLexer: Lexer | null = null

@@ -346,6 +346,9 @@ function syncEventListeners(
   return nextListeners
 }
 
+/**
+ * Wires a menu element to its plugin, and returns the props to spread on it.
+ */
 export function useMenuElementProps(element: HTMLDivElement, props: MenuElementProps) {
   const previousPropsRef = useRef<MenuElementProps>({})
   const listenersRef = useRef<EventListenerEntry[]>([])

@@ -22,6 +22,9 @@ import {
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
+/**
+ * Props for `DragHandle`.
+ */
 export type DragHandleProps = Omit<
   Optional<DragHandlePluginProps, 'pluginKey' | 'nestedOptions'>,
   'element'
@@ -40,6 +43,9 @@ export type DragHandleProps = Omit<
   nested?: boolean | NestedOptions
 }
 
+/**
+ * A handle you can grab to drag the node under the pointer.
+ */
 export const DragHandle = defineComponent({
   name: 'DragHandleVue',
 

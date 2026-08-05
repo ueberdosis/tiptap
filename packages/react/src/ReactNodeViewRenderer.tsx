@@ -18,6 +18,9 @@ import type { ReactNodeViewProps } from './types.js'
 import type { ReactNodeViewContextProps } from './useReactNodeView.js'
 import { ReactNodeViewContext } from './useReactNodeView.js'
 
+/**
+ * Options for `ReactNodeViewRenderer`.
+ */
 export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
   /**
    * This function is called when the node view is updated.
@@ -55,6 +58,9 @@ export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
       }) => Record<string, string>)
 }
 
+/**
+ * The node view that renders a React component.
+ */
 export class ReactNodeView<
   T = HTMLElement,
   Component extends ComponentType<ReactNodeViewProps<T>> = ComponentType<ReactNodeViewProps<T>>,

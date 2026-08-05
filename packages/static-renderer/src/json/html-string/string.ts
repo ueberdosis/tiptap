@@ -2,6 +2,9 @@
 import type { JSONMarkType, JSONNodeType, TiptapStaticRendererOptions } from '../renderer.js'
 import { TiptapStaticRenderer } from '../renderer.js'
 
+/**
+ * Render editor JSON to an HTML string, without starting an editor.
+ */
 export function renderJSONContentToString<
   /**
    * A mark type is either a JSON representation of a mark or a Prosemirror mark instance

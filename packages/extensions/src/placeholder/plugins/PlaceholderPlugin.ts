@@ -8,6 +8,9 @@ import { buildPlaceholderDecorations } from '../utils/buildPlaceholderDecoration
 import { createPlaceholderStateField } from '../utils/placeholderStateField.js'
 import { preparePlaceholderAttribute } from '../utils/preparePlaceholderAttribute.js'
 
+/**
+ * Options for the placeholder plugin.
+ */
 export type CreatePluginOptions = {
   editor: Editor
   options: PlaceholderOptions

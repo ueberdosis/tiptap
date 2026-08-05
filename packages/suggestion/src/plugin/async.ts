@@ -2,6 +2,9 @@ import type { Editor } from '@tiptap/core'
 
 import type { SuggestionOptions } from '../types.js'
 
+/**
+ * Options for the async request manager.
+ */
 export interface CreateSuggestionAsyncRequestManagerOptions<I = any> {
   editor: Editor
   items: NonNullable<SuggestionOptions<I>['items']>
@@ -12,6 +15,9 @@ type AsyncRequestResult<I> =
   | { status: 'aborted' }
   | { status: 'error' }
 
+/**
+ * Runs the `items` lookup and drops the answers of requests that are no longer current.
+ */
 export function createSuggestionAsyncRequestManager<I = any>({
   editor,
   items,

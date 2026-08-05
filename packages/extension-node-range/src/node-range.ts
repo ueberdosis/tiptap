@@ -11,7 +11,16 @@ import { NodeRangeSelection } from './helpers/NodeRangeSelection.js'
  * Options for the `NodeRange` extension.
  */
 export interface NodeRangeOptions {
+  /**
+   * Select nodes at this depth instead of the outermost one.
+   * @default undefined
+   */
   depth: number | undefined
+
+  /**
+   * The key to hold while dragging. `null` means no key is needed.
+   * @default 'Shift'
+   */
   key: 'Shift' | 'Control' | 'Alt' | 'Meta' | 'Mod' | null | undefined
 }
 

@@ -13,6 +13,9 @@ import { Vue } from './Vue.js'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
+/**
+ * Props for `DragHandle`.
+ */
 export type DragHandleProps = Omit<
   Optional<DragHandlePluginProps, 'pluginKey'>,
   'element' | 'nestedOptions'
@@ -31,6 +34,9 @@ export type DragHandleProps = Omit<
   nested?: boolean | NestedOptions
 }
 
+/**
+ * A handle you can grab to drag the node under the pointer.
+ */
 export const DragHandle = Vue.extend({
   name: 'DragHandleVue',
 

@@ -83,10 +83,32 @@ export type EmojiItem = {
  * Options for the `Emoji` node.
  */
 export type EmojiOptions = {
+  /**
+   * HTML attributes to add to the rendered emoji.
+   * @default {}
+   */
   HTMLAttributes: Record<string, any>
+
+  /**
+   * The emojis people can pick from.
+   */
   emojis: EmojiItem[]
+
+  /**
+   * Also turn emoticons such as `:-)` into emoji.
+   * @default false
+   */
   enableEmoticons: boolean
+
+  /**
+   * Always use the fallback image, even when the browser can show the emoji.
+   * @default false
+   */
   forceFallbackImages: boolean
+
+  /**
+   * Settings for the menu that opens when you type `:`.
+   */
   suggestion: Omit<SuggestionOptions, 'editor'>
 }
 
@@ -95,6 +117,10 @@ export type EmojiOptions = {
  */
 export type EmojiStorage = {
   emojis: EmojiItem[]
+
+  /**
+   * Whether this browser can show the emoji, or needs the fallback image.
+   */
   isSupported: (item: EmojiItem) => boolean
 }
 

@@ -12,6 +12,9 @@ import type {
 import { createSuggestionAsyncRequestManager } from './async.js'
 import { createMount, createSuggestionFloatingUiConfig } from './floating-ui.js'
 
+/**
+ * Options for the plugin view that renders the popup.
+ */
 export interface CreateSuggestionViewOptions {
   editor: Editor
   pluginKey: PluginKey<PluginState>

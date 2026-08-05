@@ -2,6 +2,9 @@ import { z } from 'zod'
 
 import type { JsonItem } from '../types/json-item.js'
 
+/**
+ * The schema items for the nodes and marks that ship with Tiptap.
+ */
 export const defaultJsonItems: JsonItem[] = [
   // Core nodes
   // Omit the root 'doc' node because the AI does not read it or generate it.

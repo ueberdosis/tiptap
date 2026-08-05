@@ -1,5 +1,8 @@
 import { defineComponent, h } from 'vue'
 
+/**
+ * Marks where the editable content of a node view goes.
+ */
 export const NodeViewContent = defineComponent({
   name: 'NodeViewContent',
 

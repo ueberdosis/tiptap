@@ -42,11 +42,23 @@ export const isValidTwitchUrl = (url: string) => {
  * The player settings that go into the embed URL as query parameters.
  */
 export interface GetEmbedUrlOptions {
+  /**
+   * The Twitch URL to embed.
+   */
   url: string
+
   allowFullscreen?: boolean
   autoplay?: boolean
   muted?: boolean
+
+  /**
+   * Where to start in a video, as `1h2m3s`.
+   */
   time?: string
+
+  /**
+   * The domain the player is embedded on. Twitch requires this.
+   */
   parent?: string
 }
 
@@ -57,6 +69,10 @@ export interface TwitchEmbedAttributes {
   src: string
   autoplay?: boolean
   muted?: boolean
+
+  /**
+   * Where to start in a video, as `1h2m3s`.
+   */
   time?: string
 }
 

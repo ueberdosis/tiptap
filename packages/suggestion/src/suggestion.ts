@@ -27,6 +27,9 @@ export type {
   SuggestionProps,
 } from './types.js'
 
+/**
+ * Plugin key used when you do not pass your own.
+ */
 export const SuggestionPluginKey = new PluginKey('suggestion')
 
 type ShouldKeepDismissedProps = {

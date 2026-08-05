@@ -2,6 +2,9 @@ import type { Range } from '@tiptap/core'
 import { escapeForRegEx } from '@tiptap/core'
 import type { ResolvedPos } from '@tiptap/pm/model'
 
+/**
+ * What to look for before the cursor, and where to look.
+ */
 export interface Trigger {
   char: string
   allowSpaces: boolean
@@ -11,12 +14,18 @@ export interface Trigger {
   $position: ResolvedPos
 }
 
+/**
+ * The text the user typed after the trigger character, or `null` when there is no match.
+ */
 export type SuggestionMatch = {
   range: Range
   query: string
   text: string
 } | null
 
+/**
+ * Look for the trigger character and the query behind it, just before the cursor.
+ */
 export function findSuggestionMatch(config: Trigger): SuggestionMatch {
   const {
     char,

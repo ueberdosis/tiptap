@@ -1,6 +1,9 @@
 import type { Component, CreateElement } from 'vue'
 import type Vue from 'vue'
 
+/**
+ * The instance type of `NodeViewWrapper`.
+ */
 export interface NodeViewWrapperInterface extends Vue {
   as: string
   decorationClasses: {
@@ -9,6 +12,9 @@ export interface NodeViewWrapperInterface extends Vue {
   onDragStart: () => void
 }
 
+/**
+ * The outer element of a node view. Every Vue node view needs one.
+ */
 export const NodeViewWrapper: Component = {
   props: {
     as: {

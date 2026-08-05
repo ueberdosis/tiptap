@@ -20,24 +20,92 @@ export const isValidYoutubeUrl = (url: string) => {
  * The player settings that go into the embed URL as query parameters.
  */
 export interface GetEmbedUrlOptions {
+  /**
+   * The YouTube URL to embed.
+   */
   url: string
+
   allowFullscreen?: boolean
   autoplay?: boolean
+
+  /**
+   * Language of the subtitles, as a two letter code such as `'en'`.
+   */
   ccLanguage?: string
+
+  /**
+   * Show subtitles even when the viewer has them turned off.
+   */
   ccLoadPolicy?: boolean
+
+  /**
+   * Show the player controls.
+   */
   controls?: boolean
+
+  /**
+   * Turn the keyboard controls off.
+   */
   disableKBcontrols?: boolean
+
+  /**
+   * Allow the player to be controlled through the IFrame API.
+   */
   enableIFrameApi?: boolean
+
+  /**
+   * Stop at this many seconds into the video.
+   */
   endTime?: number
+
+  /**
+   * Language of the player interface, as a two letter code such as `'en'`.
+   */
   interfaceLanguage?: string
+
+  /**
+   * Show video annotations. `1` shows them, `3` hides them.
+   */
   ivLoadPolicy?: number
+
+  /**
+   * Play the video again when it ends.
+   */
   loop?: boolean
+
+  /**
+   * Hide the YouTube logo in the control bar.
+   */
   modestBranding?: boolean
+
+  /**
+   * Use `youtube-nocookie.com`, which does not set tracking cookies.
+   */
   nocookie?: boolean
+
+  /**
+   * Your own domain, required by the IFrame API.
+   */
   origin?: string
+
+  /**
+   * Other videos to play after this one, as a comma separated list of ids.
+   */
   playlist?: string
+
+  /**
+   * Colour of the progress bar, either `'red'` or `'white'`.
+   */
   progressBarColor?: string
+
+  /**
+   * Start this many seconds into the video.
+   */
   startAt?: number
+
+  /**
+   * Show related videos at the end. `0` limits them to the same channel.
+   */
   rel?: number
 }
 
@@ -46,6 +114,10 @@ export interface GetEmbedUrlOptions {
  */
 export interface YoutubeEmbedAttributes {
   src: string
+
+  /**
+   * Where to start in the video, in seconds.
+   */
   start?: number
 }
 

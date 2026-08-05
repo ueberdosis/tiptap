@@ -80,6 +80,9 @@ export type MarkProps<TMarkType = any, TChildren = any, TNodeType = any> = {
   parent?: TNodeType
 }
 
+/**
+ * Options for the static renderer.
+ */
 export type TiptapStaticRendererOptions<
   /**
    * The return type of the render function (e.g. React.ReactNode, string)

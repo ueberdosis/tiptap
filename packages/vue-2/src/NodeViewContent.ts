@@ -1,10 +1,16 @@
 import type { Component, CreateElement } from 'vue'
 import type Vue from 'vue'
 
+/**
+ * The instance type of `NodeViewContent`.
+ */
 export interface NodeViewContentInterface extends Vue {
   as: string
 }
 
+/**
+ * Marks where the editable content of a node view goes.
+ */
 export const NodeViewContent: Component = {
   props: {
     as: {

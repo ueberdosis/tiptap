@@ -3,6 +3,9 @@ import { BubbleMenuPlugin } from '@tiptap/extension-bubble-menu'
 import { PluginKey } from '@tiptap/pm/state'
 import type { Component, CreateElement, PropType, VNode } from 'vue'
 
+/**
+ * The instance type of `BubbleMenu`.
+ */
 export interface BubbleMenuInterface {
   $el: HTMLElement
   $attrs: Record<string, any>
@@ -22,6 +25,9 @@ export interface BubbleMenuInterface {
   getPluginKey: () => BubbleMenuPluginProps['pluginKey']
 }
 
+/**
+ * A menu that appears above the selection.
+ */
 export const BubbleMenu: Component = {
   name: 'BubbleMenu',
 

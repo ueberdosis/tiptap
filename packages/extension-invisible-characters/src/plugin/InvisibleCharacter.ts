@@ -8,9 +8,24 @@ import { textBetween } from './utils/text-between.js'
  * Options for one `InvisibleCharacter`.
  */
 export interface InvisibleCharacterOptions {
+  /**
+   * Name of the character, used as the CSS class of the marker.
+   */
   type: string
+
+  /**
+   * Whether this character should be marked.
+   */
   predicate: (value: string) => boolean
+
+  /**
+   * Which marker wins when two of them match the same spot. Higher goes first.
+   */
   priority?: number
+
+  /**
+   * Text shown in the marker.
+   */
   content?: string
 }
 

@@ -5,6 +5,9 @@ import React from 'react'
 import type { JSONMarkType, JSONNodeType, TiptapStaticRendererOptions } from '../renderer.js'
 import { TiptapStaticRenderer } from '../renderer.js'
 
+/**
+ * Render editor JSON to React elements, without starting an editor.
+ */
 export function renderJSONContentToReactElement<
   /**
    * A mark type is either a JSON representation of a mark or a Prosemirror mark instance

@@ -47,8 +47,16 @@ export interface ImageOptions {
 }
 
 export interface SetImageOptions {
+  /**
+   * The image URL.
+   */
   src: string
+
+  /**
+   * Text for people who cannot see the image.
+   */
   alt?: string
+
   title?: string
   width?: number
   height?: number

@@ -4,6 +4,10 @@ import { PluginKey } from '@tiptap/pm/state'
 import type { PropType } from 'vue'
 import { defineComponent, h, nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
 
+/**
+ * A menu that appears above the selection.
+ * @see https://tiptap.dev/docs/editor/extensions/functionality/bubble-menu
+ */
 export const BubbleMenu = defineComponent({
   name: 'BubbleMenu',
 

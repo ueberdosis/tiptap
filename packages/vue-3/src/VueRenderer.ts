@@ -4,6 +4,9 @@ import { h, markRaw, reactive, render } from 'vue'
 
 import type { Editor as ExtendedEditor } from './Editor.js'
 
+/**
+ * Options for `VueRenderer`.
+ */
 export interface VueRendererOptions {
   editor: Editor
   props?: Record<string, any>

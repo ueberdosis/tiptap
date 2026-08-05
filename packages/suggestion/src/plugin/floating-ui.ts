@@ -13,6 +13,9 @@ import type {
   SuggestionPlacement,
 } from '../types.js'
 
+/**
+ * Options for building the Floating UI config.
+ */
 export interface CreateSuggestionFloatingUiConfigOptions {
   placement: SuggestionPlacement
   offset: { mainAxis?: number; crossAxis?: number }
@@ -20,6 +23,9 @@ export interface CreateSuggestionFloatingUiConfigOptions {
   floatingUi?: SuggestionFloatingUiOptions
 }
 
+/**
+ * Build the Floating UI config from the suggestion options.
+ */
 export function createSuggestionFloatingUiConfig({
   placement,
   offset,
@@ -48,6 +54,9 @@ export function createSuggestionFloatingUiConfig({
   }
 }
 
+/**
+ * Options for mounting the popup.
+ */
 export interface CreateMountOptions {
   /** Returns the current cursor/anchor rect the popup should track. */
   getReferenceRect: () => DOMRect | null

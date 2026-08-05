@@ -7,6 +7,9 @@ type CollaborationCaretStorage = {
   users: { clientId: number; [key: string]: any }[]
 }
 
+/**
+ * Options for the `CollaborationCaret` extension.
+ */
 export interface CollaborationCaretOptions {
   /**
    * The Hocuspocus provider instance. This can also be a TiptapCloudProvider instance.

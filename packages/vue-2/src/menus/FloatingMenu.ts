@@ -4,6 +4,9 @@ import { PluginKey } from '@tiptap/pm/state'
 import type { Component, CreateElement, PropType } from 'vue'
 import type Vue from 'vue'
 
+/**
+ * The instance type of `FloatingMenu`.
+ */
 export interface FloatingMenuInterface extends Vue {
   $attrs: Record<string, any>
   $listeners: Record<string, (...args: any[]) => unknown>
@@ -18,6 +21,9 @@ export interface FloatingMenuInterface extends Vue {
   getPluginKey: () => FloatingMenuPluginProps['pluginKey']
 }
 
+/**
+ * A menu that appears next to an empty line.
+ */
 export const FloatingMenu: Component = {
   name: 'FloatingMenu',
 

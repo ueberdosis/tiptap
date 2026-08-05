@@ -36,11 +36,17 @@ const Portals: React.FC<{ contentComponent: ContentComponent }> = ({ contentComp
   return <>{Object.values(renderers)}</>
 }
 
+/**
+ * Props for `EditorContent`.
+ */
 export interface EditorContentProps extends HTMLProps<HTMLDivElement> {
   editor: Editor | null
   innerRef?: ForwardedRef<HTMLDivElement | null>
 }
 
+/**
+ * Build the component that holds the editor DOM.
+ */
 export function createContentComponent(): ContentComponent {
   const subscribers = new Set<() => void>()
   let renderers: Record<string, React.ReactPortal> = {}
@@ -99,6 +105,9 @@ export function createContentComponent(): ContentComponent {
   }
 }
 
+/**
+ * The class component behind `EditorContent`.
+ */
 export class PureEditorContent extends React.Component<
   EditorContentProps,
   { hasContentComponentInitialized: boolean }
@@ -211,4 +220,8 @@ const EditorContentWithKey = forwardRef<HTMLDivElement, EditorContentProps>(
   },
 )
 
+/**
+ * Renders the editor. Put it where the editable area should appear.
+ * @example <EditorContent editor={editor} />
+ */
 export const EditorContent = React.memo(EditorContentWithKey)

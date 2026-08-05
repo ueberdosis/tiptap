@@ -103,6 +103,9 @@ function isReact19Plus(): boolean {
   return false
 }
 
+/**
+ * Options for `ReactRenderer`.
+ */
 export interface ReactRendererOptions {
   /**
    * The editor instance.

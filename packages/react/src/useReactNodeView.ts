@@ -1,6 +1,9 @@
 import type { ReactNode } from 'react'
 import { createContext, createElement, useContext } from 'react'
 
+/**
+ * The value the node view context carries.
+ */
 export interface ReactNodeViewContextProps {
   onDragStart?: (event: DragEvent) => void
   nodeViewContentRef?: (element: HTMLElement | null) => void
@@ -11,6 +14,9 @@ export interface ReactNodeViewContextProps {
   nodeViewContentChildren?: ReactNode
 }
 
+/**
+ * Holds the node view for the components below it.
+ */
 export const ReactNodeViewContext = createContext<ReactNodeViewContextProps>({
   onDragStart: () => {
     // no-op
@@ -21,6 +27,9 @@ export const ReactNodeViewContext = createContext<ReactNodeViewContextProps>({
   },
 })
 
+/**
+ * Provides the node view to `NodeViewContent` and `NodeViewWrapper`.
+ */
 export const ReactNodeViewContentProvider = ({
   children,
   content,
@@ -35,4 +44,7 @@ export const ReactNodeViewContentProvider = ({
   )
 }
 
+/**
+ * Read the node view the component is rendered in.
+ */
 export const useReactNodeView = () => useContext(ReactNodeViewContext)

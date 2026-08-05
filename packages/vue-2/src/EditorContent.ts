@@ -3,10 +3,16 @@ import type Vue from 'vue'
 
 import type { Editor } from './Editor.js'
 
+/**
+ * The instance type of `EditorContent`.
+ */
 export interface EditorContentInterface extends Vue {
   editor: Editor
 }
 
+/**
+ * Renders the editor. Put it where the editable area should appear.
+ */
 export const EditorContent: Component = {
   name: 'EditorContent',
 

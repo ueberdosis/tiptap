@@ -8,6 +8,9 @@ import type {
   SuggestionMatch,
 } from './findSuggestionMatch.js'
 
+/**
+ * Where the popup sits relative to the text that triggered it.
+ */
 export type SuggestionPlacement =
   | 'top'
   | 'top-start'
@@ -16,11 +19,17 @@ export type SuggestionPlacement =
   | 'bottom-start'
   | 'bottom-end'
 
+/**
+ * Extra Floating UI settings for the popup.
+ */
 export type SuggestionFloatingUiOptions = {
   strategy?: 'absolute' | 'fixed'
   middleware?: Middleware[]
 }
 
+/**
+ * The Floating UI config the popup is positioned with.
+ */
 export type SuggestionFloatingUiConfig = {
   placement: SuggestionPlacement
   strategy: 'absolute' | 'fixed'
@@ -71,6 +80,9 @@ export type SuggestionMountOptions = {
  */
 export type SuggestionMount = (element: HTMLElement, options?: SuggestionMountOptions) => () => void
 
+/**
+ * Whether a suggestion is open, and the query the user has typed so far.
+ */
 export type PluginState = {
   active: boolean
   range: Range
@@ -79,6 +91,10 @@ export type PluginState = {
   decorationId?: string
 }
 
+/**
+ * Options for the suggestion plugin.
+ * @see https://tiptap.dev/docs/editor/api/utilities/suggestion
+ */
 export interface SuggestionOptions<I = any, TSelected = any> {
   /**
    * The plugin key for the suggestion plugin.

@@ -9,12 +9,19 @@ import { useMenuElementProps } from './useMenuElementProps.js'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
+/**
+ * Props for `BubbleMenu`.
+ */
 export type BubbleMenuProps = Optional<
   Omit<Optional<BubbleMenuPluginProps, 'pluginKey'>, 'element'>,
   'editor'
 > &
   React.HTMLAttributes<HTMLDivElement>
 
+/**
+ * A menu that appears above the selection.
+ * @see https://tiptap.dev/docs/editor/extensions/functionality/bubble-menu
+ */
 export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
   (
     {

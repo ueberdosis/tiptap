@@ -15,6 +15,9 @@ import type { Editor } from './Editor.js'
 import { Vue } from './Vue.js'
 import { VueRenderer } from './VueRenderer.js'
 
+/**
+ * The props every Vue node view component receives.
+ */
 export const nodeViewProps = {
   editor: objectProp<NodeViewProps['editor']>().required,
   node: objectProp<NodeViewProps['node']>().required,
@@ -26,6 +29,9 @@ export const nodeViewProps = {
   deleteNode: functionProp<NodeViewProps['deleteNode']>().required,
 }
 
+/**
+ * Options for `VueNodeViewRenderer`.
+ */
 export interface VueNodeViewRendererOptions extends NodeViewRendererOptions {
   update:
     | ((props: {
@@ -324,6 +330,9 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
   }
 }
 
+/**
+ * Render a node with a Vue component.
+ */
 export function VueNodeViewRenderer(
   component: Vue | VueConstructor,
   options?: Partial<VueNodeViewRendererOptions>,

@@ -627,12 +627,34 @@ export type Content = HTMLContent | JSONContent | JSONContent[] | null
  */
 export type CommandProps = {
   editor: Editor
+
+  /**
+   * The transaction to add your changes to. Do not dispatch it yourself.
+   */
   tr: Transaction
+
+  /**
+   * The other commands, to call one from inside your own.
+   */
   commands: SingleCommands
+
+  /**
+   * Check whether a command would work, without changing anything.
+   */
   can: () => CanCommands
+
+  /**
+   * Start a chain, to run several commands in one transaction.
+   */
   chain: () => ChainedCommands
+
   state: EditorState
   view: EditorView
+
+  /**
+   * Apply the transaction. When it is `undefined` the editor is only asking
+   * whether your command could run, so check and return, but change nothing.
+   */
   dispatch: ((args?: any) => any) | undefined
 }
 
@@ -804,9 +826,24 @@ export type DecorationWithType = Decoration & {
  */
 export interface NodeViewProps extends NodeViewRendererProps {
   // TODO this type is not technically correct, but it's the best we can do for now since prosemirror doesn't expose the type of decorations
+  /**
+   * The decorations that apply to this node.
+   */
   decorations: readonly DecorationWithType[]
+
+  /**
+   * Whether the node is selected.
+   */
   selected: boolean
+
+  /**
+   * Change the attributes of this node. Only the ones you pass are changed.
+   */
   updateAttributes: (attributes: Record<string, any>) => void
+
+  /**
+   * Remove this node from the document.
+   */
   deleteNode: () => void
 }
 
@@ -814,8 +851,22 @@ export interface NodeViewProps extends NodeViewRendererProps {
  * Settings that control how a node view behaves.
  */
 export interface NodeViewRendererOptions {
+  /**
+   * Return `true` to keep an event inside your node view, instead of letting
+   * the editor handle it. Needed for inputs and buttons in a node view.
+   */
   stopEvent: ((props: { event: Event }) => boolean) | null
+
+  /**
+   * Return `true` for DOM changes the editor should ignore, so your own
+   * rendering does not look like the user editing the document.
+   */
   ignoreMutation: ((props: { mutation: ViewMutationRecord }) => boolean) | null
+
+  /**
+   * The tag of the element holding the node content.
+   * @default 'div'
+   */
   contentDOMElementTag: string
   /**
    * When `true`, the `selected` prop also becomes `true` if a `TextSelection`
@@ -925,6 +976,10 @@ export type MarkViewRenderer<Props = MarkViewRendererProps> = (props: Props) => 
  * Settings that control how a mark view behaves.
  */
 export interface MarkViewRendererOptions {
+  /**
+   * Return `true` for DOM changes the editor should ignore, so your own
+   * rendering does not look like the user editing the document.
+   */
   ignoreMutation: ((props: { mutation: ViewMutationRecord }) => boolean) | null
 }
 

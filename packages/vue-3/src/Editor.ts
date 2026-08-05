@@ -27,10 +27,16 @@ function useDebouncedRef<T>(value: T) {
   })
 }
 
+/**
+ * The component that renders the editor content.
+ */
 export type ContentComponent = ComponentInternalInstance & {
   ctx: ComponentPublicInstance
 }
 
+/**
+ * The editor, with the Vue bits it needs to render node views.
+ */
 export class Editor extends CoreEditor {
   private reactiveState: Ref<EditorState>
 

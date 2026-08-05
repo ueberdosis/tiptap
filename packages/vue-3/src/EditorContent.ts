@@ -12,6 +12,10 @@ import {
 
 import type { Editor } from './Editor.js'
 
+/**
+ * Renders the editor. Put it where the editable area should appear.
+ * @example <editor-content :editor="editor" />
+ */
 export const EditorContent = defineComponent({
   name: 'EditorContent',
 

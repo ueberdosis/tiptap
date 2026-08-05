@@ -32,8 +32,14 @@ export interface JsonItem {
   attributes?: Record<string, z.ZodTypeAny>
 }
 
+/**
+ * One schema item, in the shape the model is shown.
+ */
 export type SerializedJsonItem = Omit<JsonItem, 'attributes'> & { attributes?: unknown }
 
+/**
+ * Adds the schema items an extension contributes to the description given to the model.
+ */
 export type AddJsonSchemaAwareness<Options = any, Storage = any> = (this: {
   name: string
   options: Options

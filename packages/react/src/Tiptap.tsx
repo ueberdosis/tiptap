@@ -93,6 +93,9 @@ export function useTiptapState<TSelectorResult>(
   })
 }
 
+/**
+ * Props for a wrapper that is given an editor instance.
+ */
 export type TiptapWrapperEditorInstanceProps =
   | {
       /**

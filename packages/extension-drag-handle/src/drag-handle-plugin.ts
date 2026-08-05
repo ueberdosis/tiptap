@@ -73,15 +73,44 @@ const getOuterDomNode = (view: EditorView, domNode: HTMLElement) => {
  * Options for the drag handle plugin.
  */
 export interface DragHandlePluginProps {
+  /**
+   * Own key for this plugin, so several drag handles can be used at once.
+   */
   pluginKey?: PluginKey | string
+
   editor: Editor
+
+  /**
+   * The element that acts as the handle.
+   */
   element: HTMLElement
+
+  /**
+   * Runs when the handle moves to another node.
+   */
   onNodeChange?: (data: { editor: Editor; node: Node | null; pos: number }) => void
+
   onElementDragStart?: (e: DragEvent) => void
   onElementDragEnd?: (e: DragEvent) => void
+
+  /**
+   * Where the handle sits next to the node.
+   */
   computePositionConfig?: ComputePositionConfig
+
+  /**
+   * Position the handle against this element instead of the node itself.
+   */
   getReferencedVirtualElement?: () => VirtualElement | null
+
+  /**
+   * Whether nested content such as list items gets its own handle.
+   */
   nestedOptions: NormalizedNestedOptions
+
+  /**
+   * CSS properties copied onto the drag image, so it looks like the node.
+   */
   dragImageProperties?: string[]
 }
 

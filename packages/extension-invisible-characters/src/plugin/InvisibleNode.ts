@@ -7,10 +7,29 @@ import { createDecorationWidget } from './utils/create-decoration-widget.js'
  * Options for one `InvisibleNode`.
  */
 export interface InvisibleNodeOptions {
+  /**
+   * Text shown in the marker.
+   */
   content?: string
+
+  /**
+   * Where to put the marker. Defaults to the end of the node.
+   */
   position?: (node: Node, pos: number) => number
+
+  /**
+   * Whether this node should be marked.
+   */
   predicate: (value: Node) => boolean
+
+  /**
+   * Which marker wins when two of them match the same spot. Higher goes first.
+   */
   priority?: number
+
+  /**
+   * Name of the node, used as the CSS class of the marker.
+   */
   type: string
 }
 
