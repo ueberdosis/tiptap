@@ -35,8 +35,8 @@ const ParagraphCounters = Extension.create({
             VueWidgetRenderer(Counter, {
               editor,
               pos: offset + node.nodeSize - 1,
-              // Stable key: the paragraph's id, not its position.
-              key: `paragraph-counter-${node.attrs.id}`,
+              // uniqueID sets ids late, so id is null on the first render
+              key: `paragraph-counter-${node.attrs.id ?? `pos-${offset}`}`,
               props: { index: currentIndex },
               side: 1,
             }),
