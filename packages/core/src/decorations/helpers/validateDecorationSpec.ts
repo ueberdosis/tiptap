@@ -28,8 +28,9 @@ export function validateDecorationSpec(name: string, spec: DecorationSpec): void
     case 'manual':
       if (spec.createInRange) {
         throw new Error(
-          `[tiptap error]: Extension "${name}" provides createInRange() but does not use the ` +
-            '"changedRanges" decoration update strategy.',
+          `[tiptap error]: Extension "${name}" uses the "manual" decoration update strategy, ` +
+            'which is not compatible with createInRange(). createInRange() requires the ' +
+            '"changedRanges" strategy.',
         )
       }
       if (spec.shouldUpdate) {
