@@ -1,5 +1,8 @@
 import { Mark, markInputRule, markPasteRule, mergeAttributes } from '@tiptap/core'
 
+/**
+ * Options for the `Italic` mark.
+ */
 export interface ItalicOptions {
   /**
    * HTML attributes to add to the italic element.

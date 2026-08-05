@@ -1,6 +1,9 @@
 import type { InputRuleMatch, PasteRuleMatch } from '@tiptap/core'
 import { Mark, markInputRule, markPasteRule, mergeAttributes } from '@tiptap/core'
 
+/**
+ * Options for the `Code` mark.
+ */
 export interface CodeOptions {
   /**
    * The HTML attributes applied to the code element.

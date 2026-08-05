@@ -1,3 +1,6 @@
+/**
+ * The default CSS for the search result highlights.
+ */
 export const style = `.find-and-replace-result {
   background-color: rgb(255 225 0 / 0.4);
 }

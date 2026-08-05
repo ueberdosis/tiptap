@@ -1,5 +1,8 @@
 import { Mark, markInputRule, markPasteRule, mergeAttributes } from '@tiptap/core'
 
+/**
+ * Options for the `Strike` mark.
+ */
 export interface StrikeOptions {
   /**
    * HTML attributes to add to the strike element.

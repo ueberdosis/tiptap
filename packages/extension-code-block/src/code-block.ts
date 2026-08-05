@@ -3,6 +3,9 @@ import { Plugin, PluginKey, Selection, TextSelection } from '@tiptap/pm/state'
 
 const DEFAULT_TAB_SIZE = 4
 
+/**
+ * Options for the `CodeBlock` node.
+ */
 export interface CodeBlockOptions {
   /**
    * Adds a prefix to language classes that are applied to code tags.

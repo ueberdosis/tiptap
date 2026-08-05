@@ -1,5 +1,8 @@
 import { mergeAttributes, Node } from '@tiptap/core'
 
+/**
+ * Options for the `HardBreak` node.
+ */
 export interface HardBreakOptions {
   /**
    * Controls if marks should be kept after being split by a hard break.

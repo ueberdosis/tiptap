@@ -1,6 +1,9 @@
 /** @jsxImportSource @tiptap/core */
 import { Mark, markInputRule, markPasteRule, mergeAttributes } from '@tiptap/core'
 
+/**
+ * Options for the `Bold` mark.
+ */
 export interface BoldOptions {
   /**
    * HTML attributes to add to the bold element.

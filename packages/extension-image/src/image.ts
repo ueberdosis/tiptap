@@ -46,6 +46,9 @@ export interface ImageOptions {
     | false
 }
 
+/**
+ * What the `setImage` command accepts.
+ */
 export interface SetImageOptions {
   /**
    * The image URL.

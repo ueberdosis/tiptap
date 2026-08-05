@@ -3,6 +3,9 @@ import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core'
 
 import { handleBackspace } from './handleBackspace.js'
 
+/**
+ * Options for the `Blockquote` node.
+ */
 export interface BlockquoteOptions {
   /**
    * HTML attributes to add to the blockquote element

@@ -1,3 +1,6 @@
+/**
+ * Add the marker styles to the document head, or reuse the tag already there.
+ */
 export const createStyleTag = (style: string, nonce?: string): HTMLStyleElement => {
   const tiptapStyleTag = <HTMLStyleElement>(
     document.querySelector('style[data-tiptap-extension-invisible-characters-style]')

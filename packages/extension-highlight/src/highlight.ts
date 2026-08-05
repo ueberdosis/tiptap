@@ -1,5 +1,8 @@
 import { getStyleProperty, Mark, markInputRule, markPasteRule, mergeAttributes } from '@tiptap/core'
 
+/**
+ * Options for the `Highlight` mark.
+ */
 export interface HighlightOptions {
   /**
    * Allow multiple highlight colors

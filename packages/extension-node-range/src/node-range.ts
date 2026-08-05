@@ -19,7 +19,7 @@ export interface NodeRangeOptions {
 
   /**
    * The key to hold while dragging. `null` means no key is needed.
-   * @default 'Shift'
+   * @default 'Mod'
    */
   key: 'Shift' | 'Control' | 'Alt' | 'Meta' | 'Mod' | null | undefined
 }

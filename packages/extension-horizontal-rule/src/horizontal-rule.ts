@@ -1,6 +1,9 @@
 import { canInsertNode, isNodeSelection, mergeAttributes, Node, nodeInputRule } from '@tiptap/core'
 import { NodeSelection, TextSelection } from '@tiptap/pm/state'
 
+/**
+ * Options for the `HorizontalRule` node.
+ */
 export interface HorizontalRuleOptions {
   /**
    * The HTML attributes for a horizontal rule node.

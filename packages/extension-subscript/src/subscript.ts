@@ -1,6 +1,9 @@
 import { Mark, mergeAttributes } from '@tiptap/core'
 import type { StyleParseRule } from '@tiptap/pm/model'
 
+/**
+ * Options for the `Subscript` mark.
+ */
 export interface SubscriptExtensionOptions {
   /**
    * HTML attributes to add to the subscript element.

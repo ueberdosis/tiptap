@@ -1,5 +1,8 @@
 import { mergeAttributes, Node } from '@tiptap/core'
 
+/**
+ * Options for the `Paragraph` node.
+ */
 export interface ParagraphOptions {
   /**
    * The HTML attributes for a paragraph node.

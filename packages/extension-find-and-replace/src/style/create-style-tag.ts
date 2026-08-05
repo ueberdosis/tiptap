@@ -1,3 +1,6 @@
+/**
+ * Add the highlight styles to the document head, or reuse the tag already there.
+ */
 export const createStyleTag = (style: string, nonce?: string): HTMLStyleElement => {
   const existing = document.querySelector<HTMLStyleElement>(
     'style[data-tiptap-extension-find-and-replace-style]',

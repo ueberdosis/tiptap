@@ -2,6 +2,9 @@ import { createAtomBlockMarkdownSpec, mergeAttributes, Node, nodePasteRule } fro
 
 import { AUDIO_URL_REGEX_GLOBAL, isValidAudioUrl, sanitizeAudioSrc } from './utils.js'
 
+/**
+ * Options for the `Audio` node.
+ */
 export interface AudioOptions {
   /**
    * Controls if the paste handler for audio sources should be added.

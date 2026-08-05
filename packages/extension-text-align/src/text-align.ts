@@ -1,5 +1,8 @@
 import { Extension } from '@tiptap/core'
 
+/**
+ * Options for the `TextAlign` extension.
+ */
 export interface TextAlignOptions {
   /**
    * The types where the text align attribute can be applied.

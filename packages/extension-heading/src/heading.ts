@@ -5,6 +5,9 @@ import { mergeAttributes, Node, textblockTypeInputRule } from '@tiptap/core'
  */
 export type Level = 1 | 2 | 3 | 4 | 5 | 6
 
+/**
+ * Options for the `Heading` node.
+ */
 export interface HeadingOptions {
   /**
    * The available heading levels.

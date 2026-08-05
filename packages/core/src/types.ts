@@ -707,7 +707,7 @@ export type Attribute = {
 
   /**
    * Whether the new node keeps this attribute when the node is split.
-   * @default false
+   * @default true
    */
   keepOnSplit?: boolean
 
@@ -832,7 +832,7 @@ export interface NodeViewProps extends NodeViewRendererProps {
   decorations: readonly DecorationWithType[]
 
   /**
-   * Whether the node is selected.
+   * Whether the node is selected. Use it to style your node view.
    */
   selected: boolean
 
@@ -865,7 +865,7 @@ export interface NodeViewRendererOptions {
 
   /**
    * The tag of the element holding the node content.
-   * @default 'div'
+   * Defaults to `span` for inline nodes and `div` for everything else.
    */
   contentDOMElementTag: string
   /**
@@ -926,7 +926,7 @@ export interface NodeViewRendererProps {
 }
 
 /**
- * Creates the node view for a node.
+ * Builds the node view the editor uses to render a node.
  */
 export type NodeViewRenderer = (props: NodeViewRendererProps) => NodeView
 
@@ -968,7 +968,7 @@ export interface MarkViewRendererProps {
 }
 
 /**
- * Creates the mark view for a mark.
+ * Builds the mark view the editor uses to render a mark.
  */
 export type MarkViewRenderer<Props = MarkViewRendererProps> = (props: Props) => MarkView
 

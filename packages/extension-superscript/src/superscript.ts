@@ -1,6 +1,9 @@
 import { Mark, mergeAttributes } from '@tiptap/core'
 import type { StyleParseRule } from '@tiptap/pm/model'
 
+/**
+ * Options for the `Superscript` mark.
+ */
 export interface SuperscriptExtensionOptions {
   /**
    * HTML attributes to add to the superscript element.

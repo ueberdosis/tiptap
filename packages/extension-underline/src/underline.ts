@@ -1,5 +1,8 @@
 import { Mark, mergeAttributes } from '@tiptap/core'
 
+/**
+ * Options for the `Underline` mark.
+ */
 export interface UnderlineOptions {
   /**
    * HTML attributes to add to the underline element.
