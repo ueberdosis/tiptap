@@ -1077,76 +1077,76 @@ importers:
   packages/starter-kit:
     dependencies:
       '@tiptap/core':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../core
       '@tiptap/extension-blockquote':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-blockquote
       '@tiptap/extension-bold':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-bold
       '@tiptap/extension-bullet-list':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-bullet-list
       '@tiptap/extension-code':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-code
       '@tiptap/extension-code-block':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-code-block
       '@tiptap/extension-document':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-document
       '@tiptap/extension-dropcursor':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../packages-deprecated/extension-dropcursor
       '@tiptap/extension-gapcursor':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../packages-deprecated/extension-gapcursor
       '@tiptap/extension-hard-break':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-hard-break
       '@tiptap/extension-heading':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-heading
       '@tiptap/extension-horizontal-rule':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-horizontal-rule
       '@tiptap/extension-italic':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-italic
       '@tiptap/extension-link':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-link
       '@tiptap/extension-list':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-list
       '@tiptap/extension-list-item':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../packages-deprecated/extension-list-item
       '@tiptap/extension-list-keymap':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../packages-deprecated/extension-list-keymap
       '@tiptap/extension-ordered-list':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-ordered-list
       '@tiptap/extension-paragraph':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-paragraph
       '@tiptap/extension-strike':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-strike
       '@tiptap/extension-text':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-text
       '@tiptap/extension-underline':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-underline
       '@tiptap/extensions':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extensions
       '@tiptap/pm':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../pm
 
   packages/static-renderer:
