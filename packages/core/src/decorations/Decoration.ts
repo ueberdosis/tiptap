@@ -7,6 +7,10 @@ export interface WidgetDecorationOptions {
   marks?: readonly Mark[]
   stopEvent?: (event: Event) => boolean
   ignoreSelection?: boolean
+  /**
+   * Runs when ProseMirror removes the widget from the document. It does not
+   * run on editor teardown, subscribe to `editor.on('destroy')` for that.
+   */
   destroy?: (node: Node) => void
 }
 
