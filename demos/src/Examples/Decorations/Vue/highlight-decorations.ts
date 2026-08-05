@@ -75,6 +75,7 @@ export const HighlightDecorations = Extension.create<
                 const marker = document.createElement('span')
 
                 marker.className = 'decoration-marker'
+                marker.ariaHidden = 'true'
                 marker.textContent = '★'
 
                 return marker
