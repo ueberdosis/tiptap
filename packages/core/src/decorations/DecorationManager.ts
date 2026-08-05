@@ -10,7 +10,7 @@ import type { Decoration } from './Decoration.js'
 import { buildDecorationSet } from './helpers/buildDecorationSet.js'
 import { decorationsToPMDecorations } from './helpers/decorationsToPMDecorations.js'
 import { filterOutOfRangeDecorations } from './helpers/filterOutOfRangeDecorations.js'
-import { getBlockAlignedChangedRanges } from './helpers/getBlockAlignedChangedRanges.js'
+import { getRebuildRanges } from './helpers/getRebuildRanges.js'
 import { mapDecorationSetForward } from './helpers/mapDecorationSetForward.js'
 import { mergeDecorationSets } from './helpers/mergeDecorationSets.js'
 import { replaceRecomputedDecorationSets } from './helpers/replaceRecomputedDecorationSets.js'
@@ -237,7 +237,7 @@ export class DecorationManager {
     tr: Transaction,
     newState: EditorState,
   ): { set: DecorationSet; widgetKeys: Set<string> } {
-    const resolution = getBlockAlignedChangedRanges(tr, newState.doc)
+    const resolution = getRebuildRanges(tr, newState.doc)
 
     if (resolution.type === 'full') {
       return this.buildFullSet(name, spec, newState)
