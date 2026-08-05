@@ -1,6 +1,9 @@
-import type { Fragment, Node as ProseMirrorNode, ParseOptions } from '@tiptap/pm/model'
+import type { Node as ProseMirrorNode, ParseOptions } from '@tiptap/pm/model'
+import { Fragment } from '@tiptap/pm/model'
 
 import { createNodeFromContent } from '../helpers/createNodeFromContent.js'
+import { isFragment } from '../helpers/isFragment.js'
+import { isProseMirrorContent } from '../helpers/isProseMirrorContent.js'
 import { selectionToInsertionEnd } from '../helpers/selectionToInsertionEnd.js'
 import type { Content, Range, RawCommands } from '../types.js'
 
@@ -56,10 +59,6 @@ declare module '@tiptap/core' {
       ) => ReturnType
     }
   }
-}
-
-const isFragment = (nodeOrFragment: ProseMirrorNode | Fragment): nodeOrFragment is Fragment => {
-  return !('type' in nodeOrFragment)
 }
 
 export const insertContentAt: RawCommands['insertContentAt'] =
@@ -162,13 +161,21 @@ export const insertContentAt: RawCommands['insertContentAt'] =
       // if there is only plain text we have to use `insertText`
       // because this will keep the current marks
       if (isOnlyTextContent) {
-        // A string is inserted as written. Anything else is rebuilt from the parsed
-        // nodes, which also survives a duplicated prosemirror-model.
-        newContent = typeof value === 'string' ? value : nodes.map(node => node.text ?? '').join('')
+        // if value is string, we can use it directly
+        // otherwise if it is an array, we have to join it
+        if (Array.isArray(value)) {
+          newContent = value.map(item => item.text || '').join('')
+        } else if (isProseMirrorContent(value)) {
+          newContent = nodes.map(node => node.text ?? '').join('')
+        } else if (typeof value === 'object' && !!value && !!value.text) {
+          newContent = value.text
+        } else {
+          newContent = value as string
+        }
 
         tr.insertText(newContent, from, to)
       } else {
-        newContent = content
+        newContent = Fragment.from(nodes)
 
         const $from = tr.doc.resolve(from)
         const $fromNode = $from.node()
