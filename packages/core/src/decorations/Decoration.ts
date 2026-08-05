@@ -1,6 +1,5 @@
 import type { Mark } from '@tiptap/pm/model'
 import { DecorationAttrs, Decoration as PMDecoration, type EditorView } from '@tiptap/pm/view'
-import { generateRandomKey } from './utils/generateRandomKey.js'
 
 export interface WidgetDecorationOptions {
   side?: number
@@ -125,7 +124,7 @@ export class WidgetDecoration extends Decoration {
   constructor(
     pos: number,
     render: (view: EditorView, getPos: () => number | undefined) => HTMLElement,
-    key: string = generateRandomKey(),
+    key: string,
     spec?: WidgetDecorationOptions & Record<string, any>,
   ) {
     super()
