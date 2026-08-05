@@ -35,6 +35,11 @@ export interface VueWidgetRendererOptions<
   /**
    * Props passed to the component (merged with {@link VueWidgetDecorationProps}).
    * The component must have a single root element.
+   *
+   * @remarks Props are deeply wrapped in `reactive()` by `VueRenderer`. The
+   *   `editor` is protected with `markRaw`; any other non-reactive objects you
+   *   pass (ProseMirror nodes, views, editor refs, ...) are not. Mark them raw
+   *   yourself when reactivity would cause recursion or unwanted tracking.
    */
   props?: P
 }
@@ -139,8 +144,10 @@ export function VueWidgetRenderer<P extends Record<string, any> = object>(
   const render = (_view: EditorView, getPos: () => number | undefined): HTMLElement => {
     let renderer = cache.renderers.get(key)
 
-    // `editor` must be markRaw — VueRenderer wraps props in reactive(),
-    // and deeply proxying the editor's view/DOM graph recurses and crashes.
+    // VueRenderer wraps props in reactive(), deeply proxying every object.
+    // `editor` is markRaw so proxying its view/DOM graph does not crash.
+    // User props are NOT auto-protected: markRaw any ProseMirror nodes,
+    // views, editor refs, or other objects reactivity would harm.
     const rawContext = {
       editor: markRaw(editor),
       getPos,
