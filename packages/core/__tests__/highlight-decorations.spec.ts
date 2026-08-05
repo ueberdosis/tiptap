@@ -5,7 +5,7 @@ import Text from '@tiptap/extension-text'
 import type { Decoration } from '@tiptap/pm/view'
 import { describe, expect, it } from 'vitest'
 
-import { decorationManagerKey } from '../src/features/decorations/DecorationManager.js'
+import { DECORATION_MANAGER_PLUGIN_KEY } from '../src/decorations/constants.js'
 import { HighlightDecorations as ReactHighlightDecorations } from '../../../demos/src/Examples/Decorations/React/highlight-decorations.js'
 import { HighlightDecorations as VueHighlightDecorations } from '../../../demos/src/Examples/Decorations/Vue/highlight-decorations.js'
 
@@ -25,7 +25,7 @@ function createEditor(extension: typeof ReactHighlightDecorations, term: string)
 }
 
 function getDecorations(editor: Editor): Decoration[] {
-  return decorationManagerKey.getState(editor.state)?.mergedDecorationSet.find() ?? []
+  return DECORATION_MANAGER_PLUGIN_KEY.getState(editor.state)?.mergedDecorationSet.find() ?? []
 }
 
 describe.each([

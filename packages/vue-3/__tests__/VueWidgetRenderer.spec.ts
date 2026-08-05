@@ -286,5 +286,5 @@ describe('VueWidgetRenderer', () => {
 
   // Duplicate widget keys intentionally not tested here — ProseMirror's view
   // crashes when it encounters same-key widgets, and the type-level contract
-  // ("keys must be unique") is documented on WidgetDecorationDescriptor.key.
+  // ("keys must be unique") is documented on WidgetDecoration.key.
 })

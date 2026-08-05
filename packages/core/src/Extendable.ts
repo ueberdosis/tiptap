@@ -1,7 +1,7 @@
 import type { Plugin } from '@tiptap/pm/state'
 
 import type { Editor } from './Editor.js'
-import type { DecorationSpec } from './features/decorations/index.js'
+import type { DecorationSpec } from './decorations/index.js'
 import { getExtensionField } from './helpers/getExtensionField.js'
 import type { ExtensionConfig, MarkConfig, NodeConfig } from './index.js'
 import type { InputRule } from './InputRule.js'
@@ -219,16 +219,9 @@ export interface ExtendableConfig<
   }) => Plugin[]
 
   /**
-   * This function declaratively adds editor decorations (node, inline, widget).
-   *
-   * Return a descriptor with a `create` function that builds the decorations
-   * from the current state. By default they are recomputed whenever the
-   * document changes. Use `shouldUpdate` to skip work when the decorations do
-   * not depend on a transaction, or use `update: 'changedRanges'` with
-   * `createInRange` to rescan only the blocks changed by an edit. Use
-   * `update: 'manual'` for decorations driven by external state and refresh
-   * them with `updateDecorations()`. Use the `decoration` factory helpers to
-   * build descriptors.
+   * Adds editor decorations (node, inline, widget). Return a spec with a `create`
+   * function that builds instances via `Decoration.Node`/`Inline`/`Widget`. Use
+   * `shouldUpdate`, `update: 'changedRanges'` + `createInRange`, or `update: 'manual'` to control recomputation.
    * @see https://tiptap.dev/docs/editor/core-concepts/decorations
    * @example
    * addDecorations() {
@@ -236,7 +229,7 @@ export interface ExtendableConfig<
    *     create: ({ state }) =>
    *       findChildren(state.doc, node => node.type.name === 'heading').map(
    *         ({ pos, node }) =>
-   *           decoration.node(pos, pos + node.nodeSize, { class: 'is-heading' }),
+   *           Decoration.Node(pos, pos + node.nodeSize, { class: 'is-heading' }),
    *       ),
    *   }
    * }

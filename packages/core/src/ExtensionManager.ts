@@ -4,10 +4,7 @@ import type { Plugin, Transaction } from '@tiptap/pm/state'
 import type { EditorView, MarkViewConstructor, NodeViewConstructor } from '@tiptap/pm/view'
 
 import type { Editor } from './Editor.js'
-import {
-  createDecorationPlugin,
-  type ResolvedDecorationEntry,
-} from './features/decorations/DecorationManager.js'
+import { DecorationManager, type DecorationManagerEntry } from './decorations/DecorationManager.js'
 import {
   flattenExtensions,
   getAttributesFromExtensions,
@@ -48,6 +45,8 @@ export class ExtensionManager {
   splittableMarks: string[] = []
 
   nonClearableMarks: string[] = []
+
+  decorationManager: DecorationManager | null = null
 
   constructor(extensions: Extensions, editor: Editor) {
     this.editor = editor
@@ -213,13 +212,13 @@ export class ExtensionManager {
   /**
    * A single plugin that aggregates all declarative decorations registered
    * through extensions' `addDecorations`. Returns `null` when no extension
-   * declares decorations, so no plugin is added in that case.
+   * resolves a decoration spec, so no plugin is added in that case.
    * @returns A ProseMirror plugin or `null`
    */
   get decorationPlugin(): Plugin | null {
     const { editor } = this
 
-    const entries: ResolvedDecorationEntry[] = []
+    const entries: DecorationManagerEntry[] = []
 
     this.extensions.forEach(extension => {
       const context = {
@@ -240,18 +239,12 @@ export class ExtensionManager {
         return
       }
 
-      const spec = addDecorations()
-
-      if (spec) {
-        entries.push({ name: extension.name, spec })
-      }
+      entries.push({ name: extension.name, addDecorations })
     })
 
-    if (!entries.length) {
-      return null
-    }
+    this.decorationManager = new DecorationManager({ editor, entries })
 
-    return createDecorationPlugin(editor, entries)
+    return this.decorationManager.plugin
   }
 
   /**

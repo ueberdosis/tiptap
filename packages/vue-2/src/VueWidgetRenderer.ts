@@ -1,9 +1,5 @@
-import { decoration, liveWidgetKeys } from '@tiptap/core'
-import type {
-  Editor as CoreEditor,
-  WidgetDecorationDescriptor,
-  WidgetDecorationOptions,
-} from '@tiptap/core'
+import { Decoration, liveWidgetKeys } from '@tiptap/core'
+import type { Editor as CoreEditor, WidgetDecoration, WidgetDecorationOptions } from '@tiptap/core'
 import type { EditorView } from '@tiptap/pm/view'
 import type { Component, VueConstructor } from 'vue'
 
@@ -32,12 +28,9 @@ export interface VueWidgetRendererOptions<
    */
   pos: number
   /**
-   * A stable, position-independent identifier for the widget. Reusing the same
-   * key across renders lets ProseMirror keep the component mounted (no flicker /
-   * no lost state) and lets this renderer reuse the underlying `VueRenderer`.
-   *
-   * Good: `comment-${id}`, `paragraph-${node.attrs.id}`, `suggestion-${id}`
-   * Bad:  paragraph index, document position, loop counter
+   * A stable, position-independent identifier for the widget.
+   * Reusing the same key keeps the component mounted across re-renders.
+   * Good: `comment-${id}`. Bad: paragraph index or document position.
    */
   key: string
   /**
@@ -95,27 +88,17 @@ function getCache(editor: Editor): WidgetCache {
 }
 
 /**
- * Renders a Vue 2 component into a ProseMirror widget decoration, reusing
- * Tiptap's existing `VueRenderer` so the component is mounted under the editor's
- * content component (inject/provide works as usual).
- *
- * Returns a {@link WidgetDecorationDescriptor} ready to return from an
- * extension's `addDecorations().create()`, alongside `decoration.node` /
- * `decoration.inline`. The component must render a single root element.
- *
- * Widget behavior options such as `stopEvent`, `ignoreSelection`, `side`, and
- * `relaxedSide` are passed through to ProseMirror. Use a stable `key` for
- * stateful widgets.
- *
+ * Renders a Vue 2 component into a ProseMirror widget decoration.
+ * Reuses Tiptap's `VueRenderer` so the component is mounted under the editor's
+ * content component (inject/provide works as usual). Use a stable `key` for
+ * stateful widgets. The component must render a single root element.
  * @example
  * addDecorations() {
  *   return {
  *     create: ({ editor, state }) =>
  *       findMatches(state.doc).map(match =>
  *         VueWidgetRenderer(MyWidget, {
- *           editor,
- *           pos: match.pos,
- *           key: `match-${match.id}`,
+ *           editor, pos: match.pos, key: `match-${match.id}`,
  *           props: { label: match.label },
  *         }),
  *       ),
@@ -125,7 +108,7 @@ function getCache(editor: Editor): WidgetCache {
 export function VueWidgetRenderer<P extends Record<string, any> = object>(
   component: Component,
   options: VueWidgetRendererOptions<P>,
-): WidgetDecorationDescriptor {
+): WidgetDecoration {
   const {
     editor,
     pos,
@@ -140,13 +123,9 @@ export function VueWidgetRenderer<P extends Record<string, any> = object>(
   } = options
   const cache = getCache(editor)
 
-  // Two-phase prop update. ProseMirror skips the widget's `toDOM`/`render` when
-  // it reuses an existing widget's DOM, so the `render` callback below is NOT a
-  // reliable channel for prop changes. `create()` re-runs on every recompute, so
-  // this is the place to push fresh user props to an already-mounted widget.
-  // `VueRenderer.updateProps` MERGES into the existing props, so `editor` /
-  // `getPos` pushed by the previous `render` are preserved by this partial
-  // update. Skip when nothing changed.
+  // Push fresh props to already-mounted widgets here, not in `render`.
+  // ProseMirror skips `render` when reusing DOM, so this is the only reliable
+  // place. Skip when nothing changed.
   const existing = cache.renderers.get(key)
 
   if (existing) {
@@ -166,11 +145,10 @@ export function VueWidgetRenderer<P extends Record<string, any> = object>(
     } else {
       const mountProps = { ...props, editor, getPos }
 
-      // Use the editor's own Vue constructor so the widget shares its context,
-      // and auto-declare every passed prop so the component receives them even
-      // if it didn't list them. `view` is intentionally not passed — Vue 2
-      // deeply observes prop values, and observing a ProseMirror view is both
-      // expensive and corrupts its internals.
+      // Use the editor's Vue constructor so the widget shares its context.
+      // Auto-declare all passed props so the component receives them even if
+      // not listed. `view` is not passed — Vue 2 deeply observes props and
+      // observing a ProseMirror view corrupts its internals.
       const base = (editor.contentComponent?.$options as any)?._base as VueConstructor | undefined
       const VueBase = base ?? Vue
       const Component = VueBase.extend(component as any)
@@ -199,7 +177,7 @@ export function VueWidgetRenderer<P extends Record<string, any> = object>(
     return renderer.element as HTMLElement
   }
 
-  return decoration.widget(pos, render, {
+  return Decoration.Widget(pos, render, {
     key,
     side,
     relaxedSide,
@@ -207,9 +185,7 @@ export function VueWidgetRenderer<P extends Record<string, any> = object>(
     stopEvent,
     ignoreSelection,
     destroy: (rendererElement: Node) => {
-      // Keep the renderer if the key is still a live widget decoration (it's
-      // being reassigned/recreated, not removed). `liveWidgetKeys` reflects the
-      // current state, so this is correct even when nothing recomputed.
+      // Keep the renderer if the widget is still live (being reassigned, not removed).
       if (liveWidgetKeys(editor).has(key)) {
         return
       }

@@ -1,13 +1,12 @@
-import { decoration, Editor, Extension, Node } from '@tiptap/core'
-import type { DecorationDescriptor, DecorationSpec } from '@tiptap/core'
-import {
-  decorationManagerKey,
-  liveWidgetKeys,
-} from '../src/features/decorations/DecorationManager.js'
+import { Editor, Extension, Node } from '@tiptap/core'
+import type { DecorationSpec } from '@tiptap/core'
+import { Decoration } from '../src/decorations/Decoration.js'
+import { DECORATION_MANAGER_PLUGIN_KEY } from '../src/decorations/constants.js'
+import { liveWidgetKeys } from '../src/decorations/DecorationManager.js'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import type { Decoration } from '@tiptap/pm/view'
+import type { Decoration as PMDecoration } from '@tiptap/pm/view'
 import { describe, expect, it, vi } from 'vitest'
 
 function createEditor(extension?: Extension, content = '<p>hello world</p>') {
@@ -17,45 +16,46 @@ function createEditor(extension?: Extension, content = '<p>hello world</p>') {
   })
 }
 
-function getDecorations(editor: Editor): Decoration[] {
-  const set = decorationManagerKey.getState(editor.state)?.mergedDecorationSet
+function getDecorations(editor: Editor): PMDecoration[] {
+  const set = DECORATION_MANAGER_PLUGIN_KEY.getState(editor.state)?.mergedDecorationSet
 
   return set ? set.find() : []
 }
 
 describe('decoration', () => {
-  it('creates node descriptors with default attrs', () => {
-    expect(decoration.node(1, 4)).toEqual({
-      kind: 'node',
-      from: 1,
-      to: 4,
-      attrs: {},
-      spec: undefined,
-    })
+  it('creates node decorations with default attrs', () => {
+    const node = Decoration.Node(1, 4)
+
+    expect(node.kind).toBe('node')
+    expect(node.from).toBe(1)
+    expect(node.to).toBe(4)
+    expect(node.attrs).toEqual({})
+    expect(node.spec).toBeUndefined()
   })
 
-  it('creates inline descriptors with attrs and spec', () => {
-    expect(decoration.inline(2, 5, { class: 'highlight' }, { inclusiveStart: true })).toEqual({
-      kind: 'inline',
-      from: 2,
-      to: 5,
-      attrs: { class: 'highlight' },
-      spec: { inclusiveStart: true },
-    })
+  it('creates inline decorations with attrs and spec', () => {
+    const inline = Decoration.Inline(2, 5, { class: 'highlight' }, { inclusiveStart: true })
+
+    expect(inline.kind).toBe('inline')
+    expect(inline.from).toBe(2)
+    expect(inline.to).toBe(5)
+    expect(inline.attrs).toEqual({ class: 'highlight' })
+    expect(inline.spec).toEqual({ inclusiveStart: true })
   })
 
-  it('keeps widget keys out of the ProseMirror spec', () => {
+  it('creates widget decorations with key separated from spec', () => {
     const render = () => document.createElement('span')
-
-    expect(
-      decoration.widget(3, render, { key: 'widget-1', side: -1, stopEvent: () => true }),
-    ).toEqual({
-      kind: 'widget',
-      pos: 3,
-      render,
+    const widget = Decoration.Widget(3, render, {
       key: 'widget-1',
-      spec: { side: -1, stopEvent: expect.any(Function) },
+      side: -1,
+      stopEvent: () => true,
     })
+
+    expect(widget.kind).toBe('widget')
+    expect(widget.pos).toBe(3)
+    expect(widget.render).toBe(render)
+    expect(widget.key).toBe('widget-1')
+    expect(widget.spec).toEqual({ side: -1, stopEvent: expect.any(Function) })
   })
 })
 
@@ -63,7 +63,20 @@ describe('addDecorations', () => {
   it('does not register a plugin when no extension declares decorations', () => {
     const editor = createEditor()
 
-    expect(decorationManagerKey.getState(editor.state)).toBeUndefined()
+    expect(DECORATION_MANAGER_PLUGIN_KEY.getState(editor.state)).toBeUndefined()
+
+    editor.destroy()
+  })
+
+  it('does not register a plugin when addDecorations returns null', () => {
+    const extension = Extension.create({
+      name: 'deco',
+      addDecorations: () => null,
+    })
+
+    const editor = createEditor(extension)
+
+    expect(DECORATION_MANAGER_PLUGIN_KEY.getState(editor.state)).toBeUndefined()
 
     editor.destroy()
   })
@@ -74,8 +87,8 @@ describe('addDecorations', () => {
       addDecorations() {
         return {
           create: () => [
-            decoration.inline(1, 4, { class: 'highlight' }),
-            decoration.widget(1, () => document.createElement('span'), { key: 'w1' }),
+            Decoration.Inline(1, 4, { class: 'highlight' }),
+            Decoration.Widget(1, () => document.createElement('span'), { key: 'w1' }),
           ],
         }
       },
@@ -94,8 +107,8 @@ describe('addDecorations', () => {
       name: 'deco',
       addDecorations: () => ({
         create: () => [
-          decoration.widget(1, () => document.createElement('span'), { key: 'dup' }),
-          decoration.widget(2, () => document.createElement('span'), { key: 'dup' }),
+          Decoration.Widget(1, () => document.createElement('span'), { key: 'dup' }),
+          Decoration.Widget(2, () => document.createElement('span'), { key: 'dup' }),
         ],
       }),
     })
@@ -117,7 +130,7 @@ describe('addDecorations', () => {
       name: 'decoA',
       addDecorations: () => ({
         create: () => [
-          decoration.widget(1, () => document.createElement('span'), { key: 'shared' }),
+          Decoration.Widget(1, () => document.createElement('span'), { key: 'shared' }),
         ],
       }),
     })
@@ -125,7 +138,7 @@ describe('addDecorations', () => {
       name: 'decoB',
       addDecorations: () => ({
         create: () => [
-          decoration.widget(2, () => document.createElement('span'), { key: 'shared' }),
+          Decoration.Widget(2, () => document.createElement('span'), { key: 'shared' }),
         ],
       }),
     })
@@ -146,7 +159,7 @@ describe('addDecorations', () => {
   })
 
   it('recomputes on document change by default', () => {
-    const create = vi.fn(() => [decoration.inline(1, 2, { class: 'x' })])
+    const create = vi.fn(() => [Decoration.Inline(1, 2, { class: 'x' })])
     const extension = Extension.create({
       name: 'deco',
       addDecorations: () => ({ create }),
@@ -163,7 +176,7 @@ describe('addDecorations', () => {
   })
 
   it('does not recompute when shouldUpdate returns false, but maps positions forward', () => {
-    const create = vi.fn(() => [decoration.inline(2, 5, { class: 'x' })])
+    const create = vi.fn(() => [Decoration.Inline(2, 5, { class: 'x' })])
     const extension = Extension.create({
       name: 'deco',
       addDecorations: () => ({ create, shouldUpdate: () => false }),
@@ -186,7 +199,7 @@ describe('addDecorations', () => {
   })
 
   it('does not recompute on a selection-only change', () => {
-    const create = vi.fn(() => [decoration.inline(1, 4, { class: 'x' })])
+    const create = vi.fn(() => [Decoration.Inline(1, 4, { class: 'x' })])
     const extension = Extension.create({
       name: 'deco',
       addDecorations: () => ({ create }),
@@ -205,8 +218,8 @@ describe('addDecorations', () => {
 
 describe('updateDecorations', () => {
   it('force-updates only the named extension', () => {
-    const createA = vi.fn(() => [decoration.inline(1, 2, { class: 'a' })])
-    const createB = vi.fn(() => [decoration.inline(2, 3, { class: 'b' })])
+    const createA = vi.fn(() => [Decoration.Inline(1, 2, { class: 'a' })])
+    const createB = vi.fn(() => [Decoration.Inline(2, 3, { class: 'b' })])
     const a = Extension.create({
       name: 'decoA',
       addDecorations: () => ({ create: createA, shouldUpdate: () => false }),
@@ -239,7 +252,7 @@ describe('updateDecorations', () => {
       addDecorations: () => ({
         create: () => {
           if (!toggle) return []
-          return [decoration.inline(1, 4, { class: 'x' })]
+          return [Decoration.Inline(1, 4, { class: 'x' })]
         },
         shouldUpdate: () => true,
       }),
@@ -256,7 +269,7 @@ describe('updateDecorations', () => {
   })
 
   it('recomputes decorations correctly after whole-document replacement', () => {
-    const create = vi.fn(() => [decoration.inline(1, 3, { class: 'x' })])
+    const create = vi.fn(() => [Decoration.Inline(1, 3, { class: 'x' })])
     const extension = Extension.create({
       name: 'deco',
       addDecorations: () => ({ create, shouldUpdate: () => true }),
@@ -281,7 +294,7 @@ describe('updateDecorations', () => {
       name: 'deco',
       addDecorations: () => ({
         create: () => [
-          decoration.widget(6, () => document.createElement('span'), { key: 'w-mid' }),
+          Decoration.Widget(6, () => document.createElement('span'), { key: 'w-mid' }),
         ],
         shouldUpdate: () => false,
       }),
@@ -303,8 +316,8 @@ describe('updateDecorations', () => {
   })
 
   it('maps both extensions forward without recomputing when neither updates', () => {
-    const createA = vi.fn(() => [decoration.inline(2, 5, { class: 'a' })])
-    const createB = vi.fn(() => [decoration.inline(6, 9, { class: 'b' })])
+    const createA = vi.fn(() => [Decoration.Inline(2, 5, { class: 'a' })])
+    const createB = vi.fn(() => [Decoration.Inline(6, 9, { class: 'b' })])
     const a = Extension.create({
       name: 'decoA',
       addDecorations: () => ({ create: createA, shouldUpdate: () => false }),
@@ -342,7 +355,7 @@ describe('updateDecorations', () => {
   it('replaces only the recomputed extension in the merged decoration set', () => {
     let useUpdatedDecoration = false
     const createA = vi.fn(() => [
-      decoration.inline(
+      Decoration.Inline(
         1,
         2,
         { class: useUpdatedDecoration ? 'updated' : 'initial' },
@@ -350,7 +363,7 @@ describe('updateDecorations', () => {
       ),
     ])
     const createB = vi.fn(() => [
-      decoration.inline(4, 5, { class: 'stable' }, { source: 'stable' }),
+      Decoration.Inline(4, 5, { class: 'stable' }, { source: 'stable' }),
     ])
     const a = Extension.create({
       name: 'decoA',
@@ -381,18 +394,18 @@ describe('updateDecorations', () => {
   })
 
   it('does not create new plugin state when nothing changed (returns previous)', () => {
-    const create = vi.fn(() => [decoration.inline(1, 4, { class: 'x' })])
+    const create = vi.fn(() => [Decoration.Inline(1, 4, { class: 'x' })])
     const extension = Extension.create({
       name: 'deco',
       addDecorations: () => ({ create }),
     })
 
     const editor = createEditor(extension)
-    const state1 = decorationManagerKey.getState(editor.state)
+    const state1 = DECORATION_MANAGER_PLUGIN_KEY.getState(editor.state)
 
     // Selection-only change — should reuse previous state.
     editor.commands.setTextSelection(3)
-    const state2 = decorationManagerKey.getState(editor.state)
+    const state2 = DECORATION_MANAGER_PLUGIN_KEY.getState(editor.state)
 
     expect(state1).toBe(state2)
 
@@ -401,7 +414,7 @@ describe('updateDecorations', () => {
 
   it('maps manual decorations until updateDecorations() is called', () => {
     let enabled = true
-    const create = vi.fn(() => (enabled ? [decoration.inline(1, 2)] : []))
+    const create = vi.fn(() => (enabled ? [Decoration.Inline(1, 2)] : []))
     const extension = Extension.create({
       name: 'deco',
       addDecorations: () => ({ update: 'manual', create }),
@@ -453,12 +466,12 @@ describe('changedRanges updates', () => {
   // Decorates every paragraph as a node decoration and highlights each
   // occurrence of "x" as an inline decoration, scanning only [from, to].
   function scan(state: Editor['state'], from: number, to: number) {
-    const decorations: DecorationDescriptor[] = []
+    const decorations: Decoration[] = []
 
     state.doc.nodesBetween(from, to, (node, pos) => {
       if (node.type.name === 'paragraph') {
         decorations.push(
-          decoration.node(pos, pos + node.nodeSize, { class: 'para' }, { source: 'paragraph' }),
+          Decoration.Node(pos, pos + node.nodeSize, { class: 'para' }, { source: 'paragraph' }),
         )
       }
 
@@ -467,7 +480,7 @@ describe('changedRanges updates', () => {
 
         while (index !== -1) {
           decorations.push(
-            decoration.inline(pos + index, pos + index + 1, { class: 'hit' }, { source: 'hit' }),
+            Decoration.Inline(pos + index, pos + index + 1, { class: 'hit' }, { source: 'hit' }),
           )
           index = node.text.indexOf('x', index + 1)
         }
@@ -651,7 +664,7 @@ describe('changedRanges updates', () => {
     // Buggy createInRange: always returns a decoration anchored at position 1,
     // regardless of the requested range — violating the incremental contract.
     const createInRange = vi.fn(() => [
-      decoration.inline(1, 2, { class: 'oops' }, { source: 'oops' }),
+      Decoration.Inline(1, 2, { class: 'oops' }, { source: 'oops' }),
     ])
     const extension = Extension.create({
       name: 'deco',
@@ -707,11 +720,11 @@ describe('changedRanges updates', () => {
       },
     })
     const scan = (state: Editor['state'], from: number, to: number) => {
-      const decorations: DecorationDescriptor[] = []
+      const decorations: Decoration[] = []
 
       state.doc.nodesBetween(from, to, (node, pos) => {
         if (node.type.name === 'paragraph' && node.attrs.decorated) {
-          decorations.push(decoration.node(pos, pos + node.nodeSize, { class: 'decorated' }))
+          decorations.push(Decoration.Node(pos, pos + node.nodeSize, { class: 'decorated' }))
         }
       })
 
@@ -749,7 +762,7 @@ describe('changedRanges updates', () => {
       },
     })
     const build = (state: Editor['state']) => [
-      decoration.node(
+      Decoration.Node(
         0,
         state.doc.firstChild?.nodeSize ?? 0,
         {},
@@ -787,10 +800,10 @@ describe('changedRanges updates', () => {
       },
     })
     const create = vi.fn(({ state }) => [
-      decoration.inline(1, 2, {}, { revision: state.doc.attrs.revision }),
+      Decoration.Inline(1, 2, {}, { revision: state.doc.attrs.revision }),
     ])
     const createInRange = vi.fn(({ state, from, to }) => [
-      decoration.inline(from, Math.min(from + 1, to), {}, { revision: state.doc.attrs.revision }),
+      Decoration.Inline(from, Math.min(from + 1, to), {}, { revision: state.doc.attrs.revision }),
     ])
     const extension = Extension.create({
       name: 'deco',
