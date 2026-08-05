@@ -68,6 +68,19 @@ describe('addDecorations', () => {
     editor.destroy()
   })
 
+  it('does not register a plugin when addDecorations returns null', () => {
+    const extension = Extension.create({
+      name: 'deco',
+      addDecorations: () => null,
+    })
+
+    const editor = createEditor(extension)
+
+    expect(DECORATION_MANAGER_PLUGIN_KEY.getState(editor.state)).toBeUndefined()
+
+    editor.destroy()
+  })
+
   it('renders inline and widget decorations from create()', () => {
     const extension = Extension.create({
       name: 'deco',

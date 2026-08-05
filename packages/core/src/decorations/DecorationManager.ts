@@ -38,13 +38,13 @@ export function liveWidgetKeys(editor: Editor): ReadonlySet<string> {
 export class DecorationManager {
   editor: Editor
   entries: ResolvedDecorationEntry[]
-  plugin: Plugin<DecorationManagerState>
+  plugin: Plugin<DecorationManagerState> | null
 
   constructor(options: { editor: Editor; entries: DecorationManagerEntry[] }) {
     this.editor = options.editor
     this.entries = this.resolveEntries(options.entries)
     this.entries.forEach(({ name, spec }) => validateDecorationSpec(name, spec))
-    this.plugin = this.createPlugin()
+    this.plugin = this.entries.length > 0 ? this.createPlugin() : null
   }
 
   /**

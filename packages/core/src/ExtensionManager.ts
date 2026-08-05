@@ -212,7 +212,7 @@ export class ExtensionManager {
   /**
    * A single plugin that aggregates all declarative decorations registered
    * through extensions' `addDecorations`. Returns `null` when no extension
-   * declares decorations, so no plugin is added in that case.
+   * resolves a decoration spec, so no plugin is added in that case.
    * @returns A ProseMirror plugin or `null`
    */
   get decorationPlugin(): Plugin | null {
@@ -241,11 +241,6 @@ export class ExtensionManager {
 
       entries.push({ name: extension.name, addDecorations })
     })
-
-    if (!entries.length) {
-      this.decorationManager = null
-      return null
-    }
 
     this.decorationManager = new DecorationManager({ editor, entries })
 
