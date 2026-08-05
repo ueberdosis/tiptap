@@ -4,6 +4,9 @@ import { isAtEndOfNode, isNodeActive } from '@tiptap/core'
 import { nextListIsDeeper } from './nextListIsDeeper.js'
 import { nextListIsHigher } from './nextListIsHigher.js'
 
+/**
+ * Delete at the end of a list item: pull the next item up into this one.
+ */
 export const handleDelete = (editor: Editor, name: string) => {
   // if the cursor is not inside the current node type
   // do nothing and proceed

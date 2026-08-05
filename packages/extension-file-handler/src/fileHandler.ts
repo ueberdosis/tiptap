@@ -4,6 +4,9 @@ import { PluginKey } from '@tiptap/pm/state'
 import { FileHandlePlugin } from './FileHandlePlugin.js'
 import type { FileHandlerOptions } from './types.js'
 
+/**
+ * Handles files dropped into or pasted onto the editor.
+ */
 export const FileHandler = Extension.create<FileHandlerOptions>({
   name: 'fileHandler',
 

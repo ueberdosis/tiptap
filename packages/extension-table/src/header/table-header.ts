@@ -6,6 +6,9 @@ import { createAlignAttribute } from '../utils/parseAlign.js'
 import { parseColwidth } from '../utils/parseColwidth.js'
 import { fillEmptyCellContent, isEmptyCellElement } from '../utils/fillEmptyCellContent.js'
 
+/**
+ * Options for the `TableHeader` node.
+ */
 export interface TableHeaderOptions {
   /**
    * The HTML attributes for a table header node.

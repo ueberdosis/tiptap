@@ -2,6 +2,9 @@ import { Mark, mergeAttributes } from '@tiptap/core'
 
 import type { TextStyleAttributes } from '../index.js'
 
+/**
+ * Options for the `TextStyle` mark.
+ */
 export interface TextStyleOptions {
   /**
    * HTML attributes to add to the span element.

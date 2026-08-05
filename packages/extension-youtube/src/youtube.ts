@@ -48,6 +48,9 @@ export {
   isValidYoutubeUrl,
 } from './utils.js'
 
+/**
+ * Options for the `Youtube` node.
+ */
 export interface YoutubeOptions {
   /**
    * Controls if the paste handler for youtube videos should be added.

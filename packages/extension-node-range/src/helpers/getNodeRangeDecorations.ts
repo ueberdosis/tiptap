@@ -1,6 +1,9 @@
 import type { SelectionRange } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
 
+/**
+ * Build the highlights that show which nodes are selected.
+ */
 export function getNodeRangeDecorations(ranges: SelectionRange[]): DecorationSet {
   if (!ranges.length) {
     return DecorationSet.empty

@@ -10,6 +10,9 @@ type ClickHandlerOptions = {
   enableClickSelection?: boolean
 }
 
+/**
+ * Opens the link when it is clicked.
+ */
 export function clickHandler(options: ClickHandlerOptions): Plugin {
   return new Plugin({
     key: new PluginKey('handleClickLink'),

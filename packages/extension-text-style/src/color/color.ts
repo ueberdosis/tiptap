@@ -2,6 +2,9 @@ import '../text-style/index.js'
 
 import { Extension, getStyleProperty } from '@tiptap/core'
 
+/**
+ * Options for the `Color` mark.
+ */
 export type ColorOptions = {
   /**
    * The types where the color can be applied

@@ -13,6 +13,9 @@ import { LineHeight } from '../line-height/index.js'
 import type { TextStyleOptions } from '../text-style/index.js'
 import { TextStyle } from '../text-style/index.js'
 
+/**
+ * Options for the `TextStyleKit` extension. Set an entry to `false` to leave that extension out.
+ */
 export interface TextStyleKitOptions {
   /**
    * If set to false, the background color extension will not be registered

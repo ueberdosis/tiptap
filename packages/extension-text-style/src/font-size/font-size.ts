@@ -2,6 +2,9 @@ import '../text-style/index.js'
 
 import { Extension, getStyleProperty } from '@tiptap/core'
 
+/**
+ * Options for the `FontSize` mark.
+ */
 export type FontSizeOptions = {
   /**
    * A list of node names where the font size can be applied.

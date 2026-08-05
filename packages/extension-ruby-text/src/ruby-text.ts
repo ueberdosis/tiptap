@@ -5,6 +5,9 @@ import { RubyTextDecorationPlugin } from './ruby-text-decoration-plugin.js'
 
 export type { RubyTextAnnotationEditorProps }
 
+/**
+ * Options for the `RubyText` mark.
+ */
 export interface RubyTextOptions {
   /**
    * HTML attributes to add to the ruby element.
@@ -26,6 +29,9 @@ export interface RubyTextOptions {
   renderAnnotationEditor?: (props: RubyTextAnnotationEditorProps) => HTMLElement
 }
 
+/**
+ * The attributes stored on a ruby text mark.
+ */
 export interface RubyTextAttributes {
   /**
    * The ruby text annotation rendered in the HTML `rt` element.

@@ -1,6 +1,9 @@
 import { Extension } from '@tiptap/core'
 import { history, redo, undo } from '@tiptap/pm/history'
 
+/**
+ * Options for the `UndoRedo` extension.
+ */
 export interface UndoRedoOptions {
   /**
    * The amount of history events that are collected before the oldest events are discarded.

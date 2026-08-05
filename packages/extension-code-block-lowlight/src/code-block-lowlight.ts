@@ -3,6 +3,9 @@ import { CodeBlock } from '@tiptap/extension-code-block'
 
 import { LowlightPlugin } from './lowlight-plugin.js'
 
+/**
+ * Options for the `CodeBlockLowlight` node.
+ */
 export interface CodeBlockLowlightOptions extends CodeBlockOptions {
   /**
    * The lowlight instance.

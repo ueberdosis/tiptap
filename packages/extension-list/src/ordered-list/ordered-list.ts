@@ -13,6 +13,9 @@ import {
 const ListItemName = 'listItem'
 const TextStyleName = 'textStyle'
 
+/**
+ * Options for the `OrderedList` node.
+ */
 export interface OrderedListOptions {
   /**
    * The node type name for list items.

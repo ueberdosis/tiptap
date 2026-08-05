@@ -1,5 +1,8 @@
 import { mergeAttributes, Node, parseIndentedBlocks } from '@tiptap/core'
 
+/**
+ * Options for the `TaskList` node.
+ */
 export interface TaskListOptions {
   /**
    * The node type name for a task item.

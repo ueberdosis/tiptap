@@ -8,6 +8,9 @@ import {
 import { Selection } from '@tiptap/pm/state'
 import type { ViewMutationRecord } from '@tiptap/pm/view'
 
+/**
+ * Options for the `DetailsContent` node.
+ */
 export interface DetailsContentOptions {
   /**
    * Custom HTML attributes that should be added to the rendered HTML tag.
@@ -17,6 +20,9 @@ export interface DetailsContentOptions {
   }
 }
 
+/**
+ * The part of a details block that is hidden when it is folded.
+ */
 export const DetailsContent = Node.create<DetailsContentOptions>({
   name: 'detailsContent',
 

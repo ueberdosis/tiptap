@@ -1,12 +1,24 @@
+/**
+ * Matches a YouTube URL.
+ */
 export const YOUTUBE_REGEX =
   /^((?:https?:)?\/\/)?((?:www|m|music)\.)?((?:youtube\.com|youtu\.be|youtube-nocookie\.com))(\/(?:[\w-]+\?v=|embed\/|v\/)?)([\w-]+)(\S+)?$/
+/**
+ * Matches every YouTube URL in a text, used by the paste rule.
+ */
 export const YOUTUBE_REGEX_GLOBAL =
   /^((?:https?:)?\/\/)?((?:www|m|music)\.)?((?:youtube\.com|youtu\.be|youtube-nocookie\.com))(\/(?:[\w-]+\?v=|embed\/|v\/)?)([\w-]+)(\S+)?$/g
 
+/**
+ * Check whether a URL points at YouTube.
+ */
 export const isValidYoutubeUrl = (url: string) => {
   return url.match(YOUTUBE_REGEX)
 }
 
+/**
+ * The player settings that go into the embed URL as query parameters.
+ */
 export interface GetEmbedUrlOptions {
   url: string
   allowFullscreen?: boolean
@@ -29,11 +41,18 @@ export interface GetEmbedUrlOptions {
   rel?: number
 }
 
+/**
+ * The attributes read back out of an embed URL.
+ */
 export interface YoutubeEmbedAttributes {
   src: string
   start?: number
 }
 
+/**
+ * The base embed URL.
+ * @param nocookie Use `youtube-nocookie.com`, which does not set tracking cookies.
+ */
 export const getYoutubeEmbedUrl = (nocookie?: boolean, isPlaylist?: boolean) => {
   if (isPlaylist) {
     return 'https://www.youtube-nocookie.com/embed/videoseries?list='
@@ -41,6 +60,10 @@ export const getYoutubeEmbedUrl = (nocookie?: boolean, isPlaylist?: boolean) => 
   return nocookie ? 'https://www.youtube-nocookie.com/embed/' : 'https://www.youtube.com/embed/'
 }
 
+/**
+ * Turn a YouTube watch URL into an embed URL with the given player settings.
+ * @returns `null` when the URL is not a YouTube URL.
+ */
 export const getEmbedUrlFromYoutubeUrl = (options: GetEmbedUrlOptions) => {
   const {
     url,
@@ -169,6 +192,10 @@ export const getEmbedUrlFromYoutubeUrl = (options: GetEmbedUrlOptions) => {
   return outputUrl
 }
 
+/**
+ * Read the video and start time back out of an embed URL.
+ * @returns `null` when the URL is not an embed URL.
+ */
 export const getAttributesFromYoutubeEmbedUrl = (url: string): YoutubeEmbedAttributes | null => {
   let parsedUrl: URL
 

@@ -13,6 +13,9 @@
 export const TWITCH_REGEX =
   /^(https?:\/\/)?(www\.)?(twitch\.tv|clips\.twitch\.tv)\/(?:videos\/(\d+)|(\w+)\/clip\/([\w-]+)|([\w-]+)(?:\/)?)?(\?.*)?$/
 
+/**
+ * Matches every Twitch URL in a text, used by the paste rule.
+ */
 export const TWITCH_REGEX_GLOBAL =
   /^(https?:\/\/)?(www\.)?(twitch\.tv|clips\.twitch\.tv)\/(?:videos\/(\d+)|(\w+)\/clip\/([\w-]+)|([\w-]+)(?:\/)?)?(\?.*)?$/g
 
@@ -35,6 +38,9 @@ export const isValidTwitchUrl = (url: string) => {
   return url.match(TWITCH_REGEX)
 }
 
+/**
+ * The player settings that go into the embed URL as query parameters.
+ */
 export interface GetEmbedUrlOptions {
   url: string
   allowFullscreen?: boolean
@@ -44,6 +50,9 @@ export interface GetEmbedUrlOptions {
   parent?: string
 }
 
+/**
+ * The attributes read back out of an embed URL.
+ */
 export interface TwitchEmbedAttributes {
   src: string
   autoplay?: boolean

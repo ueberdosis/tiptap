@@ -2,6 +2,9 @@ import { getNodeType } from '@tiptap/core'
 import type { Node } from '@tiptap/pm/model'
 import type { EditorState } from '@tiptap/pm/state'
 
+/**
+ * Whether a list item holds a nested list.
+ */
 export const listItemHasSubList = (typeOrName: string, state: EditorState, node?: Node) => {
   if (!node) {
     return false

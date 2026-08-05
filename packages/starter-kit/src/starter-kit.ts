@@ -35,6 +35,9 @@ import { Underline } from '@tiptap/extension-underline'
 import type { DropcursorOptions, TrailingNodeOptions, UndoRedoOptions } from '@tiptap/extensions'
 import { Dropcursor, Gapcursor, TrailingNode, UndoRedo } from '@tiptap/extensions'
 
+/**
+ * Options for the `StarterKit` extension. Set an entry to `false` to leave that extension out.
+ */
 export interface StarterKitOptions {
   /**
    * If set to false, the blockquote extension will not be registered

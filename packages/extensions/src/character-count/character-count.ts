@@ -2,6 +2,9 @@ import { Extension } from '@tiptap/core'
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 
+/**
+ * Options for the `CharacterCount` extension.
+ */
 export interface CharacterCountOptions {
   /**
    * The maximum number of characters that should be allowed. Defaults to `0`.
@@ -35,6 +38,9 @@ export interface CharacterCountOptions {
   wordCounter: (text: string) => number
 }
 
+/**
+ * What the extension keeps on `editor.storage.characterCount`.
+ */
 export interface CharacterCountStorage {
   /**
    * Get the number of characters for the current document.

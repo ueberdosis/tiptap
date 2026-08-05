@@ -2,6 +2,9 @@ import { getNodeType } from '@tiptap/core'
 import type { NodeType } from '@tiptap/pm/model'
 import type { EditorState } from '@tiptap/pm/state'
 
+/**
+ * The position of the list item around the cursor.
+ */
 export const findListItemPos = (typeOrName: string | NodeType, state: EditorState) => {
   const { $from } = state.selection
   const nodeType = getNodeType(typeOrName, state.schema)

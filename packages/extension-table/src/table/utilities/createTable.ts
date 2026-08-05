@@ -3,6 +3,9 @@ import type { Fragment, Node as ProsemirrorNode, Schema } from '@tiptap/pm/model
 import { createCell } from './createCell.js'
 import { getTableNodeTypes } from './getTableNodeTypes.js'
 
+/**
+ * Build a table node with the given number of rows and columns.
+ */
 export function createTable(
   schema: Schema,
   rowsCount: number,

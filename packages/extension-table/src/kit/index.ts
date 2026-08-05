@@ -9,6 +9,9 @@ import { TableRow } from '../row/index.js'
 import type { TableOptions } from '../table/index.js'
 import { Table } from '../table/index.js'
 
+/**
+ * Options for the `TableKit` extension. Set an entry to `false` to leave that extension out.
+ */
 export interface TableKitOptions {
   /**
    * If set to false, the table extension will not be registered

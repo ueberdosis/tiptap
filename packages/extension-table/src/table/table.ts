@@ -44,6 +44,9 @@ type MarkdownTableToken = {
   rows?: { tokens: MarkdownToken[]; align?: TableCellAlign | null }[][]
 } & MarkdownToken
 
+/**
+ * Options for the `Table` node.
+ */
 export interface TableOptions {
   /**
    * HTML attributes for the table element.

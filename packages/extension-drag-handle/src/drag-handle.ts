@@ -6,11 +6,17 @@ import { DragHandlePlugin } from './drag-handle-plugin.js'
 import { normalizeNestedOptions } from './helpers/normalizeOptions.js'
 import type { NestedOptions } from './types/options.js'
 
+/**
+ * Default placement of the handle: to the left of the node, aligned with its first line.
+ */
 export const defaultComputePositionConfig: ComputePositionConfig = {
   placement: 'left-start',
   strategy: 'absolute',
 }
 
+/**
+ * Options for the `DragHandle` extension.
+ */
 export interface DragHandleOptions {
   /**
    * Renders an element that is positioned with the floating-ui/dom package
@@ -133,6 +139,10 @@ declare module '@tiptap/core' {
   }
 }
 
+/**
+ * Adds a handle you can grab to drag a node somewhere else.
+ * @see https://tiptap.dev/docs/editor/extensions/functionality/drag-handle
+ */
 export const DragHandle = Extension.create<DragHandleOptions>({
   name: 'dragHandle',
 

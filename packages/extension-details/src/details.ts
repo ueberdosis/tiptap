@@ -15,6 +15,9 @@ import { findClosestVisibleNode } from './helpers/findClosestVisibleNode.js'
 import { isNodeVisible } from './helpers/isNodeVisible.js'
 import { setGapCursor } from './helpers/setGapCursor.js'
 
+/**
+ * What the toggle button renderer receives.
+ */
 export interface DetailsRenderToggleButtonOptions {
   /**
    * The toggle button element rendered by the node view.
@@ -30,6 +33,9 @@ export interface DetailsRenderToggleButtonOptions {
   node: ProseMirrorNode
 }
 
+/**
+ * Options for the `Details` node.
+ */
 export interface DetailsOptions {
   /**
    * Specify if the open status should be saved in the document. Defaults to `false`.
@@ -66,6 +72,10 @@ declare module '@tiptap/core' {
   }
 }
 
+/**
+ * A block you can fold open and closed.
+ * @see https://tiptap.dev/docs/editor/extensions/nodes/details
+ */
 export const Details = Node.create<DetailsOptions>({
   name: 'details',
 

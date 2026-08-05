@@ -6,6 +6,9 @@ import {
   TableCellAlign,
 } from '../../utils/parseAlign.js'
 
+/**
+ * Replaces a line break inside a cell, since markdown tables cannot hold one.
+ */
 export const DEFAULT_CELL_LINE_SEPARATOR = '\u001F'
 
 /**
@@ -81,6 +84,9 @@ function collapseWhitespace(s: string) {
   return (s || '').replace(/\s+/g, ' ').trim()
 }
 
+/**
+ * Render a table node as a markdown table.
+ */
 export function renderTableToMarkdown(
   node: JSONContent,
   h: MarkdownRendererHelpers,

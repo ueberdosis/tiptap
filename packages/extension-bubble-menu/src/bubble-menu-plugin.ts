@@ -30,6 +30,9 @@ function combineDOMRects(rect1: DOMRect, rect2: DOMRect): DOMRect {
   return new DOMRect(x, y, width, height)
 }
 
+/**
+ * Options for the bubble menu plugin.
+ */
 export interface BubbleMenuPluginProps {
   /**
    * The plugin key.
@@ -144,10 +147,16 @@ export interface BubbleMenuPluginProps {
   }
 }
 
+/**
+ * Options for the bubble menu view.
+ */
 export type BubbleMenuViewProps = BubbleMenuPluginProps & {
   view: EditorView
 }
 
+/**
+ * Shows the menu above the selection, and keeps it in place while the document changes.
+ */
 export class BubbleMenuView implements PluginView {
   public editor: Editor
 
@@ -701,6 +710,9 @@ export class BubbleMenuView implements PluginView {
   }
 }
 
+/**
+ * The plugin behind the `BubbleMenu` extension.
+ */
 export const BubbleMenuPlugin = (options: BubbleMenuPluginProps) => {
   return new Plugin({
     key:

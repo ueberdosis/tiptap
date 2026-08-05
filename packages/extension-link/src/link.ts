@@ -9,6 +9,9 @@ import { markdownLinkInputRule, markdownLinkPasteRule } from './helpers/markdown
 import { pasteHandler } from './helpers/pasteHandler.js'
 import { UNICODE_WHITESPACE_REGEX_GLOBAL } from './helpers/whitespace.js'
 
+/**
+ * A protocol the link extension should accept, such as `ftp`.
+ */
 export interface LinkProtocolOptions {
   /**
    * The protocol scheme to be registered.
@@ -25,6 +28,9 @@ export interface LinkProtocolOptions {
   optionalSlashes?: boolean
 }
 
+/**
+ * Matches the URLs in pasted text.
+ */
 export const pasteRegex =
   /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)/gi
 
@@ -33,6 +39,9 @@ export const pasteRegex =
  */
 type DeprecatedOpenWhenNotEditable = 'whenNotEditable'
 
+/**
+ * Options for the `Link` mark.
+ */
 export interface LinkOptions {
   /**
    * If enabled, the extension will automatically add links as you type.
@@ -166,6 +175,10 @@ declare module '@tiptap/core' {
   }
 }
 
+/**
+ * Check a URL against the allowed protocols.
+ * Blocks things like `javascript:` links, so pasted content cannot run code.
+ */
 export function isAllowedUri(uri: string | undefined, protocols?: LinkOptions['protocols']) {
   const allowedProtocols: string[] = [
     'http',

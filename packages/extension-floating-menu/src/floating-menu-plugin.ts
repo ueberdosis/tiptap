@@ -17,6 +17,9 @@ import type { EditorState, Transaction } from '@tiptap/pm/state'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import type { EditorView } from '@tiptap/pm/view'
 
+/**
+ * Options for the floating menu plugin.
+ */
 export interface FloatingMenuPluginProps {
   /**
    * The plugin key for the floating menu.
@@ -121,6 +124,9 @@ export interface FloatingMenuPluginProps {
   }
 }
 
+/**
+ * Options for the floating menu view.
+ */
 export type FloatingMenuViewProps = FloatingMenuPluginProps & {
   /**
    * The editor view.
@@ -128,6 +134,9 @@ export type FloatingMenuViewProps = FloatingMenuPluginProps & {
   view: EditorView
 }
 
+/**
+ * Shows the menu next to an empty line, and keeps it in place while the document changes.
+ */
 export class FloatingMenuView {
   public editor: Editor
 
@@ -571,6 +580,9 @@ export class FloatingMenuView {
   }
 }
 
+/**
+ * The plugin behind the `FloatingMenu` extension.
+ */
 export const FloatingMenuPlugin = (options: FloatingMenuPluginProps) => {
   return new Plugin({
     key:

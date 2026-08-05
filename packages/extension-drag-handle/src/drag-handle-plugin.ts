@@ -69,6 +69,9 @@ const getOuterDomNode = (view: EditorView, domNode: HTMLElement) => {
   return tmpDomNode
 }
 
+/**
+ * Options for the drag handle plugin.
+ */
 export interface DragHandlePluginProps {
   pluginKey?: PluginKey | string
   editor: Editor
@@ -82,8 +85,14 @@ export interface DragHandlePluginProps {
   dragImageProperties?: string[]
 }
 
+/**
+ * Plugin key used when you do not pass your own.
+ */
 export const dragHandlePluginDefaultKey = new PluginKey('dragHandle')
 
+/**
+ * Places the handle next to the node under the pointer, and drags that node.
+ */
 export const DragHandlePlugin = ({
   pluginKey = dragHandlePluginDefaultKey,
   element,

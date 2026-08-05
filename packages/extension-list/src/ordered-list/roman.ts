@@ -228,6 +228,9 @@ export function areOrderedListMarkersSequential(markers: string[]): boolean {
   return true
 }
 
+/**
+ * A list marker read back from HTML, with its style and its number.
+ */
 export interface ParsedListMarker {
   type?: string
   start: number

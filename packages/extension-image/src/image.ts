@@ -7,6 +7,9 @@ import {
   ResizableNodeView,
 } from '@tiptap/core'
 
+/**
+ * Options for the `Image` node.
+ */
 export interface ImageOptions {
   /**
    * Controls if the image node should be inline or not.

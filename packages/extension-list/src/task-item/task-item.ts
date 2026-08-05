@@ -10,6 +10,9 @@ import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 
 import { createBranchingListDeleteKeymap } from '../helpers/createBranchingListDeleteKeymap.js'
 
+/**
+ * Options for the `TaskItem` node.
+ */
 export interface TaskItemOptions {
   /**
    * A callback function that is called when the checkbox is clicked while the editor is in readonly mode.

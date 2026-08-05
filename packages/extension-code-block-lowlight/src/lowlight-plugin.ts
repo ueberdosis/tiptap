@@ -76,6 +76,9 @@ function isFunction(param: any): param is Function {
   return typeof param === 'function'
 }
 
+/**
+ * Colours the code in every code block, and keeps it in sync as you type.
+ */
 export function LowlightPlugin({
   name,
   lowlight,

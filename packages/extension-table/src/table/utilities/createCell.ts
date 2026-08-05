@@ -1,5 +1,8 @@
 import type { Fragment, Node as ProsemirrorNode, NodeType } from '@tiptap/pm/model'
 
+/**
+ * Build one table cell, optionally with content.
+ */
 export function createCell(
   cellType: NodeType,
   cellContent?: Fragment | ProsemirrorNode | Array<ProsemirrorNode>,

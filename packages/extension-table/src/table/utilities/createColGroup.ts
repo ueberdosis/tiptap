@@ -2,6 +2,9 @@ import type { DOMOutputSpec, Node as ProseMirrorNode } from '@tiptap/pm/model'
 
 import { getColStyleDeclaration } from './colStyle.js'
 
+/**
+ * A rendered colgroup, with the total table width.
+ */
 export type ColGroup =
   | {
       colgroup: DOMOutputSpec

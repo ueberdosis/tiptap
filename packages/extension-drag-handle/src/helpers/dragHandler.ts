@@ -9,11 +9,17 @@ import { findElementNextToCoords } from './findNextElementFromCursor.js'
 import { getDraggedBlockDir, getDraggedBlockElement } from './getDraggedBlockDir.js'
 import { removeNode } from './removeNode.js'
 
+/**
+ * What the drag handler needs to know while a drag is running.
+ */
 export interface DragContext {
   node: Node | null
   pos: number
 }
 
+/**
+ * Where to hold the drag image, so it stays under the pointer.
+ */
 export function getDragImageOffset(direction: string, wrapperWidth: number): number {
   return direction === 'rtl' ? wrapperWidth : 0
 }
@@ -21,6 +27,9 @@ export function getDragImageOffset(direction: string, wrapperWidth: number): num
 // The drag preview clone resets its margin so it sits flush against the wrapper
 // origin. Skip the reset when the user explicitly copies a margin property via
 // `dragImageProperties`, otherwise we would discard the value they asked for.
+/**
+ * Whether the drag image needs its margin cleared, which would otherwise offset it.
+ */
 export function shouldResetMargin(dragImageProperties?: string[]): boolean {
   if (!dragImageProperties) {
     return true
@@ -77,6 +86,9 @@ function getDragHandleRanges(
   return getSelectionRanges($from, $to, 0, { extendOnBoundaryOverlap: false })
 }
 
+/**
+ * Starts the drag: builds the drag image and puts the node on the data transfer.
+ */
 export function dragHandler(
   event: DragEvent,
   editor: Editor,

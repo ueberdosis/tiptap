@@ -13,6 +13,9 @@ import { isChangeOrigin } from './helpers/isChangeOrigin.js'
 type YSyncOpts = Parameters<typeof ySyncPlugin>[1]
 type YUndoOpts = Parameters<typeof yUndoPlugin>[0]
 
+/**
+ * What the extension keeps on `editor.storage.collaboration`.
+ */
 export interface CollaborationStorage {
   /**
    * Whether collaboration is currently disabled.
@@ -42,6 +45,9 @@ declare module '@tiptap/core' {
   }
 }
 
+/**
+ * Options for the `Collaboration` extension.
+ */
 export interface CollaborationOptions {
   /**
    * An initialized Y.js document.

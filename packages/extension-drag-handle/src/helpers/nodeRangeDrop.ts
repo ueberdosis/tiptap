@@ -2,6 +2,9 @@ import { isNodeRangeSelection, NodeRangeSelection } from '@tiptap/extension-node
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import type { Selection } from '@tiptap/pm/state'
 
+/**
+ * The node range being dragged, and where it should go back to if the drop fails.
+ */
 export interface ActiveDragRange {
   anchorPos: number
   nodeCount: number
@@ -18,6 +21,9 @@ interface MapPendingRestoreAnchorOptions {
 
 // Remaps the drop anchor while a restore is pending. Returns null when the anchor
 // can no longer be resolved.
+/**
+ * Follow the fallback position through the changes made during the drag.
+ */
 export function mapPendingRestoreAnchor(
   pendingRestore: ActiveDragRange,
   tr: {
@@ -72,6 +78,9 @@ function sumNodeSizes(parent: ProseMirrorNode, from: number, to: number): number
 }
 
 // Captures a multi-block node range at dragstart so it can be restored after drop.
+/**
+ * The node range currently being dragged, if there is one.
+ */
 export function getActiveDragRange(selection: Selection): ActiveDragRange | null {
   if (!isNodeRangeSelection(selection)) {
     return null
@@ -116,6 +125,9 @@ function getDroppedBlockRange(
 }
 
 // Rebuilds the dragged node range over the dropped blocks, or null when unsafe.
+/**
+ * Select the dropped nodes again at their new position.
+ */
 export function createDroppedNodeRangeSelection(
   doc: ProseMirrorNode,
   anchorPos: number,

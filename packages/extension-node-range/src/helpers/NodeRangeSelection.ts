@@ -5,6 +5,9 @@ import type { Mapping } from '@tiptap/pm/transform'
 import { getSelectionRanges } from './getSelectionRanges.js'
 import { NodeRangeBookmark } from './NodeRangeBookmark.js'
 
+/**
+ * A selection that covers whole nodes instead of a range of text.
+ */
 export class NodeRangeSelection extends Selection {
   depth: number | undefined
 

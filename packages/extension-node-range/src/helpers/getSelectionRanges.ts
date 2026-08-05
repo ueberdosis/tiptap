@@ -1,6 +1,9 @@
 import { type ResolvedPos, NodeRange } from '@tiptap/pm/model'
 import { SelectionRange } from '@tiptap/pm/state'
 
+/**
+ * Options for `getSelectionRanges`.
+ */
 export interface GetSelectionRangesOptions {
   /**
    * Whether nodes should be included when the selection only overlaps their

@@ -6,6 +6,9 @@ import type { Selection } from '@tiptap/pm/state'
 
 import { isNodeVisible } from './isNodeVisible.js'
 
+/**
+ * Put a gap cursor next to a node, so you can type beside a details block.
+ */
 export const setGapCursor = (editor: Editor, direction: 'down' | 'right') => {
   const { state, view, extensionManager } = editor
   const { schema, selection } = state

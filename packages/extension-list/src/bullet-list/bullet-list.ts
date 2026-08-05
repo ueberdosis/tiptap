@@ -3,6 +3,9 @@ import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core'
 const ListItemName = 'listItem'
 const TextStyleName = 'textStyle'
 
+/**
+ * Options for the `BulletList` node.
+ */
 export interface BulletListOptions {
   /**
    * The node name for the list items

@@ -15,11 +15,17 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { findDuplicates } from './helpers/findDuplicates.js'
 
+/**
+ * What the id generator receives, so it can build an id from the node.
+ */
 export type UniqueIDGenerationContext = {
   node: ProseMirrorNode
   pos: number
 }
 
+/**
+ * Options for the `UniqueID` extension.
+ */
 export interface UniqueIDOptions {
   /**
    * The name of the attribute to add the unique ID to.
@@ -66,6 +72,9 @@ const resolveTypes = (types: UniqueIDOptions['types'], extensions: Extensions): 
     .filter(type => type !== 'doc' && type !== 'text')
 }
 
+/**
+ * Gives every node a stable id that survives edits, copy and paste.
+ */
 export const UniqueID = Extension.create<UniqueIDOptions>({
   name: 'uniqueID',
 

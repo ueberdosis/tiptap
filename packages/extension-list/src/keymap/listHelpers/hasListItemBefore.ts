@@ -1,5 +1,8 @@
 import type { EditorState } from '@tiptap/pm/state'
 
+/**
+ * Whether there is a list item before this one.
+ */
 export const hasListItemBefore = (typeOrName: string, state: EditorState): boolean => {
   const { $anchor } = state.selection
 

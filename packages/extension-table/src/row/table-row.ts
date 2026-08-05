@@ -2,6 +2,9 @@ import '../types.js'
 
 import { mergeAttributes, Node } from '@tiptap/core'
 
+/**
+ * Options for the `TableRow` node.
+ */
 export interface TableRowOptions {
   /**
    * The HTML attributes for a table row node.

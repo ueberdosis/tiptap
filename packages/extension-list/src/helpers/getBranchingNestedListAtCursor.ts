@@ -1,6 +1,9 @@
 import type { Node } from '@tiptap/pm/model'
 import type { EditorState } from '@tiptap/pm/state'
 
+/**
+ * A list item at the cursor that holds a nested list.
+ */
 export type BranchingNestedListAtCursor = {
   listItemDepth: number
   nestedList: Node

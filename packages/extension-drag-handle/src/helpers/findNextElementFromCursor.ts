@@ -5,6 +5,9 @@ import type { EditorView } from '@tiptap/pm/view'
 import type { NormalizedNestedOptions } from '../types/options.js'
 import { findBestDragTarget } from './findBestDragTarget.js'
 
+/**
+ * Options for `findElementNextToCoords`.
+ */
 export type FindElementNextToCoords = {
   x: number
   y: number
@@ -146,6 +149,9 @@ function clampToContent(
   return { x: clampedX, y: clampedY }
 }
 
+/**
+ * Find the node closest to a point, by stepping sideways until one is hit.
+ */
 export const findElementNextToCoords = (
   options: FindElementNextToCoords,
 ): {

@@ -2,6 +2,9 @@ import { Extension } from '@tiptap/core'
 
 import { handleBackspace, handleDelete } from './listHelpers/index.js'
 
+/**
+ * Options for the `ListKeymap` extension.
+ */
 export type ListKeymapOptions = {
   /**
    * An array of list types. This is used for item and wrapper list matching.

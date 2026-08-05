@@ -3,6 +3,9 @@ import type { Mappable } from '@tiptap/pm/transform'
 
 import { NodeRangeSelection } from './NodeRangeSelection.js'
 
+/**
+ * Remembers a node range selection, so it can be restored after the document changes.
+ */
 export class NodeRangeBookmark {
   anchor!: number
   head!: number

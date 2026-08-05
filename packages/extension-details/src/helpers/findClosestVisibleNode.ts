@@ -3,6 +3,9 @@ import type { Node as ProseMirrorNode, ResolvedPos } from '@tiptap/pm/model'
 
 import { isNodeVisible } from './isNodeVisible.js'
 
+/**
+ * Walk up from a position to the first node that is not hidden.
+ */
 export const findClosestVisibleNode = (
   $pos: ResolvedPos,
   predicate: Predicate,

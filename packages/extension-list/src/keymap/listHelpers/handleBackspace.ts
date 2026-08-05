@@ -4,6 +4,9 @@ import type { Node } from '@tiptap/pm/model'
 
 import { hasListBefore } from './hasListBefore.js'
 
+/**
+ * Backspace inside a list: lift the item out, or join it with the one before.
+ */
 export const handleBackspace = (editor: Editor, name: string, parentListTypes: string[]) => {
   // this is required to still handle the undo handling
   if (editor.commands.undoInputRule()) {

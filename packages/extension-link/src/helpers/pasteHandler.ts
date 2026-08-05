@@ -12,6 +12,9 @@ type PasteHandlerOptions = {
   shouldAutoLink?: LinkOptions['shouldAutoLink']
 }
 
+/**
+ * Turns a URL pasted over selected text into a link on that text.
+ */
 export function pasteHandler(options: PasteHandlerOptions): Plugin {
   return new Plugin({
     key: new PluginKey('handlePasteLink'),

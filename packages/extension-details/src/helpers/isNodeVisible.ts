@@ -1,5 +1,8 @@
 import type { Editor } from '@tiptap/core'
 
+/**
+ * Check whether a node is shown, or hidden inside a folded details block.
+ */
 export const isNodeVisible = (position: number, editor: Editor): boolean => {
   const node = editor.view.domAtPos(position).node
   // Use the node for elements and its parent for text nodes.

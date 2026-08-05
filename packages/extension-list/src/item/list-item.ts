@@ -5,6 +5,9 @@ import { createBranchingListDeleteKeymap } from '../helpers/createBranchingListD
 
 import { getListMarker } from '../ordered-list/roman.js'
 
+/**
+ * Options for the `ListItem` node.
+ */
 export interface ListItemOptions {
   /**
    * The HTML attributes for a list item node.

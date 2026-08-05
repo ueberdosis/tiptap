@@ -1,5 +1,8 @@
 import { createBlockMarkdownSpec, mergeAttributes, Node } from '@tiptap/core'
 
+/**
+ * Options for the `DetailsSummary` node.
+ */
 export interface DetailsSummaryOptions {
   /**
    * Custom HTML attributes that should be added to the rendered HTML tag.
@@ -9,6 +12,9 @@ export interface DetailsSummaryOptions {
   }
 }
 
+/**
+ * The always visible heading of a details block.
+ */
 export const DetailsSummary = Node.create<DetailsSummaryOptions>({
   name: 'detailsSummary',
 

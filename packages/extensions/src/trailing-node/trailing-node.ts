@@ -2,6 +2,9 @@ import { Extension } from '@tiptap/core'
 import type { Node, NodeType } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 
+/**
+ * Transaction metadata that stops the trailing node from being added for this transaction.
+ */
 export const skipTrailingNodeMeta = 'skipTrailingNode'
 
 function nodeEqualsType({
@@ -20,6 +23,9 @@ function nodeEqualsType({
  * - https://github.com/remirror/remirror/blob/e0f1bec4a1e8073ce8f5500d62193e52321155b9/packages/prosemirror-trailing-node/src/trailing-node-plugin.ts
  */
 
+/**
+ * Options for the `TrailingNode` extension.
+ */
 export interface TrailingNodeOptions {
   /**
    * The node type that should be inserted at the end of the document.

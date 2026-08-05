@@ -1,5 +1,8 @@
 import type { NodeType, Schema } from '@tiptap/pm/model'
 
+/**
+ * The table node types in a schema, keyed by role.
+ */
 export function getTableNodeTypes(schema: Schema): { [key: string]: NodeType } {
   if (schema.cached.tableNodeTypes) {
     return schema.cached.tableNodeTypes

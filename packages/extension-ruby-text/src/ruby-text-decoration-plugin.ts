@@ -14,6 +14,9 @@ interface RubyTextRange {
   mark: Mark
 }
 
+/**
+ * What the annotation editor renderer receives.
+ */
 export interface RubyTextAnnotationEditorProps {
   /**
    * The current annotation value (`''` when the mark has an empty annotation).
@@ -35,6 +38,9 @@ export interface RubyTextAnnotationEditorProps {
   editor: Editor
 }
 
+/**
+ * Options for the ruby text decoration plugin.
+ */
 export interface RubyTextDecorationPluginOptions {
   editor: Editor
   allowClickToEdit: boolean
@@ -275,6 +281,9 @@ function createDecorations(
   return DecorationSet.create(doc, decorations)
 }
 
+/**
+ * Shows the annotation editor when a ruby text mark is clicked.
+ */
 export function RubyTextDecorationPlugin(
   rubyTextType: MarkType,
   options: RubyTextDecorationPluginOptions,

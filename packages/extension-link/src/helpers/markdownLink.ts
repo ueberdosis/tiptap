@@ -18,6 +18,9 @@ const MARKDOWN_LINK_INPUT_REGEX =
 const MARKDOWN_LINK_PASTE_REGEX =
   /\[([^[\]]+)\]\(((?:[^\s()]|\([^\s()]*\))+)(?:\s+(?:(["'])(.*?)\3|“(.*?)”|‘(.*?)’))?\)/g
 
+/**
+ * Config for the input rule that turns markdown link syntax into a link.
+ */
 export interface MarkdownLinkRuleConfig {
   type: MarkType
 
@@ -27,6 +30,9 @@ export interface MarkdownLinkRuleConfig {
   isAllowedHref: (href: string) => boolean
 }
 
+/**
+ * Config for the paste rule that turns markdown link syntax into a link.
+ */
 export interface MarkdownLinkPasteRuleConfig extends MarkdownLinkRuleConfig {
   /**
    * Finds plain URLs to link in the same pass. Matches overlapping a

@@ -2,6 +2,9 @@ import { Extension } from '@tiptap/core'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
 
+/**
+ * Options for the `Focus` extension.
+ */
 export interface FocusOptions {
   /**
    * The class name that should be added to the focused node.

@@ -3,6 +3,9 @@ import type { EditorState } from '@tiptap/pm/state'
 
 import { findListItemPos } from './findListItemPos.js'
 
+/**
+ * How deeply the next list item is nested.
+ */
 export const getNextListDepth = (typeOrName: string, state: EditorState) => {
   const listItemPos = findListItemPos(typeOrName, state)
 

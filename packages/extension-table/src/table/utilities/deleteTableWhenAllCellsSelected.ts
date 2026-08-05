@@ -3,6 +3,9 @@ import { findParentNodeClosestToPos } from '@tiptap/core'
 
 import { isCellSelection } from './isCellSelection.js'
 
+/**
+ * Delete the whole table when every cell is selected, instead of only clearing them.
+ */
 export const deleteTableWhenAllCellsSelected: KeyboardShortcutCommand = ({ editor }) => {
   const { selection } = editor.state
 

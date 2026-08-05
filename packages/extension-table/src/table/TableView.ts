@@ -3,6 +3,9 @@ import type { EditorView, NodeView, ViewMutationRecord } from '@tiptap/pm/view'
 
 import { getColStyleDeclaration } from './utilities/colStyle.js'
 
+/**
+ * Rewrite the colgroup so the rendered widths match the cell attributes.
+ */
 export function updateColumns(
   node: ProseMirrorNode,
   colgroup: HTMLTableColElement, // <colgroup> has the same prototype as <col>
@@ -74,6 +77,9 @@ export function updateColumns(
   }
 }
 
+/**
+ * Renders a table and keeps its column widths in the colgroup.
+ */
 export class TableView implements NodeView {
   node: ProseMirrorNode
 

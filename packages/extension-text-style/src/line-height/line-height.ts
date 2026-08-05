@@ -2,6 +2,9 @@ import '../text-style/index.js'
 
 import { Extension, getStyleProperty } from '@tiptap/core'
 
+/**
+ * Options for the `LineHeight` mark.
+ */
 export type LineHeightOptions = {
   /**
    * A list of node names where the line height can be applied.

@@ -2,6 +2,9 @@ import '../text-style/index.js'
 
 import { Extension, getStyleProperty } from '@tiptap/core'
 
+/**
+ * Options for the `FontFamily` mark.
+ */
 export type FontFamilyOptions = {
   /**
    * A list of node names where the font family can be applied.

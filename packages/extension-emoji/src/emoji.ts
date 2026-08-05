@@ -37,6 +37,9 @@ declare module '@tiptap/core' {
   }
 }
 
+/**
+ * One emoji, with the shortcodes and emoticons that produce it.
+ */
 export type EmojiItem = {
   /**
    * A unique name of the emoji which will be stored as attribute
@@ -76,6 +79,9 @@ export type EmojiItem = {
   [key: string]: any
 }
 
+/**
+ * Options for the `Emoji` node.
+ */
 export type EmojiOptions = {
   HTMLAttributes: Record<string, any>
   emojis: EmojiItem[]
@@ -84,17 +90,33 @@ export type EmojiOptions = {
   suggestion: Omit<SuggestionOptions, 'editor'>
 }
 
+/**
+ * What the extension keeps on `editor.storage.emoji`.
+ */
 export type EmojiStorage = {
   emojis: EmojiItem[]
   isSupported: (item: EmojiItem) => boolean
 }
 
+/**
+ * Plugin key of the emoji suggestion menu.
+ */
 export const EmojiSuggestionPluginKey = new PluginKey('emojiSuggestion')
 
+/**
+ * Matches a shortcode such as `:smile:` as you type.
+ */
 export const inputRegex = /:([a-zA-Z0-9_+-]+):$/
 
+/**
+ * Matches shortcodes in pasted text.
+ */
 export const pasteRegex = /(^|\s):([a-zA-Z0-9_+-]+):/g
 
+/**
+ * Adds emoji, either as characters or as fallback images.
+ * @see https://tiptap.dev/docs/editor/extensions/nodes/emoji
+ */
 export const Emoji = Node.create<EmojiOptions, EmojiStorage>({
   name: 'emoji',
 

@@ -1,6 +1,9 @@
 import { Extension } from '@tiptap/core'
 import { dropCursor } from '@tiptap/pm/dropcursor'
 
+/**
+ * Options for the `Dropcursor` extension.
+ */
 export interface DropcursorOptions {
   /**
    * The color of the drop cursor. Use `false` to apply no color and rely only on class.

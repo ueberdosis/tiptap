@@ -8,6 +8,9 @@ import { Suggestion } from '@tiptap/suggestion'
 import { getSuggestionOptions } from './utils/get-default-suggestion-attributes.js'
 
 // See `addAttributes` below
+/**
+ * The attributes stored on a mention node.
+ */
 export interface MentionNodeAttrs {
   /**
    * The identifier for the selected item that was mentioned, stored as a `data-id`
@@ -26,6 +29,9 @@ export interface MentionNodeAttrs {
   mentionSuggestionChar?: string
 }
 
+/**
+ * Options for the `Mention` node.
+ */
 export interface MentionOptions<
   SuggestionItem = any,
   Attrs extends Record<string, any> = MentionNodeAttrs,

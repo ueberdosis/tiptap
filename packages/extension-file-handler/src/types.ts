@@ -1,6 +1,9 @@
 import type { Editor } from '@tiptap/core'
 import type { PluginKey } from '@tiptap/pm/state'
 
+/**
+ * Options for the plugin behind the `FileHandler` extension.
+ */
 export type FileHandlePluginOptions = {
   /**
    * The plugin key.
@@ -51,4 +54,7 @@ export type FileHandlePluginOptions = {
   onDrop?: (editor: Editor, files: File[], pos: number) => void
 }
 
+/**
+ * Options for the `FileHandler` extension.
+ */
 export type FileHandlerOptions = {} & Omit<FileHandlePluginOptions, 'key' | 'editor'>

@@ -1,6 +1,9 @@
 import type { Editor } from '@tiptap/core'
 import type { Node as ProsemirrorNode } from '@tiptap/pm/model'
 
+/**
+ * Options for the `Placeholder` extension.
+ */
 export interface PlaceholderOptions {
   /**
    * **The class name for the empty editor**

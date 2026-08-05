@@ -1,5 +1,8 @@
 import type { EditorState } from '@tiptap/pm/state'
 
+/**
+ * Whether the node before the cursor is a list.
+ */
 export const hasListBefore = (
   editorState: EditorState,
   name: string,

@@ -2,6 +2,9 @@ import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 import type { FileHandlePluginOptions } from './types.js'
 
+/**
+ * Catches the drop and paste events, and passes the files on.
+ */
 export const FileHandlePlugin = ({
   key,
   editor,

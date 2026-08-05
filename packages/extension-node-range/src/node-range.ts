@@ -7,11 +7,18 @@ import { getSelectionRanges } from './helpers/getSelectionRanges.js'
 import { isNodeRangeSelection } from './helpers/isNodeRangeSelection.js'
 import { NodeRangeSelection } from './helpers/NodeRangeSelection.js'
 
+/**
+ * Options for the `NodeRange` extension.
+ */
 export interface NodeRangeOptions {
   depth: number | undefined
   key: 'Shift' | 'Control' | 'Alt' | 'Meta' | 'Mod' | null | undefined
 }
 
+/**
+ * Lets you select whole nodes by dragging across them.
+ * @see https://tiptap.dev/docs/editor/extensions/functionality/node-range
+ */
 export const NodeRange = Extension.create<NodeRangeOptions>({
   name: 'nodeRange',
 

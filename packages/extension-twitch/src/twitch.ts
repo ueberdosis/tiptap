@@ -41,6 +41,9 @@ const getParsedTwitchAttributes = (element: HTMLElement) => {
   }
 }
 
+/**
+ * Options for the `Twitch` node.
+ */
 export interface TwitchOptions {
   /**
    * Controls if the paste handler for Twitch videos should be added.

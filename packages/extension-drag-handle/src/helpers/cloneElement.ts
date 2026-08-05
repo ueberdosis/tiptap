@@ -18,6 +18,9 @@ function getCSSText(element: Element, properties?: string[]) {
   return value
 }
 
+/**
+ * Copy an element, including its computed styles, for use as the drag image.
+ */
 export function cloneElement(node: HTMLElement, properties?: string[]) {
   const clonedNode = node.cloneNode(true) as HTMLElement
   const sourceElements = [node, ...Array.from(node.getElementsByTagName('*'))] as HTMLElement[]

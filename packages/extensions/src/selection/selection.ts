@@ -3,6 +3,9 @@ import { Plugin, PluginKey, type EditorState } from '@tiptap/pm/state'
 import type { EditorView } from '@tiptap/pm/view'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
 
+/**
+ * Options for the `Selection` extension.
+ */
 export type SelectionOptions = {
   /**
    * The class name that should be added to the selected text.

@@ -13,6 +13,9 @@ import { TaskItem } from '../task-item/index.js'
 import type { TaskListOptions } from '../task-list/index.js'
 import { TaskList } from '../task-list/index.js'
 
+/**
+ * Options for the `ListKit` extension. Set an entry to `false` to leave that extension out.
+ */
 export interface ListKitOptions {
   /**
    * If set to false, the bulletList extension will not be registered

@@ -1,3 +1,6 @@
+/**
+ * The width style for one column.
+ */
 export function getColStyleDeclaration(
   minWidth: number,
   width: number | undefined,

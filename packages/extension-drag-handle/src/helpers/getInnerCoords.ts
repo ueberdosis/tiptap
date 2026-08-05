@@ -3,6 +3,9 @@ import type { EditorView } from '@tiptap/pm/view'
 import { getComputedStyle } from './getComputedStyle.js'
 import { minMax } from './minMax.js'
 
+/**
+ * Move a point inside the editor, so a lookup just outside it still finds a node.
+ */
 export function getInnerCoords(
   view: EditorView,
   x: number,
