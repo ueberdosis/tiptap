@@ -42,6 +42,9 @@ export interface VueWidgetRendererOptions<
 
 const WIDGET_CACHE = Symbol('tiptapVue2WidgetCache')
 
+// @ts-ignore
+const isDev = process.env.NODE_ENV !== 'production'
+
 interface WidgetCache {
   /**
    * The live renderer for each widget key. Reused across recomputes so the
@@ -63,6 +66,25 @@ function shallowEqual(a: Record<string, any>, b: Record<string, any>): boolean {
   }
 
   return aKeys.every(key => a[key] === b[key])
+}
+
+// Vue 2 fixes the prop list at construction. Keys absent on first mount are
+// never declared, so updateProps silently drops them on later updates.
+function warnUndeclaredProps(renderer: VueRenderer, props: Record<string, any>, key: string): void {
+  if (!isDev) {
+    return
+  }
+
+  const declared = renderer.ref.$props ?? {}
+
+  for (const name of Object.keys(props)) {
+    if (!(name in declared)) {
+      console.warn(
+        `[tiptap warn]: VueWidgetRenderer prop "${name}" was not passed on first mount for widget "${key}".`,
+        'Vue 2 cannot declare new props after mount, so this value is ignored.',
+      )
+    }
+  }
 }
 
 function getCache(editor: Editor): WidgetCache {
@@ -132,6 +154,7 @@ export function VueWidgetRenderer<P extends Record<string, any> = object>(
     const previous = cache.props.get(key)
 
     if (!previous || !shallowEqual(previous, props)) {
+      warnUndeclaredProps(existing, props, key)
       existing.updateProps(props)
       cache.props.set(key, { ...props })
     }
@@ -141,6 +164,7 @@ export function VueWidgetRenderer<P extends Record<string, any> = object>(
     let renderer = cache.renderers.get(key)
 
     if (renderer) {
+      warnUndeclaredProps(renderer, props, key)
       renderer.updateProps({ ...props, editor, getPos })
     } else {
       const mountProps = { ...props, editor, getPos }

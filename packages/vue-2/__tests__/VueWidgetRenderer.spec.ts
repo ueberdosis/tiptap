@@ -115,6 +115,39 @@ function propDefinitionsWidget() {
   })
 }
 
+let latePropsCreateCalls = 0
+
+function latePropWidget() {
+  return Extension.create({
+    name: 'latePropWidget',
+    addDecorations() {
+      return {
+        create: ({ editor, state }) => {
+          const first = state.doc.firstChild
+
+          if (!first) {
+            return []
+          }
+
+          latePropsCreateCalls += 1
+          // Second pass introduces `label`, which Counter does not declare and
+          // was absent on first mount.
+          const props = latePropsCreateCalls === 1 ? { index: 0 } : { index: 1, label: 'late' }
+
+          return [
+            VueWidgetRenderer(Counter, {
+              editor: editor as unknown as Editor,
+              pos: first.nodeSize - 1,
+              key: 'late-prop',
+              props,
+            }),
+          ]
+        },
+      }
+    },
+  })
+}
+
 describe('VueWidgetRenderer (vue-2)', () => {
   let editor: Editor | null = null
   let el: HTMLElement | null = null
@@ -130,6 +163,7 @@ describe('VueWidgetRenderer (vue-2)', () => {
     destroyCount = 0
     propDefinitions = null
     validatorCalls = 0
+    latePropsCreateCalls = 0
   })
 
   function mount(content: string, extraExtensions: AnyExtension[] = []) {
@@ -277,6 +311,23 @@ describe('VueWidgetRenderer (vue-2)', () => {
     expect(editor!.state.doc.childCount).toBe(2)
     expect(el!.querySelectorAll('.counter').length).toBe(2)
     expect(destroyCount).toBe(prevDestroy + 1)
+  })
+
+  it('warns when a prop key is introduced after first mount', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    mount('<p>a</p>', [latePropWidget()])
+    expect(latePropsCreateCalls).toBe(1)
+
+    // Rebuilding decorations reuses the cached renderer (same key) and pushes
+    // the new `label` prop, which was not declared on first mount.
+    editor!.commands.setContent('<p>a</p>')
+
+    expect(latePropsCreateCalls).toBe(2)
+    expect(warn).toHaveBeenCalledWith(
+      expect.stringContaining('VueWidgetRenderer prop "label"'),
+      expect.any(String),
+    )
+    warn.mockRestore()
   })
 
   // Duplicate widget keys intentionally not tested here — ProseMirror's view
