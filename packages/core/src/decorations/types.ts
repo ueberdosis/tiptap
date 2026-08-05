@@ -7,7 +7,8 @@ import type { Decoration } from './Decoration.js'
 export interface DecorationCreateProps {
   editor: Editor
   state: EditorState
-  view: EditorView
+  /** The editor view, or `null` while the editor is not mounted. */
+  view: EditorView | null
 }
 
 export interface DecorationShouldUpdateProps {

@@ -235,3 +235,55 @@ describe('DecorationManager incremental merge', () => {
     editor.destroy()
   })
 })
+
+describe('DecorationManager view prop', () => {
+  /** Records the `view` each create call receives. */
+  function viewProbeExtension(views: unknown[]) {
+    return Extension.create({
+      name: 'viewProbe',
+      addDecorations() {
+        return {
+          create: ({ view, state }: { view: unknown; state: EditorState }) => {
+            views.push(view)
+
+            return [Decoration.Inline(1, state.doc.content.size, { class: 'probe' })]
+          },
+        }
+      },
+    })
+  }
+
+  it('passes the mounted view while the editor has a view', () => {
+    const views: unknown[] = []
+
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, viewProbeExtension(views)],
+      content: '<p>hello</p>',
+    })
+
+    expect(views).toHaveLength(1)
+    expect(views[0]).toBe(editor.view)
+    expect((views[0] as { dom: HTMLElement }).dom).toBeTruthy()
+
+    editor.destroy()
+  })
+
+  it('passes null instead of the placeholder view after unmount', () => {
+    const views: unknown[] = []
+
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, viewProbeExtension(views)],
+      content: '<p>hello</p>',
+    })
+
+    // Read the state while mounted so the unmounted editor keeps the plugin state.
+    expect(getState(editor)).toBeTruthy()
+    editor.unmount()
+
+    expect(() => editor.view.dispatch(editor.state.tr.insertText('!', 1))).not.toThrow()
+    expect(views).toHaveLength(2)
+    expect(views[1]).toBeNull()
+
+    editor.destroy()
+  })
+})

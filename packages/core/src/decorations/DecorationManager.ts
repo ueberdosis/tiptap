@@ -1,6 +1,7 @@
 import type { Node } from '@tiptap/pm/model'
 import type { EditorState, Transaction } from '@tiptap/pm/state'
 import { Plugin } from '@tiptap/pm/state'
+import type { EditorView } from '@tiptap/pm/view'
 import { DecorationSet } from '@tiptap/pm/view'
 
 import type { Editor } from '../Editor.js'
@@ -52,6 +53,15 @@ export class DecorationManager {
    */
   liveWidgetKeys(): ReadonlySet<string> {
     return DECORATION_MANAGER_PLUGIN_KEY.getState(this.editor.state)?.widgetKeys ?? EMPTY_KEYS
+  }
+
+  /**
+   * The mounted editor view, or `null` when destroyed. Decoration callbacks
+   * must never receive the placeholder view `editor.view` falls back to.
+   * @returns The mounted editor view, or `null`
+   */
+  private get mountedView(): EditorView | null {
+    return this.editor.isDestroyed ? null : this.editor.view
   }
 
   /**
@@ -256,7 +266,7 @@ export class DecorationManager {
         spec.createInRange!({
           editor: this.editor,
           state: newState,
-          view: this.editor.view,
+          view: this.mountedView,
           from,
           to,
         } satisfies DecorationRangeProps),
@@ -303,7 +313,7 @@ export class DecorationManager {
     const decorations: Decoration[] = spec.create({
       editor: this.editor,
       state,
-      view: this.editor.view,
+      view: this.mountedView,
     } satisfies DecorationCreateProps)
 
     return buildDecorationSet(state.doc, decorations, name)
