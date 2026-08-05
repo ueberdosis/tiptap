@@ -10,8 +10,14 @@ import { createState, updateState } from '../utils/index.js'
 export { currentResultClass, resultClass }
 export type { FindAndReplaceMeta, FindAndReplacePluginState }
 
+/**
+ * Plugin key, for reading the search state from a transaction.
+ */
 export const FindAndReplacePluginKey = new PluginKey<FindAndReplacePluginState>('findAndReplace')
 
+/**
+ * Keeps the results in sync with the document and draws the highlights.
+ */
 export const FindAndReplacePlugin = (
   options: FindAndReplaceOptions,
   onCreate: (pluginState: FindAndReplacePluginState) => void,

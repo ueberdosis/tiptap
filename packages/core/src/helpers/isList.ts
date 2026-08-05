@@ -4,6 +4,9 @@ import type { Extensions } from '../types.js'
 import { callOrReturn } from '../utilities/callOrReturn.js'
 import { splitExtensions } from './splitExtensions.js'
 
+/**
+ * Check whether a node name belongs to a list extension.
+ */
 export function isList(name: string, extensions: Extensions): boolean {
   const { nodeExtensions } = splitExtensions(extensions)
   const extension = nodeExtensions.find(item => item.name === name)

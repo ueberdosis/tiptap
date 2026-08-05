@@ -2,6 +2,10 @@ import type { EditorState } from '@tiptap/pm/state'
 
 import { findParentNode } from './findParentNode.js'
 
+/**
+ * Check whether the cursor sits at the end of its parent node.
+ * @param nodeType Look at the closest parent of this type instead.
+ */
 export const isAtEndOfNode = (state: EditorState, nodeType?: string) => {
   const { $from, $to, $anchor } = state.selection
 

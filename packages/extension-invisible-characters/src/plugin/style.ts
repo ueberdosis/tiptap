@@ -1,3 +1,6 @@
+/**
+ * The default CSS for the markers.
+ */
 export const style = `.tiptap-invisible-character {
   height: 0;
   padding: 0;

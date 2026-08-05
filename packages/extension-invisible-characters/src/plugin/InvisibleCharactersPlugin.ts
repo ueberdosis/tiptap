@@ -8,8 +8,14 @@ import { style } from './style.js'
 import { createStyleTag } from './utils/create-style-tag.js'
 import { getUpdatedRanges } from './utils/get-updated-ranges.js'
 
+/**
+ * Plugin key, for reading the visibility state from a transaction.
+ */
 export const InvisibleCharactersPluginKey = new PluginKey<PluginState>('invisibleCharacters')
 
+/**
+ * Draws the markers and keeps them in sync with the document.
+ */
 export const InvisibleCharactersPlugin = (
   state: EditorState,
   options: InvisibleCharactersOptions,

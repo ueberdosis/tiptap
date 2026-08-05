@@ -21,6 +21,9 @@ function* findSafeMatches(regex: RE2JS, text: string): Generator<TextMatch> {
   }
 }
 
+/**
+ * Yield every match of the regex in the text, skipping empty matches.
+ */
 export function findMatches(regex: SearchRegex, text: string): Generator<TextMatch> {
   return regex instanceof RegExp ? findNativeMatches(regex, text) : findSafeMatches(regex, text)
 }

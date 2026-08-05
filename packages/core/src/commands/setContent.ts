@@ -3,6 +3,9 @@ import type { Fragment, Node as ProseMirrorNode, ParseOptions } from '@tiptap/pm
 import { createDocument } from '../helpers/createDocument.js'
 import type { Content, RawCommands } from '../types.js'
 
+/**
+ * Options for the `setContent` command.
+ */
 export interface SetContentOptions {
   /**
    * Options for parsing the content.

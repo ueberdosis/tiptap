@@ -7,6 +7,10 @@ interface DebugJSONContent extends JSONContent {
   to: number
 }
 
+/**
+ * Turn a node into JSON that also carries positions and node sizes.
+ * Meant for debugging, not for storing content.
+ */
 export function getDebugJSON(node: ProseMirrorNode, startOffset = 0): DebugJSONContent {
   const isTopNode = node.type === node.type.schema.topNodeType
   const increment = isTopNode ? 0 : 1

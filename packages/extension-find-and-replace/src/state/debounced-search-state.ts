@@ -1,5 +1,8 @@
 import type { Editor } from '@tiptap/core'
 
+/**
+ * The pending debounced search for one editor.
+ */
 export interface DebouncedSearchState {
   timeout: ReturnType<typeof setTimeout> | null
   pendingTerm: string | null
@@ -7,6 +10,9 @@ export interface DebouncedSearchState {
 
 const debouncedSearchState = new WeakMap<Editor, DebouncedSearchState>()
 
+/**
+ * Get the pending debounced search for an editor, creating it on first use.
+ */
 export function getDebouncedSearchState(editor: Editor): DebouncedSearchState {
   const existingState = debouncedSearchState.get(editor)
 
@@ -24,6 +30,9 @@ export function getDebouncedSearchState(editor: Editor): DebouncedSearchState {
   return nextState
 }
 
+/**
+ * Cancel the pending debounced search and drop it.
+ */
 export function clearDebouncedSearchState(editor: Editor): void {
   const state = debouncedSearchState.get(editor)
 

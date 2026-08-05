@@ -1,5 +1,8 @@
 import { InvisibleNode } from '../InvisibleNode.js'
 
+/**
+ * Marks the end of a paragraph.
+ */
 export class ParagraphNode extends InvisibleNode {
   constructor() {
     super({

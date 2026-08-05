@@ -4,6 +4,9 @@ import { isCurrentResult } from './isCurrentResult.js'
 import { resultInTextblocks } from './resultInTextblocks.js'
 import type { TextblockRange } from './types.js'
 
+/**
+ * Whether a result needs a new highlight, because its text changed or it gained or lost the current mark.
+ */
 export function shouldRefreshResult(
   result: SearchResult,
   textblocks: readonly TextblockRange[],

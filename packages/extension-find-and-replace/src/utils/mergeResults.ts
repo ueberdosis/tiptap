@@ -1,5 +1,8 @@
 import type { SearchResult } from '../search/search.js'
 
+/**
+ * Merge two result lists back into one, in document order.
+ */
 export function mergeResults(first: SearchResult[], second: SearchResult[]): SearchResult[] {
   const results: SearchResult[] = []
   let firstIndex = 0

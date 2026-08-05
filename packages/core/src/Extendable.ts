@@ -27,6 +27,9 @@ import type {
 import { callOrReturn } from './utilities/callOrReturn.js'
 import { mergeDeep } from './utilities/mergeDeep.js'
 
+/**
+ * The settings every extension, node and mark shares.
+ */
 export interface ExtendableConfig<
   Options = any,
   Storage = any,
@@ -531,6 +534,9 @@ export interface ExtendableConfig<
     | null
 }
 
+/**
+ * Base class behind `Extension`, `Node` and `Mark`. Holds the options, storage and config.
+ */
 export class Extendable<
   Options = any,
   Storage = any,

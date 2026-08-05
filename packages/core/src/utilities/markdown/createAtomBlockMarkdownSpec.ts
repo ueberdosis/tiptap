@@ -10,6 +10,9 @@ import {
   serializeAttributes as defaultSerializeAttributes,
 } from './attributeUtils.js'
 
+/**
+ * Options for `createAtomBlockMarkdownSpec`.
+ */
 export interface AtomBlockMarkdownSpecOptions {
   /** The Tiptap node name this spec is for */
   nodeName: string

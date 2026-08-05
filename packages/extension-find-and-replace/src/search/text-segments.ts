@@ -10,6 +10,10 @@ interface TextSegment {
 
 // Non-text inline nodes (hard break, mention, ...) contribute a placeholder
 // so matches never silently span across them.
+/**
+ * Split a text block into segments, so text offsets can be mapped back to document positions.
+ * Inline nodes such as images become segments too, and matches may not cross them.
+ */
 export function getTextSegments(textblock: Node, pos: number): TextSegment[] {
   const segments: TextSegment[] = []
   let textOffset = 0
@@ -49,12 +53,18 @@ function findOffsetSegment(segments: TextSegment[], offset: number): TextSegment
   return segments[low] ?? segments.at(-1)
 }
 
+/**
+ * Turn an offset in the block text into a document position.
+ */
 export function offsetToPos(segments: TextSegment[], offset: number): number {
   const segment = findOffsetSegment(segments, offset)
 
   return segment ? segment.pos + Math.min(offset - segment.textOffset, segment.length) : 0
 }
 
+/**
+ * Check whether a range runs across an inline node, which would make the match invalid.
+ */
 export function overlapsNonTextSegment(segments: TextSegment[], from: number, to: number): boolean {
   return segments.some(
     segment =>

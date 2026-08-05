@@ -4,10 +4,16 @@ import { Extension } from '../Extension.js'
 import { getTextBetween } from '../helpers/getTextBetween.js'
 import { getTextSerializersFromSchema } from '../helpers/getTextSerializersFromSchema.js'
 
+/**
+ * Options for the `ClipboardTextSerializer` extension.
+ */
 export type ClipboardTextSerializerOptions = {
   blockSeparator?: string
 }
 
+/**
+ * Puts a plain text copy of the selection on the clipboard next to the HTML.
+ */
 export const ClipboardTextSerializer = Extension.create<ClipboardTextSerializerOptions>({
   name: 'clipboardTextSerializer',
 

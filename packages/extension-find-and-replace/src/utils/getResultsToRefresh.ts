@@ -3,6 +3,9 @@ import type { SearchResult } from '../search/search.js'
 import { shouldRefreshResult } from './shouldRefreshResult.js'
 import type { IndexedResult, TextblockRange } from './types.js'
 
+/**
+ * The results whose highlight has to be redrawn.
+ */
 export function getResultsToRefresh(
   results: SearchResult[],
   textblocks: readonly TextblockRange[],

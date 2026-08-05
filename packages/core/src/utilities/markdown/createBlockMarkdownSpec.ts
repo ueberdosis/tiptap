@@ -11,6 +11,9 @@ import {
   serializeAttributes as defaultSerializeAttributes,
 } from './attributeUtils.js'
 
+/**
+ * Options for `createBlockMarkdownSpec`.
+ */
 export interface BlockMarkdownSpecOptions {
   /** The Tiptap node name this spec is for */
   nodeName: string

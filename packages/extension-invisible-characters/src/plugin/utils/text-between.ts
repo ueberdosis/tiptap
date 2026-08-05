@@ -2,6 +2,9 @@ import type { Node } from '@tiptap/pm/model'
 
 import type { Position } from '../../types.js'
 
+/**
+ * Read the text in a range, keeping the position of each piece.
+ */
 export const textBetween = (from: number, to: number, doc: Node) => {
   const positions: Position[] = []
 

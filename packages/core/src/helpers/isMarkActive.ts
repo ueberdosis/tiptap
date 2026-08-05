@@ -5,6 +5,10 @@ import type { MarkRange } from '../types.js'
 import { objectIncludes } from '../utilities/objectIncludes.js'
 import { getMarkType } from './getMarkType.js'
 
+/**
+ * Check whether a mark is active in the current selection.
+ * Pass `null` as the type to match any mark.
+ */
 export function isMarkActive(
   state: EditorState,
   typeOrName: MarkType | string | null,

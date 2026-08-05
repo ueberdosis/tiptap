@@ -5,6 +5,9 @@ import type { SearchResult } from '../search/search.js'
 
 import { createDecoration } from './createDecoration.js'
 
+/**
+ * Build the highlights for all results.
+ */
 export function createDecorations(
   doc: Node,
   results: SearchResult[],

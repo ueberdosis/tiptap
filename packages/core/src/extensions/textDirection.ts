@@ -3,7 +3,14 @@ import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { Extension } from '../Extension.js'
 import { splitExtensions } from '../helpers/splitExtensions.js'
 
+/**
+ * Options for the `TextDirection` extension.
+ */
 export interface TextDirectionOptions {
+  /**
+   * The direction to put on every node. `auto` picks it from the content.
+   * @default undefined
+   */
   direction: 'ltr' | 'rtl' | 'auto' | undefined
 }
 

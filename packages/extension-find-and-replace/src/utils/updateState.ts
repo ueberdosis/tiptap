@@ -9,6 +9,9 @@ import { refreshDocumentState } from './refreshDocumentState.js'
 import { refreshState } from './refreshState.js'
 import { touchesSearch } from './touchesSearch.js'
 
+/**
+ * Apply what a command asked for to the plugin state.
+ */
 export function updateState(
   previousState: FindAndReplacePluginState,
   state: FindAndReplacePluginState,

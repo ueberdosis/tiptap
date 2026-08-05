@@ -5,6 +5,9 @@ import type { FindAndReplaceMeta, FindAndReplacePluginState } from '../plugin/pl
 import { refreshDecorations } from './refreshDecorations.js'
 import { resolveCurrentIndex } from './resolveCurrentIndex.js'
 
+/**
+ * Move to another result without searching again.
+ */
 export function refreshCurrentIndexState(
   previousState: FindAndReplacePluginState,
   state: FindAndReplacePluginState,

@@ -2,6 +2,9 @@ import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 import { Extension } from '../Extension.js'
 
+/**
+ * Emits the editor's `paste` event.
+ */
 export const Paste = Extension.create({
   name: 'paste',
 

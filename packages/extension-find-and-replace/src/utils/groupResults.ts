@@ -4,6 +4,9 @@ import type { SearchResult } from '../search/search.js'
 import type { TextNodeResult } from './getTextNodeResult.js'
 import { getTextNodeResult } from './getTextNodeResult.js'
 
+/**
+ * Results that sit in the same text node, so they can be replaced in one step.
+ */
 export interface ResultGroup {
   from: number
   text: string | null
@@ -57,6 +60,9 @@ function appendResult(
   groups.push(createResultGroup(result))
 }
 
+/**
+ * Group results by text node, so a replace does not invalidate the positions of the next one.
+ */
 export function groupResults(state: EditorState, results: SearchResult[]): ResultGroup[] {
   const groups: ResultGroup[] = []
 

@@ -200,6 +200,10 @@ function replaceResult(
   selectResult(tr, results[nextIndex], nextIndex)
 }
 
+/**
+ * Search the document and replace what you find.
+ * @see https://tiptap.dev/docs/editor/extensions/functionality/find-and-replace
+ */
 export const FindAndReplace = Extension.create<FindAndReplaceOptions, FindAndReplaceStorage>({
   name: 'findAndReplace',
 

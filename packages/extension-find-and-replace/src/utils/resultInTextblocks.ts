@@ -2,6 +2,9 @@ import type { SearchResult } from '../search/search.js'
 
 import type { TextblockRange } from './types.js'
 
+/**
+ * Whether a result sits in one of these text blocks.
+ */
 export function resultInTextblocks(
   result: SearchResult,
   textblocks: readonly TextblockRange[],

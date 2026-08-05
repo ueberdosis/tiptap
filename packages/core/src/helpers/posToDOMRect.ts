@@ -2,6 +2,10 @@ import type { EditorView } from '@tiptap/pm/view'
 
 import { minMax } from '../utilities/minMax.js'
 
+/**
+ * Get the screen rectangle that a document range covers.
+ * Useful for placing menus and tooltips next to the selection.
+ */
 export function posToDOMRect(view: EditorView, from: number, to: number): DOMRect {
   const minPos = 0
   const maxPos = view.state.doc.content.size

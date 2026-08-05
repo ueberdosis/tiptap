@@ -1,3 +1,6 @@
+/**
+ * The base CSS the editor injects, unless `injectCSS` is off.
+ */
 export const style = `.ProseMirror {
   position: relative;
 }

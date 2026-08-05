@@ -12,6 +12,9 @@ import { refreshDecorations } from './refreshDecorations.js'
 import { resolveCurrentIndex } from './resolveCurrentIndex.js'
 import { resultInTextblocks } from './resultInTextblocks.js'
 
+/**
+ * Search only the text blocks the transaction touched, and keep the rest of the results.
+ */
 export function refreshDocumentState(
   previousState: FindAndReplacePluginState,
   state: FindAndReplacePluginState,

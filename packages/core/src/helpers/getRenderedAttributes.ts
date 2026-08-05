@@ -3,6 +3,10 @@ import type { Mark, Node } from '@tiptap/pm/model'
 import type { ExtensionAttribute } from '../types.js'
 import { mergeAttributes } from '../utilities/mergeAttributes.js'
 
+/**
+ * Build the HTML attributes for a node or mark from the attributes its extensions declare.
+ * Only attributes marked as `rendered` are included.
+ */
 export function getRenderedAttributes(
   nodeOrMark: Node | Mark,
   extensionAttributes: ExtensionAttribute[],

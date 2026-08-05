@@ -1,3 +1,7 @@
+/**
+ * Clamp an index into the result list.
+ * @returns `null` when there are no results or no index was given.
+ */
 export function normalizeCurrentIndex(
   currentIndex: number | null | undefined,
   length: number,

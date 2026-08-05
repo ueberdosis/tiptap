@@ -4,6 +4,9 @@ import type { DecorationSet } from '@tiptap/pm/view'
 import { createDecorationWidget } from './utils/create-decoration-widget.js'
 import { textBetween } from './utils/text-between.js'
 
+/**
+ * Options for one `InvisibleCharacter`.
+ */
 export interface InvisibleCharacterOptions {
   type: string
   predicate: (value: string) => boolean
@@ -11,6 +14,9 @@ export interface InvisibleCharacterOptions {
   content?: string
 }
 
+/**
+ * Marks a single character, such as a space, wherever it appears in the text.
+ */
 export class InvisibleCharacter {
   predicate: (value: string) => boolean
 

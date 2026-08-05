@@ -5,6 +5,9 @@ import { defaultBlockAt } from '../helpers/defaultBlockAt.js'
 import { selectionToInsertionEnd } from '../helpers/selectionToInsertionEnd.js'
 import type { Content, RawCommands } from '../types.js'
 
+/**
+ * Options for the `insertDefaultBlock` command.
+ */
 export interface InsertDefaultBlockOptions {
   /**
    * The position to insert the block at.

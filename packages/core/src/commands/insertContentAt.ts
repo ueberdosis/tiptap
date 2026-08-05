@@ -5,6 +5,9 @@ import { createNodeFromContent } from '../helpers/createNodeFromContent.js'
 import { selectionToInsertionEnd } from '../helpers/selectionToInsertionEnd.js'
 import type { Content, Range, RawCommands } from '../types.js'
 
+/**
+ * Options for the `insertContentAt` command.
+ */
 export interface InsertContentAtOptions {
   /**
    * Options for parsing the content.

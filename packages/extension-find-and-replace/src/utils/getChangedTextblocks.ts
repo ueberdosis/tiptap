@@ -3,6 +3,9 @@ import type { Mapping } from '@tiptap/pm/transform'
 
 import type { TextblockRange } from './types.js'
 
+/**
+ * The text blocks a transaction touched, widened by one position so matches at the edges are caught.
+ */
 export function getChangedTextblocks(doc: Node, mapping: Mapping): TextblockRange[] {
   const textblocks = new Map<number, TextblockRange>()
 

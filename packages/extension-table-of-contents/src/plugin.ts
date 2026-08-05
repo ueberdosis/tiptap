@@ -2,6 +2,9 @@ import type { NodeType } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { v4 as uuidv4 } from 'uuid'
 
+/**
+ * Tracks the headings and tells the extension when they change.
+ */
 export const TableOfContentsPlugin = ({
   getId,
   anchorTypes = ['heading'],

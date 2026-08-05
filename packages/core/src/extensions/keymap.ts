@@ -7,6 +7,12 @@ import { isNodeEmpty } from '../helpers/isNodeEmpty.js'
 import { isiOS } from '../utilities/isiOS.js'
 import { isMacOS } from '../utilities/isMacOS.js'
 
+/**
+ * The keyboard shortcuts the editor always has, such as Backspace, Delete and Enter.
+ * @remarks Backspace runs several fallbacks in order: undo an input rule, turn the first
+ * block back into a paragraph, lift the block out of its wrapper, then join backwards.
+ * The first one that succeeds wins.
+ */
 export const Keymap = Extension.create({
   name: 'keymap',
 

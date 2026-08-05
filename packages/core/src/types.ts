@@ -25,29 +25,57 @@ import type { GetUpdatedPositionResult, MappablePosition } from './helpers/Mappa
 import type { Mark, MarkConfig } from './Mark.js'
 import type { Node, NodeConfig } from './Node.js'
 
+/**
+ * The config of any extension, node or mark.
+ */
 export type AnyConfig = ExtensionConfig | NodeConfig | MarkConfig
+/**
+ * Any extension, node or mark.
+ */
 export type AnyExtension = Extendable
+/**
+ * A list of extensions to load into the editor.
+ */
 export type Extensions = AnyExtension[]
 
+/**
+ * The config an extension inherits, so `this.parent` can call the version it overrides.
+ */
 export type ParentConfig<T> = Partial<{
   [P in keyof T]: Required<T>[P] extends (...args: any) => any
     ? (...args: Parameters<Required<T>[P]>) => ReturnType<Required<T>[P]>
     : T[P]
 }>
 
+/**
+ * Any value that is not an object.
+ */
 export type Primitive = null | undefined | string | number | boolean | symbol | bigint
 
+/**
+ * Drops the `this` parameter from a function type.
+ */
 export type RemoveThis<T> = T extends (...args: any) => any
   ? (...args: Parameters<T>) => ReturnType<T>
   : T
 
+/**
+ * The return type of `T` if it is a function, otherwise `T` itself.
+ */
 export type MaybeReturnType<T> = T extends (...args: any) => any ? ReturnType<T> : T
 
+/**
+ * The `this` type of `T` if it is a function, otherwise `any`.
+ */
 export type MaybeThisParameterType<T> =
   Exclude<T, Primitive> extends (...args: any) => any
     ? ThisParameterType<Exclude<T, Primitive>>
     : any
 
+/**
+ * Every event the editor emits, and the payload each one carries.
+ * @see https://tiptap.dev/docs/editor/api/events
+ */
 export interface EditorEvents {
   mount: {
     editor: Editor
@@ -242,8 +270,15 @@ export type DispatchTransactionProps = {
   next: (transaction: Transaction) => void
 }
 
+/**
+ * Which extensions may run input or paste rules. `true` for all, `false` for none.
+ */
 export type EnableRules = (AnyExtension | string)[] | boolean
 
+/**
+ * Everything you can pass to `new Editor()`.
+ * @see https://tiptap.dev/docs/editor/api/editor
+ */
 export interface EditorOptions {
   /**
    * The element to bind the editor to:
@@ -582,8 +617,14 @@ export type DOMOutputSpecArray =
   | [string, Record<string, any>, DOMOutputSpecArray | 0]
   | [string, DOMOutputSpecArray]
 
+/**
+ * Editor content as HTML, as JSON, or `null` for an empty document.
+ */
 export type Content = HTMLContent | JSONContent | JSONContent[] | null
 
+/**
+ * What every command receives: the editor, the transaction, and the other commands.
+ */
 export type CommandProps = {
   editor: Editor
   tr: Transaction
@@ -595,32 +636,85 @@ export type CommandProps = {
   dispatch: ((args?: any) => any) | undefined
 }
 
+/**
+ * A single command. Returns `true` when it did something.
+ */
 export type Command = (props: CommandProps) => boolean
 
+/**
+ * A function that takes arguments and returns a `Command`.
+ */
 export type CommandSpec = (...args: any[]) => Command
 
+/**
+ * Runs when a keyboard shortcut fires. Return `true` to stop other handlers.
+ */
 export type KeyboardShortcutCommand = (props: { editor: Editor }) => boolean
 
+/**
+ * How one node or mark attribute is stored, parsed and rendered.
+ * @see https://tiptap.dev/docs/editor/extensions/custom-extensions/extend-existing#attributes
+ */
 export type Attribute = {
+  /**
+   * The value to use when the attribute is missing.
+   */
   default?: any
+
+  /**
+   * Checks the value and throws when it is not allowed. Pass a type name like `'string'`
+   * for the built-in check, or your own function.
+   */
   validate?: string | ((value: any) => void)
+
+  /**
+   * Whether the attribute ends up in the HTML.
+   * @default true
+   */
   rendered?: boolean
+
+  /**
+   * Turns the attribute into HTML attributes. Return `null` to render nothing.
+   */
   renderHTML?: ((attributes: Record<string, any>) => Record<string, any> | null) | null
+
+  /**
+   * Reads the attribute back from an HTML element.
+   */
   parseHTML?: ((element: HTMLElement) => any | null) | null
+
+  /**
+   * Whether the new node keeps this attribute when the node is split.
+   * @default false
+   */
   keepOnSplit?: boolean
+
+  /**
+   * Whether the attribute must have a value.
+   * @default false
+   */
   isRequired?: boolean
 }
 
+/**
+ * A set of attributes, keyed by name.
+ */
 export type Attributes = {
   [key: string]: Attribute
 }
 
+/**
+ * An attribute after the editor has resolved it and knows which type it belongs to.
+ */
 export type ExtensionAttribute = {
   type: string
   name: string
   attribute: Required<Omit<Attribute, 'validate'>> & Pick<Attribute, 'validate'>
 }
 
+/**
+ * Attributes added to several node or mark types at once.
+ */
 export type GlobalAttributes = {
   /**
    * The node & mark types this attribute should be applied to.
@@ -642,24 +736,45 @@ export type GlobalAttributes = {
   attributes: Record<string, Attribute | undefined>
 }[]
 
+/**
+ * The type of property `K` on `T`.
+ */
 export type PickValue<T, K extends keyof T> = T[K]
 
+/**
+ * Turns a union like `A | B` into an intersection like `A & B`.
+ */
 export type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
   k: infer I,
 ) => void
   ? I
   : never
 
+/**
+ * The keys in `T` that are not in `U`.
+ */
 export type Diff<T extends keyof any, U extends keyof any> = ({ [P in T]: P } & {
   [P in U]: never
 } & { [x: string]: never })[T]
 
+/**
+ * Replaces the properties of `T` that also exist in `U`.
+ */
 export type Overwrite<T, U> = Pick<T, Diff<keyof T, keyof U>> & U
 
+/**
+ * A union of all property types in `T`.
+ */
 export type ValuesOf<T> = T[keyof T]
 
+/**
+ * The keys of `T` whose value is assignable to `Type`.
+ */
 export type KeysWithTypeOf<T, Type> = { [P in keyof T]: T[P] extends Type ? P : never }[keyof T]
 
+/**
+ * A DOM node. Aliased so the type also works outside the browser.
+ */
 export type DOMNode = InstanceType<typeof window.Node>
 
 /**
@@ -683,6 +798,10 @@ export type DecorationWithType = Decoration & {
   type: DecorationType
 }
 
+/**
+ * What a node view component receives.
+ * @see https://tiptap.dev/docs/editor/extensions/custom-extensions/node-views
+ */
 export interface NodeViewProps extends NodeViewRendererProps {
   // TODO this type is not technically correct, but it's the best we can do for now since prosemirror doesn't expose the type of decorations
   decorations: readonly DecorationWithType[]
@@ -691,6 +810,9 @@ export interface NodeViewProps extends NodeViewRendererProps {
   deleteNode: () => void
 }
 
+/**
+ * Settings that control how a node view behaves.
+ */
 export interface NodeViewRendererOptions {
   stopEvent: ((props: { event: Event }) => boolean) | null
   ignoreMutation: ((props: { mutation: ViewMutationRecord }) => boolean) | null
@@ -713,6 +835,9 @@ export interface NodeViewRendererOptions {
   trackNodeViewPosition?: boolean
 }
 
+/**
+ * What the editor hands to a node view when it creates one.
+ */
 export interface NodeViewRendererProps {
   // pass-through from prosemirror
   /**
@@ -749,11 +874,20 @@ export interface NodeViewRendererProps {
   HTMLAttributes: Record<string, any>
 }
 
+/**
+ * Creates the node view for a node.
+ */
 export type NodeViewRenderer = (props: NodeViewRendererProps) => NodeView
 
+/**
+ * What a mark view component receives.
+ */
 // oxlint-disable-next-lineno-empty-object-type
 export interface MarkViewProps extends MarkViewRendererProps {}
 
+/**
+ * What the editor hands to a mark view when it creates one.
+ */
 export interface MarkViewRendererProps {
   // pass-through from prosemirror
   /**
@@ -782,60 +916,106 @@ export interface MarkViewRendererProps {
   updateAttributes: (attrs: Record<string, any>) => void
 }
 
+/**
+ * Creates the mark view for a mark.
+ */
 export type MarkViewRenderer<Props = MarkViewRendererProps> = (props: Props) => MarkView
 
+/**
+ * Settings that control how a mark view behaves.
+ */
 export interface MarkViewRendererOptions {
   ignoreMutation: ((props: { mutation: ViewMutationRecord }) => boolean) | null
 }
 
+/**
+ * Any set of commands, before the editor has typed them.
+ */
 export type AnyCommands = Record<string, (...args: any[]) => Command>
 
+/**
+ * Every command from every loaded extension, merged into one type.
+ */
 export type UnionCommands<T = Command> = UnionToIntersection<
   ValuesOf<Pick<Commands<T>, KeysWithTypeOf<Commands<T>, object>>>
 >
 
+/**
+ * The commands as extensions define them, returning a `Command`.
+ */
 export type RawCommands = {
   [Item in keyof UnionCommands]: UnionCommands<Command>[Item]
 }
 
+/**
+ * The commands on `editor.commands`. Each runs at once and returns a boolean.
+ */
 export type SingleCommands = {
   [Item in keyof UnionCommands]: UnionCommands<boolean>[Item]
 }
 
+/**
+ * The commands on `editor.chain()`. Each returns the chain, so calls can follow each other.
+ * @example editor.chain().focus().toggleBold().run()
+ */
 export type ChainedCommands = {
   [Item in keyof UnionCommands]: UnionCommands<ChainedCommands>[Item]
 } & {
   run: () => boolean
 }
 
+/**
+ * The commands on `editor.can()`. Each reports whether it would work, without changing anything.
+ */
 export type CanCommands = SingleCommands & { chain: () => ChainedCommands }
 
+/**
+ * Where to place the cursor when focusing. `true` keeps the current position.
+ */
 export type FocusPosition = 'start' | 'end' | 'all' | number | boolean | null
 
+/**
+ * A span between two document positions.
+ */
 export type Range = {
   from: number
   to: number
 }
 
+/**
+ * A node together with the span it covers.
+ */
 export type NodeRange = {
   node: ProseMirrorNode
   from: number
   to: number
 }
 
+/**
+ * A mark together with the span it covers.
+ */
 export type MarkRange = {
   mark: ProseMirrorMark
   from: number
   to: number
 }
 
+/**
+ * Tests a node and returns whether it matches.
+ */
 export type Predicate = (node: ProseMirrorNode) => boolean
 
+/**
+ * A node together with its position in the document.
+ */
 export type NodeWithPos = {
   node: ProseMirrorNode
   pos: number
 }
 
+/**
+ * Turns a node into plain text, used when copying to the clipboard.
+ */
 export type TextSerializer = (props: {
   node: ProseMirrorNode
   pos: number
@@ -844,15 +1024,24 @@ export type TextSerializer = (props: {
   range: Range
 }) => string
 
+/**
+ * A regex match that input and paste rules can attach extra data to.
+ */
 export type ExtendedRegExpMatchArray = RegExpMatchArray & {
   data?: Record<string, any>
 }
 
+/**
+ * Applies a transaction. When it is `undefined` the command should only report whether it can run.
+ */
 export type Dispatch = ((args?: any) => any) | undefined
 
 /** Markdown related types */
 
 // Shared markdown-related types for the MarkdownManager and extensions.
+/**
+ * One token from the markdown parser.
+ */
 export type MarkdownToken = {
   type?: string
   raw?: string
@@ -863,6 +1052,9 @@ export type MarkdownToken = {
   [key: string]: any
 }
 
+/**
+ * Helpers an extension can use while parsing markdown.
+ */
 export type MarkdownHelpers = {
   // When used during parsing these helpers return JSON-like node objects
   // (not ProseMirror Node instances). Use `any` to represent that shape.
@@ -933,6 +1125,9 @@ export type MarkdownParseResult =
   | JSONContent[]
   | { mark: string; content: JSONContent[]; attrs?: any }
 
+/**
+ * Where a node sits while markdown is rendered, so a renderer can adapt its output.
+ */
 export type RenderContext = {
   index: number
   level: number
@@ -993,6 +1188,9 @@ export type MarkdownTokenizer = {
   ) => MarkdownToken | undefined | void
 }
 
+/**
+ * Helpers an extension can use while rendering markdown.
+ */
 export type MarkdownRendererHelpers = {
   /**
    * Render children nodes to a markdown string, optionally separated by a string.
@@ -1021,6 +1219,9 @@ export type MarkdownRendererHelpers = {
   indent: (content: string) => string
 }
 
+/**
+ * Extra utilities the editor exposes to extensions.
+ */
 export type Utils = {
   /**
    * Returns the new position after applying a transaction.
@@ -1051,7 +1252,15 @@ export type Utils = {
   createMappablePosition: (position: number) => MappablePosition
 }
 
+/**
+ * Extend this interface to add your own commands to the editor.
+ * @see https://tiptap.dev/docs/editor/extensions/custom-extensions/extend-existing#commands
+ */
 // oxlint-disable-next-line no-unused-vars
 export interface Commands<ReturnType = any> {}
 
+/**
+ * Extend this interface to type the storage your extension keeps on the editor.
+ * @see https://tiptap.dev/docs/editor/extensions/custom-extensions/extend-existing#storage
+ */
 export interface Storage {}

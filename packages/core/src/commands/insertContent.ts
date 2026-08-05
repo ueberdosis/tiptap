@@ -2,6 +2,9 @@ import type { Fragment, Node as ProseMirrorNode, ParseOptions } from '@tiptap/pm
 
 import type { Content, RawCommands } from '../types.js'
 
+/**
+ * Options for the `insertContent` command.
+ */
 export interface InsertContentOptions {
   /**
    * Options for parsing the content.
@@ -12,7 +15,15 @@ export interface InsertContentOptions {
    * Whether to update the selection after inserting the content.
    */
   updateSelection?: boolean
+
+  /**
+   * Whether to run input rules on the inserted content.
+   */
   applyInputRules?: boolean
+
+  /**
+   * Whether to run paste rules on the inserted content.
+   */
   applyPasteRules?: boolean
 }
 

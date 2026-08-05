@@ -1,5 +1,8 @@
 import { Decoration } from '@tiptap/pm/view'
 
+/**
+ * Build the marker element for one spot.
+ */
 export const createDecorationWidget = (pos: number, type: string, content?: string) => {
   const createElement = () => {
     const newElement = document.createElement('span')

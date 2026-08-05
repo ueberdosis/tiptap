@@ -1,5 +1,8 @@
 import type { SearchResult } from './search/search.js'
 
+/**
+ * Options for the `FindAndReplace` extension.
+ */
 export interface FindAndReplaceOptions {
   /**
    * The initial search term.
@@ -52,6 +55,9 @@ export interface FindAndReplaceOptions {
   injectNonce: string | undefined
 }
 
+/**
+ * What the extension keeps on `editor.storage.findAndReplace`.
+ */
 export interface FindAndReplaceStorage {
   /**
    * The current search term.

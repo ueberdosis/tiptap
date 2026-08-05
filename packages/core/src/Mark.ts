@@ -5,6 +5,10 @@ import type { ExtendableConfig } from './Extendable.js'
 import { Extendable } from './Extendable.js'
 import type { Attributes, MarkViewRenderer, ParentConfig } from './types.js'
 
+/**
+ * Everything you can pass to `Mark.create()`.
+ * @see https://tiptap.dev/docs/editor/extensions/custom-extensions
+ */
 export interface MarkConfig<Options = any, Storage = any> extends ExtendableConfig<
   Options,
   Storage,

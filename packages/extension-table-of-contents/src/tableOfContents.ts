@@ -164,6 +164,10 @@ const setTocData = (options: {
   editor.view.dispatch(editor.state.tr)
 }
 
+/**
+ * Collects the headings of the document, and tracks which one the reader is on.
+ * @see https://tiptap.dev/docs/editor/extensions/functionality/table-of-contents
+ */
 export const TableOfContents = Extension.create<TableOfContentsOptions, TableOfContentsStorage>({
   name: 'tableOfContents',
 

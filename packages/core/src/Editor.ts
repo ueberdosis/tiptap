@@ -48,11 +48,19 @@ import { isFunction } from './utilities/isFunction.js'
 
 export * as extensions from './extensions/index.js'
 
+/**
+ * An element the editor is mounted on. It keeps a reference back to the editor.
+ */
 // @ts-ignore
 export interface TiptapEditorHTMLElement extends HTMLElement {
   editor?: Editor
 }
 
+/**
+ * The editor. Create one with a list of extensions and some content, then read and change it through commands.
+ * @example const editor = new Editor({ extensions: [StarterKit], content: '<p>Hello</p>' })
+ * @see https://tiptap.dev/docs/editor/api/editor
+ */
 export class Editor extends EventEmitter<EditorEvents> {
   private commandManager!: CommandManager
 

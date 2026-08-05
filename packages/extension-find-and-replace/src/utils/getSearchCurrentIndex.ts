@@ -7,6 +7,9 @@ import { getFallbackCurrentIndex } from './getFallbackCurrentIndex.js'
 import { getMappedCurrentIndex } from './getMappedCurrentIndex.js'
 import { isNewSearch } from './isNewSearch.js'
 
+/**
+ * Carry the current index over to the new results. A new search starts back at the first result.
+ */
 export function getSearchCurrentIndex(
   previousState: FindAndReplacePluginState,
   results: SearchResult[],

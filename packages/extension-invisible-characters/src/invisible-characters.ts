@@ -29,6 +29,10 @@ declare module '@tiptap/core' {
   }
 }
 
+/**
+ * Shows spaces, line breaks and paragraph ends, like the formatting marks in a word processor.
+ * @see https://tiptap.dev/docs/editor/extensions/functionality/invisiblecharacters
+ */
 export const InvisibleCharacters = Extension.create<InvisibleCharactersOptions>({
   name: 'invisibleCharacters',
 

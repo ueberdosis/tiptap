@@ -5,6 +5,9 @@ import type { SearchRegex } from './regex.js'
 import { getTextSegments, offsetToPos, overlapsNonTextSegment } from './text-segments.js'
 import type { SearchResult } from './types.js'
 
+/**
+ * Find every match inside one text block, as document ranges.
+ */
 export function searchTextblock(regex: SearchRegex, textblock: Node, pos: number): SearchResult[] {
   const segments = getTextSegments(textblock, pos)
   const text = segments.map(segment => segment.text).join('')

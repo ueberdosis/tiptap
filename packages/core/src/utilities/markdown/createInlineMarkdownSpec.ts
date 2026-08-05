@@ -57,6 +57,9 @@ export type AllowedAttribute =
       skipIfDefault?: any
     }
 
+/**
+ * Options for `createInlineMarkdownSpec`.
+ */
 export interface InlineMarkdownSpecOptions {
   /** The Tiptap node name this spec is for */
   nodeName: string

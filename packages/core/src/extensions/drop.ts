@@ -2,6 +2,9 @@ import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 import { Extension } from '../Extension.js'
 
+/**
+ * Emits the editor's `drop` event when content is dropped into it.
+ */
 export const Drop = Extension.create({
   name: 'drop',
 

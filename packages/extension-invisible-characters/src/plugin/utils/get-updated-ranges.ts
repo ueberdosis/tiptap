@@ -2,6 +2,9 @@ import type { Transaction } from '@tiptap/pm/state'
 
 type StepRange = [from: number, to: number]
 
+/**
+ * The document ranges a transaction touched, so only those are redrawn.
+ */
 export const getUpdatedRanges = ({ mapping }: Transaction): StepRange[] => {
   const ranges: StepRange[] = []
 

@@ -4,6 +4,9 @@ import type { SearchResult } from '../search/search.js'
 import { groupResults } from './groupResults.js'
 import { replaceGroup } from './replaceGroup.js'
 
+/**
+ * Replace every result in the document.
+ */
 export function replaceAllResults(
   tr: Transaction,
   state: EditorState,

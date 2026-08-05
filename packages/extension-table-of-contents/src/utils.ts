@@ -4,6 +4,9 @@ import type {
   TableOfContentDataItem,
 } from './types.js'
 
+/**
+ * The last heading seen at this level, or the closest one above it.
+ */
 export const getLastHeadingOnLevel = (
   headings: TableOfContentDataItem[],
   level: number,
@@ -21,6 +24,9 @@ export const getLastHeadingOnLevel = (
   return heading
 }
 
+/**
+ * Nests each heading one level below the closest larger heading above it.
+ */
 export const getHeadlineLevel: GetTableOfContentLevelFunction = (headline, previousItems) => {
   let level = 1
 
@@ -42,6 +48,9 @@ export const getHeadlineLevel: GetTableOfContentLevelFunction = (headline, previ
   return level
 }
 
+/**
+ * Numbers the headings 1, 2, 3 straight through, ignoring their level.
+ */
 export const getLinearIndexes: GetTableOfContentIndexFunction = (_headline, previousHeadlines) => {
   const previousHeadline = previousHeadlines.at(-1)
 
@@ -52,6 +61,9 @@ export const getLinearIndexes: GetTableOfContentIndexFunction = (_headline, prev
   return (previousHeadline?.itemIndex || 1) + 1
 }
 
+/**
+ * Numbers the headings per level, so each level starts again at 1.
+ */
 export const getHierarchicalIndexes: GetTableOfContentIndexFunction = (
   headline,
   previousHeadlines,
@@ -71,6 +83,9 @@ export const getHierarchicalIndexes: GetTableOfContentIndexFunction = (
   return itemIndex
 }
 
+/**
+ * Delay a function until it has not been called for `wait` milliseconds.
+ */
 export function debounce(func: (...args: any[]) => void, wait: number) {
   let timeout: ReturnType<typeof setTimeout> | null = null
 

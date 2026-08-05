@@ -14,6 +14,10 @@ const removeWhitespaces = (node: HTMLElement) => {
   return node
 }
 
+/**
+ * Parse an HTML string into an element.
+ * @throws If there is no `window`, for example on the server.
+ */
 export function elementFromString(value: string): HTMLElement {
   if (typeof window === 'undefined') {
     throw new Error(

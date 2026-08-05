@@ -3,11 +3,11 @@
   "version": "3.29.2",
   "description": "HTML ruby text annotation extension for tiptap",
   "keywords": [
-    "tiptap",
-    "tiptap extension",
-    "ruby-text",
+    "cjk",
     "furigana",
-    "cjk"
+    "ruby-text",
+    "tiptap",
+    "tiptap extension"
   ],
   "homepage": "https://tiptap.dev",
   "bugs": {

@@ -4,6 +4,9 @@ import { DOMParser, Fragment, Node as ProseMirrorNode, Schema } from '@tiptap/pm
 import type { Content } from '../types.js'
 import { elementFromString } from '../utilities/elementFromString.js'
 
+/**
+ * Options for `createNodeFromContent`.
+ */
 export type CreateNodeFromContentOptions = {
   slice?: boolean
   parseOptions?: ParseOptions

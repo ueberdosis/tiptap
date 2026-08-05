@@ -26,6 +26,9 @@ import type { AnyConfig, Extensions, RawCommands, Storage } from './types.js'
 import { callOrReturn } from './utilities/callOrReturn.js'
 import { type NodeConfig } from './Node.js'
 
+/**
+ * Resolves the loaded extensions into a schema, commands, plugins and keyboard shortcuts.
+ */
 export class ExtensionManager {
   editor: Editor
 

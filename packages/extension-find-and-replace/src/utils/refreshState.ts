@@ -7,6 +7,9 @@ import { searchDocument } from '../search/search.js'
 import { createDecorations } from './createDecorations.js'
 import { resolveCurrentIndex } from './resolveCurrentIndex.js'
 
+/**
+ * Search the whole document again. Used when the search term or its settings changed.
+ */
 export function refreshState(
   previousState: FindAndReplacePluginState,
   state: FindAndReplacePluginState,

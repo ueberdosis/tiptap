@@ -71,6 +71,10 @@ function parseStyleEntries(styles: string | undefined): [property: string, value
   return pairs
 }
 
+/**
+ * Merge HTML attribute objects into one. `class` and `style` are joined instead of replaced.
+ * @example mergeAttributes({ class: 'a' }, { class: 'b' }) // { class: 'a b' }
+ */
 export function mergeAttributes(...objects: Record<string, any>[]): Record<string, any> {
   return objects
     .filter(item => !!item)

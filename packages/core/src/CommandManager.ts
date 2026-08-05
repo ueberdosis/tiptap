@@ -10,6 +10,10 @@ import type {
   SingleCommands,
 } from './types.js'
 
+/**
+ * Runs the commands of all extensions, on their own or in a chain.
+ * The editor creates one of these. You reach it through `editor.commands` and `editor.chain()`.
+ */
 export class CommandManager {
   editor: Editor
 

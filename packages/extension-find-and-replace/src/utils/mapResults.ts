@@ -4,6 +4,9 @@ import type { SearchResult } from '../search/search.js'
 
 import { mapResult } from './mapResult.js'
 
+/**
+ * Move all results through a document change, dropping the deleted ones.
+ */
 export function mapResults(results: SearchResult[], mapping: Mapping): SearchResult[] {
   const mappedResults: SearchResult[] = []
 

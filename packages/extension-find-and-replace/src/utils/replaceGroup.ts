@@ -33,6 +33,9 @@ function createReplacement(
   return replacement.join('')
 }
 
+/**
+ * Replace every result in one text node, back to front so the positions stay valid.
+ */
 export function replaceGroup(tr: Transaction, group: ResultGroup, replaceTerm: string): void {
   const firstResult = group.results[0]
   const lastResult = group.results.at(-1)

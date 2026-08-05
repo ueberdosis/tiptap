@@ -17,6 +17,9 @@ import type {
 } from './types.js'
 import { isRegExp } from './utilities/isRegExp.js'
 
+/**
+ * What an input rule matched, and the text it should be replaced with.
+ */
 export type InputRuleMatch = {
   index: number
   text: string
@@ -25,8 +28,15 @@ export type InputRuleMatch = {
   data?: Record<string, any>
 }
 
+/**
+ * Finds the text an input rule applies to, either by regex or by a function.
+ */
 export type InputRuleFinder = RegExp | ((text: string) => InputRuleMatch | null)
 
+/**
+ * Changes text as the user types, for example turning `# ` into a heading.
+ * @see https://tiptap.dev/docs/editor/extensions/custom-extensions/extend-existing#input-rules
+ */
 export class InputRule {
   find: InputRuleFinder
 

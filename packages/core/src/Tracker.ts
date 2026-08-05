@@ -1,10 +1,16 @@
 import type { Transaction } from '@tiptap/pm/state'
 
+/**
+ * Where a tracked position ended up, and whether the content it pointed at is gone.
+ */
 export interface TrackerResult {
   position: number
   deleted: boolean
 }
 
+/**
+ * Follows a document position while a transaction changes the document around it.
+ */
 export class Tracker {
   transaction: Transaction
 

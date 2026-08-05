@@ -8,6 +8,9 @@ import { findDecorations } from './findDecorations.js'
 import { getResultsToRefresh } from './getResultsToRefresh.js'
 import type { TextblockRange } from './types.js'
 
+/**
+ * Redraw only the highlights that changed, instead of rebuilding the whole set.
+ */
 export function refreshDecorations(
   decorations: DecorationSet,
   doc: Node,

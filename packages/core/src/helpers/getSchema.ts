@@ -5,6 +5,10 @@ import type { Extensions } from '../types.js'
 import { getSchemaByResolvedExtensions } from './getSchemaByResolvedExtensions.js'
 import { resolveExtensions } from './resolveExtensions.js'
 
+/**
+ * Build a ProseMirror schema from a list of extensions.
+ * @example const schema = getSchema([Document, Paragraph, Text])
+ */
 export function getSchema(extensions: Extensions, editor?: Editor): Schema {
   const resolvedExtensions = resolveExtensions(extensions)
 

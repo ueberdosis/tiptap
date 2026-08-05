@@ -1,5 +1,11 @@
+/**
+ * HTML attributes on a JSX element.
+ */
 export type Attributes = Record<string, any>
 
+/**
+ * One part of a render spec: the content hole `0`, attributes, or a nested element.
+ */
 export type DOMOutputSpecElement = 0 | Attributes | DOMOutputSpecArray
 /**
  * Better describes the output of a `renderHTML` function in prosemirror
@@ -27,16 +33,26 @@ export namespace JSX {
   }
 }
 
+/**
+ * Turns a JSX tag into a ProseMirror render spec.
+ */
 export type JSXRenderer = (
   tag: 'slot' | string | ((props?: Attributes) => DOMOutputSpecArray | DOMOutputSpecElement),
   props?: Attributes,
   ...children: JSXRenderer[]
 ) => DOMOutputSpecArray | DOMOutputSpecElement
 
+/**
+ * Groups JSX children without adding an element around them.
+ */
 export function Fragment(props: { children: JSXRenderer[] }) {
   return props.children
 }
 
+/**
+ * The JSX factory. Use `<slot />` to mark where the node content goes.
+ * @see https://tiptap.dev/docs/editor/extensions/custom-extensions/node-views
+ */
 export const h: JSXRenderer = (tag, attributes) => {
   // Treat the slot tag as the Prosemirror hole to render content into
   if (tag === 'slot') {

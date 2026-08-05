@@ -1,6 +1,10 @@
 import type { Editor } from './Editor.js'
 import { type ExtendableConfig, Extendable } from './Extendable.js'
 
+/**
+ * Everything you can pass to `Extension.create()`.
+ * @see https://tiptap.dev/docs/editor/extensions/custom-extensions
+ */
 // oxlint-disable-next-lineno-empty-object-type
 export interface ExtensionConfig<Options = any, Storage = any> extends ExtendableConfig<
   Options,

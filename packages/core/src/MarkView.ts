@@ -5,6 +5,9 @@ import type { Editor } from './Editor.js'
 import type { MarkViewProps, MarkViewRendererOptions } from './types.js'
 import { isAndroid, isiOS } from './utilities/index.js'
 
+/**
+ * Change the attributes of the mark a mark view renders.
+ */
 export function updateMarkViewAttributes(
   checkMark: Mark,
   editor: Editor,
@@ -56,6 +59,9 @@ export function updateMarkViewAttributes(
   }
 }
 
+/**
+ * Base class for rendering a mark with your own DOM or framework component.
+ */
 export class MarkView<
   Component,
   Options extends MarkViewRendererOptions = MarkViewRendererOptions,

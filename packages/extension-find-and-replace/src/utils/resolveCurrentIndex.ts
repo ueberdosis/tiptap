@@ -6,6 +6,11 @@ import type { SearchResult } from '../search/search.js'
 import { getMetaCurrentIndex } from './getMetaCurrentIndex.js'
 import { getSearchCurrentIndex } from './getSearchCurrentIndex.js'
 
+/**
+ * Decide which result the user is on after a change.
+ * An index asked for by a command wins, otherwise the previous one is carried over.
+ * @returns `null` when there are no results.
+ */
 export function resolveCurrentIndex(
   previousState: FindAndReplacePluginState,
   results: SearchResult[],

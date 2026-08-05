@@ -3,6 +3,10 @@ import type { EditorState } from '@tiptap/pm/state'
 
 import { getNodeType } from './getNodeType.js'
 
+/**
+ * Read the attributes of the first node of this type in the current selection.
+ * @returns The attributes, or an empty object when no such node is selected.
+ */
 export function getNodeAttributes(
   state: EditorState,
   typeOrName: string | NodeType,

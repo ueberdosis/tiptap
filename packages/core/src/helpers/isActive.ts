@@ -4,6 +4,11 @@ import { getSchemaTypeNameByName } from './getSchemaTypeNameByName.js'
 import { isMarkActive } from './isMarkActive.js'
 import { isNodeActive } from './isNodeActive.js'
 
+/**
+ * Check whether a node or mark is active in the current selection.
+ * Pass `null` as the name to match any node or mark.
+ * @example isActive(editor.state, 'heading', { level: 1 })
+ */
 export function isActive(
   state: EditorState,
   name: string | null,

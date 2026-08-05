@@ -17,6 +17,9 @@ import type {
 import { isNumber } from './utilities/isNumber.js'
 import { isRegExp } from './utilities/isRegExp.js'
 
+/**
+ * What a paste rule matched, and the text it should be replaced with.
+ */
 export type PasteRuleMatch = {
   index: number
   text: string
@@ -25,6 +28,9 @@ export type PasteRuleMatch = {
   data?: Record<string, any>
 }
 
+/**
+ * Finds the text a paste rule applies to, either by regex or by a function.
+ */
 export type PasteRuleFinder =
   | RegExp
   | ((text: string, event?: ClipboardEvent | null) => PasteRuleMatch[] | null | undefined)

@@ -4,6 +4,9 @@ import type { SearchResult } from '../search/search.js'
 
 import type { TextblockRange } from './types.js'
 
+/**
+ * Find the existing highlights for these results, so they can be removed.
+ */
 export function findDecorations(
   decorations: DecorationSet,
   results: readonly SearchResult[],

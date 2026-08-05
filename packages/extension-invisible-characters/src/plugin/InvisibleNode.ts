@@ -3,6 +3,9 @@ import type { DecorationSet } from '@tiptap/pm/view'
 
 import { createDecorationWidget } from './utils/create-decoration-widget.js'
 
+/**
+ * Options for one `InvisibleNode`.
+ */
 export interface InvisibleNodeOptions {
   content?: string
   position?: (node: Node, pos: number) => number
@@ -14,6 +17,9 @@ export interface InvisibleNodeOptions {
 /** Default position for nodes is always at the end of the node */
 const defaultPosition = (node: Node, pos: number) => pos + node.nodeSize - 1
 
+/**
+ * Marks the end of a node, such as a paragraph or a line break.
+ */
 export class InvisibleNode {
   predicate: (value: Node) => boolean
 

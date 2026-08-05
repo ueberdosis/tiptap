@@ -3,6 +3,9 @@ import type { Step, Transform } from '@tiptap/pm/transform'
 import type { Range } from '../types.js'
 import { removeDuplicates } from '../utilities/removeDuplicates.js'
 
+/**
+ * A range that a transaction changed, in both the old and the new document.
+ */
 export type ChangedRange = {
   oldRange: Range
   newRange: Range

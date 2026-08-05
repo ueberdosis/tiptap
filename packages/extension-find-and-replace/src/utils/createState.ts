@@ -6,6 +6,9 @@ import { searchDocument } from '../search/search.js'
 
 import { createDecorations } from './createDecorations.js'
 
+/**
+ * Build the starting plugin state from the extension options.
+ */
 export function createState(doc: Node, options: FindAndReplaceOptions): FindAndReplacePluginState {
   const results = searchDocument(doc, options.searchTerm, options)
   const currentIndex = results.length > 0 ? 0 : null

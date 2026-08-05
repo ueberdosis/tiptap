@@ -4,6 +4,10 @@ import { Selection, TextSelection } from '@tiptap/pm/state'
 import type { FocusPosition } from '../types.js'
 import { minMax } from '../utilities/minMax.js'
 
+/**
+ * Turn a focus position such as `start`, `end` or a number into a selection.
+ * @returns The selection, or `null` when the position is falsy.
+ */
 export function resolveFocusPosition(
   doc: ProseMirrorNode,
   position: FocusPosition = null,

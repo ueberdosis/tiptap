@@ -1,6 +1,9 @@
 import type { NodeType } from '@tiptap/pm/model'
 import { type EditorState, NodeSelection } from '@tiptap/pm/state'
 
+/**
+ * Check whether a node of this type fits at the current selection.
+ */
 export function canInsertNode(state: EditorState, nodeType: NodeType): boolean {
   const { selection } = state
   const { $from } = selection

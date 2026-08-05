@@ -3,6 +3,11 @@ import type { EditorState } from '@tiptap/pm/state'
 
 import { getMarkType } from './getMarkType.js'
 
+/**
+ * Read the attributes of a mark in the current selection.
+ * @returns The attributes, or an empty object when the mark is not in the selection.
+ * @example getMarkAttributes(editor.state, 'link')
+ */
 export function getMarkAttributes(
   state: EditorState,
   typeOrName: string | MarkType,

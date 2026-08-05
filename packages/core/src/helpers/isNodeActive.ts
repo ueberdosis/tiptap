@@ -5,6 +5,10 @@ import type { NodeRange } from '../types.js'
 import { objectIncludes } from '../utilities/objectIncludes.js'
 import { getNodeType } from './getNodeType.js'
 
+/**
+ * Check whether a node is active in the current selection.
+ * Pass `null` as the type to match any node.
+ */
 export function isNodeActive(
   state: EditorState,
   typeOrName: NodeType | string | null,

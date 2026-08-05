@@ -1,5 +1,8 @@
 import { InvisibleCharacter } from '../InvisibleCharacter.js'
 
+/**
+ * Marks a space.
+ */
 export class SpaceCharacter extends InvisibleCharacter {
   constructor() {
     super({

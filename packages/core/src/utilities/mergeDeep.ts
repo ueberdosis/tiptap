@@ -1,5 +1,8 @@
 import { isPlainObject } from './isPlainObject.js'
 
+/**
+ * Merge two plain objects, including their nested objects.
+ */
 export function mergeDeep(
   target: Record<string, any>,
   source: Record<string, any>,

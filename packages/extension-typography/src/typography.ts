@@ -4,10 +4,20 @@ import { Extension, textInputRule } from '@tiptap/core'
  * Configuration for directional quotes (open/close pair).
  */
 export interface DirectionalQuotes {
+  /**
+   * The sign that opens the quote.
+   */
   open: string
+
+  /**
+   * The sign that closes the quote.
+   */
   close: string
 }
 
+/**
+ * Options for the `Typography` extension. Set an entry to `false` to turn that rule off.
+ */
 export interface TypographyOptions {
   /**
    * The em dash character.
@@ -176,132 +186,220 @@ export interface TypographyOptions {
   }
 }
 
+/**
+ * Input rule that turns `--` into an em dash.
+ * @param override Use this text instead of the default sign.
+ */
 export const emDash = (override?: string) =>
   textInputRule({
     find: /--$/,
     replace: override ?? '—',
   })
 
+/**
+ * Input rule that turns `...` into an ellipsis.
+ * @param override Use this text instead of the default sign.
+ */
 export const ellipsis = (override?: string) =>
   textInputRule({
     find: /\.\.\.$/,
     replace: override ?? '…',
   })
 
+/**
+ * Input rule that turns `"` into a curly opening double quote.
+ * @param override Use this text instead of the default sign.
+ */
 export const openDoubleQuote = (override?: string) =>
   textInputRule({
     find: /(?:^|[\s{[(<'"\u2018\u201C])(")$/,
     replace: override ?? '“',
   })
 
+/**
+ * Input rule that turns `"` into a curly closing double quote.
+ * @param override Use this text instead of the default sign.
+ */
 export const closeDoubleQuote = (override?: string) =>
   textInputRule({
     find: /"$/,
     replace: override ?? '”',
   })
 
+/**
+ * Input rule that turns `'` into a curly opening single quote.
+ * @param override Use this text instead of the default sign.
+ */
 export const openSingleQuote = (override?: string) =>
   textInputRule({
     find: /(?:^|[\s{[(<'"\u2018\u201C])(')$/,
     replace: override ?? '‘',
   })
 
+/**
+ * Input rule that turns `'` into a curly closing single quote.
+ * @param override Use this text instead of the default sign.
+ */
 export const closeSingleQuote = (override?: string) =>
   textInputRule({
     find: /'$/,
     replace: override ?? '’',
   })
 
+/**
+ * Input rule that turns `<-` into a left arrow.
+ * @param override Use this text instead of the default sign.
+ */
 export const leftArrow = (override?: string) =>
   textInputRule({
     find: /<-$/,
     replace: override ?? '←',
   })
 
+/**
+ * Input rule that turns `->` into a right arrow.
+ * @param override Use this text instead of the default sign.
+ */
 export const rightArrow = (override?: string) =>
   textInputRule({
     find: /->$/,
     replace: override ?? '→',
   })
 
+/**
+ * Input rule that turns `(c)` into a copyright sign.
+ * @param override Use this text instead of the default sign.
+ */
 export const copyright = (override?: string) =>
   textInputRule({
     find: /\(c\)$/,
     replace: override ?? '©',
   })
 
+/**
+ * Input rule that turns `(tm)` into a trademark sign.
+ * @param override Use this text instead of the default sign.
+ */
 export const trademark = (override?: string) =>
   textInputRule({
     find: /\(tm\)$/,
     replace: override ?? '™',
   })
 
+/**
+ * Input rule that turns `(sm)` into a service mark sign.
+ * @param override Use this text instead of the default sign.
+ */
 export const servicemark = (override?: string) =>
   textInputRule({
     find: /\(sm\)$/,
     replace: override ?? '℠',
   })
 
+/**
+ * Input rule that turns `(r)` into a registered trademark sign.
+ * @param override Use this text instead of the default sign.
+ */
 export const registeredTrademark = (override?: string) =>
   textInputRule({
     find: /\(r\)$/,
     replace: override ?? '®',
   })
 
+/**
+ * Input rule that turns `1/2` into a one half sign.
+ * @param override Use this text instead of the default sign.
+ */
 export const oneHalf = (override?: string) =>
   textInputRule({
     find: /(?:^|\s)(1\/2)\s$/,
     replace: override ?? '½',
   })
 
+/**
+ * Input rule that turns `+/-` into a plus-minus sign.
+ * @param override Use this text instead of the default sign.
+ */
 export const plusMinus = (override?: string) =>
   textInputRule({
     find: /\+\/-$/,
     replace: override ?? '±',
   })
 
+/**
+ * Input rule that turns `!=` into a not equal sign.
+ * @param override Use this text instead of the default sign.
+ */
 export const notEqual = (override?: string) =>
   textInputRule({
     find: /!=$/,
     replace: override ?? '≠',
   })
 
+/**
+ * Input rule that turns `<<` into a left double angle quote.
+ * @param override Use this text instead of the default sign.
+ */
 export const laquo = (override?: string) =>
   textInputRule({
     find: /<<$/,
     replace: override ?? '«',
   })
 
+/**
+ * Input rule that turns `>>` into a right double angle quote.
+ * @param override Use this text instead of the default sign.
+ */
 export const raquo = (override?: string) =>
   textInputRule({
     find: />>$/,
     replace: override ?? '»',
   })
 
+/**
+ * Input rule that turns `2*3 or 2x3` into a multiplication sign.
+ * @param override Use this text instead of the default sign.
+ */
 export const multiplication = (override?: string) =>
   textInputRule({
     find: /\d+\s?([*x])\s?\d+$/,
     replace: override ?? '×',
   })
 
+/**
+ * Input rule that turns `^2` into a superscript two.
+ * @param override Use this text instead of the default sign.
+ */
 export const superscriptTwo = (override?: string) =>
   textInputRule({
     find: /\^2$/,
     replace: override ?? '²',
   })
 
+/**
+ * Input rule that turns `^3` into a superscript three.
+ * @param override Use this text instead of the default sign.
+ */
 export const superscriptThree = (override?: string) =>
   textInputRule({
     find: /\^3$/,
     replace: override ?? '³',
   })
 
+/**
+ * Input rule that turns `1/4` into a one quarter sign.
+ * @param override Use this text instead of the default sign.
+ */
 export const oneQuarter = (override?: string) =>
   textInputRule({
     find: /(?:^|\s)(1\/4)\s$/,
     replace: override ?? '¼',
   })
 
+/**
+ * Input rule that turns `3/4` into a three quarters sign.
+ * @param override Use this text instead of the default sign.
+ */
 export const threeQuarters = (override?: string) =>
   textInputRule({
     find: /(?:^|\s)(3\/4)\s$/,

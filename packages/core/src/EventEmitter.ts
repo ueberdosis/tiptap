@@ -7,6 +7,10 @@ type CallbackFunction<T extends Record<string, any>, EventName extends StringKey
   ...props: CallbackType<T, EventName>
 ) => any
 
+/**
+ * A small typed event emitter. The editor and every extension build on it.
+ * @example emitter.on('update', ({ editor }) => console.log(editor.getHTML()))
+ */
 export class EventEmitter<T extends Record<string, any>> {
   private callbacks: { [key: string]: Array<(...args: any[]) => void> } = {}
 

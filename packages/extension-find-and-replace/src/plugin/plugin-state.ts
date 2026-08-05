@@ -2,6 +2,9 @@ import type { DecorationSet } from '@tiptap/pm/view'
 
 import type { SearchResult } from '../search/search.js'
 
+/**
+ * The results, the current index, and the decorations that highlight them.
+ */
 export interface FindAndReplacePluginState {
   searchTerm: string
   replaceTerm: string

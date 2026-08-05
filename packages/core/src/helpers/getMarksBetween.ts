@@ -3,6 +3,10 @@ import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import type { MarkRange } from '../types.js'
 import { getMarkRange } from './getMarkRange.js'
 
+/**
+ * Collect every mark between two positions, together with the range it covers.
+ * On an empty selection it returns the marks around the cursor.
+ */
 export function getMarksBetween(from: number, to: number, doc: ProseMirrorNode): MarkRange[] {
   const marks: MarkRange[] = []
 

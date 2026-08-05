@@ -2,8 +2,14 @@ import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 import { Extension } from '../Extension.js'
 
+/**
+ * Plugin key of the `FocusEvents` extension.
+ */
 export const focusEventsPluginKey = new PluginKey('focusEvents')
 
+/**
+ * Emits the editor's `focus` and `blur` events.
+ */
 export const FocusEvents = Extension.create({
   name: 'focusEvents',
 

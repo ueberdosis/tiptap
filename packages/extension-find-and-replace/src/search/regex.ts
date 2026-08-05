@@ -2,6 +2,9 @@ import { RE2JS } from 're2js'
 
 import type { SearchOptions } from './types.js'
 
+/**
+ * The compiled search term. RE2 is used for user-supplied patterns, so they cannot hang the editor.
+ */
 export type SearchRegex = RegExp | RE2JS
 
 const escapeRegExp = (value: string): string => {

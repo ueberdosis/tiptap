@@ -6,6 +6,9 @@
  * for lists, task lists, and other indented block types.
  */
 
+/**
+ * A block found by `parseIndentedBlocks`, with its indent level and nested content.
+ */
 export interface ParsedBlock {
   type: string
   raw: string
@@ -16,6 +19,9 @@ export interface ParsedBlock {
   [key: string]: any
 }
 
+/**
+ * Tells `parseIndentedBlocks` how to recognise and read one block.
+ */
 export interface BlockParserConfig {
   /** Regex pattern to match block items */
   itemPattern: RegExp
