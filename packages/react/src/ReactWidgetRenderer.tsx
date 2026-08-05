@@ -37,9 +37,14 @@ export interface ReactWidgetRendererOptions<
   props?: P
   /**
    * The tag name of the wrapper element. Defaults to `'span'` (widgets are
-   * usually inline).
+   * usually inline). Applied only when the renderer is first created; later
+   * renders with the same `key` keep the original tag.
    */
   as?: string
+  /**
+   * Applied only when the renderer is first created; later renders with the
+   * same `key` keep the original class.
+   */
   className?: string
 }
 
