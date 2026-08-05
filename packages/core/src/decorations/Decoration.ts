@@ -8,8 +8,8 @@ export interface WidgetDecorationOptions {
   stopEvent?: (event: Event) => boolean
   ignoreSelection?: boolean
   /**
-   * Runs when ProseMirror removes the widget from the document. It does not
-   * run on editor teardown, subscribe to `editor.on('destroy')` for that.
+   * runs when ProseMirror drops the widget, also on editor destroy and unmount.
+   * skipped on teardown for widgets made with the React or Vue widget renderer.
    */
   destroy?: (node: Node) => void
 }
