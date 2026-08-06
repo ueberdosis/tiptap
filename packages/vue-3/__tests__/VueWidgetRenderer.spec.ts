@@ -129,6 +129,13 @@ function spyWidget() {
   })
 }
 
+// Widget props queued during a transaction are pushed on the next microtask,
+// so `state.apply` stays pure.
+async function flushWidgetProps() {
+  await Promise.resolve()
+  await new Promise(resolve => setTimeout(resolve, 0))
+}
+
 describe('VueWidgetRenderer', () => {
   let editor: Editor | null = null
   let el: HTMLElement | null = null
@@ -221,17 +228,33 @@ describe('VueWidgetRenderer', () => {
     expect(renderCount).toBe(afterMount)
   })
 
-  it('never drops editor/getPos from widget props across updates', () => {
+  it('does not push props while a transaction is being applied', async () => {
+    propLog.length = 0
+    mount('<p>aaa</p>', [spyWidget()])
+
+    const afterMount = propLog.length
+
+    // `create()` runs inside `state.apply`, which must stay pure. VueRenderer
+    // renders synchronously on updateProps, so the push has to wait.
+    editor!.commands.insertContentAt(2, 'X')
+    expect(propLog.length).toBe(afterMount)
+
+    await flushWidgetProps()
+    expect(propLog.length).toBeGreaterThan(afterMount)
+  })
+
+  it('never drops editor/getPos from widget props across updates', async () => {
     propLog.length = 0
     mount('<p>aaa</p>', [spyWidget()])
 
     expect(propLog.length).toBeGreaterThan(0)
 
-    // Each insert changes the spy's `size` prop, triggering the pre-render
-    // partial updateProps (which pushes only user props). Because updateProps
-    // merges, editor/getPos pushed by the previous render must survive.
+    // Each insert changes the spy's `size` prop, which queues a deferred
+    // updateProps pushing only user props. Because updateProps merges,
+    // editor/getPos pushed by the previous render must survive.
     editor!.commands.insertContentAt(2, 'X')
     editor!.commands.insertContentAt(2, 'Y')
+    await flushWidgetProps()
 
     expect(propLog.length).toBeGreaterThan(1)
     expect(propLog.every(entry => entry.hasEditor && entry.hasGetPos)).toBe(true)

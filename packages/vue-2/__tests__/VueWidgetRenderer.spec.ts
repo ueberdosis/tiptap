@@ -148,6 +148,13 @@ function latePropWidget() {
   })
 }
 
+// Widget props queued during a transaction are pushed on the next microtask,
+// so `state.apply` stays pure.
+async function flushWidgetProps() {
+  await Promise.resolve()
+  await new Promise(resolve => setTimeout(resolve, 0))
+}
+
 describe('VueWidgetRenderer (vue-2)', () => {
   let editor: Editor | null = null
   let el: HTMLElement | null = null
@@ -313,14 +320,16 @@ describe('VueWidgetRenderer (vue-2)', () => {
     expect(destroyCount).toBe(prevDestroy + 1)
   })
 
-  it('warns when a prop key is introduced after first mount', () => {
+  it('warns when a prop key is introduced after first mount', async () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     mount('<p>a</p>', [latePropWidget()])
     expect(latePropsCreateCalls).toBe(1)
 
-    // Rebuilding decorations reuses the cached renderer (same key) and pushes
-    // the new `label` prop, which was not declared on first mount.
+    // Rebuilding decorations reuses the cached renderer (same key) and queues
+    // the new `label` prop, which was not declared on first mount. The warning
+    // fires when the queued props are flushed.
     editor!.commands.setContent('<p>a</p>')
+    await flushWidgetProps()
 
     expect(latePropsCreateCalls).toBe(2)
     expect(warn).toHaveBeenCalledWith(

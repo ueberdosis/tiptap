@@ -1,6 +1,5 @@
-import { Decoration, liveWidgetKeys } from '@tiptap/core'
+import { createWidgetDecoration } from '@tiptap/core'
 import type { Editor, WidgetDecoration, WidgetDecorationOptions } from '@tiptap/core'
-import type { EditorView } from '@tiptap/pm/view'
 import type { Component, SetupContext } from 'vue'
 import { defineComponent, markRaw } from 'vue'
 
@@ -47,51 +46,6 @@ export interface VueWidgetRendererOptions<
 
 const WIDGET_CACHE = Symbol('tiptapVueWidgetCache')
 
-interface WidgetCache {
-  /**
-   * The live renderer for each widget key, reused across recomputes
-   * so the Vue component and its state are preserved.
-   */
-  renderers: Map<string, VueRenderer>
-  /**
-   * Last props pushed to each widget. Skips re-renders when nothing changed.
-   */
-  props: Map<string, Record<string, any>>
-}
-
-function shallowEqual(a: Record<string, any>, b: Record<string, any>): boolean {
-  const aKeys = Object.keys(a)
-  const bKeys = Object.keys(b)
-
-  if (aKeys.length !== bKeys.length) {
-    return false
-  }
-
-  return aKeys.every(key => a[key] === b[key])
-}
-
-function getCache(editor: Editor): WidgetCache {
-  const host = editor as Editor & { [WIDGET_CACHE]?: WidgetCache }
-
-  if (!host[WIDGET_CACHE]) {
-    const cache: WidgetCache = {
-      renderers: new Map(),
-      props: new Map(),
-    }
-
-    host[WIDGET_CACHE] = cache
-
-    // Sweep any widgets still mounted when the editor goes away.
-    editor.on('destroy', () => {
-      cache.renderers.forEach(renderer => renderer.destroy())
-      cache.renderers.clear()
-      cache.props.clear()
-    })
-  }
-
-  return host[WIDGET_CACHE]
-}
-
 /**
  * Renders a Vue component into a ProseMirror widget decoration.
  * Reuses Tiptap's `VueRenderer` so the component shares the editor's app
@@ -114,33 +68,7 @@ export function VueWidgetRenderer<P extends Record<string, any> = object>(
   component: Component,
   options: VueWidgetRendererOptions<P>,
 ): WidgetDecoration {
-  const {
-    editor,
-    pos,
-    key,
-    props = {} as P,
-    side,
-    relaxedSide,
-    marks,
-    stopEvent,
-    ignoreSelection,
-    destroy,
-  } = options
-  const cache = getCache(editor)
-
-  // Push fresh props to already-mounted widgets here, not in `render`.
-  // ProseMirror skips `render` when reusing DOM, so this is the only reliable
-  // place. Skip when nothing changed to avoid re-rendering every widget.
-  const existing = cache.renderers.get(key)
-
-  if (existing) {
-    const previous = cache.props.get(key)
-
-    if (!previous || !shallowEqual(previous, props)) {
-      existing.updateProps(props)
-      cache.props.set(key, { ...props })
-    }
-  }
+  const { editor, props = {} as P } = options
 
   const wrappedComponent = defineComponent({
     extends: { ...(component as any) },
@@ -158,52 +86,17 @@ export function VueWidgetRenderer<P extends Record<string, any> = object>(
     __file: (component as any).__file,
   })
 
-  const render = (_view: EditorView, getPos: () => number | undefined): HTMLElement => {
-    let renderer = cache.renderers.get(key)
-
+  return createWidgetDecoration<VueRenderer>({
+    // Forwards editor, pos, key and the ProseMirror widget options unchanged.
+    ...options,
+    props,
+    cacheKey: WIDGET_CACHE,
     // VueRenderer wraps props in reactive(), deeply proxying every object.
     // `editor` is markRaw so proxying its view/DOM graph does not crash.
     // User props are NOT auto-protected: markRaw any ProseMirror nodes,
     // views, editor refs, or other objects reactivity would harm.
-    const rawContext = {
-      editor: markRaw(editor),
-      getPos,
-    }
-
-    if (renderer) {
-      renderer.updateProps({ ...props, ...rawContext })
-    } else {
-      renderer = new VueRenderer(wrappedComponent, {
-        editor,
-        props: { ...props, ...rawContext },
-      })
-      cache.renderers.set(key, renderer)
-      cache.props.set(key, { ...props })
-    }
-
-    return renderer.element as HTMLElement
-  }
-
-  return Decoration.Widget(pos, render, {
-    key,
-    side,
-    relaxedSide,
-    marks,
-    stopEvent,
-    ignoreSelection,
-    destroy: (rendererElement: Node) => {
-      // Keep the renderer if the widget is still live (being reassigned, not removed).
-      if (liveWidgetKeys(editor).has(key)) {
-        return
-      }
-
-      try {
-        cache.renderers.get(key)?.destroy()
-        cache.renderers.delete(key)
-        cache.props.delete(key)
-      } finally {
-        destroy?.(rendererElement)
-      }
-    },
+    context: getPos => ({ editor: markRaw(editor), getPos }),
+    create: renderProps => new VueRenderer(wrappedComponent, { editor, props: renderProps }),
+    materialize: renderer => renderer.element as HTMLElement,
   })
 }
