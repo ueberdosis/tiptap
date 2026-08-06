@@ -87,17 +87,26 @@ export class TableView implements NodeView {
 
   contentDOM: HTMLTableSectionElement
 
+  /** Optional callback that returns fresh merged HTMLAttributes for a given node. */
+  private getHTMLAttributes?: (node: ProseMirrorNode) => Record<string, any>
+
+  /** Tracks the non-style attribute keys applied by this NodeView so that only
+   *  those are ever removed — other plugins may set their own attributes. */
+  private managedHTMLAttributeKeys: Set<string> = new Set()
+
   constructor(
     node: ProseMirrorNode,
     cellMinWidth: number,
     _view?: EditorView,
     HTMLAttributes: Record<string, any> = {},
+    getHTMLAttributes?: (node: ProseMirrorNode) => Record<string, any>,
   ) {
     this.node = node
     this.cellMinWidth = cellMinWidth
     this.dom = document.createElement('div')
     this.dom.className = 'tableWrapper'
     this.table = this.dom.appendChild(document.createElement('table'))
+    this.getHTMLAttributes = getHTMLAttributes
 
     // Apply extension-configured HTMLAttributes to the table element
     // (e.g. class, data-* set via Table.configure({ HTMLAttributes }))
@@ -107,6 +116,7 @@ export class TableView implements NodeView {
           this.table.style.cssText = String(value)
         } else {
           this.table.setAttribute(key, String(value))
+          this.managedHTMLAttributeKeys.add(key)
         }
       }
     }
@@ -130,6 +140,46 @@ export class TableView implements NodeView {
 
     this.node = node
     updateColumns(node, this.colgroup, this.table, this.cellMinWidth)
+
+    // Re-sync HTML attributes that may have changed since the NodeView was
+    // created. Attributes added via addGlobalAttributes (e.g. a class set
+    // through a custom command) live in node.attrs and are computed into
+    // HTMLAttributes by getRenderedAttributes, but TableView.update() never
+    // received them before this fix.
+    //
+    // Note on style: updateColumns() manages table.style.width/minWidth after
+    // this block runs. Overwriting style.cssText here would undo that work, so
+    // style updates from addGlobalAttributes are deliberately not synced. This
+    // is a known limitation; the constructor handles the initial style correctly.
+    //
+    // Note on attribute ownership: this NodeView fully owns the non-style keys
+    // it tracks in managedHTMLAttributeKeys. Plugins that need to add attributes
+    // (e.g. extra classes) should do so via addGlobalAttributes so they are
+    // included in the mergeAttributes call inside getHTMLAttributes rather than
+    // writing to the DOM directly.
+    if (this.getHTMLAttributes) {
+      const freshHTMLAttributes = this.getHTMLAttributes(node)
+      const freshKeys = new Set<string>()
+
+      // Apply new or changed non-style attributes
+      for (const [key, value] of Object.entries(freshHTMLAttributes)) {
+        if (key === 'style') continue
+        if (value !== undefined && value !== null) {
+          this.table.setAttribute(key, String(value))
+          freshKeys.add(key)
+        }
+      }
+
+      // Remove only keys that this NodeView previously applied and that are
+      // no longer present — avoids touching attributes set by other plugins.
+      for (const key of this.managedHTMLAttributeKeys) {
+        if (!freshKeys.has(key)) {
+          this.table.removeAttribute(key)
+        }
+      }
+
+      this.managedHTMLAttributeKeys = freshKeys
+    }
 
     return true
   }
