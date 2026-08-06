@@ -46,6 +46,19 @@ export abstract class Decoration {
     return new NodeDecoration(pos, to, attrs, spec)
   }
 
+  /**
+   * Creates a widget decoration: a DOM node drawn at a document position.
+   *
+   * The `key` is the widget's identity. While it stays the same, ProseMirror
+   * keeps the widget mounted and only its position tracks the document.
+   * `render`, `side`, `destroy` and other options are fixed on first mount.
+   * Change the key to remount with new options.
+   *
+   * @param pos The document position where the widget is drawn.
+   * @param render Called once on first mount. Returns the DOM node.
+   * @param options Must include a unique `key`. See `WidgetDecorationOptions`.
+   * @returns The widget decoration.
+   */
   static Widget(
     pos: number,
     render: (view: EditorView, getPos: () => number | undefined) => HTMLElement,
