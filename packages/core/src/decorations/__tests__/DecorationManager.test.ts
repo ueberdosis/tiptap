@@ -1,7 +1,13 @@
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { Decoration, DECORATION_MANAGER_PLUGIN_KEY, Editor, Extension } from '@tiptap/core'
+import {
+  Decoration,
+  DECORATION_MANAGER_PLUGIN_KEY,
+  Editor,
+  Extension,
+  liveWidgetKeys,
+} from '@tiptap/core'
 import { describe, expect, it, vi } from 'vitest'
 
 import * as mergeModule from '../helpers/mergeDecorationSets.js'
@@ -283,6 +289,48 @@ describe('DecorationManager view prop', () => {
     expect(() => editor.view.dispatch(editor.state.tr.insertText('!', 1))).not.toThrow()
     expect(views).toHaveLength(2)
     expect(views[1]).toBeNull()
+
+    editor.destroy()
+  })
+})
+
+describe('liveWidgetKeys lifecycle', () => {
+  function widgetExtension() {
+    return Extension.create({
+      name: 'widgetDeco',
+      addDecorations() {
+        return {
+          create: ({ state }: { state: EditorState }) => [
+            Decoration.Widget(state.doc.content.size, () => document.createElement('span'), {
+              key: 'w-end',
+            }),
+          ],
+        }
+      },
+    })
+  }
+
+  it('returns an empty set after destroy instead of throwing', () => {
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, widgetExtension()],
+      content: '<p>hello</p>',
+    })
+
+    editor.destroy()
+
+    expect(() => liveWidgetKeys(editor)).not.toThrow()
+    expect(liveWidgetKeys(editor).size).toBe(0)
+  })
+
+  it('keeps widget keys after unmount without a prior state read', () => {
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, widgetExtension()],
+      content: '<p>hello</p>',
+    })
+
+    editor.unmount()
+
+    expect(liveWidgetKeys(editor).has('w-end')).toBe(true)
 
     editor.destroy()
   })
