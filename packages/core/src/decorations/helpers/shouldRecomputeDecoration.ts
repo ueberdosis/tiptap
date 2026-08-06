@@ -1,5 +1,4 @@
 import type { DecorationShouldUpdateProps, DecorationSpec } from '../types.js'
-import { transactionReshapesContent } from './transactionReshapesContent.js'
 
 /**
  * Decides whether a decoration spec should be recomputed for a transaction.
@@ -27,5 +26,5 @@ export function shouldRecomputeDecoration(
     return spec.shouldUpdate ? spec.shouldUpdate(props) : props.tr.docChanged
   }
 
-  return spec.shouldUpdate ? spec.shouldUpdate(props) : transactionReshapesContent(props.tr)
+  return spec.shouldUpdate ? spec.shouldUpdate(props) : props.tr.docChanged
 }

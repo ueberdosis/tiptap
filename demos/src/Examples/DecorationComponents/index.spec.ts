@@ -18,6 +18,16 @@ test.describe(`${demoPath}/${demoName}`, () => {
       test('keeps a widget mounted when its paragraph is edited and split', async ({ page }) => {
         const editor = await getEditor(page)
         const counters = page.locator('.decoration-counter')
+        const duplicateKeyWarnings: string[] = []
+
+        page.on('console', message => {
+          if (
+            message.type() === 'warning' &&
+            message.text().includes('Duplicate widget decoration key')
+          ) {
+            duplicateKeyWarnings.push(message.text())
+          }
+        })
 
         await expect(counters).toHaveCount(2)
 
@@ -31,7 +41,11 @@ test.describe(`${demoPath}/${demoName}`, () => {
         await page.keyboard.press('Enter')
 
         await expect(counters).toHaveCount(3)
+        await expect(counters.nth(0)).toContainText('¶ 1')
+        await expect(counters.nth(1)).toContainText('¶ 2')
+        await expect(counters.nth(2)).toContainText('¶ 3')
         await expect(counters.filter({ hasText: '👍 1' })).toHaveCount(1)
+        expect(duplicateKeyWarnings).toEqual([])
       })
 
       test('keeps widget state independent between paragraphs', async ({ page }) => {

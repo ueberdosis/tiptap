@@ -2,6 +2,10 @@ import { Decoration as PMDecoration } from '@tiptap/pm/view'
 
 import type { Decoration, WidgetDecoration } from '../Decoration.js'
 
+function isWidgetDecoration(decoration: Decoration): decoration is WidgetDecoration {
+  return decoration.kind === 'widget'
+}
+
 /**
  * Converts a list of decorations to ProseMirror decorations.
  * @param decorations The decorations to convert.
@@ -20,18 +24,9 @@ export function decorationsToPMDecorations(
 
   for (const decoration of decorations) {
     if (decoration.kind === 'widget') {
-      const { key } = decoration as WidgetDecoration
-
-      if (widgetKeys.has(key)) {
-        console.warn(
-          `[tiptap warn]: Duplicate widget decoration key "${key}"` +
-            (extensionName ? ` in extension "${extensionName}"` : '') +
-            '. Widget decoration keys must be globally unique, otherwise ProseMirror ' +
-            'misplaces the widget DOM. Use a stable, unique key (e.g. `comment-${id}`).',
-        )
+      if (isWidgetDecoration(decoration)) {
+        widgetKeys.add(decoration.key)
       }
-
-      widgetKeys.add(key)
     }
 
     pmDecorations.push(decoration.toPMDecoration(extensionName))

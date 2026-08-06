@@ -2,6 +2,7 @@ import { Editor, Extension } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { render, waitFor } from '@testing-library/react'
 import React from 'react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
@@ -32,6 +33,9 @@ const PropSpy = ({ editor, getPos }: { editor: Editor; getPos: unknown }) => {
 
   return React.createElement('span', { className: 'prop-spy' })
 }
+
+const AttributeWidget = ({ index }: { index: number }) =>
+  React.createElement('span', { className: 'attribute-widget' }, index)
 
 function makeContentComponent() {
   const live = new Set<string>()
@@ -138,6 +142,60 @@ function propSpyWidget() {
         },
       }
     },
+  })
+}
+
+function copiedKeyWidgets() {
+  return Extension.create({
+    name: 'copiedKeyWidgets',
+    addGlobalAttributes: () => [{ types: ['paragraph'], attributes: { id: { default: null } } }],
+    addDecorations: () => ({
+      create: ({ editor, state }) => {
+        const decorations: any[] = []
+        let index = 0
+
+        state.doc.forEach((node, pos) => {
+          if (node.type.name === 'paragraph') {
+            decorations.push(
+              ReactWidgetRenderer(AttributeWidget, {
+                editor,
+                pos: pos + node.nodeSize - 1,
+                key: `paragraph-${node.attrs.id}`,
+                props: { index },
+              }),
+            )
+            index += 1
+          }
+        })
+
+        return decorations
+      },
+    }),
+    addProseMirrorPlugins: () => [
+      new Plugin({
+        key: new PluginKey('repairCopiedIds'),
+        appendTransaction: (transactions, _oldState, newState) => {
+          if (!transactions.some(transaction => transaction.docChanged)) {
+            return
+          }
+
+          const ids = new Set<string>()
+          const tr = newState.tr
+
+          newState.doc.forEach((node, pos) => {
+            const id = node.attrs.id
+
+            if (node.type.name === 'paragraph' && id && ids.has(id)) {
+              tr.setNodeAttribute(pos, 'id', `${id}-copy`)
+            }
+
+            ids.add(id)
+          })
+
+          return tr.steps.length ? tr : undefined
+        },
+      }),
+    ],
   })
 }
 
@@ -292,6 +350,32 @@ describe('ReactWidgetRenderer', () => {
 
     expect(editor.state.doc.childCount).toBe(3)
     expect(contentComponent.live.size).toBe(3)
+  })
+
+  it('keeps props from the final state when an appended transaction repairs a copied key', async () => {
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, copiedKeyWidgets()],
+      content: {
+        type: 'doc',
+        content: [
+          { type: 'paragraph', attrs: { id: 'first' }, content: [{ type: 'text', text: 'a' }] },
+          { type: 'paragraph', attrs: { id: 'second' }, content: [{ type: 'text', text: 'b' }] },
+        ],
+      },
+    })
+    const mounted = render(React.createElement(EditorContent, { editor }))
+
+    active = editor
+    unmount = mounted.unmount
+    editor.chain().setTextSelection(2).splitBlock().run()
+    await flush()
+
+    expect(Array.from(mounted.container.querySelectorAll('.attribute-widget'))).toHaveLength(3)
+    expect(
+      Array.from(mounted.container.querySelectorAll('.attribute-widget')).map(widget =>
+        widget.textContent?.trim(),
+      ),
+    ).toEqual(['0', '1', '2'])
   })
 
   it('tears down the renderer when a widget is genuinely removed', async () => {

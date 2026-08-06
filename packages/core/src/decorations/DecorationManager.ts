@@ -11,6 +11,7 @@ import type { Decoration } from './Decoration.js'
 import { buildDecorationSet } from './helpers/buildDecorationSet.js'
 import { decorationsToPMDecorations } from './helpers/decorationsToPMDecorations.js'
 import { filterOutOfRangeDecorations } from './helpers/filterOutOfRangeDecorations.js'
+import { findDuplicateWidgetKeys } from './helpers/findDuplicateWidgetKeys.js'
 import { getRebuildRanges } from './helpers/getRebuildRanges.js'
 import { mapDecorations } from './helpers/mapDecorations.js'
 import { mapDecorationSet } from './helpers/mapDecorationSet.js'
@@ -41,12 +42,26 @@ export class DecorationManager {
   editor: Editor
   entries: ResolvedDecorationEntry[]
   plugin: Plugin<DecorationManagerState> | null
+  private warnedWidgetKeys = new Set<string>()
+  private readonly handleBeforeTransaction = ({ nextState }: { nextState: EditorState }) => {
+    const state = DECORATION_MANAGER_PLUGIN_KEY.getState(nextState)
+
+    if (state) {
+      this.warnDuplicateWidgetKeys(state)
+    }
+  }
 
   constructor(options: { editor: Editor; entries: DecorationManagerEntry[] }) {
     this.editor = options.editor
     this.entries = this.resolveEntries(options.entries)
     this.entries.forEach(({ name, spec }) => validateDecorationSpec(name, spec))
     this.plugin = this.entries.length > 0 ? this.createPlugin() : null
+
+    this.editor.on('beforeTransaction', this.handleBeforeTransaction)
+  }
+
+  destroy(): void {
+    this.editor.off('beforeTransaction', this.handleBeforeTransaction)
   }
 
   /**
@@ -106,12 +121,16 @@ export class DecorationManager {
             widgetKeysByExtension[name] = widgetKeys
           }
 
-          return {
+          const managerState = {
             decorationSetsByExtension,
             widgetKeysByExtension,
             mergedDecorationSet: this.buildMergedSet(state.doc, decorationSetsByExtension),
             widgetKeys: unionWidgetKeys(widgetKeysByExtension),
           }
+
+          this.warnDuplicateWidgetKeys(managerState)
+
+          return managerState
         },
         apply: (tr, previous, oldState, newState) => {
           const meta = tr.getMeta(DECORATION_MANAGER_PLUGIN_KEY) as DecorationMeta | undefined
@@ -274,15 +293,6 @@ export class DecorationManager {
       set = set.add(newState.doc, pmDecorations)
 
       for (const key of addedKeys) {
-        if (widgetKeys.has(key)) {
-          console.warn(
-            `[tiptap warn]: Duplicate widget decoration key "${key}" in extension ` +
-              `"${name}". createInRange produced a key already live in another range. ` +
-              'Widget decoration keys must be globally unique, otherwise ProseMirror ' +
-              'misplaces the widget DOM. Use a stable, unique key (e.g. `comment-${id}`).',
-          )
-        }
-
         widgetKeys.add(key)
       }
     }
@@ -309,6 +319,30 @@ export class DecorationManager {
     } satisfies DecorationCreateProps)
 
     return buildDecorationSet(state.doc, decorations, name)
+  }
+
+  private warnDuplicateWidgetKeys(state: DecorationManagerState): void {
+    const duplicateKeys = findDuplicateWidgetKeys(state.mergedDecorationSet)
+    const nextWarningKeys = new Set(duplicateKeys.map(({ key }) => key))
+
+    for (const { key, extensions } of duplicateKeys) {
+      if (this.warnedWidgetKeys.has(key)) {
+        continue
+      }
+
+      const names = Array.from(extensions)
+        .map(name => `"${name}"`)
+        .join(', ')
+
+      console.warn(
+        `[tiptap warn]: Duplicate widget decoration key "${key}" in extension${
+          extensions.size === 1 ? '' : 's'
+        } ${names}. Widget decoration keys must be globally unique, otherwise ProseMirror ` +
+          'misplaces the widget DOM. Use a stable, unique key (e.g. `comment-${id}`).',
+      )
+    }
+
+    this.warnedWidgetKeys = nextWarningKeys
   }
 
   /**

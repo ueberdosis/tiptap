@@ -171,7 +171,7 @@ export function ReactWidgetRenderer<P extends Record<string, any> = object>(
   const existing = cache.renderers.get(key)
 
   if (existing) {
-    const previous = cache.props.get(key)
+    const previous = cache.pendingProps.get(key) ?? cache.props.get(key)
 
     if (!previous || !shallowEqual(previous, props)) {
       cache.pendingProps.set(key, props)

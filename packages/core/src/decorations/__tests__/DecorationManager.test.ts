@@ -338,7 +338,7 @@ describe('liveWidgetKeys lifecycle', () => {
 })
 
 describe('DecorationManager attr-only transactions', () => {
-  it('skips create() recompute for attr-only appendTransaction', () => {
+  it('recomputes create() for attr-only appendTransaction', () => {
     const createCalls: number[] = []
     const decoExtension = Extension.create({
       name: 'decoProbe',
@@ -386,11 +386,85 @@ describe('DecorationManager attr-only transactions', () => {
     expect(createCalls.length).toBe(1)
 
     // A text edit triggers the root transaction, then attrAppend appends an
-    // attr-only transaction. create() should run for the root (positions
-    // changed) but NOT for the appended attr-only transaction.
+    // attr-only transaction. Both can change values read by create().
     editor.commands.insertContentAt(6, '!')
-    expect(createCalls.length).toBe(2)
+    expect(createCalls.length).toBe(3)
 
+    editor.destroy()
+  })
+
+  it('does not warn for a copied widget key repaired by an appended transaction', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const idAttribute = Extension.create({
+      name: 'idAttribute',
+      addGlobalAttributes: () => [{ types: ['paragraph'], attributes: { id: { default: null } } }],
+    })
+    const widgetExtension = Extension.create({
+      name: 'widgets',
+      addDecorations: () => ({
+        create: ({ state }) => {
+          const decorations: Decoration[] = []
+
+          state.doc.forEach((node, pos) => {
+            if (node.type.name === 'paragraph') {
+              decorations.push(
+                Decoration.Widget(pos + node.nodeSize - 1, () => document.createElement('span'), {
+                  key: `paragraph-${node.attrs.id}`,
+                }),
+              )
+            }
+          })
+
+          return decorations
+        },
+      }),
+    })
+    const repairIds = Extension.create({
+      name: 'repairIds',
+      addProseMirrorPlugins: () => [
+        new Plugin({
+          key: new PluginKey('repairIds'),
+          appendTransaction: (transactions, _oldState, newState) => {
+            if (!transactions.some(transaction => transaction.docChanged)) {
+              return
+            }
+
+            const ids = new Set<string>()
+            const tr = newState.tr
+
+            newState.doc.forEach((node, pos) => {
+              const id = node.attrs.id
+
+              if (node.type.name === 'paragraph' && id && ids.has(id)) {
+                tr.setNodeAttribute(pos, 'id', `${id}-copy`)
+              }
+
+              ids.add(id)
+            })
+
+            return tr.steps.length ? tr : undefined
+          },
+        }),
+      ],
+    })
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, idAttribute, widgetExtension, repairIds],
+      content: {
+        type: 'doc',
+        content: [
+          { type: 'paragraph', attrs: { id: 'first' }, content: [{ type: 'text', text: 'a' }] },
+          { type: 'paragraph', attrs: { id: 'second' }, content: [{ type: 'text', text: 'b' }] },
+        ],
+      },
+    })
+
+    warn.mockClear()
+    editor.chain().setTextSelection(2).splitBlock().run()
+
+    expect(getState(editor)!.widgetKeys.size).toBe(3)
+    expect(warn).not.toHaveBeenCalled()
+
+    warn.mockRestore()
     editor.destroy()
   })
 
