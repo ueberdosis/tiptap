@@ -1,5 +1,8 @@
 import type { Decoration } from '../Decoration.js'
 
+// Warn once per extension per page load. createInRange runs on every keystroke
+const warnedOutOfRangeExtensions = new Set<string>()
+
 /**
  * Filter decorations that are out of range.
  * @param decorations The decorations to filter.
@@ -19,10 +22,13 @@ export function filterOutOfRangeDecorations(
       return true
     }
 
-    console.warn(
-      `[tiptap warn]: Extension "${extensionName}" returned a decoration outside the ` +
-        `requested range [${from}, ${to}). It was ignored.`,
-    )
+    if (!warnedOutOfRangeExtensions.has(extensionName)) {
+      warnedOutOfRangeExtensions.add(extensionName)
+      console.warn(
+        `[tiptap warn]: Extension "${extensionName}" returned a decoration outside the ` +
+          `requested range [${from}, ${to}). It was ignored.`,
+      )
+    }
 
     return false
   })
