@@ -5,18 +5,20 @@ import type { EditorView } from '@tiptap/pm/view'
 import { DecorationSet } from '@tiptap/pm/view'
 
 import type { Editor } from '../Editor.js'
+import type { Range } from '../types.js'
 import { DECORATION_MANAGER_PLUGIN_KEY } from './constants.js'
 import type { Decoration } from './Decoration.js'
 import { buildDecorationSet } from './helpers/buildDecorationSet.js'
 import { decorationsToPMDecorations } from './helpers/decorationsToPMDecorations.js'
 import { filterOutOfRangeDecorations } from './helpers/filterOutOfRangeDecorations.js'
 import { getRebuildRanges } from './helpers/getRebuildRanges.js'
-import { mapDecorationSetForward } from './helpers/mapDecorationSetForward.js'
+import { mapDecorations } from './helpers/mapDecorations.js'
+import { mapDecorationSet } from './helpers/mapDecorationSet.js'
 import { mergeDecorationSets } from './helpers/mergeDecorationSets.js'
 import { replaceRecomputedDecorationSets } from './helpers/replaceRecomputedDecorationSets.js'
-import { transactionReshapesContent } from './helpers/transactionReshapesContent.js'
 import { unionWidgetKeys } from './helpers/unionWidgetKeys.js'
 import { validateDecorationSpec } from './helpers/validateDecorationSpec.js'
+import { shouldRecomputeDecoration } from './helpers/shouldRecomputeDecoration.js'
 import { widgetKeyOf } from './helpers/widgetKeyOf.js'
 import type {
   DecorationCreateProps,
@@ -24,7 +26,6 @@ import type {
   DecorationManagerState,
   DecorationMeta,
   DecorationRangeProps,
-  DecorationShouldUpdateProps,
   DecorationSpec,
   ResolvedDecorationEntry,
 } from './types.js'
@@ -126,14 +127,14 @@ export class DecorationManager {
           try {
             for (const { name, spec } of entries) {
               const forced = forceAll || forceName === name
-              const wantsRecompute = this.wantsRecompute(
+              const shouldRecompute = shouldRecomputeDecoration(
                 spec,
                 { editor, tr, oldState, newState },
                 forced,
               )
 
-              if (!wantsRecompute) {
-                const result = this.applyMapForward(name, previous, tr)
+              if (!shouldRecompute) {
+                const result = mapDecorations(name, previous, tr)
                 decorationSetsByExtension[name] = result.set
                 widgetKeysByExtension[name] = result.widgetKeys
               } else if (spec.update === 'changedRanges' && tr.docChanged && !forced) {
@@ -186,55 +187,6 @@ export class DecorationManager {
   }
 
   /**
-   * Determines if a decoration spec should be recomputed based on the current transaction and state.
-   * @param spec The decoration spec to check
-   * @param props Properties containing editor, transaction, and state
-   * @param forced Whether recomputation was forced
-   * @returns True if the decoration should be recomputed
-   */
-  private wantsRecompute(
-    spec: DecorationSpec,
-    props: DecorationShouldUpdateProps,
-    forced: boolean,
-  ): boolean {
-    if (forced) {
-      return true
-    }
-
-    if (spec.update === 'manual') {
-      return false
-    }
-
-    // changedRanges already handles attr-only steps efficiently by rebuilding
-    // just the affected block, so it should react to them.
-    if (spec.update === 'changedRanges') {
-      return spec.shouldUpdate ? spec.shouldUpdate(props) : props.tr.docChanged
-    }
-
-    return spec.shouldUpdate ? spec.shouldUpdate(props) : transactionReshapesContent(props.tr)
-  }
-
-  /**
-   * Applies a forward mapping to a decoration set, dropping stale decorations and updating widget keys.
-   * @param name The name of the decoration extension
-   * @param previous The previous decoration manager state
-   * @param tr The transaction to map forward
-   * @returns The updated decoration set and widget keys
-   */
-  private applyMapForward(
-    name: string,
-    previous: DecorationManagerState,
-    tr: Transaction,
-  ): { set: DecorationSet; widgetKeys: Set<string> } {
-    const previousSet = previous.decorationSetsByExtension[name] ?? DecorationSet.empty
-    const widgetKeys = new Set<string>(previous.widgetKeysByExtension[name] ?? [])
-
-    const set = mapDecorationSetForward(previousSet, tr.mapping, tr.doc, widgetKeys)
-
-    return { set, widgetKeys }
-  }
-
-  /**
    * Applies changed ranges recomputation to a decoration set, dropping stale decorations and rebuilding only the touched blocks.
    * @param name The name of the decoration extension
    * @param spec The decoration spec
@@ -256,20 +208,38 @@ export class DecorationManager {
       return this.buildFullSet(name, spec, newState)
     }
 
+    return this.rebuildRanges(name, spec, previous, tr, newState, resolution.ranges)
+  }
+
+  /**
+   * Rebuilds decorations for the changed block ranges: maps the previous set
+   * forward, then for each range removes stale decorations, calls
+   * `createInRange`, and adds the new ones while syncing widget keys.
+   * @param name The extension name.
+   * @param spec The decoration spec.
+   * @param previous The previous decoration manager state.
+   * @param tr The transaction to apply.
+   * @param newState The new editor state.
+   * @param ranges The block ranges to rebuild.
+   * @returns The updated decoration set and widget keys.
+   */
+  private rebuildRanges(
+    name: string,
+    spec: DecorationSpec,
+    previous: DecorationManagerState,
+    tr: Transaction,
+    newState: EditorState,
+    ranges: Range[],
+  ): { set: DecorationSet; widgetKeys: Set<string> } {
     const previousSet = previous.decorationSetsByExtension[name] ?? DecorationSet.empty
     const widgetKeys = new Set<string>(previous.widgetKeysByExtension[name] ?? [])
-    let set = mapDecorationSetForward(previousSet, tr.mapping, tr.doc, widgetKeys)
+    let set = mapDecorationSet(previousSet, tr.mapping, tr.doc, widgetKeys)
 
-    for (const { from, to } of resolution.ranges) {
-      // because a decoration at `to` belongs to the next block, only clear it
-      // at the end of the document.
-      const endOfDoc = newState.doc.content.size
+    for (const { from, to } of ranges) {
+      // inclusive on `to` to match the create filter and avoid leaking duplicates.
       const stale = set
         .find(from, to)
-        .filter(
-          decoration =>
-            decoration.from >= from && (decoration.from < to || decoration.from === endOfDoc),
-        )
+        .filter(decoration => decoration.from >= from && decoration.from <= to)
 
       for (const decoration of stale) {
         const key = widgetKeyOf(decoration)

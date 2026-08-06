@@ -5,7 +5,7 @@ import { DecorationSet } from '@tiptap/pm/view'
 type RemovedDecorationSpec = { key?: unknown } | undefined
 
 /**
- * Maps a set forward through the transaction and prunes the keys of any widget
+ * Maps a decoration set through a mapping and prunes the keys of any widget
  * dropped because its position was deleted.
  * @param set The decoration set to map.
  * @param mapping The mapping to use.
@@ -13,7 +13,7 @@ type RemovedDecorationSpec = { key?: unknown } | undefined
  * @param widgetKeys The set of widget keys to prune.
  * @returns The mapped decoration set.
  */
-export function mapDecorationSetForward(
+export function mapDecorationSet(
   set: DecorationSet,
   mapping: Mapping,
   doc: Node,
