@@ -1,9 +1,10 @@
 import { Decoration, liveWidgetKeys } from '@tiptap/core'
 import type { Editor, WidgetDecoration, WidgetDecorationOptions } from '@tiptap/core'
 import type { EditorView } from '@tiptap/pm/view'
-import type { Component } from 'vue'
+import type { Component, SetupContext } from 'vue'
 import { defineComponent, markRaw } from 'vue'
 
+import { undeclaredWidgetProps } from './utils/undeclaredWidgetProps.js'
 import { VueRenderer } from './VueRenderer.js'
 
 /**
@@ -141,16 +142,16 @@ export function VueWidgetRenderer<P extends Record<string, any> = object>(
     }
   }
 
-  // Declare all props so Vue 3 does not render them as DOM attributes.
-  const widgetPropKeys = Object.keys({ editor: null, getPos: null, ...props })
   const wrappedComponent = defineComponent({
     extends: { ...(component as any) },
-    props: widgetPropKeys,
+    // Only declare what the component does not declare itself. Redeclaring a
+    // prop here would replace its type, default and validator with an empty one.
+    props: undeclaredWidgetProps(component, props),
     template: (component as any).template,
-    setup: (reactiveProps: any) =>
-      (component as any).setup?.(reactiveProps, {
-        expose: () => undefined,
-      }),
+    // Vue only calls the outermost `setup`, so run the component's own setup and
+    // forward the full context, otherwise `emit`, `slots` and `attrs` are missing.
+    setup: (reactiveProps: any, context: SetupContext) =>
+      (component as any).setup?.(reactiveProps, context),
     __scopeId: (component as any).__scopeId,
     __cssModules: (component as any).__cssModules,
     __name: (component as any).__name,

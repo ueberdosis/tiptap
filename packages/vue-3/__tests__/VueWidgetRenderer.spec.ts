@@ -340,6 +340,71 @@ describe('VueWidgetRenderer', () => {
     })
   })
 
+  it('keeps the component prop options: defaults and Boolean casting', () => {
+    const seen: Array<{ label: string; flag: boolean }> = []
+    const Typed = defineComponent({
+      name: 'Typed',
+      props: {
+        label: { type: String, default: 'FALLBACK' },
+        flag: { type: Boolean, default: false },
+      },
+      render() {
+        seen.push({ label: this.label, flag: this.flag })
+        return h('span', { class: 'typed' }, this.label)
+      },
+    })
+
+    mount('<p>a</p>', [
+      Extension.create({
+        name: 'typedWidget',
+        addDecorations: () => ({
+          create: ({ editor }) => [
+            VueWidgetRenderer(Typed, {
+              editor,
+              pos: 1,
+              key: 'typed',
+              // `undefined` must fall back to the default, `''` must cast to true.
+              props: { label: undefined, flag: '' },
+            }),
+          ],
+        }),
+      }),
+    ])
+
+    expect(seen[0]).toEqual({ label: 'FALLBACK', flag: true })
+  })
+
+  it('gives the component setup an emit function', () => {
+    const emitted: string[] = []
+    const Emitter = defineComponent({
+      name: 'Emitter',
+      emits: ['ready'],
+      setup(_props, { emit }) {
+        emit('ready')
+        return () => h('span', { class: 'emitter' })
+      },
+    })
+
+    mount('<p>a</p>', [
+      Extension.create({
+        name: 'emitterWidget',
+        addDecorations: () => ({
+          create: ({ editor }) => [
+            VueWidgetRenderer(Emitter, {
+              editor,
+              pos: 1,
+              key: 'emitter',
+              props: { onReady: () => emitted.push('ready') },
+            }),
+          ],
+        }),
+      }),
+    ])
+
+    expect(el!.querySelectorAll('.emitter').length).toBe(1)
+    expect(emitted).toEqual(['ready'])
+  })
+
   // Duplicate widget keys intentionally not tested here — ProseMirror's view
   // crashes when it encounters same-key widgets, and the type-level contract
   // ("keys must be unique") is documented on WidgetDecoration.key.
