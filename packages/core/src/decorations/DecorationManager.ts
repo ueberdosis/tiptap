@@ -6,6 +6,7 @@ import { DecorationSet } from '@tiptap/pm/view'
 
 import type { Editor } from '../Editor.js'
 import type { Range } from '../types.js'
+import { isDev } from '../utilities/isDev.js'
 import { DECORATION_MANAGER_PLUGIN_KEY } from './constants.js'
 import type { Decoration } from './Decoration.js'
 import { runInDecorationApplyScope } from './decorationApplyScope.js'
@@ -17,7 +18,6 @@ import { getRebuildRanges } from './helpers/getRebuildRanges.js'
 import { mapDecorations } from './helpers/mapDecorations.js'
 import { mapDecorationSet } from './helpers/mapDecorationSet.js'
 import { mergeDecorationSets } from './helpers/mergeDecorationSets.js'
-import { replaceRecomputedDecorationSets } from './helpers/replaceRecomputedDecorationSets.js'
 import { unionWidgetKeys } from './helpers/unionWidgetKeys.js'
 import { validateDecorationSpec } from './helpers/validateDecorationSpec.js'
 import { shouldRecomputeDecoration } from './helpers/shouldRecomputeDecoration.js'
@@ -320,6 +320,18 @@ export class DecorationManager {
   }
 
   private warnDuplicateWidgetKeys(state: DecorationManagerState): void {
+    if (!isDev) {
+      return
+    }
+
+    // No widget keys means no duplicates, so the scan over the merged set is
+    // pointless. Most documents carry only node and inline decorations.
+    if (state.widgetKeys.size === 0) {
+      this.warnedWidgetKeys.clear()
+
+      return
+    }
+
     const duplicateKeys = findDuplicateWidgetKeys(state.mergedDecorationSet)
     const nextWarningKeys = new Set(duplicateKeys.map(({ key }) => key))
 
@@ -364,8 +376,9 @@ export class DecorationManager {
   }
 
   /**
-   * Computes the merged DecorationSet after apply. Single extension skips
-   * the merge; no recompute maps forward; otherwise patches incrementally.
+   * Computes the merged DecorationSet after apply. Single extension skips the
+   * merge; nothing recomputed maps the previous merged set forward; otherwise
+   * the merge is rebuilt from the per-extension sets.
    */
   private mergeAfterApply({
     entries,
@@ -388,12 +401,9 @@ export class DecorationManager {
       return previous.mergedDecorationSet.map(tr.mapping, tr.doc)
     }
 
-    return replaceRecomputedDecorationSets({
-      doc: tr.doc,
-      mapping: tr.mapping,
-      previousMergedSet: previous.mergedDecorationSet,
-      decorationSetsByExtension,
-      recomputedNames,
-    })
+    // Patching the previous merged set is far slower than rebuilding it:
+    // `DecorationSet.remove` scans every decoration once per block, so it goes
+    // quadratic on large documents. Every set here already matches `tr.doc`.
+    return mergeDecorationSets(tr.doc, decorationSetsByExtension)
   }
 }

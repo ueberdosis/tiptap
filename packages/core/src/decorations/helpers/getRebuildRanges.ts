@@ -9,6 +9,38 @@ import { hasResolvableChangedRange } from './hasResolvableChangedRange.js'
 export type RebuildRangeResolution = { type: 'ranges'; ranges: Range[] } | { type: 'full' }
 
 /**
+ * Expands a changed range to the top-level blocks it touches. Blocks are
+ * ordered, so the walk stops as soon as it passes the range.
+ */
+function blockRangeFor(doc: Node, changed: Range): Range | null {
+  let from: number | null = null
+  let to = 0
+  let nodeStart = 0
+
+  for (let index = 0; index < doc.childCount; index += 1) {
+    if (nodeStart > changed.to) {
+      break
+    }
+
+    const nodeEnd = nodeStart + doc.child(index).nodeSize
+
+    // A block ending exactly at `changed.from` still owns decorations that
+    // span the boundary, so it counts as overlapping.
+    if (nodeEnd >= changed.from) {
+      if (from === null) {
+        from = nodeStart
+      }
+
+      to = nodeEnd
+    }
+
+    nodeStart = nodeEnd
+  }
+
+  return from === null ? null : { from, to }
+}
+
+/**
  * Returns the top-level block ranges to recompute after a transaction,
  * or `{ type: 'full' }` when the whole document must be rebuilt.
  * @param tr The transaction to inspect.
@@ -43,26 +75,10 @@ export function getRebuildRanges(tr: Transaction, doc: Node): RebuildRangeResolu
   const ranges: Range[] = []
 
   for (const newRange of newRanges) {
-    let from: number | null = null
-    let to = 0
+    const blockRange = blockRangeFor(doc, newRange)
 
-    doc.forEach((node, offset) => {
-      const nodeStart = offset
-      const nodeEnd = offset + node.nodeSize
-
-      // if the node overlaps with the changed range
-      if (nodeEnd >= newRange.from && nodeStart <= newRange.to) {
-        if (from === null) {
-          from = nodeStart
-        }
-
-        to = nodeEnd
-      }
-    })
-
-    // if we found a block that overlaps with the changed range, add it to the ranges
-    if (from !== null) {
-      ranges.push({ from, to })
+    if (blockRange) {
+      ranges.push(blockRange)
     }
   }
 

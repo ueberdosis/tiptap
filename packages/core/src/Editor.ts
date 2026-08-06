@@ -45,17 +45,10 @@ import type {
   Utils,
 } from './types.js'
 import { createStyleTag } from './utilities/createStyleTag.js'
+import { isDev } from './utilities/isDev.js'
 import { isFunction } from './utilities/isFunction.js'
 
 export * as extensions from './extensions/index.js'
-
-// Core has no node types and can run unbundled in the browser, where `process`
-// is missing. The `typeof` check keeps that case from throwing, and the inline
-// `process.env.NODE_ENV` lets bundlers fold this to `false` and strip the
-// dev-only warning below from production builds.
-declare const process: { env: { NODE_ENV?: string } } | undefined
-
-const isDev = typeof process !== 'undefined' && process.env.NODE_ENV !== 'production'
 
 // @ts-ignore
 export interface TiptapEditorHTMLElement extends HTMLElement {

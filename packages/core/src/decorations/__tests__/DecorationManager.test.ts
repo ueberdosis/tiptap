@@ -14,7 +14,6 @@ import type { EditorState } from '@tiptap/pm/state'
 import { describe, expect, it, vi } from 'vitest'
 
 import * as mergeModule from '../helpers/mergeDecorationSets.js'
-import * as replaceModule from '../helpers/replaceRecomputedDecorationSets.js'
 
 /** changedRanges extension that highlights `term` with inline decorations. */
 function highlightExtension(name: string, term: string) {
@@ -183,10 +182,7 @@ describe('DecorationManager incremental merge', () => {
     editor.destroy()
   })
 
-  it('multi-extension: only recomputed extension decorations are replaced in merged set', () => {
-    const replaceSpy = vi.spyOn(replaceModule, 'replaceRecomputedDecorationSets')
-    const mergeSpy = vi.spyOn(mergeModule, 'mergeDecorationSets')
-
+  it('multi-extension: merged set keeps non-recomputed extension decorations', () => {
     const editor = new Editor({
       extensions: [
         Document,
@@ -198,25 +194,22 @@ describe('DecorationManager incremental merge', () => {
       content: '<p>foo bar</p><p>foo baz</p>',
     })
 
-    mergeSpy.mockClear()
-    replaceSpy.mockClear()
-
     editor.commands.setTextSelection({ from: 1, to: 4 })
     editor.commands.insertContent('X')
 
-    // init used mergeDecorationSets (multi-extension), but apply should not.
-    expect(mergeSpy).not.toHaveBeenCalled()
-    expect(replaceSpy).toHaveBeenCalledTimes(1)
-
     const after = getState(editor)!
     const mergedDecos = after.mergedDecorationSet.find()
-    const manualInMerged = mergedDecos.filter(
-      d => (d.spec as { extensionName?: string }).extensionName === 'manual',
-    )
-    expect(manualInMerged.length).toBeGreaterThan(0)
+    const byExtension = (name: string) =>
+      mergedDecos.filter(d => (d.spec as { extensionName?: string }).extensionName === name)
 
-    replaceSpy.mockRestore()
-    mergeSpy.mockRestore()
+    // The merged set is rebuilt from the per-extension sets, so the mapped
+    // manual decorations must survive alongside the recomputed ones.
+    expect(byExtension('manual').length).toBe(
+      after.decorationSetsByExtension['manual'].find().length,
+    )
+    expect(byExtension('hl').length).toBe(after.decorationSetsByExtension['hl'].find().length)
+    expect(mergedDecos.length).toBe(byExtension('manual').length + byExtension('hl').length)
+
     editor.destroy()
   })
 
