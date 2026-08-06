@@ -68,6 +68,19 @@ function paragraphWidgets() {
   })
 }
 
+// Same as Counter but without inheritAttrs: false. Used to verify the renderer
+// auto-declares editor/getPos so they never fall through to the DOM.
+const CounterNoInheritAttrs = defineComponent({
+  name: 'CounterNoInheritAttrs',
+  props: { index: { type: Number, default: 0 } },
+  data() {
+    return { count: 0 }
+  },
+  render() {
+    return h('button', { class: 'counter-no-inherit' }, `${this.index}:${this.count}`)
+  },
+})
+
 // Records the props each render received, so a test can assert the widget never
 // loses `editor` / `getPos` during the two-phase prop update.
 const propLog: Array<{ hasEditor: boolean; hasGetPos: boolean }> = []
@@ -282,6 +295,49 @@ describe('VueWidgetRenderer', () => {
     expect(editor!.state.doc.childCount).toBe(2)
     expect(el!.querySelectorAll('.counter').length).toBe(2)
     expect(unmountCount).toBe(prevUnmount + 1)
+  })
+
+  it('does not leak editor/getPos as DOM attributes without inheritAttrs: false', () => {
+    const extension = Extension.create({
+      name: 'noInheritAttrsWidgets',
+      addDecorations() {
+        return {
+          create: ({ editor, state }) => {
+            const decorations: any[] = []
+            let index = 0
+
+            state.doc.forEach((node, offset) => {
+              if (node.type.name !== 'paragraph') {
+                return
+              }
+              decorations.push(
+                VueWidgetRenderer(CounterNoInheritAttrs, {
+                  editor,
+                  pos: offset + node.nodeSize - 1,
+                  key: `no-inherit-${index}`,
+                  props: { index },
+                  side: 1,
+                }),
+              )
+              index += 1
+            })
+
+            return decorations
+          },
+        }
+      },
+    })
+
+    mount('<p>aaa</p><p>bbb</p>', [extension])
+
+    const buttons = el!.querySelectorAll('.counter-no-inherit')
+    expect(buttons.length).toBe(2)
+
+    buttons.forEach(button => {
+      expect(button.hasAttribute('editor')).toBe(false)
+      expect(button.hasAttribute('getpos')).toBe(false)
+      expect(button.hasAttribute('getPos')).toBe(false)
+    })
   })
 
   // Duplicate widget keys intentionally not tested here — ProseMirror's view

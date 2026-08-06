@@ -2,7 +2,7 @@ import { Decoration, liveWidgetKeys } from '@tiptap/core'
 import type { Editor, WidgetDecoration, WidgetDecorationOptions } from '@tiptap/core'
 import type { EditorView } from '@tiptap/pm/view'
 import type { Component } from 'vue'
-import { markRaw } from 'vue'
+import { defineComponent, markRaw } from 'vue'
 
 import { VueRenderer } from './VueRenderer.js'
 
@@ -141,6 +141,22 @@ export function VueWidgetRenderer<P extends Record<string, any> = object>(
     }
   }
 
+  // Declare all props so Vue 3 does not render them as DOM attributes.
+  const widgetPropKeys = Object.keys({ editor: null, getPos: null, ...props })
+  const wrappedComponent = defineComponent({
+    extends: { ...(component as any) },
+    props: widgetPropKeys,
+    template: (component as any).template,
+    setup: (reactiveProps: any) =>
+      (component as any).setup?.(reactiveProps, {
+        expose: () => undefined,
+      }),
+    __scopeId: (component as any).__scopeId,
+    __cssModules: (component as any).__cssModules,
+    __name: (component as any).__name,
+    __file: (component as any).__file,
+  })
+
   const render = (_view: EditorView, getPos: () => number | undefined): HTMLElement => {
     let renderer = cache.renderers.get(key)
 
@@ -156,7 +172,7 @@ export function VueWidgetRenderer<P extends Record<string, any> = object>(
     if (renderer) {
       renderer.updateProps({ ...props, ...rawContext })
     } else {
-      renderer = new VueRenderer(component, {
+      renderer = new VueRenderer(wrappedComponent, {
         editor,
         props: { ...props, ...rawContext },
       })
