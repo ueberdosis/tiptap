@@ -8,6 +8,7 @@ import type { Editor } from '../Editor.js'
 import type { Range } from '../types.js'
 import { DECORATION_MANAGER_PLUGIN_KEY } from './constants.js'
 import type { Decoration } from './Decoration.js'
+import { runInDecorationApplyScope } from './decorationApplyScope.js'
 import { buildDecorationSet } from './helpers/buildDecorationSet.js'
 import { decorationsToPMDecorations } from './helpers/decorationsToPMDecorations.js'
 import { filterOutOfRangeDecorations } from './helpers/filterOutOfRangeDecorations.js'
@@ -141,9 +142,7 @@ export class DecorationManager {
           const widgetKeysByExtension: Record<string, Set<string>> = {}
           const recomputedNames = new Set<string>()
 
-          editor._isInDecorationApply = true
-
-          try {
+          runInDecorationApplyScope(editor, () => {
             for (const { name, spec } of entries) {
               const forced = forceAll || forceName === name
               const shouldRecompute = shouldRecomputeDecoration(
@@ -170,9 +169,7 @@ export class DecorationManager {
                 recomputedNames.add(name)
               }
             }
-          } finally {
-            editor._isInDecorationApply = false
-          }
+          })
 
           if (recomputedNames.size === 0 && !tr.docChanged) {
             return previous

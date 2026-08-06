@@ -5,6 +5,7 @@ import { EditorState } from '@tiptap/pm/state'
 import { type DirectEditorProps, EditorView } from '@tiptap/pm/view'
 
 import { CommandManager } from './CommandManager.js'
+import { isInDecorationApplyScope } from './decorations/decorationApplyScope.js'
 import { EventEmitter } from './EventEmitter.js'
 import { ExtensionManager } from './ExtensionManager.js'
 import {
@@ -48,6 +49,14 @@ import { isFunction } from './utilities/isFunction.js'
 
 export * as extensions from './extensions/index.js'
 
+// Core has no node types and can run unbundled in the browser, where `process`
+// is missing. The `typeof` check keeps that case from throwing, and the inline
+// `process.env.NODE_ENV` lets bundlers fold this to `false` and strip the
+// dev-only warning below from production builds.
+declare const process: { env: { NODE_ENV?: string } } | undefined
+
+const isDev = typeof process !== 'undefined' && process.env.NODE_ENV !== 'production'
+
 // @ts-ignore
 export interface TiptapEditorHTMLElement extends HTMLElement {
   editor?: Editor
@@ -84,12 +93,7 @@ export class Editor extends EventEmitter<EditorEvents> {
    */
   public instanceId = Math.random().toString(36).slice(2, 9)
 
-  /**
-   * Set while decoration `create()` runs inside `state.apply`. Reading
-   * `editor.state` during this window returns the pre-transaction document.
-   * Internal — used only to emit a dev-mode warning.
-   */
-  public _isInDecorationApply = false
+  private hasWarnedStaleDecorationRead = false
 
   public options: EditorOptions = {
     element: typeof document !== 'undefined' ? document.createElement('div') : null,
@@ -366,11 +370,16 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Returns the editor state.
    */
   public get state(): EditorState {
-    if (this._isInDecorationApply) {
+    if (isDev && !this.hasWarnedStaleDecorationRead && isInDecorationApplyScope(this)) {
+      // Warn once per editor. The same read repeats on every transaction, and
+      // a decoration that dispatches from `create()` would flood the console.
+      this.hasWarnedStaleDecorationRead = true
+
       console.warn(
-        '[tiptap warn]: `editor.state` was read inside decoration `create()`. ' +
-          'It returns the pre-transaction document. Use the `state` argument ' +
-          'passed to `create()` instead.',
+        '[tiptap warn]: `editor.state` was read while decoration `create()` was running. ' +
+          'It returns the pre-transaction document. Use the `state` argument passed to ' +
+          '`create()` instead. Helpers like `editor.isActive()` read `editor.state` too, ' +
+          'so pass `state` to their standalone versions instead of calling them on the editor.',
       )
     }
 

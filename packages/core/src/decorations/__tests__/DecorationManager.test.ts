@@ -532,7 +532,7 @@ describe('DecorationManager editor.state staleness warning', () => {
     editor.commands.insertContentAt(6, '!')
 
     expect(warn).toHaveBeenCalledWith(
-      expect.stringContaining('editor.state` was read inside decoration `create()'),
+      expect.stringContaining('`editor.state` was read while decoration `create()` was running'),
     )
 
     warn.mockRestore()
