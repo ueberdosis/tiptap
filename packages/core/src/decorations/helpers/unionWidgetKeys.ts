@@ -1,5 +1,4 @@
-// Warn once per key per page load. apply runs on every transaction, so without
-// dedup a single duplicate floods the console while typing.
+// Warn once per key per page load. apply runs on every transaction
 const warnedDuplicateKeys = new Set<string>()
 
 /**
