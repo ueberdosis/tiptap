@@ -1,6 +1,7 @@
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
+import Bold from '@tiptap/extension-bold'
 import {
   Decoration,
   DECORATION_MANAGER_PLUGIN_KEY,
@@ -8,12 +9,12 @@ import {
   Extension,
   liveWidgetKeys,
 } from '@tiptap/core'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
+import type { EditorState } from '@tiptap/pm/state'
 import { describe, expect, it, vi } from 'vitest'
 
 import * as mergeModule from '../helpers/mergeDecorationSets.js'
 import * as replaceModule from '../helpers/replaceRecomputedDecorationSets.js'
-
-import type { EditorState } from '@tiptap/pm/state'
 
 /** changedRanges extension that highlights `term` with inline decorations. */
 function highlightExtension(name: string, term: string) {
@@ -331,6 +332,97 @@ describe('liveWidgetKeys lifecycle', () => {
     editor.unmount()
 
     expect(liveWidgetKeys(editor).has('w-end')).toBe(true)
+
+    editor.destroy()
+  })
+})
+
+describe('DecorationManager attr-only transactions', () => {
+  it('skips create() recompute for attr-only appendTransaction', () => {
+    const createCalls: number[] = []
+    const decoExtension = Extension.create({
+      name: 'decoProbe',
+      addDecorations() {
+        return {
+          create: ({ state }: { state: EditorState }) => {
+            createCalls.push(state.doc.content.size)
+
+            return [Decoration.Node(0, state.doc.content.size, { class: 'probe' })]
+          },
+        }
+      },
+    })
+
+    // Simulates UniqueID: appends a transaction that only sets a node attr.
+    const attrAppendExtension = Extension.create({
+      name: 'attrAppend',
+      addProseMirrorPlugins() {
+        return [
+          new Plugin({
+            key: new PluginKey('attrAppend'),
+            appendTransaction: (_trs: unknown[], _oldState: EditorState, newState: EditorState) => {
+              const tr = newState.tr
+              const firstChild = newState.doc.firstChild
+
+              if (!firstChild) {
+                return
+              }
+
+              tr.setNodeAttribute(0, 'data-probe', 'x')
+
+              return tr
+            },
+          }),
+        ]
+      },
+    })
+
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, decoExtension, attrAppendExtension],
+      content: '<p>hello</p>',
+    })
+
+    // init calls create() once
+    expect(createCalls.length).toBe(1)
+
+    // A text edit triggers the root transaction, then attrAppend appends an
+    // attr-only transaction. create() should run for the root (positions
+    // changed) but NOT for the appended attr-only transaction.
+    editor.commands.insertContentAt(6, '!')
+    expect(createCalls.length).toBe(2)
+
+    editor.destroy()
+  })
+
+  it('still recomputes for mark changes', () => {
+    const createCalls: number[] = []
+    const decoExtension = Extension.create({
+      name: 'decoProbe',
+      addDecorations() {
+        return {
+          create: ({ state }: { state: EditorState }) => {
+            createCalls.push(state.doc.content.size)
+
+            return [Decoration.Inline(1, state.doc.content.size, { class: 'probe' })]
+          },
+        }
+      },
+    })
+
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, Bold, decoExtension],
+      content: '<p>hello</p>',
+    })
+
+    expect(createCalls.length).toBe(1)
+
+    // Selection-only change doesn't trigger recompute (no docChanged).
+    editor.chain().setTextSelection({ from: 1, to: 4 }).run()
+    expect(createCalls.length).toBe(1)
+
+    // toggleMark adds an AddMarkStep — should trigger recompute.
+    editor.chain().toggleMark('bold').run()
+    expect(createCalls.length).toBe(2)
 
     editor.destroy()
   })

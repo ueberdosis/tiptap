@@ -14,6 +14,7 @@ import { getRebuildRanges } from './helpers/getRebuildRanges.js'
 import { mapDecorationSetForward } from './helpers/mapDecorationSetForward.js'
 import { mergeDecorationSets } from './helpers/mergeDecorationSets.js'
 import { replaceRecomputedDecorationSets } from './helpers/replaceRecomputedDecorationSets.js'
+import { transactionReshapesContent } from './helpers/transactionReshapesContent.js'
 import { unionWidgetKeys } from './helpers/unionWidgetKeys.js'
 import { validateDecorationSpec } from './helpers/validateDecorationSpec.js'
 import { widgetKeyOf } from './helpers/widgetKeyOf.js'
@@ -198,7 +199,13 @@ export class DecorationManager {
       return false
     }
 
-    return spec.shouldUpdate ? spec.shouldUpdate(props) : props.tr.docChanged
+    // changedRanges already handles attr-only steps efficiently by rebuilding
+    // just the affected block, so it should react to them.
+    if (spec.update === 'changedRanges') {
+      return spec.shouldUpdate ? spec.shouldUpdate(props) : props.tr.docChanged
+    }
+
+    return spec.shouldUpdate ? spec.shouldUpdate(props) : transactionReshapesContent(props.tr)
   }
 
   /**
