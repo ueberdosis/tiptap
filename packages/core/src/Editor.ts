@@ -194,6 +194,9 @@ export class Editor extends EventEmitter<EditorEvents> {
    */
   public unmount() {
     if (this.editorView) {
+      // Keep the cached state in sync so plugin state stays available after unmount.
+      this.editorState = this.editorView.state
+
       // Cleanup our reference to prevent circular references which caused memory leaks
       // @ts-ignore
       const dom = this.editorView.dom as TiptapEditorHTMLElement
