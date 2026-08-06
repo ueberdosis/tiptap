@@ -120,6 +120,28 @@ const Container = Node.create({
   },
 })
 
+const WidgetComponent = () => {
+  return React.createElement(NodeViewWrapper, null)
+}
+
+const Widget = Node.create({
+  name: 'widget',
+  group: 'block',
+  atom: true,
+
+  parseHTML() {
+    return [{ tag: 'div[data-type="widget"]' }]
+  },
+
+  renderHTML() {
+    return ['div', { 'data-type': 'widget' }]
+  },
+
+  addNodeView() {
+    return ReactNodeViewRenderer(WidgetComponent)
+  },
+})
+
 const Item = Node.create({
   name: 'item',
   group: 'block',
@@ -154,9 +176,24 @@ const createEditorWithReactParagraph = () => {
   })
 }
 
+const createEditorWithWidget = () => {
+  return new Editor({
+    extensions: [Document, Paragraph, Text, Widget],
+    content: '<p>abc</p><div data-type="widget"></div>',
+  })
+}
+
 const flushMicrotasks = async () => {
   await act(async () => {
     await Promise.resolve()
+  })
+}
+
+const flushAnimationFrame = async () => {
+  await act(async () => {
+    await new Promise<void>(resolve => {
+      requestAnimationFrame(() => resolve())
+    })
   })
 }
 
@@ -244,6 +281,25 @@ describe('ReactNodeViewRenderer', () => {
 
     expect(renderErrors).toEqual([])
     expect(renderedPositions).toEqual([undefined])
+
+    editor.destroy()
+  })
+
+  it('does not select the node view when the selection covers its former position', async () => {
+    const editor = createEditorWithWidget()
+    const { container } = render(React.createElement(EditorContent, { editor }))
+
+    await flushMicrotasks()
+
+    // The widget starts at position 5 and moves to 8 when text is typed above it.
+    editor.commands.insertContentAt(4, 'def')
+    editor.commands.setTextSelection({ from: 5, to: 6 })
+
+    await flushAnimationFrame()
+
+    const widget = container.querySelector('.node-widget')
+
+    expect(widget?.classList.contains('ProseMirror-selectednode')).toBe(false)
 
     editor.destroy()
   })
