@@ -236,6 +236,9 @@ export interface ExtendableConfig<
    *
    * For framework widgets, use `ReactWidgetRenderer` or `VueWidgetRenderer`
    * from the matching framework package. Give stateful widgets a stable key.
+   *
+   * `create` and `createInRange` must not throw. An exception escapes through
+   * `editor.commands.*` and stops the document from updating until it stops.
    */
   addDecorations?: (this: {
     name: string
