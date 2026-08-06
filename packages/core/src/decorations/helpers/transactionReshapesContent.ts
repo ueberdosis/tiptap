@@ -1,68 +1,43 @@
-import {
-  AddMarkStep,
-  AddNodeMarkStep,
-  AttrStep,
-  DocAttrStep,
-  RemoveMarkStep,
-  RemoveNodeMarkStep,
-  ReplaceAroundStep,
-} from '@tiptap/pm/transform'
 import type { Step } from '@tiptap/pm/transform'
 import type { Transaction } from '@tiptap/pm/state'
 
+/** `jsonID` is set on each step's prototype by `Step.jsonID`; not in the type defs. */
+type StepWithId = Step & { jsonID?: string }
+
+const ATTR_ONLY_STEP_IDS = new Set(['attr', 'docAttr'])
+const MARK_STEP_IDS = new Set(['addMark', 'removeMark', 'addNodeMark', 'removeNodeMark'])
+
 /**
- * Checks whether a step only changes node attributes without touching
- * content, marks, or positions. `AttrStep` and `DocAttrStep` are always
- * attr-only. `ReplaceAroundStep` with an identity map (e.g. `setNodeMarkup`
- * that preserves the gap content) is also attr-only.
+ * checks if a step is only attribute-related (no content changes)
+ *
+ * @param step The step to check.
+ * @returns `true` if the step is an attr-only step, `false` otherwise.
  */
-function isAttrOnlyStep(step: Step): boolean {
-  if (step instanceof AttrStep || step instanceof DocAttrStep) {
-    return true
-  }
-
-  if (step instanceof ReplaceAroundStep) {
-    let identity = true
-
-    step.getMap().forEach((oldStart, oldEnd, newStart, newEnd) => {
-      if (oldEnd - oldStart !== newEnd - newStart) {
-        identity = false
-      }
-    })
-
-    return identity
-  }
-
-  return false
-}
-
-function isMarkStep(step: Step): boolean {
-  return (
-    step instanceof AddMarkStep ||
-    step instanceof RemoveMarkStep ||
-    step instanceof AddNodeMarkStep ||
-    step instanceof RemoveNodeMarkStep
-  )
+function isAttrOnlyStep(step: StepWithId): boolean {
+  return ATTR_ONLY_STEP_IDS.has(step.jsonID ?? '')
 }
 
 /**
- * Checks whether a transaction changes anything decorations might depend on
- * (positions, content, or marks), as opposed to attribute-only changes.
- *
- * Attr-only transactions (e.g. UniqueID assigning an `id` via
- * `setNodeMarkup`) produce identity mappings and no mark steps, so the
- * existing decoration set can be mapped forward without recomputing.
- *
- * @param tr The transaction to inspect.
+ * checks if a step is only mark-related (no content changes)
+ * @param step The step to check.
+ * @returns `true` if the step is a mark step, `false` otherwise.
+ */
+function isMarkStep(step: StepWithId): boolean {
+  return MARK_STEP_IDS.has(step.jsonID ?? '')
+}
+
+/**
+ * checks if a transaction reshapes content (positions, content, or marks changed)
+ * @param tr The transaction to check.
  * @returns `true` if positions, content, or marks changed, `false` for attr-only.
  */
 export function transactionReshapesContent(tr: Transaction): boolean {
   for (const step of tr.steps) {
-    if (isMarkStep(step)) {
+    if (isMarkStep(step as StepWithId)) {
       return true
     }
 
-    if (!isAttrOnlyStep(step)) {
+    if (!isAttrOnlyStep(step as StepWithId)) {
       return true
     }
   }
