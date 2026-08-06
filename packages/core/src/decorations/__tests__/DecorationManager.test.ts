@@ -728,3 +728,79 @@ describe('DecorationManager boundary decorations', () => {
     editor.destroy()
   })
 })
+
+describe('DecorationManager remounts', () => {
+  /** Number of `beforeTransaction` listeners currently registered on the editor. */
+  function beforeTransactionListeners(editor: Editor) {
+    const callbacks = (editor as unknown as { callbacks: Record<string, unknown[]> }).callbacks
+
+    return callbacks.beforeTransaction?.length ?? 0
+  }
+
+  function duplicateKeyExtension() {
+    return Extension.create({
+      name: 'duplicateWidgets',
+      addDecorations() {
+        return {
+          create: () => [
+            Decoration.Widget(1, () => document.createElement('span'), { key: 'dup' }),
+            Decoration.Widget(1, () => document.createElement('span'), { key: 'dup' }),
+          ],
+        }
+      },
+    })
+  }
+
+  it('replaces the decoration manager instead of stacking listeners', () => {
+    const element = document.createElement('div')
+    const editor = new Editor({
+      element,
+      extensions: [Document, Paragraph, Text, duplicateKeyExtension()],
+      content: '<p>hello</p>',
+    })
+
+    expect(beforeTransactionListeners(editor)).toBe(1)
+
+    const firstManager = editor.extensionManager.decorationManager
+
+    editor.unmount()
+    editor.mount(element)
+    editor.unmount()
+    editor.mount(element)
+
+    expect(beforeTransactionListeners(editor)).toBe(1)
+    expect(editor.extensionManager.decorationManager).not.toBe(firstManager)
+
+    editor.destroy()
+  })
+
+  it('does not warn from orphaned managers after remounting', () => {
+    const element = document.createElement('div')
+    const editor = new Editor({
+      element,
+      extensions: [Document, Paragraph, Text, duplicateKeyExtension()],
+      content: '<p>hello</p>',
+    })
+
+    editor.unmount()
+    editor.mount(element)
+    editor.unmount()
+    editor.mount(element)
+
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+
+    editor.commands.insertContentAt(1, '!')
+
+    const duplicateWarnings = warn.mock.calls.filter(call =>
+      String(call[0]).includes('Duplicate widget decoration key "dup"'),
+    )
+
+    warn.mockRestore()
+
+    // Only the live manager warns. Each orphaned manager used to add one more
+    // warning per transaction, so this grew with every remount.
+    expect(duplicateWarnings).toHaveLength(1)
+
+    editor.destroy()
+  })
+})

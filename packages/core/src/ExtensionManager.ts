@@ -200,7 +200,7 @@ export class ExtensionManager {
       return plugins
     })
 
-    const decorationPlugin = this.decorationPlugin
+    const decorationPlugin = this.createDecorationPlugin()
 
     if (decorationPlugin) {
       allPlugins.push(decorationPlugin)
@@ -210,13 +210,16 @@ export class ExtensionManager {
   }
 
   /**
-   * A single plugin that aggregates all declarative decorations registered
-   * through extensions' `addDecorations`. Returns `null` when no extension
-   * resolves a decoration spec, so no plugin is added in that case.
+   * Aggregates decorations from extensions into a single plugin, or returns null
+   * if none exist. Destroys the previous manager to avoid orphaned listeners.
    * @returns A ProseMirror plugin or `null`
+   * @example
+   * const plugin = editor.extensionManager.createDecorationPlugin()
    */
-  get decorationPlugin(): Plugin | null {
+  createDecorationPlugin(): Plugin | null {
     const { editor } = this
+
+    this.decorationManager?.destroy()
 
     const entries: DecorationManagerEntry[] = []
 
