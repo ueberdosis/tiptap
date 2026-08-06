@@ -1,3 +1,7 @@
+// Warn once per key per page load. apply runs on every transaction, so without
+// dedup a single duplicate floods the console while typing.
+const warnedDuplicateKeys = new Set<string>()
+
 /**
  * Unions all widget keys from multiple extensions into a single set.
  * @param widgetKeysByExtension The widget keys to union.
@@ -14,12 +18,15 @@ export function unionWidgetKeys(widgetKeysByExtension: Record<string, Set<string
       const owner = owners.get(key)
 
       if (owner !== undefined) {
-        console.warn(
-          `[tiptap warn]: Duplicate widget decoration key "${key}" produced by extensions ` +
-            `"${owner}" and "${name}". Widget decoration keys must be globally unique across ` +
-            'all extensions, otherwise ProseMirror misplaces the widget DOM. Use a stable, ' +
-            'unique key (e.g. `comment-${id}`).',
-        )
+        if (!warnedDuplicateKeys.has(key)) {
+          warnedDuplicateKeys.add(key)
+          console.warn(
+            `[tiptap warn]: Duplicate widget decoration key "${key}" produced by extensions ` +
+              `"${owner}" and "${name}". Widget decoration keys must be globally unique across ` +
+              'all extensions, otherwise ProseMirror misplaces the widget DOM. Use a stable, ' +
+              'unique key (e.g. `comment-${id}`).',
+          )
+        }
       } else {
         owners.set(key, name)
       }
