@@ -32,7 +32,7 @@ export type { DecorationManagerEntry } from './types.js'
 const EMPTY_KEYS: ReadonlySet<string> = new Set()
 
 export function liveWidgetKeys(editor: Editor): ReadonlySet<string> {
-  return editor.extensionManager.decorationManager?.liveWidgetKeys() ?? EMPTY_KEYS
+  return editor.extensionManager?.decorationManager?.liveWidgetKeys() ?? EMPTY_KEYS
 }
 
 export class DecorationManager {
