@@ -427,3 +427,70 @@ describe('DecorationManager attr-only transactions', () => {
     editor.destroy()
   })
 })
+
+describe('DecorationManager editor.state staleness warning', () => {
+  it('warns when editor.state is read inside create()', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+
+    const decoExtension = Extension.create({
+      name: 'stateProbe',
+      addDecorations() {
+        return {
+          create: ({ editor, state }: { editor: Editor; state: EditorState }) => {
+            // Reading editor.state inside create() — should warn during apply.
+            void editor.state
+
+            return [Decoration.Node(0, state.doc.content.size, { class: 'probe' })]
+          },
+        }
+      },
+    })
+
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, decoExtension],
+      content: '<p>hello</p>',
+    })
+
+    // init doesn't warn — editor.state is not stale during init (no view yet).
+    warn.mockClear()
+
+    // A text edit triggers apply → create() → editor.state read → warn.
+    editor.commands.insertContentAt(6, '!')
+
+    expect(warn).toHaveBeenCalledWith(
+      expect.stringContaining('editor.state` was read inside decoration `create()'),
+    )
+
+    warn.mockRestore()
+    editor.destroy()
+  })
+
+  it('does not warn when only the state argument is used', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+
+    const decoExtension = Extension.create({
+      name: 'stateProbe',
+      addDecorations() {
+        return {
+          create: ({ state }: { state: EditorState }) => {
+            // Using the state argument — no warning.
+            return [Decoration.Node(0, state.doc.content.size, { class: 'probe' })]
+          },
+        }
+      },
+    })
+
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, decoExtension],
+      content: '<p>hello</p>',
+    })
+
+    warn.mockClear()
+    editor.commands.insertContentAt(6, '!')
+
+    expect(warn).not.toHaveBeenCalled()
+
+    warn.mockRestore()
+    editor.destroy()
+  })
+})

@@ -84,6 +84,13 @@ export class Editor extends EventEmitter<EditorEvents> {
    */
   public instanceId = Math.random().toString(36).slice(2, 9)
 
+  /**
+   * Set while decoration `create()` runs inside `state.apply`. Reading
+   * `editor.state` during this window returns the pre-transaction document.
+   * Internal — used only to emit a dev-mode warning.
+   */
+  public _isInDecorationApply = false
+
   public options: EditorOptions = {
     element: typeof document !== 'undefined' ? document.createElement('div') : null,
     content: '',
@@ -359,6 +366,14 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Returns the editor state.
    */
   public get state(): EditorState {
+    if (this._isInDecorationApply) {
+      console.warn(
+        '[tiptap warn]: `editor.state` was read inside decoration `create()`. ' +
+          'It returns the pre-transaction document. Use the `state` argument ' +
+          'passed to `create()` instead.',
+      )
+    }
+
     if (this.editorView) {
       this.editorState = this.view.state
     }

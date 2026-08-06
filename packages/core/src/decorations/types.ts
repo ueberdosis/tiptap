@@ -5,7 +5,17 @@ import type { Editor } from '../Editor.js'
 import type { Decoration } from './Decoration.js'
 
 export interface DecorationCreateProps {
+  /**
+   * The editor instance. Read `state` from the `state` argument, not
+   * `editor.state` — during `create()` the editor's view state has not been
+   * updated yet, so `editor.state` points at the pre-transaction document.
+   */
   editor: Editor
+  /**
+   * The editor state being built. This is the correct state to read from
+   * inside `create()`; `editor.state` is stale until the transaction finishes
+   * applying.
+   */
   state: EditorState
   /** The editor view, or `null` while the editor is not mounted. */
   view: EditorView | null

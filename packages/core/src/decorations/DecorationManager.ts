@@ -121,31 +121,37 @@ export class DecorationManager {
           const widgetKeysByExtension: Record<string, Set<string>> = {}
           const recomputedNames = new Set<string>()
 
-          for (const { name, spec } of entries) {
-            const forced = forceAll || forceName === name
-            const wantsRecompute = this.wantsRecompute(
-              spec,
-              { editor, tr, oldState, newState },
-              forced,
-            )
+          editor._isInDecorationApply = true
 
-            if (!wantsRecompute) {
-              const result = this.applyMapForward(name, previous, tr)
-              decorationSetsByExtension[name] = result.set
-              widgetKeysByExtension[name] = result.widgetKeys
-            } else if (spec.update === 'changedRanges' && tr.docChanged && !forced) {
-              const result = this.applyChangedRangesRecompute(name, spec, previous, tr, newState)
+          try {
+            for (const { name, spec } of entries) {
+              const forced = forceAll || forceName === name
+              const wantsRecompute = this.wantsRecompute(
+                spec,
+                { editor, tr, oldState, newState },
+                forced,
+              )
 
-              decorationSetsByExtension[name] = result.set
-              widgetKeysByExtension[name] = result.widgetKeys
-              recomputedNames.add(name)
-            } else {
-              const { set, widgetKeys } = this.buildFullSet(name, spec, newState)
+              if (!wantsRecompute) {
+                const result = this.applyMapForward(name, previous, tr)
+                decorationSetsByExtension[name] = result.set
+                widgetKeysByExtension[name] = result.widgetKeys
+              } else if (spec.update === 'changedRanges' && tr.docChanged && !forced) {
+                const result = this.applyChangedRangesRecompute(name, spec, previous, tr, newState)
 
-              decorationSetsByExtension[name] = set
-              widgetKeysByExtension[name] = widgetKeys
-              recomputedNames.add(name)
+                decorationSetsByExtension[name] = result.set
+                widgetKeysByExtension[name] = result.widgetKeys
+                recomputedNames.add(name)
+              } else {
+                const { set, widgetKeys } = this.buildFullSet(name, spec, newState)
+
+                decorationSetsByExtension[name] = set
+                widgetKeysByExtension[name] = widgetKeys
+                recomputedNames.add(name)
+              }
             }
+          } finally {
+            editor._isInDecorationApply = false
           }
 
           if (recomputedNames.size === 0 && !tr.docChanged) {
