@@ -4,7 +4,9 @@ import type { Decoration } from '../Decoration.js'
 const warnedOutOfRangeExtensions = new Set<string>()
 
 /**
- * Filter decorations that are out of range.
+ * Filter decorations that are out of the half-open range `[from, to)`.
+ * Must match the stale filter in `DecorationManager.rebuildRanges`.
+ *
  * @param decorations The decorations to filter.
  * @param from The start of the range.
  * @param to The end of the range.
@@ -18,8 +20,13 @@ export function filterOutOfRangeDecorations(
   extensionName: string,
 ): Decoration[] {
   return decorations.filter(decoration => {
-    if (decoration.anchor >= from && decoration.anchor <= to) {
+    if (decoration.anchor >= from && decoration.anchor < to) {
       return true
+    }
+
+    // At `to` only widgets belong to this block. Spanning ones belong to the next.
+    if (decoration.anchor === to) {
+      return decoration.kind === 'widget'
     }
 
     if (!warnedOutOfRangeExtensions.has(extensionName)) {

@@ -255,7 +255,8 @@ export class DecorationManager {
     let set = mapDecorationSet(previousSet, tr.mapping, tr.doc, widgetKeys)
 
     for (const { from, to } of ranges) {
-      // Remove decorations inside this block, plus zero-width widgets at `to` (to avoid leaks). Spanning decorations at `to` belong to the next block.
+      // Owned by this block: everything in `[from, to)` plus zero-width widgets at `to`.
+      // Keep this in sync with filterOutOfRangeDecorations.
       const stale = set
         .find(from, to)
         .filter(

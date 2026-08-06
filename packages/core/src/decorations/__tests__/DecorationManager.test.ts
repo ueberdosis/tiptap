@@ -633,6 +633,35 @@ describe('DecorationManager boundary decorations', () => {
     })
   }
 
+  /** changedRanges extension with an inline decoration anchored at each inner block end. */
+  function spanningBoundaryExtension(name: string) {
+    return Extension.create({
+      name,
+      addDecorations() {
+        const scan = (state: EditorState, from: number, to: number) => {
+          const decorations: Decoration[] = []
+
+          state.doc.forEach((node, pos) => {
+            const blockEnd = pos + node.nodeSize
+
+            if (blockEnd < state.doc.content.size && blockEnd >= from && blockEnd <= to) {
+              decorations.push(Decoration.Inline(blockEnd, blockEnd + 1, { class: 'boundary' }))
+            }
+          })
+
+          return decorations
+        }
+
+        return {
+          update: 'changedRanges' as const,
+          create: ({ state }: { state: EditorState }) => scan(state, 0, state.doc.content.size),
+          createInRange: ({ state, from, to }: { state: EditorState; from: number; to: number }) =>
+            scan(state, from, to),
+        }
+      },
+    })
+  }
+
   it('does not leak widget decorations at inner block boundaries across keystrokes', () => {
     const editor = new Editor({
       extensions: [Document, Paragraph, Text, boundaryWidgetExtension('boundaryWidget')],
@@ -673,6 +702,28 @@ describe('DecorationManager boundary decorations', () => {
     // Both node decorations should survive: p1 rebuilt, p2 preserved.
     // With the from <= to bug, p2's decoration was removed and not recreated.
     expect(after.mergedDecorationSet.find().length).toBe(2)
+
+    editor.destroy()
+  })
+
+  it('does not duplicate spanning decorations anchored at a block end across keystrokes', () => {
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, spanningBoundaryExtension('spanningBoundary')],
+      content: '<p>foo</p><p>bar</p>',
+    })
+
+    // One decoration, anchored at the end of p1 and reaching into p2.
+    expect(getState(editor)!.mergedDecorationSet.find().length).toBe(1)
+
+    // Type 5 times in the first paragraph, so only p1's block is rebuilt.
+    for (let index = 0; index < 5; index += 1) {
+      editor.commands.insertContentAt(1, 'X')
+    }
+
+    const after = getState(editor)!
+
+    // Without the fix it was re-added on every keystroke (1 + 5 = 6).
+    expect(after.mergedDecorationSet.find().length).toBe(1)
 
     editor.destroy()
   })
