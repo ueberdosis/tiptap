@@ -280,7 +280,7 @@ export class ReactNodeView<
 
     this.selectionRafId = requestAnimationFrame(() => {
       this.selectionRafId = null
-      // getPos() returns undefined once ProseMirror has detached this node view.
+      // getPos() is undefined while the node view is mid-update, so fall back to the last known position.
       const pos = this.getPos() ?? this.currentPos
       if (typeof pos !== 'number') {
         return

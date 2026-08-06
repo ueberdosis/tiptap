@@ -86,6 +86,10 @@ const ItemComponent = () => {
   return React.createElement(NodeViewWrapper, null, React.createElement(NodeViewContent))
 }
 
+const WidgetComponent = () => {
+  return React.createElement(NodeViewWrapper, null)
+}
+
 const ReactParagraphComponent = () => {
   return React.createElement(NodeViewWrapper, null, React.createElement(NodeViewContent))
 }
@@ -120,9 +124,23 @@ const Container = Node.create({
   },
 })
 
-const WidgetComponent = () => {
-  return React.createElement(NodeViewWrapper, null)
-}
+const Item = Node.create({
+  name: 'item',
+  group: 'block',
+  content: 'paragraph+',
+
+  parseHTML() {
+    return [{ tag: 'div[data-type="item"]' }]
+  },
+
+  renderHTML() {
+    return ['div', { 'data-type': 'item' }, 0]
+  },
+
+  addNodeView() {
+    return ReactNodeViewRenderer(ItemComponent)
+  },
+})
 
 const Widget = Node.create({
   name: 'widget',
@@ -139,24 +157,6 @@ const Widget = Node.create({
 
   addNodeView() {
     return ReactNodeViewRenderer(WidgetComponent)
-  },
-})
-
-const Item = Node.create({
-  name: 'item',
-  group: 'block',
-  content: 'paragraph+',
-
-  parseHTML() {
-    return [{ tag: 'div[data-type="item"]' }]
-  },
-
-  renderHTML() {
-    return ['div', { 'data-type': 'item' }, 0]
-  },
-
-  addNodeView() {
-    return ReactNodeViewRenderer(ItemComponent)
   },
 })
 
@@ -297,9 +297,27 @@ describe('ReactNodeViewRenderer', () => {
 
     await flushAnimationFrame()
 
-    const widget = container.querySelector('.node-widget')
+    const widget = container.querySelector('.node-widget')!
 
-    expect(widget?.classList.contains('ProseMirror-selectednode')).toBe(false)
+    expect(widget.classList.contains('ProseMirror-selectednode')).toBe(false)
+
+    editor.destroy()
+  })
+
+  it('selects the node view when it is selected at its new position', async () => {
+    const editor = createEditorWithWidget()
+    const { container } = render(React.createElement(EditorContent, { editor }))
+
+    await flushMicrotasks()
+
+    editor.commands.insertContentAt(4, 'def')
+    editor.commands.setNodeSelection(8)
+
+    await flushAnimationFrame()
+
+    const widget = container.querySelector('.node-widget')!
+
+    expect(widget.classList.contains('ProseMirror-selectednode')).toBe(true)
 
     editor.destroy()
   })
