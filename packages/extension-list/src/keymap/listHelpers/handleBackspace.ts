@@ -59,8 +59,12 @@ export const handleBackspace = (editor: Editor, name: string, parentListTypes: s
     return false
   }
 
-  // At the start of a list item, lift it out. Top-level items split the
-  // wrapping list around them; nested items get promoted into the outer
-  // list. A second backspace then falls through to the merge branch above.
+  // only intercept at the start of the list item's first child
+  const { $from } = editor.state.selection
+  const itemDepth = $from.depth - 1
+  if ($from.node(itemDepth).type !== editor.schema.nodes[name] || $from.index(itemDepth) !== 0) {
+    return false
+  }
+
   return editor.chain().liftListItem(name).run()
 }
