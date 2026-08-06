@@ -60,6 +60,9 @@ interface WidgetCache {
    * Last props pushed to each widget. Skips re-renders when nothing changed.
    */
   props: Map<string, Record<string, any>>
+  /** Props queued in `create()` and pushed on the next microtask; last write wins per key. */
+  pendingProps: Map<string, Record<string, any>>
+  flushScheduled: boolean
 }
 
 function shallowEqual(a: Record<string, any>, b: Record<string, any>): boolean {
@@ -73,6 +76,30 @@ function shallowEqual(a: Record<string, any>, b: Record<string, any>): boolean {
   return aKeys.every(key => a[key] === b[key])
 }
 
+function flushPendingProps(cache: WidgetCache): void {
+  cache.flushScheduled = false
+
+  for (const [key, props] of cache.pendingProps) {
+    const renderer = cache.renderers.get(key)
+
+    if (renderer) {
+      renderer.updateProps(props)
+      cache.props.set(key, { ...props })
+    }
+  }
+
+  cache.pendingProps.clear()
+}
+
+function scheduleFlush(cache: WidgetCache): void {
+  if (cache.flushScheduled) {
+    return
+  }
+
+  cache.flushScheduled = true
+  queueMicrotask(() => flushPendingProps(cache))
+}
+
 function getCache(editor: Editor): WidgetCache {
   const host = editor as Editor & { [WIDGET_CACHE]?: WidgetCache }
 
@@ -80,12 +107,15 @@ function getCache(editor: Editor): WidgetCache {
     const cache: WidgetCache = {
       renderers: new Map(),
       props: new Map(),
+      pendingProps: new Map(),
+      flushScheduled: false,
     }
 
     host[WIDGET_CACHE] = cache
 
     // Sweep any widgets still mounted when the editor goes away.
     editor.on('destroy', () => {
+      cache.pendingProps.clear()
       cache.renderers.forEach(renderer => renderer.destroy())
       cache.renderers.clear()
       cache.props.clear()
@@ -133,17 +163,19 @@ export function ReactWidgetRenderer<P extends Record<string, any> = object>(
   } = options
   const cache = getCache(editor)
 
-  // Push fresh props to already-mounted widgets here, not in `render`.
-  // ProseMirror skips `render` when reusing DOM, so this is the only reliable
-  // place. Skip when nothing changed to avoid re-rendering every widget.
+  // Queue prop updates for already-mounted widgets. `create()` runs inside
+  // ProseMirror's `state.apply`, which must be pure, so we defer the React
+  // store mutation to a microtask. ProseMirror skips `render` when reusing
+  // DOM, so the microtask flush is the only reliable update path for mounted
+  // widgets. Skip when nothing changed to avoid scheduling a flush.
   const existing = cache.renderers.get(key)
 
   if (existing) {
     const previous = cache.props.get(key)
 
     if (!previous || !shallowEqual(previous, props)) {
-      existing.updateProps(props)
-      cache.props.set(key, { ...props })
+      cache.pendingProps.set(key, props)
+      scheduleFlush(cache)
     }
   }
 
