@@ -462,6 +462,8 @@ export class ExtensionManager {
    * and non-matching forward links must remain intact.
    */
   destroy() {
+    this.decorationManager?.destroy()
+
     this.extensions.forEach(extension => {
       let current: any = extension
 
