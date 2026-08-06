@@ -494,3 +494,112 @@ describe('DecorationManager editor.state staleness warning', () => {
     editor.destroy()
   })
 })
+
+describe('DecorationManager boundary decorations', () => {
+  /** changedRanges extension that places a widget at each inner block boundary. */
+  function boundaryWidgetExtension(name: string) {
+    return Extension.create({
+      name,
+      addDecorations() {
+        const scan = (state: EditorState, from: number, to: number) => {
+          const decorations: Decoration[] = []
+
+          state.doc.forEach((node, pos, index) => {
+            const blockEnd = pos + node.nodeSize
+
+            // Only inner boundaries (not end of doc), where the leak shows.
+            if (blockEnd < state.doc.content.size && blockEnd >= from && blockEnd <= to) {
+              decorations.push(
+                Decoration.Widget(blockEnd, () => document.createElement('span'), {
+                  key: `boundary-widget-${index}`,
+                }),
+              )
+            }
+          })
+
+          return decorations
+        }
+
+        return {
+          update: 'changedRanges' as const,
+          create: ({ state }: { state: EditorState }) => scan(state, 0, state.doc.content.size),
+          createInRange: ({ state, from, to }: { state: EditorState; from: number; to: number }) =>
+            scan(state, from, to),
+        }
+      },
+    })
+  }
+
+  /** changedRanges extension that places a node decoration on each top-level block. */
+  function nodeDecorationExtension(name: string) {
+    return Extension.create({
+      name,
+      addDecorations() {
+        const scan = (state: EditorState, from: number, to: number) => {
+          const decorations: Decoration[] = []
+
+          state.doc.forEach((node, pos) => {
+            const blockEnd = pos + node.nodeSize
+
+            if (pos >= from && blockEnd <= to) {
+              decorations.push(Decoration.Node(pos, blockEnd, { class: 'node-deco' }))
+            }
+          })
+
+          return decorations
+        }
+
+        return {
+          update: 'changedRanges' as const,
+          create: ({ state }: { state: EditorState }) => scan(state, 0, state.doc.content.size),
+          createInRange: ({ state, from, to }: { state: EditorState; from: number; to: number }) =>
+            scan(state, from, to),
+        }
+      },
+    })
+  }
+
+  it('does not leak widget decorations at inner block boundaries across keystrokes', () => {
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, boundaryWidgetExtension('boundaryWidget')],
+      content: '<p>foo</p><p>bar</p>',
+    })
+
+    // One widget: at the end of p1 (the inner boundary), none at end of p2 (end of doc).
+    expect(getState(editor)!.mergedDecorationSet.find().length).toBe(1)
+
+    // Type 5 times in the first paragraph — only p1's block is rebuilt each time.
+    for (let i = 0; i < 5; i++) {
+      editor.commands.insertContentAt(1, 'X')
+    }
+
+    const after = getState(editor)!
+
+    // Without the fix, each keystroke adds a duplicate widget (1 + 5 = 6).
+    expect(after.mergedDecorationSet.find().length).toBe(1)
+    expect(after.widgetKeys.size).toBe(1)
+
+    editor.destroy()
+  })
+
+  it('preserves node decorations on the next block when editing the previous block', () => {
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, nodeDecorationExtension('nodeDeco')],
+      content: '<p>foo</p><p>bar</p>',
+    })
+
+    // Two node decorations: one per paragraph.
+    expect(getState(editor)!.mergedDecorationSet.find().length).toBe(2)
+
+    // Type in the first paragraph — only p1's block is rebuilt.
+    editor.commands.insertContentAt(1, 'X')
+
+    const after = getState(editor)!
+
+    // Both node decorations should survive: p1 rebuilt, p2 preserved.
+    // With the from <= to bug, p2's decoration was removed and not recreated.
+    expect(after.mergedDecorationSet.find().length).toBe(2)
+
+    editor.destroy()
+  })
+})

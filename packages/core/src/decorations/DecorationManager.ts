@@ -236,10 +236,13 @@ export class DecorationManager {
     let set = mapDecorationSet(previousSet, tr.mapping, tr.doc, widgetKeys)
 
     for (const { from, to } of ranges) {
-      // inclusive on `to` to match the create filter and avoid leaking duplicates.
+      // Remove decorations inside this block, plus zero-width widgets at `to` (to avoid leaks). Spanning decorations at `to` belong to the next block.
       const stale = set
         .find(from, to)
-        .filter(decoration => decoration.from >= from && decoration.from <= to)
+        .filter(
+          decoration =>
+            decoration.from >= from && (decoration.from < to || decoration.from === decoration.to),
+        )
 
       for (const decoration of stale) {
         const key = widgetKeyOf(decoration)
