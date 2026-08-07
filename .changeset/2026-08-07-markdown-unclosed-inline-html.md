@@ -2,4 +2,4 @@
 '@tiptap/markdown': patch
 ---
 
-Parsing markdown with an unclosed inline HTML tag such as `<b>123` no longer produces a paragraph nested inside another paragraph, which was invalid for the default schema.
+Markdown with inline HTML such as an unclosed `<b>` tag no longer parses into an invalid document. The tag is dropped and its text is kept.

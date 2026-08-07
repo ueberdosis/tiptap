@@ -84,12 +84,27 @@ describe('MarkdownManager Mixed Markdown + HTML', () => {
     expect(doc.content).toEqual([{ type: 'paragraph', content: [{ type: 'text', text: '123' }] }])
   })
 
-  it('keeps the surrounding text of an unclosed inline HTML tag', () => {
+  it('parses an unclosed inline HTML tag and keeps the surrounding text', () => {
     const md = 'a <b> b'
     const doc = manager.parse(md)
 
-    const paragraph = doc.content![0]
-    expect(paragraph.content!.every((n: any) => n.type === 'text')).toBe(true)
-    expect(paragraph.content!.map((n: any) => n.text).join('')).toBe('a  b')
+    // The dropped tag leaves both of the spaces around it.
+    expect(doc.content).toEqual([{ type: 'paragraph', content: [{ type: 'text', text: 'a  b' }] }])
+  })
+
+  it('parses an empty inline HTML element without nesting a paragraph', () => {
+    const md = 'a <span></span> b'
+    const doc = manager.parse(md)
+
+    expect(doc.content).toEqual([{ type: 'paragraph', content: [{ type: 'text', text: 'a  b' }] }])
+  })
+
+  it('parses inline HTML for a block element as its inline content', () => {
+    const md = 'a <h1>title</h1> b'
+    const doc = manager.parse(md)
+
+    expect(doc.content).toEqual([
+      { type: 'paragraph', content: [{ type: 'text', text: 'a title b' }] },
+    ])
   })
 })
