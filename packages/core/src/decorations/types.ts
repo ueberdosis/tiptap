@@ -29,7 +29,13 @@ export interface DecorationShouldUpdateProps {
 }
 
 export interface DecorationRangeProps extends DecorationCreateProps {
+  /** Start of the block range to scan, inclusive. */
   from: number
+  /**
+   * End of the block range to scan, exclusive. `to` is the next block's start
+   * and that block rebuilds it, so decorations anchored there are ignored.
+   * The last block is the exception: it owns the end of the document.
+   */
   to: number
 }
 
