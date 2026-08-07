@@ -17,6 +17,17 @@ export interface WidgetDecorationOptions {
 
 export type DecorationKind = 'inline' | 'node' | 'widget'
 
+/**
+ * Base class for decorations built in `addDecorations()`. Shadows `Decoration`
+ * from `@tiptap/pm/view`, like core's `Node` and `Mark` do, so alias one of them
+ * in files that need both.
+ *
+ * @example
+ * import { Decoration } from '@tiptap/core'
+ * import { Decoration as PMDecoration } from '@tiptap/pm/view'
+ *
+ * const highlight = Decoration.Inline(1, 5, { class: 'highlight' })
+ */
 export abstract class Decoration {
   abstract kind: DecorationKind
   abstract get anchor(): number
