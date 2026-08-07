@@ -156,7 +156,7 @@ export class Editor extends EventEmitter<EditorEvents> {
       })
     }
 
-    warnOnDuplicatedProseMirrorModel(this.editorState.doc)
+    warnOnDuplicatedProseMirrorModel(this.schema)
 
     if (this.options.element) {
       this.mount(this.options.element)

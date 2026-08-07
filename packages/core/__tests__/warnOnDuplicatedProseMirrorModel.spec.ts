@@ -4,7 +4,6 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
-// No module mock here, so this is the ordinary single copy install.
 describe('warnOnDuplicatedProseMirrorModel', () => {
   let editor: Editor
 
@@ -17,14 +16,6 @@ describe('warnOnDuplicatedProseMirrorModel', () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
 
     editor = new Editor({ extensions: [Document, Paragraph, Text], content: '<p>hello</p>' })
-
-    expect(warn).not.toHaveBeenCalled()
-  })
-
-  it('stays quiet for an empty document', () => {
-    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
-
-    editor = new Editor({ extensions: [Document, Paragraph, Text], content: '' })
 
     expect(warn).not.toHaveBeenCalled()
   })

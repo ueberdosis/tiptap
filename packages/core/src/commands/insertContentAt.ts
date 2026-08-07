@@ -187,7 +187,6 @@ export const insertContentAt: RawCommands['insertContentAt'] =
           from = Math.max(0, from - 1)
         }
 
-        // Nodes cross a duplicated prosemirror-model, a fragment does not.
         tr.replaceWith(from, to, nodes)
       }
 

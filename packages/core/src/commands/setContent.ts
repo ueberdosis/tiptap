@@ -61,7 +61,6 @@ export const setContent: RawCommands['setContent'] =
       })
 
       if (dispatch) {
-        // Nodes cross a duplicated prosemirror-model, a fragment does not.
         const nodes = isFragment(document) ? document.content : [document]
 
         tr.replaceWith(0, doc.content.size, nodes).setMeta('preventUpdate', !emitUpdate)

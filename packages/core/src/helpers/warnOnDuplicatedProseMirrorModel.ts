@@ -1,33 +1,40 @@
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Schema } from '@tiptap/pm/model'
 import { Fragment } from '@tiptap/pm/model'
-import { Transform } from '@tiptap/pm/transform'
+import { ReplaceStep } from '@tiptap/pm/transform'
 
 let hasChecked = false
 
 /**
- * Warns once when prosemirror-model is loaded twice, which breaks wrapping and splitting nodes.
- * @param doc A document created from the editor schema
- * @returns Nothing, the warning goes to the console
+ * Warns once when prosemirror-model is loaded twice
+ * @param schema The editor schema
+ * @returns void
  * @example ```js
- * warnOnDuplicatedProseMirrorModel(editor.state.doc)
+ * warnOnDuplicatedProseMirrorModel(editor.schema)
  * ```
  */
-export function warnOnDuplicatedProseMirrorModel(doc: ProseMirrorNode): void {
+export function warnOnDuplicatedProseMirrorModel(schema: Schema): void {
   if (hasChecked) {
     return
   }
 
   hasChecked = true
 
+  let content
+
   try {
-    // Replacing nothing with nothing, so only the fragment identity check can fail.
-    new Transform(doc).replaceWith(0, 0, Fragment.empty)
-  } catch (error) {
-    // Anything else is not ours to report, a probe must never break the editor.
-    if (error instanceof RangeError && error.message.includes('prosemirror-model')) {
-      console.warn(
-        '[tiptap warn]: prosemirror-model is loaded more than once. Wrapping and splitting nodes will fail. Deduplicate it in your lock file, or alias it to a single copy in your bundler.',
-      )
-    }
+    // prosemirror-transform fills this step with the prosemirror-model it resolved
+    // itself, so a foreign fragment means a second copy is loaded.
+    content = ReplaceStep.fromJSON(schema, { from: 0, to: 0 }).slice.content
+  } catch {
+    // A warning we cannot stand behind is worse than no warning.
+    return
   }
+
+  if (content instanceof Fragment) {
+    return
+  }
+
+  console.warn(
+    '[tiptap warn]: prosemirror-model is loaded more than once. Wrapping and splitting nodes will fail. Deduplicate it in your lock file, or alias it to a single copy in your bundler.',
+  )
 }

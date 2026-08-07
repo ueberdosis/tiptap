@@ -6,8 +6,8 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
-// Split core off the copy the rest of ProseMirror uses. Own file because the
-// warning fires once per process.
+// Put @tiptap/core on the CJS build and the rest of ProseMirror on the ESM one.
+// Own file because the warning fires once per process.
 vi.mock('@tiptap/pm/model', () => {
   const require = createRequire(import.meta.url)
 

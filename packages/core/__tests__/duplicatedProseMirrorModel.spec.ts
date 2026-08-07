@@ -7,8 +7,7 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
-// Put @tiptap/core on the CJS build and the rest of ProseMirror on the ESM one,
-// the split a bundler produces when part of the graph is required, part imported.
+// Put @tiptap/core on the CJS build and the rest of ProseMirror on the ESM one
 vi.mock('@tiptap/pm/model', () => {
   const require = createRequire(import.meta.url)
 
