@@ -1,5 +1,6 @@
-import { AttrStep } from '@tiptap/pm/transform'
 import type { Step } from '@tiptap/pm/transform'
+
+import { isAttrStep } from './isAttrStep.js'
 
 /**
  * Check if a step has a resolvable changed range.
@@ -13,7 +14,7 @@ export function hasResolvableChangedRange(step: Step): boolean {
     hasMappedRange = true
   })
 
-  if (hasMappedRange || step instanceof AttrStep) {
+  if (hasMappedRange || isAttrStep(step)) {
     return true
   }
 

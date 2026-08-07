@@ -683,6 +683,92 @@ describe('changedRanges updates', () => {
     editor.destroy()
   })
 
+  it('warns once per editor, not once per process, for out-of-range decorations', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const outOfRange = () => ({
+      update: 'changedRanges' as const,
+      create: () => [],
+      createInRange: () => [Decoration.Inline(1, 2, { class: 'oops' })],
+    })
+    const extension = Extension.create({ name: 'deco', addDecorations: outOfRange })
+    const countWarnings = () =>
+      warn.mock.calls.filter(([message]) => String(message).includes('outside the requested range'))
+        .length
+
+    const first = createEditor(extension, '<p>aaa</p><p>bbb</p>')
+
+    first.commands.insertContentAt(8, 'x')
+    // Same extension name, so a module-level dedupe set would silence this.
+    first.commands.insertContentAt(9, 'y')
+    expect(countWarnings()).toBe(1)
+    first.destroy()
+
+    const second = createEditor(extension, '<p>aaa</p><p>bbb</p>')
+
+    second.commands.insertContentAt(8, 'x')
+    expect(countWarnings()).toBe(2)
+    second.destroy()
+
+    warn.mockRestore()
+  })
+
+  it('drops decorations and logs when create throws instead of breaking the update', () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {})
+    const extension = Extension.create({
+      name: 'throwing',
+      addDecorations: () => ({
+        create: () => {
+          throw new Error('boom')
+        },
+      }),
+    })
+
+    const editor = createEditor(extension, '<p>aaa</p>')
+
+    expect(error).toHaveBeenCalledWith(
+      expect.stringContaining('threw in `addDecorations().create()`'),
+      expect.any(Error),
+    )
+    expect(getDecorations(editor)).toHaveLength(0)
+
+    // The transaction still applies, so the document stays editable.
+    editor.commands.insertContentAt(1, 'x')
+    expect(editor.state.doc.textContent).toBe('xaaa')
+
+    error.mockRestore()
+    editor.destroy()
+  })
+
+  it('drops decorations and logs when createInRange throws', () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {})
+    const extension = Extension.create({
+      name: 'throwing',
+      addDecorations: () => ({
+        update: 'changedRanges' as const,
+        create: ({ state }) => [Decoration.Node(0, state.doc.firstChild?.nodeSize ?? 0)],
+        createInRange: () => {
+          throw new Error('boom')
+        },
+      }),
+    })
+
+    const editor = createEditor(extension, '<p>aaa</p>')
+
+    expect(getDecorations(editor)).toHaveLength(1)
+
+    editor.commands.insertContentAt(1, 'x')
+
+    expect(error).toHaveBeenCalledWith(
+      expect.stringContaining('threw in `addDecorations().createInRange()`'),
+      expect.any(Error),
+    )
+    expect(editor.state.doc.textContent).toBe('xaaa')
+    expect(getDecorations(editor)).toHaveLength(0)
+
+    error.mockRestore()
+    editor.destroy()
+  })
+
   it('keeps a widget placed at the end of the document (anchor === to)', () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     // <p>aaa</p> -> doc.content.size === 5. The only top-level block range

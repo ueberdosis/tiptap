@@ -44,6 +44,7 @@ export class DecorationManager {
   entries: ResolvedDecorationEntry[]
   plugin: Plugin<DecorationManagerState> | null
   private warnedWidgetKeys = new Set<string>()
+  private warnedOutOfRangeExtensions = new Set<string>()
   private readonly handleBeforeTransaction = ({ nextState }: { nextState: EditorState }) => {
     const state = DECORATION_MANAGER_PLUGIN_KEY.getState(nextState)
 
@@ -271,18 +272,21 @@ export class DecorationManager {
 
       set = set.remove(stale)
 
-      const rangeDecorations = filterOutOfRangeDecorations(
-        spec.createInRange!({
-          editor: this.editor,
-          state: newState,
-          view: this.mountedView,
-          from,
-          to,
-        } satisfies DecorationRangeProps),
+      const rangeDecorations = filterOutOfRangeDecorations({
+        decorations: this.runCreate(name, 'createInRange', () =>
+          spec.createInRange!({
+            editor: this.editor,
+            state: newState,
+            view: this.mountedView,
+            from,
+            to,
+          } satisfies DecorationRangeProps),
+        ),
         from,
         to,
-        name,
-      )
+        extensionName: name,
+        warnedExtensions: this.warnedOutOfRangeExtensions,
+      })
       const { decorations: pmDecorations, widgetKeys: addedKeys } = decorationsToPMDecorations(
         rangeDecorations,
         name,
@@ -310,13 +314,41 @@ export class DecorationManager {
     spec: DecorationSpec,
     state: EditorState,
   ): { set: DecorationSet; widgetKeys: Set<string> } {
-    const decorations: Decoration[] = spec.create({
-      editor: this.editor,
-      state,
-      view: this.mountedView,
-    } satisfies DecorationCreateProps)
+    const decorations = this.runCreate(name, 'create', () =>
+      spec.create({
+        editor: this.editor,
+        state,
+        view: this.mountedView,
+      } satisfies DecorationCreateProps),
+    )
 
     return buildDecorationSet(state.doc, decorations, name)
+  }
+
+  /**
+   * Runs a decoration callback and swallows anything it throws. These run inside
+   * `state.apply`, where an uncaught error would abort the whole transaction.
+   * @param name The extension name.
+   * @param method The callback name, used in the error message.
+   * @param create The callback to run.
+   * @returns The decorations, or an empty array if the callback threw.
+   */
+  private runCreate(
+    name: string,
+    method: 'create' | 'createInRange',
+    create: () => Decoration[],
+  ): Decoration[] {
+    try {
+      return create()
+    } catch (error) {
+      console.error(
+        `[tiptap error]: Extension "${name}" threw in \`addDecorations().${method}()\`. ` +
+          'Its decorations were dropped for this update.',
+        error,
+      )
+
+      return []
+    }
   }
 
   private warnDuplicateWidgetKeys(state: DecorationManagerState): void {

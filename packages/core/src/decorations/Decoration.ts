@@ -10,8 +10,9 @@ export interface WidgetDecorationOptions {
   /**
    * runs when ProseMirror drops the widget, also on editor destroy and unmount.
    * skipped on teardown for widgets made with the React or Vue widget renderer.
+   * receives the DOM node, not a ProseMirror node.
    */
-  destroy?: (node: Node) => void
+  destroy?: (node: globalThis.Node) => void
 }
 
 export type DecorationKind = 'inline' | 'node' | 'widget'

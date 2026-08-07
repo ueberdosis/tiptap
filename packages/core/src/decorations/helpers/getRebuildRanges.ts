@@ -1,10 +1,10 @@
 import type { Node } from '@tiptap/pm/model'
 import type { Transaction } from '@tiptap/pm/state'
-import type { Step } from '@tiptap/pm/transform'
 
 import { getChangedRanges } from '../../helpers/getChangedRanges.js'
 import type { Range } from '../../types.js'
 import { hasResolvableChangedRange } from './hasResolvableChangedRange.js'
+import { isAttrStep } from './isAttrStep.js'
 
 export type RebuildRangeResolution = { type: 'ranges'; ranges: Range[] } | { type: 'full' }
 
@@ -55,21 +55,15 @@ export function getRebuildRanges(tr: Transaction, doc: Node): RebuildRangeResolu
 
   const newRanges: Range[] = getChangedRanges(tr).map(({ newRange }) => newRange)
 
+  // An AttrStep maps no position, so getChangedRanges misses it.
   tr.steps.forEach((step, index) => {
-    // @ts-expect-error: ranges is not in StepMap's public type but is always present.
-    if (step.getMap().ranges.length) return
+    if (!isAttrStep(step)) {
+      return
+    }
 
-    const { from, pos, to } = step as Step & { from?: number; pos?: number; to?: number }
+    const mapping = tr.mapping.slice(index)
 
-    // from/to steps are already handled by getChangedRanges.
-    if (from !== undefined || to !== undefined) return
-
-    if (pos === undefined) return
-
-    const newStart = tr.mapping.slice(index).map(pos, -1)
-    const newEnd = tr.mapping.slice(index).map(pos + 1)
-
-    newRanges.push({ from: newStart, to: newEnd })
+    newRanges.push({ from: mapping.map(step.pos, -1), to: mapping.map(step.pos + 1) })
   })
 
   const ranges: Range[] = []

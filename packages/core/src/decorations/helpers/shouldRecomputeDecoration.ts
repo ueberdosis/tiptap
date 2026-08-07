@@ -20,11 +20,5 @@ export function shouldRecomputeDecoration(
     return false
   }
 
-  // changedRanges already handles attr-only steps efficiently by rebuilding
-  // just the affected block, so it should react to them.
-  if (spec.update === 'changedRanges') {
-    return spec.shouldUpdate ? spec.shouldUpdate(props) : props.tr.docChanged
-  }
-
   return spec.shouldUpdate ? spec.shouldUpdate(props) : props.tr.docChanged
 }
