@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-import { getEditor } from '../../../test/helpers.js'
+import { focusEditorEnd, getEditor } from '../../../test/helpers.js'
 
 const demoName = 'DecorationComponents'
 const frameworkPaths = ['React', 'Vue']
@@ -13,6 +13,44 @@ test.describe(`${demoPath}/${demoName}`, () => {
     test.describe(frameworkPath, () => {
       test.beforeEach(async ({ page }) => {
         await page.goto(fullDemoPath)
+      })
+
+      test('renders one counter per paragraph, indexed and starting at zero', async ({ page }) => {
+        const editor = await getEditor(page)
+        const counters = page.locator('.decoration-counter')
+
+        await expect(counters).toHaveCount(2)
+        await expect(counters).toHaveText(['¶ 1 · 👍 0', '¶ 2 · 👍 0'])
+
+        // The heading must stay undecorated, only paragraphs get a counter.
+        await expect(editor.locator('p .decoration-counter')).toHaveCount(2)
+        await expect(editor.locator('h2 .decoration-counter')).toHaveCount(0)
+      })
+
+      test('increments only the clicked counter', async ({ page }) => {
+        const counters = page.locator('.decoration-counter')
+
+        await expect(counters).toHaveCount(2)
+
+        await counters.nth(0).click()
+        await counters.nth(0).click()
+        await counters.nth(0).click()
+        await counters.nth(1).click()
+
+        await expect(counters).toHaveText(['¶ 1 · 👍 3', '¶ 2 · 👍 1'])
+      })
+
+      test('adds a counter with the next index for a new paragraph', async ({ page }) => {
+        const counters = page.locator('.decoration-counter')
+
+        await expect(counters).toHaveCount(2)
+
+        await focusEditorEnd(page)
+        await page.keyboard.press('Enter')
+        await page.keyboard.type('A third paragraph.')
+
+        await expect(counters).toHaveCount(3)
+        await expect(counters).toHaveText(['¶ 1 · 👍 0', '¶ 2 · 👍 0', '¶ 3 · 👍 0'])
       })
 
       test('keeps a widget mounted when its paragraph is edited and split', async ({ page }) => {

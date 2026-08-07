@@ -1,12 +1,6 @@
-import type { Locator } from '@playwright/test'
 import { expect, test } from '@playwright/test'
 
-import { getEditor } from '../../../test/helpers.js'
-
-/** Places the caret at the end of the document. Clicking plus Ctrl+End is flaky here. */
-async function focusDocumentEnd(editor: Locator) {
-  await editor.evaluate((el: any) => el.editor.commands.focus('end'))
-}
+import { focusEditorEnd, getEditor } from '../../../test/helpers.js'
 
 const demoName = 'Decorations'
 const frameworkPaths = ['React', 'Vue']
@@ -54,7 +48,7 @@ test.describe(`${demoPath}/${demoName}`, () => {
       test('maps and renders decorations for content typed by the user', async ({ page }) => {
         const editor = await getEditor(page)
 
-        await focusDocumentEnd(editor)
+        await focusEditorEnd(page)
         await page.keyboard.type(' Tiptap rocks.')
 
         await expect(editor.locator('.decoration-highlight')).toHaveCount(3)
@@ -66,7 +60,7 @@ test.describe(`${demoPath}/${demoName}`, () => {
       test('decorates a heading added by the user', async ({ page }) => {
         const editor = await getEditor(page)
 
-        await focusDocumentEnd(editor)
+        await focusEditorEnd(page)
         await page.keyboard.press('Enter')
         await page.keyboard.type('## Fresh heading')
 
