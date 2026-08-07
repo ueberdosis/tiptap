@@ -3,6 +3,7 @@
  */
 
 import { Document } from '@tiptap/extension-document'
+import { HardBreak } from '@tiptap/extension-hard-break'
 import { Heading } from '@tiptap/extension-heading'
 import { Italic } from '@tiptap/extension-italic'
 import { Paragraph } from '@tiptap/extension-paragraph'
@@ -12,7 +13,7 @@ import { beforeEach, describe, expect, it } from 'vitest'
 
 describe('MarkdownManager Mixed Markdown + HTML', () => {
   let manager: MarkdownManager
-  const basicExtensions = [Document, Paragraph, Text, Heading, Italic]
+  const basicExtensions = [Document, Paragraph, Text, Heading, Italic, HardBreak]
 
   beforeEach(() => {
     manager = new MarkdownManager({ extensions: basicExtensions })
@@ -105,6 +106,22 @@ describe('MarkdownManager Mixed Markdown + HTML', () => {
 
     expect(doc.content).toEqual([
       { type: 'paragraph', content: [{ type: 'text', text: 'a title b' }] },
+    ])
+  })
+
+  it('parses inline HTML for an inline node and keeps the node', () => {
+    const md = 'a <br> b'
+    const doc = manager.parse(md)
+
+    expect(doc.content).toEqual([
+      {
+        type: 'paragraph',
+        content: [
+          { type: 'text', text: 'a ' },
+          { type: 'hardBreak' },
+          { type: 'text', text: ' b' },
+        ],
+      },
     ])
   })
 })
