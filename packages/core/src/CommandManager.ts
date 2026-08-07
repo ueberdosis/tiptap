@@ -17,6 +17,10 @@ export class CommandManager {
 
   customState?: EditorState
 
+  private destroyed = false
+
+  private commandNames: string[] = []
+
   constructor(props: { editor: Editor; state?: EditorState }) {
     this.editor = props.editor
     this.rawCommands = this.editor.extensionManager.commands
@@ -27,11 +31,31 @@ export class CommandManager {
     return !!this.customState
   }
 
+  /**
+   * Marks the manager as destroyed. Commands become safe no-ops, the command API
+   * remains unchanged, and extension references are released for garbage collection.
+   */
+  public destroy(): void {
+    if (this.destroyed) {
+      return
+    }
+
+    this.destroyed = true
+    this.commandNames = Object.keys(this.rawCommands)
+    this.rawCommands = {}
+  }
+
   get state(): EditorState {
     return this.customState || this.editor.state
   }
 
   get commands(): SingleCommands {
+    if (this.destroyed) {
+      return Object.fromEntries(
+        this.commandNames.map(name => [name, () => false]),
+      ) as unknown as SingleCommands
+    }
+
     const { rawCommands, editor, state } = this
     const { view } = editor
     const { tr } = state
@@ -63,6 +87,15 @@ export class CommandManager {
   }
 
   public createChain(startTr?: Transaction, shouldDispatch = true): ChainedCommands {
+    if (this.destroyed) {
+      const chain = {
+        ...Object.fromEntries(this.commandNames.map(name => [name, () => chain])),
+        run: () => false,
+      } as unknown as ChainedCommands
+
+      return chain
+    }
+
     const { rawCommands, editor, state } = this
     const { view } = editor
     const callbacks: boolean[] = []
@@ -104,6 +137,13 @@ export class CommandManager {
   }
 
   public createCan(startTr?: Transaction): CanCommands {
+    if (this.destroyed) {
+      return {
+        ...Object.fromEntries(this.commandNames.map(name => [name, () => false])),
+        chain: () => this.createChain(startTr, false),
+      } as CanCommands
+    }
+
     const { rawCommands, state } = this
     const dispatch = false
     const tr = startTr || state.tr
