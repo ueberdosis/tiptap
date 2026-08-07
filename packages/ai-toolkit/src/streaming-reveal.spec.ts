@@ -60,10 +60,13 @@ function remoteInsert(ydoc: Y.Doc, index: number, text: string): void {
   Y.applyUpdate(ydoc, Y.encodeStateAsUpdate(remote, Y.encodeStateVector(ydoc)))
 }
 
-/** Collects the extension's current reveal decorations from the editor's live state. */
-function revealDecorations(editor: Editor): Array<{ from: number; to: number; style: string }> {
+/** Collects the extension's current reveal decorations, resolved against `state`. */
+function revealDecorations(
+  editor: Editor,
+  state: unknown = editor.state,
+): Array<{ from: number; to: number; style: string }> {
   for (const plugin of editor.state.plugins) {
-    const set = (plugin as any).props?.decorations?.call(plugin, editor.state)
+    const set = (plugin as any).props?.decorations?.call(plugin, state)
     const found = (set?.find?.() ?? []).filter(
       (d: any) => d.type?.attrs?.class === 'ai-insert-reveal',
     )
@@ -123,6 +126,39 @@ describe('AiInsertReveal', () => {
     editor.destroy()
   })
 
+  it('reveals an insert at the very end of the document', async () => {
+    const { editor, ydoc } = await createCollabEditor()
+
+    remoteInsert(ydoc, 5, '!')
+
+    expect(editor.getText()).toBe('Hello!')
+    const decorations = revealDecorations(editor)
+    expect(decorations).toHaveLength(1)
+    expect(decorations[0].to - decorations[0].from).toBe(1)
+    expect(decorations[0].to).toBeLessThanOrEqual(editor.state.doc.content.size)
+
+    editor.destroy()
+  })
+
+  it('clamps a decoration that resolves past the end of the document', async () => {
+    const { editor, ydoc } = await createCollabEditor()
+
+    remoteInsert(ydoc, 5, ' WORLD')
+    expect(revealDecorations(editor)).toHaveLength(1)
+
+    // Y.Doc can be ahead of the PM doc mid-sync, so resolve against a shorter doc.
+    const shortDoc = editor.schema.nodeFromJSON({
+      type: 'doc',
+      content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Hello!' }] }],
+    })
+    const decorations = revealDecorations(editor, { ...editor.state, doc: shortDoc })
+
+    expect(decorations).toHaveLength(1)
+    expect(decorations[0].to).toBe(shortDoc.content.size)
+
+    editor.destroy()
+  })
+
   it("does not reveal the local user's own typing", async () => {
     const { editor } = await createCollabEditor()
 
@@ -147,13 +183,30 @@ describe('AiInsertReveal', () => {
     editor.destroy()
   })
 
-  it('ignores an insert larger than the max reveal range', async () => {
+  it('clamps a run longer than the max reveal range to that many characters', async () => {
     const { editor, ydoc } = await createCollabEditor()
 
     remoteInsert(ydoc, 5, 'x'.repeat(401))
 
     expect(editor.getText()).toBe(`Hello${'x'.repeat(401)}`)
-    expect(revealDecorations(editor)).toHaveLength(0)
+    const decorations = revealDecorations(editor)
+    expect(decorations).toHaveLength(1)
+    // The whole run inserts; only the fade is capped (MAX_REVEAL_RANGE = 400).
+    expect(decorations[0].to - decorations[0].from).toBe(400)
+
+    editor.destroy()
+  })
+
+  it('drops a run whose resolved span no longer matches its inserted length', async () => {
+    const { editor, ydoc } = await createCollabEditor()
+
+    remoteInsert(ydoc, 5, ' WORLD')
+    // 'XYZ' lands inside the first run, so its span drifts from 6 to 9 and drops as stale.
+    remoteInsert(ydoc, 8, 'XYZ')
+
+    const decorations = revealDecorations(editor)
+    expect(decorations).toHaveLength(1)
+    expect(decorations[0].to - decorations[0].from).toBe(3)
 
     editor.destroy()
   })

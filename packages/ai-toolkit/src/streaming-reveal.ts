@@ -18,14 +18,16 @@ export type AiInsertRevealOptions = {
   durationMs: number
 }
 
-/** Limits each revealed streamed insert to guard against mis-resolved positions spanning the document. */
+/** Caps the fade to a run's first N chars; the rest reveals instantly. */
 const MAX_REVEAL_RANGE = 400
 
-/** Anchors each inserted run with Yjs relative positions so it survives y-tiptap document rebuilds. */
+/** Yjs relative positions so each run survives y-tiptap doc rebuilds. */
 type RevealEntry = {
   start: Y.RelativePosition
   end: Y.RelativePosition
   at: number
+  /** Inserted char count; a resolved span that drifts from it is stale. */
+  length: number
 }
 
 /** Minimal shape of the y-sync plugin state we read. */
@@ -42,15 +44,20 @@ function resolveRevealRange(
   entry: RevealEntry,
   now: number,
   durationMs: number,
+  docSize: number,
 ): { from: number; to: number; age: number } | null {
   const age = now - entry.at
   if (age >= durationMs) return null
 
-  const span = resolveSpan(ystate, entry)
+  const span = resolveSpan(ystate, entry, docSize)
   return span === null ? null : { ...span, age }
 }
 
-function resolveSpan(ystate: YSyncState, entry: RevealEntry): { from: number; to: number } | null {
+function resolveSpan(
+  ystate: YSyncState,
+  entry: RevealEntry,
+  docSize: number,
+): { from: number; to: number } | null {
   if (!ystate.binding) return null
 
   const from = relativePositionToAbsolutePosition(
@@ -65,13 +72,23 @@ function resolveSpan(ystate: YSyncState, entry: RevealEntry): { from: number; to
     entry.end,
     ystate.binding.mapping,
   )
-  return from === null || to === null ? null : orderedSpan(from, to)
+  return from === null || to === null ? null : clampSpan(from, to, entry.length, docSize)
 }
 
-function orderedSpan(from: number, to: number): { from: number; to: number } | null {
-  const a = Math.min(from, to)
-  const b = Math.max(from, to)
-  return a >= b || b - a > MAX_REVEAL_RANGE ? null : { from: a, to: b }
+/** Drops a span that drifted from its insert length; a stale mapping, not a real run. */
+function clampSpan(
+  from: number,
+  to: number,
+  length: number,
+  docSize: number,
+): { from: number; to: number } | null {
+  const lo = Math.min(from, to)
+  const hi = Math.max(from, to)
+  if (hi - lo !== length) return null
+
+  const start = Math.max(0, lo)
+  const end = Math.min(docSize, hi, start + MAX_REVEAL_RANGE)
+  return start >= end ? null : { from: start, to: end }
 }
 
 function collectInsertedRuns(event: Y.YEvent<Y.AbstractType<unknown>>, now: number): RevealEntry[] {
@@ -99,12 +116,13 @@ function scanDeltaOp(op: { retain?: number; insert?: unknown }): {
   return op.insert === undefined ? { advance: 0, inserted: 0 } : { advance: 1, inserted: 0 }
 }
 
-/** End anchor uses assoc < 0 so an appended token starts a new run, not extends this one. */
+/** End anchor assoc < 0 so an appended token starts a new run, not extends it. */
 function makeRun(target: Y.XmlText, index: number, length: number, now: number): RevealEntry {
   return {
     start: Y.createRelativePositionFromTypeIndex(target, index),
     end: Y.createRelativePositionFromTypeIndex(target, index + length, -1),
     at: now,
+    length,
   }
 }
 
@@ -148,7 +166,9 @@ export const AiInsertReveal = Extension.create<AiInsertRevealOptions>({
 
             const now = Date.now()
             const decorations = entries
-              .map(entry => resolveRevealRange(ystate, entry, now, durationMs))
+              .map(entry =>
+                resolveRevealRange(ystate, entry, now, durationMs, state.doc.content.size),
+              )
               .filter((range): range is NonNullable<typeof range> => range !== null)
               // y-tiptap rebuilds the whole doc per token, restarting the CSS
               // animation; offset by the run's age to resume the fade instead.
@@ -201,8 +221,7 @@ export const AiInsertReveal = Extension.create<AiInsertRevealOptions>({
             events: Array<Y.YEvent<Y.AbstractType<unknown>>>,
             transaction: Y.Transaction,
           ) => {
-            // Only remote edits, i.e. the AI. The local user's own typing is a
-            // local transaction and must not fade.
+            // Local typing must not fade; the rest is any remote peer, not only the AI.
             if (transaction.local) return
 
             const now = Date.now()
