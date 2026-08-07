@@ -130,6 +130,10 @@ export class PureEditorContent extends React.Component<
 
       element.append(...editor.view.dom.parentNode.childNodes)
 
+      // The move above may have carried the view into a different document or
+      // shadow tree; ProseMirror caches its root node, so make it re-resolve.
+      editor.view.updateRoot()
+
       editor.setOptions({
         element,
       })
