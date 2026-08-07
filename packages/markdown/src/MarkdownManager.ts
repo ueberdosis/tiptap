@@ -972,13 +972,10 @@ export class MarkdownManager {
         }
 
         // For inline HTML, we need to flatten the content appropriately
-        // If there's only one paragraph with content, unwrap it
-        if (
-          parsed.content.length === 1 &&
-          parsed.content[0].type === 'paragraph' &&
-          parsed.content[0].content
-        ) {
-          return parsed.content[0].content
+        // If there's only one paragraph, unwrap it. An empty paragraph carries no
+        // inline content, so we drop it instead of nesting a block node inline.
+        if (parsed.content.length === 1 && parsed.content[0].type === 'paragraph') {
+          return parsed.content[0].content ?? null
         }
 
         return parsed.content

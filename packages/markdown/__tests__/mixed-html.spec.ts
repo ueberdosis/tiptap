@@ -76,4 +76,20 @@ describe('MarkdownManager Mixed Markdown + HTML', () => {
       expect(hasItalic).toBe(true)
     })
   })
+
+  it('parses an unclosed inline HTML tag without nesting a paragraph', () => {
+    const md = '<b>123'
+    const doc = manager.parse(md)
+
+    expect(doc.content).toEqual([{ type: 'paragraph', content: [{ type: 'text', text: '123' }] }])
+  })
+
+  it('keeps the surrounding text of an unclosed inline HTML tag', () => {
+    const md = 'a <b> b'
+    const doc = manager.parse(md)
+
+    const paragraph = doc.content![0]
+    expect(paragraph.content!.every((n: any) => n.type === 'text')).toBe(true)
+    expect(paragraph.content!.map((n: any) => n.text).join('')).toBe('a  b')
+  })
 })
