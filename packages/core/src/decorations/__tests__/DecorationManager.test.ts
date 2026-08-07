@@ -563,97 +563,119 @@ describe('DecorationManager editor.state staleness warning', () => {
 })
 
 describe('DecorationManager boundary decorations', () => {
-  /** changedRanges extension that places a widget at each inner block boundary. */
-  function boundaryWidgetExtension(name: string) {
+  type BlockScan = (state: EditorState, from: number, to: number) => Decoration[]
+
+  /** Builds a changedRanges extension that runs `scan` over the whole doc or one range. */
+  function scanExtension(name: string, scan: BlockScan) {
     return Extension.create({
       name,
-      addDecorations() {
-        const scan = (state: EditorState, from: number, to: number) => {
-          const decorations: Decoration[] = []
+      addDecorations: () => ({
+        update: 'changedRanges' as const,
+        create: ({ state }: { state: EditorState }) => scan(state, 0, state.doc.content.size),
+        createInRange: ({ state, from, to }: { state: EditorState; from: number; to: number }) =>
+          scan(state, from, to),
+      }),
+    })
+  }
 
-          state.doc.forEach((node, pos, index) => {
-            const blockEnd = pos + node.nodeSize
+  /** changedRanges extension that places a widget at each inner block boundary. */
+  function boundaryWidgetExtension(name: string) {
+    return scanExtension(name, (state, from, to) => {
+      const decorations: Decoration[] = []
 
-            // Only inner boundaries (not end of doc), where the leak shows.
-            if (blockEnd < state.doc.content.size && blockEnd >= from && blockEnd <= to) {
-              decorations.push(
-                Decoration.Widget(blockEnd, () => document.createElement('span'), {
-                  key: `boundary-widget-${index}`,
-                }),
-              )
-            }
-          })
+      state.doc.forEach((node, pos, index) => {
+        const blockEnd = pos + node.nodeSize
 
-          return decorations
+        // Only inner boundaries (not end of doc), where the leak shows.
+        if (blockEnd < state.doc.content.size && blockEnd >= from && blockEnd <= to) {
+          decorations.push(
+            Decoration.Widget(blockEnd, () => document.createElement('span'), {
+              key: `boundary-widget-${index}`,
+            }),
+          )
         }
+      })
 
-        return {
-          update: 'changedRanges' as const,
-          create: ({ state }: { state: EditorState }) => scan(state, 0, state.doc.content.size),
-          createInRange: ({ state, from, to }: { state: EditorState; from: number; to: number }) =>
-            scan(state, from, to),
-        }
-      },
+      return decorations
     })
   }
 
   /** changedRanges extension that places a node decoration on each top-level block. */
   function nodeDecorationExtension(name: string) {
-    return Extension.create({
-      name,
-      addDecorations() {
-        const scan = (state: EditorState, from: number, to: number) => {
-          const decorations: Decoration[] = []
+    return scanExtension(name, (state, from, to) => {
+      const decorations: Decoration[] = []
 
-          state.doc.forEach((node, pos) => {
-            const blockEnd = pos + node.nodeSize
+      state.doc.forEach((node, pos) => {
+        const blockEnd = pos + node.nodeSize
 
-            if (pos >= from && blockEnd <= to) {
-              decorations.push(Decoration.Node(pos, blockEnd, { class: 'node-deco' }))
-            }
-          })
-
-          return decorations
+        if (pos >= from && blockEnd <= to) {
+          decorations.push(Decoration.Node(pos, blockEnd, { class: 'node-deco' }))
         }
+      })
 
-        return {
-          update: 'changedRanges' as const,
-          create: ({ state }: { state: EditorState }) => scan(state, 0, state.doc.content.size),
-          createInRange: ({ state, from, to }: { state: EditorState; from: number; to: number }) =>
-            scan(state, from, to),
-        }
-      },
+      return decorations
     })
   }
 
   /** changedRanges extension with an inline decoration anchored at each inner block end. */
   function spanningBoundaryExtension(name: string) {
-    return Extension.create({
-      name,
-      addDecorations() {
-        const scan = (state: EditorState, from: number, to: number) => {
-          const decorations: Decoration[] = []
+    return scanExtension(name, (state, from, to) => {
+      const decorations: Decoration[] = []
 
-          state.doc.forEach((node, pos) => {
-            const blockEnd = pos + node.nodeSize
+      state.doc.forEach((node, pos) => {
+        const blockEnd = pos + node.nodeSize
 
-            if (blockEnd < state.doc.content.size && blockEnd >= from && blockEnd <= to) {
-              decorations.push(Decoration.Inline(blockEnd, blockEnd + 1, { class: 'boundary' }))
-            }
-          })
-
-          return decorations
+        if (blockEnd < state.doc.content.size && blockEnd >= from && blockEnd <= to) {
+          decorations.push(Decoration.Inline(blockEnd, blockEnd + 1, { class: 'boundary' }))
         }
+      })
 
-        return {
-          update: 'changedRanges' as const,
-          create: ({ state }: { state: EditorState }) => scan(state, 0, state.doc.content.size),
-          createInRange: ({ state, from, to }: { state: EditorState; from: number; to: number }) =>
-            scan(state, from, to),
-        }
-      },
+      return decorations
     })
   }
+
+  /** changedRanges extension that places a widget at the start of every top-level block. */
+  function blockStartWidgetExtension(name: string) {
+    return scanExtension(name, (state, from, to) => {
+      const decorations: Decoration[] = []
+
+      state.doc.forEach((node, pos, index) => {
+        if (pos >= from && pos < to) {
+          decorations.push(
+            Decoration.Widget(pos, () => document.createElement('span'), {
+              key: `block-start-widget-${index}`,
+            }),
+          )
+        }
+      })
+
+      return decorations
+    })
+  }
+
+  it('keeps a widget at the start of the next block when editing the previous block', () => {
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, blockStartWidgetExtension('blockStartWidget')],
+      content: '<p>foo</p><p>bar</p><p>baz</p>',
+    })
+
+    const widgetPositions = () =>
+      getState(editor)!
+        .mergedDecorationSet.find()
+        .map(decoration => decoration.from)
+
+    expect(widgetPositions()).toEqual([0, 5, 10])
+
+    editor.commands.insertContentAt(1, 'X')
+
+    // The rebuild range for the first block is [0, 5], and 5 is also the second
+    // block's start. The stale sweep drops the widget there, but createInRange
+    // only runs for the first block, so nothing recreates it.
+    expect(widgetPositions()).toEqual([0, 6, 11])
+    expect(getState(editor)!.widgetKeys.size).toBe(3)
+
+    editor.destroy()
+  })
 
   it('does not leak widget decorations at inner block boundaries across keystrokes', () => {
     const editor = new Editor({

@@ -18,6 +18,7 @@ import { getRebuildRanges } from './helpers/getRebuildRanges.js'
 import { mapDecorations } from './helpers/mapDecorations.js'
 import { mapDecorationSet } from './helpers/mapDecorationSet.js'
 import { mergeDecorationSets } from './helpers/mergeDecorationSets.js'
+import { rangeOwnsPosition } from './helpers/rangeOwnsPosition.js'
 import { unionWidgetKeys } from './helpers/unionWidgetKeys.js'
 import { validateDecorationSpec } from './helpers/validateDecorationSpec.js'
 import { shouldRecomputeDecoration } from './helpers/shouldRecomputeDecoration.js'
@@ -252,15 +253,12 @@ export class DecorationManager {
     const widgetKeys = new Set<string>(previous.widgetKeysByExtension[name] ?? [])
     let set = mapDecorationSet(previousSet, tr.mapping, tr.doc, widgetKeys)
 
+    const docSize = newState.doc.content.size
+
     for (const { from, to } of ranges) {
-      // Owned by this block: everything in `[from, to)` plus zero-width widgets at `to`.
-      // Keep this in sync with filterOutOfRangeDecorations.
       const stale = set
         .find(from, to)
-        .filter(
-          decoration =>
-            decoration.from >= from && (decoration.from < to || decoration.from === decoration.to),
-        )
+        .filter(decoration => rangeOwnsPosition({ position: decoration.from, from, to, docSize }))
 
       for (const decoration of stale) {
         const key = widgetKeyOf(decoration)
@@ -284,6 +282,7 @@ export class DecorationManager {
         ),
         from,
         to,
+        docSize,
         extensionName: name,
         warnedExtensions: this.warnedOutOfRangeExtensions,
       })

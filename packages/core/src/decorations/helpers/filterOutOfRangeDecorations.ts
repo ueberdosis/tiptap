@@ -1,9 +1,12 @@
 import type { Decoration } from '../Decoration.js'
+import { rangeOwnsPosition } from './rangeOwnsPosition.js'
 
 export interface FilterOutOfRangeDecorationsOptions {
   decorations: Decoration[]
   from: number
   to: number
+  /** `doc.content.size` of the document the range was computed against. */
+  docSize: number
   /** The extension that created the decorations, used in the warning. */
   extensionName: string
   /** Extensions already warned about, so a buggy one warns once per editor. */
@@ -11,8 +14,8 @@ export interface FilterOutOfRangeDecorationsOptions {
 }
 
 /**
- * Filter decorations that are out of the half-open range `[from, to)`.
- * Must match the stale filter in `DecorationManager.rebuildRanges`.
+ * Filter decorations the block range `[from, to)` does not own.
+ * Must match the stale sweep in `DecorationManager.rebuildRanges`.
  *
  * @param options The decorations, the range, and the warning bookkeeping.
  * @returns The filtered decorations.
@@ -21,17 +24,19 @@ export function filterOutOfRangeDecorations({
   decorations,
   from,
   to,
+  docSize,
   extensionName,
   warnedExtensions,
 }: FilterOutOfRangeDecorationsOptions): Decoration[] {
   return decorations.filter(decoration => {
-    if (decoration.anchor >= from && decoration.anchor < to) {
+    if (rangeOwnsPosition({ position: decoration.anchor, from, to, docSize })) {
       return true
     }
 
-    // At `to` only widgets belong to this block. Spanning ones belong to the next.
+    // The next block owns `to` and rebuilds it there, so this is a normal
+    // overlap from scanning the boundary, not an authoring mistake.
     if (decoration.anchor === to) {
-      return decoration.kind === 'widget'
+      return false
     }
 
     if (!warnedExtensions.has(extensionName)) {
