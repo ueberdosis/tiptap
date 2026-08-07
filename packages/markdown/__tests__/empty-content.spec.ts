@@ -85,4 +85,16 @@ describe('empty markdown content', () => {
     expect(textNode.text).toBe('bold')
     expect(textNode.marks?.[0]?.type).toBe('bold')
   })
+
+  it('should keep content when the document holds only a real non-breaking space (#7495)', () => {
+    // A lone non-breaking space is real content (editor.isEmpty is false), so
+    // getMarkdown() must not silently discard it by returning "".
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, Markdown],
+      content: '<p>&nbsp;</p>',
+    })
+
+    expect(editor.isEmpty).toBe(false)
+    expect(editor.getMarkdown()).toBe(' ')
+  })
 })
