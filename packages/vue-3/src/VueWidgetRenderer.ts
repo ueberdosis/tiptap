@@ -1,9 +1,10 @@
 import { createWidgetDecoration } from '@tiptap/core'
 import type { Editor, WidgetDecoration, WidgetDecorationOptions } from '@tiptap/core'
-import type { Component, SetupContext } from 'vue'
+import type { Component, FunctionalComponent, SetupContext } from 'vue'
 import { defineComponent, markRaw } from 'vue'
 
 import { undeclaredWidgetProps } from './utils/undeclaredWidgetProps.js'
+import { wrapFunctionalWidget } from './utils/wrapFunctionalWidget.js'
 import { VueRenderer } from './VueRenderer.js'
 
 /**
@@ -70,21 +71,11 @@ export function VueWidgetRenderer<P extends Record<string, any> = object>(
 ): WidgetDecoration {
   const { editor, props = {} as P } = options
 
-  const wrappedComponent = defineComponent({
-    extends: { ...(component as any) },
-    // Only declare what the component does not declare itself. Redeclaring a
-    // prop here would replace its type, default and validator with an empty one.
-    props: undeclaredWidgetProps(component, props),
-    template: (component as any).template,
-    // Vue only calls the outermost `setup`, so run the component's own setup and
-    // forward the full context, otherwise `emit`, `slots` and `attrs` are missing.
-    setup: (reactiveProps: any, context: SetupContext) =>
-      (component as any).setup?.(reactiveProps, context),
-    __scopeId: (component as any).__scopeId,
-    __cssModules: (component as any).__cssModules,
-    __name: (component as any).__name,
-    __file: (component as any).__file,
-  })
+  // A functional component is its own render function, so it cannot go through
+  // the options wrapper below.
+  const wrappedComponent = isFunctionalComponent(component)
+    ? wrapFunctionalWidget(component, props)
+    : buildOptionsWidget(component, props)
 
   return createWidgetDecoration<VueRenderer>({
     // Forwards editor, pos, key and the ProseMirror widget options unchanged.
@@ -98,5 +89,32 @@ export function VueWidgetRenderer<P extends Record<string, any> = object>(
     context: getPos => ({ editor: markRaw(editor), getPos }),
     create: renderProps => new VueRenderer(wrappedComponent, { editor, props: renderProps }),
     materialize: renderer => renderer.element as HTMLElement,
+  })
+}
+
+function isFunctionalComponent(component: Component): component is FunctionalComponent {
+  return typeof component === 'function'
+}
+
+/**
+ * Wraps an object component so the widget props are declared on it. Everything
+ * Vue reads off the original options has to be carried over by hand, because
+ * `extends` alone does not apply to `template`, `setup` or the compiler keys.
+ */
+function buildOptionsWidget(component: Component, props: Record<string, any>) {
+  return defineComponent({
+    extends: { ...(component as any) },
+    // Only declare what the component does not declare itself. Redeclaring a
+    // prop here would replace its type, default and validator with an empty one.
+    props: undeclaredWidgetProps(component, props),
+    template: (component as any).template,
+    // Vue only calls the outermost `setup`, so run the component's own setup and
+    // forward the full context, otherwise `emit`, `slots` and `attrs` are missing.
+    setup: (reactiveProps: any, context: SetupContext) =>
+      (component as any).setup?.(reactiveProps, context),
+    __scopeId: (component as any).__scopeId,
+    __cssModules: (component as any).__cssModules,
+    __name: (component as any).__name,
+    __file: (component as any).__file,
   })
 }

@@ -397,6 +397,70 @@ describe('VueWidgetRenderer', () => {
     expect(seen[0]).toEqual({ label: 'FALLBACK', flag: true })
   })
 
+  it('renders a plain functional component', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const Functional = (props: any) => h('span', { class: 'functional' }, String(props.label))
+
+    mount('<p>a</p>', [
+      Extension.create({
+        name: 'functionalWidget',
+        addDecorations: () => ({
+          create: ({ editor }) => [
+            VueWidgetRenderer(Functional, {
+              editor,
+              pos: 1,
+              key: 'functional',
+              props: { label: 'hi' },
+            }),
+          ],
+        }),
+      }),
+    ])
+
+    const widget = el!.querySelector('.functional')
+
+    expect(widget?.textContent).toBe('hi')
+    expect(warn).not.toHaveBeenCalledWith(
+      expect.stringContaining('missing template or render function'),
+      expect.anything(),
+    )
+
+    warn.mockRestore()
+  })
+
+  it('keeps an array props declaration on a functional component', () => {
+    const seen: Array<{ label: string; hasEditor: boolean }> = []
+    const Functional: any = (props: any) => {
+      seen.push({ label: props.label, hasEditor: !!props.editor })
+      return h('span', { class: 'functional-array' })
+    }
+
+    Functional.props = ['label']
+
+    mount('<p>a</p>', [
+      Extension.create({
+        name: 'functionalArrayWidget',
+        addDecorations: () => ({
+          create: ({ editor }) => [
+            VueWidgetRenderer(Functional, {
+              editor,
+              pos: 1,
+              key: 'functional-array',
+              props: { label: 'hi' },
+            }),
+          ],
+        }),
+      }),
+    ])
+
+    expect(seen[0]).toEqual({ label: 'hi', hasEditor: true })
+
+    // editor/getPos are declared as props, so they never fall through to the DOM.
+    const widget = el!.querySelector('.functional-array')!
+    expect(widget.hasAttribute('editor')).toBe(false)
+    expect(widget.hasAttribute('getpos')).toBe(false)
+  })
+
   it('gives the component setup an emit function', () => {
     const emitted: string[] = []
     const Emitter = defineComponent({
