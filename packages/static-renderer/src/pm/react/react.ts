@@ -8,6 +8,11 @@ import type { TiptapStaticRendererOptions } from '../../json/renderer.js'
 import type { StaticEditorOptions } from '../extensionRenderer.js'
 import { applyStaticEditorOptionsToExtensions, renderToElement } from '../extensionRenderer.js'
 
+const HTML_ATTRIBUTE_TO_REACT_ATTRIBUTE: Record<string, string> = {
+  colspan: 'colSpan',
+  rowspan: 'rowSpan',
+}
+
 /**
  * This function maps the attributes of a node or mark to HTML attributes
  * @param attrs The attributes to map
@@ -43,7 +48,9 @@ export function mapAttrsToHTMLAttributes(
         return Object.assign(acc, { style: styleObject })
       }
 
-      return Object.assign(acc, { [name]: value })
+      const reactName = HTML_ATTRIBUTE_TO_REACT_ATTRIBUTE[name] ?? name
+
+      return Object.assign(acc, { [reactName]: value })
     },
     { key },
   )
