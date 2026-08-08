@@ -41,6 +41,24 @@ export function extractAbsorbedBlankLines(tokens: MarkdownToken[]): MarkdownToke
 }
 
 /**
+ * Collapses CommonMark soft line breaks into single spaces.
+ *
+ * marked leaves a soft-wrapped paragraph's newlines inside its `text` tokens,
+ * relying on HTML whitespace collapsing that ProseMirror text nodes don't have.
+ * Taking the flanking whitespace matches the spec: spaces at a line's end and
+ * the next line's start are removed.
+ *
+ * @param text The text token value to normalize.
+ * @returns The text with each soft break collapsed to a single space.
+ * @example
+ * collapseSoftBreaks('foo\nbar')
+ * // => 'foo bar'
+ */
+export function collapseSoftBreaks(text: string): string {
+  return text.replace(/[ \t]*\n[ \t]*/g, ' ')
+}
+
+/**
  * Wraps each line of the content with the given prefix.
  * @param prefix The prefix to wrap each line with.
  * @param content The content to wrap.

@@ -25,6 +25,7 @@ import { type Lexer, type Token, type TokenizerExtension, type TokenizerThis, ma
 
 import {
   closeMarksBeforeNode,
+  collapseSoftBreaks,
   extractAbsorbedBlankLines,
   findMarksToClose,
   findMarksToCloseAtEnd,
@@ -713,7 +714,7 @@ export class MarkdownManager {
         // Create text node – decode HTML entities so that e.g. `&lt;` displays as `<` in the editor
         result.push({
           type: 'text',
-          text: decodeHtmlEntities(token.text || ''),
+          text: decodeHtmlEntities(collapseSoftBreaks(token.text || '')),
         })
       } else if (token.type === 'escape') {
         // Backslash-escaped character: produce a text node with the escaped character
@@ -906,7 +907,7 @@ export class MarkdownManager {
       case 'text':
         return {
           type: 'text',
-          text: decodeHtmlEntities(token.text || ''),
+          text: decodeHtmlEntities(collapseSoftBreaks(token.text || '')),
         }
 
       case 'html':
