@@ -33,7 +33,6 @@
           <input
             type="checkbox"
             :checked="findAndReplace.wholeWord"
-            :disabled="findAndReplace.useRegex"
             @change="setWholeWord($event.target.checked)"
             data-testid="whole-word-checkbox"
           />
@@ -125,8 +124,9 @@ const content = `
   </p>
   <p>
     Toggle "Match case" to only find exact matches. Enable "Regex" and search
-    for colou?r to find both color and colour at once. Hit "Replace" to swap
-    the current match and jump straight to the next one.
+    for (color|colour) to find both spellings, then replace with [$1] to reuse
+    each captured match. Hit "Replace" to swap the current match and jump
+    straight to the next one.
   </p>
 `
 

@@ -8,7 +8,9 @@ export interface FindAndReplaceOptions {
   searchTerm: string
 
   /**
-   * The initial replace term.
+   * The initial replacement text or regex replacement template.
+   * Regex mode expands `$$`, `$&`, numbered captures such as `$1`,
+   * and named captures such as `$<word>`.
    * @default ''
    */
   replaceTerm: string
@@ -27,7 +29,8 @@ export interface FindAndReplaceOptions {
   useRegex: boolean
 
   /**
-   * Whether to match whole words only. Ignored when `useRegex` is enabled.
+   * Whether to constrain literal or regex matches to Unicode whole-word boundaries.
+   * For example, `cat` matches `cat` but not `catalog`.
    * @default false
    */
   wholeWord: boolean
@@ -59,7 +62,7 @@ export interface FindAndReplaceStorage {
   searchTerm: string
 
   /**
-   * The current replace term.
+   * The current replacement text or regex replacement template.
    */
   replaceTerm: string
 
@@ -74,7 +77,7 @@ export interface FindAndReplaceStorage {
   useRegex: boolean
 
   /**
-   * Whether to match whole words only. Ignored when `useRegex` is enabled.
+   * Whether literal or regex matches are constrained to Unicode whole-word boundaries.
    */
   wholeWord: boolean
 

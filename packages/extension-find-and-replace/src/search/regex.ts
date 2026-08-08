@@ -1,15 +1,13 @@
 import { RE2JS } from 're2js'
 
 import type { SearchOptions } from './types.js'
+import { unicodeWordCharacter } from './unicode-word-character.js'
 
 export type SearchRegex = RegExp | RE2JS
 
 const escapeRegExp = (value: string): string => {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
-
-/** Unicode word characters like letters, accents, numbers, and underscore-like punctuation. */
-const unicodeWordCharacter = '[\\p{L}\\p{M}\\p{N}\\p{Pc}]'
 
 function compileNativeRegex(source: string, caseSensitive: boolean): RegExp | null {
   try {
@@ -41,8 +39,10 @@ function compileRegex(
 /**
  * Creates a search matcher for a term.
  * Regex mode uses RE2-compatible syntax to avoid catastrophic backtracking.
+ * In regex mode, whole-word constraints are applied by `searchDocument` and
+ * `searchTextblocks`; this low-level factory preserves the user pattern's capture numbering.
  * @param term The search term, treated as regex source when `useRegex` is enabled.
- * @param options Case sensitivity, regex mode, and whole word matching.
+ * @param options Case sensitivity, regex mode, and literal whole-word matching.
  * @returns A compiled matcher, or `null` when the term is invalid or unsupported.
  */
 export function createSearchRegex(term: string, options: SearchOptions): SearchRegex | null {
@@ -58,9 +58,8 @@ export function createSearchRegex(term: string, options: SearchOptions): SearchR
     const escaped = escapeRegExp(term)
 
     // Whole-word searches reject terms next to another Unicode word character.
-    source = options.wholeWord
-      ? `(?<!${unicodeWordCharacter})${escaped}(?!${unicodeWordCharacter})`
-      : escaped
+    const wordCharacter = `[${unicodeWordCharacter}]`
+    source = options.wholeWord ? `(?<!${wordCharacter})${escaped}(?!${wordCharacter})` : escaped
   }
 
   return compileRegex(source, options)

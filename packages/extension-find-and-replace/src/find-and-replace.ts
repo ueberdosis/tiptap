@@ -11,7 +11,9 @@ import type { FindAndReplaceMeta, FindAndReplacePluginState } from './plugin/plu
 import { FindAndReplacePlugin, FindAndReplacePluginKey } from './plugin/plugin.js'
 import { findNextIndex, searchDocument } from './search/search.js'
 import type { SearchResult } from './search/search.js'
+import { createSearchMatcher } from './search/search-matcher.js'
 import type { FindAndReplaceOptions, FindAndReplaceStorage } from './types.js'
+import { createResultReplacement } from './utils/createResultReplacement.js'
 import { replaceAllResults } from './utils/replaceAllResults.js'
 
 declare module '@tiptap/core' {
@@ -26,8 +28,15 @@ declare module '@tiptap/core' {
 
       /**
        * Set the replace term used by the replace commands.
-       * @param term The replacement text.
-       * @example editor.commands.setReplaceTerm('World')
+       * In regex mode, `$$` inserts `$`, `$&` inserts the full match, `$1`–`$99` insert
+       * numbered capture groups, and `$<name>` inserts a named capture group.
+       * JavaScript tokens for inserting text before or after the match stay literal.
+       * Literal mode does not expand any replacement tokens.
+       * @param term The replacement text or regex replacement template.
+       * @example
+       * editor.commands.setUseRegex(true)
+       * editor.commands.setSearchTerm('(cat|dog)')
+       * editor.commands.setReplaceTerm('[$1]')
        */
       setReplaceTerm: (term: string) => ReturnType
 
@@ -47,7 +56,8 @@ declare module '@tiptap/core' {
       setUseRegex: (useRegex: boolean) => ReturnType
 
       /**
-       * Set whether to match whole words only. Ignored when regex mode is enabled.
+       * Set whether to constrain matches to Unicode whole-word boundaries.
+       * For example, `cat` matches `cat` but not `catalog`.
        * @param wholeWord The new whole word mode.
        * @example editor.commands.setWholeWord(true)
        */
@@ -184,13 +194,17 @@ function replaceResult(
   result: SearchResult,
 ): void {
   const { searchTerm, replaceTerm, caseSensitive, useRegex, wholeWord } = pluginState
+  const matcher = useRegex
+    ? createSearchMatcher(searchTerm, { caseSensitive, useRegex, wholeWord })
+    : null
+  const replacement = createResultReplacement(tr.doc, replaceTerm, matcher)(result)
 
-  tr.insertText(replaceTerm, result.from, result.to)
+  tr.insertText(replacement, result.from, result.to)
 
   // Jump to the first result behind the inserted text, so a replacement
   // that still matches the search (e.g. "foo" -> "foobar") is skipped.
   const results = searchDocument(tr.doc, searchTerm, { caseSensitive, useRegex, wholeWord })
-  const nextIndex = findNextIndex(results, result.from + replaceTerm.length)
+  const nextIndex = findNextIndex(results, result.from + replacement.length)
 
   if (nextIndex === null) {
     mergePluginMeta(tr, { currentIndex: null })
@@ -370,7 +384,15 @@ export const FindAndReplace = Extension.create<FindAndReplaceOptions, FindAndRep
           }
 
           if (dispatch) {
-            replaceAllResults(tr, state, pluginState.results, pluginState.replaceTerm)
+            const matcher = pluginState.useRegex
+              ? createSearchMatcher(pluginState.searchTerm, {
+                  caseSensitive: pluginState.caseSensitive,
+                  useRegex: pluginState.useRegex,
+                  wholeWord: pluginState.wholeWord,
+                })
+              : null
+
+            replaceAllResults(tr, state, pluginState.results, pluginState.replaceTerm, matcher)
           }
 
           return true

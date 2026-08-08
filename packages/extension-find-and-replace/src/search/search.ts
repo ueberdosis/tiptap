@@ -1,6 +1,6 @@
 import type { Node } from '@tiptap/pm/model'
 
-import { createSearchRegex } from './regex.js'
+import { createSearchMatcher } from './search-matcher.js'
 import { searchTextblock } from './textblock-search.js'
 import type { SearchOptions, SearchResult, TextblockSearchTarget } from './types.js'
 
@@ -19,13 +19,13 @@ export function searchTextblocks(
   term: string,
   options: SearchOptions,
 ): SearchResult[] {
-  const regex = createSearchRegex(term, options)
+  const matcher = createSearchMatcher(term, options)
 
-  if (!regex) {
+  if (!matcher) {
     return []
   }
 
-  return textblocks.flatMap(({ node, pos }) => searchTextblock(regex, node, pos))
+  return textblocks.flatMap(({ node, pos }) => searchTextblock(matcher, node, pos))
 }
 
 /**
