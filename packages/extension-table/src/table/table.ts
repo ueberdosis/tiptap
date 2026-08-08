@@ -10,7 +10,7 @@ import {
   Node,
 } from '@tiptap/core'
 import type { DOMOutputSpec, Node as ProseMirrorNode } from '@tiptap/pm/model'
-import { type EditorState, TextSelection, type Transaction } from '@tiptap/pm/state'
+import { TextSelection } from '@tiptap/pm/state'
 import {
   addColumnAfter,
   addColumnBefore,
@@ -37,6 +37,7 @@ import { TableView } from './TableView.js'
 import { createColGroup } from './utilities/createColGroup.js'
 import { createTable } from './utilities/createTable.js'
 import { deleteTableWhenAllCellsSelected } from './utilities/deleteTableWhenAllCellsSelected.js'
+import { keepCursorInTable } from './utilities/keepCursorInTable.js'
 import renderTableToMarkdown, { preprocessTablePipes } from './utilities/markdown.js'
 
 type MarkdownTableToken = {
@@ -257,52 +258,6 @@ declare module '@tiptap/core' {
   }
 }
 
-const moveCursorToTableEnd = (tr: Transaction, tablePos: number) => {
-  const tableNode = tr.doc.nodeAt(tablePos)
-
-  if (!tableNode) {
-    return
-  }
-
-  const endOfTable = tablePos + tableNode.nodeSize - 1
-
-  tr.setSelection(TextSelection.near(tr.doc.resolve(endOfTable), -1))
-}
-
-// prosemirror-tables does not move the selection after a deletion, so removing the
-// last row or column can push the cursor out of the table into the content below.
-const keepCursorInTable =
-  (command: (state: EditorState, dispatch?: (tr: Transaction) => void) => boolean) =>
-  (state: EditorState, dispatch?: (tr: Transaction) => void): boolean => {
-    if (!dispatch) {
-      return command(state)
-    }
-
-    const table = findParentNodeClosestToPos(
-      state.selection.$from,
-      node => node.type.name === 'table',
-    )
-
-    return command(state, tr => {
-      const stillInTable = findParentNodeClosestToPos(
-        tr.selection.$from,
-        node => node.type.name === 'table',
-      )
-
-      if (table) {
-        // The delete can push the cursor into a following table, so compare the
-        // mapped position to confirm it is still the table we edited.
-        const originalTablePos = tr.mapping.map(table.pos)
-
-        if (stillInTable?.pos !== originalTablePos) {
-          moveCursorToTableEnd(tr, originalTablePos)
-        }
-      }
-
-      dispatch(tr)
-    })
-  }
-
 /**
  * This extension allows you to create tables.
  * @see https://www.tiptap.dev/api/nodes/table
@@ -492,7 +447,22 @@ export const Table = Node.create<TableOptions>({
       deleteColumn:
         () =>
         ({ state, dispatch }) => {
-          return keepCursorInTable(deleteColumn)(state, dispatch)
+          const table = findParentNodeClosestToPos(
+            state.selection.$from,
+            node => node.type.name === 'table',
+          )
+
+          return deleteColumn(
+            state,
+            dispatch &&
+              (tr => {
+                if (table) {
+                  keepCursorInTable(tr, table.pos)
+                }
+
+                dispatch(tr)
+              }),
+          )
         },
       addRowBefore:
         () =>
@@ -507,7 +477,22 @@ export const Table = Node.create<TableOptions>({
       deleteRow:
         () =>
         ({ state, dispatch }) => {
-          return keepCursorInTable(deleteRow)(state, dispatch)
+          const table = findParentNodeClosestToPos(
+            state.selection.$from,
+            node => node.type.name === 'table',
+          )
+
+          return deleteRow(
+            state,
+            dispatch &&
+              (tr => {
+                if (table) {
+                  keepCursorInTable(tr, table.pos)
+                }
+
+                dispatch(tr)
+              }),
+          )
         },
       deleteTable:
         () =>
