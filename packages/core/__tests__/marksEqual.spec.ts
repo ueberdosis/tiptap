@@ -1,5 +1,5 @@
 import { marksEqual } from '@tiptap/core'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 
 describe('marksEqual', () => {
   it('returns true for identical marks with same attrs key order', () => {

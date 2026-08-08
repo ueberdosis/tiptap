@@ -5,7 +5,7 @@ import fg from 'fast-glob'
 import fs from 'fs'
 import { basename, dirname, join, resolve } from 'path'
 import { v4 as uuid } from 'uuid'
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vite-plus'
 
 const getPackageDependencies = () => {
   const paths: Array<{ find: string; replacement: any }> = []
@@ -81,14 +81,6 @@ const dedupeDeps = fs
   .filter(value => value)
 
 export default defineConfig({
-  css: {
-    preprocessorOptions: {
-      scss: {
-        api: 'modern-compiler',
-      },
-    },
-  },
-
   server: {
     port: 3000,
   },
@@ -97,7 +89,7 @@ export default defineConfig({
   },
 
   build: {
-    rollupOptions: {
+    rolldownOptions: {
       input: fg.sync('./**/index.html', {
         ignore: ['dist', 'node_modules'],
       }),
@@ -123,8 +115,8 @@ export default defineConfig({
     {
       name: 'html-transform',
       transformIndexHtml: {
-        enforce: 'pre',
-        transform(html: string, context) {
+        order: 'pre',
+        handler(html: string, context) {
           const dir = dirname(context.path)
           const data = dir.split('/')
 

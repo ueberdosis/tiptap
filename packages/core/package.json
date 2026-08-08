@@ -61,7 +61,7 @@
     }
   },
   "scripts": {
-    "build": "tsup"
+    "build": "vp pack"
   },
   "devDependencies": {
     "@tiptap/pm": "workspace:^"

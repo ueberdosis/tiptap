@@ -14,19 +14,19 @@ Published packages live in `packages/*`. `demos/` is a Vite app used as playgrou
 ## Before opening a PR
 
 ```bash
-pnpm lint
-pnpm build
-pnpm test:unit
-pnpm test:e2e
-pnpm fallow:audit   # verdict must be pass or warn, never fail
+vp run lint
+vp run build
+vp run test:unit
+vp run test:e2e
+vp run fallow:audit   # verdict must be pass or warn, never fail
 ```
 
-Single package failing types: `pnpm -w -F @tiptap/core build`.
-Dependency or lockfile errors: `pnpm reset`, then rebuild.
+Single package failing types: `vp run -F @tiptap/core build`.
+Dependency or lockfile errors: `vp run reset`, then rebuild.
 
 ## Code style
 
-oxlint lints, oxfmt formats. Husky and lint-staged run both on commit.
+oxlint lints, oxfmt formats. Vite+ hooks (`vp staged`) run both on commit.
 
 Prefer simple, readable code over clever code. Use early returns. Avoid deep nesting, nested ternaries, and abstractions you don't need yet. Keep functions focused. Apply DRY and SOLID pragmatically, not blindly.
 

@@ -2,7 +2,7 @@
 
 import { Editor, Extension } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 
 import { ServerAiToolkit } from './index.js'
 

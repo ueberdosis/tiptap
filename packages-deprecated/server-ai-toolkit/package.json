@@ -42,7 +42,7 @@
     }
   },
   "scripts": {
-    "build": "tsup"
+    "build": "vp pack"
   },
   "dependencies": {
     "@tiptap/ai-toolkit": "workspace:*"

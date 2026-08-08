@@ -1,7 +1,7 @@
 import { TableKit } from '@tiptap/extension-table'
 import StarterKit from '@tiptap/starter-kit'
 import { renderToMarkdown } from '@tiptap/static-renderer/pm/markdown'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 
 describe('static render json to string (no prosemirror)', () => {
   it('should return empty string for empty content', () => {

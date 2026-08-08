@@ -9,7 +9,7 @@ import { BulletList, ListItem, OrderedList } from '@tiptap/extension-list'
 import { BlockMath } from '@tiptap/extension-mathematics'
 import { Paragraph } from '@tiptap/extension-paragraph'
 import { Text } from '@tiptap/extension-text'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 
 import { MarkdownManager } from '../src/MarkdownManager.js'
 
