@@ -311,4 +311,20 @@ describe('createNodeFromContent', () => {
       })
     }).toThrow('[tiptap error]: Invalid JSON content')
   })
+
+  // These look like a node or a fragment at a glance, but are still invalid JSON.
+  it.each([
+    ['an object type', { type: {} }],
+    ['a null type', { type: null }],
+    ['an array type', { type: [] }],
+    ['a numeric size', { size: 5 }],
+    ['no keys at all', {}],
+  ])('returns empty content for JSON content with %s', (_label, content) => {
+    const fragment = createNodeFromContent(
+      content,
+      getSchemaByResolvedExtensions([Document, Paragraph, Text]),
+    )
+
+    expect(fragment.toJSON()).toBeNull()
+  })
 })
