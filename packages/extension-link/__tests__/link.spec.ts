@@ -351,6 +351,51 @@ describe('extension-link', () => {
     getEditorEl()?.remove()
   })
 
+  // Regression guard for #7347: with enableClickSelection, clicking a non-link
+  // element (e.g. an image) must not be handled by the link plugin, otherwise
+  // ProseMirror's own NodeSelection is blocked.
+  it('should return false when clicking non-link elements with enableClickSelection', () => {
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [
+        Document,
+        Text,
+        Paragraph,
+        // inline so the image is valid content inside the paragraph (pos 1)
+        Image.configure({ inline: true }),
+        Link.configure({
+          enableClickSelection: true,
+        }),
+      ],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [{ type: 'image', attrs: { src: 'https://placehold.co/400' } }],
+          },
+        ],
+      },
+    })
+
+    const img = getEditorEl()?.querySelector('img')
+
+    expect(img).toBeTruthy()
+
+    // A left click whose target is the image itself (not a link).
+    const clickEvent = new MouseEvent('click', { bubbles: true, cancelable: true, button: 0 })
+    Object.defineProperty(clickEvent, 'target', { value: img })
+
+    // The link plugin must report the click unhandled (falsy) so the editor's
+    // default NodeSelection on the image can run.
+    const handled = editor.view.someProp('handleClick', fn => fn(editor!.view, 1, clickEvent))
+
+    expect(handled).toBeFalsy()
+
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
+
   describe('shouldAutoLink', () => {
     it('default shouldAutoLink rejects bare hostnames without TLD', () => {
       // Test using Link extension's default options
