@@ -6,6 +6,7 @@
     "strict": true,
     "jsx": "react-jsx",
     "importHelpers": true,
+    "skipLibCheck": true,
     "moduleResolution": "nodenext",
     "resolveJsonModule": true,
     "esModuleInterop": true,
@@ -25,6 +26,6 @@
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },
   "files": ["./env.d.ts"],
-  "include": ["**/*.d.ts", "**/*.ts", "**/*.tsx", "**/*.vue"],
+  "include": ["**/*.d.ts", "**/*.ts", "**/*.mts", "**/*.tsx", "**/*.vue"],
   "exclude": ["**/node_modules", "**/dist"]
 }

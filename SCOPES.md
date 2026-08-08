@@ -15,6 +15,7 @@
 - starter-kit
 - static-renderer
 - suggestion
+- svelte
 - vue-2
 - vue-3
 

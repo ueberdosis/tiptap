@@ -33,6 +33,7 @@ const getPackageDependencies = () => {
           name === 'extensions' ||
           name === 'extension-list' ||
           name === 'react' ||
+          name === 'svelte' ||
           name === 'vue-2' ||
           name === 'vue-3'
         ) {
@@ -43,6 +44,24 @@ const getPackageDependencies = () => {
               find: `@tiptap/${name}/${subPkgName}`,
               replacement: resolve(`../${path}/${name}/src/${subPkgName}/index.ts`),
             })
+
+            if (name === 'svelte') {
+              fg.sync(`../${path}/${name}/src/${subPkgName}/*`, { onlyDirectories: true }).forEach(
+                nestedName => {
+                  const nestedPkgName = nestedName.replace(
+                    `../${path}/${name}/src/${subPkgName}/`,
+                    '',
+                  )
+
+                  paths.push({
+                    find: `@tiptap/${name}/${nestedPkgName}`,
+                    replacement: resolve(
+                      `../${path}/${name}/src/${subPkgName}/${nestedPkgName}/index.ts`,
+                    ),
+                  })
+                },
+              )
+            }
           })
           paths.push({
             find: `@tiptap/${name}`,

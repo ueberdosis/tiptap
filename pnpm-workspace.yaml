@@ -6,10 +6,6 @@ allowBuilds:
   '@parcel/watcher': true
   esbuild: true
   iframe-resizer: true
-minimumReleaseAgeExclude:
-  - '@tiptap/y-tiptap@3.0.7'
-  - '@tiptap/core@3.27.4'
-  - '@tiptap/pm@3.27.4'
 overrides:
   '@rollup/pluginutils>picomatch': '2.3.2'
   'prosemirror-model': '^1.25.11'
