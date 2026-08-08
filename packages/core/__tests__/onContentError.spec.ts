@@ -283,4 +283,60 @@ describe('onContentError', () => {
 
     expect(editor.getText()).toBe('keepme')
   })
+
+  // A `doc` inside the `doc` node passes `schema.nodeFromJSON`, so the invalid document used to
+  // reach the view, which crashes because the `doc` node has no `toDOM`.
+  const docInsideDoc = {
+    type: 'doc',
+    content: [
+      {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [
+              {
+                type: 'text',
+                text: 'PoC',
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  }
+
+  it('repairs a doc nested inside the doc node instead of crashing the view', () => {
+    let editor: Editor | undefined
+
+    expect(() => {
+      editor = new Editor({
+        content: docInsideDoc,
+        extensions: [Document, Paragraph, Text],
+      })
+    }).not.toThrow()
+
+    expect(editor?.getText()).toBe('PoC')
+    expect(() => editor?.state.doc.check()).not.toThrow()
+  })
+
+  it('repairs a doc nested inside the doc node (when enableContentCheck = true)', () => {
+    let contentErrorCalled = false
+    let editor: Editor | undefined
+
+    expect(() => {
+      editor = new Editor({
+        content: docInsideDoc,
+        extensions: [Document, Paragraph, Text],
+        enableContentCheck: true,
+        onContentError: () => {
+          contentErrorCalled = true
+        },
+      })
+    }).not.toThrow()
+
+    expect(contentErrorCalled).toBe(true)
+    expect(editor?.getText()).toBe('PoC')
+    expect(() => editor?.state.doc.check()).not.toThrow()
+  })
 })

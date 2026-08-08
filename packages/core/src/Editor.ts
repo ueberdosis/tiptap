@@ -1,5 +1,6 @@
 /* oslint-disableno-empty-object-type */
-import type { MarkType, Node as ProseMirrorNode, NodeType, Schema } from '@tiptap/pm/model'
+import type { MarkType, NodeType, Schema } from '@tiptap/pm/model'
+import { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import type { Plugin, PluginKey, Transaction } from '@tiptap/pm/state'
 import { EditorState } from '@tiptap/pm/state'
 import { type DirectEditorProps, EditorView } from '@tiptap/pm/view'
@@ -27,6 +28,7 @@ import { getTextSerializersFromSchema } from './helpers/getTextSerializersFromSc
 import { isActive } from './helpers/isActive.js'
 import { isNodeEmpty } from './helpers/isNodeEmpty.js'
 import { createMappablePosition, getUpdatedPosition } from './helpers/MappablePosition.js'
+import { repairNode } from './helpers/repairNode.js'
 import { resolveFocusPosition } from './helpers/resolveFocusPosition.js'
 import { warnOnDuplicatedProseMirrorModel } from './helpers/warnOnDuplicatedProseMirrorModel.js'
 import type { Storage } from './index.js'
@@ -505,13 +507,10 @@ export class Editor extends EventEmitter<EditorEvents> {
       }
 
       // Content is invalid, but attempt to create it anyway, stripping out the invalid parts
-      const fallbackDoc = createDocument(
-        this.options.content,
-        this.schema,
-        this.options.parseOptions,
-        {
+      const fallbackDoc = this.repairInvalidDoc(
+        createDocument(this.options.content, this.schema, this.options.parseOptions, {
           errorOnInvalidContent: false,
-        },
+        }),
       )
 
       // Seed editorState with the fallback doc so a handler can safely use `editor.commands`
@@ -544,7 +543,34 @@ export class Editor extends EventEmitter<EditorEvents> {
 
       return this.editorState.doc
     }
-    return doc
+    return this.repairInvalidDoc(doc)
+  }
+
+  /**
+   * Rendering a document that does not match the schema crashes the view, and the content is only
+   * checked when `enableContentCheck` is enabled, so repair it before it reaches ProseMirror.
+   */
+  private repairInvalidDoc(doc: ProseMirrorNode): ProseMirrorNode {
+    // `createDocument` returns a fragment for array content, which has nothing to check.
+    if (!(doc instanceof ProseMirrorNode)) {
+      return doc
+    }
+
+    try {
+      doc.check()
+
+      return doc
+    } catch (error) {
+      // The error names the node types that did not fit, so there is no need to log the content.
+      console.warn(
+        '[tiptap warn]: Invalid content. The content did not match the schema and was repaired.',
+        'Error:',
+        error,
+      )
+
+      // A document that cannot be repaired would still crash the view, so start over empty.
+      return repairNode(doc) ?? this.schema.topNodeType.createAndFill() ?? doc
+    }
   }
 
   /**
