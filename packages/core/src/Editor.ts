@@ -238,20 +238,74 @@ export class Editor extends EventEmitter<EditorEvents> {
    * An object of all registered commands.
    */
   public get commands(): SingleCommands {
+    if (!this.commandManager) {
+      return new Proxy(
+        {},
+        {
+          get: (_target, prop) => (prop === 'then' ? undefined : () => false),
+        },
+      ) as SingleCommands
+    }
     return this.commandManager.commands
+  }
+
+  /**
+   * Create a no-op command chain used after `destroy()`, where every chainable method
+   * returns the chain itself and `.run()` returns `false`.
+   */
+  private createNoopChain(): ChainedCommands {
+    const noopChain: ChainedCommands = new Proxy(
+      { run: () => false },
+      {
+        get(target: { run: () => boolean }, prop: string | symbol) {
+          if (prop === 'run') {
+            return target.run
+          }
+          if (prop === 'then') {
+            return undefined
+          }
+          return () => noopChain
+        },
+      },
+    ) as unknown as ChainedCommands
+    return noopChain
   }
 
   /**
    * Create a command chain to call multiple commands at once.
    */
   public chain(): ChainedCommands {
+    if (!this.commandManager) {
+      return this.createNoopChain()
+    }
     return this.commandManager.chain()
   }
 
   /**
    * Check if a command or a command chain can be executed. Without executing it.
+   *
+   * After `destroy()` returns a no-op proxy whose single-command checks resolve to
+   * `false` and whose `chain()` returns a no-op chain (so the
+   * `editor.can().chain().<cmd>().run()` pattern stays safe instead of throwing).
    */
   public can(): CanCommands {
+    if (!this.commandManager) {
+      const createNoopChain = () => this.createNoopChain()
+      return new Proxy(
+        {},
+        {
+          get: (_target, prop) => {
+            if (prop === 'chain') {
+              return createNoopChain
+            }
+            if (prop === 'then') {
+              return undefined
+            }
+            return () => false
+          },
+        },
+      ) as CanCommands
+    }
     return this.commandManager.can()
   }
 
@@ -769,6 +823,9 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Get the document as HTML.
    */
   public getHTML(): string {
+    if (!this.schema) {
+      return ''
+    }
     return getHTMLFromFragment(this.state.doc.content, this.schema)
   }
 
@@ -779,6 +836,9 @@ export class Editor extends EventEmitter<EditorEvents> {
     blockSeparator?: string
     textSerializers?: Record<string, TextSerializer>
   }): string {
+    if (!this.schema) {
+      return ''
+    }
     const { blockSeparator = '\n\n', textSerializers = {} } = options || {}
 
     return getText(this.state.doc, {
