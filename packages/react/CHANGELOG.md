@@ -1,5 +1,16 @@
 # Change Log
 
+## 3.30.0
+
+### Patch Changes
+
+- 31e176c: React node views no longer show the selected state when the selection covers a position the node view has moved away from.
+- Updated dependencies [0247d39]
+- Updated dependencies [58a8953]
+- Updated dependencies [51909d3]
+  - @tiptap/core@3.30.0
+  - @tiptap/pm@3.30.0
+
 ## 3.29.2
 
 ### Patch Changes
