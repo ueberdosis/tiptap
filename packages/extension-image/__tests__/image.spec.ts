@@ -499,4 +499,44 @@ describe('extension-image', () => {
       expect(img?.hasAttribute('data-custom-id')).toBe(false)
     })
   })
+
+  describe('allowPastedImages', () => {
+    const pastedHtml = `<p>Hello <img src="${imgSrc}" alt="pasted"></p>`
+
+    const transformPastedHTML = () => {
+      return editor?.view.someProp('transformPastedHTML', f => f(pastedHtml, editor!.view))
+    }
+
+    it('keeps images in pasted HTML by default', () => {
+      editor = new Editor({
+        element: createEditorEl(),
+        extensions: [Document, Paragraph, Text, Image],
+      })
+
+      expect(transformPastedHTML()).toContain('<img')
+    })
+
+    it('strips images from pasted HTML when allowPastedImages is false', () => {
+      editor = new Editor({
+        element: createEditorEl(),
+        extensions: [Document, Paragraph, Text, Image.configure({ allowPastedImages: false })],
+      })
+
+      const transformed = transformPastedHTML()
+
+      expect(transformed).not.toContain('<img')
+      expect(transformed).toContain('Hello')
+    })
+
+    it('does not affect images inserted via the setImage command', () => {
+      editor = new Editor({
+        element: createEditorEl(),
+        extensions: [Document, Paragraph, Text, Image.configure({ allowPastedImages: false })],
+      })
+
+      editor.commands.setImage({ src: imgSrc })
+
+      expect(editor.getHTML()).toContain('<img')
+    })
+  })
 })

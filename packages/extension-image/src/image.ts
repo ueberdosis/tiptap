@@ -44,6 +44,18 @@ export interface ImageOptions {
         alwaysPreserveAspectRatio?: boolean
       }
     | false
+
+  /**
+   * Controls whether images contained in pasted HTML (for example when copying
+   * a snippet of a web page that includes an `<img>` tag) are inserted into the
+   * document. Set this to `false` if images should only ever be added through
+   * your own upload flow (e.g. a toolbar button), and not via copy & paste.
+   * This does not affect images that are inserted programmatically, for
+   * example through the `setImage` command.
+   * @default true
+   * @example false
+   */
+  allowPastedImages: boolean
 }
 
 export interface SetImageOptions {
@@ -88,6 +100,7 @@ export const Image = Node.create<ImageOptions>({
       allowBase64: false,
       HTMLAttributes: {},
       resize: false,
+      allowPastedImages: true,
     }
   },
 
@@ -314,5 +327,20 @@ export const Image = Node.create<ImageOptions>({
         },
       }),
     ]
+  },
+
+  transformPastedHTML(html) {
+    // Allow images that arrive via copy & paste to be inserted, unless
+    // explicitly disabled. This only runs on pasted content, so it never
+    // affects images set through `setContent`/`setImage`.
+    if (this.options.allowPastedImages || typeof window === 'undefined') {
+      return html
+    }
+
+    const doc = new window.DOMParser().parseFromString(html, 'text/html')
+
+    doc.querySelectorAll('img').forEach(img => img.remove())
+
+    return doc.body.innerHTML
   },
 })
