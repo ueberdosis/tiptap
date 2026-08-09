@@ -259,6 +259,34 @@ Second paragraph.`
         },
       ])
     })
+
+    it('runs custom tokenizers registered on an injected Marked instance', () => {
+      // Regression: custom tokenizers must still fire when a dedicated `marked`
+      // instance is injected, not only on the default shared instance.
+      const manager = new MarkdownManager({
+        marked: new Marked() as unknown as typeof import('marked').marked,
+        extensions: [...basicExtensions, TestProbe],
+      })
+
+      const doc = manager.parse(':::probe **Probe** text :::')
+
+      expect(doc.content).toEqual([
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'Probe',
+              marks: [{ type: 'bold' }],
+            },
+            {
+              type: 'text',
+              text: ' text',
+            },
+          ],
+        },
+      ])
+    })
   })
   describe('simple nested Marks parsing', () => {
     beforeEach(() => {

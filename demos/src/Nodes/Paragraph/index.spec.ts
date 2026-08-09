@@ -40,9 +40,10 @@ test.describe(`${demoPath}/${demoName}`, () => {
       })
 
       test('enter creates a new paragraph', async ({ page }) => {
+        const editor = await getEditor(page)
         await page.keyboard.type('First Paragraph')
         await page.keyboard.press('Enter')
-        await page.keyboard.type('Second Paragraph')
+        await editor.type('Second Paragraph')
         await expect(page.locator('.tiptap p')).toHaveCount(2)
         await expect(page.locator('.tiptap p').nth(0)).toContainText('First Paragraph')
         await expect(page.locator('.tiptap p').nth(1)).toContainText('Second Paragraph')

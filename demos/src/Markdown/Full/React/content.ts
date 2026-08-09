@@ -150,6 +150,15 @@ Nested content is also supported!
 
 :::
 
+### Inline Code in Tables
+
+Pipe characters inside backtick code spans in tables should be preserved:
+
+| Expression | Meaning | Example |
+| ---------- | ------- | ------- |
+| \`||\` | or | \`a || b\` |
+| \`&&\` | and | \`a && b\` |
+
 ### Try editing the markdown on the left:
 
 1. Edit the markdown text

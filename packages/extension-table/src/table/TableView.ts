@@ -1,5 +1,5 @@
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
-import type { NodeView, ViewMutationRecord } from '@tiptap/pm/view'
+import type { EditorView, NodeView, ViewMutationRecord } from '@tiptap/pm/view'
 
 import { getColStyleDeclaration } from './utilities/colStyle.js'
 
@@ -87,14 +87,33 @@ export class TableView implements NodeView {
 
   contentDOM: HTMLTableSectionElement
 
-  constructor(node: ProseMirrorNode, cellMinWidth: number) {
+  constructor(
+    node: ProseMirrorNode,
+    cellMinWidth: number,
+    _view?: EditorView,
+    HTMLAttributes: Record<string, any> = {},
+  ) {
     this.node = node
     this.cellMinWidth = cellMinWidth
     this.dom = document.createElement('div')
     this.dom.className = 'tableWrapper'
     this.table = this.dom.appendChild(document.createElement('table'))
 
-    // Apply user styles to the table element
+    // Apply extension-configured HTMLAttributes to the table element
+    // (e.g. class, data-* set via Table.configure({ HTMLAttributes }))
+    for (const [key, value] of Object.entries(HTMLAttributes)) {
+      if (value !== undefined && value !== null) {
+        if (key === 'style') {
+          this.table.style.cssText = String(value)
+        } else {
+          this.table.setAttribute(key, String(value))
+        }
+      }
+    }
+
+    // Apply user styles from the ProseMirror document node.
+    // This may come from HTML parsing (e.g. <table style="...">) and should
+    // override any style set via extension-configured HTMLAttributes above.
     if (node.attrs.style) {
       this.table.style.cssText = node.attrs.style
     }

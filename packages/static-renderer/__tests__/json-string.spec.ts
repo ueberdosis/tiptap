@@ -1,4 +1,3 @@
-import type { TextType } from '@tiptap/core'
 import { extensions as coreExtensions } from '@tiptap/core'
 import Bold from '@tiptap/extension-bold'
 import CodeBlock from '@tiptap/extension-code-block'
@@ -49,7 +48,9 @@ describe('static render json to string (no prosemirror)', () => {
           return `<p>${serializeChildrenToHTMLString(children)}</p>`
         },
         text: ({ node }) => {
-          return (node as unknown as TextType).text
+          // `node.text` is accessible directly (typed `string | undefined`)
+          // without casting to `TextType`.
+          return node.text ?? ''
         },
       },
       markMapping: {},
@@ -90,7 +91,9 @@ describe('static render json to string (no prosemirror)', () => {
           return `<p>${serializeChildrenToHTMLString(children)}</p>`
         },
         text: ({ node }) => {
-          return (node as unknown as TextType).text
+          // `node.text` is accessible directly (typed `string | undefined`)
+          // without casting to `TextType`.
+          return node.text ?? ''
         },
       },
       markMapping: {
@@ -178,7 +181,9 @@ describe('static render json to string (no prosemirror)', () => {
               },
             ],
           })
-          return (node as unknown as TextType).text
+          // `node.text` is accessible directly (typed `string | undefined`)
+          // without casting to `TextType`.
+          return node.text ?? ''
         },
       },
       markMapping: {
@@ -193,6 +198,25 @@ describe('static render json to string (no prosemirror)', () => {
     })({ content: json })
 
     expect(html).toBe('<doc><h2><strong>Example Text</strong></h2></doc>')
+  })
+
+  it('throws a clear "missing handler" error for a node without a type instead of crashing', () => {
+    // Node-type resolution falls back to '' for a missing/undefined `type`, so a
+    // malformed node routes through the normal "missing handler" contract rather
+    // than throwing a raw TypeError on `content.type.name`.
+    const render = renderJSONContentToString({ nodeMapping: {}, markMapping: {} })
+
+    expect(() => render({ content: {} })).toThrow(/missing handler for node type/)
+  })
+
+  it('routes a node without a type to unhandledNode when one is provided', () => {
+    const html = renderJSONContentToString({
+      nodeMapping: {},
+      markMapping: {},
+      unhandledNode: () => '<unhandled />',
+    })({ content: {} })
+
+    expect(html).toBe('<unhandled />')
   })
 })
 

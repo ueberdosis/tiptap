@@ -104,6 +104,7 @@ export const HardBreak = Node.create<HardBreakOptions>({
 
                     return true
                   })
+                  .scrollIntoView()
                   .run()
               }),
           ])

@@ -1,6 +1,8 @@
 /** @jsxImportSource @tiptap/core */
 import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core'
 
+import { handleBackspace } from './handleBackspace.js'
+
 export interface BlockquoteOptions {
   /**
    * HTML attributes to add to the blockquote element
@@ -126,6 +128,7 @@ export const Blockquote = Node.create<BlockquoteOptions>({
   addKeyboardShortcuts() {
     return {
       'Mod-Shift-b': () => this.editor.commands.toggleBlockquote(),
+      Backspace: () => handleBackspace(this.editor, this.type),
     }
   },
 

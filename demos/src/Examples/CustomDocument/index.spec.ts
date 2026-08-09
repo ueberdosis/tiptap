@@ -67,7 +67,7 @@ test.describe(`${demoPath}/${demoName}`, () => {
         await editor.evaluate((el: any) => {
           el.editor.chain().focus().clearContent().insertContent('Hello world').run()
         })
-        await editor.click()
+        await page.locator('.tiptap h1').click()
         await page.keyboard.press('End')
         await page.keyboard.press('Enter')
 

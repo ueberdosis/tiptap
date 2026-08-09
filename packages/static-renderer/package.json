@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/static-renderer",
-  "version": "3.23.6",
+  "version": "3.29.2",
   "description": "statically render Tiptap JSON",
   "keywords": [
     "tiptap",
@@ -8,6 +8,9 @@
     "tiptap static renderer"
   ],
   "homepage": "https://tiptap.dev",
+  "bugs": {
+    "url": "https://github.com/ueberdosis/tiptap/issues"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",

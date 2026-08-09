@@ -11,6 +11,7 @@ import type { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } fr
 import type { ComponentType, NamedExoticComponent } from 'react'
 import { createElement, createRef, memo } from 'react'
 
+import { captureDOMSelection } from './captureDOMSelection.js'
 import type { EditorWithContentComponent } from './Editor.js'
 import { ReactRenderer } from './ReactRenderer.js'
 import type { ReactNodeViewProps } from './types.js'
@@ -118,11 +119,12 @@ export class ReactNodeView<
 
       const contentTarget = this.dom.querySelector('[data-node-view-content]')
 
-      if (!contentTarget) {
-        return
+      if (contentTarget) {
+        contentTarget.appendChild(this.contentDOMElement)
+      } else {
+        // ProseMirror maps the selection before the queued portal render.
+        this.dom.appendChild(this.contentDOMElement)
       }
-
-      contentTarget.appendChild(this.contentDOMElement)
     }
 
     if (this.options.trackNodeViewPosition) {
@@ -192,7 +194,13 @@ export class ReactNodeView<
         if (element.hasAttribute('data-node-view-wrapper')) {
           element.removeAttribute('data-node-view-wrapper')
         }
+
+        // The caret can already be inside here. Moving would lose it.
+        const restoreSelection = captureDOMSelection(this.contentDOMElement)
+
         element.appendChild(this.contentDOMElement)
+
+        restoreSelection?.()
       }
     }
     const context = { onDragStart, nodeViewContentRef }
@@ -272,8 +280,8 @@ export class ReactNodeView<
 
     this.selectionRafId = requestAnimationFrame(() => {
       this.selectionRafId = null
-      // Avoid resolving getPos() after ProseMirror has detached this node view.
-      const pos = this.currentPos
+      // getPos() is undefined while the node view is mid-update, so fall back to the last known position.
+      const pos = this.getPos() ?? this.currentPos
       if (typeof pos !== 'number') {
         return
       }

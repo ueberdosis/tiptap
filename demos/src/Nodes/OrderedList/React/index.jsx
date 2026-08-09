@@ -4,7 +4,7 @@ import Document from '@tiptap/extension-document'
 import { ListItem, OrderedList } from '@tiptap/extension-list'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import React from 'react'
 
 export default () => {
@@ -20,7 +20,26 @@ export default () => {
           <li>This item starts at 5</li>
           <li>And another one</li>
         </ol>
+
+        <ol type="a">
+          <li>Lowercase alphabetical list</li>
+          <li>Second item</li>
+        </ol>
+
+        <ol type="I">
+          <li>Uppercase roman numerals</li>
+          <li>Second item</li>
+        </ol>
       `,
+  })
+  const editorState = useEditorState({
+    editor,
+    selector: ctx => ({
+      isOrderedList: ctx.editor.isActive('orderedList') ?? false,
+      canSplitListItem: ctx.editor.can().splitListItem('listItem') ?? false,
+      canSinkListItem: ctx.editor.can().sinkListItem('listItem') ?? false,
+      canLiftListItem: ctx.editor.can().liftListItem('listItem') ?? false,
+    }),
   })
 
   if (!editor) {
@@ -33,25 +52,25 @@ export default () => {
         <div className="button-group">
           <button
             onClick={() => editor.chain().focus().toggleOrderedList().run()}
-            className={editor.isActive('orderedList') ? 'is-active' : ''}
+            className={editorState.isOrderedList ? 'is-active' : ''}
           >
             Toggle ordered list
           </button>
           <button
             onClick={() => editor.chain().focus().splitListItem('listItem').run()}
-            disabled={!editor.can().splitListItem('listItem')}
+            disabled={!editorState.canSplitListItem}
           >
             Split list item
           </button>
           <button
             onClick={() => editor.chain().focus().sinkListItem('listItem').run()}
-            disabled={!editor.can().sinkListItem('listItem')}
+            disabled={!editorState.canSinkListItem}
           >
             Sink list item
           </button>
           <button
             onClick={() => editor.chain().focus().liftListItem('listItem').run()}
-            disabled={!editor.can().liftListItem('listItem')}
+            disabled={!editorState.canLiftListItem}
           >
             Lift list item
           </button>

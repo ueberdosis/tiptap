@@ -18,6 +18,20 @@ export function getDragImageOffset(direction: string, wrapperWidth: number): num
   return direction === 'rtl' ? wrapperWidth : 0
 }
 
+// The drag preview clone resets its margin so it sits flush against the wrapper
+// origin. Skip the reset when the user explicitly copies a margin property via
+// `dragImageProperties`, otherwise we would discard the value they asked for.
+export function shouldResetMargin(dragImageProperties?: string[]): boolean {
+  if (!dragImageProperties) {
+    return true
+  }
+
+  return !dragImageProperties.some(property => {
+    const p = property.trim().toLowerCase()
+    return p === 'margin' || p.startsWith('margin-')
+  })
+}
+
 function getDragHandleRanges(
   event: DragEvent,
   editor: Editor,
@@ -104,11 +118,12 @@ export function dragHandler(
 
   // For nested mode, create slice directly to avoid NodeRangeSelection expanding to parent
   const isNestedDrag = nestedOptions?.enabled && dragContext?.node
+  const isSingleBlock = ranges.length === 1
 
   let slice
   let selection
 
-  if (isNestedDrag) {
+  if (isNestedDrag && isSingleBlock) {
     // Create slice directly from the exact positions
     slice = view.state.doc.slice(from, to)
 
@@ -120,6 +135,8 @@ export function dragHandler(
     slice = selection.content()
   }
 
+  const resetMargin = shouldResetMargin(dragImageProperties)
+
   ranges.forEach(range => {
     const element = getDraggedBlockElement(view, range.$from.pos) as HTMLElement | null
 
@@ -129,7 +146,9 @@ export function dragHandler(
 
     const clonedElement = cloneElement(element, dragImageProperties)
 
-    clonedElement.style.margin = '0'
+    if (resetMargin) {
+      clonedElement.style.margin = '0'
+    }
 
     wrapper.append(clonedElement)
   })

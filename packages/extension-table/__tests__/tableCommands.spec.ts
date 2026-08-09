@@ -158,7 +158,7 @@ describe('Table commands', () => {
     editor.commands.clearContent()
     editor.commands.insertTable({ cols: 1, rows: 1, withHeaderRow: false })
     expect(editor.getHTML()).toBe(
-      '<table style="min-width: 25px"><colgroup><col style="min-width: 25px"></colgroup><tbody><tr><td colspan="1" rowspan="1"><p></p></td></tr></tbody></table>',
+      '<table style="min-width: 25px;"><colgroup><col style="min-width: 25px;"></colgroup><tbody><tr><td colspan="1" rowspan="1"><p></p></td></tr></tbody></table>',
     )
   })
 
@@ -166,7 +166,7 @@ describe('Table commands', () => {
     editor.commands.clearContent()
     editor.commands.insertTable({ cols: 1, rows: 1, withHeaderRow: true })
     expect(editor.getHTML()).toBe(
-      '<table style="min-width: 25px"><colgroup><col style="min-width: 25px"></colgroup><tbody><tr><th colspan="1" rowspan="1"><p></p></th></tr></tbody></table>',
+      '<table style="min-width: 25px;"><colgroup><col style="min-width: 25px;"></colgroup><tbody><tr><th colspan="1" rowspan="1"><p></p></th></tr></tbody></table>',
     )
   })
 

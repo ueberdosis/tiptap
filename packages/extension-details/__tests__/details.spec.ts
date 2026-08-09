@@ -8,9 +8,12 @@ import { Details, DetailsContent, DetailsSummary } from '../src/index.js'
 
 describe('Details', () => {
   let editor: Editor
+  let editorElement: HTMLDivElement | undefined
 
   afterEach(() => {
     editor?.destroy()
+    editorElement?.remove()
+    editorElement = undefined
   })
 
   it('adds a default aria-label to the toggle button', () => {
@@ -149,6 +152,59 @@ describe('Details', () => {
     expect(editor.getHTML()).toBe(
       '<details><summary>Summary</summary><div data-type="detailsContent"><p>Content</p></div></details>',
     )
+  })
+
+  it('keeps the cursor in details content after typing at the start of the document', () => {
+    editorElement = document.createElement('div')
+    document.body.appendChild(editorElement)
+
+    editor = new Editor({
+      element: editorElement,
+      extensions: [Document, Paragraph, Text, Details, DetailsSummary, DetailsContent],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'details',
+            content: [
+              {
+                type: 'detailsSummary',
+                content: [{ type: 'text', text: 'Summary' }],
+              },
+              {
+                type: 'detailsContent',
+                content: [{ type: 'paragraph' }],
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    Object.defineProperty(editor.view.dom, 'offsetParent', { value: document.body })
+    const paragraph = editor.view.dom.querySelector('p')
+
+    if (!paragraph) {
+      throw new Error('Expected details content to contain a paragraph')
+    }
+
+    Object.defineProperty(paragraph, 'offsetParent', {
+      value: editor.view.dom,
+    })
+
+    const toggleButton = editor.view.dom.querySelector<HTMLButtonElement>(
+      'div[data-type="details"] > button',
+    )
+    const summary = editor.state.doc.firstChild?.firstChild
+    const contentPosition = 1 + (summary?.nodeSize ?? 0) + 2
+
+    toggleButton?.click()
+    editor.commands.setTextSelection(contentPosition)
+    editor.commands.insertContent('a')
+    editor.commands.setTextSelection(contentPosition + 1)
+
+    expect(editor.state.selection.$from.parent.type).toBe(editor.schema.nodes.paragraph)
+    expect(editor.state.doc.textContent).toBe('Summarya')
   })
 
   it('ignores button attribute mutations triggered by renderToggleButton', async () => {

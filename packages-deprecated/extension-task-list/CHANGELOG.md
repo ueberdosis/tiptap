@@ -1,5 +1,92 @@
 # Change Log
 
+## 3.29.2
+
+### Patch Changes
+
+- @tiptap/extension-list@3.29.2
+
+## 3.29.1
+
+### Patch Changes
+
+- @tiptap/extension-list@3.29.1
+
+## 3.29.0
+
+### Patch Changes
+
+- @tiptap/extension-list@3.29.0
+
+## 3.28.0
+
+### Patch Changes
+
+- Updated dependencies [c1254c1]
+  - @tiptap/extension-list@3.28.0
+
+## 3.27.4
+
+### Patch Changes
+
+- Updated dependencies [c28d888]
+  - @tiptap/extension-list@3.27.4
+
+## 3.27.3
+
+### Patch Changes
+
+- Updated dependencies [b4600b6]
+- Updated dependencies [1f3ca7a]
+  - @tiptap/extension-list@3.27.3
+
+## 3.27.2
+
+### Patch Changes
+
+- Updated dependencies [f586b6f]
+  - @tiptap/extension-list@3.27.2
+
+## 3.27.1
+
+### Patch Changes
+
+- Updated dependencies [a16901d]
+  - @tiptap/extension-list@3.27.1
+
+## 3.27.0
+
+### Patch Changes
+
+- Updated dependencies [0d0094d]
+  - @tiptap/extension-list@3.27.0
+
+## 3.26.1
+
+### Patch Changes
+
+- @tiptap/extension-list@3.26.1
+
+## 3.26.0
+
+### Patch Changes
+
+- @tiptap/extension-list@3.26.0
+
+## 3.25.0
+
+### Patch Changes
+
+- Updated dependencies [8dc5694]
+- Updated dependencies [45237e7]
+  - @tiptap/extension-list@3.25.0
+
+## 3.24.0
+
+### Patch Changes
+
+- @tiptap/extension-list@3.24.0
+
 ## 3.23.6
 
 ### Patch Changes
@@ -524,30 +611,30 @@
   The `ListKit` export allows configuring all list extensions with one extension, and is the recommended way of using the list extensions.
 
   ```ts
-  import { ListKit } from '@tiptap/extension-list'
+  import { ListKit } from "@tiptap/extension-list";
 
   new Editor({
     extensions: [
       ListKit.configure({
         bulletList: {
-          HTMLAttributes: 'bullet-list',
+          HTMLAttributes: "bullet-list",
         },
         orderedList: {
-          HTMLAttributes: 'ordered-list',
+          HTMLAttributes: "ordered-list",
         },
         listItem: {
-          HTMLAttributes: 'list-item',
+          HTMLAttributes: "list-item",
         },
         taskList: {
-          HTMLAttributes: 'task-list',
+          HTMLAttributes: "task-list",
         },
         taskItem: {
-          HTMLAttributes: 'task-item',
+          HTMLAttributes: "task-item",
         },
         listKeymap: {},
       }),
     ],
-  })
+  });
   ```
 
   ## List repackaging
@@ -582,7 +669,7 @@
   Usage:
 
   ```ts
-  import { BulletList } from '@tiptap/extension-list'
+  import { BulletList } from "@tiptap/extension-list";
   ```
 
   ### OrderedList
@@ -599,7 +686,7 @@
   Usage:
 
   ```ts
-  import { OrderedList } from '@tiptap/extension-list'
+  import { OrderedList } from "@tiptap/extension-list";
   ```
 
   ### ListItem
@@ -616,7 +703,7 @@
   Usage:
 
   ```ts
-  import { ListItem } from '@tiptap/extension-list'
+  import { ListItem } from "@tiptap/extension-list";
   ```
 
   ### TaskList
@@ -633,7 +720,7 @@
   Usage:
 
   ```ts
-  import { TaskList } from '@tiptap/extension-list'
+  import { TaskList } from "@tiptap/extension-list";
   ```
 
   ### TaskItem
@@ -650,7 +737,7 @@
   Usage:
 
   ```ts
-  import { TaskItem } from '@tiptap/extension-list'
+  import { TaskItem } from "@tiptap/extension-list";
   ```
 
   ### ListKeymap
@@ -667,7 +754,7 @@
   Usage:
 
   ```ts
-  import { ListKeymap } from '@tiptap/extension-list'
+  import { ListKeymap } from "@tiptap/extension-list";
   ```
 
 ### Patch Changes
@@ -880,30 +967,30 @@
   The `ListKit` export allows configuring all list extensions with one extension, and is the recommended way of using the list extensions.
 
   ```ts
-  import { ListKit } from '@tiptap/extension-list'
+  import { ListKit } from "@tiptap/extension-list";
 
   new Editor({
     extensions: [
       ListKit.configure({
         bulletList: {
-          HTMLAttributes: 'bullet-list',
+          HTMLAttributes: "bullet-list",
         },
         orderedList: {
-          HTMLAttributes: 'ordered-list',
+          HTMLAttributes: "ordered-list",
         },
         listItem: {
-          HTMLAttributes: 'list-item',
+          HTMLAttributes: "list-item",
         },
         taskList: {
-          HTMLAttributes: 'task-list',
+          HTMLAttributes: "task-list",
         },
         taskItem: {
-          HTMLAttributes: 'task-item',
+          HTMLAttributes: "task-item",
         },
         listKeymap: {},
       }),
     ],
-  })
+  });
   ```
 
   ## List repackaging
@@ -938,7 +1025,7 @@
   Usage:
 
   ```ts
-  import { BulletList } from '@tiptap/extension-list'
+  import { BulletList } from "@tiptap/extension-list";
   ```
 
   ### OrderedList
@@ -955,7 +1042,7 @@
   Usage:
 
   ```ts
-  import { OrderedList } from '@tiptap/extension-list'
+  import { OrderedList } from "@tiptap/extension-list";
   ```
 
   ### ListItem
@@ -972,7 +1059,7 @@
   Usage:
 
   ```ts
-  import { ListItem } from '@tiptap/extension-list'
+  import { ListItem } from "@tiptap/extension-list";
   ```
 
   ### TaskList
@@ -989,7 +1076,7 @@
   Usage:
 
   ```ts
-  import { TaskList } from '@tiptap/extension-list'
+  import { TaskList } from "@tiptap/extension-list";
   ```
 
   ### TaskItem
@@ -1006,7 +1093,7 @@
   Usage:
 
   ```ts
-  import { TaskItem } from '@tiptap/extension-list'
+  import { TaskItem } from "@tiptap/extension-list";
   ```
 
   ### ListKeymap
@@ -1023,7 +1110,7 @@
   Usage:
 
   ```ts
-  import { ListKeymap } from '@tiptap/extension-list'
+  import { ListKeymap } from "@tiptap/extension-list";
   ```
 
 ## 3.0.0-next.5
@@ -1037,30 +1124,30 @@
   The `ListKit` export allows configuring all list extensions with one extension, and is the recommended way of using the list extensions.
 
   ```ts
-  import { ListKit } from '@tiptap/extension-list'
+  import { ListKit } from "@tiptap/extension-list";
 
   new Editor({
     extensions: [
       ListKit.configure({
         bulletList: {
-          HTMLAttributes: 'bullet-list',
+          HTMLAttributes: "bullet-list",
         },
         orderedList: {
-          HTMLAttributes: 'ordered-list',
+          HTMLAttributes: "ordered-list",
         },
         listItem: {
-          HTMLAttributes: 'list-item',
+          HTMLAttributes: "list-item",
         },
         taskList: {
-          HTMLAttributes: 'task-list',
+          HTMLAttributes: "task-list",
         },
         taskItem: {
-          HTMLAttributes: 'task-item',
+          HTMLAttributes: "task-item",
         },
         listKeymap: {},
       }),
     ],
-  })
+  });
   ```
 
   ## List repackaging
@@ -1095,7 +1182,7 @@
   Usage:
 
   ```ts
-  import { BulletList } from '@tiptap/extension-list'
+  import { BulletList } from "@tiptap/extension-list";
   ```
 
   ### OrderedList
@@ -1112,7 +1199,7 @@
   Usage:
 
   ```ts
-  import { OrderedList } from '@tiptap/extension-list'
+  import { OrderedList } from "@tiptap/extension-list";
   ```
 
   ### ListItem
@@ -1129,7 +1216,7 @@
   Usage:
 
   ```ts
-  import { ListItem } from '@tiptap/extension-list'
+  import { ListItem } from "@tiptap/extension-list";
   ```
 
   ### TaskList
@@ -1146,7 +1233,7 @@
   Usage:
 
   ```ts
-  import { TaskList } from '@tiptap/extension-list'
+  import { TaskList } from "@tiptap/extension-list";
   ```
 
   ### TaskItem
@@ -1163,7 +1250,7 @@
   Usage:
 
   ```ts
-  import { TaskItem } from '@tiptap/extension-list'
+  import { TaskItem } from "@tiptap/extension-list";
   ```
 
   ### ListKeymap
@@ -1180,7 +1267,7 @@
   Usage:
 
   ```ts
-  import { ListKeymap } from '@tiptap/extension-list'
+  import { ListKeymap } from "@tiptap/extension-list";
   ```
 
 ## 3.0.0-next.4

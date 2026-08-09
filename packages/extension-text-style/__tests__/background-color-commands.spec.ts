@@ -27,9 +27,9 @@ describe('BackgroundColor commands', () => {
     expect(editor.isActive('textStyle', { backgroundColor: '#958DF1' })).toBe(false)
     editor.commands.setBackgroundColor('#958DF1')
     expect(editor.isActive('textStyle', { backgroundColor: '#958DF1' })).toBe(true)
-    expect(editor.getHTML()).toContain(
-      '<span style="background-color: #958DF1">Example Text</span>',
-    )
+    const span = editor.view.dom.querySelector('span')
+    expect(span?.textContent).toBe('Example Text')
+    expect(span?.style.backgroundColor).toBe('#958DF1')
   })
 
   it('removes the background color of the selected text', () => {

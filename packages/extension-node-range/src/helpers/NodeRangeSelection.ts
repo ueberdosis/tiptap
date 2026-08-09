@@ -58,7 +58,7 @@ export class NodeRangeSelection extends Selection {
     const $anchor = doc.resolve(mapping.map(this.anchor))
     const $head = doc.resolve(mapping.map(this.head))
 
-    return new NodeRangeSelection($anchor, $head)
+    return new NodeRangeSelection($anchor, $head, this.depth)
   }
 
   toJSON() {
@@ -66,6 +66,7 @@ export class NodeRangeSelection extends Selection {
       type: 'nodeRange',
       anchor: this.anchor,
       head: this.head,
+      depth: this.depth,
     }
   }
 
@@ -111,8 +112,11 @@ export class NodeRangeSelection extends Selection {
     return new NodeRangeSelection(this.$anchor, $to, this.depth)
   }
 
-  static fromJSON(doc: ProseMirrorNode, json: any): NodeRangeSelection {
-    return new NodeRangeSelection(doc.resolve(json.anchor), doc.resolve(json.head))
+  static fromJSON(
+    doc: ProseMirrorNode,
+    json: { anchor: number; head: number; depth?: number },
+  ): NodeRangeSelection {
+    return new NodeRangeSelection(doc.resolve(json.anchor), doc.resolve(json.head), json.depth)
   }
 
   static create(
@@ -126,8 +130,16 @@ export class NodeRangeSelection extends Selection {
   }
 
   getBookmark(): NodeRangeBookmark {
-    return new NodeRangeBookmark(this.anchor, this.head)
+    return new NodeRangeBookmark(this.anchor, this.head, this.depth)
   }
 }
 
 NodeRangeSelection.prototype.visible = false
+
+// register the JSON id so collaboration can restore the selection on remote updates
+// guarded because Selection.jsonID throws if the id is already registered (dual ESM/CJS builds)
+try {
+  Selection.jsonID('nodeRange', NodeRangeSelection)
+} catch {
+  // already registered — safe to ignore
+}

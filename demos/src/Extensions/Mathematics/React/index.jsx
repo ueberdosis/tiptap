@@ -2,13 +2,12 @@ import 'katex/dist/katex.min.css'
 import './styles.scss'
 
 import Math, { migrateMathStrings } from '@tiptap/extension-mathematics'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useCallback } from 'react'
 
 export default () => {
   const editor = useEditor({
-    shouldRerenderOnTransaction: true,
     extensions: [
       StarterKit,
       Math.configure({
@@ -78,6 +77,21 @@ export default () => {
     `,
   })
 
+  const { isEditable } = useEditorState({
+    editor,
+    selector: ctx => {
+      if (!ctx.editor) {
+        return {
+          isEditable: false,
+        }
+      }
+
+      return {
+        isEditable: ctx.editor.isEditable ?? false,
+      }
+    },
+  })
+
   const toggleEditing = useCallback(
     e => {
       if (!editor) {
@@ -130,7 +144,7 @@ export default () => {
     <>
       <div className="control-group">
         <label>
-          <input type="checkbox" checked={!editor.isEditable} onChange={toggleEditing} />
+          <input type="checkbox" checked={!isEditable} onChange={toggleEditing} />
           Readonly
         </label>
       </div>

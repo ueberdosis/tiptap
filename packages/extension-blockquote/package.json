@@ -1,12 +1,15 @@
 {
   "name": "@tiptap/extension-blockquote",
-  "version": "3.23.6",
+  "version": "3.29.2",
   "description": "blockquote extension for tiptap",
   "keywords": [
     "tiptap",
     "tiptap extension"
   ],
   "homepage": "https://tiptap.dev",
+  "bugs": {
+    "url": "https://github.com/ueberdosis/tiptap/issues"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -39,9 +42,11 @@
     "build": "tsup"
   },
   "devDependencies": {
-    "@tiptap/core": "workspace:^"
+    "@tiptap/core": "workspace:^",
+    "@tiptap/pm": "workspace:^"
   },
   "peerDependencies": {
-    "@tiptap/core": "workspace:*"
+    "@tiptap/core": "workspace:*",
+    "@tiptap/pm": "workspace:*"
   }
 }

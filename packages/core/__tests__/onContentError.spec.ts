@@ -208,4 +208,79 @@ describe('onContentError', () => {
     expect(editor.getText()).toBe('Example Text')
     expect(editor.storage.collaboration.isDisabled).toBe(false)
   })
+
+  it('does not throw when calling setContent(valid) from the onContentError handler', () => {
+    const json = {
+      invalid: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'Example Text',
+            },
+          ],
+        },
+      ],
+    }
+
+    const validJson = {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'Recovered',
+            },
+          ],
+        },
+      ],
+    }
+
+    let editor: Editor | undefined
+
+    expect(() => {
+      editor = new Editor({
+        content: json,
+        extensions: [Document, Paragraph, Text],
+        enableContentCheck: true,
+        onContentError: ({ editor: contentErrorEditor }) => {
+          contentErrorEditor.commands.setContent(validJson)
+        },
+      })
+    }).not.toThrow()
+
+    expect(editor?.getText()).toBe('Recovered')
+  })
+
+  // Invalid HTML whose fallback keeps a distinguishable "keepme" paragraph, so these
+  // tests fail if the fallback doc is ever discarded rather than preserved.
+  const invalidHtmlWithSalvageableText = '<p>keepme</p><foobar></foobar>'
+
+  it('preserves the fallback content when the handler runs a non-setContent command', () => {
+    const editor = new Editor({
+      content: invalidHtmlWithSalvageableText,
+      extensions: [Document, Paragraph, Text],
+      enableContentCheck: true,
+      onContentError: ({ editor: contentErrorEditor }) => {
+        contentErrorEditor.commands.setTextSelection(0)
+      },
+    })
+
+    expect(editor.getText()).toBe('keepme')
+  })
+
+  it('keeps the stripped fallback doc when the handler does nothing', () => {
+    const editor = new Editor({
+      content: invalidHtmlWithSalvageableText,
+      extensions: [Document, Paragraph, Text],
+      enableContentCheck: true,
+      onContentError: () => {},
+    })
+
+    expect(editor.getText()).toBe('keepme')
+  })
 })

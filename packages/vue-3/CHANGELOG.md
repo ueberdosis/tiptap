@@ -1,5 +1,118 @@
 # Change Log
 
+## 3.29.2
+
+### Patch Changes
+
+- @tiptap/core@3.29.2
+- @tiptap/pm@3.29.2
+
+## 3.29.1
+
+### Patch Changes
+
+- @tiptap/core@3.29.1
+- @tiptap/pm@3.29.1
+
+## 3.29.0
+
+### Patch Changes
+
+- bd47229: Fix `<node-view-content as="tbody">` (and similar restricted-content elements) rendering with an extra wrapper `<div>` nested inside them, which broke tables in Vue node views. Note: keep `<node-view-content>` mounted (use `v-show`, not `v-if`) — conditionally remounting it can leave ProseMirror attached to the old element.
+- Updated dependencies [d26840f]
+- Updated dependencies [e150ee0]
+- Updated dependencies [935e63f]
+- Updated dependencies [b4c5a2d]
+- Updated dependencies [a963d48]
+- Updated dependencies [51f45b6]
+- Updated dependencies [0f63969]
+- Updated dependencies [9acaa65]
+  - @tiptap/core@3.29.0
+  - @tiptap/pm@3.29.0
+
+## 3.28.0
+
+### Patch Changes
+
+- @tiptap/core@3.28.0
+- @tiptap/pm@3.28.0
+
+## 3.27.4
+
+### Patch Changes
+
+- @tiptap/core@3.27.4
+- @tiptap/pm@3.27.4
+
+## 3.27.3
+
+### Patch Changes
+
+- Updated dependencies [023f98c]
+  - @tiptap/core@3.27.3
+  - @tiptap/pm@3.27.3
+
+## 3.27.2
+
+### Patch Changes
+
+- Updated dependencies [ceebb31]
+  - @tiptap/pm@3.27.2
+  - @tiptap/core@3.27.2
+
+## 3.27.1
+
+### Patch Changes
+
+- @tiptap/core@3.27.1
+- @tiptap/pm@3.27.1
+
+## 3.27.0
+
+### Patch Changes
+
+- Updated dependencies [0d0094d]
+- Updated dependencies [795033c]
+- Updated dependencies [0e0c4f9]
+- Updated dependencies [6d12bb9]
+  - @tiptap/core@3.27.0
+  - @tiptap/pm@3.27.0
+
+## 3.26.1
+
+### Patch Changes
+
+- @tiptap/core@3.26.1
+- @tiptap/pm@3.26.1
+
+## 3.26.0
+
+### Patch Changes
+
+- @tiptap/core@3.26.0
+- @tiptap/pm@3.26.0
+
+## 3.25.0
+
+### Patch Changes
+
+- 26e6f0f: Fix `VueNodeViewRenderer` thrashing the DOM when `contentDOM` is null for non-leaf nodes. The renderer now always creates a contentDOM element for non-leaf nodes (matching React's behavior), so ProseMirror has a valid element to render children into even when the NodeView component does not include `NodeViewContent` or renders it conditionally.
+- Updated dependencies [ec291dd]
+- Updated dependencies [454e9b8]
+- Updated dependencies [9cf8db0]
+- Updated dependencies [c1a2ce8]
+- Updated dependencies [3d4f94c]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+
+## 3.24.0
+
+### Patch Changes
+
+- Updated dependencies [7c0499b]
+  - @tiptap/pm@3.24.0
+  - @tiptap/core@3.24.0
+
 ## 3.23.6
 
 ### Patch Changes
@@ -738,18 +851,18 @@
     // Other options...
     addMarkView() {
       return ({ mark, HTMLAttributes }) => {
-        const dom = document.createElement('b')
-        const contentDOM = document.createElement('span')
+        const dom = document.createElement("b");
+        const contentDOM = document.createElement("span");
 
-        dom.appendChild(contentDOM)
+        dom.appendChild(contentDOM);
 
         return {
           dom,
           contentDOM,
-        }
-      }
+        };
+      };
     },
-  })
+  });
   ```
 
   ## React binding
@@ -757,41 +870,41 @@
   To use a React component for a markview, you can use the `@tiptap/react` package:
 
   ```ts
-  import { Mark } from '@tiptap/core'
-  import { ReactMarkViewRenderer } from '@tiptap/react'
+  import { Mark } from "@tiptap/core";
+  import { ReactMarkViewRenderer } from "@tiptap/react";
 
-  import Component from './Component.jsx'
+  import Component from "./Component.jsx";
 
   export default Mark.create({
-    name: 'reactComponent',
+    name: "reactComponent",
 
     parseHTML() {
       return [
         {
-          tag: 'react-component',
+          tag: "react-component",
         },
-      ]
+      ];
     },
 
     renderHTML({ HTMLAttributes }) {
-      return ['react-component', HTMLAttributes]
+      return ["react-component", HTMLAttributes];
     },
 
     addMarkView() {
-      return ReactMarkViewRenderer(Component)
+      return ReactMarkViewRenderer(Component);
     },
-  })
+  });
   ```
 
   And here is an example of a React component:
 
   ```tsx
-  import { MarkViewContent, MarkViewRendererProps } from '@tiptap/react'
-  import React from 'react'
+  import { MarkViewContent, MarkViewRendererProps } from "@tiptap/react";
+  import React from "react";
 
   // oxlint-disable-next-line no-unused-vars
   export default (props: MarkViewRendererProps) => {
-    const [count, setCount] = React.useState(0)
+    const [count, setCount] = React.useState(0);
 
     return (
       <span className="content" data-test-id="mark-view">
@@ -800,15 +913,15 @@
           React component:
           <button
             onClick={() => {
-              setCount(count + 1)
+              setCount(count + 1);
             }}
           >
             This button has been clicked {count} times.
           </button>
         </label>
       </span>
-    )
-  }
+    );
+  };
   ```
 
   ## Vue 3 binding
@@ -816,30 +929,30 @@
   To use a Vue 3 component for a markview, you can use the `@tiptap/vue-3` package:
 
   ```ts
-  import { Mark } from '@tiptap/core'
-  import { VueMarkViewRenderer } from '@tiptap/vue-3'
+  import { Mark } from "@tiptap/core";
+  import { VueMarkViewRenderer } from "@tiptap/vue-3";
 
-  import Component from './Component.vue'
+  import Component from "./Component.vue";
 
   export default Mark.create({
-    name: 'vueComponent',
+    name: "vueComponent",
 
     parseHTML() {
       return [
         {
-          tag: 'vue-component',
+          tag: "vue-component",
         },
-      ]
+      ];
     },
 
     renderHTML({ HTMLAttributes }) {
-      return ['vue-component', HTMLAttributes]
+      return ["vue-component", HTMLAttributes];
     },
 
     addMarkView() {
-      return VueMarkViewRenderer(Component)
+      return VueMarkViewRenderer(Component);
     },
-  })
+  });
   ```
 
   And here is an example of a Vue 3 component:
@@ -850,13 +963,15 @@
       <mark-view-content />
       <label contenteditable="false"
         >Vue Component::
-        <button @click="increase" class="primary">This button has been clicked {{ count }} times.</button>
+        <button @click="increase" class="primary">
+          This button has been clicked {{ count }} times.
+        </button>
       </label>
     </span>
   </template>
 
   <script>
-  import { MarkViewContent, markViewProps } from '@tiptap/vue-3'
+  import { MarkViewContent, markViewProps } from "@tiptap/vue-3";
   export default {
     components: {
       MarkViewContent,
@@ -864,15 +979,15 @@
     data() {
       return {
         count: 0,
-      }
+      };
     },
     props: markViewProps,
     methods: {
       increase() {
-        this.count += 1
+        this.count += 1;
       },
     },
-  }
+  };
   </script>
   ```
 
@@ -1199,18 +1314,18 @@
     // Other options...
     addMarkView() {
       return ({ mark, HTMLAttributes }) => {
-        const dom = document.createElement('b')
-        const contentDOM = document.createElement('span')
+        const dom = document.createElement("b");
+        const contentDOM = document.createElement("span");
 
-        dom.appendChild(contentDOM)
+        dom.appendChild(contentDOM);
 
         return {
           dom,
           contentDOM,
-        }
-      }
+        };
+      };
     },
-  })
+  });
   ```
 
   ## React binding
@@ -1218,41 +1333,41 @@
   To use a React component for a markview, you can use the `@tiptap/react` package:
 
   ```ts
-  import { Mark } from '@tiptap/core'
-  import { ReactMarkViewRenderer } from '@tiptap/react'
+  import { Mark } from "@tiptap/core";
+  import { ReactMarkViewRenderer } from "@tiptap/react";
 
-  import Component from './Component.jsx'
+  import Component from "./Component.jsx";
 
   export default Mark.create({
-    name: 'reactComponent',
+    name: "reactComponent",
 
     parseHTML() {
       return [
         {
-          tag: 'react-component',
+          tag: "react-component",
         },
-      ]
+      ];
     },
 
     renderHTML({ HTMLAttributes }) {
-      return ['react-component', HTMLAttributes]
+      return ["react-component", HTMLAttributes];
     },
 
     addMarkView() {
-      return ReactMarkViewRenderer(Component)
+      return ReactMarkViewRenderer(Component);
     },
-  })
+  });
   ```
 
   And here is an example of a React component:
 
   ```tsx
-  import { MarkViewContent, MarkViewRendererProps } from '@tiptap/react'
-  import React from 'react'
+  import { MarkViewContent, MarkViewRendererProps } from "@tiptap/react";
+  import React from "react";
 
   // oxlint-disable-next-line no-unused-vars
   export default (props: MarkViewRendererProps) => {
-    const [count, setCount] = React.useState(0)
+    const [count, setCount] = React.useState(0);
 
     return (
       <span className="content" data-test-id="mark-view">
@@ -1261,15 +1376,15 @@
           React component:
           <button
             onClick={() => {
-              setCount(count + 1)
+              setCount(count + 1);
             }}
           >
             This button has been clicked {count} times.
           </button>
         </label>
       </span>
-    )
-  }
+    );
+  };
   ```
 
   ## Vue 3 binding
@@ -1277,30 +1392,30 @@
   To use a Vue 3 component for a markview, you can use the `@tiptap/vue-3` package:
 
   ```ts
-  import { Mark } from '@tiptap/core'
-  import { VueMarkViewRenderer } from '@tiptap/vue-3'
+  import { Mark } from "@tiptap/core";
+  import { VueMarkViewRenderer } from "@tiptap/vue-3";
 
-  import Component from './Component.vue'
+  import Component from "./Component.vue";
 
   export default Mark.create({
-    name: 'vueComponent',
+    name: "vueComponent",
 
     parseHTML() {
       return [
         {
-          tag: 'vue-component',
+          tag: "vue-component",
         },
-      ]
+      ];
     },
 
     renderHTML({ HTMLAttributes }) {
-      return ['vue-component', HTMLAttributes]
+      return ["vue-component", HTMLAttributes];
     },
 
     addMarkView() {
-      return VueMarkViewRenderer(Component)
+      return VueMarkViewRenderer(Component);
     },
-  })
+  });
   ```
 
   And here is an example of a Vue 3 component:
@@ -1311,13 +1426,15 @@
       <mark-view-content />
       <label contenteditable="false"
         >Vue Component::
-        <button @click="increase" class="primary">This button has been clicked {{ count }} times.</button>
+        <button @click="increase" class="primary">
+          This button has been clicked {{ count }} times.
+        </button>
       </label>
     </span>
   </template>
 
   <script>
-  import { MarkViewContent, markViewProps } from '@tiptap/vue-3'
+  import { MarkViewContent, markViewProps } from "@tiptap/vue-3";
   export default {
     components: {
       MarkViewContent,
@@ -1325,15 +1442,15 @@
     data() {
       return {
         count: 0,
-      }
+      };
     },
     props: markViewProps,
     methods: {
       increase() {
-        this.count += 1
+        this.count += 1;
       },
     },
-  }
+  };
   </script>
   ```
 
@@ -1350,18 +1467,18 @@
     // Other options...
     addMarkView() {
       return ({ mark, HTMLAttributes }) => {
-        const dom = document.createElement('b')
-        const contentDOM = document.createElement('span')
+        const dom = document.createElement("b");
+        const contentDOM = document.createElement("span");
 
-        dom.appendChild(contentDOM)
+        dom.appendChild(contentDOM);
 
         return {
           dom,
           contentDOM,
-        }
-      }
+        };
+      };
     },
-  })
+  });
   ```
 
   ## React binding
@@ -1369,41 +1486,41 @@
   To use a React component for a markview, you can use the `@tiptap/react` package:
 
   ```ts
-  import { Mark } from '@tiptap/core'
-  import { ReactMarkViewRenderer } from '@tiptap/react'
+  import { Mark } from "@tiptap/core";
+  import { ReactMarkViewRenderer } from "@tiptap/react";
 
-  import Component from './Component.jsx'
+  import Component from "./Component.jsx";
 
   export default Mark.create({
-    name: 'reactComponent',
+    name: "reactComponent",
 
     parseHTML() {
       return [
         {
-          tag: 'react-component',
+          tag: "react-component",
         },
-      ]
+      ];
     },
 
     renderHTML({ HTMLAttributes }) {
-      return ['react-component', HTMLAttributes]
+      return ["react-component", HTMLAttributes];
     },
 
     addMarkView() {
-      return ReactMarkViewRenderer(Component)
+      return ReactMarkViewRenderer(Component);
     },
-  })
+  });
   ```
 
   And here is an example of a React component:
 
   ```tsx
-  import { MarkViewContent, MarkViewRendererProps } from '@tiptap/react'
-  import React from 'react'
+  import { MarkViewContent, MarkViewRendererProps } from "@tiptap/react";
+  import React from "react";
 
   // oxlint-disable-next-line no-unused-vars
   export default (props: MarkViewRendererProps) => {
-    const [count, setCount] = React.useState(0)
+    const [count, setCount] = React.useState(0);
 
     return (
       <span className="content" data-test-id="mark-view">
@@ -1412,15 +1529,15 @@
           React component:
           <button
             onClick={() => {
-              setCount(count + 1)
+              setCount(count + 1);
             }}
           >
             This button has been clicked {count} times.
           </button>
         </label>
       </span>
-    )
-  }
+    );
+  };
   ```
 
   ## Vue 3 binding
@@ -1428,30 +1545,30 @@
   To use a Vue 3 component for a markview, you can use the `@tiptap/vue-3` package:
 
   ```ts
-  import { Mark } from '@tiptap/core'
-  import { VueMarkViewRenderer } from '@tiptap/vue-3'
+  import { Mark } from "@tiptap/core";
+  import { VueMarkViewRenderer } from "@tiptap/vue-3";
 
-  import Component from './Component.vue'
+  import Component from "./Component.vue";
 
   export default Mark.create({
-    name: 'vueComponent',
+    name: "vueComponent",
 
     parseHTML() {
       return [
         {
-          tag: 'vue-component',
+          tag: "vue-component",
         },
-      ]
+      ];
     },
 
     renderHTML({ HTMLAttributes }) {
-      return ['vue-component', HTMLAttributes]
+      return ["vue-component", HTMLAttributes];
     },
 
     addMarkView() {
-      return VueMarkViewRenderer(Component)
+      return VueMarkViewRenderer(Component);
     },
-  })
+  });
   ```
 
   And here is an example of a Vue 3 component:
@@ -1462,13 +1579,15 @@
       <mark-view-content />
       <label contenteditable="false"
         >Vue Component::
-        <button @click="increase" class="primary">This button has been clicked {{ count }} times.</button>
+        <button @click="increase" class="primary">
+          This button has been clicked {{ count }} times.
+        </button>
       </label>
     </span>
   </template>
 
   <script>
-  import { MarkViewContent, markViewProps } from '@tiptap/vue-3'
+  import { MarkViewContent, markViewProps } from "@tiptap/vue-3";
   export default {
     components: {
       MarkViewContent,
@@ -1476,15 +1595,15 @@
     data() {
       return {
         count: 0,
-      }
+      };
     },
     props: markViewProps,
     methods: {
       increase() {
-        this.count += 1
+        this.count += 1;
       },
     },
-  }
+  };
   </script>
   ```
 

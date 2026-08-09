@@ -4,7 +4,7 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import Underline from '@tiptap/extension-underline'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import React from 'react'
 
 export default () => {
@@ -15,6 +15,12 @@ export default () => {
         <p><u>This is underlined though.</u></p>
         <p style="text-decoration: underline">And this as well.</p>
       `,
+  })
+  const { isUnderline } = useEditorState({
+    editor,
+    selector: ctx => ({
+      isUnderline: ctx.editor.isActive('underline') ?? false,
+    }),
   })
 
   if (!editor) {
@@ -27,19 +33,19 @@ export default () => {
         <div className="button-group">
           <button
             onClick={() => editor.chain().focus().toggleUnderline().run()}
-            className={editor.isActive('underline') ? 'is-active' : ''}
+            className={isUnderline ? 'is-active' : ''}
           >
             Toggle underline
           </button>
           <button
             onClick={() => editor.chain().focus().setUnderline().run()}
-            disabled={editor.isActive('underline')}
+            disabled={isUnderline}
           >
             Set underline
           </button>
           <button
             onClick={() => editor.chain().focus().unsetUnderline().run()}
-            disabled={!editor.isActive('underline')}
+            disabled={!isUnderline}
           >
             Unset underline
           </button>

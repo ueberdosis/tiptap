@@ -47,7 +47,7 @@ describe('filterInvalidContent', () => {
   const findFilterPlugin = (e: Editor): Plugin | undefined =>
     e.state.plugins.find(p => p.spec.filterTransaction && p.key.includes('filterInvalidContent'))
 
-  it('rejects Yjs transactions that produce invalid content', async () => {
+  it('emits contentError and disables collaboration on invalid Yjs content while allowing the transaction', async () => {
     let contentErrorCalled = false
 
     const { editor: ed } = await createCollabEditor({
@@ -70,7 +70,7 @@ describe('filterInvalidContent', () => {
 
     const result = plugin!.spec.filterTransaction!(tr, ed.state)
 
-    expect(result).toBe(false)
+    expect(result).toBe(true)
     expect(contentErrorCalled).toBe(true)
     expect(ed.storage.collaboration.isDisabled).toBe(true)
   })
@@ -151,5 +151,32 @@ describe('filterInvalidContent', () => {
 
     disableCollab!()
     expect(destroySpy).toHaveBeenCalled()
+  })
+
+  it('recovers from invalid initial content via disableCollaboration + setContent (#7493)', () => {
+    const ydoc = new Y.Doc()
+
+    el = document.createElement('div')
+    document.body.appendChild(el)
+
+    let ranHandler = false
+
+    expect(() => {
+      editor = new Editor({
+        element: el as HTMLElement,
+        extensions: [Document, Paragraph, Text, Collaboration.configure({ document: ydoc })],
+        content: '<p>keepme</p><foobar></foobar>',
+        enableContentCheck: true,
+        onContentError: ({ editor: contentErrorEditor, disableCollaboration }) => {
+          ranHandler = true
+          disableCollaboration()
+          contentErrorEditor.commands.setContent('<p>recovered</p>')
+        },
+      })
+    }).not.toThrow()
+
+    expect(ranHandler).toBe(true)
+    expect(editor!.storage.collaboration).toBeUndefined()
+    expect(editor!.getText()).toBe('recovered')
   })
 })

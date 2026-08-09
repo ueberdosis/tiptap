@@ -68,7 +68,7 @@ test.describe(`${demoPath}/${demoName}`, () => {
         await editor.click()
         await page.keyboard.type('1. List Item 1')
         await page.keyboard.press('Enter')
-        await page.keyboard.type('List Item 2')
+        await editor.type('List Item 2')
         await expect(page.locator('.tiptap li').nth(0)).toContainText('List Item 1')
         await expect(page.locator('.tiptap li').nth(1)).toContainText('List Item 2')
       })
@@ -79,8 +79,39 @@ test.describe(`${demoPath}/${demoName}`, () => {
         await editor.click()
         await page.keyboard.type('1. ')
         await page.keyboard.press('Backspace')
-        await page.keyboard.type('Example')
+        await editor.type('Example')
         await expect(page.locator('.tiptap p')).toContainText('1. Example')
+      })
+
+      // ── Type attribute tests ──
+
+      test('preserves type="a" attribute in HTML output', async ({ page }) => {
+        const editor = await getEditor(page)
+        const html = await editor.evaluate((el: any) => {
+          el.editor.commands.setContent(
+            '<ol type="a"><li><p>Item A</p></li><li><p>Item B</p></li></ol>',
+          )
+          return el.editor.getHTML()
+        })
+        expect(html).toContain('type="a"')
+      })
+
+      test('preserves type="I" attribute in HTML output', async ({ page }) => {
+        const editor = await getEditor(page)
+        const html = await editor.evaluate((el: any) => {
+          el.editor.commands.setContent('<ol type="I"><li><p>Item 1</p></li></ol>')
+          return el.editor.getHTML()
+        })
+        expect(html).toContain('type="I"')
+      })
+
+      test('does not render type attribute for default type', async ({ page }) => {
+        const editor = await getEditor(page)
+        const html = await editor.evaluate((el: any) => {
+          el.editor.commands.setContent('<ol><li><p>Item</p></li></ol>')
+          return el.editor.getHTML()
+        })
+        expect(html).not.toContain('type')
       })
     })
   })

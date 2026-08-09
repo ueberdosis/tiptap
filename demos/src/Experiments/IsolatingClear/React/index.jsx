@@ -2,7 +2,7 @@ import './styles.scss'
 
 import { ListItem } from '@tiptap/extension-list'
 import { Color, TextStyle } from '@tiptap/extension-text-style'
-import { EditorContent, Node, useEditor } from '@tiptap/react'
+import { EditorContent, Node, useEditor, useEditorState } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 
@@ -27,6 +27,34 @@ const WrapperBlock = Node.create({
 })
 
 const MenuBar = ({ editor }) => {
+  const editorState = useEditorState({
+    editor,
+    selector: ctx => ({
+      isBold: ctx.editor.isActive('bold') ?? false,
+      canBold: ctx.editor.can().chain().focus().toggleBold().run() ?? false,
+      isItalic: ctx.editor.isActive('italic') ?? false,
+      canItalic: ctx.editor.can().chain().focus().toggleItalic().run() ?? false,
+      isStrike: ctx.editor.isActive('strike') ?? false,
+      canStrike: ctx.editor.can().chain().focus().toggleStrike().run() ?? false,
+      isCode: ctx.editor.isActive('code') ?? false,
+      canCode: ctx.editor.can().chain().focus().toggleCode().run() ?? false,
+      isParagraph: ctx.editor.isActive('paragraph') ?? false,
+      isHeading1: ctx.editor.isActive('heading', { level: 1 }) ?? false,
+      isHeading2: ctx.editor.isActive('heading', { level: 2 }) ?? false,
+      isHeading3: ctx.editor.isActive('heading', { level: 3 }) ?? false,
+      isHeading4: ctx.editor.isActive('heading', { level: 4 }) ?? false,
+      isHeading5: ctx.editor.isActive('heading', { level: 5 }) ?? false,
+      isHeading6: ctx.editor.isActive('heading', { level: 6 }) ?? false,
+      isBulletList: ctx.editor.isActive('bulletList') ?? false,
+      isOrderedList: ctx.editor.isActive('orderedList') ?? false,
+      isCodeBlock: ctx.editor.isActive('codeBlock') ?? false,
+      isBlockquote: ctx.editor.isActive('blockquote') ?? false,
+      canUndo: ctx.editor.can().chain().focus().undo().run() ?? false,
+      canRedo: ctx.editor.can().chain().focus().redo().run() ?? false,
+      isPurple: ctx.editor.isActive('textStyle', { color: '#958DF1' }) ?? false,
+    }),
+  })
+
   if (!editor) {
     return null
   }
@@ -36,29 +64,29 @@ const MenuBar = ({ editor }) => {
       <div className="button-group">
         <button
           onClick={() => editor.chain().focus().toggleBold().run()}
-          disabled={!editor.can().chain().focus().toggleBold().run()}
-          className={editor.isActive('bold') ? 'is-active' : ''}
+          disabled={!editorState.canBold}
+          className={editorState.isBold ? 'is-active' : ''}
         >
           Bold
         </button>
         <button
           onClick={() => editor.chain().focus().toggleItalic().run()}
-          disabled={!editor.can().chain().focus().toggleItalic().run()}
-          className={editor.isActive('italic') ? 'is-active' : ''}
+          disabled={!editorState.canItalic}
+          className={editorState.isItalic ? 'is-active' : ''}
         >
           Italic
         </button>
         <button
           onClick={() => editor.chain().focus().toggleStrike().run()}
-          disabled={!editor.can().chain().focus().toggleStrike().run()}
-          className={editor.isActive('strike') ? 'is-active' : ''}
+          disabled={!editorState.canStrike}
+          className={editorState.isStrike ? 'is-active' : ''}
         >
           Strike
         </button>
         <button
           onClick={() => editor.chain().focus().toggleCode().run()}
-          disabled={!editor.can().chain().focus().toggleCode().run()}
-          className={editor.isActive('code') ? 'is-active' : ''}
+          disabled={!editorState.canCode}
+          className={editorState.isCode ? 'is-active' : ''}
         >
           Code
         </button>
@@ -66,67 +94,67 @@ const MenuBar = ({ editor }) => {
         <button onClick={() => editor.chain().focus().clearNodes().run()}>Clear nodes</button>
         <button
           onClick={() => editor.chain().focus().setParagraph().run()}
-          className={editor.isActive('paragraph') ? 'is-active' : ''}
+          className={editorState.isParagraph ? 'is-active' : ''}
         >
           Paragraph
         </button>
         <button
           onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-          className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
+          className={editorState.isHeading1 ? 'is-active' : ''}
         >
           H1
         </button>
         <button
           onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-          className={editor.isActive('heading', { level: 2 }) ? 'is-active' : ''}
+          className={editorState.isHeading2 ? 'is-active' : ''}
         >
           H2
         </button>
         <button
           onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-          className={editor.isActive('heading', { level: 3 }) ? 'is-active' : ''}
+          className={editorState.isHeading3 ? 'is-active' : ''}
         >
           H3
         </button>
         <button
           onClick={() => editor.chain().focus().toggleHeading({ level: 4 }).run()}
-          className={editor.isActive('heading', { level: 4 }) ? 'is-active' : ''}
+          className={editorState.isHeading4 ? 'is-active' : ''}
         >
           H4
         </button>
         <button
           onClick={() => editor.chain().focus().toggleHeading({ level: 5 }).run()}
-          className={editor.isActive('heading', { level: 5 }) ? 'is-active' : ''}
+          className={editorState.isHeading5 ? 'is-active' : ''}
         >
           H5
         </button>
         <button
           onClick={() => editor.chain().focus().toggleHeading({ level: 6 }).run()}
-          className={editor.isActive('heading', { level: 6 }) ? 'is-active' : ''}
+          className={editorState.isHeading6 ? 'is-active' : ''}
         >
           H6
         </button>
         <button
           onClick={() => editor.chain().focus().toggleBulletList().run()}
-          className={editor.isActive('bulletList') ? 'is-active' : ''}
+          className={editorState.isBulletList ? 'is-active' : ''}
         >
           Bullet list
         </button>
         <button
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
-          className={editor.isActive('orderedList') ? 'is-active' : ''}
+          className={editorState.isOrderedList ? 'is-active' : ''}
         >
           Ordered list
         </button>
         <button
           onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-          className={editor.isActive('codeBlock') ? 'is-active' : ''}
+          className={editorState.isCodeBlock ? 'is-active' : ''}
         >
           Code block
         </button>
         <button
           onClick={() => editor.chain().focus().toggleBlockquote().run()}
-          className={editor.isActive('blockquote') ? 'is-active' : ''}
+          className={editorState.isBlockquote ? 'is-active' : ''}
         >
           Blockquote
         </button>
@@ -134,21 +162,15 @@ const MenuBar = ({ editor }) => {
           Horizontal rule
         </button>
         <button onClick={() => editor.chain().focus().setHardBreak().run()}>Hard break</button>
-        <button
-          onClick={() => editor.chain().focus().undo().run()}
-          disabled={!editor.can().chain().focus().undo().run()}
-        >
+        <button onClick={() => editor.chain().focus().undo().run()} disabled={!editorState.canUndo}>
           Undo
         </button>
-        <button
-          onClick={() => editor.chain().focus().redo().run()}
-          disabled={!editor.can().chain().focus().redo().run()}
-        >
+        <button onClick={() => editor.chain().focus().redo().run()} disabled={!editorState.canRedo}>
           Redo
         </button>
         <button
           onClick={() => editor.chain().focus().setColor('#958DF1').run()}
-          className={editor.isActive('textStyle', { color: '#958DF1' }) ? 'is-active' : ''}
+          className={editorState.isPurple ? 'is-active' : ''}
         >
           Purple
         </button>

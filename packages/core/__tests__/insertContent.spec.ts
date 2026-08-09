@@ -158,7 +158,7 @@ And more lines`)
   it('respects editor.options.parseOptions if defined to be `true`', () => {
     editor.options.parseOptions = { preserveWhitespace: true }
     editor.commands.insertContent('<h1>Tiptap</h1><p><strong>Hello\n World</strong>\n</p>')
-    expect(editor.getHTML()).toContain('<h1>Tiptap</h1><p><strong>Hello  World</strong></p>')
+    expect(editor.getHTML()).toContain('<h1>Tiptap</h1><p><strong>Hello<br> World</strong></p>')
   })
 })
 

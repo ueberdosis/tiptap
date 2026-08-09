@@ -13,6 +13,12 @@ import {
 import { dragHandler } from './helpers/dragHandler.js'
 import { findElementNextToCoords } from './helpers/findNextElementFromCursor.js'
 import { getOuterNode, getOuterNodePos } from './helpers/getOuterNode.js'
+import {
+  type ActiveDragRange,
+  createDroppedNodeRangeSelection,
+  getActiveDragRange,
+  mapPendingRestoreAnchor,
+} from './helpers/nodeRangeDrop.js'
 import { removeNode } from './helpers/removeNode.js'
 import type { NormalizedNestedOptions } from './types/options.js'
 
@@ -98,6 +104,47 @@ export const DragHandlePlugin = ({
   let currentNodeRelPos: any
   let rafId: number | null = null
   let pendingMouseCoords: { x: number; y: number } | null = null
+  let activeDragRange: ActiveDragRange | null = null
+  let pendingRestore: ActiveDragRange | null = null
+
+  function clearDragRangeState() {
+    activeDragRange = null
+    pendingRestore = null
+  }
+
+  function remapPendingRestore(tr: Transaction, state: EditorState) {
+    if (!pendingRestore) {
+      return
+    }
+
+    pendingRestore = mapPendingRestoreAnchor(pendingRestore, tr, {
+      isChangeOrigin: isChangeOrigin(tr),
+      getAbsolutePos: relativePos => getAbsolutePos(state, relativePos),
+    })
+  }
+
+  function buildRestoreTransaction(state: EditorState) {
+    if (!pendingRestore) {
+      return null
+    }
+
+    const nodeRangeSelection = createDroppedNodeRangeSelection(
+      state.doc,
+      pendingRestore.anchorPos,
+      pendingRestore.nodeCount,
+      pendingRestore.depth,
+    )
+
+    if (!nodeRangeSelection) {
+      pendingRestore = null
+      activeDragRange = null
+      return null
+    }
+
+    clearDragRangeState()
+
+    return state.tr.setSelection(nodeRangeSelection)
+  }
 
   function hideHandle() {
     if (!element) {
@@ -149,6 +196,9 @@ export const DragHandlePlugin = ({
       dragImageProperties,
     )
 
+    // remember a multi-block node range so it can be restored after drop
+    activeDragRange = getActiveDragRange(editor.state.selection)
+
     if (element) {
       element.dataset.dragging = 'true'
     }
@@ -162,6 +212,7 @@ export const DragHandlePlugin = ({
 
   function onDragEnd(e: DragEvent) {
     onElementDragEnd?.(e)
+    activeDragRange = null
     hideHandle()
     if (element) {
       element.style.pointerEvents = 'auto'
@@ -169,7 +220,11 @@ export const DragHandlePlugin = ({
     }
   }
 
-  function onDrop() {
+  function onDrop(e: DragEvent) {
+    if (!e.target || !editor.view.dom.contains(e.target as HTMLElement)) {
+      return
+    }
+
     // Firefox has a bug where the caret becomes invisible after drag and drop.
     // This workaround forces Firefox to re-render the caret by toggling contentEditable.
     // See: https://bugzilla.mozilla.org/show_bug.cgi?id=1327834
@@ -184,20 +239,45 @@ export const DragHandlePlugin = ({
         }
       })
     }
+
+    if (!activeDragRange || editor.view.state.selection.empty) {
+      return
+    }
+
+    const anchorPos = editor.state.selection.from
+    const relativeAnchorPos = getRelativePos(editor.state, anchorPos)
+
+    pendingRestore = {
+      ...activeDragRange,
+      anchorPos,
+      relativeAnchorPos: relativeAnchorPos ?? undefined,
+    }
+
+    // Dispatch a no-op transaction so appendTransaction can restore the node
+    // range after any Yjs isChangeOrigin transactions from the drop have settled.
+    editor.view.dispatch(editor.state.tr.setMeta('addToHistory', false))
+  }
+
+  // shared teardown for both the unbind() handle and the plugin view destroy
+  function cleanup() {
+    element.removeEventListener('dragstart', onDragStart)
+    element.removeEventListener('dragend', onDragEnd)
+    document.removeEventListener('drop', onDrop)
+
+    if (rafId) {
+      cancelAnimationFrame(rafId)
+      rafId = null
+      pendingMouseCoords = null
+    }
+
+    clearDragRangeState()
   }
 
   wrapper.appendChild(element)
 
   return {
     unbind() {
-      element.removeEventListener('dragstart', onDragStart)
-      element.removeEventListener('dragend', onDragEnd)
-      document.removeEventListener('drop', onDrop)
-      if (rafId) {
-        cancelAnimationFrame(rafId)
-        rafId = null
-        pendingMouseCoords = null
-      }
+      cleanup()
     },
     plugin: new Plugin({
       key: typeof pluginKey === 'string' ? new PluginKey(pluginKey) : pluginKey,
@@ -207,6 +287,8 @@ export const DragHandlePlugin = ({
           return { locked: false }
         },
         apply(tr: Transaction, value: PluginState, _oldState: EditorState, state: EditorState) {
+          remapPendingRestore(tr, state)
+
           const isLocked = tr.getMeta('lockDragHandle')
           const hideDragHandle = tr.getMeta('hideDragHandle')
 
@@ -263,6 +345,10 @@ export const DragHandlePlugin = ({
         },
       },
 
+      appendTransaction(_transactions, _oldState, newState) {
+        return buildRestoreTransaction(newState)
+      },
+
       view: view => {
         element.draggable = true
         element.style.pointerEvents = 'auto'
@@ -274,6 +360,9 @@ export const DragHandlePlugin = ({
         wrapper.style.position = 'absolute'
         wrapper.style.top = '0'
         wrapper.style.left = '0'
+        // Keep the handle above positioned editor content/decorations (e.g. the
+        // Pages page header/footer chrome) so it stays visible and clickable.
+        wrapper.style.zIndex = '10'
 
         element.addEventListener('dragstart', onDragStart)
         element.addEventListener('dragend', onDragEnd)
@@ -336,15 +425,7 @@ export const DragHandlePlugin = ({
 
           // TODO: Kills even on hot reload
           destroy() {
-            element.removeEventListener('dragstart', onDragStart)
-            element.removeEventListener('dragend', onDragEnd)
-            document.removeEventListener('drop', onDrop)
-
-            if (rafId) {
-              cancelAnimationFrame(rafId)
-              rafId = null
-              pendingMouseCoords = null
-            }
+            cleanup()
 
             if (element) {
               removeNode(wrapper)

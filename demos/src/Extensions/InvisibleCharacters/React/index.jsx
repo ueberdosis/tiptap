@@ -6,7 +6,7 @@ import Heading from '@tiptap/extension-heading'
 import InvisibleCharacters from '@tiptap/extension-invisible-characters'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import React from 'react'
 
 export default () => {
@@ -23,6 +23,21 @@ export default () => {
         This is a paragraph, but without breaks.
       </p>
     `,
+  })
+
+  const { isVisible } = useEditorState({
+    editor,
+    selector: ctx => {
+      if (!ctx.editor) {
+        return {
+          isVisible: false,
+        }
+      }
+
+      return {
+        isVisible: ctx.editor.storage.invisibleCharacters.visibility() ?? false,
+      }
+    },
   })
 
   if (!editor) {
@@ -49,7 +64,7 @@ export default () => {
           <input
             type="checkbox"
             id="show-invisible-characters"
-            checked={editor.storage.invisibleCharacters.visibility()}
+            checked={isVisible}
             onChange={event => {
               const value = event.currentTarget.checked
 

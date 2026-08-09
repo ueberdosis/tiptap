@@ -26,7 +26,7 @@ export function createPlaceholderDecoration(options: {
   dataAttribute: string
   classes: {
     emptyEditor: PlaceholderOptions['emptyEditorClass']
-    emptyNode: PlaceholderOptions['emptyNodeClass']
+    emptyNode: string
   }
   placeholder: PlaceholderOptions['placeholder']
 }) {
