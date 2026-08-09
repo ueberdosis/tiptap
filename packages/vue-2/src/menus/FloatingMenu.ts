@@ -16,6 +16,7 @@ export interface FloatingMenuInterface extends Vue {
   appendTo: FloatingMenuPluginProps['appendTo']
   shouldShow: FloatingMenuPluginProps['shouldShow']
   getPluginKey: () => FloatingMenuPluginProps['pluginKey']
+  isDestroyed: boolean
 }
 
 export const FloatingMenu: Component = {
@@ -73,6 +74,10 @@ export const FloatingMenu: Component = {
     el.remove()
 
     this.$nextTick(() => {
+      if (this.isDestroyed) {
+        return
+      }
+
       editor.registerPlugin(
         FloatingMenuPlugin({
           pluginKey: this.getPluginKey(),
@@ -104,6 +109,8 @@ export const FloatingMenu: Component = {
   },
 
   beforeDestroy(this: FloatingMenuInterface) {
+    this.isDestroyed = true
+
     const editor = this.editor
 
     if (!editor) {
