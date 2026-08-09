@@ -1,6 +1,5 @@
 ---
 '@tiptap/extension-mathematics': patch
-'tiptap-demos': patch
 ---
 
-Allow KaTeX 0.18
+Allow KaTeX 0.18 to be installed with the math extension 
