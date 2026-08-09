@@ -134,6 +134,42 @@ export const toggleList: RawCommands['toggleList'] =
     const listType = getNodeType(listTypeOrName, state.schema)
     const itemType = getNodeType(itemTypeOrName, state.schema)
     const { selection, storedMarks } = state
+
+    // A table `CellSelection` (multiple cells selected at once) exposes one
+    // `SelectionRange` per selected cell through `selection.ranges`, but its
+    // `$from`/`$to` resolve to the first cell only (prosemirror-tables builds it
+    // with `super(ranges[0].$from, ranges[0].$to, ranges)`). The single-range
+    // logic below therefore toggled just the first selected cell. When more than
+    // one range is selected, toggle each range independently so every selected
+    // cell is affected, reusing the exact same per-cell logic (wrap / lift /
+    // change type). Ranges are processed from the last document position to the
+    // first so that edits to later cells do not shift the positions of earlier,
+    // not-yet-processed cells.
+    if (selection.ranges.length > 1) {
+      const cellRanges = selection.ranges
+        .map(selectionRange => ({ from: selectionRange.$from.pos, to: selectionRange.$to.pos }))
+        .sort((a, b) => b.from - a.from)
+
+      const listChain = chain()
+
+      cellRanges.forEach(({ from, to }) => {
+        listChain
+          .command(({ tr: cellTr }) => {
+            // Resolve against the current transaction doc so positions stay valid
+            // as earlier iterations mutate later cells.
+            const $cellFrom = cellTr.doc.resolve(from)
+            const $cellTo = cellTr.doc.resolve(to)
+
+            cellTr.setSelection(TextSelection.between($cellFrom, $cellTo))
+
+            return true
+          })
+          .toggleList(listTypeOrName, itemTypeOrName, keepMarks, attributes)
+      })
+
+      return listChain.run()
+    }
+
     const { $from, $to } = selection
     const range = $from.blockRange($to)
 
