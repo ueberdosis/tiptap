@@ -55,7 +55,7 @@
     "autoprefixer": "^10.4.20",
     "esbuild": "0.28.1",
     "iframe-resizer": "^4.4.5",
-    "postcss": "^8.5.10",
+    "postcss": "^8.5.23",
     "postcss-import": "^15.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
