@@ -351,9 +351,6 @@ describe('extension-link', () => {
     getEditorEl()?.remove()
   })
 
-  // Regression guard for #7347: with enableClickSelection, clicking a non-link
-  // element (e.g. an image) must not be handled by the link plugin, otherwise
-  // ProseMirror's own NodeSelection is blocked.
   it('should return false when clicking non-link elements with enableClickSelection', () => {
     editor = new Editor({
       element: createEditorEl(),
