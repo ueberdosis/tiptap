@@ -417,6 +417,9 @@ importers:
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
+      prosemirror-model:
+        specifier: ^1.25.11
+        version: 1.25.11
 
   packages/extension-audio:
     devDependencies:
