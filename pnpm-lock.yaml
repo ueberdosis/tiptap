@@ -174,8 +174,8 @@ importers:
         specifier: ^11.11.1
         version: 11.11.1
       katex:
-        specifier: ^0.17.0
-        version: 0.17.0
+        specifier: ^0.18.0
+        version: 0.18.1
       lexical:
         specifier: ^0.36.2
         version: 0.36.2
@@ -801,8 +801,8 @@ importers:
   packages/extension-mathematics:
     dependencies:
       katex:
-        specifier: ^0.16.4 || ^0.17.0
-        version: 0.16.22
+        specifier: ^0.16.4 || ^0.17.0 || ^0.18.0
+        version: 0.17.0
     devDependencies:
       '@tiptap/core':
         specifier: workspace:^
@@ -1077,76 +1077,76 @@ importers:
   packages/starter-kit:
     dependencies:
       '@tiptap/core':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../core
       '@tiptap/extension-blockquote':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-blockquote
       '@tiptap/extension-bold':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-bold
       '@tiptap/extension-bullet-list':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-bullet-list
       '@tiptap/extension-code':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-code
       '@tiptap/extension-code-block':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-code-block
       '@tiptap/extension-document':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-document
       '@tiptap/extension-dropcursor':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../packages-deprecated/extension-dropcursor
       '@tiptap/extension-gapcursor':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../packages-deprecated/extension-gapcursor
       '@tiptap/extension-hard-break':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-hard-break
       '@tiptap/extension-heading':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-heading
       '@tiptap/extension-horizontal-rule':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-horizontal-rule
       '@tiptap/extension-italic':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-italic
       '@tiptap/extension-link':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-link
       '@tiptap/extension-list':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-list
       '@tiptap/extension-list-item':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../packages-deprecated/extension-list-item
       '@tiptap/extension-list-keymap':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../packages-deprecated/extension-list-keymap
       '@tiptap/extension-ordered-list':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-ordered-list
       '@tiptap/extension-paragraph':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-paragraph
       '@tiptap/extension-strike':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-strike
       '@tiptap/extension-text':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-text
       '@tiptap/extension-underline':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-underline
       '@tiptap/extensions':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extensions
       '@tiptap/pm':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../pm
 
   packages/static-renderer:
@@ -5299,12 +5299,12 @@ packages:
     resolution: {integrity: sha512-POQXvpdL69+CluYsillJ7SUhKvytYjW9vG/GKpnf+xP8UWgYEM/RaMzHHofbALDiKbbP1W8UEYmgGl39WkPZsg==}
     engines: {'0': node >= 0.2.0}
 
-  katex@0.16.22:
-    resolution: {integrity: sha512-XCHRdUw4lf3SKBaJe4EvgqIuWwkPSo9XoeO8GjQW94Bp7TWv9hNhzZjZ+OH9yf1UmLygb7DIT5GSFQiyt16zYg==}
-    hasBin: true
-
   katex@0.17.0:
     resolution: {integrity: sha512-Vdw0ATsQ9V+LuegM/BTwQqV/6cTl5lbGcIrU+BCgLxyf6bo38ybOr372tuSIxir3CN720flu1meYR6XzNMwQnw==}
+    hasBin: true
+
+  katex@0.18.1:
+    resolution: {integrity: sha512-Td8GCYSxDAoMhHOlKmCFMJ/hz5qlAAb71n66Dryw9nfCVfumLo7nhuotbvKom/XPADmrYC3O5QR71EPq4DarJQ==}
     hasBin: true
 
   kleur@4.1.5:
@@ -11325,11 +11325,11 @@ snapshots:
 
   jsonparse@1.3.1: {}
 
-  katex@0.16.22:
+  katex@0.17.0:
     dependencies:
       commander: 8.3.0
 
-  katex@0.17.0:
+  katex@0.18.1:
     dependencies:
       commander: 8.3.0
 
