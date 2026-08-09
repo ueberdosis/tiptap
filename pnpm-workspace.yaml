@@ -3,6 +3,8 @@ packages:
   - 'packages-deprecated/*'
   - 'demos'
 catalog:
+  # vite is a vendored fork (vite-plus-core). Keep the peerDependencyRules
+  # allowedVersions below in lockstep when upgrading plugins.
   vite: 'npm:@voidzero-dev/vite-plus-core@0.2.7'
   vite-plus: '0.2.7'
 allowBuilds:
