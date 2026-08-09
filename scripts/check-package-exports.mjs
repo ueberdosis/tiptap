@@ -39,9 +39,10 @@ for (const dir of ['packages', 'packages-deprecated']) {
     targets.push(...collectTargets(manifest.exports))
 
     for (const target of new Set(targets)) {
-      if (!target.startsWith('./dist/')) continue
+      if (target === './package.json') continue
 
-      const targetPath = join(packageRoot, target.slice(2))
+      // Remove leading './' from target path and join with package root
+      const targetPath = join(packageRoot, target.replace(/^\.\//, ''))
       if (!existsSync(targetPath)) errors.push(`${manifest.name}: ${target}`)
     }
   }
