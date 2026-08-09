@@ -1,8 +1,8 @@
 name: Bug Report
 description: Found a bug in the editor core or one of the extensions? Report it here to help us improve.
 
-labels: ["status: triage"]
-type: "Bug"
+labels: ['status: triage']
+type: 'Bug'
 
 body:
   - type: markdown

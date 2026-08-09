@@ -5,6 +5,7 @@ import { EditorState } from '@tiptap/pm/state'
 import { type DirectEditorProps, EditorView } from '@tiptap/pm/view'
 
 import { CommandManager } from './CommandManager.js'
+import { isInDecorationApplyScope } from './decorations/decorationApplyScope.js'
 import { EventEmitter } from './EventEmitter.js'
 import { ExtensionManager } from './ExtensionManager.js'
 import {
@@ -45,6 +46,7 @@ import type {
   Utils,
 } from './types.js'
 import { createStyleTag } from './utilities/createStyleTag.js'
+import { isDev } from './utilities/isDev.js'
 import { isFunction } from './utilities/isFunction.js'
 
 export * as extensions from './extensions/index.js'
@@ -84,6 +86,8 @@ export class Editor extends EventEmitter<EditorEvents> {
    * A unique ID for this editor instance.
    */
   public instanceId = Math.random().toString(36).slice(2, 9)
+
+  private hasWarnedStaleDecorationRead = false
 
   public options: EditorOptions = {
     element: typeof document !== 'undefined' ? document.createElement('div') : null,
@@ -197,6 +201,9 @@ export class Editor extends EventEmitter<EditorEvents> {
    */
   public unmount() {
     if (this.editorView) {
+      // Keep the cached state in sync so plugin state stays available after unmount.
+      this.editorState = this.editorView.state
+
       // Cleanup our reference to prevent circular references which caused memory leaks
       // @ts-ignore
       const dom = this.editorView.dom as TiptapEditorHTMLElement
@@ -359,6 +366,19 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Returns the editor state.
    */
   public get state(): EditorState {
+    if (isDev && !this.hasWarnedStaleDecorationRead && isInDecorationApplyScope(this)) {
+      // Warn once per editor. The same read repeats on every transaction, and
+      // a decoration that dispatches from `create()` would flood the console.
+      this.hasWarnedStaleDecorationRead = true
+
+      console.warn(
+        '[tiptap warn]: `editor.state` was read while decoration `create()` was running. ' +
+          'It returns the pre-transaction document. Use the `state` argument passed to ' +
+          '`create()` instead. Helpers like `editor.isActive()` read `editor.state` too, ' +
+          'so pass `state` to their standalone versions instead of calling them on the editor.',
+      )
+    }
+
     if (this.editorView) {
       this.editorState = this.view.state
     }
