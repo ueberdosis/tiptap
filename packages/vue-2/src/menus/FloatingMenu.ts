@@ -104,7 +104,13 @@ export const FloatingMenu: Component = {
   },
 
   beforeDestroy(this: FloatingMenuInterface) {
-    this.editor.unregisterPlugin(this.getPluginKey())
+    const editor = this.editor
+
+    if (!editor) {
+      return
+    }
+
+    editor.unregisterPlugin(this.getPluginKey())
   },
 
   methods: {
