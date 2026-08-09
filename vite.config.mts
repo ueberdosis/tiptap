@@ -80,9 +80,7 @@ export default defineConfig({
     pool: 'forks',
   },
   staged: files => {
-    const filteredFiles = files.filter(
-      file => /\.(ts|tsx|js|jsx|vue)$/.test(file) && !file.includes('/tests_backup/'),
-    )
+    const filteredFiles = files.filter(file => /\.(ts|tsx|js|jsx|vue)$/.test(file))
 
     if (filteredFiles.length === 0) {
       return []
