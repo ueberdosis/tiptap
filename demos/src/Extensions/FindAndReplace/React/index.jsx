@@ -13,16 +13,16 @@ export default () => {
     extensions: [Document, Paragraph, Text, FindAndReplace],
     content: `
       <p>
-        Find and replace is one of those features you only miss once it is gone.
-        Try searching for "tiptap" in this text. Tiptap highlights every match
-        right inside the editor, no matter if it is written as tiptap, Tiptap
-        or even TIPTAP.
+        Tiptap is a headless rich text editor that gives you full control over your editing experience. Built on ProseMirror, it provides a flexible framework for building custom editors without being tied to a specific UI. You can use it with React, Vue, or vanilla JavaScript.
       </p>
       <p>
-        Toggle "Match case" to only find exact matches. Enable "Regex" and search
-        for (color|colour) to find both spellings, then replace with [$1] to reuse
-        each captured match. Hit "Replace" to swap the current match and jump
-        straight to the next one.
+        One of the best things about Tiptap is its extension system. You can add features like bold, italic, lists, or even custom nodes with just a few lines of code. The editor stays lightweight because you only include what you need. Each extension adds specific functionality to your editor.
+      </p>
+      <p>
+        The community around Tiptap is growing fast. Developers love how easy it is to create collaborative editing experiences. Whether you are building a blog, a documentation site, or a complex content management system, Tiptap has the tools you need. The editor handles everything from simple text formatting to complex document structures.
+      </p>
+      <p>
+        When you need to find and replace text in your document, Tiptap makes it simple. You can search for words, use regular expressions to find patterns, or even use capture groups to replace parts of matches. Try searching for "editor" to see how many times it appears, or use regex to find variations like "color" and "colour" at the same time.
       </p>
     `,
   })
