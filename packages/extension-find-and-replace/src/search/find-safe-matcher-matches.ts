@@ -46,7 +46,14 @@ function* findCapturedMatches(regex: RE2JS, text: string, resultGroup: number): 
   }
 }
 
-/** Finds all regex matches, even when they are next to each other. */
+/**
+ * Finds all regex matches, even when they are next to each other.
+ * Yields the same matcher every time, so read each match before the next one.
+ * @param regex The compiled matcher to run over `text`.
+ * @param text The text to search.
+ * @param resultGroup The group whose range and value are reported; 0 is the whole match.
+ * @returns A generator yielding the matcher once per match, in text order.
+ */
 export function findSafeMatcherMatches(
   regex: RE2JS,
   text: string,
