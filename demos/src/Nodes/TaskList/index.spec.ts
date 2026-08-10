@@ -30,7 +30,7 @@ test.describe(`${demoPath}/${demoName}`, () => {
           return el.editor.getHTML()
         })
         expect(html).toBe(
-          '<ul data-type="taskList"><li data-checked="true" data-type="taskItem"><label><input type="checkbox" checked="checked"><span></span></label><div><p>Example Text</p></div></li></ul>',
+          '<ul data-type="taskList"><li data-checked="true" data-type="taskItem"><label><input type="checkbox" checked="checked"><span style="position: absolute; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; border: 0px;">Task item checkbox for Example Text</span></label><div><p>Example Text</p></div></li></ul>',
         )
       })
 
