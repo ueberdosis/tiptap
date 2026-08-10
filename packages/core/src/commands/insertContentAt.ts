@@ -2,6 +2,8 @@ import type { Node as ProseMirrorNode, ParseOptions } from '@tiptap/pm/model'
 import { Fragment } from '@tiptap/pm/model'
 
 import { createNodeFromContent } from '../helpers/createNodeFromContent.js'
+import { isFragment } from '../helpers/isFragment.js'
+import { isProseMirrorContent } from '../helpers/isProseMirrorContent.js'
 import { selectionToInsertionEnd } from '../helpers/selectionToInsertionEnd.js'
 import type { Content, Range, RawCommands } from '../types.js'
 
@@ -57,10 +59,6 @@ declare module '@tiptap/core' {
       ) => ReturnType
     }
   }
-}
-
-const isFragment = (nodeOrFragment: ProseMirrorNode | Fragment): nodeOrFragment is Fragment => {
-  return !('type' in nodeOrFragment)
 }
 
 export const insertContentAt: RawCommands['insertContentAt'] =
@@ -132,7 +130,7 @@ export const insertContentAt: RawCommands['insertContentAt'] =
 
       let isOnlyTextContent = true
       let isOnlyBlockContent = true
-      const nodes = isFragment(content) ? content : [content]
+      const nodes: readonly ProseMirrorNode[] = isFragment(content) ? content.content : [content]
 
       nodes.forEach(node => {
         // check if added node is valid
@@ -166,17 +164,9 @@ export const insertContentAt: RawCommands['insertContentAt'] =
         // if value is string, we can use it directly
         // otherwise if it is an array, we have to join it
         if (Array.isArray(value)) {
-          newContent = value.map(v => v.text || '').join('')
-        } else if (value instanceof Fragment) {
-          let text = ''
-
-          value.forEach(node => {
-            if (node.text) {
-              text += node.text
-            }
-          })
-
-          newContent = text
+          newContent = value.map(item => item.text || '').join('')
+        } else if (isProseMirrorContent(value)) {
+          newContent = nodes.map(node => node.text ?? '').join('')
         } else if (typeof value === 'object' && !!value && !!value.text) {
           newContent = value.text
         } else {
@@ -185,7 +175,7 @@ export const insertContentAt: RawCommands['insertContentAt'] =
 
         tr.insertText(newContent, from, to)
       } else {
-        newContent = content
+        newContent = Fragment.from(nodes)
 
         const $from = tr.doc.resolve(from)
         const $fromNode = $from.node()
@@ -197,7 +187,7 @@ export const insertContentAt: RawCommands['insertContentAt'] =
           from = Math.max(0, from - 1)
         }
 
-        tr.replaceWith(from, to, newContent)
+        tr.replaceWith(from, to, nodes)
       }
 
       // set cursor at end of inserted content

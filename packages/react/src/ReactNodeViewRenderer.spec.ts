@@ -86,6 +86,20 @@ const ItemComponent = () => {
   return React.createElement(NodeViewWrapper, null, React.createElement(NodeViewContent))
 }
 
+const WidgetComponent = () => {
+  return React.createElement(NodeViewWrapper, null)
+}
+
+const ReactParagraphComponent = () => {
+  return React.createElement(NodeViewWrapper, null, React.createElement(NodeViewContent))
+}
+
+const ReactParagraph = Paragraph.extend({
+  addNodeView() {
+    return ReactNodeViewRenderer(ReactParagraphComponent)
+  },
+})
+
 const Container = Node.create({
   name: 'container',
   group: 'block',
@@ -128,6 +142,24 @@ const Item = Node.create({
   },
 })
 
+const Widget = Node.create({
+  name: 'widget',
+  group: 'block',
+  atom: true,
+
+  parseHTML() {
+    return [{ tag: 'div[data-type="widget"]' }]
+  },
+
+  renderHTML() {
+    return ['div', { 'data-type': 'widget' }]
+  },
+
+  addNodeView() {
+    return ReactNodeViewRenderer(WidgetComponent)
+  },
+})
+
 const createEditorWithContainers = () => {
   return new Editor({
     extensions: [Document, Paragraph, Text, Container, Item],
@@ -137,9 +169,31 @@ const createEditorWithContainers = () => {
   })
 }
 
+const createEditorWithReactParagraph = () => {
+  return new Editor({
+    extensions: [Document, ReactParagraph, Text],
+    content: '<p>Hello</p>',
+  })
+}
+
+const createEditorWithWidget = () => {
+  return new Editor({
+    extensions: [Document, Paragraph, Text, Widget],
+    content: '<p>abc</p><div data-type="widget"></div>',
+  })
+}
+
 const flushMicrotasks = async () => {
   await act(async () => {
     await Promise.resolve()
+  })
+}
+
+const flushAnimationFrame = async () => {
+  await act(async () => {
+    await new Promise<void>(resolve => {
+      requestAnimationFrame(() => resolve())
+    })
   })
 }
 
@@ -172,6 +226,36 @@ describe('ReactNodeViewRenderer', () => {
     editor.destroy()
   })
 
+  it('keeps new React paragraph content connected while its portal is queued', async () => {
+    const editor = createEditorWithReactParagraph()
+    const { container } = render(React.createElement(EditorContent, { editor }))
+
+    await flushMicrotasks()
+
+    editor.commands.setTextSelection(6)
+    editor.commands.splitBlock()
+
+    const secondParagraphPosition = editor.state.doc.firstChild!.nodeSize
+
+    expect(editor.state.selection.from).toBe(secondParagraphPosition + 1)
+
+    const contentElements = container.querySelectorAll('[data-node-view-content-react]')
+
+    expect(contentElements).toHaveLength(2)
+    expect(contentElements[1].isConnected).toBe(true)
+
+    editor.commands.insertContent('Second')
+
+    expect(editor.state.doc.child(0).textContent).toBe('Hello')
+    expect(editor.state.doc.child(1).textContent).toBe('Second')
+
+    await flushMicrotasks()
+
+    expect(contentElements[1].parentElement?.hasAttribute('data-node-view-content')).toBe(true)
+
+    editor.destroy()
+  })
+
   it('resolves getPos to undefined while the view desc is detached mid-update', async () => {
     const editor = createEditorWithContainers()
     const { container } = render(React.createElement(EditorContent, { editor }))
@@ -197,6 +281,43 @@ describe('ReactNodeViewRenderer', () => {
 
     expect(renderErrors).toEqual([])
     expect(renderedPositions).toEqual([undefined])
+
+    editor.destroy()
+  })
+
+  it('does not select the node view when the selection covers its former position', async () => {
+    const editor = createEditorWithWidget()
+    const { container } = render(React.createElement(EditorContent, { editor }))
+
+    await flushMicrotasks()
+
+    // The widget starts at position 5 and moves to 8 when text is typed above it.
+    editor.commands.insertContentAt(4, 'def')
+    editor.commands.setTextSelection({ from: 5, to: 6 })
+
+    await flushAnimationFrame()
+
+    const widget = container.querySelector('.node-widget')!
+
+    expect(widget.classList.contains('ProseMirror-selectednode')).toBe(false)
+
+    editor.destroy()
+  })
+
+  it('selects the node view when it is selected at its new position', async () => {
+    const editor = createEditorWithWidget()
+    const { container } = render(React.createElement(EditorContent, { editor }))
+
+    await flushMicrotasks()
+
+    editor.commands.insertContentAt(4, 'def')
+    editor.commands.setNodeSelection(8)
+
+    await flushAnimationFrame()
+
+    const widget = container.querySelector('.node-widget')!
+
+    expect(widget.classList.contains('ProseMirror-selectednode')).toBe(true)
 
     editor.destroy()
   })

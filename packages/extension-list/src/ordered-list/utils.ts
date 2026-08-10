@@ -40,6 +40,7 @@ const PARAGRAPH_INTERRUPTERS = {
   heading: /^#{1,6}(?:\s|$)/,
   bulletItem: /^[-+*]\s+/,
   codeFence: /^(?:```|~~~)/,
+  blockMath: /^\$\$/,
   thematicBreak: /^(?:(?:-[ \t]*){3,}|(?:_[ \t]*){3,}|(?:\*[ \t]*){3,})$/,
 }
 
@@ -71,7 +72,8 @@ function isBlockContentLine(line: string): boolean {
     (PARAGRAPH_INTERRUPTERS.thematicBreak.test(trimmedLine) && !trimmedLine.startsWith('-')) ||
     // oxlint-disable-next-line prefer-string-starts-ends-with
     /^>\s?/.test(trimmedLine) ||
-    PARAGRAPH_INTERRUPTERS.codeFence.test(trimmedLine)
+    PARAGRAPH_INTERRUPTERS.codeFence.test(trimmedLine) ||
+    PARAGRAPH_INTERRUPTERS.blockMath.test(trimmedLine)
   )
 }
 

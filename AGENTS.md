@@ -1,103 +1,100 @@
 # Tiptap
 
-How to work on the Tiptap monorepo. Written for humans and AI coding assistants.
+Headless rich text editor toolkit built on ProseMirror. A monorepo of small packages: a framework-agnostic core and extensions, plus React and Vue bindings.
 
-**IMPORTANT for AI agents**: Read the [Resources](#resources) sub-pages before contributing. They cover repo layout, scripts, coding standards, tests, demos, docs, and versioning. Come back to them when unsure.
+Published packages live in `packages/*`. `demos/` is a Vite app used as playground and as the target for e2e tests. All scripts are in the root `package.json`.
 
----
+## Rules
 
-## What is Tiptap
-
-- Headless rich text editor toolkit built on ProseMirror. Small Core + opt-in Extensions for React, Vue, or vanilla.
-- A collection of focused packages. Many are framework-agnostic with separate bindings for React and Vue.
-- Favor small pure utilities, deterministic code, explicit side effects.
-- Keep packages modular. Breaking changes need a major bump and a migration path.
-- Add or update demos and tests when introducing a feature.
-
----
-
-## AI contributor rules
-
-- Work in small, iterative steps. If a task is too broad, say so and propose smaller steps.
-- After changes, ask the user to review them.
-- Keep PR descriptions short, clear, and easy to read. Use simple English and explain why the change is needed.
-- Make single-purpose, small diffs. No sweeping changes in one PR.
-- Never autocommit. Ask before committing or opening PRs.
-- Run the [validation checklist](#validation-run-before-opening-a-pr) after edits.
-- Add a Changeset for user-facing changes. No public API changes without a major bump and migration notes.
+- Small, single-purpose diffs. Ask the user to review. Never autocommit.
+- Add a changeset for user-facing changes. Public API breaks need a major bump and migration notes.
 - Add or update a demo and tests for user-visible behavior. Prefer unit tests over e2e when deterministic.
+- Fix fallow findings your change introduced. Don't suppress them.
 
----
-
-## Key scripts
-
-Run from the repo root with `pnpm <script>`:
-
-| Script                  | What it does                         |
-| ----------------------- | ------------------------------------ |
-| `dev`                   | Start demos on port 3000             |
-| `build`                 | Build all packages via Turborepo     |
-| `lint` / `lint:fix`     | oxlint checks                        |
-| `format` / `format:fix` | oxfmt formatting                     |
-| `test:unit`             | Vitest unit tests                    |
-| `test:e2e`              | Playwright e2e (Chromium)            |
-| `fallow:audit`          | Changed-code audit (run after edits) |
-| `reset`                 | Full clean + reinstall               |
-
-Full list: [Scripts](agents/SCRIPTS.md)
-
----
-
-## Validation (run before opening a PR)
+## Before opening a PR
 
 ```bash
 pnpm lint
 pnpm build
 pnpm test:unit
 pnpm test:e2e
-pnpm fallow:audit   # must pass (verdict pass or warn, not fail)
+pnpm fallow:audit   # verdict must be pass or warn, never fail
 ```
 
-If a single package fails types, run a targeted build:
+Single package failing types: `pnpm -w -F @tiptap/core build`.
+Dependency or lockfile errors: `pnpm reset`, then rebuild.
 
-```bash
-pnpm -w -F @tiptap/core build
+## Code style
+
+oxlint lints, oxfmt formats. Husky and lint-staged run both on commit.
+
+Prefer simple, readable code over clever code. Use early returns. Avoid deep nesting, nested ternaries, and abstractions you don't need yet. Keep functions focused. Apply DRY and SOLID pragmatically, not blindly.
+
+### Files
+
+- Keep files small and focused. Split unrelated utilities, types, constants and logic apart.
+- One reusable utility per file, named after its export: `findDecorations.ts`, `addDecoration.ts`. Not `utils.ts`, `helpers.ts`, `decorations.ts`.
+- A helper used in one file only can stay local.
+
+### Naming
+
+- Short, clear, recognizable. Never shorten just to save characters. No unclear abbreviations.
+- `index` for numeric indexes, the item's real name for collection values. Single letters only in small math contexts like `x` and `y`.
+- Use existing project terminology.
+
+```ts
+// good
+items.map((item, index) => createNode(item, index))
+decorations.filter(decoration => decoration.visible)
+
+// bad
+items.map((i, idx) => createNode(i, idx))
+decorations.filter(d => d.visible)
 ```
 
+### Comments
+
+- Comment only when the reason is not visible in the code. Never restate what the lines below already say.
+- Two lines max. Only genuinely complex or hard to follow code earns more.
+- Say why, not what: `// We keep the old value because the transaction may be reverted.`
+- JSDoc on public APIs with `@param`, `@returns` and a runnable example. Those examples generate our API docs.
+
+### Writing
+
+Short, simple English in comments, docs, changesets and PRs. Most important information first. Assume the reader is new to the project or not a native speaker. No filler.
+
+### Before you finish
+
+Simplify what is hard to follow. Remove needless nesting and abstractions. Split large or unfocused files. Move reusable utilities into their own files. Drop redundant comments.
+
+Then run `pnpm fallow` for complexity and dead code, `pnpm fallow:health` for refactor targets, and `pnpm fallow:audit` on your changes.
+
+## Tests
+
+- Unit: Vitest, in `packages/**/__tests__/`, running on happy-dom.
+- E2E: Playwright, next to the demo it drives as `demos/src/**/index.spec.ts`. Playwright starts the demo server itself on port 4080, no separate terminal. Helpers live in `demos/test/helpers.ts`. Copy `demos/src/Commands/Cut/index.spec.ts` as a template.
+
+## Demos
+
+- Path pattern is `demos/src/<Category>/<DemoName>/<Variant>`, for example `demos/src/Marks/Bold/React`. Scaffold with `pnpm make:demo`.
+- Every demo needs an empty `index.html`. Vite routes by filesystem and ignores folders without it.
+- Import from `@tiptap/core` and friends, never relative paths. The demos `tsconfig.json` aliases those to the local package sources.
+- Reuse the global styles in `demos/setup/style.scss`: `.button-group` for rows of buttons, `.control-group` to wrap a toolbar, `.output-group` for demo output. Don't style `.tiptap`, that is the editor content itself.
+
+## Changesets
+
+Run `pnpm changeset`, or write the file yourself as `.changeset/YYYY-MM-DD-short-description.md`:
+
+```markdown
+---
+'@tiptap/core': patch
 ---
 
-## PR checklist
+One short sentence on what changed for the user.
+```
 
-- All checks pass (lint/build/tests/fallow).
-- Changeset added for user-facing changes.
-- Demo added or updated for UI-visible changes.
-- Short PR description explaining why.
+Describe behavior users notice. No internals, no root-cause detail. `.github/publish-config.json` decides which branches publish and under which npm tag.
 
----
+## Docs
 
-## Environment
-
-- Node >=24.x (use nvm, fnm, or Corepack).
-- pnpm with the repo lockfile. If you see unexpected errors, run `pnpm reset`.
-
----
-
-## Troubleshooting
-
-- CI dependency or lockfile errors: `pnpm reset` then rebuild.
-- Flaky Playwright tests: reproduce with `pnpm test:e2e:open` or rerun with `--trace on`, inspect with `pnpm test:e2e:report`.
-- fallow audit fails: fix the introduced finding. Don't suppress it.
-
----
-
-## Resources
-
-- [Repository Layout](agents/REPOSITORY_LAYOUT.md) — monorepo structure.
-- [Scripts](agents/SCRIPTS.md) — all runnable scripts.
-- [Coding Standards](agents/CODING.md) — comments, JSDoc, DRY/SOLID, complexity, fallow workflow.
-- [Style Checks](agents/STYLECHECK.md) — oxlint and oxfmt.
-- [Demos](agents/DEMOS.md) — running and adding demos.
-- [Testing](agents/TESTING.md) — unit and e2e tests.
-- [Documentation](agents/DOCUMENTATION.md) — API docs, guides, demos.
-- [Versioning](agents/VERSIONING.md) — changesets and releases.
-- Commit scopes: [SCOPES.md](./SCOPES.md)
+User-facing documentation lives in the separate `ueberdosis/tiptap-docs` repo. Ask the user for the local path when you need to change it.

@@ -4,6 +4,7 @@ import type { Plugin, Transaction } from '@tiptap/pm/state'
 import type { EditorView, MarkViewConstructor, NodeViewConstructor } from '@tiptap/pm/view'
 
 import type { Editor } from './Editor.js'
+import { DecorationManager, type DecorationManagerEntry } from './decorations/DecorationManager.js'
 import {
   flattenExtensions,
   getAttributesFromExtensions,
@@ -44,6 +45,8 @@ export class ExtensionManager {
   splittableMarks: string[] = []
 
   nonClearableMarks: string[] = []
+
+  decorationManager: DecorationManager | null = null
 
   constructor(extensions: Extensions, editor: Editor) {
     this.editor = editor
@@ -197,7 +200,54 @@ export class ExtensionManager {
       return plugins
     })
 
+    const decorationPlugin = this.createDecorationPlugin()
+
+    if (decorationPlugin) {
+      allPlugins.push(decorationPlugin)
+    }
+
     return allPlugins
+  }
+
+  /**
+   * Aggregates decorations from extensions into a single plugin, or returns null
+   * if none exist. Destroys the previous manager to avoid orphaned listeners.
+   * @returns A ProseMirror plugin or `null`
+   * @example
+   * const plugin = editor.extensionManager.createDecorationPlugin()
+   */
+  createDecorationPlugin(): Plugin | null {
+    const { editor } = this
+
+    this.decorationManager?.destroy()
+
+    const entries: DecorationManagerEntry[] = []
+
+    this.extensions.forEach(extension => {
+      const context = {
+        name: extension.name,
+        options: extension.options,
+        storage: this.editor.extensionStorage[extension.name as keyof Storage],
+        editor,
+        type: getSchemaTypeByName(extension.name, this.schema),
+      }
+
+      const addDecorations = getExtensionField<AnyConfig['addDecorations']>(
+        extension,
+        'addDecorations',
+        context,
+      )
+
+      if (!addDecorations) {
+        return
+      }
+
+      entries.push({ name: extension.name, addDecorations })
+    })
+
+    this.decorationManager = new DecorationManager({ editor, entries })
+
+    return this.decorationManager.plugin
   }
 
   /**
@@ -415,6 +465,8 @@ export class ExtensionManager {
    * and non-matching forward links must remain intact.
    */
   destroy() {
+    this.decorationManager?.destroy()
+
     this.extensions.forEach(extension => {
       let current: any = extension
 
@@ -431,6 +483,7 @@ export class ExtensionManager {
 
     this.extensions = []
     this.baseExtensions = []
+    this.decorationManager = null
     this.schema = null as any
     this.editor = null as any
   }
