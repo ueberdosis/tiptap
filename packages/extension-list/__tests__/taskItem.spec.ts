@@ -13,6 +13,207 @@ describe('TaskItem', () => {
     editor?.destroy()
   })
 
+  describe('accessibility', () => {
+    it('gives the checkbox label to the wrapping label element', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, TaskList, TaskItem],
+        content: {
+          type: 'doc',
+          content: [
+            {
+              type: 'taskList',
+              content: [
+                {
+                  type: 'taskItem',
+                  attrs: { checked: false },
+                  content: [
+                    { type: 'paragraph', content: [{ type: 'text', text: 'A list item' }] },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      })
+
+      const taskItemElement = editor.view.dom.querySelector('li[data-checked]')
+      const labelElement = taskItemElement?.querySelector('label')
+      const spanElement = taskItemElement?.querySelector('label > span')
+      const checkbox = taskItemElement?.querySelector('input[type="checkbox"]')
+
+      expect(labelElement?.textContent?.trim()).not.toBe('')
+      expect(spanElement?.textContent).toBe('Task item checkbox for A list item')
+      expect(checkbox?.getAttribute('aria-label')).toBe('Task item checkbox for A list item')
+      expect(labelElement?.querySelector('input')).not.toBeNull()
+    })
+
+    it('hides the checkbox label text visually', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, TaskList, TaskItem],
+        content: {
+          type: 'doc',
+          content: [
+            {
+              type: 'taskList',
+              content: [
+                {
+                  type: 'taskItem',
+                  attrs: { checked: false },
+                  content: [
+                    { type: 'paragraph', content: [{ type: 'text', text: 'A list item' }] },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      })
+
+      const spanElement = editor.view.dom.querySelector('li[data-checked] > label > span')
+
+      expect(spanElement?.style.position).toBe('absolute')
+      expect(spanElement?.style.width).toBe('1px')
+    })
+
+    it('supports a custom checkbox label', () => {
+      editor = new Editor({
+        extensions: [
+          Document,
+          Paragraph,
+          Text,
+          TaskList,
+          TaskItem.configure({
+            a11y: {
+              checkboxLabel: (node, checked) => (checked ? 'Done' : 'To do'),
+            },
+          }),
+        ],
+        content: {
+          type: 'doc',
+          content: [
+            {
+              type: 'taskList',
+              content: [
+                {
+                  type: 'taskItem',
+                  attrs: { checked: false },
+                  content: [
+                    { type: 'paragraph', content: [{ type: 'text', text: 'A list item' }] },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      })
+
+      const spanElement = editor.view.dom.querySelector('li[data-checked] > label > span')
+      const checkbox = editor.view.dom.querySelector('input[type="checkbox"]')
+
+      expect(spanElement?.textContent).toBe('To do')
+      expect(checkbox?.getAttribute('aria-label')).toBe('To do')
+    })
+
+    it('updates the checkbox label when the node changes', () => {
+      editor = new Editor({
+        extensions: [
+          Document,
+          Paragraph,
+          Text,
+          TaskList,
+          TaskItem.configure({
+            a11y: {
+              checkboxLabel: (node, checked) => (checked ? 'Done' : 'To do'),
+            },
+          }),
+        ],
+        content: {
+          type: 'doc',
+          content: [
+            {
+              type: 'taskList',
+              content: [
+                {
+                  type: 'taskItem',
+                  attrs: { checked: false },
+                  content: [
+                    { type: 'paragraph', content: [{ type: 'text', text: 'A list item' }] },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      })
+
+      const spanElement = editor.view.dom.querySelector('li[data-checked] > label > span')
+
+      expect(spanElement?.textContent).toBe('To do')
+
+      editor.chain().setTextSelection(4).updateAttributes('taskItem', { checked: true }).run()
+
+      expect(spanElement?.textContent).toBe('Done')
+    })
+
+    it('uses a fallback label for empty task items', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, TaskList, TaskItem],
+        content: {
+          type: 'doc',
+          content: [
+            {
+              type: 'taskList',
+              content: [
+                {
+                  type: 'taskItem',
+                  attrs: { checked: false },
+                  content: [{ type: 'paragraph' }],
+                },
+              ],
+            },
+          ],
+        },
+      })
+
+      const spanElement = editor.view.dom.querySelector('li[data-checked] > label > span')
+
+      expect(spanElement?.textContent).toBe('Task item checkbox for empty task item')
+    })
+
+    it('renders the checkbox label in static HTML output', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, TaskList, TaskItem],
+        content: {
+          type: 'doc',
+          content: [
+            {
+              type: 'taskList',
+              content: [
+                {
+                  type: 'taskItem',
+                  attrs: { checked: false },
+                  content: [
+                    { type: 'paragraph', content: [{ type: 'text', text: 'A list item' }] },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      })
+
+      const html = editor.getHTML()
+      const parsed = new DOMParser().parseFromString(html, 'text/html')
+      const labelElement = parsed.querySelector('li[data-type="taskItem"] > label')
+      const spanElement = parsed.querySelector('li[data-type="taskItem"] > label > span')
+
+      expect(labelElement?.textContent?.trim()).not.toBe('')
+      expect(spanElement?.textContent).toBe('Task item checkbox for A list item')
+      expect(spanElement?.style.position).toBe('absolute')
+      expect(spanElement?.style.width).toBe('1px')
+    })
+  })
+
   it('preserves custom HTML attributes on node update', () => {
     // Extend TaskItem with a custom attribute
     const CustomTaskItem = TaskItem.extend({

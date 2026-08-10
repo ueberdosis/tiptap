@@ -50,6 +50,10 @@ export interface TaskItemOptions {
    * }
    */
   a11y?: {
+    /**
+     * The accessible label for the checkbox. Used as the aria-label on the input and as the
+     * (visually hidden) text of the wrapping label element.
+     */
     checkboxLabel?: (node: ProseMirrorNode, checked: boolean) => string
   }
 }
@@ -58,6 +62,16 @@ export interface TaskItemOptions {
  * Matches a task item to a - [ ] on input.
  */
 export const inputRegex = /^\s*(\[([( |x])?\])\s$/
+
+/**
+ * Hides the checkbox label visually while keeping it in the accessibility tree.
+ */
+const visuallyHiddenStyle =
+  'position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0'
+
+const getCheckboxLabel = (node: ProseMirrorNode, checked: boolean, a11y: TaskItemOptions['a11y']) =>
+  a11y?.checkboxLabel?.(node, checked) ||
+  `Task item checkbox for ${node.textContent || 'empty task item'}`
 
 /**
  * This extension allows you to create task items.
@@ -122,7 +136,11 @@ export const TaskItem = Node.create<TaskItemOptions>({
             checked: node.attrs.checked ? 'checked' : null,
           },
         ],
-        ['span'],
+        [
+          'span',
+          { style: visuallyHiddenStyle },
+          getCheckboxLabel(node, node.attrs.checked, this.options.a11y),
+        ],
       ],
       ['div', 0],
     ]
@@ -194,10 +212,13 @@ export const TaskItem = Node.create<TaskItemOptions>({
       const checkbox = document.createElement('input')
       const content = document.createElement('div')
 
+      checkboxStyler.style.cssText = visuallyHiddenStyle
+
       const updateA11Y = (currentNode: ProseMirrorNode) => {
-        checkbox.ariaLabel =
-          this.options.a11y?.checkboxLabel?.(currentNode, checkbox.checked) ||
-          `Task item checkbox for ${currentNode.textContent || 'empty task item'}`
+        const label = getCheckboxLabel(currentNode, checkbox.checked, this.options.a11y)
+
+        checkbox.setAttribute('aria-label', label)
+        checkboxStyler.textContent = label
       }
 
       updateA11Y(node)
