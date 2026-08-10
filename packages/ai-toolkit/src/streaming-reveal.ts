@@ -20,7 +20,16 @@ export type AiInsertRevealOptions = {
    * The collaboration provider, e.g. `HocuspocusProvider` or `TiptapCloudProvider`.
    * Its awareness is what identifies the AI, so nothing is revealed without it.
    */
-  provider: any
+  provider: RevealProvider | null
+}
+
+/** The awareness surface this extension reads from the provider. */
+export type RevealProvider = {
+  awareness?: {
+    getStates: () => Map<number, Record<string, any> | undefined>
+    on: (event: 'change', listener: () => void) => void
+    off: (event: 'change', listener: () => void) => void
+  }
 }
 
 /** Caps the fade to a run's first N chars; the rest reveals instantly. */
@@ -31,6 +40,14 @@ const MAX_REVEAL_RANGE = 400
  * value, so an offset that changed every render would rebuild every run's DOM node.
  */
 const REVEAL_AGE_STEP = 100
+
+/**
+ * Blocks a single update may add before it is taken for a document sync rather
+ * than live streaming; without this, joining a room fades everything the AI has
+ * written so far. Counted in blocks so one structure it just wrote, such as a
+ * list, still reveals as a whole.
+ */
+const MAX_BLOCKS_PER_UPDATE = 2
 
 /** Yjs relative positions so each run survives y-tiptap doc rebuilds. */
 type RevealEntry = {
@@ -88,7 +105,7 @@ function resolveSpan(
   return from === null || to === null ? null : clampSpan(from, to, entry.length, docSize)
 }
 
-/** Drops a span that drifted from its insert length; a stale mapping, not a real run. */
+/** Drops a span whose width drifted from the insert, be it a stale mapping or an edit inside the run. */
 function clampSpan(
   from: number,
   to: number,
@@ -160,6 +177,7 @@ function collectInsertedRuns(
   // text never shows up as an insert into existing content.
   for (const op of event.delta) {
     if (!Array.isArray(op.insert)) continue
+    if (op.insert.length > MAX_BLOCKS_PER_UPDATE) continue
     for (const node of op.insert) collectNodeText(node, now, client, runs)
   }
   return runs
@@ -223,9 +241,21 @@ export const AiInsertReveal = Extension.create<AiInsertRevealOptions>({
   },
 
   onCreate() {
-    if (!this.options.provider) {
+    const { provider, durationMs } = this.options
+
+    if (!provider) {
       console.warn(
         '[tiptap warn]: The "provider" option is required for "AiInsertReveal" to tell the AI apart from other collaborators. Nothing is revealed without it.',
+      )
+    } else if (!provider.awareness) {
+      console.warn(
+        '[tiptap warn]: The provider passed to "AiInsertReveal" has no awareness, so the AI cannot be identified. Nothing is revealed.',
+      )
+    }
+
+    if (durationMs <= 0) {
+      console.warn(
+        `[tiptap warn]: "AiInsertReveal" needs a positive "durationMs" to hold a reveal, got ${durationMs}. Nothing is revealed.`,
       )
     }
   },
@@ -255,7 +285,7 @@ export const AiInsertReveal = Extension.create<AiInsertRevealOptions>({
         props: {
           decorations: state => {
             const ystate = ySyncPluginKey.getState(state) as YSyncState | undefined
-            if (entries.length === 0 || aiClients.size === 0 || !ystate?.binding) return null
+            if (entries.length === 0 || !ystate?.binding) return null
 
             const now = Date.now()
             const ranges = entries
@@ -282,6 +312,12 @@ export const AiInsertReveal = Extension.create<AiInsertRevealOptions>({
           const initialState = ySyncPluginKey.getState(view.state) as YSyncState | undefined
           const fragment = initialState?.type ?? null
           const awareness = provider?.awareness ?? null
+
+          if (fragment === null) {
+            console.warn(
+              '[tiptap warn]: "AiInsertReveal" needs the Collaboration extension to see incoming text. Nothing is revealed.',
+            )
+          }
 
           const trackAiClients = () => {
             const known = aiClients.size

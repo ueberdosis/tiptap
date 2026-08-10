@@ -3,7 +3,7 @@
 import { Editor } from '@tiptap/core'
 import { Collaboration } from '@tiptap/extension-collaboration'
 import StarterKit from '@tiptap/starter-kit'
-import { describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import * as Y from 'yjs'
 
 import { AiInsertReveal } from '../src/streaming-reveal.js'
@@ -131,18 +131,25 @@ function revealDecorations(
 }
 
 describe('AiInsertReveal', () => {
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
   it('is a named Tiptap extension', () => {
     expect(AiInsertReveal.name).toBe('aiInsertReveal')
   })
 
-  it('registers and degrades to a no-op when no collaboration y-sync plugin is present', async () => {
+  it('warns and degrades to a no-op when no collaboration y-sync plugin is present', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const editor = await createEditor()
 
     expect(editor.extensionManager.extensions.some(e => e.name === 'aiInsertReveal')).toBe(true)
     // Without a y-sync plugin the decorations source resolves to nothing, so the
     // editor renders normally rather than throwing.
     expect(editor.getText()).toBe('Hello')
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('Collaboration extension'))
 
+    warn.mockRestore()
     editor.destroy()
   })
 
@@ -210,6 +217,8 @@ describe('AiInsertReveal', () => {
 
   it('merges touching runs that share an animation offset into one decoration', async () => {
     const { editor, ydoc, ai } = await createCollabEditor()
+    // Only the clock is faked: the editor is created through a real `setTimeout`.
+    vi.useFakeTimers({ toFake: ['Date'] })
 
     remoteInsert(ai, ydoc, 5, ' one')
     remoteInsert(ai, ydoc, 9, ' two')
@@ -311,6 +320,102 @@ describe('AiInsertReveal', () => {
     editor.destroy()
   })
 
+  it('reveals a multi-block structure the AI writes as one node', async () => {
+    const { editor, ydoc, ai } = await createCollabEditor()
+
+    Y.applyUpdate(ai, Y.encodeStateAsUpdate(ydoc, Y.encodeStateVector(ai)))
+    const list = new Y.XmlElement('bulletList')
+    for (let item = 0; item < 3; item++) {
+      const listItem = new Y.XmlElement('listItem')
+      const paragraph = new Y.XmlElement('paragraph')
+      const text = new Y.XmlText()
+      paragraph.insert(0, [text])
+      listItem.insert(0, [paragraph])
+      list.insert(list.length, [listItem])
+      text.insert(0, `Item ${item}`)
+    }
+    ai.getXmlFragment('default').insert(0, [list])
+    Y.applyUpdate(ydoc, Y.encodeStateAsUpdate(ai, Y.encodeStateVector(ydoc)))
+
+    // One structure, so the block cap must not mistake it for a document sync.
+    expect(revealDecorations(editor)).toHaveLength(3)
+
+    editor.destroy()
+  })
+
+  it('reveals nothing when a whole AI-authored document arrives at once', async () => {
+    const ydoc = new Y.Doc()
+    const provider = createProvider()
+    provider.announce(AI_CLIENT_ID, AI_USER)
+
+    const editor = await new Promise<Editor>(resolve => {
+      const created = new Editor({
+        element: document.createElement('div'),
+        extensions: [
+          StarterKit.configure({ undoRedo: false }),
+          Collaboration.configure({ document: ydoc }),
+          AiInsertReveal.configure({ provider }),
+        ],
+        onCreate: () => resolve(created),
+      })
+    })
+
+    // Joining a room hands over everything the AI wrote before, in one update.
+    const server = new Y.Doc()
+    server.clientID = AI_CLIENT_ID
+    const fragment = server.getXmlFragment('default')
+    for (let block = 0; block < 5; block++) {
+      const element = new Y.XmlElement('paragraph')
+      const text = new Y.XmlText()
+      element.insert(0, [text])
+      fragment.insert(fragment.length, [element])
+      text.insert(0, `Paragraph ${block} written earlier by the AI.`)
+    }
+    Y.applyUpdate(ydoc, Y.encodeStateAsUpdate(server))
+
+    expect(editor.getText().length).toBeGreaterThan(0)
+    expect(revealDecorations(editor)).toHaveLength(0)
+
+    editor.destroy()
+  })
+
+  it('warns when the provider has no awareness', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+
+    const editor = await new Promise<Editor>(resolve => {
+      const created = new Editor({
+        element: document.createElement('div'),
+        extensions: [StarterKit, AiInsertReveal.configure({ provider: {} })],
+        onCreate: () => resolve(created),
+      })
+    })
+
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('no awareness'))
+
+    warn.mockRestore()
+    editor.destroy()
+  })
+
+  it('warns when durationMs cannot hold a reveal', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+
+    const editor = await new Promise<Editor>(resolve => {
+      const created = new Editor({
+        element: document.createElement('div'),
+        extensions: [
+          StarterKit,
+          AiInsertReveal.configure({ provider: createProvider(), durationMs: 0 }),
+        ],
+        onCreate: () => resolve(created),
+      })
+    })
+
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('durationMs'))
+
+    warn.mockRestore()
+    editor.destroy()
+  })
+
   it('warns and reveals nothing when no provider is configured', async () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const ydoc = new Y.Doc()
@@ -355,11 +460,12 @@ describe('AiInsertReveal', () => {
 
   it('drops the reveal once its duration has elapsed', async () => {
     const { editor, ydoc, ai } = await createCollabEditor({ durationMs: 30 })
+    vi.useFakeTimers({ toFake: ['Date'] })
 
     remoteInsert(ai, ydoc, 5, ' WORLD')
     expect(revealDecorations(editor)).toHaveLength(1)
 
-    await new Promise(resolve => setTimeout(resolve, 60))
+    vi.setSystemTime(Date.now() + 60)
     expect(revealDecorations(editor)).toHaveLength(0)
 
     editor.destroy()
