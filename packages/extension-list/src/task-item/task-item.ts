@@ -226,7 +226,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
       checkboxStyler.style.cssText = visuallyHiddenStyle
 
       const updateA11Y = (currentNode: ProseMirrorNode) => {
-        const label = getCheckboxLabel(currentNode, checkbox.checked, this.options.a11y)
+        const label = getCheckboxLabel(currentNode, currentNode.attrs.checked, this.options.a11y)
 
         checkbox.setAttribute('aria-label', label)
         checkboxStyler.textContent = label

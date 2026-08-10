@@ -114,6 +114,45 @@ describe('TaskItem', () => {
       expect(checkbox?.getAttribute('aria-label')).toBe('To do')
     })
 
+    it('uses the checked state for an initially checked task item', () => {
+      editor = new Editor({
+        extensions: [
+          Document,
+          Paragraph,
+          Text,
+          TaskList,
+          TaskItem.configure({
+            a11y: {
+              checkboxLabel: (node, checked) => (checked ? 'Done' : 'To do'),
+            },
+          }),
+        ],
+        content: {
+          type: 'doc',
+          content: [
+            {
+              type: 'taskList',
+              content: [
+                {
+                  type: 'taskItem',
+                  attrs: { checked: true },
+                  content: [
+                    { type: 'paragraph', content: [{ type: 'text', text: 'A list item' }] },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      })
+
+      const spanElement = editor.view.dom.querySelector('li[data-checked] > label > span')
+      const checkbox = editor.view.dom.querySelector('input[type="checkbox"]')
+
+      expect(spanElement?.textContent).toBe('Done')
+      expect(checkbox?.getAttribute('aria-label')).toBe('Done')
+    })
+
     it('updates the checkbox label when the node changes', () => {
       editor = new Editor({
         extensions: [
