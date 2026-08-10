@@ -1,4 +1,5 @@
 import type { EditorState, Transaction } from '@tiptap/pm/state'
+import type { RE2JS } from 're2js'
 
 import type { SearchResult } from '../search/search.js'
 import type { SearchMatcher } from '../search/search-matcher.js'
@@ -11,7 +12,7 @@ export function replaceAllResults(
   state: EditorState,
   results: SearchResult[],
   replaceTerm: string,
-  matcher: SearchMatcher | null,
+  matcher: SearchMatcher<RE2JS> | null,
 ): void {
   const groups = groupResults(state, results)
   const replacement = createResultReplacement(state.doc, replaceTerm, matcher, true)

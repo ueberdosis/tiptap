@@ -1,4 +1,5 @@
 import type { Node } from '@tiptap/pm/model'
+import type { RE2JS } from 're2js'
 
 import type { SearchResult } from '../search/search.js'
 import type { SearchMatcher } from '../search/search-matcher.js'
@@ -22,14 +23,14 @@ interface ReplacementContext {
  * Search results store only positions, so capture values must be recovered from the textblock.
  * @param doc The document containing the search results.
  * @param replacement The replacement template.
- * @param matcher The compiled matcher, or `null` for literal replacement.
+ * @param matcher The regex-mode matcher, or `null` for literal replacement.
  * @param indexMatches Whether to index every textblock match for a batch replacement.
  * @returns A resolver for the replacement text of each result.
  */
 export function createResultReplacement(
   doc: Node,
   replacement: string,
-  matcher: SearchMatcher | null,
+  matcher: SearchMatcher<RE2JS> | null,
   indexMatches = false,
 ): ResultReplacement {
   if (!matcher || !hasReplacementTokens(replacement)) {

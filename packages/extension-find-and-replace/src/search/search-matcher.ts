@@ -1,9 +1,11 @@
+import type { RE2JS } from 're2js'
+
 import { createSearchRegex, type SearchRegex } from './regex.js'
 import type { SearchOptions } from './types.js'
 import { unicodeWordCharacter } from './unicode-word-character.js'
 
-export interface SearchMatcher {
-  regex: SearchRegex
+export interface SearchMatcher<R extends SearchRegex = SearchRegex> {
+  regex: R
   // Group 0 is the full match. Group 1 is just the word itself.
   resultGroup: number
 }
@@ -20,7 +22,15 @@ function createWholeWordRegexMatcher(term: string, options: SearchOptions): Sear
   return toSearchMatcher(regex, 1)
 }
 
-/** Creates a matcher for finding search results, with special handling for whole-word searches. */
+/**
+ * Creates a matcher for finding search results, with special handling for whole-word searches.
+ * Regex mode always compiles to RE2, which the overload guarantees to callers.
+ */
+export function createSearchMatcher(
+  term: string,
+  options: SearchOptions & { useRegex: true },
+): SearchMatcher<RE2JS> | null
+export function createSearchMatcher(term: string, options: SearchOptions): SearchMatcher | null
 export function createSearchMatcher(term: string, options: SearchOptions): SearchMatcher | null {
   if (!term) {
     return null

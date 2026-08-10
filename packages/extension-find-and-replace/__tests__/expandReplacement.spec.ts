@@ -1,20 +1,20 @@
-import { createSearchRegex } from '@tiptap/extension-find-and-replace'
 import { describe, expect, it } from 'vitest'
 
+import { createSearchMatcher } from '../src/search/search-matcher.js'
 import { expandReplacement, hasReplacementTokens } from '../src/utils/expandReplacement.js'
 
 function createRegex(source: string) {
-  const regex = createSearchRegex(source, {
+  const matcher = createSearchMatcher(source, {
     caseSensitive: true,
     useRegex: true,
     wholeWord: false,
   })
 
-  if (!regex) {
+  if (!matcher) {
     throw new Error(`Could not compile test regex: ${source}`)
   }
 
-  return regex
+  return matcher.regex
 }
 
 describe('expandReplacement', () => {
@@ -68,7 +68,7 @@ describe('expandReplacement', () => {
   })
 
   it('supports native regular expressions with the same semantics', () => {
-    const regex = /(?<word>cat)(s)?/gu
+    const regex = createRegex('(?<word>cat)(s)?')
 
     expect(expandReplacement(regex, 'cat', '$<word>:$2:$$:$&')).toBe('cat::$:cat')
   })
@@ -81,13 +81,11 @@ describe('expandReplacement', () => {
 
   it('preserves surrounding context for boundary assertions', () => {
     const regex = createRegex('(\\Bfoo)')
-    const nativeRegex = /(\Bfoo)/gu
     const matchFrom = 1
     const matchTo = 4
 
     // Only `foo` is replaced, but `\B` still needs the preceding `x` to verify the boundary.
     expect(expandReplacement(regex, 'xfoo', '[$1]', matchFrom, matchTo)).toBe('[foo]')
-    expect(expandReplacement(nativeRegex, 'xfoo', '[$1]', matchFrom, matchTo)).toBe('[foo]')
   })
 
   it('matches String.prototype.replace for every supported token form', () => {

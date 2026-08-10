@@ -1,4 +1,5 @@
-import type { SearchRegex } from '../search/regex.js'
+import type { Matcher, RE2JS } from 're2js'
+
 import { findSafeMatcherMatches } from '../search/find-safe-matcher-matches.js'
 
 interface ReplacementMatch {
@@ -17,8 +18,6 @@ interface LocatedReplacementMatch extends ReplacementMatch {
 const replacementTokenRegex = /\$(\$|&|0[1-9]|[1-9]\d?|<[^>]*>)/g
 const replacementTokenPattern = /\$(?:\$|&|0[1-9]|[1-9]\d?|<[^>]*>)/
 
-type SafeMatcher = ReturnType<Exclude<SearchRegex, RegExp>['matcher']>
-
 /**
  * Checks whether a replacement contains a supported substitution token.
  * @param replacement The replacement template.
@@ -28,60 +27,9 @@ export function hasReplacementTokens(replacement: string): boolean {
   return replacementTokenPattern.test(replacement)
 }
 
-function advanceStringIndex(text: string, index: number, unicode: boolean): number {
-  if (!unicode) {
-    return index + 1
-  }
-
-  // JS uses UTF-16; code points through 0xffff (65,535) use one code unit.
-  // For example, '😀' is larger and uses two code units, while 'A' uses one.
-  const codePoint = text.codePointAt(index) ?? 0
-  const codeUnitCount = codePoint > 0xffff ? 2 : 1
-
-  return index + codeUnitCount
-}
-
-function canContinueNativeMatches(regex: RegExp): boolean {
-  return regex.global || regex.sticky
-}
-
-function advanceAfterEmptyMatch(regex: RegExp, text: string, value: string): void {
-  if (value.length === 0) {
-    // `exec()` leaves `lastIndex` unchanged for an empty match, which would repeat forever.
-    regex.lastIndex = advanceStringIndex(text, regex.lastIndex, regex.unicode)
-  }
-}
-
-function locateNativeMatch(match: RegExpExecArray): LocatedReplacementMatch {
-  return {
-    captures: match.slice(1),
-    from: match.index,
-    namedCaptures: match.groups ? new Map(Object.entries(match.groups)) : null,
-    to: match.index + match[0].length,
-    value: match[0],
-  }
-}
-
-function* nativeMatches(regex: RegExp, text: string): Generator<LocatedReplacementMatch> {
-  // Start at index 0 without reading or changing the caller's mutable `lastIndex`.
-  const matcher = new RegExp(regex.source, regex.flags)
-  let match = matcher.exec(text)
-
-  while (match) {
-    yield locateNativeMatch(match)
-
-    if (!canContinueNativeMatches(matcher)) {
-      return
-    }
-
-    advanceAfterEmptyMatch(matcher, text, match[0])
-    match = matcher.exec(text)
-  }
-}
-
 function safeNamedCaptures(
-  regex: Exclude<SearchRegex, RegExp>,
-  matcher: SafeMatcher,
+  regex: RE2JS,
+  matcher: Matcher,
 ): ReadonlyMap<string, string | null> | null {
   const groupNames = Object.keys(regex.namedGroups())
 
@@ -93,12 +41,12 @@ function safeNamedCaptures(
   return new Map(groupNames.map(name => [name, matcher.group(name)] as const))
 }
 
-function safeMatchValue(matcher: SafeMatcher, resultGroup: number): string {
+function safeMatchValue(matcher: Matcher, resultGroup: number): string {
   return matcher.group(resultGroup) ?? ''
 }
 
 function* safeMatches(
-  regex: Exclude<SearchRegex, RegExp>,
+  regex: RE2JS,
   text: string,
   resultGroup: number,
 ): Generator<LocatedReplacementMatch> {
@@ -121,29 +69,19 @@ function* safeMatches(
   }
 }
 
-function replacementMatches(
-  regex: SearchRegex,
-  text: string,
-  resultGroup: number,
-): Generator<LocatedReplacementMatch> {
-  return regex instanceof RegExp
-    ? nativeMatches(regex, text)
-    : safeMatches(regex, text, resultGroup)
-}
-
 function hasLocation(match: LocatedReplacementMatch, from: number, to: number): boolean {
   return match.from === from && match.to === to
 }
 
 function findReplacementMatch(
-  regex: SearchRegex,
+  regex: RE2JS,
   text: string,
   from: number,
   to: number,
   resultGroup: number,
 ): ReplacementMatch | null {
   // Match the full text so `^`, `$`, and boundary assertions retain their original context.
-  for (const match of replacementMatches(regex, text, resultGroup)) {
+  for (const match of safeMatches(regex, text, resultGroup)) {
     if (hasLocation(match, from, to)) {
       return match
     }
@@ -233,21 +171,21 @@ export type ReplacementExpander = (from: number, to: number) => string
 
 /**
  * Indexes every regex match once and creates a replacement expander for a textblock.
- * @param regex The compiled search matcher.
+ * @param regex The compiled RE2 search matcher.
  * @param text The complete searchable textblock text.
  * @param replacement The replacement template.
  * @param resultGroup The matcher group containing the reported result; later groups are captures.
  * @returns An expander addressed by match offsets in `text`.
  */
 export function createReplacementExpander(
-  regex: SearchRegex,
+  regex: RE2JS,
   text: string,
   replacement: string,
   resultGroup = 0,
 ): ReplacementExpander {
   const matches = new Map<string, ReplacementMatch>()
 
-  for (const match of replacementMatches(regex, text, resultGroup)) {
+  for (const match of safeMatches(regex, text, resultGroup)) {
     matches.set(matchKey(match.from, match.to), match)
   }
 
@@ -256,7 +194,7 @@ export function createReplacementExpander(
 
 /**
  * Expands JavaScript-style replacement tokens for one complete regex match.
- * @param regex The compiled search matcher.
+ * @param regex The compiled RE2 search matcher.
  * @param text The text containing the match.
  * @param replacement The replacement template.
  * @param from The match start offset in `text`.
@@ -265,7 +203,7 @@ export function createReplacementExpander(
  * @returns The expanded replacement, or the unchanged template when the text no longer matches.
  */
 export function expandReplacement(
-  regex: SearchRegex,
+  regex: RE2JS,
   text: string,
   replacement: string,
   from = 0,
