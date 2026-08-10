@@ -4,8 +4,7 @@ import { unicodeWordCharacter } from './unicode-word-character.js'
 
 export interface SearchMatcher {
   regex: SearchRegex
-  // Group 0 is the full match. Whole-word RE2 reports group 1 without
-  // neighboring non-word characters.
+  // Group 0 is the full match. Group 1 is just the word itself.
   resultGroup: number
 }
 
@@ -21,12 +20,7 @@ function createWholeWordRegexMatcher(term: string, options: SearchOptions): Sear
   return toSearchMatcher(regex, 1)
 }
 
-/**
- * Creates the internal matcher used to discover search results.
- * RE2 lacks lookarounds, so whole-word regexes include neighboring non-word characters.
- * Group 1 reports only the user pattern, such as `cat` instead of the spaces around " cat ".
- * This wrapper lets RE2 retry alternatives and quantifiers until both boundaries match.
- */
+/** Creates a matcher for finding search results, with special handling for whole-word searches. */
 export function createSearchMatcher(term: string, options: SearchOptions): SearchMatcher | null {
   if (!term) {
     return null
