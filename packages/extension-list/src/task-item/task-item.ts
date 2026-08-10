@@ -53,6 +53,17 @@ export interface TaskItemOptions {
     /**
      * The accessible label for the checkbox. Used as the aria-label on the input and as the
      * (visually hidden) text of the wrapping label element.
+     * @param node The prosemirror node of the task item
+     * @param checked The new checked state
+     * @returns The accessible label for the checkbox
+     * @example
+     * ```js
+     * TaskItem.configure({
+     *   a11y: {
+     *     checkboxLabel: node => `Task item: ${node.textContent || 'empty task item'}`,
+     *   },
+     * })
+     * ```
      */
     checkboxLabel?: (node: ProseMirrorNode, checked: boolean) => string
   }
