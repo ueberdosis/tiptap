@@ -63,7 +63,7 @@ export const handleBackspace = (editor: Editor, type: NodeType): boolean => {
     }
 
     const content = $from.parent.content
-    const slice = content.size ? new Slice(content, 0, 0) : Slice.empty
+    const slice = new Slice(content, 0, 0)
 
     tr.replace(targetPos, $from.after(), slice)
     tr.setSelection(TextSelection.create(tr.doc, targetPos + content.size))
