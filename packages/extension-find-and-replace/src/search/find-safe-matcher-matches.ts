@@ -33,6 +33,14 @@ function* findCapturedMatches(regex: RE2JS, text: string, resultGroup: number): 
       return
     }
 
+    // The result group matched nothing here, e.g. the other branch of `(a)|(b)` matched.
+    // Skip the whole match so we never return a wrong result or loop forever.
+    const from = matcher.start(resultGroup)
+    if (from < 0) {
+      searchFrom = advanceStringIndex(text, matcher.end(0))
+      continue
+    }
+
     yield matcher
     searchFrom = nextSearchIndex(text, matcher, resultGroup)
   }
