@@ -3,17 +3,41 @@
 import { Editor } from '@tiptap/core'
 import { Collaboration } from '@tiptap/extension-collaboration'
 import StarterKit from '@tiptap/starter-kit'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import * as Y from 'yjs'
 
 import { AiInsertReveal } from './streaming-reveal.js'
+
+const AI_CLIENT_ID = 111111
+const HUMAN_CLIENT_ID = 222222
+
+/** The awareness payload the Tiptap AI server publishes while it streams. */
+const AI_USER = { name: 'AI', color: '#8B5CF6', aiInstanceId: 'ai-instance-1' }
+
+/** Stands in for a collab provider, exposing only the awareness surface we read. */
+function createProvider() {
+  const states = new Map<number, Record<string, any>>()
+  const listeners = new Set<() => void>()
+
+  return {
+    awareness: {
+      getStates: () => states,
+      on: (_event: string, listener: () => void) => listeners.add(listener),
+      off: (_event: string, listener: () => void) => listeners.delete(listener),
+    },
+    announce(clientId: number, user: Record<string, any>) {
+      states.set(clientId, { user })
+      listeners.forEach(listener => listener())
+    },
+  }
+}
 
 /** Creates an editor with {@link AiInsertReveal} but no collaboration (no y-sync plugin). */
 function createEditor(): Promise<Editor> {
   return new Promise(resolve => {
     const editor = new Editor({
       element: document.createElement('div'),
-      extensions: [StarterKit, AiInsertReveal],
+      extensions: [StarterKit, AiInsertReveal.configure({ provider: createProvider() })],
       content: {
         type: 'doc',
         content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Hello' }] }],
@@ -25,39 +49,68 @@ function createEditor(): Promise<Editor> {
   })
 }
 
-/** Creates a collaborative editor (fresh Y.Doc, {@link AiInsertReveal}) seeded with one `Hello` paragraph. */
+/** A remote peer that keeps its clientID across writes. */
+function createPeer(ydoc: Y.Doc, clientID: number): Y.Doc {
+  const peer = new Y.Doc()
+  peer.clientID = clientID
+  Y.applyUpdate(peer, Y.encodeStateAsUpdate(ydoc))
+  return peer
+}
+
+/** Creates a collaborative editor seeded with one `Hello` paragraph, plus two remote peers. */
 function createCollabEditor(options?: {
   durationMs?: number
-}): Promise<{ editor: Editor; ydoc: Y.Doc }> {
+}): Promise<{ editor: Editor; ydoc: Y.Doc; ai: Y.Doc; human: Y.Doc }> {
   const ydoc = new Y.Doc()
+  const provider = createProvider()
+  provider.announce(AI_CLIENT_ID, AI_USER)
+  provider.announce(HUMAN_CLIENT_ID, { name: 'Someone else', color: '#0EA5E9' })
+
   return new Promise(resolve => {
     new Editor({
       element: document.createElement('div'),
       extensions: [
         StarterKit.configure({ undoRedo: false }),
         Collaboration.configure({ document: ydoc }),
-        options?.durationMs === undefined
-          ? AiInsertReveal
-          : AiInsertReveal.configure({ durationMs: options.durationMs }),
+        AiInsertReveal.configure({
+          provider,
+          ...(options?.durationMs === undefined ? {} : { durationMs: options.durationMs }),
+        }),
       ],
       onCreate: ({ editor }) => {
         // Collaboration ignores the `content` prop (the empty Y.Doc wins when the
         // y-sync plugin binds), so seed the shared doc with a local edit instead.
         editor.commands.setContent('<p>Hello</p>')
-        resolve({ editor, ydoc })
+        resolve({
+          editor,
+          ydoc,
+          ai: createPeer(ydoc, AI_CLIENT_ID),
+          human: createPeer(ydoc, HUMAN_CLIENT_ID),
+        })
       },
     })
   })
 }
 
-/** Applies a remote insert via a synced second Y.Doc. */
-function remoteInsert(ydoc: Y.Doc, index: number, text: string): void {
-  const remote = new Y.Doc()
-  Y.applyUpdate(remote, Y.encodeStateAsUpdate(ydoc))
-  const paragraph = remote.getXmlFragment('default').get(0) as Y.XmlElement
+/** Applies an insert from `peer`, so it lands as a remote transaction authored by it. */
+function remoteInsert(peer: Y.Doc, ydoc: Y.Doc, index: number, text: string): void {
+  Y.applyUpdate(peer, Y.encodeStateAsUpdate(ydoc, Y.encodeStateVector(peer)))
+  const paragraph = peer.getXmlFragment('default').get(0) as Y.XmlElement
   const xmlText = paragraph.get(0) as Y.XmlText
   xmlText.insert(index, text)
-  Y.applyUpdate(ydoc, Y.encodeStateAsUpdate(remote, Y.encodeStateVector(ydoc)))
+  Y.applyUpdate(ydoc, Y.encodeStateAsUpdate(peer, Y.encodeStateVector(ydoc)))
+}
+
+/** Applies a whole new block from `peer`, the way the AI writes a heading. */
+function remoteInsertBlock(peer: Y.Doc, ydoc: Y.Doc, text: string): void {
+  Y.applyUpdate(peer, Y.encodeStateAsUpdate(ydoc, Y.encodeStateVector(peer)))
+  const fragment = peer.getXmlFragment('default')
+  const block = new Y.XmlElement('paragraph')
+  const blockText = new Y.XmlText()
+  block.insert(0, [blockText])
+  fragment.insert(0, [block])
+  if (text.length > 0) blockText.insert(0, text)
+  Y.applyUpdate(ydoc, Y.encodeStateAsUpdate(peer, Y.encodeStateVector(ydoc)))
 }
 
 /** Collects the extension's current reveal decorations, resolved against `state`. */
@@ -99,7 +152,11 @@ describe('AiInsertReveal', () => {
         element: document.createElement('div'),
         extensions: [
           StarterKit,
-          AiInsertReveal.configure({ className: 'custom-reveal', durationMs: 300 }),
+          AiInsertReveal.configure({
+            className: 'custom-reveal',
+            durationMs: 300,
+            provider: createProvider(),
+          }),
         ],
         onCreate: () => resolve(created),
       })
@@ -112,9 +169,9 @@ describe('AiInsertReveal', () => {
   })
 
   it('reveals a remote insert as a decoration over exactly the inserted run', async () => {
-    const { editor, ydoc } = await createCollabEditor()
+    const { editor, ydoc, ai } = await createCollabEditor()
 
-    remoteInsert(ydoc, 5, ' WORLD')
+    remoteInsert(ai, ydoc, 5, ' WORLD')
 
     expect(editor.getText()).toBe('Hello WORLD')
     const decorations = revealDecorations(editor)
@@ -126,10 +183,49 @@ describe('AiInsertReveal', () => {
     editor.destroy()
   })
 
-  it('reveals an insert at the very end of the document', async () => {
-    const { editor, ydoc } = await createCollabEditor()
+  it('reveals a block that arrives as a whole new node', async () => {
+    const { editor, ydoc, ai } = await createCollabEditor()
 
-    remoteInsert(ydoc, 5, '!')
+    remoteInsertBlock(ai, ydoc, 'A brand new title')
+
+    const decorations = revealDecorations(editor)
+    expect(decorations).toHaveLength(1)
+    expect(decorations[0].to - decorations[0].from).toBe('A brand new title'.length)
+
+    editor.destroy()
+  })
+
+  it('reveals text streamed into a block that was created empty', async () => {
+    const { editor, ydoc, ai } = await createCollabEditor()
+
+    remoteInsertBlock(ai, ydoc, '')
+    remoteInsert(ai, ydoc, 0, 'Streamed title')
+
+    const decorations = revealDecorations(editor)
+    expect(decorations).toHaveLength(1)
+    expect(decorations[0].to - decorations[0].from).toBe('Streamed title'.length)
+
+    editor.destroy()
+  })
+
+  it('merges touching runs that share an animation offset into one decoration', async () => {
+    const { editor, ydoc, ai } = await createCollabEditor()
+
+    remoteInsert(ai, ydoc, 5, ' one')
+    remoteInsert(ai, ydoc, 9, ' two')
+
+    expect(editor.getText()).toBe('Hello one two')
+    const decorations = revealDecorations(editor)
+    expect(decorations).toHaveLength(1)
+    expect(decorations[0].to - decorations[0].from).toBe(' one two'.length)
+
+    editor.destroy()
+  })
+
+  it('reveals an insert at the very end of the document', async () => {
+    const { editor, ydoc, ai } = await createCollabEditor()
+
+    remoteInsert(ai, ydoc, 5, '!')
 
     expect(editor.getText()).toBe('Hello!')
     const decorations = revealDecorations(editor)
@@ -141,9 +237,9 @@ describe('AiInsertReveal', () => {
   })
 
   it('clamps a decoration that resolves past the end of the document', async () => {
-    const { editor, ydoc } = await createCollabEditor()
+    const { editor, ydoc, ai } = await createCollabEditor()
 
-    remoteInsert(ydoc, 5, ' WORLD')
+    remoteInsert(ai, ydoc, 5, ' WORLD')
     expect(revealDecorations(editor)).toHaveLength(1)
 
     // Y.Doc can be ahead of the PM doc mid-sync, so resolve against a shorter doc.
@@ -156,6 +252,92 @@ describe('AiInsertReveal', () => {
     expect(decorations).toHaveLength(1)
     expect(decorations[0].to).toBe(shortDoc.content.size)
 
+    editor.destroy()
+  })
+
+  it("does not reveal another collaborator's remote insert", async () => {
+    const { editor, ydoc, human } = await createCollabEditor()
+
+    remoteInsert(human, ydoc, 5, ' WORLD')
+
+    // The insert lands like any remote edit, it just must not fade.
+    expect(editor.getText()).toBe('Hello WORLD')
+    expect(revealDecorations(editor)).toHaveLength(0)
+
+    editor.destroy()
+  })
+
+  it('reveals the AI while a collaborator types alongside it', async () => {
+    const { editor, ydoc, ai, human } = await createCollabEditor()
+
+    remoteInsert(human, ydoc, 5, ' HUMAN')
+    remoteInsert(ai, ydoc, 11, ' AI')
+
+    expect(editor.getText()).toBe('Hello HUMAN AI')
+    const decorations = revealDecorations(editor)
+    expect(decorations).toHaveLength(1)
+    expect(decorations[0].to - decorations[0].from).toBe(' AI'.length)
+
+    editor.destroy()
+  })
+
+  it('reveals a run that arrived before awareness identified the AI', async () => {
+    const ydoc = new Y.Doc()
+    const provider = createProvider()
+
+    const editor = await new Promise<Editor>(resolve => {
+      new Editor({
+        element: document.createElement('div'),
+        extensions: [
+          StarterKit.configure({ undoRedo: false }),
+          Collaboration.configure({ document: ydoc }),
+          AiInsertReveal.configure({ provider }),
+        ],
+        onCreate: ({ editor: created }) => {
+          created.commands.setContent('<p>Hello</p>')
+          resolve(created)
+        },
+      })
+    })
+
+    // The AI's first tokens can land before its awareness entry does.
+    remoteInsert(createPeer(ydoc, AI_CLIENT_ID), ydoc, 5, ' WORLD')
+    expect(revealDecorations(editor)).toHaveLength(0)
+
+    provider.announce(AI_CLIENT_ID, AI_USER)
+
+    expect(revealDecorations(editor)).toHaveLength(1)
+
+    editor.destroy()
+  })
+
+  it('warns and reveals nothing when no provider is configured', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const ydoc = new Y.Doc()
+
+    const editor = await new Promise<Editor>(resolve => {
+      new Editor({
+        element: document.createElement('div'),
+        extensions: [
+          StarterKit.configure({ undoRedo: false }),
+          Collaboration.configure({ document: ydoc }),
+          AiInsertReveal,
+        ],
+        onCreate: ({ editor: created }) => {
+          created.commands.setContent('<p>Hello</p>')
+          resolve(created)
+        },
+      })
+    })
+
+    remoteInsert(createPeer(ydoc, AI_CLIENT_ID), ydoc, 5, ' WORLD')
+
+    // Without awareness the AI cannot be identified, so it fails closed.
+    expect(editor.getText()).toBe('Hello WORLD')
+    expect(revealDecorations(editor)).toHaveLength(0)
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('"provider" option is required'))
+
+    warn.mockRestore()
     editor.destroy()
   })
 
@@ -172,9 +354,9 @@ describe('AiInsertReveal', () => {
   })
 
   it('drops the reveal once its duration has elapsed', async () => {
-    const { editor, ydoc } = await createCollabEditor({ durationMs: 30 })
+    const { editor, ydoc, ai } = await createCollabEditor({ durationMs: 30 })
 
-    remoteInsert(ydoc, 5, ' WORLD')
+    remoteInsert(ai, ydoc, 5, ' WORLD')
     expect(revealDecorations(editor)).toHaveLength(1)
 
     await new Promise(resolve => setTimeout(resolve, 60))
@@ -184,9 +366,9 @@ describe('AiInsertReveal', () => {
   })
 
   it('clamps a run longer than the max reveal range to that many characters', async () => {
-    const { editor, ydoc } = await createCollabEditor()
+    const { editor, ydoc, ai } = await createCollabEditor()
 
-    remoteInsert(ydoc, 5, 'x'.repeat(401))
+    remoteInsert(ai, ydoc, 5, 'x'.repeat(401))
 
     expect(editor.getText()).toBe(`Hello${'x'.repeat(401)}`)
     const decorations = revealDecorations(editor)
@@ -198,11 +380,11 @@ describe('AiInsertReveal', () => {
   })
 
   it('drops a run whose resolved span no longer matches its inserted length', async () => {
-    const { editor, ydoc } = await createCollabEditor()
+    const { editor, ydoc, ai } = await createCollabEditor()
 
-    remoteInsert(ydoc, 5, ' WORLD')
+    remoteInsert(ai, ydoc, 5, ' WORLD')
     // 'XYZ' lands inside the first run, so its span drifts from 6 to 9 and drops as stale.
-    remoteInsert(ydoc, 8, 'XYZ')
+    remoteInsert(ai, ydoc, 8, 'XYZ')
 
     const decorations = revealDecorations(editor)
     expect(decorations).toHaveLength(1)
@@ -212,8 +394,8 @@ describe('AiInsertReveal', () => {
   })
 
   it('tears down cleanly after a reveal without throwing', async () => {
-    const { editor, ydoc } = await createCollabEditor()
-    remoteInsert(ydoc, 5, ' WORLD')
+    const { editor, ydoc, ai } = await createCollabEditor()
+    remoteInsert(ai, ydoc, 5, ' WORLD')
     expect(revealDecorations(editor)).toHaveLength(1)
 
     expect(() => editor.destroy()).not.toThrow()
