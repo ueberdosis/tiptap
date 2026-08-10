@@ -1,8 +1,7 @@
 import type { Matcher, RE2JS } from 're2js'
 
 function advanceStringIndex(text: string, index: number): number {
-  // JS uses UTF-16; code points through 0xffff (65,535) use one code unit.
-  // For example, '😀' is larger and uses two code units, while 'A' uses one.
+  // Some characters like emojis take two string positions in JS, while most take one.
   const codePoint = text.codePointAt(index) ?? 0
   const codeUnitCount = codePoint > 0xffff ? 2 : 1
 
@@ -21,7 +20,7 @@ function nextSearchIndex(text: string, matcher: Matcher, resultGroup: number): n
   const from = matcher.start(resultGroup)
   const to = matcher.end(resultGroup)
 
-  // Empty captures do not advance, so move by one code point to avoid matching forever.
+  // Empty matches do not advance, so move one character forward to avoid looping forever.
   return to > from ? to : advanceStringIndex(text, from)
 }
 
@@ -39,10 +38,7 @@ function* findCapturedMatches(regex: RE2JS, text: string, resultGroup: number): 
   }
 }
 
-/**
- * Iterates RE2 matches, restarting at the captured result end when a wrapper group is used.
- * This lets adjacent matches reuse the non-word character between them, such as in "cat cat".
- */
+/** Finds all regex matches, even when they are next to each other. */
 export function findSafeMatcherMatches(
   regex: RE2JS,
   text: string,
