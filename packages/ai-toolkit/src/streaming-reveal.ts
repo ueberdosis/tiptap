@@ -35,18 +35,10 @@ export type RevealProvider = {
 /** Caps the fade to a run's first N chars; the rest reveals instantly. */
 const MAX_REVEAL_RANGE = 400
 
-/**
- * Rounding (ms) for the animation offset. ProseMirror compares decoration attrs by
- * value, so an offset that changed every render would rebuild every run's DOM node.
- */
+/** ProseMirror compares decoration attrs by value, so an unrounded offset rebuilds the DOM. */
 const REVEAL_AGE_STEP = 100
 
-/**
- * Blocks a single update may add before it is taken for a document sync rather
- * than live streaming; without this, joining a room fades everything the AI has
- * written so far. Counted in blocks so one structure it just wrote, such as a
- * list, still reveals as a whole.
- */
+/** Above this, an update is a document sync, such as joining a room, not live streaming. */
 const MAX_BLOCKS_PER_UPDATE = 2
 
 /** Yjs relative positions so each run survives y-tiptap doc rebuilds. */
@@ -105,7 +97,7 @@ function resolveSpan(
   return from === null || to === null ? null : clampSpan(from, to, entry.length, docSize)
 }
 
-/** Drops a span whose width drifted from the insert, be it a stale mapping or an edit inside the run. */
+/** Drops a span whose width drifted from the insert, so stale mappings never paint. */
 function clampSpan(
   from: number,
   to: number,
@@ -335,8 +327,7 @@ export const AiInsertReveal = Extension.create<AiInsertRevealOptions>({
 
           const rerender = () => {
             if (view.isDestroyed) return
-            // Empty transaction: re-runs `decorations` so new entries paint (and
-            // expired ones are dropped). Kept out of the undo history.
+            // Empty transaction: re-runs `decorations` so new entries paint and expired ones drop.
             view.dispatch(view.state.tr.setMeta('addToHistory', false))
           }
 
