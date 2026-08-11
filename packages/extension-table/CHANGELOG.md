@@ -1,5 +1,17 @@
 # Change Log
 
+## 3.30.0
+
+### Patch Changes
+
+- eded5e4: Deleting the last row or column of a table no longer moves the cursor outside the table when there is content below it.
+- Updated dependencies [0247d39]
+- Updated dependencies [58a8953]
+- Updated dependencies [51909d3]
+- Updated dependencies [3099eef]
+  - @tiptap/core@3.30.0
+  - @tiptap/pm@3.30.0
+
 ## 3.29.2
 
 ### Patch Changes

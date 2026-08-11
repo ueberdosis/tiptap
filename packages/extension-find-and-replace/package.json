@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/extension-find-and-replace",
-  "version": "3.29.2",
+  "version": "3.30.0",
   "description": "find and replace extension for tiptap",
   "keywords": [
     "tiptap",
