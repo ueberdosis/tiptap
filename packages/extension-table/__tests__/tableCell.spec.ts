@@ -142,6 +142,8 @@ describe('extension table cell', () => {
     expect(html).toContain('<td><p>Name</p></td>')
     expect(html).toContain('<td colspan="2"><p>Description</p></td>')
     expect(html).toContain('<td rowspan="2"><p>Cyndi Lauper</p></td>')
+    expect(html).not.toContain('colspan="1"')
+    expect(html).not.toContain('rowspan="1"')
 
     editor?.destroy()
     getEditorEl()?.remove()

@@ -100,7 +100,7 @@ describe('extension table header', () => {
 
   it('should only render colspan and rowspan when they are not the default', () => {
     const content =
-      '<table><tbody><tr><th>Name</th><th colspan="2">Description</th></tr><tr><td>Cyndi Lauper</td><td>Singer</td><td>Songwriter</td></tr></tbody></table>'
+      '<table><tbody><tr><th>Name</th><th colspan="2">Description</th></tr><tr><th rowspan="2">Cyndi Lauper</th><td>Singer</td><td>Songwriter</td></tr><tr><td>Marie Curie</td><td>Scientist</td></tr></tbody></table>'
 
     editor = new Editor({
       element: createEditorEl(),
@@ -112,6 +112,9 @@ describe('extension table header', () => {
 
     expect(html).toContain('<th><p>Name</p></th>')
     expect(html).toContain('<th colspan="2"><p>Description</p></th>')
+    expect(html).toContain('<th rowspan="2"><p>Cyndi Lauper</p></th>')
+    expect(html).not.toContain('colspan="1"')
+    expect(html).not.toContain('rowspan="1"')
 
     editor?.destroy()
     getEditorEl()?.remove()
