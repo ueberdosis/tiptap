@@ -2,7 +2,7 @@ import { Code } from '@tiptap/extension-code'
 import Document from '@tiptap/extension-document'
 import HardBreak from '@tiptap/extension-hard-break'
 import Paragraph from '@tiptap/extension-paragraph'
-import { TableKit } from '@tiptap/extension-table'
+import { escapeTableCellPipes, TableKit } from '@tiptap/extension-table'
 import Text from '@tiptap/extension-text'
 import { MarkdownManager } from '@tiptap/markdown'
 import { describe, expect, it } from 'vitest'
@@ -271,5 +271,30 @@ describe('table markdown line breaks', () => {
 
     expect(serialized).toContain('| plain |')
     expect(serialized).not.toContain('<br>')
+  })
+})
+
+describe('escapeTableCellPipes — pipe escaping inside code spans', () => {
+  it('escapes a bare pipe inside a code span', () => {
+    expect(escapeTableCellPipes('| `a|b` |')).toBe('| `a\\|b` |')
+  })
+
+  it('escapes every pipe of a consecutive run', () => {
+    expect(escapeTableCellPipes('| `||` |')).toBe('| `\\|\\|` |')
+  })
+
+  it('keeps an already-escaped pipe untouched', () => {
+    expect(escapeTableCellPipes('| `a\\|b` |')).toBe('| `a\\|b` |')
+  })
+
+  it('keeps a pipe preceded by a backslash pair untouched', () => {
+    // In `a\\|b` the pipe's immediately-preceding character is a backslash,
+    // so it passes through unchanged.
+    expect(escapeTableCellPipes('| `a\\\\|b` |')).toBe('| `a\\\\|b` |')
+  })
+
+  it('handles mixed escaped and bare pipes in one span', () => {
+    // Span content is `|\||` — bare, escaped, bare.
+    expect(escapeTableCellPipes('| `|\\||` |')).toBe('| `\\|\\|\\|` |')
   })
 })
