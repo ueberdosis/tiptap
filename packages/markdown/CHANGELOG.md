@@ -1,5 +1,17 @@
 # @tiptap/markdown
 
+## 3.30.0
+
+### Patch Changes
+
+- 03ba40e: Markdown with inline HTML such as an unclosed `<b>` tag no longer parses into an invalid document. The tag is dropped and its text is kept.
+- Updated dependencies [0247d39]
+- Updated dependencies [58a8953]
+- Updated dependencies [51909d3]
+- Updated dependencies [3099eef]
+  - @tiptap/core@3.30.0
+  - @tiptap/pm@3.30.0
+
 ## 3.29.2
 
 ### Patch Changes
