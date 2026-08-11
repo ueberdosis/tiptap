@@ -98,6 +98,25 @@ describe('extension table header', () => {
     getEditorEl()?.remove()
   })
 
+  it('should only render colspan and rowspan when they are not the default', () => {
+    const content =
+      '<table><tbody><tr><th>Name</th><th colspan="2">Description</th></tr><tr><td>Cyndi Lauper</td><td>Singer</td><td>Songwriter</td></tr></tbody></table>'
+
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [Document, Text, Paragraph, TableCell, TableHeader, TableRow, Table],
+      content,
+    })
+
+    const html = editor.getHTML()
+
+    expect(html).toContain('<th><p>Name</p></th>')
+    expect(html).toContain('<th colspan="2"><p>Description</p></th>')
+
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
+
   it('should parse the colgroup col widths for a header row', () => {
     const content =
       '<table><colgroup><col width="64" /><col width="128" /></colgroup><tbody><tr><th>Name</th><th>Description</th></tr><tr><td>Cyndi Lauper</td><td>Singer</td></tr></tbody></table>'
