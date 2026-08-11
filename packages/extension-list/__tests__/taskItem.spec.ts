@@ -219,37 +219,35 @@ describe('TaskItem', () => {
       expect(spanElement?.textContent).toBe('Task item checkbox for empty task item')
     })
 
-    it('renders the checkbox label in static HTML output', () => {
+    it('does not parse the checkbox label as task item content', () => {
       editor = new Editor({
         extensions: [Document, Paragraph, Text, TaskList, TaskItem],
-        content: {
-          type: 'doc',
-          content: [
-            {
-              type: 'taskList',
-              content: [
-                {
-                  type: 'taskItem',
-                  attrs: { checked: false },
-                  content: [
-                    { type: 'paragraph', content: [{ type: 'text', text: 'A list item' }] },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
+        content: `
+          <ul data-type="taskList">
+            <li data-checked="true" data-type="taskItem">
+              <label><input type="checkbox"><span>Task item checkbox for A list item</span></label>
+              <div><p>A list item</p></div>
+            </li>
+          </ul>
+        `,
       })
 
-      const html = editor.getHTML()
-      const parsed = new DOMParser().parseFromString(html, 'text/html')
-      const labelElement = parsed.querySelector('li[data-type="taskItem"] > label')
-      const spanElement = parsed.querySelector('li[data-type="taskItem"] > label > span')
+      expect(editor.getText()).toContain('A list item')
+      expect(editor.getText()).not.toContain('Task item checkbox')
+    })
 
-      expect(labelElement?.textContent?.trim()).not.toBe('')
-      expect(spanElement?.textContent).toBe('Task item checkbox for A list item')
-      expect(spanElement?.style.position).toBe('absolute')
-      expect(spanElement?.style.width).toBe('1px')
+    it('still parses task items without a content wrapper', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, TaskList, TaskItem],
+        content: `
+          <ul data-type="taskList">
+            <li data-type="taskItem"><p>A list item</p></li>
+          </ul>
+        `,
+      })
+
+      expect(editor.getText()).toContain('A list item')
+      expect(editor.getText()).not.toContain('Task item checkbox')
     })
   })
 

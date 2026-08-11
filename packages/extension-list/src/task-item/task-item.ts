@@ -128,6 +128,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
       {
         tag: `li[data-type="${this.name}"]`,
         priority: 51,
+        contentElement: element => element.querySelector('div') ?? element,
       },
     ]
   },
@@ -147,11 +148,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
             checked: node.attrs.checked ? 'checked' : null,
           },
         ],
-        [
-          'span',
-          { style: visuallyHiddenStyle },
-          getCheckboxLabel(node, node.attrs.checked, this.options.a11y),
-        ],
+        ['span'],
       ],
       ['div', 0],
     ]
