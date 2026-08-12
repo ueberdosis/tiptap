@@ -2,6 +2,7 @@ import { NodeSelection } from '@tiptap/pm/state'
 import type { NodeView as ProseMirrorNodeView, ViewMutationRecord } from '@tiptap/pm/view'
 
 import type { Editor as CoreEditor } from './Editor.js'
+import { canNodeViewBeSelected } from './helpers/canNodeViewBeSelected.js'
 import type { DecorationWithType, NodeViewRendererOptions, NodeViewRendererProps } from './types.js'
 import { isAndroid } from './utilities/isAndroid.js'
 import { isiOS } from './utilities/isiOS.js'
@@ -65,6 +66,34 @@ export class NodeView<
   mount() {
     // oxlint-disable-next-line
     return
+  }
+
+  /**
+   * Whether this node view can ignore the current selection update.
+   *
+   * Every node view listens to every selection update, and reading its
+   * position is O(siblings), so skipping that lookup keeps documents with many
+   * node views responsive.
+   *
+   * @param isSelected Whether the node view renders as selected right now.
+   * @returns `true` when the selected state cannot have changed.
+   * @example
+   * ```js
+   * if (this.canIgnoreSelectionUpdate(this.renderer.props.selected)) {
+   *   return
+   * }
+   * ```
+   */
+  canIgnoreSelectionUpdate(isSelected: boolean): boolean {
+    if (isSelected) {
+      return false
+    }
+
+    return !canNodeViewBeSelected({
+      selection: this.editor.state.selection,
+      nodeSize: this.node.nodeSize,
+      selectedOnTextSelection: this.options.selectedOnTextSelection,
+    })
   }
 
   get dom(): HTMLElement {

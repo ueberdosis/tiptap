@@ -11,6 +11,6 @@ export type ContentComponent = {
   setRenderer(id: string, renderer: ReactRenderer): void
   removeRenderer(id: string): void
   subscribe: (callback: () => void) => () => void
-  getSnapshot: () => Record<string, ReactPortal>
-  getServerSnapshot: () => Record<string, ReactPortal>
+  getSnapshot: () => ReactPortal[]
+  getServerSnapshot: () => ReactPortal[]
 }

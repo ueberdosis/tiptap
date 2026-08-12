@@ -273,6 +273,10 @@ export class ReactNodeView<
    * If it is, call `selectNode`, otherwise call `deselectNode`.
    */
   handleSelectionUpdate() {
+    if (this.canIgnoreSelectionUpdate(Boolean(this.renderer.props.selected))) {
+      return
+    }
+
     if (this.selectionRafId) {
       cancelAnimationFrame(this.selectionRafId)
       this.selectionRafId = null

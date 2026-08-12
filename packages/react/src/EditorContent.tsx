@@ -33,7 +33,7 @@ const Portals: React.FC<{ contentComponent: ContentComponent }> = ({ contentComp
   )
 
   // This allows us to directly render the portals without any additional wrapper
-  return <>{Object.values(renderers)}</>
+  return <>{renderers}</>
 }
 
 export interface EditorContentProps extends HTMLProps<HTMLDivElement> {
@@ -43,7 +43,11 @@ export interface EditorContentProps extends HTMLProps<HTMLDivElement> {
 
 export function createContentComponent(): ContentComponent {
   const subscribers = new Set<() => void>()
-  let renderers: Record<string, React.ReactPortal> = {}
+  const renderers = new Map<string, React.ReactPortal>()
+  // The snapshot is rebuilt once per render instead of once per node view
+  // update, so a document with many node views stays cheap to update.
+  let snapshot: React.ReactPortal[] = []
+  let isSnapshotOutdated = false
   let isNotificationQueued = false
 
   const notifySubscribers = () => {
@@ -70,19 +74,22 @@ export function createContentComponent(): ContentComponent {
       }
     },
     getSnapshot() {
-      return renderers
+      if (isSnapshotOutdated) {
+        isSnapshotOutdated = false
+        snapshot = Array.from(renderers.values())
+      }
+
+      return snapshot
     },
     getServerSnapshot() {
-      return renderers
+      return snapshot
     },
     /**
      * Adds a new NodeView Renderer to the editor.
      */
     setRenderer(id: string, renderer: ReactRenderer) {
-      renderers = {
-        ...renderers,
-        [id]: ReactDOM.createPortal(renderer.reactElement, renderer.element, id),
-      }
+      renderers.set(id, ReactDOM.createPortal(renderer.reactElement, renderer.element, id))
+      isSnapshotOutdated = true
 
       notifySubscribers()
     },
@@ -90,10 +97,11 @@ export function createContentComponent(): ContentComponent {
      * Removes a NodeView Renderer from the editor.
      */
     removeRenderer(id: string) {
-      const nextRenderers = { ...renderers }
+      if (!renderers.delete(id)) {
+        return
+      }
 
-      delete nextRenderers[id]
-      renderers = nextRenderers
+      isSnapshotOutdated = true
       notifySubscribers()
     },
   }

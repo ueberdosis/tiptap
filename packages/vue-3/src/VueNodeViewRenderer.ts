@@ -264,6 +264,10 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
    * If it is, call `selectNode`, otherwise call `deselectNode`.
    */
   handleSelectionUpdate() {
+    if (this.canIgnoreSelectionUpdate(Boolean(this.renderer.props.selected))) {
+      return
+    }
+
     const pos = this.getPos()
 
     if (typeof pos !== 'number') {

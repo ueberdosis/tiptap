@@ -160,6 +160,24 @@ const Widget = Node.create({
   },
 })
 
+const CursorSelectedBlock = Node.create({
+  name: 'cursorSelectedBlock',
+  group: 'block',
+  content: 'paragraph+',
+
+  parseHTML() {
+    return [{ tag: 'div[data-type="cursor-selected"]' }]
+  },
+
+  renderHTML() {
+    return ['div', { 'data-type': 'cursor-selected' }, 0]
+  },
+
+  addNodeView() {
+    return ReactNodeViewRenderer(ItemComponent, { selectedOnTextSelection: true })
+  },
+})
+
 const createEditorWithContainers = () => {
   return new Editor({
     extensions: [Document, Paragraph, Text, Container, Item],
@@ -181,6 +199,43 @@ const createEditorWithWidget = () => {
     extensions: [Document, Paragraph, Text, Widget],
     content: '<p>abc</p><div data-type="widget"></div>',
   })
+}
+
+const createEditorWithManyNodeViews = (paragraphCount: number) => {
+  return new Editor({
+    extensions: [Document, ReactParagraph, Text],
+    content: Array.from({ length: paragraphCount }, (_, index) => `<p>paragraph ${index}</p>`).join(
+      '',
+    ),
+  })
+}
+
+const createEditorWithCursorSelectedBlock = () => {
+  return new Editor({
+    extensions: [Document, Paragraph, Text, CursorSelectedBlock],
+    content: '<p>abc</p><div data-type="cursor-selected"><p>inside</p></div>',
+  })
+}
+
+/** Counts the animation frames scheduled while running `run`. */
+const countAnimationFrames = async (run: () => void) => {
+  const originalRequestAnimationFrame = globalThis.requestAnimationFrame
+  let scheduled = 0
+
+  globalThis.requestAnimationFrame = ((callback: FrameRequestCallback) => {
+    scheduled += 1
+    return originalRequestAnimationFrame(callback)
+  }) as typeof globalThis.requestAnimationFrame
+
+  try {
+    await act(async () => {
+      run()
+    })
+  } finally {
+    globalThis.requestAnimationFrame = originalRequestAnimationFrame
+  }
+
+  return scheduled
 }
 
 const flushMicrotasks = async () => {
@@ -300,6 +355,67 @@ describe('ReactNodeViewRenderer', () => {
     const widget = container.querySelector('.node-widget')!
 
     expect(widget.classList.contains('ProseMirror-selectednode')).toBe(false)
+
+    editor.destroy()
+  })
+
+  it('does not schedule work in every node view when the cursor moves', async () => {
+    const paragraphCount = 50
+    const editor = createEditorWithManyNodeViews(paragraphCount)
+
+    render(React.createElement(EditorContent, { editor }))
+
+    await flushMicrotasks()
+
+    // A collapsed cursor cannot select a node, so no node view has anything to
+    // do. Reading positions here costs O(siblings) per node view.
+    const scheduled = await countAnimationFrames(() => {
+      editor.commands.setTextSelection(3)
+    })
+
+    expect(scheduled).toBe(0)
+
+    editor.destroy()
+  })
+
+  it('deselects the node view when the cursor moves out of it', async () => {
+    const editor = createEditorWithWidget()
+    const { container } = render(React.createElement(EditorContent, { editor }))
+
+    await flushMicrotasks()
+
+    editor.commands.setNodeSelection(5)
+
+    await flushAnimationFrame()
+
+    const widget = container.querySelector('.node-widget')!
+
+    expect(widget.classList.contains('ProseMirror-selectednode')).toBe(true)
+
+    editor.commands.setTextSelection(2)
+
+    await flushAnimationFrame()
+
+    expect(widget.classList.contains('ProseMirror-selectednode')).toBe(false)
+
+    editor.destroy()
+  })
+
+  it('selects the node view on a collapsed cursor with selectedOnTextSelection', async () => {
+    const editor = createEditorWithCursorSelectedBlock()
+    const { container } = render(React.createElement(EditorContent, { editor }))
+
+    await flushMicrotasks()
+
+    const block = container.querySelector('.node-cursorSelectedBlock')!
+
+    expect(block.classList.contains('ProseMirror-selectednode')).toBe(false)
+
+    editor.commands.setTextSelection(8)
+
+    await flushAnimationFrame()
+
+    expect(block.classList.contains('ProseMirror-selectednode')).toBe(true)
 
     editor.destroy()
   })
