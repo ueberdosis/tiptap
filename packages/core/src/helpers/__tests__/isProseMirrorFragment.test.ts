@@ -12,5 +12,16 @@ describe('isProseMirrorFragment', () => {
     expect(isProseMirrorFragment(null)).toBe(false)
     expect(isProseMirrorFragment('text')).toBe(false)
     expect(isProseMirrorFragment({ size: 0 })).toBe(false)
+    expect(
+      isProseMirrorFragment({
+        content: [],
+        size: 0,
+        nodesBetween: () => {},
+        descendants: () => {},
+        textBetween: () => {},
+        append: () => {},
+        cut: () => {},
+      }),
+    ).toBe(false)
   })
 })

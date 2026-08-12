@@ -22,7 +22,10 @@ export function isProseMirrorFragment(value: unknown): value is Fragment {
     typeof fragment.descendants !== 'function' ||
     typeof fragment.textBetween !== 'function' ||
     typeof fragment.append !== 'function' ||
-    typeof fragment.cut !== 'function'
+    typeof fragment.cut !== 'function' ||
+    typeof fragment.eq !== 'function' ||
+    typeof fragment.child !== 'function' ||
+    typeof fragment.forEach !== 'function'
   ) {
     return false
   }
