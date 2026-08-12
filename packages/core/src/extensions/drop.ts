@@ -16,9 +16,11 @@ let dragSourceEditor: Editor | null = null
 
 function dragMoves(view: EditorView, event: DragEvent) {
   const dragCopyModifier: keyof DragEvent = isiOS() || isMacOS() ? 'altKey' : 'ctrlKey'
-  // @ts-expect-error dragCopies is not in our list of props
-  const moves = view.someProp('dragCopies', test => !test(event))
-  return moves != null ? moves : !event[dragCopyModifier]
+  let copy: boolean | undefined
+  view.someProp('dragCopies', test => {
+    copy = copy || test(event)
+  })
+  return copy != null ? !copy : !event[dragCopyModifier]
 }
 
 export const Drop = Extension.create({
