@@ -5,6 +5,9 @@ import { isProseMirrorFragment } from './isProseMirrorFragment.js'
  * Checks if a value is a ProseMirror slice by inspecting it
  * @param value The value to check
  * @returns - A boolean, if true the value is a ProseMirror slice
+ * @example ```js
+ * isProseMirrorSlice(editor.state.doc.content.slice(0, 10))
+ * ```
  */
 export function isProseMirrorSlice(value: unknown): value is Slice {
   if (value === null || typeof value !== 'object') {

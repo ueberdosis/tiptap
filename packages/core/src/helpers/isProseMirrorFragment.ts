@@ -4,6 +4,9 @@ import { type Fragment } from '@tiptap/pm/model'
  * Checks if a value is a ProseMirror fragment by inspecting it
  * @param value The value to check
  * @returns - A boolean, if true the value is a ProseMirror fragment
+ * @example ```js
+ * isProseMirrorFragment(editor.state.doc.content)
+ * ```
  */
 export function isProseMirrorFragment(value: unknown): value is Fragment {
   if (value === null || typeof value !== 'object') {

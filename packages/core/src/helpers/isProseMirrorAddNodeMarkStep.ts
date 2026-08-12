@@ -5,6 +5,9 @@ import { isProseMirrorStep } from './isProseMirrorStep.js'
  * Checks if a value is a ProseMirror add node mark step
  * @param value The value to check
  * @returns - A boolean, if the boolean is true the value is a ProseMirror AddNodeMarkStep
+ * @example ```js
+ * isProseMirrorAddNodeMarkStep(transaction.steps[0])
+ * ```
  */
 export function isProseMirrorAddNodeMarkStep(value: unknown): value is AddNodeMarkStep {
   if (value === null || typeof value !== 'object') {

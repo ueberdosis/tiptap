@@ -6,6 +6,9 @@ import type { CellSelection } from '@tiptap/pm/tables'
  *
  * @param selection - Selection to inspect.
  * @returns Whether the selection is a table cell selection.
+ * @example ```js
+ * isProseMirrorCellSelection(editor.state.selection)
+ * ```
  */
 export function isProseMirrorCellSelection(
   selection: Selection | null | undefined,

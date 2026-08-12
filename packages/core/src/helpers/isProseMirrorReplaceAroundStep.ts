@@ -5,6 +5,9 @@ import { isProseMirrorStep } from './isProseMirrorStep.js'
  * Checks if a value is a ProseMirror replace around step
  * @param value The value to check
  * @returns - A boolean, if the boolean is true the value is a ProseMirror ReplaceAroundStep
+ * @example ```js
+ * isProseMirrorReplaceAroundStep(transaction.steps[0])
+ * ```
  */
 export function isProseMirrorReplaceAroundStep(value: unknown): value is ReplaceAroundStep {
   if (value === null || typeof value !== 'object') {

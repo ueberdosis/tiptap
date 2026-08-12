@@ -5,6 +5,9 @@ import { isProseMirrorStep } from './isProseMirrorStep.js'
  * Checks if a value is a ProseMirror remove mark step
  * @param value The value to check
  * @returns - A boolean, if the boolean is true the value is a ProseMirror RemoveMarkStep
+ * @example ```js
+ * isProseMirrorRemoveMarkStep(transaction.steps[0])
+ * ```
  */
 export function isProseMirrorRemoveMarkStep(value: unknown): value is RemoveMarkStep {
   if (value === null || typeof value !== 'object') {

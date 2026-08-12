@@ -5,6 +5,9 @@ import type { NodeSelection, Selection } from '@tiptap/pm/state'
  *
  * @param selection - Selection to inspect.
  * @returns Whether the selection is a node selection.
+ * @example ```js
+ * isProseMirrorNodeSelection(editor.state.selection)
+ * ```
  */
 export function isProseMirrorNodeSelection(selection: Selection): selection is NodeSelection {
   return 'node' in selection && selection.node !== null
