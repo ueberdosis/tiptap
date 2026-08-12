@@ -320,6 +320,7 @@ export class FloatingMenuView {
     this.editor.on('transaction', this.transactionHandler)
     window.addEventListener('resize', this.resizeHandler)
     this.scrollTarget.addEventListener('scroll', this.resizeHandler)
+    this.view.dom.addEventListener('compositionend', this.compositionEndHandler)
 
     this.update(view, view.state)
 
@@ -377,6 +378,20 @@ export class FloatingMenuView {
 
   mousedownHandler = () => {
     this.preventHide = true
+  }
+
+  compositionEndHandler = () => {
+    // While an IME composition is running `updateHandler` bails out on `view.composing`, and the
+    // flush at the end of the composition usually carries no further doc or selection change, so it
+    // hits the `isSame` early return as well. Without this the menu is never re-evaluated for
+    // composed input (e.g. Hangul, where every syllable goes through a composition).
+    setTimeout(() => {
+      if (this.editor.isDestroyed) {
+        return
+      }
+
+      this.update(this.view)
+    })
   }
 
   focusHandler = () => {
@@ -564,6 +579,7 @@ export class FloatingMenuView {
     this.editor.off('focus', this.focusHandler)
     this.editor.off('blur', this.blurHandler)
     this.editor.off('transaction', this.transactionHandler)
+    this.view.dom.removeEventListener('compositionend', this.compositionEndHandler)
 
     if (this.floatingUIOptions.onDestroy) {
       this.floatingUIOptions.onDestroy()
