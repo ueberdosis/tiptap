@@ -10,6 +10,7 @@ describe('isProseMirrorStepResult', () => {
 
   it('returns false for other values', () => {
     expect(isProseMirrorStepResult({ doc: {}, failed: 'boom' })).toBe(false)
+    expect(isProseMirrorStepResult({ doc: null, failed: null })).toBe(false)
     expect(isProseMirrorStepResult(null)).toBe(false)
     expect(isProseMirrorStepResult({})).toBe(false)
   })

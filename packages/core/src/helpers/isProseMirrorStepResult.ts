@@ -15,7 +15,7 @@ export function isProseMirrorStepResult(value: unknown): value is StepResult {
 
   const result = value as Record<string, unknown>
 
-  const isValidDoc = typeof result.doc === 'object' && result.failed === null
+  const isValidDoc = result.doc !== null && typeof result.doc === 'object' && result.failed === null
   const isValidFailed = typeof result.failed === 'string' && result.doc === null
 
   if (!isValidDoc && !isValidFailed) {
