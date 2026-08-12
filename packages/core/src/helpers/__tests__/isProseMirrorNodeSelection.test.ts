@@ -2,7 +2,7 @@ import { Editor } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { NodeSelection } from '@tiptap/pm/state'
+import { NodeSelection, TextSelection } from '@tiptap/pm/state'
 import { describe, expect, it } from 'vitest'
 
 import { isProseMirrorNodeSelection } from '../isProseMirrorNodeSelection.js'
@@ -24,6 +24,6 @@ describe('isProseMirrorNodeSelection', () => {
   })
 
   it('returns false for other selections and values', () => {
-    expect(isProseMirrorNodeSelection({})).toBe(false)
+    expect(isProseMirrorNodeSelection(TextSelection.create(createDoc(), 2))).toBe(false)
   })
 })
