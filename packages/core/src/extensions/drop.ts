@@ -60,7 +60,11 @@ export const Drop = Extension.create({
         props: {
           handleDOMEvents: {
             drop: (_view, event) => {
-              if (dragSourceEditor !== null && dragSourceEditor !== editor && dragSourceEditor.isEditable) {
+              if (
+                dragSourceEditor !== null &&
+                dragSourceEditor !== editor &&
+                dragSourceEditor.isEditable
+              ) {
                 // Call dragMove on the source editor, since it is the one affected by this decision.
                 const move = dragMoves(dragSourceEditor.view, event)
 
@@ -71,7 +75,10 @@ export const Drop = Extension.create({
                     const selection = dragSourceEditorCopy.state.selection
 
                     if (selection) {
-                      dragSourceEditorCopy.commands.deleteRange({ from: selection.from, to: selection.to })
+                      dragSourceEditorCopy.commands.deleteRange({
+                        from: selection.from,
+                        to: selection.to,
+                      })
                     }
                   }, 10)
                 }
