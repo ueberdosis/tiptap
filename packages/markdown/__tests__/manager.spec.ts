@@ -1,4 +1,10 @@
-import { type AnyExtension, createBlockMarkdownSpec, createInlineMarkdownSpec, Extension, Node } from '@tiptap/core'
+import {
+  type AnyExtension,
+  createBlockMarkdownSpec,
+  createInlineMarkdownSpec,
+  Extension,
+  Node,
+} from '@tiptap/core'
 import { Bold } from '@tiptap/extension-bold'
 import { Document } from '@tiptap/extension-document'
 import { Heading } from '@tiptap/extension-heading'
@@ -133,9 +139,7 @@ describe('MarkdownManager Direct Tests', () => {
 
   describe('Basic Markdown Parsing', () => {
     beforeEach(() => {
-      markdownManager = new MarkdownManager()
-
-      basicExtensions.forEach(ext => markdownManager.registerExtension(ext))
+      markdownManager = new MarkdownManager({ extensions: basicExtensions })
     })
 
     it('should parse simple text', () => {
@@ -210,17 +214,14 @@ Second paragraph.`
 **After** ordered list`
       const isolatedManager = new MarkdownManager({
         marked: new Marked() as unknown as typeof import('marked').marked,
-        extensions: [],
+        extensions: basicExtensions,
       })
-
-      basicExtensions.forEach(ext => isolatedManager.registerExtension(ext))
 
       expect(markdownManager.parse(markdown)).toEqual(isolatedManager.parse(markdown))
     })
 
     it('keeps later inline parsing stable after a custom tokenizer uses inlineTokens', () => {
-      const manager = new MarkdownManager()
-      ;[...basicExtensions, TestProbe].forEach(ext => manager.registerExtension(ext))
+      const manager = new MarkdownManager({ extensions: [...basicExtensions, TestProbe] })
 
       const markdown = `:::probe **Probe** text :::
 
@@ -258,12 +259,38 @@ Second paragraph.`
         },
       ])
     })
+
+    it('runs custom tokenizers registered on an injected Marked instance', () => {
+      // Regression: custom tokenizers must still fire when a dedicated `marked`
+      // instance is injected, not only on the default shared instance.
+      const manager = new MarkdownManager({
+        marked: new Marked() as unknown as typeof import('marked').marked,
+        extensions: [...basicExtensions, TestProbe],
+      })
+
+      const doc = manager.parse(':::probe **Probe** text :::')
+
+      expect(doc.content).toEqual([
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'Probe',
+              marks: [{ type: 'bold' }],
+            },
+            {
+              type: 'text',
+              text: ' text',
+            },
+          ],
+        },
+      ])
+    })
   })
   describe('simple nested Marks parsing', () => {
     beforeEach(() => {
-      markdownManager = new MarkdownManager()
-
-      basicExtensions.forEach(ext => markdownManager.registerExtension(ext))
+      markdownManager = new MarkdownManager({ extensions: basicExtensions })
     })
     const nestedMarkdown = `**...++abc++**`
 
@@ -299,9 +326,7 @@ Second paragraph.`
   })
   describe('complex nested Marks parsing', () => {
     beforeEach(() => {
-      markdownManager = new MarkdownManager()
-
-      basicExtensions.forEach(ext => markdownManager.registerExtension(ext))
+      markdownManager = new MarkdownManager({ extensions: basicExtensions })
     })
     const nestedMarkdown = `**...~~++abc*abc*++~~**`
 
@@ -324,7 +349,12 @@ Second paragraph.`
             {
               type: 'text',
               text: 'abc',
-              marks: [{ type: 'italic' }, { type: 'underline' }, { type: 'strike' }, { type: 'bold' }],
+              marks: [
+                { type: 'italic' },
+                { type: 'underline' },
+                { type: 'strike' },
+                { type: 'bold' },
+              ],
             },
           ],
         },
@@ -342,8 +372,7 @@ Second paragraph.`
   })
   describe('Extended Markdown Parsing', () => {
     beforeEach(() => {
-      markdownManager = new MarkdownManager()
-      extendedExtensions.forEach(ext => markdownManager.registerExtension(ext))
+      markdownManager = new MarkdownManager({ extensions: extendedExtensions })
     })
 
     it('should parse mentions', () => {
@@ -391,8 +420,7 @@ Final paragraph.`
 
   describe('Markdown Rendering', () => {
     beforeEach(() => {
-      markdownManager = new MarkdownManager()
-      extendedExtensions.forEach(ext => markdownManager.registerExtension(ext))
+      markdownManager = new MarkdownManager({ extensions: extendedExtensions })
     })
 
     it('should render simple text', () => {
@@ -584,7 +612,10 @@ Final paragraph.`
     })
 
     it('should render nested marks with correct tag order', () => {
-      // Test case: bold inside strike should render as ~~**text**~~
+      // Marks come in ProseMirror's canonical order (rank ascending) — Bold is
+      // registered before Strike so it gets the lower rank. The serializer
+      // places lower-rank marks outermost, mirroring how a real editor would
+      // wrap the text: bold outer, strike inner.
       const doc = {
         type: 'doc',
         content: [
@@ -633,8 +664,8 @@ Final paragraph.`
         ],
       }
 
-      expect(markdownManager.renderNodes(doc)).to.equal('Test: ~~**abcd**~~ end.')
-      expect(markdownManager.renderNodes(docAtEnd)).to.equal('~~**abcd**~~')
+      expect(markdownManager.renderNodes(doc)).to.equal('Test: **~~abcd~~** end.')
+      expect(markdownManager.renderNodes(docAtEnd)).to.equal('**~~abcd~~**')
     })
 
     it('should render headings', () => {
@@ -695,10 +726,29 @@ Final paragraph.`
     })
   })
 
+  it('does not reopen marks after inline atom that does not carry them', () => {
+    const doc = {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            { type: 'text', text: 'Bold ', marks: [{ type: 'bold' }] },
+            { type: 'tag', attrs: { label: 'node' } },
+            { type: 'text', text: ' some text' },
+          ],
+        },
+      ],
+    }
+
+    const markdown = markdownManager.renderNodes(doc)
+    // Trailing space is moved outside bold markers (per Issue #7180 whitespace convention)
+    expect(markdown).toBe('**Bold** [tag label="node"] some text')
+  })
+
   describe('Round-trip Tests', () => {
     beforeEach(() => {
-      markdownManager = new MarkdownManager()
-      extendedExtensions.forEach(ext => markdownManager.registerExtension(ext))
+      markdownManager = new MarkdownManager({ extensions: extendedExtensions })
     })
 
     const testCases = [
@@ -742,15 +792,13 @@ Final paragraph.`
     it('should work with different extension combinations', () => {
       // Test with minimal extensions
       const minimalExtensions = [Document, Paragraph, Text]
-      const minimalManager = new MarkdownManager()
-      minimalExtensions.forEach(ext => minimalManager.registerExtension(ext))
+      const minimalManager = new MarkdownManager({ extensions: minimalExtensions })
 
       const simpleDoc = minimalManager.parse('Hello world')
       expect(simpleDoc.content![0].type).toBe('paragraph')
 
       // Test with extended extensions
-      const extendedManager = new MarkdownManager()
-      extendedExtensions.forEach(ext => extendedManager.registerExtension(ext))
+      const extendedManager = new MarkdownManager({ extensions: extendedExtensions })
 
       const complexDoc = extendedManager.parse('# Title\n\n[@ id="user" label="User"]')
       expect(complexDoc.content![0].type).toBe('heading')
@@ -758,8 +806,7 @@ Final paragraph.`
     })
 
     it('should handle unknown markdown gracefully', () => {
-      const manager = new MarkdownManager()
-      basicExtensions.forEach(ext => manager.registerExtension(ext))
+      const manager = new MarkdownManager({ extensions: basicExtensions })
 
       // Test various unknown markdown patterns that should be preserved as text
       const testCases = [
@@ -781,8 +828,7 @@ Final paragraph.`
 
   describe('Performance Tests', () => {
     beforeEach(() => {
-      markdownManager = new MarkdownManager()
-      extendedExtensions.forEach(ext => markdownManager.registerExtension(ext))
+      markdownManager = new MarkdownManager({ extensions: extendedExtensions })
     })
 
     it('should handle large documents efficiently', () => {

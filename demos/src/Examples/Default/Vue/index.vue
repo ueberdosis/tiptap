@@ -100,10 +100,16 @@
         </button>
         <button @click="editor.chain().focus().setHorizontalRule().run()">Horizontal rule</button>
         <button @click="editor.chain().focus().setHardBreak().run()">Hard break</button>
-        <button @click="editor.chain().focus().undo().run()" :disabled="!editor.can().chain().focus().undo().run()">
+        <button
+          @click="editor.chain().focus().undo().run()"
+          :disabled="!editor.can().chain().focus().undo().run()"
+        >
           Undo
         </button>
-        <button @click="editor.chain().focus().redo().run()" :disabled="!editor.can().chain().focus().redo().run()">
+        <button
+          @click="editor.chain().focus().redo().run()"
+          :disabled="!editor.can().chain().focus().redo().run()"
+        >
           Redo
         </button>
         <button

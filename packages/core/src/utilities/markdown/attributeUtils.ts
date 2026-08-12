@@ -38,14 +38,14 @@ export function parseAttributes(attrString: string): Record<string, any> {
   })
 
   // Parse classes (.className) - only outside of quoted strings
-  const classMatches = tempString.match(/(?:^|\s)\.([a-zA-Z][\w-]*)/g)
+  const classMatches = tempString.match(/(?:^|\s)\.([\w-]+)/g)
   if (classMatches) {
     const classes = classMatches.map(match => match.trim().slice(1)) // Remove the dot
     attributes.class = classes.join(' ')
   }
 
   // Parse IDs (#myId) - only outside of quoted strings
-  const idMatch = tempString.match(/(?:^|\s)#([a-zA-Z][\w-]*)/)
+  const idMatch = tempString.match(/(?:^|\s)#([\w-]+)/)
   if (idMatch) {
     attributes.id = idMatch[1]
   }
@@ -64,8 +64,8 @@ export function parseAttributes(attrString: string): Record<string, any> {
 
   // Parse boolean attributes (standalone words that aren't classes/IDs)
   const cleanString = tempString
-    .replace(/(?:^|\s)\.([a-zA-Z][\w-]*)/g, '') // Remove classes
-    .replace(/(?:^|\s)#([a-zA-Z][\w-]*)/g, '') // Remove IDs
+    .replace(/(?:^|\s)\.([\w-]+)/g, '') // Remove classes
+    .replace(/(?:^|\s)#([\w-]+)/g, '') // Remove IDs
     .replace(/([a-zA-Z][\w-]*)\s*=\s*__QUOTED_\d+__/g, '') // Remove key-value pairs
     .trim()
 

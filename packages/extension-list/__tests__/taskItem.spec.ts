@@ -4,13 +4,251 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { afterEach, describe, expect, it } from 'vitest'
 
-import { TaskItem, TaskList } from '../src/index.js'
+import { BulletList, ListItem, OrderedList, TaskItem, TaskList } from '../src/index.js'
 
 describe('TaskItem', () => {
   let editor: Editor
 
   afterEach(() => {
     editor?.destroy()
+  })
+
+  describe('accessibility', () => {
+    it('gives the checkbox label to the wrapping label element', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, TaskList, TaskItem],
+        content: {
+          type: 'doc',
+          content: [
+            {
+              type: 'taskList',
+              content: [
+                {
+                  type: 'taskItem',
+                  attrs: { checked: false },
+                  content: [
+                    { type: 'paragraph', content: [{ type: 'text', text: 'A list item' }] },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      })
+
+      const taskItemElement = editor.view.dom.querySelector('li[data-checked]')
+      const labelElement = taskItemElement?.querySelector('label')
+      const spanElement = taskItemElement?.querySelector('label > span')
+      const checkbox = taskItemElement?.querySelector('input[type="checkbox"]')
+
+      expect(labelElement?.textContent?.trim()).not.toBe('')
+      expect(spanElement?.textContent).toBe('Task item checkbox for A list item')
+      expect(checkbox?.getAttribute('aria-label')).toBe('Task item checkbox for A list item')
+      expect(labelElement?.querySelector('input')).not.toBeNull()
+    })
+
+    it('hides the checkbox label text visually', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, TaskList, TaskItem],
+        content: {
+          type: 'doc',
+          content: [
+            {
+              type: 'taskList',
+              content: [
+                {
+                  type: 'taskItem',
+                  attrs: { checked: false },
+                  content: [
+                    { type: 'paragraph', content: [{ type: 'text', text: 'A list item' }] },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      })
+
+      const spanElement = editor.view.dom.querySelector('li[data-checked] > label > span')
+
+      expect(spanElement?.style.position).toBe('absolute')
+      expect(spanElement?.style.width).toBe('1px')
+    })
+
+    it('supports a custom checkbox label', () => {
+      editor = new Editor({
+        extensions: [
+          Document,
+          Paragraph,
+          Text,
+          TaskList,
+          TaskItem.configure({
+            a11y: {
+              checkboxLabel: (node, checked) => (checked ? 'Done' : 'To do'),
+            },
+          }),
+        ],
+        content: {
+          type: 'doc',
+          content: [
+            {
+              type: 'taskList',
+              content: [
+                {
+                  type: 'taskItem',
+                  attrs: { checked: false },
+                  content: [
+                    { type: 'paragraph', content: [{ type: 'text', text: 'A list item' }] },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      })
+
+      const spanElement = editor.view.dom.querySelector('li[data-checked] > label > span')
+      const checkbox = editor.view.dom.querySelector('input[type="checkbox"]')
+
+      expect(spanElement?.textContent).toBe('To do')
+      expect(checkbox?.getAttribute('aria-label')).toBe('To do')
+    })
+
+    it('uses the checked state for an initially checked task item', () => {
+      editor = new Editor({
+        extensions: [
+          Document,
+          Paragraph,
+          Text,
+          TaskList,
+          TaskItem.configure({
+            a11y: {
+              checkboxLabel: (node, checked) => (checked ? 'Done' : 'To do'),
+            },
+          }),
+        ],
+        content: {
+          type: 'doc',
+          content: [
+            {
+              type: 'taskList',
+              content: [
+                {
+                  type: 'taskItem',
+                  attrs: { checked: true },
+                  content: [
+                    { type: 'paragraph', content: [{ type: 'text', text: 'A list item' }] },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      })
+
+      const spanElement = editor.view.dom.querySelector('li[data-checked] > label > span')
+      const checkbox = editor.view.dom.querySelector('input[type="checkbox"]')
+
+      expect(spanElement?.textContent).toBe('Done')
+      expect(checkbox?.getAttribute('aria-label')).toBe('Done')
+    })
+
+    it('updates the checkbox label when the node changes', () => {
+      editor = new Editor({
+        extensions: [
+          Document,
+          Paragraph,
+          Text,
+          TaskList,
+          TaskItem.configure({
+            a11y: {
+              checkboxLabel: (node, checked) => (checked ? 'Done' : 'To do'),
+            },
+          }),
+        ],
+        content: {
+          type: 'doc',
+          content: [
+            {
+              type: 'taskList',
+              content: [
+                {
+                  type: 'taskItem',
+                  attrs: { checked: false },
+                  content: [
+                    { type: 'paragraph', content: [{ type: 'text', text: 'A list item' }] },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      })
+
+      const spanElement = editor.view.dom.querySelector('li[data-checked] > label > span')
+
+      expect(spanElement?.textContent).toBe('To do')
+
+      editor.chain().setTextSelection(4).updateAttributes('taskItem', { checked: true }).run()
+
+      expect(spanElement?.textContent).toBe('Done')
+    })
+
+    it('uses a fallback label for empty task items', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, TaskList, TaskItem],
+        content: {
+          type: 'doc',
+          content: [
+            {
+              type: 'taskList',
+              content: [
+                {
+                  type: 'taskItem',
+                  attrs: { checked: false },
+                  content: [{ type: 'paragraph' }],
+                },
+              ],
+            },
+          ],
+        },
+      })
+
+      const spanElement = editor.view.dom.querySelector('li[data-checked] > label > span')
+
+      expect(spanElement?.textContent).toBe('Task item checkbox for empty task item')
+    })
+
+    it('does not parse the checkbox label as task item content', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, TaskList, TaskItem],
+        content: `
+          <ul data-type="taskList">
+            <li data-checked="true" data-type="taskItem">
+              <label><input type="checkbox"><span>Task item checkbox for A list item</span></label>
+              <div><p>A list item</p></div>
+            </li>
+          </ul>
+        `,
+      })
+
+      expect(editor.getText()).toContain('A list item')
+      expect(editor.getText()).not.toContain('Task item checkbox')
+    })
+
+    it('still parses task items without a content wrapper', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, TaskList, TaskItem],
+        content: `
+          <ul data-type="taskList">
+            <li data-type="taskItem"><p>A list item</p></li>
+          </ul>
+        `,
+      })
+
+      expect(editor.getText()).toContain('A list item')
+      expect(editor.getText()).not.toContain('Task item checkbox')
+    })
   })
 
   it('preserves custom HTML attributes on node update', () => {
@@ -294,5 +532,373 @@ describe('TaskItem', () => {
     const updatedTaskItemElement = editor.view.dom.querySelector('li[data-checked]')
 
     expect(updatedTaskItemElement?.getAttribute('class')).toBe('static-class')
+  })
+
+  it('toggles off an ordered list when the whole document is selected', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, ListItem, OrderedList, BulletList],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'orderedList',
+            content: [
+              {
+                type: 'listItem',
+                content: [
+                  {
+                    type: 'paragraph',
+                    content: [{ type: 'text', text: 'Test item' }],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    editor.commands.selectAll()
+    expect(editor.state.selection.from).toBe(0)
+    expect(editor.state.selection.to).toBe(editor.state.doc.content.size)
+    editor.commands.toggleOrderedList()
+
+    expect(editor.getJSON()).toEqual({
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [{ type: 'text', text: 'Test item' }],
+        },
+      ],
+    })
+  })
+
+  it('toggles off a bullet list when the whole document is selected', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, ListItem, OrderedList, BulletList],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'bulletList',
+            content: [
+              {
+                type: 'listItem',
+                content: [
+                  {
+                    type: 'paragraph',
+                    content: [{ type: 'text', text: 'Test item' }],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    editor.commands.selectAll()
+    expect(editor.state.selection.from).toBe(0)
+    expect(editor.state.selection.to).toBe(editor.state.doc.content.size)
+    editor.commands.toggleBulletList()
+
+    expect(editor.getJSON()).toEqual({
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [{ type: 'text', text: 'Test item' }],
+        },
+      ],
+    })
+  })
+
+  it('converts a bullet list to an ordered list when the whole document is selected', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, ListItem, OrderedList, BulletList],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'bulletList',
+            content: [
+              {
+                type: 'listItem',
+                content: [
+                  {
+                    type: 'paragraph',
+                    content: [{ type: 'text', text: 'Test item' }],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    editor.commands.selectAll()
+    expect(editor.state.selection.from).toBe(0)
+    expect(editor.state.selection.to).toBe(editor.state.doc.content.size)
+    editor.commands.toggleOrderedList()
+
+    expect(editor.getJSON()).toEqual({
+      type: 'doc',
+      content: [
+        {
+          type: 'orderedList',
+          attrs: {
+            start: 1,
+            type: null,
+          },
+          content: [
+            {
+              type: 'listItem',
+              content: [
+                {
+                  type: 'paragraph',
+                  content: [{ type: 'text', text: 'Test item' }],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    })
+  })
+  it('reports ordered list toggle as available when the whole ordered list document is selected', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, ListItem, OrderedList, BulletList],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'orderedList',
+            attrs: {
+              start: 1,
+              type: null,
+            },
+            content: [
+              {
+                type: 'listItem',
+                content: [
+                  {
+                    type: 'paragraph',
+                    content: [{ type: 'text', text: 'Test item' }],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    editor.commands.selectAll()
+
+    expect(editor.can().toggleOrderedList()).toBe(true)
+  })
+  it('reports bullet list toggle as available when the whole bullet list document is selected', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, ListItem, OrderedList, BulletList],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'bulletList',
+            content: [
+              {
+                type: 'listItem',
+                content: [
+                  {
+                    type: 'paragraph',
+                    content: [{ type: 'text', text: 'Test item' }],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    editor.commands.selectAll()
+
+    expect(editor.can().toggleBulletList()).toBe(true)
+  })
+  it('reports ordered list toggle as available when the whole bullet list document is selected', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, ListItem, OrderedList, BulletList],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'bulletList',
+            content: [
+              {
+                type: 'listItem',
+                content: [
+                  {
+                    type: 'paragraph',
+                    content: [{ type: 'text', text: 'Test item' }],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    editor.commands.selectAll()
+
+    expect(editor.can().toggleOrderedList()).toBe(true)
+  })
+
+  it('reports bullet list toggle as available when the whole ordered list document is selected', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, ListItem, OrderedList, BulletList],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'orderedList',
+            content: [
+              {
+                type: 'listItem',
+                content: [
+                  {
+                    type: 'paragraph',
+                    content: [{ type: 'text', text: 'Test item' }],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    editor.commands.selectAll()
+
+    expect(editor.can().toggleBulletList()).toBe(true)
+  })
+
+  it('preserves text selection after toggling off an ordered list with AllSelection', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, ListItem, OrderedList, BulletList],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'orderedList',
+            content: [
+              {
+                type: 'listItem',
+                content: [
+                  {
+                    type: 'paragraph',
+                    content: [{ type: 'text', text: 'Test item' }],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    editor.commands.selectAll()
+    expect(editor.state.selection.from).toBe(0)
+    expect(editor.state.selection.to).toBe(editor.state.doc.content.size)
+
+    editor.commands.toggleOrderedList()
+
+    const { from, to } = editor.state.selection
+
+    expect(from).toBe(1)
+    expect(to).toBe(10)
+  })
+
+  it('preserves text selection after toggling off a bullet list with AllSelection', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, ListItem, OrderedList, BulletList],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'bulletList',
+            content: [
+              {
+                type: 'listItem',
+                content: [
+                  {
+                    type: 'paragraph',
+                    content: [{ type: 'text', text: 'Test item' }],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    editor.commands.selectAll()
+    expect(editor.state.selection.from).toBe(0)
+    expect(editor.state.selection.to).toBe(editor.state.doc.content.size)
+
+    editor.commands.toggleBulletList()
+
+    const { from, to } = editor.state.selection
+
+    expect(from).toBe(1)
+    expect(to).toBe(10)
+  })
+
+  it('preserves text selection after toggling off a multi-item ordered list with AllSelection', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, ListItem, OrderedList, BulletList],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'orderedList',
+            content: [
+              {
+                type: 'listItem',
+                content: [
+                  {
+                    type: 'paragraph',
+                    content: [{ type: 'text', text: 'First' }],
+                  },
+                ],
+              },
+              {
+                type: 'listItem',
+                content: [
+                  {
+                    type: 'paragraph',
+                    content: [{ type: 'text', text: 'Second' }],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    editor.commands.selectAll()
+    expect(editor.state.selection.from).toBe(0)
+    expect(editor.state.selection.to).toBe(editor.state.doc.content.size)
+
+    editor.commands.toggleOrderedList()
+
+    const { from, to } = editor.state.selection
+
+    expect(from).toBe(1)
+    expect(to).toBe(14)
   })
 })

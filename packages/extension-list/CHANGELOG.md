@@ -1,5 +1,291 @@
 # Change Log
 
+## 3.30.0
+
+### Minor Changes
+
+- 0247d39: `ListKeymap` now registers a `Tab` shortcut that sinks a top-level textblock into the previous list's last item. Pressing Tab at the start of a paragraph right after a bullet/ordered/task list moves the paragraph inside the last list item. The handler does nothing when the cursor is already inside a list item (`sinkListItem` keeps working), when there is no list before the paragraph, when the caret is mid-textblock, or when the selection is not a text selection (for example a gap cursor).
+
+  `@tiptap/core` also exposes a new `getPreviousBlockSibling($pos)` helper that returns the block-level sibling before the cursor's textblock, or null at the first child of the block parent.
+
+### Patch Changes
+
+- c296281: Parse block math that follows an ordered list item without a blank line, both after the list and indented inside the item, instead of pulling it into the item's text.
+- ceb0dac: TaskItem: the checkbox label now also fills the wrapping label element, so accessibility audits no longer flag it as empty.
+- Updated dependencies [0247d39]
+- Updated dependencies [58a8953]
+- Updated dependencies [51909d3]
+- Updated dependencies [3099eef]
+  - @tiptap/core@3.30.0
+  - @tiptap/pm@3.30.0
+
+## 3.29.2
+
+### Patch Changes
+
+- @tiptap/core@3.29.2
+- @tiptap/pm@3.29.2
+
+## 3.29.1
+
+### Patch Changes
+
+- @tiptap/core@3.29.1
+- @tiptap/pm@3.29.1
+
+## 3.29.0
+
+### Patch Changes
+
+- Updated dependencies [d26840f]
+- Updated dependencies [e150ee0]
+- Updated dependencies [935e63f]
+- Updated dependencies [b4c5a2d]
+- Updated dependencies [a963d48]
+- Updated dependencies [51f45b6]
+- Updated dependencies [0f63969]
+- Updated dependencies [9acaa65]
+  - @tiptap/core@3.29.0
+  - @tiptap/pm@3.29.0
+
+## 3.28.0
+
+### Patch Changes
+
+- c1254c1: Fix markdown parsing a line like `(216) 555-1234` as an ordered list. A number followed by `)` mid-line is no longer treated as a list marker.
+  - @tiptap/core@3.28.0
+  - @tiptap/pm@3.28.0
+
+## 3.27.4
+
+### Patch Changes
+
+- c28d888: Fix a markdown parsing bug where a plain bullet (`- item`) nested under a task-list parent (`- [ ]`) was silently dropped from the parsed document. The task-list tokenizer's nested parser stopped at the first non-checkbox line and discarded everything after it; that remainder is now lexed and kept as sibling blocks (a bullet list or paragraph inside the parent task item), matching how mixed lists already behave at the top level.
+  - @tiptap/core@3.27.4
+  - @tiptap/pm@3.27.4
+
+## 3.27.3
+
+### Patch Changes
+
+- b4600b6: Fix markdown parsing bugs where block elements right after an ordered list item (with no blank line in between) were wrongly treated as lazy continuation of the list item, instead of terminating the list the way other markdown parsers do:
+
+  - Thematic breaks (`---`, `***`, `___`, `* * *`) were swallowed into the list item as literal paragraph text — along with every line after them. They now terminate the list and become a horizontal rule.
+  - Fenced code blocks (` ``` ` and `~~~`) were nested inside the list item. They now terminate the list and become a top-level code block.
+  - Unindented bullet markers (`- item`) were nested inside the ordered list item. They now terminate the ordered list and start a new top-level bullet list. Indented bullets still nest inside the item as before.
+
+  An indented `***`/`___` inside item content is now also parsed as a horizontal rule inside the item instead of literal text. A `---` line directly below item paragraph text keeps its current behavior because it is a setext heading underline per CommonMark, not a thematic break.
+
+- 1f3ca7a: Fix indented ordered list items (e.g. one leading space before the marker, as happens when a top-level ordered list is itself nested inside another list) losing inline formatting during markdown parsing. The custom ordered-list markdown tokenizer built its nested structure with a hardcoded base indentation of 0, so an item whose actual indentation was non-zero never matched, causing the tokenizer to silently produce zero items and bail out — falling back to a path that left the item's content as literal, unparsed text instead of running it through inline tokenization (bold, italic, etc. were lost). The base indentation is now taken from the first collected item instead of being hardcoded.
+- Updated dependencies [023f98c]
+  - @tiptap/core@3.27.3
+  - @tiptap/pm@3.27.3
+
+## 3.27.2
+
+### Patch Changes
+
+- f586b6f: Fix a markdown parsing bug where a heading right after an ordered list item (with no blank line in between) got pulled into the list item as plain text, so you'd see a literal `###` inside the list instead of an actual heading. Headings now end the list and get parsed properly, the way other markdown parsers handle it. Indented headings inside a list item are also parsed as real headings now instead of literal text.
+- Updated dependencies [ceebb31]
+  - @tiptap/pm@3.27.2
+  - @tiptap/core@3.27.2
+
+## 3.27.1
+
+### Patch Changes
+
+- a16901d: Fix ordered list parsing so under-indented continuation lines preserve their first character.
+  - @tiptap/core@3.27.1
+  - @tiptap/pm@3.27.1
+
+## 3.27.0
+
+### Minor Changes
+
+- 0d0094d: **Ordered lists now support the `type` attribute** (`a`, `A`, `i`, `I`).
+
+  The `<ol>` `type` attribute is now fully preserved through the HTML round-trip:
+
+  - `type="a"` → lowercase alphabetical markers
+  - `type="A"` → uppercase alphabetical markers
+  - `type="i"` → lowercase roman numeral markers
+  - `type="I"` → uppercase roman numeral markers
+
+  **Paste from external editors** (Google Docs, Word, LibreOffice) now correctly detects the list style — both from the HTML `type` attribute and from CSS `list-style-type` properties.
+
+  **Plain text paste** of typed ordered list markers (e.g. `a. Item`, `I) Item`, `i. Item\nii. Item`) is detected and converted to the correct list type.
+
+  **Markdown round-trip** preserves typed markers: parsing `a. Item` creates `type: "a"`, and serializing a typed list back to markdown uses the correct prefix (e.g. `I.`, `ii.`).
+
+  **Joining** of adjacent lists now respects `type` — two lists with different types (e.g. default numeric and `type="a"`) are not merged.
+
+### Patch Changes
+
+- Updated dependencies [0d0094d]
+- Updated dependencies [795033c]
+- Updated dependencies [0e0c4f9]
+- Updated dependencies [6d12bb9]
+  - @tiptap/core@3.27.0
+  - @tiptap/pm@3.27.0
+
+## 3.26.1
+
+### Patch Changes
+
+- @tiptap/core@3.26.1
+- @tiptap/pm@3.26.1
+
+## 3.26.0
+
+### Patch Changes
+
+- @tiptap/core@3.26.0
+- @tiptap/pm@3.26.0
+
+## 3.25.0
+
+### Minor Changes
+
+- 45237e7: `ListKeymap`'s Backspace handler now lifts the current list item before merging. At the start of a non-first list item, the item is lifted out of its wrapping list (splitting the list around it) instead of immediately joining its content into the previous item. A second Backspace then hits the existing "paragraph after a list" branch and merges the lifted textblock's content into the previous list's last item. Mirrors the two-step behavior introduced for blockquote in #7891.
+
+### Patch Changes
+
+- 8dc5694: Fix delete at the end of a list item with a branching nested sublist. Nested items are hoisted to the parent list instead of being node-selected and deleted on the next keypress.
+- Updated dependencies [ec291dd]
+- Updated dependencies [454e9b8]
+- Updated dependencies [9cf8db0]
+- Updated dependencies [c1a2ce8]
+- Updated dependencies [3d4f94c]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+
+## 3.24.0
+
+### Patch Changes
+
+- Updated dependencies [7c0499b]
+  - @tiptap/pm@3.24.0
+  - @tiptap/core@3.24.0
+
+## 3.23.6
+
+### Patch Changes
+
+- Updated dependencies [d168376]
+  - @tiptap/core@3.23.6
+  - @tiptap/pm@3.23.6
+
+## 3.23.5
+
+### Patch Changes
+
+- Updated dependencies [835caf5]
+- Updated dependencies [95e138c]
+  - @tiptap/core@3.23.5
+  - @tiptap/pm@3.23.5
+
+## 3.23.4
+
+### Patch Changes
+
+- @tiptap/core@3.23.4
+- @tiptap/pm@3.23.4
+
+## 3.23.3
+
+### Patch Changes
+
+- @tiptap/core@3.23.3
+- @tiptap/pm@3.23.3
+
+## 3.23.2
+
+### Patch Changes
+
+- Updated dependencies [f98eaaf]
+  - @tiptap/core@3.23.2
+  - @tiptap/pm@3.23.2
+
+## 3.23.1
+
+### Patch Changes
+
+- @tiptap/core@3.23.1
+- @tiptap/pm@3.23.1
+
+## 3.23.0
+
+### Patch Changes
+
+- 57f8d66: Fix markdown parsing for bullet list items whose text looks like an ordered-list marker, such as `- 123.`, so extraction no longer loses the item content.
+- Updated dependencies [57f8d66]
+- Updated dependencies [e64e5a7]
+- Updated dependencies [207a2bc]
+  - @tiptap/core@3.23.0
+  - @tiptap/pm@3.23.0
+
+## 3.22.5
+
+### Patch Changes
+
+- Updated dependencies [a375002]
+  - @tiptap/core@3.22.5
+  - @tiptap/pm@3.22.5
+
+## 3.22.4
+
+### Patch Changes
+
+- 27ea931: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- 5ca9902: Treat non-indented continuation lines following an ordered list marker as part of the same list item.
+
+  This aligns ordered list parsing with CommonMark behavior: lines immediately after a list item (before a
+  blank line) are considered lazy continuation and remain inside the list item rather than ending it.
+
+- Updated dependencies [27ea931]
+- Updated dependencies [64f36b8]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/pm@3.22.4
+
+## 3.22.3
+
+### Patch Changes
+
+- Updated dependencies [cb28e7b]
+  - @tiptap/core@3.22.3
+  - @tiptap/pm@3.22.3
+
+## 3.22.2
+
+### Patch Changes
+
+- Updated dependencies [f1d504c]
+- Updated dependencies [404c683]
+  - @tiptap/core@3.22.2
+  - @tiptap/pm@3.22.2
+
+## 3.22.1
+
+### Patch Changes
+
+- Updated dependencies [ee03ac0]
+- Updated dependencies [b88f9ed]
+  - @tiptap/core@3.22.1
+  - @tiptap/pm@3.22.1
+
+## 3.22.0
+
+### Patch Changes
+
+- Updated dependencies [912a49b]
+- Updated dependencies [7d4fb9a]
+- Updated dependencies [0c1c112]
+- Updated dependencies [0c1c112]
+- Updated dependencies [f99bdc2]
+  - @tiptap/core@3.22.0
+  - @tiptap/pm@3.22.0
+
 ## 3.21.0
 
 ### Patch Changes

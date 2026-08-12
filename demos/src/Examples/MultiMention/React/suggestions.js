@@ -5,7 +5,8 @@ import MentionList from './MentionList.jsx'
 
 const updatePosition = (editor, element) => {
   const virtualElement = {
-    getBoundingClientRect: () => posToDOMRect(editor.view, editor.state.selection.from, editor.state.selection.to),
+    getBoundingClientRect: () =>
+      posToDOMRect(editor.view, editor.state.selection.from, editor.state.selection.to),
   }
 
   computePosition(virtualElement, element, {

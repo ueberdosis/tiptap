@@ -1,6 +1,7 @@
 import type { Plugin } from '@tiptap/pm/state'
 
 import type { Editor } from './Editor.js'
+import type { DecorationSpec } from './decorations/index.js'
 import { getExtensionField } from './helpers/getExtensionField.js'
 import type { ExtensionConfig, MarkConfig, NodeConfig } from './index.js'
 import type { InputRule } from './InputRule.js'
@@ -74,7 +75,11 @@ export interface ExtendableConfig<
    *   loading: false,
    * }
    */
-  addStorage?: (this: { name: string; options: Options; parent: ParentConfig<Config>['addStorage'] }) => Storage
+  addStorage?: (this: {
+    name: string
+    options: Options
+    parent: ParentConfig<Config>['addStorage']
+  }) => Storage
 
   /**
    * This function adds globalAttributes to specific nodes.
@@ -214,6 +219,37 @@ export interface ExtendableConfig<
   }) => Plugin[]
 
   /**
+   * Adds editor decorations (node, inline, widget). Return a spec with a `create`
+   * function that builds instances via `Decoration.Node`/`Inline`/`Widget`. Use
+   * `shouldUpdate`, `update: 'changedRanges'` + `createInRange`, or `update: 'manual'` to control recomputation.
+   * @see https://tiptap.dev/docs/editor/core-concepts/decorations
+   * @example
+   * addDecorations() {
+   *   return {
+   *     create: ({ state }) =>
+   *       findChildren(state.doc, node => node.type.name === 'heading').map(
+   *         ({ pos, node }) =>
+   *           Decoration.Node(pos, pos + node.nodeSize, { class: 'is-heading' }),
+   *       ),
+   *   }
+   * }
+   *
+   * For framework widgets, use `ReactWidgetRenderer` or `VueWidgetRenderer`
+   * from the matching framework package. Give stateful widgets a stable key.
+   *
+   * `create` and `createInRange` must not throw. An exception escapes through
+   * `editor.commands.*` and stops the document from updating until it stops.
+   */
+  addDecorations?: (this: {
+    name: string
+    options: Options
+    storage: Storage
+    editor: Editor
+    type: PMType
+    parent: ParentConfig<Config>['addDecorations']
+  }) => DecorationSpec | null
+
+  /**
    * This function transforms pasted HTML content before it's parsed.
    * Extensions can use this to modify or clean up pasted HTML.
    * The transformations are chained - each extension's transform receives
@@ -274,7 +310,11 @@ export interface ExtendableConfig<
   /**
    * The serializer function used by the markdown serializer to convert ProseMirror nodes to markdown tokens.
    */
-  renderMarkdown?: (node: JSONContent, helpers: MarkdownRendererHelpers, ctx: RenderContext) => string
+  renderMarkdown?: (
+    node: JSONContent,
+    helpers: MarkdownRendererHelpers,
+    ctx: RenderContext,
+  ) => string
 
   /**
    * The markdown tokenizer responsible for turning a markdown string into tokens
@@ -526,7 +566,10 @@ export interface ExtendableConfig<
 export class Extendable<
   Options = any,
   Storage = any,
-  Config = ExtensionConfig<Options, Storage> | NodeConfig<Options, Storage> | MarkConfig<Options, Storage>,
+  Config =
+    | ExtensionConfig<Options, Storage>
+    | NodeConfig<Options, Storage>
+    | MarkConfig<Options, Storage>,
 > {
   type = 'extendable'
   parent: Extendable | null = null
@@ -550,22 +593,22 @@ export class Extendable<
 
   get options(): Options {
     return {
-      ...(callOrReturn(
+      ...callOrReturn(
         getExtensionField<AnyConfig['addOptions']>(this as any, 'addOptions', {
           name: this.name,
         }),
-      ) || {}),
+      ),
     }
   }
 
   get storage(): Readonly<Storage> {
     return {
-      ...(callOrReturn(
+      ...callOrReturn(
         getExtensionField<AnyConfig['addStorage']>(this as any, 'addStorage', {
           name: this.name,
           options: this.options,
         }),
-      ) || {}),
+      ),
     }
   }
 
@@ -579,6 +622,8 @@ export class Extendable<
 
     extension.name = this.name
     extension.parent = this.parent
+
+    this.child = null
 
     return extension
   }

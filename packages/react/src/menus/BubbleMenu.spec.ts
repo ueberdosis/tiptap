@@ -82,7 +82,9 @@ describe('BubbleMenu', () => {
     expect(editor.registerPlugin).toHaveBeenCalledTimes(1)
     expect(bubbleMenuPluginMock).toHaveBeenCalledTimes(1)
 
-    const [{ element }] = bubbleMenuPluginMock.mock.calls[0] as unknown as [{ element: HTMLDivElement }]
+    const [{ element }] = bubbleMenuPluginMock.mock.calls[0] as unknown as [
+      { element: HTMLDivElement },
+    ]
 
     expect(element).toBeInstanceOf(HTMLDivElement)
     expect(element).toBe(ref.current)
@@ -156,7 +158,9 @@ describe('BubbleMenu', () => {
 
     expect(bubbleMenuPluginMock).toHaveBeenCalledTimes(2)
 
-    const pluginCalls = bubbleMenuPluginMock.mock.calls as unknown as Array<[{ pluginKey: unknown }]>
+    const pluginCalls = bubbleMenuPluginMock.mock.calls as unknown as Array<
+      [{ pluginKey: unknown }]
+    >
     const firstPluginKey = pluginCalls[0][0].pluginKey
     const secondPluginKey = pluginCalls[1][0].pluginKey
 

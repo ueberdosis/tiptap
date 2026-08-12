@@ -14,8 +14,7 @@ export class NodeView<
   Component,
   NodeEditor extends CoreEditor = CoreEditor,
   Options extends NodeViewRendererOptions = NodeViewRendererOptions,
-> implements ProseMirrorNodeView
-{
+> implements ProseMirrorNodeView {
   component: Component
 
   editor: NodeEditor
@@ -52,12 +51,19 @@ export class NodeView<
     this.innerDecorations = props.innerDecorations
     this.view = props.view
     this.HTMLAttributes = props.HTMLAttributes
-    this.getPos = props.getPos
+    this.getPos = () => {
+      // ProseMirror throws while this node view is not attached to its parent yet.
+      try {
+        return props.getPos()
+      } catch {
+        return undefined
+      }
+    }
     this.mount()
   }
 
   mount() {
-    // eslint-disable-next-line
+    // oxlint-disable-next-line
     return
   }
 
@@ -76,7 +82,9 @@ export class NodeView<
     // get the drag handle element
     // `closest` is not available for text nodes so we may have to use its parent
     const dragHandle =
-      target.nodeType === 3 ? target.parentElement?.closest('[data-drag-handle]') : target.closest('[data-drag-handle]')
+      target.nodeType === 3
+        ? target.parentElement?.closest('[data-drag-handle]')
+        : target.closest('[data-drag-handle]')
 
     if (!this.dom || this.contentDOM?.contains(target) || !dragHandle) {
       return
@@ -173,8 +181,10 @@ export class NodeView<
     }
 
     const isDragEvent = event.type.startsWith('drag')
+    const isDragOverEnterEvent = event.type === 'dragover' || event.type === 'dragenter'
     const isDropEvent = event.type === 'drop'
-    const isInput = ['INPUT', 'BUTTON', 'SELECT', 'TEXTAREA'].includes(target.tagName) || target.isContentEditable
+    const isInput =
+      ['INPUT', 'BUTTON', 'SELECT', 'TEXTAREA'].includes(target.tagName) || target.isContentEditable
 
     // any input event within node views should be ignored by ProseMirror
     if (isInput && !isDropEvent && !isDragEvent) {
@@ -205,7 +215,8 @@ export class NodeView<
     // we have to store that dragging started
     if (isDraggable && isEditable && !isDragging && isClickEvent) {
       const dragHandle = target.closest('[data-drag-handle]')
-      const isValidDragHandle = dragHandle && (this.dom === dragHandle || this.dom.contains(dragHandle))
+      const isValidDragHandle =
+        dragHandle && (this.dom === dragHandle || this.dom.contains(dragHandle))
 
       if (isValidDragHandle) {
         this.isDragging = true
@@ -237,7 +248,15 @@ export class NodeView<
     }
 
     // these events are handled by prosemirror
-    if (isDragging || isDropEvent || isCopyEvent || isPasteEvent || isCutEvent || (isClickEvent && isSelectable)) {
+    if (
+      isDragging ||
+      isDragOverEnterEvent ||
+      isDropEvent ||
+      isCopyEvent ||
+      isPasteEvent ||
+      isCutEvent ||
+      (isClickEvent && isSelectable)
+    ) {
       return false
     }
 
@@ -280,7 +299,10 @@ export class NodeView<
       (isiOS() || isAndroid()) &&
       this.editor.isFocused
     ) {
-      const changedNodes = [...Array.from(mutation.addedNodes), ...Array.from(mutation.removedNodes)] as HTMLElement[]
+      const changedNodes = [
+        ...Array.from(mutation.addedNodes),
+        ...Array.from(mutation.removedNodes),
+      ] as HTMLElement[]
 
       // we’ll check if every changed node is contentEditable
       // to make sure it’s probably mutated by ProseMirror

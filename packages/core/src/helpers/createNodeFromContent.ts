@@ -1,8 +1,9 @@
-import type { ParseOptions } from '@tiptap/pm/model'
-import { DOMParser, Fragment, Node as ProseMirrorNode, Schema } from '@tiptap/pm/model'
+import type { Node as ProseMirrorNode, ParseOptions } from '@tiptap/pm/model'
+import { DOMParser, Fragment, Schema } from '@tiptap/pm/model'
 
 import type { Content } from '../types.js'
 import { elementFromString } from '../utilities/elementFromString.js'
+import { isProseMirrorContent } from './isProseMirrorContent.js'
 
 export type CreateNodeFromContentOptions = {
   slice?: boolean
@@ -22,16 +23,18 @@ export function createNodeFromContent(
   schema: Schema,
   options?: CreateNodeFromContentOptions,
 ): ProseMirrorNode | Fragment {
-  if (content instanceof ProseMirrorNode || content instanceof Fragment) {
+  if (isProseMirrorContent(content)) {
     return content
   }
+
+  const isJSONContent = typeof content === 'object' && content !== null
+
   options = {
     slice: true,
     parseOptions: {},
     ...options,
   }
 
-  const isJSONContent = typeof content === 'object' && content !== null
   const isTextContent = typeof content === 'string'
 
   if (isJSONContent) {
@@ -94,9 +97,15 @@ export function createNodeFromContent(
       })
 
       if (options.slice) {
-        DOMParser.fromSchema(contentCheckSchema).parseSlice(elementFromString(content), options.parseOptions)
+        DOMParser.fromSchema(contentCheckSchema).parseSlice(
+          elementFromString(content),
+          options.parseOptions,
+        )
       } else {
-        DOMParser.fromSchema(contentCheckSchema).parse(elementFromString(content), options.parseOptions)
+        DOMParser.fromSchema(contentCheckSchema).parse(
+          elementFromString(content),
+          options.parseOptions,
+        )
       }
 
       if (options.errorOnInvalidContent && hasInvalidContent) {

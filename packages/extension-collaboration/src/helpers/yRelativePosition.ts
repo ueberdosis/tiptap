@@ -19,7 +19,14 @@ export type YRelativePosition = any
 export function getYAbsolutePosition(state: EditorState, relativePos: YRelativePosition): number {
   // ystate is never null because we've checked it before calling this function
   const ystate = ySyncPluginKey.getState(state)
-  return relativePositionToAbsolutePosition(ystate.doc, ystate.type, relativePos, ystate.binding.mapping) || 0
+  return (
+    relativePositionToAbsolutePosition(
+      ystate.doc,
+      ystate.type,
+      relativePos,
+      ystate.binding.mapping,
+    ) || 0
+  )
 }
 
 /**

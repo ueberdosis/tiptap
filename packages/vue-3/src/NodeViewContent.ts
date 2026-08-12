@@ -10,6 +10,24 @@ export const NodeViewContent = defineComponent({
     },
   },
 
+  inject: {
+    nodeViewContentRef: { default: undefined },
+  },
+
+  mounted() {
+    const ref = (this as any).nodeViewContentRef as ((el: HTMLElement | null) => void) | undefined
+    if (ref && this.$el) {
+      ref(this.$el)
+    }
+  },
+
+  beforeUnmount() {
+    const ref = (this as any).nodeViewContentRef as ((el: HTMLElement | null) => void) | undefined
+    if (ref) {
+      ref(null)
+    }
+  },
+
   render() {
     return h(this.as, {
       style: {

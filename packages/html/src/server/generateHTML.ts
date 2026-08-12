@@ -18,7 +18,8 @@ import { getHTMLFromFragment } from './getHTMLFromFragment.js'
  */
 export function generateHTML(doc: JSONContent, extensions: Extensions): string {
   // Use positive Node.js detection to allow for jsdom/happy-dom environments in tests
-  const isNode = typeof process !== 'undefined' && process.versions != null && process.versions.node != null
+  const isNode =
+    typeof process !== 'undefined' && process.versions != null && process.versions.node != null
 
   if (!isNode) {
     throw new Error(

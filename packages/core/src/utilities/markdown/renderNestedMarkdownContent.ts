@@ -68,7 +68,8 @@ export function renderNestedMarkdownContent(
   }
 
   // Determine the prefix based on the input
-  const prefix = typeof prefixOrGenerator === 'function' ? prefixOrGenerator(ctx) : prefixOrGenerator
+  const prefix =
+    typeof prefixOrGenerator === 'function' ? prefixOrGenerator(ctx) : prefixOrGenerator
 
   const [content, ...children] = node.content
 

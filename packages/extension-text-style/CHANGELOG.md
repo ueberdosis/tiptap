@@ -1,5 +1,208 @@
 # Change Log
 
+## 3.30.0
+
+### Patch Changes
+
+- Updated dependencies [0247d39]
+- Updated dependencies [51909d3]
+- Updated dependencies [3099eef]
+  - @tiptap/core@3.30.0
+
+## 3.29.2
+
+### Patch Changes
+
+- @tiptap/core@3.29.2
+
+## 3.29.1
+
+### Patch Changes
+
+- @tiptap/core@3.29.1
+
+## 3.29.0
+
+### Patch Changes
+
+- Updated dependencies [d26840f]
+- Updated dependencies [935e63f]
+- Updated dependencies [b4c5a2d]
+- Updated dependencies [a963d48]
+- Updated dependencies [51f45b6]
+- Updated dependencies [0f63969]
+- Updated dependencies [9acaa65]
+  - @tiptap/core@3.29.0
+
+## 3.28.0
+
+### Patch Changes
+
+- @tiptap/core@3.28.0
+
+## 3.27.4
+
+### Patch Changes
+
+- @tiptap/core@3.27.4
+
+## 3.27.3
+
+### Patch Changes
+
+- Updated dependencies [023f98c]
+  - @tiptap/core@3.27.3
+
+## 3.27.2
+
+### Patch Changes
+
+- @tiptap/core@3.27.2
+
+## 3.27.1
+
+### Patch Changes
+
+- @tiptap/core@3.27.1
+
+## 3.27.0
+
+### Patch Changes
+
+- Updated dependencies [0d0094d]
+- Updated dependencies [795033c]
+- Updated dependencies [0e0c4f9]
+- Updated dependencies [6d12bb9]
+  - @tiptap/core@3.27.0
+
+## 3.26.1
+
+### Patch Changes
+
+- @tiptap/core@3.26.1
+
+## 3.26.0
+
+### Patch Changes
+
+- @tiptap/core@3.26.0
+
+## 3.25.0
+
+### Patch Changes
+
+- Updated dependencies [ec291dd]
+- Updated dependencies [454e9b8]
+- Updated dependencies [9cf8db0]
+- Updated dependencies [3d4f94c]
+  - @tiptap/core@3.25.0
+
+## 3.24.0
+
+### Patch Changes
+
+- @tiptap/core@3.24.0
+
+## 3.23.6
+
+### Patch Changes
+
+- Updated dependencies [d168376]
+  - @tiptap/core@3.23.6
+
+## 3.23.5
+
+### Patch Changes
+
+- Updated dependencies [835caf5]
+- Updated dependencies [95e138c]
+  - @tiptap/core@3.23.5
+
+## 3.23.4
+
+### Patch Changes
+
+- @tiptap/core@3.23.4
+
+## 3.23.3
+
+### Patch Changes
+
+- @tiptap/core@3.23.3
+
+## 3.23.2
+
+### Patch Changes
+
+- f98eaaf: Fix `&quot;` HTML entity encoding in `getHTML()` output for inline style attributes. Adds a `getStyleProperty` utility to `@tiptap/core` and migrates `Color`, `BackgroundColor`, `FontFamily`, `FontSize`, `LineHeight`, and `Highlight` extensions to use it (#7016)
+- Updated dependencies [f98eaaf]
+  - @tiptap/core@3.23.2
+
+## 3.23.1
+
+### Patch Changes
+
+- @tiptap/core@3.23.1
+
+## 3.23.0
+
+### Patch Changes
+
+- Updated dependencies [57f8d66]
+- Updated dependencies [e64e5a7]
+- Updated dependencies [207a2bc]
+  - @tiptap/core@3.23.0
+
+## 3.22.5
+
+### Patch Changes
+
+- Updated dependencies [a375002]
+  - @tiptap/core@3.22.5
+
+## 3.22.4
+
+### Patch Changes
+
+- 27ea931: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [27ea931]
+- Updated dependencies [64f36b8]
+  - @tiptap/core@3.22.4
+
+## 3.22.3
+
+### Patch Changes
+
+- Updated dependencies [cb28e7b]
+  - @tiptap/core@3.22.3
+
+## 3.22.2
+
+### Patch Changes
+
+- Updated dependencies [f1d504c]
+- Updated dependencies [404c683]
+  - @tiptap/core@3.22.2
+
+## 3.22.1
+
+### Patch Changes
+
+- Updated dependencies [ee03ac0]
+- Updated dependencies [b88f9ed]
+  - @tiptap/core@3.22.1
+
+## 3.22.0
+
+### Patch Changes
+
+- Updated dependencies [912a49b]
+- Updated dependencies [7d4fb9a]
+- Updated dependencies [0c1c112]
+- Updated dependencies [0c1c112]
+- Updated dependencies [f99bdc2]
+  - @tiptap/core@3.22.0
+
 ## 3.21.0
 
 ### Patch Changes
@@ -533,32 +736,32 @@
   Usage:
 
   ```ts
-  import { TextStyleKit } from '@tiptap/extension-text-style'
+  import { TextStyleKit } from "@tiptap/extension-text-style";
 
   new Editor({
     extensions: [
       TextStyleKit.configure({
         backgroundColor: {
-          types: ['textStyle'],
+          types: ["textStyle"],
         },
         color: {
-          types: ['textStyle'],
+          types: ["textStyle"],
         },
         fontFamily: {
-          types: ['textStyle'],
+          types: ["textStyle"],
         },
         fontSize: {
-          types: ['textStyle'],
+          types: ["textStyle"],
         },
         lineHeight: {
-          types: ['textStyle'],
+          types: ["textStyle"],
         },
         textStyle: {
-          types: ['textStyle'],
+          types: ["textStyle"],
         },
       }),
     ],
-  })
+  });
   ```
 
   ## Want to use the extensions separately?
@@ -572,7 +775,7 @@
   Usage:
 
   ```ts
-  import { BackgroundColor } from '@tiptap/extension-text-style'
+  import { BackgroundColor } from "@tiptap/extension-text-style";
   ```
 
   ### Color
@@ -589,7 +792,7 @@
   Usage:
 
   ```ts
-  import { Color } from '@tiptap/extension-text-style'
+  import { Color } from "@tiptap/extension-text-style";
   ```
 
   ### FontFamily
@@ -606,7 +809,7 @@
   Usage:
 
   ```ts
-  import { FontFamily } from '@tiptap/extension-text-style'
+  import { FontFamily } from "@tiptap/extension-text-style";
   ```
 
   ### FontSize
@@ -614,7 +817,7 @@
   This extension controls the font-size of a range of text in the editor.
 
   ```ts
-  import { FontSize } from '@tiptap/extension-text-style'
+  import { FontSize } from "@tiptap/extension-text-style";
   ```
 
   ### LineHeight
@@ -622,7 +825,7 @@
   This extension controls the line-height of a range of text in the editor.
 
   ```ts
-  import { LineHeight } from '@tiptap/extension-text-style'
+  import { LineHeight } from "@tiptap/extension-text-style";
   ```
 
 ### Patch Changes
@@ -887,32 +1090,32 @@
   Usage:
 
   ```ts
-  import { TextStyleKit } from '@tiptap/extension-text-style'
+  import { TextStyleKit } from "@tiptap/extension-text-style";
 
   new Editor({
     extensions: [
       TextStyleKit.configure({
         backgroundColor: {
-          types: ['textStyle'],
+          types: ["textStyle"],
         },
         color: {
-          types: ['textStyle'],
+          types: ["textStyle"],
         },
         fontFamily: {
-          types: ['textStyle'],
+          types: ["textStyle"],
         },
         fontSize: {
-          types: ['textStyle'],
+          types: ["textStyle"],
         },
         lineHeight: {
-          types: ['textStyle'],
+          types: ["textStyle"],
         },
         textStyle: {
-          types: ['textStyle'],
+          types: ["textStyle"],
         },
       }),
     ],
-  })
+  });
   ```
 
   ## Want to use the extensions separately?
@@ -926,7 +1129,7 @@
   Usage:
 
   ```ts
-  import { BackgroundColor } from '@tiptap/extension-text-style'
+  import { BackgroundColor } from "@tiptap/extension-text-style";
   ```
 
   ### Color
@@ -943,7 +1146,7 @@
   Usage:
 
   ```ts
-  import { Color } from '@tiptap/extension-text-style'
+  import { Color } from "@tiptap/extension-text-style";
   ```
 
   ### FontFamily
@@ -960,7 +1163,7 @@
   Usage:
 
   ```ts
-  import { FontFamily } from '@tiptap/extension-text-style'
+  import { FontFamily } from "@tiptap/extension-text-style";
   ```
 
   ### FontSize
@@ -968,7 +1171,7 @@
   This extension controls the font-size of a range of text in the editor.
 
   ```ts
-  import { FontSize } from '@tiptap/extension-text-style'
+  import { FontSize } from "@tiptap/extension-text-style";
   ```
 
   ### LineHeight
@@ -976,7 +1179,7 @@
   This extension controls the line-height of a range of text in the editor.
 
   ```ts
-  import { LineHeight } from '@tiptap/extension-text-style'
+  import { LineHeight } from "@tiptap/extension-text-style";
   ```
 
 ### Patch Changes

@@ -1,0 +1,123 @@
+inheritance: true
+
+reviews:
+  request_changes_workflow: true
+  high_level_summary_instructions:
+    Short and simple, keep it cohesive, no complex wording, assume everyone including the
+    PR reviewer is new to the project or to code in general - simple english so even non-english native speakers
+    understand everything just fine.
+  high_level_summary_in_walkthrough: true
+  in_progress_fortune: false
+  slop_detection:
+    label: slop
+  suggested_labels: true
+  auto_apply_labels: true
+  labeling_instructions:
+    - label: 'area: ai'
+      instructions: Apply this label if the PR changes AI features, AI integrations, prompts, or AI-related dependencies.
+    - label: 'area: ci'
+      instructions: Apply this label if the PR changes CI workflows, build pipelines, checks, or release automation.
+    - label: 'area: cloud'
+      instructions: Apply this label if the PR changes Tiptap Cloud features, integrations, or configuration.
+    - label: 'area: convert'
+      instructions: Apply this label if the PR changes Tiptap Convert or document conversion behavior.
+    - label: 'area: core'
+      instructions: Apply this label if the PR changes Tiptap Core APIs, commands, extensions, or editor behavior.
+    - label: 'area: docs'
+      instructions: Apply this label if the PR changes documentation, examples, guides, or API reference content.
+    - label: 'area: editor'
+      instructions: Apply this label if the PR changes the Tiptap Editor or its user-facing editing behavior.
+    - label: 'area: markdown'
+      instructions: Apply this label if the PR changes Markdown parsing, serialization, or Markdown-related extensions.
+    - label: 'area: pages'
+      instructions: Apply this label if the PR changes Tiptap Pages, pagination, or Word-like UI behavior.
+    - label: 'area: react'
+      instructions: Apply this label if the PR changes the Tiptap React implementation, hooks, or React examples.
+    - label: 'area: ui-components'
+      instructions: Apply this label if the PR changes Tiptap UI Components, their styles, or component behavior.
+    - label: 'area: vue'
+      instructions: Apply this label if the PR changes the Tiptap Vue implementation, composables, or Vue examples.
+    - label: 'complexity: easy'
+      instructions: Apply this label if the PR makes a clearly scoped change in one isolated component or package.
+    - label: 'complexity: expert'
+      instructions: Apply this label if the PR changes fundamental architecture, core APIs across extensions, or collaboration behavior.
+    - label: 'complexity: hard'
+      instructions: Apply this label if the PR changes ProseMirror internals, transaction handling, or node view rendering.
+    - label: 'complexity: medium'
+      instructions: Apply this label if the PR changes multiple components or the ProseMirror/Tiptap integration with a clear implementation path.
+    - label: 'complexity: trivial'
+      instructions: Apply this label if the PR is an obvious change under 10 lines, such as a documentation typo or missing type check.
+    - label: good first issue
+      instructions: Apply this label if the PR is a small, self-contained change that is easy for a first-time contributor to understand.
+    - label: 'impact: critical'
+      instructions: Apply this label if the PR fixes data loss, a security vulnerability, broken core functionality, or a problem affecting nearly all users of a feature.
+    - label: 'impact: high'
+      instructions: Apply this label if the PR fixes behavior affecting a large portion of users or a common workflow.
+    - label: 'impact: low'
+      instructions: Apply this label if the PR fixes an obscure edge case, a specific browser condition, or a rarely used feature.
+    - label: 'impact: medium'
+      instructions: Apply this label if the PR fixes a common feature usage or a workflow shared by a group of users.
+    - label: 'status: needs-info'
+      instructions: Apply this label if the PR lacks the context needed to understand or validate the changes.
+    - label: 'status: needs-reproduction'
+      instructions: Apply this label if the PR fixes a bug without a reproduction or regression test for the reported behavior.
+  auto_review:
+    ignore_usernames:
+      - github-actions[bot]
+
+issue_enrichment:
+  auto_enrich:
+    enabled: true
+  labeling:
+    auto_apply_labels: true
+    labeling_instructions:
+      - label: 'area: ai'
+        instructions: Add this label if an item is related to AI features
+      - label: 'area: ci'
+        instructions: Add this label if an item is related to the CI
+      - label: 'area: cloud'
+        instructions: Add this label if an item is related to Tiptap Cloud
+      - label: 'area: convert'
+        instructions: Apply this label if the item is related to Tiptap Convert / Conversion
+      - label: 'area: core'
+        instructions: Apply this label if an item is related to the Tiptap Core
+      - label: 'area: docs'
+        instructions: Apply this label if an item is related to documentation
+      - label: 'area: editor'
+        instructions: Add this label if an item is related to the Tiptap Editor
+      - label: 'area: markdown'
+        instructions: Apply this if the item relates to Markdown Parsing or Serialization
+      - label: 'area: pages'
+        instructions: Apply this label if an issue is related to Tiptap Pages / Pagination (Word-like UI)
+      - label: 'area: react'
+        instructions: Apply this label if the item is related to the Tiptap React implementation
+      - label: 'area: ui-components'
+        instructions: Apply this label if the item is related to Tiptap UI Components
+      - label: 'area: vue'
+        instructions: Apply this label if an item is related to the Tiptap Vue implementation
+      - label: 'complexity: easy'
+        instructions: 'clearly described, affects one isolated component, fix localized to a single package'
+      - label: 'complexity: expert'
+        instructions: 'fundamental architecture conflict, core API changes affecting all extensions, or concurrent/collaboration behavior'
+      - label: 'complexity: hard'
+        instructions: 'requires deep understanding of ProseMirror internals, transaction handling, or node view rendering; no obvious solution'
+      - label: 'complexity: medium'
+        instructions: 'touches multiple components or requires understanding ProseMirror/Tiptap interaction, but solution path is clear'
+      - label: 'complexity: trivial'
+        instructions: 'typo in docs, missing type check, obvious fix in <10 lines'
+      - label: good first issue
+        instructions:
+          Apply this label if the issue is a good ticket to pick up as a first-time contributor or beginner at
+          ProseMirror or Tiptap.
+      - label: 'impact: critical'
+        instructions: 'data loss, security vulnerability, completely broken core functionality, or affects nearly everyone using a specific feature'
+      - label: 'impact: high'
+        instructions: 'affects a large portion of users, blocks a common use case, or causes noticeable UX problem many will run into'
+      - label: 'impact: low'
+        instructions: 'obscure edge case, specific browser under specific conditions, or feature request very few would use'
+      - label: 'impact: medium'
+        instructions: 'affects a common usage of a feature (e.g. specific extension combination) or handful of users with similar workflows'
+      - label: 'status: needs-info'
+        instructions: Apply this label if the item needs more info to become actionable.
+      - label: 'status: needs-reproduction'
+        instructions: Add this label to an item if it needs more reproduction to become actionable.

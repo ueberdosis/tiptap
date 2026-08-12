@@ -13,6 +13,22 @@ export const NodeViewContent: Component = {
     },
   },
 
+  inject: {
+    nodeViewContentRef: { default: undefined },
+  },
+
+  mounted(this: any) {
+    if (this.nodeViewContentRef && this.$el) {
+      this.nodeViewContentRef(this.$el)
+    }
+  },
+
+  beforeDestroy(this: any) {
+    if (this.nodeViewContentRef) {
+      this.nodeViewContentRef(null)
+    }
+  },
+
   render(this: NodeViewContentInterface, createElement: CreateElement) {
     return createElement(this.as, {
       style: {

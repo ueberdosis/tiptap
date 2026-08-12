@@ -4,7 +4,10 @@
       <div class="button-group">
         <button class="button" @click="setContent">Set content</button>
         <button class="button" @click="clearContent">Clear content</button>
-        <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
+        <button
+          @click="editor.chain().focus().toggleBold().run()"
+          :class="{ 'is-active': editor.isActive('bold') }"
+        >
           Bold
         </button>
         <button

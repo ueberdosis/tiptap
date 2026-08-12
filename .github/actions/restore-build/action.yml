@@ -1,0 +1,21 @@
+name: Restore build artifacts
+description: Download and extract build output artifact
+
+inputs:
+  artifact-name:
+    description: Name of the artifact containing build output
+    default: build-output
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - name: Download build artifacts
+      uses: actions/download-artifact@v8
+      with:
+        name: ${{ inputs.artifact-name }}
+        path: /tmp/build-output
+
+    - name: Restore build output
+      shell: bash
+      run: tar -xzf /tmp/build-output/build-output.tar.gz

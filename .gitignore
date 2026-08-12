@@ -6,7 +6,6 @@ node_modules
 dist
 .env
 .env.*
-.eslintcache
 
 .instructions
 .agent
@@ -24,21 +23,31 @@ yarn-error.log*
 # Turbo cache
 .turbo
 
+# Linter caches
+.eslintcache
+
 .rpt2_cache
 .rts2_cache
 .rts2_cache_cjs
 .rts2_cache_es
 .rts2_cache_umd
 
-tests/cypress/videos
-/tests/cypress/screenshots
+# Playwright
+/playwright-report
+/test-results
+/playwright/.cache
+/blob-report
 # Ignore intellij project files
 .idea
 
 # packaged files
+/package-dist-artifacts.tar
 packages/**/*.tgz
 packages-deprecated/**/*.tgz
 demos/*.tgz
+
+# pnpm
+.pnpm-store
 
 # demo directories
 demos/src/Dev/**

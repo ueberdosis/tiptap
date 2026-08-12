@@ -1,5 +1,251 @@
 # Change Log
 
+## 3.30.0
+
+### Patch Changes
+
+- Updated dependencies [0247d39]
+- Updated dependencies [58a8953]
+- Updated dependencies [51909d3]
+- Updated dependencies [3099eef]
+  - @tiptap/core@3.30.0
+  - @tiptap/pm@3.30.0
+
+## 3.29.2
+
+### Patch Changes
+
+- @tiptap/core@3.29.2
+- @tiptap/pm@3.29.2
+
+## 3.29.1
+
+### Patch Changes
+
+- @tiptap/core@3.29.1
+- @tiptap/pm@3.29.1
+
+## 3.29.0
+
+### Patch Changes
+
+- Updated dependencies [d26840f]
+- Updated dependencies [e150ee0]
+- Updated dependencies [935e63f]
+- Updated dependencies [b4c5a2d]
+- Updated dependencies [a963d48]
+- Updated dependencies [51f45b6]
+- Updated dependencies [0f63969]
+- Updated dependencies [9acaa65]
+  - @tiptap/core@3.29.0
+  - @tiptap/pm@3.29.0
+
+## 3.28.0
+
+### Patch Changes
+
+- @tiptap/core@3.28.0
+- @tiptap/pm@3.28.0
+
+## 3.27.4
+
+### Patch Changes
+
+- d2983cd: Fixed the `Selection` extension leaving the native browser selection visible on blur, where it overlapped the selection decoration. The native selection is now cleared on blur and restored on focus.
+  - @tiptap/core@3.27.4
+  - @tiptap/pm@3.27.4
+
+## 3.27.3
+
+### Patch Changes
+
+- 76a76da: Fixed placeholder flickering and disappearance on large documents. Replaced the viewport-based decoration scan with an incremental `StateField<DecorationSet>` that only re-computes decorations for top-level nodes touched by each transaction. This eliminates the dependency on DOM measurement (`posAtCoords`), `requestAnimationFrame` scheduling, and scroll listeners that caused flickering under collaboration, occlusion, and rapid edits.
+- Updated dependencies [023f98c]
+  - @tiptap/core@3.27.3
+  - @tiptap/pm@3.27.3
+
+## 3.27.2
+
+### Patch Changes
+
+- Updated dependencies [ceebb31]
+  - @tiptap/pm@3.27.2
+  - @tiptap/core@3.27.2
+
+## 3.27.1
+
+### Patch Changes
+
+- 2be3fb9: Fix Placeholder flickering while a modal overlay is open. When the editor was occluded during a stream of transactions (e.g. remote collaboration edits), the viewport measurement fell back to a full-document range and repeatedly toggled the `data-placeholder` attribute on empty blocks. The viewport window is now frozen when the editor can't be measured reliably, so placeholders stay stable.
+  - @tiptap/core@3.27.1
+  - @tiptap/pm@3.27.1
+
+## 3.27.0
+
+### Patch Changes
+
+- Updated dependencies [0d0094d]
+- Updated dependencies [795033c]
+- Updated dependencies [0e0c4f9]
+- Updated dependencies [6d12bb9]
+  - @tiptap/core@3.27.0
+  - @tiptap/pm@3.27.0
+
+## 3.26.1
+
+### Patch Changes
+
+- @tiptap/core@3.26.1
+- @tiptap/pm@3.26.1
+
+## 3.26.0
+
+### Patch Changes
+
+- 75e8404: Fix the `Selection` extension highlighting beyond the selected text on multi-line selections: the native browser selection is now hidden while the editor is blurred, so only the styled `.selection` decoration is shown.
+  - @tiptap/core@3.26.0
+  - @tiptap/pm@3.26.0
+
+## 3.25.0
+
+### Minor Changes
+
+- Allow `emptyNodeClass` in the Placeholder extension to accept a function that returns a dynamic CSS class name per node
+
+### Patch Changes
+
+- Updated dependencies [ec291dd]
+- Updated dependencies [454e9b8]
+- Updated dependencies [9cf8db0]
+- Updated dependencies [c1a2ce8]
+- Updated dependencies [3d4f94c]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+
+## 3.24.0
+
+### Patch Changes
+
+- 2d05614: Fix placeholder flickering during collaborative editing and reduce scroll-time CPU usage by deferring viewport recomputation to rAF, adding an overscan margin, and throttling scroll updates
+- Updated dependencies [7c0499b]
+  - @tiptap/pm@3.24.0
+  - @tiptap/core@3.24.0
+
+## 3.23.6
+
+### Patch Changes
+
+- 937ff2e: **Placeholder**: Replaced full-document `doc.descendants()` traversal with a cursor-resolved fast path for the default config and viewport-limited scanning for the non-default config, significantly reducing decoration overhead on large documents.
+- Updated dependencies [d168376]
+  - @tiptap/core@3.23.6
+  - @tiptap/pm@3.23.6
+
+## 3.23.5
+
+### Patch Changes
+
+- Updated dependencies [835caf5]
+- Updated dependencies [95e138c]
+  - @tiptap/core@3.23.5
+  - @tiptap/pm@3.23.5
+
+## 3.23.4
+
+### Patch Changes
+
+- 57e53c1: Add a new `autoTrim` option to `CharacterCount` which can be used to allow exceeding the character limit and either trim or validate the content length manually
+  - @tiptap/core@3.23.4
+  - @tiptap/pm@3.23.4
+
+## 3.23.3
+
+### Patch Changes
+
+- @tiptap/core@3.23.3
+- @tiptap/pm@3.23.3
+
+## 3.23.2
+
+### Patch Changes
+
+- Updated dependencies [f98eaaf]
+  - @tiptap/core@3.23.2
+  - @tiptap/pm@3.23.2
+
+## 3.23.1
+
+### Patch Changes
+
+- @tiptap/core@3.23.1
+- @tiptap/pm@3.23.1
+
+## 3.23.0
+
+### Patch Changes
+
+- Updated dependencies [57f8d66]
+- Updated dependencies [e64e5a7]
+- Updated dependencies [207a2bc]
+  - @tiptap/core@3.23.0
+  - @tiptap/pm@3.23.0
+
+## 3.22.5
+
+### Patch Changes
+
+- Updated dependencies [a375002]
+  - @tiptap/core@3.22.5
+  - @tiptap/pm@3.22.5
+
+## 3.22.4
+
+### Patch Changes
+
+- 27ea931: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [27ea931]
+- Updated dependencies [64f36b8]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/pm@3.22.4
+
+## 3.22.3
+
+### Patch Changes
+
+- Updated dependencies [cb28e7b]
+  - @tiptap/core@3.22.3
+  - @tiptap/pm@3.22.3
+
+## 3.22.2
+
+### Patch Changes
+
+- Updated dependencies [f1d504c]
+- Updated dependencies [404c683]
+  - @tiptap/core@3.22.2
+  - @tiptap/pm@3.22.2
+
+## 3.22.1
+
+### Patch Changes
+
+- Updated dependencies [ee03ac0]
+- Updated dependencies [b88f9ed]
+  - @tiptap/core@3.22.1
+  - @tiptap/pm@3.22.1
+
+## 3.22.0
+
+### Patch Changes
+
+- Updated dependencies [912a49b]
+- Updated dependencies [7d4fb9a]
+- Updated dependencies [0c1c112]
+- Updated dependencies [0c1c112]
+- Updated dependencies [f99bdc2]
+  - @tiptap/core@3.22.0
+  - @tiptap/pm@3.22.0
+
 ## 3.21.0
 
 ### Patch Changes
@@ -586,7 +832,7 @@
   Usage:
 
   ```ts
-  import { CharacterCount, CharacterCountOptions } from '@tiptap/extensions'
+  import { CharacterCount, CharacterCountOptions } from "@tiptap/extensions";
   ```
 
   ## DropCursor
@@ -603,7 +849,7 @@
   Usage:
 
   ```ts
-  import { DropCursor, DropCursorOptions } from '@tiptap/extensions'
+  import { DropCursor, DropCursorOptions } from "@tiptap/extensions";
   ```
 
   ## GapCursor
@@ -620,7 +866,7 @@
   Usage:
 
   ```ts
-  import { GapCursor } from '@tiptap/extensions'
+  import { GapCursor } from "@tiptap/extensions";
   ```
 
   ## History
@@ -637,7 +883,7 @@
   Usage:
 
   ```ts
-  import { UndoRedo, UndoRedoOptions } from '@tiptap/extensions'
+  import { UndoRedo, UndoRedoOptions } from "@tiptap/extensions";
   ```
 
   ## Placeholder
@@ -654,7 +900,7 @@
   Usage:
 
   ```ts
-  import { Placeholder, PlaceholderOptions } from '@tiptap/extensions'
+  import { Placeholder, PlaceholderOptions } from "@tiptap/extensions";
   ```
 
   ## TrailingNode
@@ -662,7 +908,7 @@
   This extension adds a node at the end of the editor, which can be used to add a trailing node like a paragraph.
 
   ```ts
-  import { TrailingNode, TrailingNodeOptions } from '@tiptap/extensions'
+  import { TrailingNode, TrailingNodeOptions } from "@tiptap/extensions";
   ```
 
   ## Focus
@@ -679,7 +925,7 @@
   Usage:
 
   ```ts
-  import { Focus, FocusOptions } from '@tiptap/extensions'
+  import { Focus, FocusOptions } from "@tiptap/extensions";
   ```
 
   ## Selection
@@ -687,7 +933,7 @@
   This extension adds a selection state to the editor, which can be used to style the editor when there's a selection.
 
   ```ts
-  import { Selection, SelectionOptions } from '@tiptap/extensions'
+  import { Selection, SelectionOptions } from "@tiptap/extensions";
   ```
 
 - ce47182: Remove selection decoration when editor is on dragging mode
@@ -996,7 +1242,7 @@
   Usage:
 
   ```ts
-  import { CharacterCount, CharacterCountOptions } from '@tiptap/extensions'
+  import { CharacterCount, CharacterCountOptions } from "@tiptap/extensions";
   ```
 
   ## DropCursor
@@ -1013,7 +1259,7 @@
   Usage:
 
   ```ts
-  import { DropCursor, DropCursorOptions } from '@tiptap/extensions'
+  import { DropCursor, DropCursorOptions } from "@tiptap/extensions";
   ```
 
   ## GapCursor
@@ -1030,7 +1276,7 @@
   Usage:
 
   ```ts
-  import { GapCursor } from '@tiptap/extensions'
+  import { GapCursor } from "@tiptap/extensions";
   ```
 
   ## History
@@ -1047,7 +1293,7 @@
   Usage:
 
   ```ts
-  import { History, HistoryOptions } from '@tiptap/extensions'
+  import { History, HistoryOptions } from "@tiptap/extensions";
   ```
 
   ## Placeholder
@@ -1064,7 +1310,7 @@
   Usage:
 
   ```ts
-  import { Placeholder, PlaceholderOptions } from '@tiptap/extensions'
+  import { Placeholder, PlaceholderOptions } from "@tiptap/extensions";
   ```
 
   ## TrailingNode
@@ -1072,7 +1318,7 @@
   This extension adds a node at the end of the editor, which can be used to add a trailing node like a paragraph.
 
   ```ts
-  import { TrailingNode, TrailingNodeOptions } from '@tiptap/extensions'
+  import { TrailingNode, TrailingNodeOptions } from "@tiptap/extensions";
   ```
 
   ## Focus
@@ -1089,7 +1335,7 @@
   Usage:
 
   ```ts
-  import { Focus, FocusOptions } from '@tiptap/extensions'
+  import { Focus, FocusOptions } from "@tiptap/extensions";
   ```
 
   ## Selection
@@ -1097,7 +1343,7 @@
   This extension adds a selection state to the editor, which can be used to style the editor when there's a selection.
 
   ```ts
-  import { Selection, SelectionOptions } from '@tiptap/extensions'
+  import { Selection, SelectionOptions } from "@tiptap/extensions";
   ```
 
 ## 3.0.0-next.5

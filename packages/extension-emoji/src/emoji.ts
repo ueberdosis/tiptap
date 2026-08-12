@@ -4,15 +4,16 @@ import {
   findChildrenInRange,
   getChangedRanges,
   InputRule,
+  isFirefox,
   mergeAttributes,
   Node,
   nodeInputRule,
   PasteRule,
 } from '@tiptap/core'
 import type { Transaction } from '@tiptap/pm/state'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
+import { Plugin, PluginKey, TextSelection } from '@tiptap/pm/state'
 import type { SuggestionOptions } from '@tiptap/suggestion'
-import Suggestion from '@tiptap/suggestion'
+import { Suggestion } from '@tiptap/suggestion'
 import emojiRegex from 'emoji-regex'
 import { isEmojiSupported } from 'is-emoji-supported'
 
@@ -195,7 +196,9 @@ export const Emoji = Node.create<EmojiOptions, EmojiStorage>({
 
   renderHTML({ HTMLAttributes, node }) {
     const emojiItem = shortcodeToEmoji(node.attrs.name, this.options.emojis)
-    const attributes = mergeAttributes(HTMLAttributes, this.options.HTMLAttributes, { 'data-type': this.name })
+    const attributes = mergeAttributes(HTMLAttributes, this.options.HTMLAttributes, {
+      'data-type': this.name,
+    })
 
     if (!emojiItem) {
       return ['span', attributes, `:${node.attrs.name}:`]
@@ -303,9 +306,13 @@ export const Emoji = Node.create<EmojiOptions, EmojiStorage>({
 
     if (this.options.enableEmoticons) {
       // get the list of supported emoticons
-      const emoticons = this.options.emojis.flatMap(item => item.emoticons).filter(item => item) as string[]
+      const emoticons = this.options.emojis
+        .flatMap(item => item.emoticons)
+        .filter(item => item) as string[]
 
-      const emoticonRegex = new RegExp(`(?:^|\\s)(${emoticons.map(item => escapeForRegEx(item)).join('|')}) $`)
+      const emoticonRegex = new RegExp(
+        `(?:^|\\s)(${emoticons.map(item => escapeForRegEx(item)).join('|')}) $`,
+      )
 
       inputRules.push(
         nodeInputRule({
@@ -379,8 +386,75 @@ export const Emoji = Node.create<EmojiOptions, EmojiStorage>({
       new Plugin({
         key: new PluginKey('emoji'),
         props: {
-          // double click to select emoji doesn’t work by default
-          // that’s why we simulate this behavior
+          // Firefox cannot move the cursor past emoji nodes at paragraph
+          // boundaries using arrow keys. We intercept plain (unmodified)
+          // ArrowLeft/ArrowRight and manually resolve the correct position.
+          // Only handles emoji nodes — other inline non-selectable nodes
+          // (mentions, hard breaks) are out of scope for this extension.
+          // See: https://github.com/ProseMirror/prosemirror/issues/1220
+          handleKeyDown: (view, event) => {
+            if (!isFirefox()) {
+              return false
+            }
+
+            const isLeft = event.key === 'ArrowLeft'
+            const isRight = event.key === 'ArrowRight'
+
+            if (!isLeft && !isRight) {
+              return false
+            }
+
+            // Don't interfere with selection extension (Shift), word
+            // navigation (Ctrl/Alt), or OS shortcuts (Meta).
+            if (event.shiftKey || event.ctrlKey || event.altKey || event.metaKey) {
+              return false
+            }
+
+            const { state } = view
+            const { selection } = state
+
+            if (!selection.empty || !(selection instanceof TextSelection)) {
+              return false
+            }
+
+            const $pos = selection.$from
+            const emojiType = this.type
+
+            if (isLeft) {
+              const nodeBefore = $pos.nodeBefore
+
+              if (!nodeBefore || nodeBefore.type !== emojiType) {
+                return false
+              }
+
+              // Cursor is right after an emoji node. Move past it to the left.
+              const newPos = $pos.pos - nodeBefore.nodeSize
+
+              if (newPos >= $pos.start()) {
+                view.dispatch(state.tr.setSelection(TextSelection.create(state.doc, newPos)))
+                return true
+              }
+            } else {
+              const nodeAfter = $pos.nodeAfter
+
+              if (!nodeAfter || nodeAfter.type !== emojiType) {
+                return false
+              }
+
+              // Cursor is right before an emoji node. Skip over it to the right.
+              const newPos = $pos.pos + nodeAfter.nodeSize
+
+              if (newPos <= $pos.end()) {
+                view.dispatch(state.tr.setSelection(TextSelection.create(state.doc, newPos)))
+                return true
+              }
+            }
+
+            return false
+          },
+
+          // double click to select emoji doesn't work by default
+          // that's why we simulate this behavior
           handleDoubleClickOn: (view, pos, node) => {
             if (node.type !== this.type) {
               return false
@@ -404,7 +478,9 @@ export const Emoji = Node.create<EmojiOptions, EmojiStorage>({
           if (this.editor.view.composing) {
             return
           }
-          const docChanges = transactions.some(transaction => transaction.docChanged) && !oldState.doc.eq(newState.doc)
+          const docChanges =
+            transactions.some(transaction => transaction.docChanged) &&
+            !oldState.doc.eq(newState.doc)
 
           if (!docChanges) {
             return

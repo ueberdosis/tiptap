@@ -8,7 +8,10 @@ describe('createNodeFromContent', () => {
   it('creates a fragment from a schema and HTML content', () => {
     const content = '<p>Example Text</p>'
 
-    const fragment = createNodeFromContent(content, getSchemaByResolvedExtensions([Document, Paragraph, Text]))
+    const fragment = createNodeFromContent(
+      content,
+      getSchemaByResolvedExtensions([Document, Paragraph, Text]),
+    )
 
     expect(fragment.toJSON()).toEqual([
       {
@@ -26,9 +29,13 @@ describe('createNodeFromContent', () => {
   it('if `errorOnInvalidContent` is true, creates a fragment from a schema and HTML content', () => {
     const content = '<p>Example Text</p>'
 
-    const fragment = createNodeFromContent(content, getSchemaByResolvedExtensions([Document, Paragraph, Text]), {
-      errorOnInvalidContent: true,
-    })
+    const fragment = createNodeFromContent(
+      content,
+      getSchemaByResolvedExtensions([Document, Paragraph, Text]),
+      {
+        errorOnInvalidContent: true,
+      },
+    )
 
     expect(fragment.toJSON()).toEqual([
       {
@@ -54,7 +61,10 @@ describe('createNodeFromContent', () => {
       ],
     }
 
-    const fragment = createNodeFromContent(content, getSchemaByResolvedExtensions([Document, Paragraph, Text]))
+    const fragment = createNodeFromContent(
+      content,
+      getSchemaByResolvedExtensions([Document, Paragraph, Text]),
+    )
 
     expect(fragment.toJSON()).toEqual({
       type: 'paragraph',
@@ -78,9 +88,13 @@ describe('createNodeFromContent', () => {
       ],
     }
 
-    const fragment = createNodeFromContent(content, getSchemaByResolvedExtensions([Document, Paragraph, Text]), {
-      errorOnInvalidContent: true,
-    })
+    const fragment = createNodeFromContent(
+      content,
+      getSchemaByResolvedExtensions([Document, Paragraph, Text]),
+      {
+        errorOnInvalidContent: true,
+      },
+    )
 
     expect(fragment.toJSON()).toEqual({
       type: 'paragraph',
@@ -115,7 +129,10 @@ describe('createNodeFromContent', () => {
       },
     ]
 
-    const fragment = createNodeFromContent(content, getSchemaByResolvedExtensions([Document, Paragraph, Text]))
+    const fragment = createNodeFromContent(
+      content,
+      getSchemaByResolvedExtensions([Document, Paragraph, Text]),
+    )
 
     expect(fragment.toJSON()).toEqual([
       {
@@ -161,9 +178,13 @@ describe('createNodeFromContent', () => {
       },
     ]
 
-    const fragment = createNodeFromContent(content, getSchemaByResolvedExtensions([Document, Paragraph, Text]), {
-      errorOnInvalidContent: true,
-    })
+    const fragment = createNodeFromContent(
+      content,
+      getSchemaByResolvedExtensions([Document, Paragraph, Text]),
+      {
+        errorOnInvalidContent: true,
+      },
+    )
 
     expect(fragment.toJSON()).toEqual([
       {
@@ -198,7 +219,10 @@ describe('createNodeFromContent', () => {
       ],
     }
 
-    const fragment = createNodeFromContent(content, getSchemaByResolvedExtensions([Document, Paragraph, Text]))
+    const fragment = createNodeFromContent(
+      content,
+      getSchemaByResolvedExtensions([Document, Paragraph, Text]),
+    )
 
     expect(fragment.toJSON()).toEqual(null)
   })
@@ -206,7 +230,10 @@ describe('createNodeFromContent', () => {
   it('returns empty content when a schema does not have matching node types for HTML content', () => {
     const content = '<non-existing-node-type>Example Text</non-existing-node-type>'
 
-    const fragment = createNodeFromContent(content, getSchemaByResolvedExtensions([Document, Paragraph, Text]))
+    const fragment = createNodeFromContent(
+      content,
+      getSchemaByResolvedExtensions([Document, Paragraph, Text]),
+    )
 
     expect(fragment.toJSON()).toEqual([{ type: 'text', text: 'Example Text' }])
   })
@@ -283,5 +310,21 @@ describe('createNodeFromContent', () => {
         errorOnInvalidContent: true,
       })
     }).toThrow('[tiptap error]: Invalid JSON content')
+  })
+
+  // These look like a node or a fragment at a glance, but are still invalid JSON.
+  it.each([
+    ['an object type', { type: {} }],
+    ['a null type', { type: null }],
+    ['an array type', { type: [] }],
+    ['a numeric size', { size: 5 }],
+    ['no keys at all', {}],
+  ])('returns empty content for JSON content with %s', (_label, content) => {
+    const fragment = createNodeFromContent(
+      content,
+      getSchemaByResolvedExtensions([Document, Paragraph, Text]),
+    )
+
+    expect(fragment.toJSON()).toBeNull()
   })
 })

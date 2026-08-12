@@ -93,38 +93,26 @@ class EditorInstanceManager {
   }
 
   private getInitialEditor() {
-    if (this.options.current.immediatelyRender === undefined) {
-      if (isSSR || isNext) {
-        if (isDev) {
-          /**
-           * Throw an error in development, to make sure the developer is aware that tiptap cannot be SSR'd
-           * and that they need to set `immediatelyRender` to `false` to avoid hydration mismatches.
-           */
-          throw new Error(
-            'Tiptap Error: SSR has been detected, please set `immediatelyRender` explicitly to `false` to avoid hydration mismatches.',
-          )
-        }
+    const explicit = this.options.current.immediatelyRender
+    let immediatelyRender = explicit ?? true
 
-        // Best faith effort in production, run the code in the legacy mode to avoid hydration mismatches and errors in production
-        return null
+    if (isSSR) {
+      if (immediatelyRender && isDev) {
+        console.warn(
+          'SSR detected. `immediatelyRender` has been set to false to avoid hydration mismatches',
+        )
       }
-
-      // Default to immediately rendering when client-side rendering
-      return this.createEditor()
+      immediatelyRender = false
+    } else if (isNext && explicit === undefined) {
+      immediatelyRender = false
+      if (isDev) {
+        console.warn(
+          'Next.js detected. `immediatelyRender` defaults to false to avoid hydration mismatches. Pass `immediatelyRender: true` explicitly if you are rendering the editor only on the client.',
+        )
+      }
     }
 
-    if (this.options.current.immediatelyRender && isSSR && isDev) {
-      // Warn in development, to make sure the developer is aware that tiptap cannot be SSR'd, set `immediatelyRender` to `false` to avoid hydration mismatches.
-      throw new Error(
-        'Tiptap Error: SSR has been detected, and `immediatelyRender` has been set to `true` this is an unsupported configuration that may result in errors, explicitly set `immediatelyRender` to `false` to avoid hydration mismatches.',
-      )
-    }
-
-    if (this.options.current.immediatelyRender) {
-      return this.createEditor()
-    }
-
-    return null
+    return immediatelyRender ? this.createEditor() : null
   }
 
   /**
@@ -146,6 +134,8 @@ class EditorInstanceManager {
       onDrop: (...args) => this.options.current.onDrop?.(...args),
       onPaste: (...args) => this.options.current.onPaste?.(...args),
       onDelete: (...args) => this.options.current.onDelete?.(...args),
+      onMount: (...args) => this.options.current.onMount?.(...args),
+      onUnmount: (...args) => this.options.current.onUnmount?.(...args),
     }
     const editor = new Editor(optionsToApply)
 
@@ -270,7 +260,8 @@ class EditorInstanceManager {
         return
       }
       const depsAreEqual =
-        this.previousDeps.length === deps.length && this.previousDeps.every((dep, index) => dep === deps[index])
+        this.previousDeps.length === deps.length &&
+        this.previousDeps.every((dep, index) => dep === deps[index])
 
       if (depsAreEqual) {
         // deps exist and are equal, no need to recreate
@@ -341,7 +332,10 @@ export function useEditor(
  */
 export function useEditor(options: UseEditorOptions, deps?: DependencyList): Editor
 
-export function useEditor(options: UseEditorOptions = {}, deps: DependencyList = []): Editor | null {
+export function useEditor(
+  options: UseEditorOptions = {},
+  deps: DependencyList = [],
+): Editor | null {
   const mostRecentOptions = useRef(options)
 
   mostRecentOptions.current = options
@@ -357,7 +351,7 @@ export function useEditor(options: UseEditorOptions = {}, deps: DependencyList =
   useDebugValue(editor)
 
   // This effect will handle creating/updating the editor instance
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // oxlint-disable-next-line react-hooks/exhaustive-deps
   useEffect(instanceManager.onRender(deps))
 
   // The default behavior is to re-render on each transaction
@@ -365,7 +359,10 @@ export function useEditor(options: UseEditorOptions = {}, deps: DependencyList =
   useEditorState({
     editor,
     selector: ({ transactionNumber }) => {
-      if (options.shouldRerenderOnTransaction === false || options.shouldRerenderOnTransaction === undefined) {
+      if (
+        options.shouldRerenderOnTransaction === false ||
+        options.shouldRerenderOnTransaction === undefined
+      ) {
         // This will prevent the editor from re-rendering on each transaction
         return null
       }

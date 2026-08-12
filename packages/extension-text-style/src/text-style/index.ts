@@ -74,7 +74,9 @@ const mergeNestedSpanStyles = (element: HTMLElement) => {
 
   childSpans.forEach(childSpan => {
     const childStyle = childSpan.getAttribute('style')
-    const closestParentSpanStyleOfChild = childSpan.parentElement?.closest('span')?.getAttribute('style')
+    const closestParentSpanStyleOfChild = childSpan.parentElement
+      ?.closest('span')
+      ?.getAttribute('style')
 
     childSpan.setAttribute('style', `${closestParentSpanStyleOfChild};${childStyle}`)
   })

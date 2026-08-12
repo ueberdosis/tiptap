@@ -4,7 +4,7 @@ import Document from '@tiptap/extension-document'
 import Highlight from '@tiptap/extension-highlight'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import React from 'react'
 
 export default () => {
@@ -17,6 +17,18 @@ export default () => {
         <p><mark data-color="#ffa8a8">And this one has a data attribute.</mark></p>
       `,
   })
+  const editorState = useEditorState({
+    editor,
+    selector: ctx => ({
+      isHighlight: ctx.editor.isActive('highlight') ?? false,
+      isOrange: ctx.editor.isActive('highlight', { color: '#ffc078' }) ?? false,
+      isGreen: ctx.editor.isActive('highlight', { color: '#8ce99a' }) ?? false,
+      isBlue: ctx.editor.isActive('highlight', { color: '#74c0fc' }) ?? false,
+      isPurple: ctx.editor.isActive('highlight', { color: '#b197fc' }) ?? false,
+      isRed: ctx.editor.isActive('highlight', { color: 'red' }) ?? false,
+      isLightRed: ctx.editor.isActive('highlight', { color: '#ffa8a8' }) ?? false,
+    }),
+  })
 
   if (!editor) {
     return null
@@ -28,49 +40,49 @@ export default () => {
         <div className="button-group">
           <button
             onClick={() => editor.chain().focus().toggleHighlight().run()}
-            className={editor.isActive('highlight') ? 'is-active' : ''}
+            className={editorState.isHighlight ? 'is-active' : ''}
           >
             Toggle highlight
           </button>
           <button
             onClick={() => editor.chain().focus().toggleHighlight({ color: '#ffc078' }).run()}
-            className={editor.isActive('highlight', { color: '#ffc078' }) ? 'is-active' : ''}
+            className={editorState.isOrange ? 'is-active' : ''}
           >
             Orange
           </button>
           <button
             onClick={() => editor.chain().focus().toggleHighlight({ color: '#8ce99a' }).run()}
-            className={editor.isActive('highlight', { color: '#8ce99a' }) ? 'is-active' : ''}
+            className={editorState.isGreen ? 'is-active' : ''}
           >
             Green
           </button>
           <button
             onClick={() => editor.chain().focus().toggleHighlight({ color: '#74c0fc' }).run()}
-            className={editor.isActive('highlight', { color: '#74c0fc' }) ? 'is-active' : ''}
+            className={editorState.isBlue ? 'is-active' : ''}
           >
             Blue
           </button>
           <button
             onClick={() => editor.chain().focus().toggleHighlight({ color: '#b197fc' }).run()}
-            className={editor.isActive('highlight', { color: '#b197fc' }) ? 'is-active' : ''}
+            className={editorState.isPurple ? 'is-active' : ''}
           >
             Purple
           </button>
           <button
             onClick={() => editor.chain().focus().toggleHighlight({ color: 'red' }).run()}
-            className={editor.isActive('highlight', { color: 'red' }) ? 'is-active' : ''}
+            className={editorState.isRed ? 'is-active' : ''}
           >
             Red ('red')
           </button>
           <button
             onClick={() => editor.chain().focus().toggleHighlight({ color: '#ffa8a8' }).run()}
-            className={editor.isActive('highlight', { color: '#ffa8a8' }) ? 'is-active' : ''}
+            className={editorState.isLightRed ? 'is-active' : ''}
           >
             Red (#ffa8a8)
           </button>
           <button
             onClick={() => editor.chain().focus().unsetHighlight().run()}
-            disabled={!editor.isActive('highlight')}
+            disabled={!editorState.isHighlight}
           >
             Unset highlight
           </button>

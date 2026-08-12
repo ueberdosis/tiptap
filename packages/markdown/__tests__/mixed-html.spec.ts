@@ -3,6 +3,7 @@
  */
 
 import { Document } from '@tiptap/extension-document'
+import { HardBreak } from '@tiptap/extension-hard-break'
 import { Heading } from '@tiptap/extension-heading'
 import { Italic } from '@tiptap/extension-italic'
 import { Paragraph } from '@tiptap/extension-paragraph'
@@ -12,7 +13,7 @@ import { beforeEach, describe, expect, it } from 'vitest'
 
 describe('MarkdownManager Mixed Markdown + HTML', () => {
   let manager: MarkdownManager
-  const basicExtensions = [Document, Paragraph, Text, Heading, Italic]
+  const basicExtensions = [Document, Paragraph, Text, Heading, Italic, HardBreak]
 
   beforeEach(() => {
     manager = new MarkdownManager({ extensions: basicExtensions })
@@ -27,7 +28,9 @@ describe('MarkdownManager Mixed Markdown + HTML', () => {
     const heading = doc.content![0]
     expect(heading.type).toBe('heading')
     // Find the text node that contains 'world'
-    const textNodes = heading.content!.flatMap((n: any) => (n.type === 'text' ? [n] : n.content || []))
+    const textNodes = heading.content!.flatMap((n: any) =>
+      n.type === 'text' ? [n] : n.content || [],
+    )
     const worldNode = textNodes.find((n: any) => n.text && n.text.includes('world'))
     // Use a function-call assertion to avoid the "no-unused-expressions" lint error
     expect(worldNode).not.toBe(undefined)
@@ -73,5 +76,52 @@ describe('MarkdownManager Mixed Markdown + HTML', () => {
       const hasItalic = ((node as any).marks || []).some((m: any) => m.type === 'italic')
       expect(hasItalic).toBe(true)
     })
+  })
+
+  it('parses an unclosed inline HTML tag without nesting a paragraph', () => {
+    const md = '<b>123'
+    const doc = manager.parse(md)
+
+    expect(doc.content).toEqual([{ type: 'paragraph', content: [{ type: 'text', text: '123' }] }])
+  })
+
+  it('parses an unclosed inline HTML tag and keeps the surrounding text', () => {
+    const md = 'a <b> b'
+    const doc = manager.parse(md)
+
+    // The dropped tag leaves both of the spaces around it.
+    expect(doc.content).toEqual([{ type: 'paragraph', content: [{ type: 'text', text: 'a  b' }] }])
+  })
+
+  it('parses an empty inline HTML element without nesting a paragraph', () => {
+    const md = 'a <span></span> b'
+    const doc = manager.parse(md)
+
+    expect(doc.content).toEqual([{ type: 'paragraph', content: [{ type: 'text', text: 'a  b' }] }])
+  })
+
+  it('parses inline HTML for a block element as its inline content', () => {
+    const md = 'a <h1>title</h1> b'
+    const doc = manager.parse(md)
+
+    expect(doc.content).toEqual([
+      { type: 'paragraph', content: [{ type: 'text', text: 'a title b' }] },
+    ])
+  })
+
+  it('parses inline HTML for an inline node and keeps the node', () => {
+    const md = 'a <br> b'
+    const doc = manager.parse(md)
+
+    expect(doc.content).toEqual([
+      {
+        type: 'paragraph',
+        content: [
+          { type: 'text', text: 'a ' },
+          { type: 'hardBreak' },
+          { type: 'text', text: ' b' },
+        ],
+      },
+    ])
   })
 })

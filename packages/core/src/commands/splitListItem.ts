@@ -16,7 +16,10 @@ declare module '@tiptap/core' {
        * @param overrideAttrs The attributes to ensure on the new node.
        * @example editor.commands.splitListItem('listItem')
        */
-      splitListItem: (typeOrName: string | NodeType, overrideAttrs?: Record<string, any>) => ReturnType
+      splitListItem: (
+        typeOrName: string | NodeType,
+        overrideAttrs?: Record<string, any>,
+      ) => ReturnType
     }
   }
 }
@@ -28,7 +31,7 @@ export const splitListItem: RawCommands['splitListItem'] =
     const { $from, $to } = state.selection
 
     // @ts-ignore
-    // eslint-disable-next-line
+    // oxlint-disable-next-line
     const node: ProseMirrorNode = state.selection.node
 
     if ((node && node.isBlock) || $from.depth < 2 || !$from.sameParent($to)) {
@@ -47,13 +50,17 @@ export const splitListItem: RawCommands['splitListItem'] =
       // In an empty block. If this is a nested list, the wrapping
       // list item should be split. Otherwise, bail out and let next
       // command handle lifting.
-      if ($from.depth === 2 || $from.node(-3).type !== type || $from.index(-2) !== $from.node(-2).childCount - 1) {
+      if (
+        $from.depth === 2 ||
+        $from.node(-3).type !== type ||
+        $from.index(-2) !== $from.node(-2).childCount - 1
+      ) {
         return false
       }
 
       if (dispatch) {
         let wrap = Fragment.empty
-        // eslint-disable-next-line
+        // oxlint-disable-next-line
         const depthBefore = $from.index(-1) ? 1 : $from.index(-2) ? 2 : 3
 
         // Build a fragment containing empty versions of the structure
@@ -63,7 +70,7 @@ export const splitListItem: RawCommands['splitListItem'] =
         }
 
         const depthAfter =
-          // eslint-disable-next-line no-nested-ternary
+          // oxlint-disable-next-line no-nested-ternary
           $from.indexAfter(-1) < $from.node(-2).childCount
             ? 1
             : $from.indexAfter(-2) < $from.node(-3).childCount
@@ -75,7 +82,8 @@ export const splitListItem: RawCommands['splitListItem'] =
           ...getSplittedAttributes(extensionAttributes, $from.node().type.name, $from.node().attrs),
           ...overrideAttrs,
         }
-        const nextType = type.contentMatch.defaultType?.createAndFill(newNextTypeAttributes) || undefined
+        const nextType =
+          type.contentMatch.defaultType?.createAndFill(newNextTypeAttributes) || undefined
 
         wrap = wrap.append(Fragment.from(type.createAndFill(null, nextType) || undefined))
 

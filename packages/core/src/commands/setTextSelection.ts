@@ -21,7 +21,8 @@ export const setTextSelection: RawCommands['setTextSelection'] =
   ({ tr, dispatch }) => {
     if (dispatch) {
       const { doc } = tr
-      const { from, to } = typeof position === 'number' ? { from: position, to: position } : position
+      const { from, to } =
+        typeof position === 'number' ? { from: position, to: position } : position
       const minPos = TextSelection.atStart(doc).from
       const maxPos = TextSelection.atEnd(doc).to
       const resolvedFrom = minMax(from, minPos, maxPos)

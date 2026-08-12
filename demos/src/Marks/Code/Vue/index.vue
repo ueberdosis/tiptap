@@ -2,11 +2,19 @@
   <div v-if="editor" class="container">
     <div class="control-group">
       <div class="button-group">
-        <button @click="editor.chain().focus().toggleCode().run()" :class="{ 'is-active': editor.isActive('code') }">
+        <button
+          @click="editor.chain().focus().toggleCode().run()"
+          :class="{ 'is-active': editor.isActive('code') }"
+        >
           Toggle code
         </button>
-        <button @click="editor.chain().focus().setCode().run()" :disabled="editor.isActive('code')">Set code</button>
-        <button @click="editor.chain().focus().unsetCode().run()" :disabled="!editor.isActive('code')">
+        <button @click="editor.chain().focus().setCode().run()" :disabled="editor.isActive('code')">
+          Set code
+        </button>
+        <button
+          @click="editor.chain().focus().unsetCode().run()"
+          :disabled="!editor.isActive('code')"
+        >
           Unset code
         </button>
       </div>

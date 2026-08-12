@@ -8,10 +8,16 @@
         >
           Toggle subscript
         </button>
-        <button @click="editor.chain().focus().setSubscript().run()" :disabled="editor.isActive('subscript')">
+        <button
+          @click="editor.chain().focus().setSubscript().run()"
+          :disabled="editor.isActive('subscript')"
+        >
           Set subscript
         </button>
-        <button @click="editor.chain().focus().unsetSubscript().run()" :disabled="!editor.isActive('subscript')">
+        <button
+          @click="editor.chain().focus().unsetSubscript().run()"
+          :disabled="!editor.isActive('subscript')"
+        >
           Unset subscript
         </button>
       </div>

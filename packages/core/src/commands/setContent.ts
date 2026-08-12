@@ -1,6 +1,7 @@
 import type { Fragment, Node as ProseMirrorNode, ParseOptions } from '@tiptap/pm/model'
 
 import { createDocument } from '../helpers/createDocument.js'
+import { isFragment } from '../helpers/isFragment.js'
 import type { Content, RawCommands } from '../types.js'
 
 export interface SetContentOptions {
@@ -60,7 +61,9 @@ export const setContent: RawCommands['setContent'] =
       })
 
       if (dispatch) {
-        tr.replaceWith(0, doc.content.size, document).setMeta('preventUpdate', !emitUpdate)
+        const nodes = isFragment(document) ? document.content : [document]
+
+        tr.replaceWith(0, doc.content.size, nodes).setMeta('preventUpdate', !emitUpdate)
       }
       return true
     }

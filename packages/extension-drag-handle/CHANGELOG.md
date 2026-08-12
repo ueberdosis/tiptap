@@ -1,5 +1,313 @@
 # @tiptap/extension-drag-handle
 
+## 3.30.0
+
+### Patch Changes
+
+- Updated dependencies [0247d39]
+- Updated dependencies [58a8953]
+- Updated dependencies [51909d3]
+- Updated dependencies [3099eef]
+  - @tiptap/core@3.30.0
+  - @tiptap/pm@3.30.0
+  - @tiptap/extension-collaboration@3.30.0
+  - @tiptap/extension-node-range@3.30.0
+
+## 3.29.2
+
+### Patch Changes
+
+- @tiptap/core@3.29.2
+- @tiptap/extension-collaboration@3.29.2
+- @tiptap/extension-node-range@3.29.2
+- @tiptap/pm@3.29.2
+
+## 3.29.1
+
+### Patch Changes
+
+- @tiptap/core@3.29.1
+- @tiptap/extension-collaboration@3.29.1
+- @tiptap/extension-node-range@3.29.1
+- @tiptap/pm@3.29.1
+
+## 3.29.0
+
+### Patch Changes
+
+- Updated dependencies [d26840f]
+- Updated dependencies [e150ee0]
+- Updated dependencies [935e63f]
+- Updated dependencies [b4c5a2d]
+- Updated dependencies [a963d48]
+- Updated dependencies [51f45b6]
+- Updated dependencies [0f63969]
+- Updated dependencies [9acaa65]
+  - @tiptap/core@3.29.0
+  - @tiptap/pm@3.29.0
+  - @tiptap/extension-collaboration@3.29.0
+  - @tiptap/extension-node-range@3.29.0
+
+## 3.28.0
+
+### Patch Changes
+
+- 3c8da6a: Bump @tiptap/y-tiptap version to ensure users use latest version
+- Updated dependencies [3c8da6a]
+  - @tiptap/extension-collaboration@3.28.0
+  - @tiptap/core@3.28.0
+  - @tiptap/extension-node-range@3.28.0
+  - @tiptap/pm@3.28.0
+
+## 3.27.4
+
+### Patch Changes
+
+- @tiptap/core@3.27.4
+- @tiptap/extension-collaboration@3.27.4
+- @tiptap/extension-node-range@3.27.4
+- @tiptap/pm@3.27.4
+
+## 3.27.3
+
+### Patch Changes
+
+- Updated dependencies [023f98c]
+  - @tiptap/core@3.27.3
+  - @tiptap/extension-collaboration@3.27.3
+  - @tiptap/extension-node-range@3.27.3
+  - @tiptap/pm@3.27.3
+
+## 3.27.2
+
+### Patch Changes
+
+- ec41238: Fix NodeRangeSelection not being restored after drag-and-drop when Collaboration (Yjs) is enabled. Drop anchor positions are now tracked with Yjs relative positions and remapped across `isChangeOrigin` document rebuilds, and selection restore runs via `appendTransaction` after the drop transaction settles.
+- 82d9c81: Fix the drag handle when the editor renders zero-size widget decorations, such as the page chrome injected by the Pages extension. The handle now resolves to the correct block instead of failing to position or aligning to a decoration, and it stays above positioned page chrome so it remains clickable.
+- Updated dependencies [ceebb31]
+  - @tiptap/pm@3.27.2
+  - @tiptap/core@3.27.2
+  - @tiptap/extension-collaboration@3.27.2
+  - @tiptap/extension-node-range@3.27.2
+
+## 3.27.1
+
+### Patch Changes
+
+- ad17014: Respect margin properties passed via `dragImageProperties` on the drag preview. The clone reset its margin to `0` after copying styles, which discarded any margin the user explicitly requested. The reset now runs only when no margin property is listed in `dragImageProperties`, so the drag image can keep the same spacing as the live block.
+  - @tiptap/core@3.27.1
+  - @tiptap/extension-collaboration@3.27.1
+  - @tiptap/extension-node-range@3.27.1
+  - @tiptap/pm@3.27.1
+
+## 3.27.0
+
+### Patch Changes
+
+- 63b157c: Fix multi-block drags only removing the first block when nested mode is enabled
+- Updated dependencies [0d0094d]
+- Updated dependencies [795033c]
+- Updated dependencies [0e0c4f9]
+- Updated dependencies [6d12bb9]
+  - @tiptap/core@3.27.0
+  - @tiptap/extension-collaboration@3.27.0
+  - @tiptap/extension-node-range@3.27.0
+  - @tiptap/pm@3.27.0
+
+## 3.26.1
+
+### Patch Changes
+
+- a38c9c0: Restore the node range selection after dragging multiple blocks. Previously, dropping a multi-block drag left a text selection inside the moved content instead of keeping the dragged blocks selected.
+- a38c9c0: Bump `@tiptap/y-tiptap` to version ^3.0.5
+- Updated dependencies [a38c9c0]
+- Updated dependencies [a38c9c0]
+  - @tiptap/extension-node-range@3.26.1
+  - @tiptap/extension-collaboration@3.26.1
+  - @tiptap/core@3.26.1
+  - @tiptap/pm@3.26.1
+
+## 3.26.0
+
+### Patch Changes
+
+- @tiptap/core@3.26.0
+- @tiptap/extension-collaboration@3.26.0
+- @tiptap/extension-node-range@3.26.0
+- @tiptap/pm@3.26.0
+
+## 3.25.0
+
+### Patch Changes
+
+- Updated dependencies [ec291dd]
+- Updated dependencies [454e9b8]
+- Updated dependencies [9cf8db0]
+- Updated dependencies [c1a2ce8]
+- Updated dependencies [3d4f94c]
+- Updated dependencies [3163b13]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+  - @tiptap/extension-collaboration@3.25.0
+  - @tiptap/extension-node-range@3.25.0
+
+## 3.24.0
+
+### Patch Changes
+
+- Updated dependencies [de337e8]
+- Updated dependencies [7c0499b]
+  - @tiptap/extension-collaboration@3.24.0
+  - @tiptap/pm@3.24.0
+  - @tiptap/core@3.24.0
+  - @tiptap/extension-node-range@3.24.0
+
+## 3.23.6
+
+### Patch Changes
+
+- 937ff2e: **DragHandle**: Added `dragImageProperties` option to limit which CSS properties are cloned for the drag image. By default all ~300+ computed styles are copied; setting this to a subset (e.g. `['color', 'background-color', 'font-size']`) reduces the cost when dragging selections with complex nodes.
+- Updated dependencies [d168376]
+  - @tiptap/core@3.23.6
+  - @tiptap/extension-collaboration@3.23.6
+  - @tiptap/extension-node-range@3.23.6
+  - @tiptap/pm@3.23.6
+
+## 3.23.5
+
+### Patch Changes
+
+- Updated dependencies [835caf5]
+- Updated dependencies [95e138c]
+  - @tiptap/core@3.23.5
+  - @tiptap/extension-collaboration@3.23.5
+  - @tiptap/extension-node-range@3.23.5
+  - @tiptap/pm@3.23.5
+
+## 3.23.4
+
+### Patch Changes
+
+- @tiptap/core@3.23.4
+- @tiptap/extension-collaboration@3.23.4
+- @tiptap/extension-node-range@3.23.4
+- @tiptap/pm@3.23.4
+
+## 3.23.3
+
+### Patch Changes
+
+- @tiptap/core@3.23.3
+- @tiptap/extension-collaboration@3.23.3
+- @tiptap/extension-node-range@3.23.3
+- @tiptap/pm@3.23.3
+
+## 3.23.2
+
+### Patch Changes
+
+- Updated dependencies [f98eaaf]
+  - @tiptap/core@3.23.2
+  - @tiptap/extension-collaboration@3.23.2
+  - @tiptap/extension-node-range@3.23.2
+  - @tiptap/pm@3.23.2
+
+## 3.23.1
+
+### Patch Changes
+
+- @tiptap/core@3.23.1
+- @tiptap/extension-collaboration@3.23.1
+- @tiptap/extension-node-range@3.23.1
+- @tiptap/pm@3.23.1
+
+## 3.23.0
+
+### Patch Changes
+
+- 1852c73: Improved JSDoc documentation for the nested drag handle options, making threshold, strength, edge detection, and custom rules easier to understand directly in your IDE.
+- Updated dependencies [57f8d66]
+- Updated dependencies [e64e5a7]
+- Updated dependencies [207a2bc]
+  - @tiptap/core@3.23.0
+  - @tiptap/extension-collaboration@3.23.0
+  - @tiptap/extension-node-range@3.23.0
+  - @tiptap/pm@3.23.0
+
+## 3.22.5
+
+### Patch Changes
+
+- Updated dependencies [a375002]
+  - @tiptap/core@3.22.5
+  - @tiptap/extension-collaboration@3.22.5
+  - @tiptap/extension-node-range@3.22.5
+  - @tiptap/pm@3.22.5
+
+## 3.22.4
+
+### Patch Changes
+
+- 040da0d: Fix drag handle ghost image alignment when dragging blocks inside offset layouts, and preserve correct ghost image behavior for RTL content.
+- 27ea931: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [27ea931]
+- Updated dependencies [64f36b8]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/extension-collaboration@3.22.4
+  - @tiptap/extension-node-range@3.22.4
+  - @tiptap/pm@3.22.4
+
+## 3.22.3
+
+### Patch Changes
+
+- ac994c5: Fix drag selections so crossing a node boundary does not incorrectly include the next node.
+- Updated dependencies [cb28e7b]
+- Updated dependencies [ac994c5]
+  - @tiptap/core@3.22.3
+  - @tiptap/extension-node-range@3.22.3
+  - @tiptap/extension-collaboration@3.22.3
+  - @tiptap/pm@3.22.3
+
+## 3.22.2
+
+### Patch Changes
+
+- Updated dependencies [f1d504c]
+- Updated dependencies [404c683]
+  - @tiptap/core@3.22.2
+  - @tiptap/extension-collaboration@3.22.2
+  - @tiptap/extension-node-range@3.22.2
+  - @tiptap/pm@3.22.2
+
+## 3.22.1
+
+### Patch Changes
+
+- 942eb85: Fixed drag handle ghost image for RTL and mixed-direction content: the ghost wrapper now uses the dragged block’s computed `direction` (via `domAtPos`), and the drag image hotspot uses the cursor position relative to the ghost `wrapper` so the preview aligns with the pointer in both LTR and RTL.
+- Updated dependencies [ee03ac0]
+- Updated dependencies [b88f9ed]
+  - @tiptap/core@3.22.1
+  - @tiptap/extension-collaboration@3.22.1
+  - @tiptap/extension-node-range@3.22.1
+  - @tiptap/pm@3.22.1
+
+## 3.22.0
+
+### Patch Changes
+
+- Updated dependencies [556b0a3]
+- Updated dependencies [912a49b]
+- Updated dependencies [7d4fb9a]
+- Updated dependencies [0c1c112]
+- Updated dependencies [0c1c112]
+- Updated dependencies [f99bdc2]
+  - @tiptap/extension-collaboration@3.22.0
+  - @tiptap/core@3.22.0
+  - @tiptap/extension-node-range@3.22.0
+  - @tiptap/pm@3.22.0
+
 ## 3.21.0
 
 ### Patch Changes

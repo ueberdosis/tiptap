@@ -2,7 +2,7 @@ name: Verify
 
 env:
   NODE_VERSION: 24
-  PNPM_VERSION: 9.15.4
+  PNPM_VERSION: 11.2.2
   PNPM_STORE_DIR: .pnpm-store
 
 concurrency:
@@ -28,78 +28,26 @@ jobs:
     timeout-minutes: 15
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v5
-        with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup-env
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: pnpm
-
-      - name: Configure pnpm store
-        run: pnpm config set store-dir ${{ github.workspace }}/${{ env.PNPM_STORE_DIR }}
+          pnpm-version: ${{ env.PNPM_VERSION }}
+          store-dir: ${{ env.PNPM_STORE_DIR }}
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --strict-peer-dependencies
 
-      - name: Install Cypress binary
-        run: pnpm exec cypress install
-
       - name: Pack dependency artifacts
-        run: |
-          tar -czf /tmp/pnpm-store.tar.gz ${{ env.PNPM_STORE_DIR }}
-          tar -czf /tmp/cypress-cache.tar.gz -C "$HOME/.cache" Cypress
+        run: tar -czf /tmp/pnpm-store.tar.gz ${{ env.PNPM_STORE_DIR }}
 
       - name: Upload dependency artifacts
         uses: actions/upload-artifact@v7
         with:
           name: node-dependencies
-          path: |
-            /tmp/pnpm-store.tar.gz
-            /tmp/cypress-cache.tar.gz
+          path: /tmp/pnpm-store.tar.gz
           retention-days: 1
-
-  check-linting-formatting:
-    name: Check linting & formatting
-    runs-on: ubuntu-latest
-    needs: build-packages
-    timeout-minutes: 15
-
-    steps:
-      - uses: actions/checkout@v6
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v5
-        with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Configure pnpm store
-        run: pnpm config set store-dir ${{ github.workspace }}/${{ env.PNPM_STORE_DIR }}
-
-      - name: Download dependency artifacts
-        uses: actions/download-artifact@v8
-        with:
-          name: node-dependencies
-          path: /tmp/node-dependencies
-
-      - name: Restore pnpm store
-        run: tar -xzf /tmp/node-dependencies/pnpm-store.tar.gz
-
-      - name: Restore dependencies
-        run: pnpm install --offline --frozen-lockfile --strict-peer-dependencies
-
-      - name: Run linting and formatting checks
-        run: pnpm run lint
 
   build-packages:
     name: Build packages
@@ -108,32 +56,15 @@ jobs:
     timeout-minutes: 20
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v5
-        with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup-env
         with:
           node-version: ${{ env.NODE_VERSION }}
+          pnpm-version: ${{ env.PNPM_VERSION }}
+          store-dir: ${{ env.PNPM_STORE_DIR }}
 
-      - name: Configure pnpm store
-        run: pnpm config set store-dir ${{ github.workspace }}/${{ env.PNPM_STORE_DIR }}
-
-      - name: Download dependency artifacts
-        uses: actions/download-artifact@v8
-        with:
-          name: node-dependencies
-          path: /tmp/node-dependencies
-
-      - name: Restore pnpm store
-        run: tar -xzf /tmp/node-dependencies/pnpm-store.tar.gz
-
-      - name: Restore dependencies
-        run: pnpm install --offline --frozen-lockfile --strict-peer-dependencies
+      - uses: ./.github/actions/restore-dependencies
 
       - name: Build packages
         run: pnpm run build && pnpm run build:demos
@@ -148,6 +79,26 @@ jobs:
           path: /tmp/build-output.tar.gz
           retention-days: 1
 
+  check-linting-formatting:
+    name: Check linting & formatting
+    runs-on: ubuntu-latest
+    needs: build-packages
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: ./.github/actions/setup-env
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          pnpm-version: ${{ env.PNPM_VERSION }}
+          store-dir: ${{ env.PNPM_STORE_DIR }}
+
+      - uses: ./.github/actions/restore-dependencies
+
+      - name: Run linting and formatting checks
+        run: pnpm run lint
+
   run-unit-tests:
     name: Run unit tests
     runs-on: ubuntu-latest
@@ -155,128 +106,90 @@ jobs:
     timeout-minutes: 20
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v5
-        with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup-env
         with:
           node-version: ${{ env.NODE_VERSION }}
+          pnpm-version: ${{ env.PNPM_VERSION }}
+          store-dir: ${{ env.PNPM_STORE_DIR }}
 
-      - name: Configure pnpm store
-        run: pnpm config set store-dir ${{ github.workspace }}/${{ env.PNPM_STORE_DIR }}
+      - uses: ./.github/actions/restore-dependencies
 
-      - name: Download dependency artifacts
-        uses: actions/download-artifact@v8
-        with:
-          name: node-dependencies
-          path: /tmp/node-dependencies
-
-      - name: Restore pnpm store
-        run: tar -xzf /tmp/node-dependencies/pnpm-store.tar.gz
-
-      - name: Restore dependencies
-        run: pnpm install --offline --frozen-lockfile --strict-peer-dependencies
-
-      - name: Download build artifacts
-        uses: actions/download-artifact@v8
-        with:
-          name: build-output
-          path: /tmp/build-output
-
-      - name: Restore build output
-        run: tar -xzf /tmp/build-output/build-output.tar.gz
+      - uses: ./.github/actions/restore-build
 
       - name: Run unit tests
         run: pnpm run test:unit
 
   run-e2e-tests:
-    name: Run e2e tests
+    name: Run e2e tests (shard ${{ matrix.shard }}/${{ matrix.total }})
     runs-on: ubuntu-latest
     needs: build-packages
-    timeout-minutes: 45
-
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
-        test-spec:
-          - { id: integration, name: Integration, spec: './tests/cypress/integration/**/*.spec.{js,ts}' }
-          - { id: demos-commands, name: 'Demos/Commands', spec: './demos/src/Commands/**/*.spec.{js,ts}' }
-          - { id: demos-examples, name: 'Demos/Examples', spec: './demos/src/Examples/**/*.spec.{js,ts}' }
-          - { id: demos-experiments, name: 'Demos/Experiments', spec: './demos/src/Experiments/**/*.spec.{js,ts}' }
-          - { id: demos-extensions, name: 'Demos/Extensions', spec: './demos/src/Extensions/**/*.spec.{js,ts}' }
-          - { id: demos-guidecontent, name: 'Demos/GuideContent', spec: './demos/src/GuideContent/**/*.spec.{js,ts}' }
-          - { id: demos-guidegettingstarted, name: 'Demos/GuideGettingStarted', spec: './demos/src/GuideGettingStarted/**/*.spec.{js,ts}' }
-          - { id: demos-marks, name: 'Demos/Marks', spec: './demos/src/Marks/**/*.spec.{js,ts}' }
-          - { id: demos-nodes, name: 'Demos/Nodes', spec: './demos/src/Nodes/**/*.spec.{js,ts}' }
+        shard: [1, 2, 3, 4]
+        total: [4]
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v5
-        with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup-env
         with:
           node-version: ${{ env.NODE_VERSION }}
+          pnpm-version: ${{ env.PNPM_VERSION }}
+          store-dir: ${{ env.PNPM_STORE_DIR }}
 
-      - name: Configure pnpm store
-        run: pnpm config set store-dir ${{ github.workspace }}/${{ env.PNPM_STORE_DIR }}
+      - uses: ./.github/actions/restore-dependencies
 
-      - name: Download dependency artifacts
-        uses: actions/download-artifact@v8
-        with:
-          name: node-dependencies
-          path: /tmp/node-dependencies
+      - uses: ./.github/actions/restore-build
 
-      - name: Restore pnpm store
-        run: tar -xzf /tmp/node-dependencies/pnpm-store.tar.gz
+      - uses: ./.github/actions/setup-playwright
 
-      - name: Restore dependencies
-        run: pnpm install --offline --frozen-lockfile --strict-peer-dependencies
+      - name: Run Playwright tests
+        run: pnpm exec playwright test --project=chromium --shard=${{ matrix.shard }}/${{ matrix.total }}
 
-      - name: Restore Cypress cache
-        run: mkdir -p "$HOME/.cache" && tar -xzf /tmp/node-dependencies/cypress-cache.tar.gz -C "$HOME/.cache"
-
-      - name: Download build artifacts
-        uses: actions/download-artifact@v8
-        with:
-          name: build-output
-          path: /tmp/build-output
-
-      - name: Restore build output
-        run: tar -xzf /tmp/build-output/build-output.tar.gz
-
-      - name: Test ${{ matrix.test-spec.name }}
-        uses: cypress-io/github-action@v7.1.8
-        with:
-          install: false
-          start: pnpm exec http-server ./demos/dist -s -p 3000
-          wait-on: http://localhost:3000
-          spec: ${{ matrix.test-spec.spec }}
-          project: ./tests
-          browser: chrome
-          quiet: true
-
-      - name: Export screenshots (on failure only)
+      - name: Upload blob report
+        if: always()
         uses: actions/upload-artifact@v7
-        if: failure()
         with:
-          name: cypress-screenshots-${{ matrix.test-spec.id }}
-          path: tests/cypress/screenshots
+          name: e2e-blob-report-${{ matrix.shard }}
+          path: blob-report
           retention-days: 7
 
-      - name: Export screen recordings (on failure only)
-        uses: actions/upload-artifact@v7
-        if: failure()
+  merge-e2e-reports:
+    name: Merge e2e reports
+    runs-on: ubuntu-latest
+    needs: run-e2e-tests
+    if: always()
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: ./.github/actions/setup-env
         with:
-          name: cypress-videos-${{ matrix.test-spec.id }}
-          path: tests/cypress/videos
-          retention-days: 7
+          node-version: ${{ env.NODE_VERSION }}
+          pnpm-version: ${{ env.PNPM_VERSION }}
+          store-dir: ${{ env.PNPM_STORE_DIR }}
+
+      - uses: ./.github/actions/restore-dependencies
+
+      - name: Download blob reports
+        uses: actions/download-artifact@v8
+        with:
+          path: all-blob-reports
+          pattern: e2e-blob-report-*
+          merge-multiple: true
+
+      - name: Merge into HTML report
+        if: ${{ hashFiles('all-blob-reports/**') != '' }}
+        run: pnpm exec playwright merge-reports --reporter html ./all-blob-reports
+
+      - name: Upload merged HTML report
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-html-report
+          path: playwright-report
+          retention-days: 14

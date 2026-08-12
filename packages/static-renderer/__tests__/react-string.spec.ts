@@ -1,6 +1,7 @@
 import { prettyDOM, render } from '@testing-library/react'
 import Bold from '@tiptap/extension-bold'
 import Document from '@tiptap/extension-document'
+import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { Mark, Node } from '@tiptap/pm/model'
@@ -14,6 +15,8 @@ describe('static renderer: react', () => {
       class: 'my-class',
       style: 'color: red; font-size: 16px; transform: translateX(15px) translateY(10px);',
       id: 'my-id',
+      colspan: 2,
+      rowspan: 3,
     }
 
     const result = mapAttrsToHTMLAttributes(attrs, 'test-key')
@@ -22,6 +25,8 @@ describe('static renderer: react', () => {
       className: 'my-class',
       style: { color: 'red', fontSize: '16px', transform: 'translateX(15px) translateY(10px)' },
       id: 'my-id',
+      colSpan: 2,
+      rowSpan: 3,
       key: 'test-key',
     })
   })
@@ -178,5 +183,29 @@ describe('static render json to react elements (with prosemirror)', () => {
     </p>
   </doc>
 </div>`)
+  })
+
+  it('honors textDirection via staticEditorOptions', () => {
+    const json = {
+      type: 'doc',
+      content: [
+        {
+          type: 'heading',
+          attrs: { level: 1 },
+          content: [{ type: 'text', text: 'test' }],
+        },
+      ],
+    }
+
+    const view = render(
+      renderToReactElement({
+        content: json,
+        extensions: [Document, Paragraph, Text, Heading],
+        staticEditorOptions: { textDirection: 'rtl' },
+      }),
+    )
+
+    const heading = view.container.querySelector('h1')
+    expect(heading?.getAttribute('dir')).toBe('rtl')
   })
 })

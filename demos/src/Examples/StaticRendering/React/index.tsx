@@ -52,7 +52,7 @@ export default () => {
   return (
     <div>
       <EditorProvider
-        // eslint-disable-next-line @typescript-eslint/no-use-before-define -- Just want to show the usage first
+        // oxlint-disable-next-lineno-use-before-define -- Just want to show the usage first
         slotBefore={<MenuBar />}
         extensions={extensions}
         content={content}
@@ -113,7 +113,10 @@ export default () => {
       {tab === 'react' && (
         <div className="output-group tiptap">
           <h2>React Element</h2>
-          <p>This example renders the JSON content directly into a React element without using an editor instance.</p>
+          <p>
+            This example renders the JSON content directly into a React element without using an
+            editor instance.
+          </p>
           <p className="hint">Notice that every paragraph now has a button counter</p>
           <div className="tiptap">
             {currentJSON &&
@@ -123,7 +126,7 @@ export default () => {
                 options: {
                   nodeMapping: {
                     paragraph: ({ node }) => {
-                      // eslint-disable-next-line react-hooks/rules-of-hooks
+                      // oxlint-disable-next-line react-hooks/rules-of-hooks
                       const [count, setCount] = useState(0)
                       return (
                         <>
@@ -145,8 +148,8 @@ export default () => {
         <div className="output-group tiptap">
           <h2>HTML String</h2>
           <p>
-            This example renders the JSON content into an HTML string without using an editor instance or document
-            parser.
+            This example renders the JSON content into an HTML string without using an editor
+            instance or document parser.
           </p>
           <pre>
             <code>
@@ -163,8 +166,9 @@ export default () => {
         <div className="output-group tiptap">
           <h2>To HTML Element (via dangerouslySetInnerHTML)</h2>
           <p>
-            This example renders the JSON content into an HTML string without using an editor instance or document
-            parser, and places that result directly into the HTML using dangerouslySetInnerHTML.
+            This example renders the JSON content into an HTML string without using an editor
+            instance or document parser, and places that result directly into the HTML using
+            dangerouslySetInnerHTML.
           </p>
           <div
             className="tiptap"
@@ -183,8 +187,8 @@ export default () => {
         <div className="output-group tiptap">
           <h2>Markdown</h2>
           <p>
-            This example renders the JSON content into a markdown without using an editor instance, document parser or
-            markdown library.
+            This example renders the JSON content into a markdown without using an editor instance,
+            document parser or markdown library.
           </p>
           <pre>
             <code>
@@ -208,28 +212,28 @@ function MenuBar() {
     editor: editor!,
     selector: ctx => {
       return {
-        isBold: ctx.editor.isActive('bold'),
-        canBold: ctx.editor.can().chain().focus().toggleBold().run(),
-        isItalic: ctx.editor.isActive('italic'),
-        canItalic: ctx.editor.can().chain().focus().toggleItalic().run(),
-        isStrike: ctx.editor.isActive('strike'),
-        canStrike: ctx.editor.can().chain().focus().toggleStrike().run(),
-        isCode: ctx.editor.isActive('code'),
-        canCode: ctx.editor.can().chain().focus().toggleCode().run(),
-        canClearMarks: ctx.editor.can().chain().focus().unsetAllMarks().run(),
-        isParagraph: ctx.editor.isActive('paragraph'),
-        isHeading1: ctx.editor.isActive('heading', { level: 1 }),
-        isHeading2: ctx.editor.isActive('heading', { level: 2 }),
-        isHeading3: ctx.editor.isActive('heading', { level: 3 }),
-        isHeading4: ctx.editor.isActive('heading', { level: 4 }),
-        isHeading5: ctx.editor.isActive('heading', { level: 5 }),
-        isHeading6: ctx.editor.isActive('heading', { level: 6 }),
-        isBulletList: ctx.editor.isActive('bulletList'),
-        isOrderedList: ctx.editor.isActive('orderedList'),
-        isCodeBlock: ctx.editor.isActive('codeBlock'),
-        isBlockquote: ctx.editor.isActive('blockquote'),
-        canUndo: ctx.editor.can().chain().focus().undo().run(),
-        canRedo: ctx.editor.can().chain().focus().redo().run(),
+        isBold: ctx.editor.isActive('bold') ?? false,
+        canBold: ctx.editor.can().chain().focus().toggleBold().run() ?? false,
+        isItalic: ctx.editor.isActive('italic') ?? false,
+        canItalic: ctx.editor.can().chain().focus().toggleItalic().run() ?? false,
+        isStrike: ctx.editor.isActive('strike') ?? false,
+        canStrike: ctx.editor.can().chain().focus().toggleStrike().run() ?? false,
+        isCode: ctx.editor.isActive('code') ?? false,
+        canCode: ctx.editor.can().chain().focus().toggleCode().run() ?? false,
+        canClearMarks: ctx.editor.can().chain().focus().unsetAllMarks().run() ?? false,
+        isParagraph: ctx.editor.isActive('paragraph') ?? false,
+        isHeading1: ctx.editor.isActive('heading', { level: 1 }) ?? false,
+        isHeading2: ctx.editor.isActive('heading', { level: 2 }) ?? false,
+        isHeading3: ctx.editor.isActive('heading', { level: 3 }) ?? false,
+        isHeading4: ctx.editor.isActive('heading', { level: 4 }) ?? false,
+        isHeading5: ctx.editor.isActive('heading', { level: 5 }) ?? false,
+        isHeading6: ctx.editor.isActive('heading', { level: 6 }) ?? false,
+        isBulletList: ctx.editor.isActive('bulletList') ?? false,
+        isOrderedList: ctx.editor.isActive('orderedList') ?? false,
+        isCodeBlock: ctx.editor.isActive('codeBlock') ?? false,
+        isBlockquote: ctx.editor.isActive('blockquote') ?? false,
+        canUndo: ctx.editor.can().chain().focus().undo().run() ?? false,
+        canRedo: ctx.editor.can().chain().focus().redo().run() ?? false,
       }
     },
   })
@@ -337,7 +341,9 @@ function MenuBar() {
         >
           Blockquote
         </button>
-        <button onClick={() => editor.chain().focus().setHorizontalRule().run()}>Horizontal rule</button>
+        <button onClick={() => editor.chain().focus().setHorizontalRule().run()}>
+          Horizontal rule
+        </button>
         <button onClick={() => editor.chain().focus().setHardBreak().run()}>Hard break</button>
         <button onClick={() => editor.chain().focus().undo().run()} disabled={!editorState.canUndo}>
           Undo

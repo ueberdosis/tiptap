@@ -44,7 +44,10 @@
         >
           Red (#ffa8a8)
         </button>
-        <button @click="editor.chain().focus().unsetHighlight().run()" :disabled="!editor.isActive('highlight')">
+        <button
+          @click="editor.chain().focus().unsetHighlight().run()"
+          :disabled="!editor.isActive('highlight')"
+        >
           Unset highlight
         </button>
       </div>

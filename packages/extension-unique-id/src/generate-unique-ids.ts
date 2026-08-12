@@ -42,12 +42,17 @@ import type { UniqueID } from './unique-id.js'
  */
 export function generateUniqueIds(doc: JSONContent, extensions: Extensions): JSONContent {
   // Find the UniqueID extension in the extensions array. If it's not found, throw an error.
-  const uniqueIDExtension = extensions.find(ext => ext.name === 'uniqueID') as typeof UniqueID | undefined
+  const uniqueIDExtension = extensions.find(ext => ext.name === 'uniqueID') as
+    | typeof UniqueID
+    | undefined
   if (!uniqueIDExtension) {
     throw new Error('UniqueID extension not found in the extensions array')
   }
   // Convert the JSON content to a ProseMirror node
-  const schema = getSchema([...extensions.filter(ext => ext.name !== 'uniqueID'), uniqueIDExtension])
+  const schema = getSchema([
+    ...extensions.filter(ext => ext.name !== 'uniqueID'),
+    uniqueIDExtension,
+  ])
   const { types: configuredTypes, attributeName, generateID } = uniqueIDExtension.options
   const types =
     configuredTypes === 'all'
@@ -64,7 +69,7 @@ export function generateUniqueIds(doc: JSONContent, extensions: Extensions): JSO
   let tr = EditorState.create({
     doc: contentNode,
   }).tr
-  // eslint-disable-next-line no-restricted-syntax
+  // oxlint-disable-next-line no-restricted-syntax
   for (const { node, pos } of nodesWithoutId) {
     tr = tr.setNodeAttribute(pos, attributeName, generateID({ node, pos }))
   }

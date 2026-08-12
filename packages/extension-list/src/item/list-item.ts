@@ -1,4 +1,9 @@
+import type { JSONContent, MarkdownParseHelpers, MarkdownToken } from '@tiptap/core'
 import { mergeAttributes, Node, renderNestedMarkdownContent } from '@tiptap/core'
+
+import { createBranchingListDeleteKeymap } from '../helpers/createBranchingListDeleteKeymap.js'
+
+import { getListMarker } from '../ordered-list/roman.js'
 
 export interface ListItemOptions {
   /**
@@ -21,6 +26,32 @@ export interface ListItemOptions {
    * @example 'myCustomOrderedList'
    */
   orderedListTypeName: string
+}
+
+function isSameLineOrderedListToken(token: MarkdownToken): boolean {
+  const nestedToken = token.tokens?.[0]
+
+  return Boolean(
+    token.text &&
+    token.tokens?.length === 1 &&
+    nestedToken?.type === 'list' &&
+    nestedToken.ordered &&
+    nestedToken.raw === token.text,
+  )
+}
+
+function parseSameLineOrderedListText(text: string, helpers: MarkdownParseHelpers): JSONContent[] {
+  if (helpers.tokenizeInline) {
+    return helpers.parseInline(helpers.tokenizeInline(text))
+  }
+
+  return helpers.parseInline([
+    {
+      type: 'text',
+      raw: text,
+      text,
+    },
+  ])
 }
 
 /**
@@ -65,6 +96,18 @@ export const ListItem = Node.create<ListItemOptions>({
     let content: any[] = []
 
     if (token.tokens && token.tokens.length > 0) {
+      if (isSameLineOrderedListToken(token)) {
+        return {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              content: parseSameLineOrderedListText(token.text || '', helpers),
+            },
+          ],
+        }
+      }
+
       // Check if we have paragraph tokens (complex list items)
       const hasParagraphTokens = token.tokens.some(t => t.type === 'paragraph')
 
@@ -75,7 +118,12 @@ export const ListItem = Node.create<ListItemOptions>({
         // Check if the first token is a text token with nested inline tokens
         const firstToken = token.tokens[0]
 
-        if (firstToken && firstToken.type === 'text' && firstToken.tokens && firstToken.tokens.length > 0) {
+        if (
+          firstToken &&
+          firstToken.type === 'text' &&
+          firstToken.tokens &&
+          firstToken.tokens.length > 0
+        ) {
           // Parse the inline content from the text token
           const inlineContent = helpers.parseInline(firstToken.tokens)
 
@@ -127,13 +175,24 @@ export const ListItem = Node.create<ListItemOptions>({
         }
         if (context.parentType === 'orderedList') {
           const start = context.meta?.parentAttrs?.start || 1
-          return `${start + context.index}. `
+          const type = context.meta?.parentAttrs?.type as string | undefined
+          const index = start - 1 + (context.index || 0)
+          return getListMarker(type, index, '. ')
         }
         // Fallback to bullet list for unknown parent types
         return '- '
       },
       ctx,
     )
+  },
+
+  addExtensions() {
+    return [
+      createBranchingListDeleteKeymap(this.name, [
+        this.options.bulletListTypeName,
+        this.options.orderedListTypeName,
+      ]),
+    ]
   },
 
   addKeyboardShortcuts() {

@@ -1,4 +1,9 @@
-import type { Mark as ProseMirrorMark, Node as ProseMirrorNode, ParseOptions, Slice } from '@tiptap/pm/model'
+import type {
+  Mark as ProseMirrorMark,
+  Node as ProseMirrorNode,
+  ParseOptions,
+  Slice,
+} from '@tiptap/pm/model'
 import type { EditorState, Transaction } from '@tiptap/pm/state'
 import type { Mappable, Transform } from '@tiptap/pm/transform'
 import type {
@@ -15,16 +20,10 @@ import type {
 
 import type { Editor } from './Editor.js'
 import type { Extendable } from './Extendable.js'
-import type {
-  Commands,
-  ExtensionConfig,
-  GetUpdatedPositionResult,
-  MappablePosition,
-  MarkConfig,
-  NodeConfig,
-} from './index.js'
-import type { Mark } from './Mark.js'
-import type { Node } from './Node.js'
+import type { ExtensionConfig } from './Extension.js'
+import type { GetUpdatedPositionResult, MappablePosition } from './helpers/MappablePosition.js'
+import type { Mark, MarkConfig } from './Mark.js'
+import type { Node, NodeConfig } from './Node.js'
 
 export type AnyConfig = ExtensionConfig | NodeConfig | MarkConfig
 export type AnyExtension = Extendable
@@ -38,12 +37,16 @@ export type ParentConfig<T> = Partial<{
 
 export type Primitive = null | undefined | string | number | boolean | symbol | bigint
 
-export type RemoveThis<T> = T extends (...args: any) => any ? (...args: Parameters<T>) => ReturnType<T> : T
+export type RemoveThis<T> = T extends (...args: any) => any
+  ? (...args: Parameters<T>) => ReturnType<T>
+  : T
 
 export type MaybeReturnType<T> = T extends (...args: any) => any ? ReturnType<T> : T
 
 export type MaybeThisParameterType<T> =
-  Exclude<T, Primitive> extends (...args: any) => any ? ThisParameterType<Exclude<T, Primitive>> : any
+  Exclude<T, Primitive> extends (...args: any) => any
+    ? ThisParameterType<Exclude<T, Primitive>>
+    : any
 
 export interface EditorEvents {
   mount: {
@@ -339,6 +342,15 @@ export interface EditorOptions {
     clipboardTextSerializer?: {
       blockSeparator?: string
     }
+    /**
+     * Options for the `tabindex` core extension.
+     */
+    tabindex?: {
+      /**
+       * The value for the `tabindex` attribute on the editor element.
+       */
+      value?: string
+    }
     delete?: {
       /**
        * Whether the `delete` extension should be called asynchronously to avoid blocking the editor while processing deletions
@@ -587,7 +599,9 @@ export type NodeType<
 export type DocumentType<
   TDocAttributes extends Record<string, any> | undefined = Record<string, any>,
   TContentType extends NodeType[] = NodeType[],
-> = Omit<NodeType<'doc', TDocAttributes, never, TContentType>, 'marks' | 'content'> & { content: TContentType }
+> = Omit<NodeType<'doc', TDocAttributes, never, TContentType>, 'marks' | 'content'> & {
+  content: TContentType
+}
 
 /**
  * A node type is either a JSON representation of a text node or a Prosemirror text node instance
@@ -672,7 +686,11 @@ export type GlobalAttributes = {
 
 export type PickValue<T, K extends keyof T> = T[K]
 
-export type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (k: infer I) => void ? I : never
+export type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
+  k: infer I,
+) => void
+  ? I
+  : never
 
 export type Diff<T extends keyof any, U extends keyof any> = ({ [P in T]: P } & {
   [P in U]: never
@@ -719,6 +737,22 @@ export interface NodeViewRendererOptions {
   stopEvent: ((props: { event: Event }) => boolean) | null
   ignoreMutation: ((props: { mutation: ViewMutationRecord }) => boolean) | null
   contentDOMElementTag: string
+  /**
+   * When `true`, the `selected` prop also becomes `true` if a `TextSelection`
+   * is fully inside the node's range (e.g. the cursor is placed within the
+   * node's content), not only when there is a `NodeSelection` on the node.
+   * Defaults to `false` to preserve existing behavior.
+   */
+  selectedOnTextSelection?: boolean
+  /**
+   * When `true`, the component re-renders on every position shift so calls
+   * to `getPos()` stay current in render output.
+   * Without this option, `getPos()` is still always current for imperative
+   * use (click handlers, commands) — it only becomes stale when directly
+   * rendered in JSX or used in reactive template expressions.
+   * @default false
+   */
+  trackNodeViewPosition?: boolean
 }
 
 export interface NodeViewRendererProps {
@@ -762,7 +796,7 @@ export interface NodeViewRendererProps {
 
 export type NodeViewRenderer = (props: NodeViewRendererProps) => NodeView
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+// oxlint-disable-next-lineno-empty-object-type
 export interface MarkViewProps extends MarkViewRendererProps {}
 
 export interface MarkViewRendererProps {
@@ -896,6 +930,8 @@ export type MarkdownHelpers = {
 export type MarkdownParseHelpers = {
   /** Parse an array of inline tokens into text nodes with marks */
   parseInline: (tokens: MarkdownToken[]) => JSONContent[]
+  /** Tokenize source text as inline markdown when supported by the markdown parser */
+  tokenizeInline?: (src: string) => MarkdownToken[]
   /** Parse an array of block-level tokens */
   parseChildren: (tokens: MarkdownToken[]) => JSONContent[]
   /** Parse block-level tokens while preserving implicit empty paragraphs from blank lines */
@@ -940,7 +976,10 @@ export default MarkdownHelpers
  * - an array of JSON-like nodes
  * - or a `{ mark: string, content: JSONLike[] }` shape to apply a mark
  */
-export type MarkdownParseResult = JSONContent | JSONContent[] | { mark: string; content: JSONContent[]; attrs?: any }
+export type MarkdownParseResult =
+  | JSONContent
+  | JSONContent[]
+  | { mark: string; content: JSONContent[]; attrs?: any }
 
 export type RenderContext = {
   index: number
@@ -1042,7 +1081,10 @@ export type Utils = {
    * const position = editor.utils.createMappablePosition(10)
    * const {position, mapResult} = editor.utils.getUpdatedPosition(position, transaction)
    */
-  getUpdatedPosition: (position: MappablePosition, transaction: Transaction) => GetUpdatedPositionResult
+  getUpdatedPosition: (
+    position: MappablePosition,
+    transaction: Transaction,
+  ) => GetUpdatedPositionResult
 
   /**
    * Creates a MappablePosition from a position number. A mappable position can be used to track the
@@ -1056,3 +1098,8 @@ export type Utils = {
    */
   createMappablePosition: (position: number) => MappablePosition
 }
+
+// oxlint-disable-next-line no-unused-vars
+export interface Commands<ReturnType = any> {}
+
+export interface Storage {}

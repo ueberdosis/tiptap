@@ -1,4 +1,3 @@
-import type { AnyExtension } from '@tiptap/core'
 import { Blockquote } from '@tiptap/extension-blockquote'
 import { Document } from '@tiptap/extension-document'
 import { Heading } from '@tiptap/extension-heading'
@@ -12,19 +11,17 @@ describe('Paragraph Markdown Rendering', () => {
   let markdownManager: MarkdownManager
 
   beforeEach(() => {
-    markdownManager = new MarkdownManager()
-    const extensions: AnyExtension[] = [
-      Document,
-      Paragraph,
-      Text,
-      Heading,
-      Blockquote,
-      BulletList,
-      OrderedList,
-      ListItem,
-    ]
-    extensions.forEach(extension => {
-      markdownManager.registerExtension(extension)
+    markdownManager = new MarkdownManager({
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Heading,
+        Blockquote,
+        BulletList,
+        OrderedList,
+        ListItem,
+      ],
     })
   })
 
@@ -79,17 +76,25 @@ describe('Paragraph Markdown Rendering', () => {
       const doc = {
         type: 'doc',
         content: [
-          { type: 'heading', attrs: { level: 1 }, content: [{ type: 'text', text: 'Markdown Test' }] },
+          {
+            type: 'heading',
+            attrs: { level: 1 },
+            content: [{ type: 'text', text: 'Markdown Test' }],
+          },
           {
             type: 'paragraph',
-            content: [{ type: 'text', text: 'Click "Parse Markdown" to load content from the left panel.' }],
+            content: [
+              { type: 'text', text: 'Click "Parse Markdown" to load content from the left panel.' },
+            ],
           },
           { type: 'paragraph', content: [] },
         ],
       }
 
       const markdown = markdownManager.serialize(doc)
-      expect(markdown).toBe('# Markdown Test\n\nClick "Parse Markdown" to load content from the left panel.\n\n')
+      expect(markdown).toBe(
+        '# Markdown Test\n\nClick "Parse Markdown" to load content from the left panel.\n\n',
+      )
     })
   })
 
@@ -197,7 +202,9 @@ describe('Paragraph Markdown Rendering', () => {
       expect(blockquote.type).toBe('blockquote')
       expect(blockquote.content).toHaveLength(5)
       expect(
-        blockquote.content!.slice(1, 4).every(node => node.type === 'paragraph' && node.content?.length === 0),
+        blockquote
+          .content!.slice(1, 4)
+          .every(node => node.type === 'paragraph' && node.content?.length === 0),
       ).toBe(true)
     })
 
@@ -208,8 +215,14 @@ describe('Paragraph Markdown Rendering', () => {
           {
             type: 'bulletList',
             content: [
-              { type: 'listItem', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Hello' }] }] },
-              { type: 'listItem', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'World' }] }] },
+              {
+                type: 'listItem',
+                content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Hello' }] }],
+              },
+              {
+                type: 'listItem',
+                content: [{ type: 'paragraph', content: [{ type: 'text', text: 'World' }] }],
+              },
             ],
           },
         ],

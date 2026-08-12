@@ -14,18 +14,26 @@ export class NodeRangeSelection extends Selection {
     const { doc } = $anchor
     const isCursor = $anchor === $head
     const isCursorAtEnd = $anchor.pos === doc.content.size && $head.pos === doc.content.size
-    const $correctedHead = isCursor && !isCursorAtEnd ? doc.resolve($head.pos + (bias > 0 ? 1 : -1)) : $head
-    const $correctedAnchor = isCursor && isCursorAtEnd ? doc.resolve($anchor.pos - (bias > 0 ? 1 : -1)) : $anchor
+    const $correctedHead =
+      isCursor && !isCursorAtEnd ? doc.resolve($head.pos + (bias > 0 ? 1 : -1)) : $head
+    const $correctedAnchor =
+      isCursor && isCursorAtEnd ? doc.resolve($anchor.pos - (bias > 0 ? 1 : -1)) : $anchor
 
-    const ranges = getSelectionRanges($correctedAnchor.min($correctedHead), $correctedAnchor.max($correctedHead), depth)
+    const ranges = getSelectionRanges(
+      $correctedAnchor.min($correctedHead),
+      $correctedAnchor.max($correctedHead),
+      depth,
+    )
 
     // get the smallest range start position
     // this will become the $anchor
-    const $rangeFrom = $correctedHead.pos >= $anchor.pos ? ranges[0].$from : ranges[ranges.length - 1].$to
+    const $rangeFrom =
+      $correctedHead.pos >= $anchor.pos ? ranges[0].$from : ranges[ranges.length - 1].$to
 
     // get the biggest range end position
     // this will become the $head
-    const $rangeTo = $correctedHead.pos >= $anchor.pos ? ranges[ranges.length - 1].$to : ranges[0].$from
+    const $rangeTo =
+      $correctedHead.pos >= $anchor.pos ? ranges[ranges.length - 1].$to : ranges[0].$from
 
     super($rangeFrom, $rangeTo, ranges)
 
@@ -39,14 +47,18 @@ export class NodeRangeSelection extends Selection {
   }
 
   eq(other: Selection): boolean {
-    return other instanceof NodeRangeSelection && other.$from.pos === this.$from.pos && other.$to.pos === this.$to.pos
+    return (
+      other instanceof NodeRangeSelection &&
+      other.$from.pos === this.$from.pos &&
+      other.$to.pos === this.$to.pos
+    )
   }
 
   map(doc: ProseMirrorNode, mapping: Mapping): NodeRangeSelection {
     const $anchor = doc.resolve(mapping.map(this.anchor))
     const $head = doc.resolve(mapping.map(this.head))
 
-    return new NodeRangeSelection($anchor, $head)
+    return new NodeRangeSelection($anchor, $head, this.depth)
   }
 
   toJSON() {
@@ -54,6 +66,7 @@ export class NodeRangeSelection extends Selection {
       type: 'nodeRange',
       anchor: this.anchor,
       head: this.head,
+      depth: this.depth,
     }
   }
 
@@ -99,17 +112,34 @@ export class NodeRangeSelection extends Selection {
     return new NodeRangeSelection(this.$anchor, $to, this.depth)
   }
 
-  static fromJSON(doc: ProseMirrorNode, json: any): NodeRangeSelection {
-    return new NodeRangeSelection(doc.resolve(json.anchor), doc.resolve(json.head))
+  static fromJSON(
+    doc: ProseMirrorNode,
+    json: { anchor: number; head: number; depth?: number },
+  ): NodeRangeSelection {
+    return new NodeRangeSelection(doc.resolve(json.anchor), doc.resolve(json.head), json.depth)
   }
 
-  static create(doc: ProseMirrorNode, anchor: number, head: number, depth?: number, bias = 1): NodeRangeSelection {
+  static create(
+    doc: ProseMirrorNode,
+    anchor: number,
+    head: number,
+    depth?: number,
+    bias = 1,
+  ): NodeRangeSelection {
     return new this(doc.resolve(anchor), doc.resolve(head), depth, bias)
   }
 
   getBookmark(): NodeRangeBookmark {
-    return new NodeRangeBookmark(this.anchor, this.head)
+    return new NodeRangeBookmark(this.anchor, this.head, this.depth)
   }
 }
 
 NodeRangeSelection.prototype.visible = false
+
+// register the JSON id so collaboration can restore the selection on remote updates
+// guarded because Selection.jsonID throws if the id is already registered (dual ESM/CJS builds)
+try {
+  Selection.jsonID('nodeRange', NodeRangeSelection)
+} catch {
+  // already registered — safe to ignore
+}

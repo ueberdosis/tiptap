@@ -9,11 +9,23 @@ import type { Node } from '@tiptap/pm/model'
 import type { Plugin, PluginKey } from '@tiptap/pm/state'
 import type { Editor } from '@tiptap/vue-3'
 import type { PropType } from 'vue'
-import { defineComponent, h, nextTick, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue'
+import {
+  defineComponent,
+  h,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  shallowRef,
+  watch,
+} from 'vue'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
-export type DragHandleProps = Omit<Optional<DragHandlePluginProps, 'pluginKey' | 'nestedOptions'>, 'element'> & {
+export type DragHandleProps = Omit<
+  Optional<DragHandlePluginProps, 'pluginKey' | 'nestedOptions'>,
+  'element'
+> & {
   class?: string
   onNodeChange?: (data: { node: Node | null; editor: Editor; pos: number }) => void
   /**
@@ -78,8 +90,15 @@ export const DragHandle = defineComponent({
     const pluginHandle = shallowRef<{ plugin: Plugin; unbind: () => void } | null>(null)
 
     const initPlugin = () => {
-      const { editor, pluginKey, onNodeChange, onElementDragEnd, onElementDragStart, computePositionConfig, nested } =
-        props
+      const {
+        editor,
+        pluginKey,
+        onNodeChange,
+        onElementDragEnd,
+        onElementDragStart,
+        computePositionConfig,
+        nested,
+      } = props
 
       if (!root.value) {
         return
@@ -87,6 +106,9 @@ export const DragHandle = defineComponent({
       if (!props.editor || props.editor.isDestroyed) {
         return
       }
+
+      // Set initial visibility to hidden (let the plugin control it from here)
+      root.value.style.visibility = 'hidden'
 
       const nestedOptions = normalizeNestedOptions(nested)
 
@@ -143,7 +165,7 @@ export const DragHandle = defineComponent({
         {
           ref: root,
           class: props.class,
-          style: { visibility: 'hidden', position: 'absolute' },
+          style: { position: 'absolute' },
           'data-dragging': 'false',
         },
         slots.default?.(),

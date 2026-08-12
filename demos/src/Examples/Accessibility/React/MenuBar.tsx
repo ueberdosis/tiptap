@@ -79,7 +79,8 @@ function NodeTypeDropdown({ editor }: { editor: Editor }) {
         className={`node-type-dropdown__trigger${isOpen ? ' is-active' : ''}`}
         tabIndex={-1}
       >
-        Node Type: {editorState.activeNodeType.slice(0, 1).toUpperCase() + editorState.activeNodeType.slice(1)}
+        Node Type:{' '}
+        {editorState.activeNodeType.slice(0, 1).toUpperCase() + editorState.activeNodeType.slice(1)}
       </button>
       {isOpen && (
         <div

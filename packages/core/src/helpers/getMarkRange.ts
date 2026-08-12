@@ -20,7 +20,11 @@ function findMarkInSet(
   })
 }
 
-function isMarkInSet(marks: ProseMirrorMark[], type: MarkType, attributes: Record<string, any> = {}): boolean {
+function isMarkInSet(
+  marks: ProseMirrorMark[],
+  type: MarkType,
+  attributes: Record<string, any> = {},
+): boolean {
   return !!findMarkInSet(marks, type, attributes)
 }
 
@@ -57,8 +61,13 @@ export function getMarkRange(
     return
   }
 
-  // Default to only matching against the first mark's attributes
-  attributes = attributes || start.node.marks[0]?.attrs
+  // Default to only matching against the attributes of the first mark with the given type
+  if (!attributes) {
+    const firstMark = start.node.marks.find(mark => mark.type === type)
+    if (firstMark) {
+      attributes = firstMark.attrs
+    }
+  }
 
   // We now know that the cursor is either at the start, middle or end of a text node with the specified mark
   // so we can look it up on the targeted mark
@@ -73,12 +82,18 @@ export function getMarkRange(
   let endIndex = startIndex + 1
   let endPos = startPos + start.node.nodeSize
 
-  while (startIndex > 0 && isMarkInSet([...$pos.parent.child(startIndex - 1).marks], type, attributes)) {
+  while (
+    startIndex > 0 &&
+    isMarkInSet([...$pos.parent.child(startIndex - 1).marks], type, attributes)
+  ) {
     startIndex -= 1
     startPos -= $pos.parent.child(startIndex).nodeSize
   }
 
-  while (endIndex < $pos.parent.childCount && isMarkInSet([...$pos.parent.child(endIndex).marks], type, attributes)) {
+  while (
+    endIndex < $pos.parent.childCount &&
+    isMarkInSet([...$pos.parent.child(endIndex).marks], type, attributes)
+  ) {
     endPos += $pos.parent.child(endIndex).nodeSize
     endIndex += 1
   }

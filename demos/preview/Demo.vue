@@ -57,7 +57,10 @@
         </div>
 
         <div class="flex justify-between px-4 py-2 text-gray-400 border-t border-gray-800 text-md">
-          <a class="flex-shrink min-w-0 overflow-hidden overflow-ellipsis whitespace-nowrap" :href="currentIframeUrl">
+          <a
+            class="flex-shrink min-w-0 overflow-hidden overflow-ellipsis whitespace-nowrap"
+            :href="currentIframeUrl"
+          >
             {{ name }}/{{ currentTab }}
           </a>
           <a class="pl-4 whitespace-nowrap" :href="githubUrl" target="_blank"> Edit on GitHub → </a>
@@ -119,7 +122,9 @@ export default {
     },
 
     query() {
-      return Object.fromEntries(Object.entries(this.$route.query).map(([key, value]) => [key, this.fromString(value)]))
+      return Object.fromEntries(
+        Object.entries(this.$route.query).map(([key, value]) => [key, this.fromString(value)]),
+      )
     },
 
     inline() {

@@ -3,7 +3,9 @@ import { defineConfig } from 'tsup'
 export default defineConfig([
   {
     entry: ['src/index.ts'],
-    // purposefully not using the build tsconfig, so @tiptap/core's types can be resolved correctly
+    // Use a local tsconfig with a wider rootDir so monorepo-only @tiptap/pm path
+    // aliases can resolve without pulling external workspace files outside the program.
+    tsconfig: './tsconfig.build.json',
     outDir: 'dist',
     dts: true,
     clean: true,

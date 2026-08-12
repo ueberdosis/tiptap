@@ -21,7 +21,8 @@ export const Keymap = Extension.create({
             const { selection, doc } = tr
             const { empty, $anchor } = selection
             const { pos, parent } = $anchor
-            const $parentPos = $anchor.parent.isTextblock && pos > 0 ? tr.doc.resolve(pos - 1) : $anchor
+            const $parentPos =
+              $anchor.parent.isTextblock && pos > 0 ? tr.doc.resolve(pos - 1) : $anchor
             const parentIsIsolating = $parentPos.parent.type.spec.isolating
 
             const parentPos = $anchor.pos - $anchor.parentOffset
@@ -113,9 +114,13 @@ export const Keymap = Extension.create({
             return
           }
 
-          const docChanges = transactions.some(transaction => transaction.docChanged) && !oldState.doc.eq(newState.doc)
+          const docChanges =
+            transactions.some(transaction => transaction.docChanged) &&
+            !oldState.doc.eq(newState.doc)
 
-          const ignoreTr = transactions.some(transaction => transaction.getMeta('preventClearDocument'))
+          const ignoreTr = transactions.some(transaction =>
+            transaction.getMeta('preventClearDocument'),
+          )
 
           if (!docChanges || ignoreTr) {
             return

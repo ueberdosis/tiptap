@@ -1,5 +1,222 @@
 # Change Log
 
+## 3.30.0
+
+### Patch Changes
+
+- 4ec64c7: Fixed Backspace freezing after merging a paragraph into a blockquote.
+- Updated dependencies [0247d39]
+- Updated dependencies [58a8953]
+- Updated dependencies [51909d3]
+- Updated dependencies [3099eef]
+  - @tiptap/core@3.30.0
+  - @tiptap/pm@3.30.0
+
+## 3.29.2
+
+### Patch Changes
+
+- @tiptap/core@3.29.2
+- @tiptap/pm@3.29.2
+
+## 3.29.1
+
+### Patch Changes
+
+- @tiptap/core@3.29.1
+- @tiptap/pm@3.29.1
+
+## 3.29.0
+
+### Patch Changes
+
+- Updated dependencies [d26840f]
+- Updated dependencies [e150ee0]
+- Updated dependencies [935e63f]
+- Updated dependencies [b4c5a2d]
+- Updated dependencies [a963d48]
+- Updated dependencies [51f45b6]
+- Updated dependencies [0f63969]
+- Updated dependencies [9acaa65]
+  - @tiptap/core@3.29.0
+  - @tiptap/pm@3.29.0
+
+## 3.28.0
+
+### Patch Changes
+
+- @tiptap/core@3.28.0
+- @tiptap/pm@3.28.0
+
+## 3.27.4
+
+### Patch Changes
+
+- 53f8e57: Fix a crash when pressing backspace at the very start of the document with a leading image. The blockquote backspace handler dereferenced an undefined parent at the top (doc) level, throwing `TypeError: Cannot read properties of undefined (reading 'type')`. It now bails out so backspace is a no-op at the document start.
+- 6238a3c: Add `@tiptap/pm` as a peer dependency so bundlers resolve ProseMirror packages from the app instead of duplicating `prosemirror-model` inside `@tiptap/extension-blockquote`.
+  - @tiptap/core@3.27.4
+  - @tiptap/pm@3.27.4
+
+## 3.27.3
+
+### Patch Changes
+
+- Updated dependencies [023f98c]
+  - @tiptap/core@3.27.3
+
+## 3.27.2
+
+### Patch Changes
+
+- @tiptap/core@3.27.2
+
+## 3.27.1
+
+### Patch Changes
+
+- @tiptap/core@3.27.1
+
+## 3.27.0
+
+### Patch Changes
+
+- Updated dependencies [0d0094d]
+- Updated dependencies [795033c]
+- Updated dependencies [0e0c4f9]
+- Updated dependencies [6d12bb9]
+  - @tiptap/core@3.27.0
+
+## 3.26.1
+
+### Patch Changes
+
+- @tiptap/core@3.26.1
+
+## 3.26.0
+
+### Minor Changes
+
+- 155a613: Backspace at the start of a non-first child of a blockquote now lifts that child out, splitting the blockquote around it. A second backspace at the start of a top-level textblock whose previous sibling is a blockquote merges the textblock's inline content into the blockquote's last textblock instead of pulling the paragraph back inside.
+
+### Patch Changes
+
+- @tiptap/core@3.26.0
+
+## 3.25.0
+
+### Patch Changes
+
+- Updated dependencies [ec291dd]
+- Updated dependencies [454e9b8]
+- Updated dependencies [9cf8db0]
+- Updated dependencies [3d4f94c]
+  - @tiptap/core@3.25.0
+
+## 3.24.0
+
+### Patch Changes
+
+- @tiptap/core@3.24.0
+
+## 3.23.6
+
+### Patch Changes
+
+- Updated dependencies [d168376]
+  - @tiptap/core@3.23.6
+
+## 3.23.5
+
+### Patch Changes
+
+- Updated dependencies [835caf5]
+- Updated dependencies [95e138c]
+  - @tiptap/core@3.23.5
+
+## 3.23.4
+
+### Patch Changes
+
+- @tiptap/core@3.23.4
+
+## 3.23.3
+
+### Patch Changes
+
+- @tiptap/core@3.23.3
+
+## 3.23.2
+
+### Patch Changes
+
+- Updated dependencies [f98eaaf]
+  - @tiptap/core@3.23.2
+
+## 3.23.1
+
+### Patch Changes
+
+- @tiptap/core@3.23.1
+
+## 3.23.0
+
+### Patch Changes
+
+- Updated dependencies [57f8d66]
+- Updated dependencies [e64e5a7]
+- Updated dependencies [207a2bc]
+  - @tiptap/core@3.23.0
+
+## 3.22.5
+
+### Patch Changes
+
+- Updated dependencies [a375002]
+  - @tiptap/core@3.22.5
+
+## 3.22.4
+
+### Patch Changes
+
+- 27ea931: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [27ea931]
+- Updated dependencies [64f36b8]
+  - @tiptap/core@3.22.4
+
+## 3.22.3
+
+### Patch Changes
+
+- Updated dependencies [cb28e7b]
+  - @tiptap/core@3.22.3
+
+## 3.22.2
+
+### Patch Changes
+
+- Updated dependencies [f1d504c]
+- Updated dependencies [404c683]
+  - @tiptap/core@3.22.2
+
+## 3.22.1
+
+### Patch Changes
+
+- Updated dependencies [ee03ac0]
+- Updated dependencies [b88f9ed]
+  - @tiptap/core@3.22.1
+
+## 3.22.0
+
+### Patch Changes
+
+- Updated dependencies [912a49b]
+- Updated dependencies [7d4fb9a]
+- Updated dependencies [0c1c112]
+- Updated dependencies [0c1c112]
+- Updated dependencies [f99bdc2]
+  - @tiptap/core@3.22.0
+
 ## 3.21.0
 
 ### Patch Changes

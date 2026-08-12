@@ -1,18 +1,33 @@
 {
   "name": "@tiptap/extension-invisible-characters",
+  "version": "3.30.0",
   "description": "invisible characters extension for tiptap",
-  "version": "3.21.0",
-  "homepage": "https://tiptap.dev/docs/editor/extensions/functionality/invisiblecharacters",
   "keywords": [
     "tiptap",
     "tiptap extension"
   ],
+  "homepage": "https://tiptap.dev/docs/editor/extensions/functionality/invisiblecharacters",
+  "bugs": {
+    "url": "https://github.com/ueberdosis/tiptap/issues"
+  },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/extension-invisible-characters"
+  },
   "funding": {
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
+  "files": [
+    "src",
+    "dist"
+  ],
   "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "types": {
@@ -23,30 +38,17 @@
       "require": "./dist/index.cjs"
     }
   },
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "src",
-    "dist"
-  ],
+  "scripts": {
+    "build": "tsup"
+  },
   "devDependencies": {
     "@tiptap/core": "workspace:^",
     "@tiptap/extension-text-style": "workspace:^",
     "@tiptap/pm": "workspace:^"
   },
   "peerDependencies": {
-    "@tiptap/core": "workspace:^",
-    "@tiptap/extension-text-style": "workspace:^",
-    "@tiptap/pm": "workspace:^"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ueberdosis/tiptap",
-    "directory": "packages/extension-invisible-characters"
-  },
-  "scripts": {
-    "build": "tsup",
-    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
+    "@tiptap/core": "workspace:*",
+    "@tiptap/extension-text-style": "workspace:*",
+    "@tiptap/pm": "workspace:*"
   }
 }

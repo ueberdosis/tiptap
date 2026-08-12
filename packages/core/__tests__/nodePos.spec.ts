@@ -2,8 +2,12 @@ import { Editor, Node } from '@tiptap/core'
 import Blockquote from '@tiptap/extension-blockquote'
 import BulletList from '@tiptap/extension-bullet-list'
 import Document from '@tiptap/extension-document'
+import HardBreak from '@tiptap/extension-hard-break'
+import HorizontalRule from '@tiptap/extension-horizontal-rule'
 import ListItem from '@tiptap/extension-list-item'
+import OrderedList from '@tiptap/extension-ordered-list'
 import Paragraph from '@tiptap/extension-paragraph'
+import { Table, TableCell, TableHeader, TableRow } from '@tiptap/extension-table'
 import Text from '@tiptap/extension-text'
 import { afterEach, describe, expect, it } from 'vitest'
 
@@ -32,6 +36,32 @@ const CustomInlineNode = Node.create({
 
   renderHTML({ HTMLAttributes }) {
     return ['span', { 'data-type': 'custom-inline', ...HTMLAttributes }, 0]
+  },
+})
+
+const CustomBlockAtomNode = Node.create({
+  name: 'customBlockAtom',
+  group: 'block',
+  atom: true,
+
+  addAttributes() {
+    return {
+      id: {
+        default: null,
+      },
+    }
+  },
+
+  parseHTML() {
+    return [
+      {
+        tag: 'div[data-type="custom-block-atom"]',
+      },
+    ]
+  },
+
+  renderHTML({ HTMLAttributes }) {
+    return ['div', { 'data-type': 'custom-block-atom', ...HTMLAttributes }]
   },
 })
 
@@ -156,7 +186,8 @@ describe('NodePos', () => {
     it('should find blockquote nodes', () => {
       editor = new Editor({
         extensions: [Document, Paragraph, Text, Blockquote],
-        content: '<blockquote><p>First quote</p></blockquote><p>Normal</p><blockquote><p>Second quote</p></blockquote>',
+        content:
+          '<blockquote><p>First quote</p></blockquote><p>Normal</p><blockquote><p>Second quote</p></blockquote>',
       })
 
       const blockquotes = editor.$nodes('blockquote')
@@ -344,7 +375,8 @@ describe('NodePos', () => {
     it('should return first matching node', () => {
       editor = new Editor({
         extensions: [Document, Paragraph, Text, CustomInlineNode],
-        content: '<p><span data-type="custom-inline" id="1"></span><span data-type="custom-inline" id="2"></span></p>',
+        content:
+          '<p><span data-type="custom-inline" id="1"></span><span data-type="custom-inline" id="2"></span></p>',
       })
 
       const paragraph = editor.$node('paragraph')
@@ -357,7 +389,8 @@ describe('NodePos', () => {
     it('should return all matching nodes with querySelectorAll', () => {
       editor = new Editor({
         extensions: [Document, Paragraph, Text, CustomInlineNode],
-        content: '<p><span data-type="custom-inline" id="1"></span><span data-type="custom-inline" id="2"></span></p>',
+        content:
+          '<p><span data-type="custom-inline" id="1"></span><span data-type="custom-inline" id="2"></span></p>',
       })
 
       const paragraph = editor.$node('paragraph')
@@ -369,7 +402,8 @@ describe('NodePos', () => {
     it('should filter correctly with attributes', () => {
       editor = new Editor({
         extensions: [Document, Paragraph, Text, CustomInlineNode],
-        content: '<p><span data-type="custom-inline" id="1"></span><span data-type="custom-inline" id="2"></span></p>',
+        content:
+          '<p><span data-type="custom-inline" id="1"></span><span data-type="custom-inline" id="2"></span></p>',
       })
 
       const paragraph = editor.$node('paragraph')
@@ -503,6 +537,150 @@ describe('NodePos', () => {
     })
   })
 
+  describe('$pos', () => {
+    it('should return the correct node when pointing at a non-text atom node', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, CustomInlineNode],
+        content: '<p><span data-type="custom-inline" id="atom"></span></p>',
+      })
+
+      const inlineNode = editor.$node('customInline')
+
+      expect(inlineNode).not.toBeNull()
+
+      const nodeAtPos = editor.$pos(inlineNode!.pos)
+
+      expect(nodeAtPos.node.type.name).toBe('customInline')
+      expect(nodeAtPos.node.type.name).not.toBe('doc')
+    })
+
+    it('should return doc node when resolving pos 0', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text],
+        content: '<p>Hello</p>',
+      })
+
+      const docPos = editor.$pos(0)
+
+      expect(docPos.node.type.name).toBe('doc')
+    })
+
+    it('should return the top-level block atom node for positions before non-text block atoms', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, CustomBlockAtomNode],
+        content: '<p>Before</p><div data-type="custom-block-atom" id="top"></div>',
+      })
+
+      const blockAtom = editor.$node('customBlockAtom')
+
+      expect(blockAtom).not.toBeNull()
+
+      const nodeAtPos = editor.$pos(blockAtom!.pos)
+
+      expect(nodeAtPos.node.type.name).toBe('customBlockAtom')
+      expect(nodeAtPos.node.type.name).not.toBe('doc')
+    })
+
+    it('should return the containing node for positions inside containers, not the child after them', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, OrderedList, ListItem, Blockquote],
+        content: '<ol><li><p>Hello</p></li></ol><blockquote><p>World</p></blockquote>',
+      })
+
+      // pos 1 sits before the list item, pos 12 before the inner paragraph
+      expect(editor.$pos(1).node.type.name).toBe('orderedList')
+      expect(editor.$pos(12).node.type.name).toBe('blockquote')
+    })
+
+    it('should still resolve text positions to the containing node', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text],
+        content: '<p>Hello</p>',
+      })
+
+      expect(editor.$pos(3).node.type.name).toBe('paragraph')
+    })
+
+    it('should return the list for the boundary between two list items', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, OrderedList, ListItem],
+        content: '<ol><li><p>a</p></li><li><p>b</p></li></ol>',
+      })
+
+      expect(editor.$pos(6).node.type.name).toBe('orderedList')
+    })
+
+    it('should resolve positions in nested lists to the containing node', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, BulletList, OrderedList, ListItem],
+        content: '<ul><li><p>a</p><ol><li><p>b</p></li></ol></li></ul>',
+      })
+
+      expect(editor.$pos(5).node.type.name).toBe('listItem')
+      expect(editor.$pos(6).node.type.name).toBe('orderedList')
+      expect(editor.$pos(7).node.type.name).toBe('listItem')
+    })
+
+    it('should resolve positions in tables to the containing node', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, Table, TableRow, TableCell, TableHeader],
+        content: '<table><tr><td><p>a</p></td><td><p>b</p></td></tr></table>',
+      })
+
+      expect(editor.$pos(1).node.type.name).toBe('table')
+      expect(editor.$pos(2).node.type.name).toBe('tableRow')
+      expect(editor.$pos(3).node.type.name).toBe('tableCell')
+    })
+
+    it('should return leaf nodes like hard breaks when pointing directly at them', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, HardBreak],
+        content: '<p>Hello<br>World</p>',
+      })
+
+      expect(editor.$pos(6).node.type.name).toBe('hardBreak')
+      expect(editor.$pos(3).node.type.name).toBe('paragraph')
+    })
+
+    it('should return leaf nodes like horizontal rules when pointing directly at them', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, HorizontalRule],
+        content: '<p>a</p><hr><p>b</p>',
+      })
+
+      expect(editor.$pos(3).node.type.name).toBe('horizontalRule')
+      expect(editor.$pos(4).node.type.name).toBe('doc')
+    })
+
+    it('should return the doc for the position at the very end of the document', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text],
+        content: '<p>Hi</p>',
+      })
+
+      expect(editor.$pos(editor.state.doc.content.size).node.type.name).toBe('doc')
+    })
+
+    it('should return the following atom for the boundary between two block atoms', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, CustomBlockAtomNode],
+        content:
+          '<p>a</p><div data-type="custom-block-atom"></div><div data-type="custom-block-atom"></div>',
+      })
+
+      expect(editor.$pos(4).node.type.name).toBe('customBlockAtom')
+    })
+
+    it('should return inline atoms nested inside list items', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, BulletList, ListItem, CustomInlineNode],
+        content: '<ul><li><p>x<span data-type="custom-inline"></span></p></li></ul>',
+      })
+
+      expect(editor.$pos(4).node.type.name).toBe('customInline')
+    })
+  })
+
   describe('$doc', () => {
     it('should correctly traverse $doc children', () => {
       editor = new Editor({
@@ -521,7 +699,8 @@ describe('NodePos', () => {
     it('should handle deeply nested structures', () => {
       editor = new Editor({
         extensions: [Document, Paragraph, Text, Blockquote, CustomInlineNode],
-        content: '<blockquote><p>Quote with <span data-type="custom-inline" id="deep"></span></p></blockquote>',
+        content:
+          '<blockquote><p>Quote with <span data-type="custom-inline" id="deep"></span></p></blockquote>',
       })
 
       const inlineNode = editor.$node('customInline')

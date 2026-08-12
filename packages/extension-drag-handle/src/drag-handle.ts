@@ -45,24 +45,14 @@ export interface DragHandleOptions {
   /**
    * Enable drag handles for nested content (list items, blockquotes, etc.).
    *
-   * When enabled, the drag handle will appear for nested blocks, not just
-   * top-level blocks. A rule-based scoring system determines which node
-   * to target based on cursor position and configured rules.
+   * When enabled, the drag handle appears for block nodes at any depth, not just
+   * top-level blocks. A rule-based scoring system evaluates all ancestor nodes
+   * at the cursor position and selects the best drag target.
    *
    * **Values:**
    * - `false` (default): Only root-level blocks show drag handles
    * - `true`: Enable with sensible defaults (left edge detection, default rules)
-   * - `NestedOptions`: Enable with custom configuration
-   *
-   * **Configuration options:**
-   * - `rules`: Custom rules to determine which nodes are draggable
-   * - `defaultRules`: Whether to include default rules (default: true)
-   * - `allowedContainers`: Restrict nested dragging to specific container types
-   * - `edgeDetection`: Control when to prefer parent over nested node
-   *   - `'left'` (default): Prefer parent near left/top edges
-   *   - `'right'`: Prefer parent near right/top edges (for RTL)
-   *   - `'both'`: Prefer parent near any horizontal edge
-   *   - `'none'`: Disable edge detection
+   * - `NestedOptions`: Enable with full custom configuration
    *
    * @default false
    *
@@ -81,7 +71,7 @@ export interface DragHandleOptions {
    * })
    *
    * @example
-   * // With custom rules
+   * // With custom rules and edge detection disabled
    * DragHandle.configure({
    *   nested: {
    *     rules: [{
@@ -91,8 +81,37 @@ export interface DragHandleOptions {
    *     edgeDetection: 'none',
    *   },
    * })
+   *
+   * @example
+   * // Full configuration
+   * DragHandle.configure({
+   *   nested: {
+   *     defaultRules: true,
+   *     allowedContainers: ['bulletList', 'orderedList', 'blockquote'],
+   *     edgeDetection: { threshold: 20 },
+   *     rules: [{
+   *       id: 'preferShallow',
+   *       evaluate: ({ depth }) => depth * 200,
+   *     }],
+   *   },
+   * })
    */
   nested?: boolean | NestedOptions
+  /**
+   * Limit the drag image clone to a subset of CSS properties instead of
+   * copying all computed styles. When set, only the listed properties
+   * are read from `getComputedStyle` and applied to the drag image clone.
+   *
+   * Useful for improving drag performance on selections containing complex
+   * or deeply nested nodes.
+   *
+   * @example
+   * // Only copy visual appearance, skip layout properties
+   * DragHandle.configure({
+   *   dragImageProperties: ['color', 'background-color', 'font-size', 'font-family'],
+   * })
+   */
+  dragImageProperties?: string[]
 }
 
 declare module '@tiptap/core' {
@@ -134,6 +153,7 @@ export const DragHandle = Extension.create<DragHandleOptions>({
       onElementDragStart: undefined,
       onElementDragEnd: undefined,
       nested: false,
+      dragImageProperties: undefined,
     }
   },
 
@@ -166,7 +186,10 @@ export const DragHandle = Extension.create<DragHandleOptions>({
 
     return [
       DragHandlePlugin({
-        computePositionConfig: { ...defaultComputePositionConfig, ...this.options.computePositionConfig },
+        computePositionConfig: {
+          ...defaultComputePositionConfig,
+          ...this.options.computePositionConfig,
+        },
         getReferencedVirtualElement: this.options.getReferencedVirtualElement,
         element,
         editor: this.editor,
@@ -174,6 +197,7 @@ export const DragHandle = Extension.create<DragHandleOptions>({
         onElementDragStart: this.options.onElementDragStart,
         onElementDragEnd: this.options.onElementDragEnd,
         nestedOptions,
+        dragImageProperties: this.options.dragImageProperties,
       }).plugin,
     ]
   },

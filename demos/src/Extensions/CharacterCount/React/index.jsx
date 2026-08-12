@@ -43,7 +43,9 @@ export default () => {
     <>
       <EditorContent editor={editor} />
 
-      <div className={`character-count ${charactersCount === limit ? 'character-count--warning' : ''}`}>
+      <div
+        className={`character-count ${charactersCount === limit ? 'character-count--warning' : ''}`}
+      >
         <svg height="20" width="20" viewBox="0 0 20 20">
           <circle r="10" cx="10" cy="10" fill="#e9ecef" />
           <circle

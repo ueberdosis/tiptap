@@ -27,7 +27,7 @@ export default {
           This is still the text editor you’re used to, but enriched with node views.
         </p>
         <vue-component>
-          <p>This is editable.</p>
+          This is editable.
         </vue-component>
         <p>
           Did you see that? That’s a Vue component. We are really living in the future.

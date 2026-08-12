@@ -100,7 +100,13 @@ export default {
     })
 
     this.editor = new Editor({
-      extensions: [StarterKit, TabToSpacesExtension, WordReplacerExtension, LineBreakExtension, CleanStylesExtension],
+      extensions: [
+        StarterKit,
+        TabToSpacesExtension,
+        WordReplacerExtension,
+        LineBreakExtension,
+        CleanStylesExtension,
+      ],
       content: `
         <h2>Transform Pasted HTML Demo</h2>
         <p>This demo showcases the <code>transformPastedHTML</code> API that allows extensions to transform pasted HTML content before it's parsed into the editor.</p>

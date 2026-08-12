@@ -27,8 +27,12 @@ export default function MultipleEditors() {
 
   const toolbar = (
     <div>
-      <button onClick={() => setEditorA(prev => !prev)}>{editorA ? 'Destroy' : 'Create'} Editor A</button>
-      <button onClick={() => setEditorB(prev => !prev)}>{editorB ? 'Destroy' : 'Create'} Editor B</button>
+      <button onClick={() => setEditorA(prev => !prev)}>
+        {editorA ? 'Destroy' : 'Create'} Editor A
+      </button>
+      <button onClick={() => setEditorB(prev => !prev)}>
+        {editorB ? 'Destroy' : 'Create'} Editor B
+      </button>
     </div>
   )
 

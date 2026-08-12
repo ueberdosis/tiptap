@@ -1,7 +1,7 @@
 import { Editor } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Image from '@tiptap/extension-image'
-import Link from '@tiptap/extension-link'
+import Link, { isAllowedUri } from '@tiptap/extension-link'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { describe, expect, it } from 'vitest'
@@ -84,97 +84,97 @@ describe('extension-link', () => {
     })
   })
 
-  // We have to disable the eslint rule here because we're trying to purposely test eval urls
+  // We have to disable the oxlint rule here because we're trying to purposely test eval urls
   // Examples inspired by: https://portswigger.net/web-security/cross-site-scripting/cheat-sheet#protocols
   const invalidUrls = [
     // A standard JavaScript protocol
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     'javascript:alert(window.origin)',
 
     // The protocol is not case sensitive
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     'jAvAsCrIpT:alert(window.origin)',
 
     // Characters \x01-\x20 are allowed before the protocol
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     '\x00javascript:alert(window.origin)',
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     '\x01javascript:alert(window.origin)',
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     '\x02javascript:alert(window.origin)',
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     '\x03javascript:alert(window.origin)',
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     '\x04javascript:alert(window.origin)',
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     '\x05javascript:alert(window.origin)',
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     '\x06javascript:alert(window.origin)',
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     '\x07javascript:alert(window.origin)',
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     '\x08javascript:alert(window.origin)',
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     '\x09javascript:alert(window.origin)',
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     '\x0ajavascript:alert(window.origin)',
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     '\x0bjavascript:alert(window.origin)',
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     '\x0cjavascript:alert(window.origin)',
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     '\x0djavascript:alert(window.origin)',
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     '\x0ejavascript:alert(window.origin)',
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     '\x0fjavascript:alert(window.origin)',
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     '\x10javascript:alert(window.origin)',
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     '\x11javascript:alert(window.origin)',
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     '\x12javascript:alert(window.origin)',
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     '\x13javascript:alert(window.origin)',
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     '\x14javascript:alert(window.origin)',
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     '\x15javascript:alert(window.origin)',
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     '\x16javascript:alert(window.origin)',
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     '\x17javascript:alert(window.origin)',
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     '\x18javascript:alert(window.origin)',
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     '\x19javascript:alert(window.origin)',
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     '\x1ajavascript:alert(window.origin)',
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     '\x1bjavascript:alert(window.origin)',
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     '\x1cjavascript:alert(window.origin)',
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     '\x1djavascript:alert(window.origin)',
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     '\x1ejavascript:alert(window.origin)',
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     '\x1fjavascript:alert(window.origin)',
 
     // Characters \x09,\x0a,\x0d are allowed inside the protocol
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     'java\x09script:alert(window.origin)',
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     'java\x0ascript:alert(window.origin)',
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     'java\x0dscript:alert(window.origin)',
 
     // Characters \x09,\x0a,\x0d are allowed after protocol name before the colon
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     'javascript\x09:alert(window.origin)',
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     'javascript\x0a:alert(window.origin)',
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     'javascript\x0d:alert(window.origin)',
   ]
 
@@ -230,6 +230,49 @@ describe('extension-link', () => {
 
       editor?.destroy()
       getEditorEl()?.remove()
+    })
+  })
+
+  describe('isAllowedUri', () => {
+    it('allows whitelisted protocols', () => {
+      expect(isAllowedUri('https://example.com')).toBeTruthy()
+      expect(isAllowedUri('http://example.com')).toBeTruthy()
+      expect(isAllowedUri('ftp://example.com')).toBeTruthy()
+      expect(isAllowedUri('mailto:info@example.com')).toBeTruthy()
+      expect(isAllowedUri('tel:+1234567890')).toBeTruthy()
+    })
+
+    it('allows relative URLs (paths, queries, anchors)', () => {
+      expect(isAllowedUri('/relative/path')).toBeTruthy()
+      expect(isAllowedUri('../parent.html')).toBeTruthy()
+      expect(isAllowedUri('?query=1')).toBeTruthy()
+      expect(isAllowedUri('#anchor')).toBeTruthy()
+    })
+
+    it('rejects unknown protocols with hyphens (https://github.com/ueberdosis/tiptap/issues/7929)', () => {
+      expect(isAllowedUri('unknown:test')).toBeFalsy()
+      // Hyphens are valid scheme chars per RFC 3986. They previously slipped
+      // past the regex because the source `\-` was consumed by the JS
+      // template parser.
+      expect(isAllowedUri('unknown-protocol://test')).toBeFalsy()
+      expect(isAllowedUri('unknown-protocol:test')).toBeFalsy()
+      expect(isAllowedUri('foo-bar-baz://payload')).toBeFalsy()
+      expect(isAllowedUri('tg-protocol:start')).toBeFalsy()
+    })
+
+    it('still rejects script-style protocols', () => {
+      // oxlint-disable-next-line no-script-url
+      expect(isAllowedUri('javascript:alert(1)')).toBeFalsy()
+      expect(isAllowedUri('data:text/html,<script>alert(1)</script>')).toBeFalsy()
+      expect(isAllowedUri('vbscript:msgbox(1)')).toBeFalsy()
+    })
+
+    it('honours additional protocols passed via the second argument', () => {
+      expect(isAllowedUri('custom://thing', ['custom'])).toBeTruthy()
+      expect(isAllowedUri('another-custom://thing', [{ scheme: 'another-custom' }])).toBeTruthy()
+      // A protocol added via the argument list must still be matched as a
+      // whole; a different unknown protocol must remain rejected.
+      expect(isAllowedUri('different-custom://thing', ['custom'])).toBeFalsy()
     })
   })
 
@@ -303,6 +346,48 @@ describe('extension-link', () => {
 
     // The event should not be prevented by the link handler
     expect(wasDefaultPrevented).toBe(false)
+
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
+
+  it('should return false when clicking non-link elements with enableClickSelection', () => {
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [
+        Document,
+        Text,
+        Paragraph,
+        // inline so the image is valid content inside the paragraph (pos 1)
+        Image.configure({ inline: true }),
+        Link.configure({
+          enableClickSelection: true,
+        }),
+      ],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [{ type: 'image', attrs: { src: 'https://placehold.co/400' } }],
+          },
+        ],
+      },
+    })
+
+    const img = getEditorEl()?.querySelector('img')
+
+    expect(img).toBeTruthy()
+
+    // A left click whose target is the image itself (not a link).
+    const clickEvent = new MouseEvent('click', { bubbles: true, cancelable: true, button: 0 })
+    Object.defineProperty(clickEvent, 'target', { value: img })
+
+    // The link plugin must report the click unhandled (falsy) so the editor's
+    // default NodeSelection on the image can run.
+    const handled = editor.view.someProp('handleClick', fn => fn(editor!.view, 1, clickEvent))
+
+    expect(handled).toBeFalsy()
 
     editor?.destroy()
     getEditorEl()?.remove()

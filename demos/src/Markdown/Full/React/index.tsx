@@ -12,7 +12,13 @@ import { TableKit } from '@tiptap/extension-table'
 import { Twitch } from '@tiptap/extension-twitch'
 import { Youtube } from '@tiptap/extension-youtube'
 import { Markdown } from '@tiptap/markdown'
-import { EditorContent, NodeViewContent, NodeViewWrapper, ReactNodeViewRenderer, useEditor } from '@tiptap/react'
+import {
+  EditorContent,
+  NodeViewContent,
+  NodeViewWrapper,
+  ReactNodeViewRenderer,
+  useEditor,
+} from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useState } from 'react'
 
@@ -32,7 +38,9 @@ const CustomReactComponent = ({ node }: any) => {
         }}
       >
         <h4 style={{ margin: '0 0 8px 0', color: '#1e40af' }}>Custom React Component</h4>
-        <p style={{ margin: 0, color: '#374151' }}>{node.attrs.content || 'This is a custom React node view!'}</p>
+        <p style={{ margin: 0, color: '#374151' }}>
+          {node.attrs.content || 'This is a custom React node view!'}
+        </p>
         <div>
           <NodeViewContent />
         </div>
@@ -135,7 +143,15 @@ export default () => {
           {
             char: '#',
             items: ({ query }) => {
-              return ['bug', 'feature', 'enhancement', 'documentation', 'help-wanted', 'priority-high', 'priority-low']
+              return [
+                'bug',
+                'feature',
+                'enhancement',
+                'documentation',
+                'help-wanted',
+                'priority-high',
+                'priority-low',
+              ]
                 .filter(item => item.toLowerCase().startsWith(query.toLowerCase()))
                 .slice(0, 5)
             },

@@ -1,17 +1,33 @@
 {
   "name": "@tiptap/starter-kit",
+  "version": "3.30.0",
   "description": "starter kit for tiptap",
-  "version": "3.21.0",
-  "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
     "tiptap starter kit"
   ],
+  "homepage": "https://tiptap.dev",
+  "bugs": {
+    "url": "https://github.com/ueberdosis/tiptap/issues"
+  },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/starter-kit"
+  },
   "funding": {
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
+  "files": [
+    "src",
+    "dist"
+  ],
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "types": {
@@ -22,47 +38,33 @@
       "require": "./dist/index.cjs"
     }
   },
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "type": "module",
-  "files": [
-    "src",
-    "dist"
-  ],
-  "dependencies": {
-    "@tiptap/core": "workspace:^",
-    "@tiptap/extension-blockquote": "workspace:^",
-    "@tiptap/extension-bold": "workspace:^",
-    "@tiptap/extension-bullet-list": "workspace:^",
-    "@tiptap/extension-code": "workspace:^",
-    "@tiptap/extension-code-block": "workspace:^",
-    "@tiptap/extension-document": "workspace:^",
-    "@tiptap/extension-dropcursor": "workspace:^",
-    "@tiptap/extension-gapcursor": "workspace:^",
-    "@tiptap/extension-hard-break": "workspace:^",
-    "@tiptap/extension-heading": "workspace:^",
-    "@tiptap/extension-horizontal-rule": "workspace:^",
-    "@tiptap/extension-italic": "workspace:^",
-    "@tiptap/extension-link": "workspace:^",
-    "@tiptap/extension-list": "workspace:^",
-    "@tiptap/extension-list-item": "workspace:^",
-    "@tiptap/extension-list-keymap": "workspace:^",
-    "@tiptap/extension-ordered-list": "workspace:^",
-    "@tiptap/extension-paragraph": "workspace:^",
-    "@tiptap/extension-strike": "workspace:^",
-    "@tiptap/extension-text": "workspace:^",
-    "@tiptap/extension-underline": "workspace:^",
-    "@tiptap/extensions": "workspace:^",
-    "@tiptap/pm": "workspace:^"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ueberdosis/tiptap",
-    "directory": "packages/starter-kit"
-  },
   "scripts": {
-    "build": "tsup",
-    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
+    "build": "tsup"
+  },
+  "dependencies": {
+    "@tiptap/core": "workspace:*",
+    "@tiptap/extension-blockquote": "workspace:*",
+    "@tiptap/extension-bold": "workspace:*",
+    "@tiptap/extension-bullet-list": "workspace:*",
+    "@tiptap/extension-code": "workspace:*",
+    "@tiptap/extension-code-block": "workspace:*",
+    "@tiptap/extension-document": "workspace:*",
+    "@tiptap/extension-dropcursor": "workspace:*",
+    "@tiptap/extension-gapcursor": "workspace:*",
+    "@tiptap/extension-hard-break": "workspace:*",
+    "@tiptap/extension-heading": "workspace:*",
+    "@tiptap/extension-horizontal-rule": "workspace:*",
+    "@tiptap/extension-italic": "workspace:*",
+    "@tiptap/extension-link": "workspace:*",
+    "@tiptap/extension-list": "workspace:*",
+    "@tiptap/extension-list-item": "workspace:*",
+    "@tiptap/extension-list-keymap": "workspace:*",
+    "@tiptap/extension-ordered-list": "workspace:*",
+    "@tiptap/extension-paragraph": "workspace:*",
+    "@tiptap/extension-strike": "workspace:*",
+    "@tiptap/extension-text": "workspace:*",
+    "@tiptap/extension-underline": "workspace:*",
+    "@tiptap/extensions": "workspace:*",
+    "@tiptap/pm": "workspace:*"
   }
 }

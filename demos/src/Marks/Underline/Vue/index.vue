@@ -8,10 +8,16 @@
         >
           Toggle underline
         </button>
-        <button @click="editor.chain().focus().setUnderline().run()" :disabled="editor.isActive('underline')">
+        <button
+          @click="editor.chain().focus().setUnderline().run()"
+          :disabled="editor.isActive('underline')"
+        >
           Set underline
         </button>
-        <button @click="editor.chain().focus().unsetUnderline().run()" :disabled="!editor.isActive('underline')">
+        <button
+          @click="editor.chain().focus().unsetUnderline().run()"
+          :disabled="!editor.isActive('underline')"
+        >
           Unset underline
         </button>
       </div>

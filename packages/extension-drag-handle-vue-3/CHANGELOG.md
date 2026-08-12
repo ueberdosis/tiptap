@@ -1,5 +1,249 @@
 # @tiptap/extension-drag-handle-vue-3
 
+## 3.30.0
+
+### Patch Changes
+
+- Updated dependencies [58a8953]
+- Updated dependencies [3099eef]
+  - @tiptap/pm@3.30.0
+  - @tiptap/vue-3@3.30.0
+  - @tiptap/extension-drag-handle@3.30.0
+
+## 3.29.2
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.29.2
+- @tiptap/pm@3.29.2
+- @tiptap/vue-3@3.29.2
+
+## 3.29.1
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.29.1
+- @tiptap/pm@3.29.1
+- @tiptap/vue-3@3.29.1
+
+## 3.29.0
+
+### Patch Changes
+
+- Updated dependencies [e150ee0]
+- Updated dependencies [bd47229]
+  - @tiptap/pm@3.29.0
+  - @tiptap/vue-3@3.29.0
+  - @tiptap/extension-drag-handle@3.29.0
+
+## 3.28.0
+
+### Patch Changes
+
+- Updated dependencies [3c8da6a]
+  - @tiptap/extension-drag-handle@3.28.0
+  - @tiptap/pm@3.28.0
+  - @tiptap/vue-3@3.28.0
+
+## 3.27.4
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.27.4
+- @tiptap/pm@3.27.4
+- @tiptap/vue-3@3.27.4
+
+## 3.27.3
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.27.3
+- @tiptap/vue-3@3.27.3
+- @tiptap/pm@3.27.3
+
+## 3.27.2
+
+### Patch Changes
+
+- Updated dependencies [ec41238]
+- Updated dependencies [82d9c81]
+- Updated dependencies [ceebb31]
+  - @tiptap/extension-drag-handle@3.27.2
+  - @tiptap/pm@3.27.2
+  - @tiptap/vue-3@3.27.2
+
+## 3.27.1
+
+### Patch Changes
+
+- Updated dependencies [ad17014]
+  - @tiptap/extension-drag-handle@3.27.1
+  - @tiptap/pm@3.27.1
+  - @tiptap/vue-3@3.27.1
+
+## 3.27.0
+
+### Patch Changes
+
+- Updated dependencies [63b157c]
+  - @tiptap/extension-drag-handle@3.27.0
+  - @tiptap/vue-3@3.27.0
+  - @tiptap/pm@3.27.0
+
+## 3.26.1
+
+### Patch Changes
+
+- Updated dependencies [a38c9c0]
+- Updated dependencies [a38c9c0]
+  - @tiptap/extension-drag-handle@3.26.1
+  - @tiptap/pm@3.26.1
+  - @tiptap/vue-3@3.26.1
+
+## 3.26.0
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.26.0
+- @tiptap/pm@3.26.0
+- @tiptap/vue-3@3.26.0
+
+## 3.25.0
+
+### Patch Changes
+
+- Updated dependencies [c1a2ce8]
+- Updated dependencies [26e6f0f]
+  - @tiptap/pm@3.25.0
+  - @tiptap/vue-3@3.25.0
+  - @tiptap/extension-drag-handle@3.25.0
+
+## 3.24.0
+
+### Patch Changes
+
+- Updated dependencies [7c0499b]
+  - @tiptap/pm@3.24.0
+  - @tiptap/extension-drag-handle@3.24.0
+  - @tiptap/vue-3@3.24.0
+
+## 3.23.6
+
+### Patch Changes
+
+- Updated dependencies [937ff2e]
+  - @tiptap/extension-drag-handle@3.23.6
+  - @tiptap/vue-3@3.23.6
+  - @tiptap/pm@3.23.6
+
+## 3.23.5
+
+### Patch Changes
+
+- Updated dependencies [95e138c]
+  - @tiptap/vue-3@3.23.5
+  - @tiptap/extension-drag-handle@3.23.5
+  - @tiptap/pm@3.23.5
+
+## 3.23.4
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.23.4
+- @tiptap/pm@3.23.4
+- @tiptap/vue-3@3.23.4
+
+## 3.23.3
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.23.3
+- @tiptap/pm@3.23.3
+- @tiptap/vue-3@3.23.3
+
+## 3.23.2
+
+### Patch Changes
+
+- Updated dependencies [d52188d]
+  - @tiptap/vue-3@3.23.2
+  - @tiptap/extension-drag-handle@3.23.2
+  - @tiptap/pm@3.23.2
+
+## 3.23.1
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.23.1
+- @tiptap/pm@3.23.1
+- @tiptap/vue-3@3.23.1
+
+## 3.23.0
+
+### Patch Changes
+
+- Updated dependencies [1852c73]
+  - @tiptap/extension-drag-handle@3.23.0
+  - @tiptap/vue-3@3.23.0
+  - @tiptap/pm@3.23.0
+
+## 3.22.5
+
+### Patch Changes
+
+- Updated dependencies [a375002]
+  - @tiptap/vue-3@3.22.5
+  - @tiptap/extension-drag-handle@3.22.5
+  - @tiptap/pm@3.22.5
+
+## 3.22.4
+
+### Patch Changes
+
+- 27ea931: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [040da0d]
+- Updated dependencies [27ea931]
+- Updated dependencies [032f8f1]
+  - @tiptap/extension-drag-handle@3.22.4
+  - @tiptap/pm@3.22.4
+  - @tiptap/vue-3@3.22.4
+
+## 3.22.3
+
+### Patch Changes
+
+- Updated dependencies [ac994c5]
+  - @tiptap/extension-drag-handle@3.22.3
+  - @tiptap/vue-3@3.22.3
+  - @tiptap/pm@3.22.3
+
+## 3.22.2
+
+### Patch Changes
+
+- b3391ce: Fixed an issue causing drag handle visibility not to update dynamically in Vue 3 components.
+  - @tiptap/extension-drag-handle@3.22.2
+  - @tiptap/vue-3@3.22.2
+  - @tiptap/pm@3.22.2
+
+## 3.22.1
+
+### Patch Changes
+
+- Updated dependencies [942eb85]
+- Updated dependencies [ee03ac0]
+  - @tiptap/extension-drag-handle@3.22.1
+  - @tiptap/vue-3@3.22.1
+  - @tiptap/pm@3.22.1
+
+## 3.22.0
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.22.0
+- @tiptap/vue-3@3.22.0
+- @tiptap/pm@3.22.0
+
 ## 3.21.0
 
 ### Patch Changes

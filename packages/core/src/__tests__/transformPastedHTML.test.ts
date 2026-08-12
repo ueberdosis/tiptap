@@ -473,7 +473,9 @@ describe('transformPastedHTML', () => {
         ],
       })
 
-      const result = editor.view.props.transformPastedHTML?.('<p style="color: red;" onclick="alert(\'xss\')">test</p>')
+      const result = editor.view.props.transformPastedHTML?.(
+        '<p style="color: red;" onclick="alert(\'xss\')">test</p>',
+      )
 
       expect(result).toBe('<p>test</p>')
 
@@ -498,7 +500,9 @@ describe('transformPastedHTML', () => {
         ],
       })
 
-      const result = editor.view.props.transformPastedHTML?.('<p>test\t\u00a0  multiple   spaces</p>')
+      const result = editor.view.props.transformPastedHTML?.(
+        '<p>test\t\u00a0  multiple   spaces</p>',
+      )
 
       expect(result).toBe('<p>test multiple spaces</p>')
 
@@ -535,7 +539,9 @@ describe('transformPastedHTML', () => {
         ],
       })
 
-      const result = editor.view.props.transformPastedHTML?.('<p style="color: red;"><b>test</b></p>')
+      const result = editor.view.props.transformPastedHTML?.(
+        '<p style="color: red;"><b>test</b></p>',
+      )
 
       expect(result).toBe('<p class="editor-paragraph"><strong>test</strong></p>')
 

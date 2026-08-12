@@ -2,11 +2,17 @@
   <div v-if="editor" class="container">
     <div class="control-group">
       <div class="button-group">
-        <button @click="editor.commands.showInvisibleCharacters()">Show invisible characters</button>
+        <button @click="editor.commands.showInvisibleCharacters()">
+          Show invisible characters
+        </button>
         <!-- Works as well -->
         <!-- <button @click="editor.commands.showInvisibleCharacters(false)">showInvisibleCharacters(false)</button> -->
-        <button @click="editor.commands.hideInvisibleCharacters()">Hide invisible characters</button>
-        <button @click="editor.commands.toggleInvisibleCharacters()">Toggle invisible characters</button>
+        <button @click="editor.commands.hideInvisibleCharacters()">
+          Hide invisible characters
+        </button>
+        <button @click="editor.commands.toggleInvisibleCharacters()">
+          Toggle invisible characters
+        </button>
       </div>
       <div>
         <input

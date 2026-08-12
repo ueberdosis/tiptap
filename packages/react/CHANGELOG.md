@@ -1,5 +1,316 @@
 # Change Log
 
+## 3.30.0
+
+### Minor Changes
+
+- 3099eef: **New Decorations API**
+
+  Finally the decorations API is here! Even though Decorations itself are nothing new in ProseMirror, the new API makes it much easier to use them in Tiptap without leaving your extensions.
+
+  Decorations change how the document looks without changing the document itself. Highlighting search results, marking spelling mistakes, showing collaborator cursors, putting a drag handle next to every block.
+
+  Until now you had to write a ProseMirror plugin by hand for this, keep the decoration set in plugin state, and map it forward on every transaction. Extensions can now declare decorations directly with a new `addDecorations()` hook.
+
+  ```js
+  addDecorations() {
+    return {
+      create: ({ state }) =>
+        // findMatches can be any function that returns an array of { from, to } ranges
+        findMatches(state.doc).map(match =>
+          Decoration.Inline(match.from, match.to, { class: 'highlight' }),
+        ),
+    }
+  }
+  ```
+
+  There are three kinds. `Decoration.Inline()` styles a range of text. `Decoration.Node()` puts attributes on a block's DOM element. `Decoration.Widget()` renders your own element at a single position.
+
+  Every extension that declares decorations is collected into one plugin, so several extensions can decorate the same document without fighting over it.
+
+  **Doing less work on every keystroke**
+
+  By default decorations are rebuilt whenever the document changes. That is fine for small documents and wasteful for large ones, so there are two ways to narrow it down.
+
+  `shouldUpdate()` skips transactions you do not care about. If your decorations only depend on headings, ignore everything else.
+
+  `update: 'changedRanges'` together with `createInRange()` only rescans the blocks that actually changed. On a long document this is the difference between scanning the whole thing on every keystroke and scanning one paragraph.
+
+  For decorations driven by data outside the editor, like comments loaded from a server, use `update: 'manual'` and refresh them yourself with `editor.commands.updateDecorations()`.
+
+  **React and Vue components as widgets**
+
+  `ReactWidgetRenderer` and `VueWidgetRenderer` render a real component into a widget decoration, inside your existing app context. Providers, context and stores work as usual.
+
+  Widgets take a `key`. Reuse the same key and the component instance stays mounted while the document changes around it, so local state such as an open menu, a counter or a half-typed input survives editing. Use a stable id from your own data, not a position or a list index, otherwise the component remounts and loses that state.
+
+  Widgets also accept the ProseMirror options `side`, `relaxedSide`, `stopEvent` and `ignoreSelection`.
+
+  **Documentation**
+
+  - [Decorations](https://tiptap.dev/docs/editor/core-concepts/decorations)
+  - [Decorations with React](https://tiptap.dev/docs/guides/decorations-react)
+  - [Decorations with Vue](https://tiptap.dev/docs/guides/decorations-vue)
+  - [API Documentation](https://tiptap.dev/docs/editor/api/decorations)
+
+### Patch Changes
+
+- 31e176c: React node views no longer show the selected state when the selection covers a position the node view has moved away from.
+- Updated dependencies [0247d39]
+- Updated dependencies [58a8953]
+- Updated dependencies [51909d3]
+- Updated dependencies [3099eef]
+  - @tiptap/core@3.30.0
+  - @tiptap/pm@3.30.0
+
+## 3.29.2
+
+### Patch Changes
+
+- e914605: Fixed the caret jumping back to the previous block when pressing Enter inside a React node view.
+  - @tiptap/core@3.29.2
+  - @tiptap/pm@3.29.2
+
+## 3.29.1
+
+### Patch Changes
+
+- 6d901e7: Fix caret placement after splitting a block rendered with a React NodeView.
+  - @tiptap/core@3.29.1
+  - @tiptap/pm@3.29.1
+
+## 3.29.0
+
+### Patch Changes
+
+- 6a26a03: Fixed `useEditorState` not re-rendering components when `editor.setEditable()` changes the editor's editable state, since that call only emits an `update` event and never a `transaction`.
+- Updated dependencies [d26840f]
+- Updated dependencies [e150ee0]
+- Updated dependencies [935e63f]
+- Updated dependencies [b4c5a2d]
+- Updated dependencies [a963d48]
+- Updated dependencies [51f45b6]
+- Updated dependencies [0f63969]
+- Updated dependencies [9acaa65]
+  - @tiptap/core@3.29.0
+  - @tiptap/pm@3.29.0
+
+## 3.28.0
+
+### Patch Changes
+
+- 8614730: Batch React node view portal store notifications that happen in the same microtask to avoid nested update depth warnings when many node views mount together.
+- 1ecf814: Bind onMount and onUnmount event handlers when initializing an Editor with useEditor hook.
+  - @tiptap/core@3.28.0
+  - @tiptap/pm@3.28.0
+
+## 3.27.4
+
+### Patch Changes
+
+- 2c2720e: Add a `use client` directive so `@tiptap/react` can be imported from React Server Components without crashing. Core symbols re-exported through `@tiptap/react` now cross the client boundary too, so import them from `@tiptap/core` directly in server code.
+  - @tiptap/core@3.27.4
+  - @tiptap/pm@3.27.4
+
+## 3.27.3
+
+### Patch Changes
+
+- Updated dependencies [023f98c]
+  - @tiptap/core@3.27.3
+  - @tiptap/pm@3.27.3
+
+## 3.27.2
+
+### Patch Changes
+
+- 13dfad1: Change prop types of the Tiptap component so that either the `editor` or the `instance` fields are required
+- Updated dependencies [ceebb31]
+  - @tiptap/pm@3.27.2
+  - @tiptap/core@3.27.2
+
+## 3.27.1
+
+### Patch Changes
+
+- @tiptap/core@3.27.1
+- @tiptap/pm@3.27.1
+
+## 3.27.0
+
+### Patch Changes
+
+- Updated dependencies [0d0094d]
+- Updated dependencies [795033c]
+- Updated dependencies [0e0c4f9]
+- Updated dependencies [6d12bb9]
+  - @tiptap/core@3.27.0
+  - @tiptap/pm@3.27.0
+
+## 3.26.1
+
+### Patch Changes
+
+- @tiptap/core@3.26.1
+- @tiptap/pm@3.26.1
+
+## 3.26.0
+
+### Patch Changes
+
+- @tiptap/core@3.26.0
+- @tiptap/pm@3.26.0
+
+## 3.25.0
+
+### Patch Changes
+
+- Updated dependencies [ec291dd]
+- Updated dependencies [454e9b8]
+- Updated dependencies [9cf8db0]
+- Updated dependencies [c1a2ce8]
+- Updated dependencies [3d4f94c]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+
+## 3.24.0
+
+### Patch Changes
+
+- Updated dependencies [7c0499b]
+  - @tiptap/pm@3.24.0
+  - @tiptap/core@3.24.0
+
+## 3.23.6
+
+### Patch Changes
+
+- Updated dependencies [d168376]
+  - @tiptap/core@3.23.6
+  - @tiptap/pm@3.23.6
+
+## 3.23.5
+
+### Patch Changes
+
+- b5f34fc: Respect explicit `immediatelyRender: true` in client-side Next.js. Previously, when running under Next.js (`window.next` present), the `immediatelyRender` option was forced to `false` even when the user explicitly passed `true`, breaking client-only Next.js apps that rely on the editor existing on the first render. The hook now only forces `false` when actual SSR is detected (`typeof window === 'undefined'`), or when running under Next.js with no explicit value.
+- 95e138c: fix(nodeview): eliminate unnecessary re-renders, add opt-in position tracking
+
+  NodeViews no longer re-render when decorations or position change without
+  content changes. Added `trackNodeViewPosition` option — when enabled, the
+  component re-renders on every position shift so calls to `getPos()` stay
+  current in render output. Removed the internal `nodeViewPositionRegistry`.
+  Added shallow prop comparison in `ReactRenderer.updateProps()`.
+
+- Updated dependencies [835caf5]
+- Updated dependencies [95e138c]
+  - @tiptap/core@3.23.5
+  - @tiptap/pm@3.23.5
+
+## 3.23.4
+
+### Patch Changes
+
+- @tiptap/core@3.23.4
+- @tiptap/pm@3.23.4
+
+## 3.23.3
+
+### Patch Changes
+
+- @tiptap/core@3.23.3
+- @tiptap/pm@3.23.3
+
+## 3.23.2
+
+### Patch Changes
+
+- 30e0b58: Default `immediatelyRender` to `false` in SSR environments instead of throwing an error
+
+  Previously, omitting `immediatelyRender` in an SSR environment (e.g. Next.js) would throw an error in development and silently return `null` in production. This was a common source of crashes, especially when AI-generated code set up the editor without explicitly passing `immediatelyRender: false`. The hook now defaults `immediatelyRender` to `true`, but automatically sets it to `false` when SSR is detected, logging a warning in development instead of throwing.
+
+- Updated dependencies [f98eaaf]
+  - @tiptap/core@3.23.2
+  - @tiptap/pm@3.23.2
+
+## 3.23.1
+
+### Patch Changes
+
+- @tiptap/core@3.23.1
+- @tiptap/pm@3.23.1
+
+## 3.23.0
+
+### Patch Changes
+
+- Updated dependencies [57f8d66]
+- Updated dependencies [e64e5a7]
+- Updated dependencies [207a2bc]
+  - @tiptap/core@3.23.0
+  - @tiptap/pm@3.23.0
+
+## 3.22.5
+
+### Patch Changes
+
+- a375002: Add `selectedOnTextSelection` option to node view renderers. When enabled, the `selected` prop also becomes true when a TextSelection is fully inside the node's range, not only on NodeSelection.
+- Updated dependencies [a375002]
+  - @tiptap/core@3.22.5
+  - @tiptap/pm@3.22.5
+
+## 3.22.4
+
+### Patch Changes
+
+- 27ea931: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [27ea931]
+- Updated dependencies [64f36b8]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/pm@3.22.4
+
+## 3.22.3
+
+### Patch Changes
+
+- Updated dependencies [cb28e7b]
+  - @tiptap/core@3.22.3
+  - @tiptap/pm@3.22.3
+
+## 3.22.2
+
+### Patch Changes
+
+- 8ab8bee: Fixed an error where `flushSync()` would run in `<EditorContent />` lifecycle
+- Updated dependencies [f1d504c]
+- Updated dependencies [404c683]
+  - @tiptap/core@3.22.2
+  - @tiptap/pm@3.22.2
+
+## 3.22.1
+
+### Patch Changes
+
+- ee03ac0: Fix NodeView not re-rendering when a node's position changes without content or decoration changes (e.g. when a sibling node is moved within the same parent)
+- 6f3b9fc: Prevent React node views from crashing during deferred selection updates when ProseMirror has already detached the node view position lookup.
+- Updated dependencies [ee03ac0]
+- Updated dependencies [b88f9ed]
+  - @tiptap/core@3.22.1
+  - @tiptap/pm@3.22.1
+
+## 3.22.0
+
+### Patch Changes
+
+- Updated dependencies [912a49b]
+- Updated dependencies [7d4fb9a]
+- Updated dependencies [0c1c112]
+- Updated dependencies [0c1c112]
+- Updated dependencies [f99bdc2]
+  - @tiptap/core@3.22.0
+  - @tiptap/pm@3.22.0
+
 ## 3.21.0
 
 ### Patch Changes
@@ -106,10 +417,13 @@
   Example
 
   ```tsx
-  import { Tiptap, useEditor } from '@tiptap/react'
+  import { Tiptap, useEditor } from "@tiptap/react";
 
   function MyEditor() {
-    const editor = useEditor({ extensions: [StarterKit], content: '<h1>Hello from Tiptap</h1>' })
+    const editor = useEditor({
+      extensions: [StarterKit],
+      content: "<h1>Hello from Tiptap</h1>",
+    });
 
     return (
       <Tiptap instance={editor}>
@@ -118,7 +432,7 @@
         <Tiptap.FloatingMenu>My Floating Menu</Tiptap.FloatingMenu>
         <MenuBar /> {/* MenuBar can use the new `useTiptap` hook to read the editor instance from context */}
       </Tiptap>
-    )
+    );
   }
   ```
 
@@ -677,18 +991,18 @@
     // Other options...
     addMarkView() {
       return ({ mark, HTMLAttributes }) => {
-        const dom = document.createElement('b')
-        const contentDOM = document.createElement('span')
+        const dom = document.createElement("b");
+        const contentDOM = document.createElement("span");
 
-        dom.appendChild(contentDOM)
+        dom.appendChild(contentDOM);
 
         return {
           dom,
           contentDOM,
-        }
-      }
+        };
+      };
     },
-  })
+  });
   ```
 
   ## React binding
@@ -696,41 +1010,41 @@
   To use a React component for a markview, you can use the `@tiptap/react` package:
 
   ```ts
-  import { Mark } from '@tiptap/core'
-  import { ReactMarkViewRenderer } from '@tiptap/react'
+  import { Mark } from "@tiptap/core";
+  import { ReactMarkViewRenderer } from "@tiptap/react";
 
-  import Component from './Component.jsx'
+  import Component from "./Component.jsx";
 
   export default Mark.create({
-    name: 'reactComponent',
+    name: "reactComponent",
 
     parseHTML() {
       return [
         {
-          tag: 'react-component',
+          tag: "react-component",
         },
-      ]
+      ];
     },
 
     renderHTML({ HTMLAttributes }) {
-      return ['react-component', HTMLAttributes]
+      return ["react-component", HTMLAttributes];
     },
 
     addMarkView() {
-      return ReactMarkViewRenderer(Component)
+      return ReactMarkViewRenderer(Component);
     },
-  })
+  });
   ```
 
   And here is an example of a React component:
 
   ```tsx
-  import { MarkViewContent, MarkViewRendererProps } from '@tiptap/react'
-  import React from 'react'
+  import { MarkViewContent, MarkViewRendererProps } from "@tiptap/react";
+  import React from "react";
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // oxlint-disable-next-line no-unused-vars
   export default (props: MarkViewRendererProps) => {
-    const [count, setCount] = React.useState(0)
+    const [count, setCount] = React.useState(0);
 
     return (
       <span className="content" data-test-id="mark-view">
@@ -739,15 +1053,15 @@
           React component:
           <button
             onClick={() => {
-              setCount(count + 1)
+              setCount(count + 1);
             }}
           >
             This button has been clicked {count} times.
           </button>
         </label>
       </span>
-    )
-  }
+    );
+  };
   ```
 
   ## Vue 3 binding
@@ -755,30 +1069,30 @@
   To use a Vue 3 component for a markview, you can use the `@tiptap/vue-3` package:
 
   ```ts
-  import { Mark } from '@tiptap/core'
-  import { VueMarkViewRenderer } from '@tiptap/vue-3'
+  import { Mark } from "@tiptap/core";
+  import { VueMarkViewRenderer } from "@tiptap/vue-3";
 
-  import Component from './Component.vue'
+  import Component from "./Component.vue";
 
   export default Mark.create({
-    name: 'vueComponent',
+    name: "vueComponent",
 
     parseHTML() {
       return [
         {
-          tag: 'vue-component',
+          tag: "vue-component",
         },
-      ]
+      ];
     },
 
     renderHTML({ HTMLAttributes }) {
-      return ['vue-component', HTMLAttributes]
+      return ["vue-component", HTMLAttributes];
     },
 
     addMarkView() {
-      return VueMarkViewRenderer(Component)
+      return VueMarkViewRenderer(Component);
     },
-  })
+  });
   ```
 
   And here is an example of a Vue 3 component:
@@ -789,13 +1103,15 @@
       <mark-view-content />
       <label contenteditable="false"
         >Vue Component::
-        <button @click="increase" class="primary">This button has been clicked {{ count }} times.</button>
+        <button @click="increase" class="primary">
+          This button has been clicked {{ count }} times.
+        </button>
       </label>
     </span>
   </template>
 
   <script>
-  import { MarkViewContent, markViewProps } from '@tiptap/vue-3'
+  import { MarkViewContent, markViewProps } from "@tiptap/vue-3";
   export default {
     components: {
       MarkViewContent,
@@ -803,15 +1119,15 @@
     data() {
       return {
         count: 0,
-      }
+      };
     },
     props: markViewProps,
     methods: {
       increase() {
-        this.count += 1
+        this.count += 1;
       },
     },
-  }
+  };
   </script>
   ```
 
@@ -1168,18 +1484,18 @@
     // Other options...
     addMarkView() {
       return ({ mark, HTMLAttributes }) => {
-        const dom = document.createElement('b')
-        const contentDOM = document.createElement('span')
+        const dom = document.createElement("b");
+        const contentDOM = document.createElement("span");
 
-        dom.appendChild(contentDOM)
+        dom.appendChild(contentDOM);
 
         return {
           dom,
           contentDOM,
-        }
-      }
+        };
+      };
     },
-  })
+  });
   ```
 
   ## React binding
@@ -1187,41 +1503,41 @@
   To use a React component for a markview, you can use the `@tiptap/react` package:
 
   ```ts
-  import { Mark } from '@tiptap/core'
-  import { ReactMarkViewRenderer } from '@tiptap/react'
+  import { Mark } from "@tiptap/core";
+  import { ReactMarkViewRenderer } from "@tiptap/react";
 
-  import Component from './Component.jsx'
+  import Component from "./Component.jsx";
 
   export default Mark.create({
-    name: 'reactComponent',
+    name: "reactComponent",
 
     parseHTML() {
       return [
         {
-          tag: 'react-component',
+          tag: "react-component",
         },
-      ]
+      ];
     },
 
     renderHTML({ HTMLAttributes }) {
-      return ['react-component', HTMLAttributes]
+      return ["react-component", HTMLAttributes];
     },
 
     addMarkView() {
-      return ReactMarkViewRenderer(Component)
+      return ReactMarkViewRenderer(Component);
     },
-  })
+  });
   ```
 
   And here is an example of a React component:
 
   ```tsx
-  import { MarkViewContent, MarkViewRendererProps } from '@tiptap/react'
-  import React from 'react'
+  import { MarkViewContent, MarkViewRendererProps } from "@tiptap/react";
+  import React from "react";
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // oxlint-disable-next-line no-unused-vars
   export default (props: MarkViewRendererProps) => {
-    const [count, setCount] = React.useState(0)
+    const [count, setCount] = React.useState(0);
 
     return (
       <span className="content" data-test-id="mark-view">
@@ -1230,15 +1546,15 @@
           React component:
           <button
             onClick={() => {
-              setCount(count + 1)
+              setCount(count + 1);
             }}
           >
             This button has been clicked {count} times.
           </button>
         </label>
       </span>
-    )
-  }
+    );
+  };
   ```
 
   ## Vue 3 binding
@@ -1246,30 +1562,30 @@
   To use a Vue 3 component for a markview, you can use the `@tiptap/vue-3` package:
 
   ```ts
-  import { Mark } from '@tiptap/core'
-  import { VueMarkViewRenderer } from '@tiptap/vue-3'
+  import { Mark } from "@tiptap/core";
+  import { VueMarkViewRenderer } from "@tiptap/vue-3";
 
-  import Component from './Component.vue'
+  import Component from "./Component.vue";
 
   export default Mark.create({
-    name: 'vueComponent',
+    name: "vueComponent",
 
     parseHTML() {
       return [
         {
-          tag: 'vue-component',
+          tag: "vue-component",
         },
-      ]
+      ];
     },
 
     renderHTML({ HTMLAttributes }) {
-      return ['vue-component', HTMLAttributes]
+      return ["vue-component", HTMLAttributes];
     },
 
     addMarkView() {
-      return VueMarkViewRenderer(Component)
+      return VueMarkViewRenderer(Component);
     },
-  })
+  });
   ```
 
   And here is an example of a Vue 3 component:
@@ -1280,13 +1596,15 @@
       <mark-view-content />
       <label contenteditable="false"
         >Vue Component::
-        <button @click="increase" class="primary">This button has been clicked {{ count }} times.</button>
+        <button @click="increase" class="primary">
+          This button has been clicked {{ count }} times.
+        </button>
       </label>
     </span>
   </template>
 
   <script>
-  import { MarkViewContent, markViewProps } from '@tiptap/vue-3'
+  import { MarkViewContent, markViewProps } from "@tiptap/vue-3";
   export default {
     components: {
       MarkViewContent,
@@ -1294,15 +1612,15 @@
     data() {
       return {
         count: 0,
-      }
+      };
     },
     props: markViewProps,
     methods: {
       increase() {
-        this.count += 1
+        this.count += 1;
       },
     },
-  }
+  };
   </script>
   ```
 
@@ -1321,18 +1639,18 @@
     // Other options...
     addMarkView() {
       return ({ mark, HTMLAttributes }) => {
-        const dom = document.createElement('b')
-        const contentDOM = document.createElement('span')
+        const dom = document.createElement("b");
+        const contentDOM = document.createElement("span");
 
-        dom.appendChild(contentDOM)
+        dom.appendChild(contentDOM);
 
         return {
           dom,
           contentDOM,
-        }
-      }
+        };
+      };
     },
-  })
+  });
   ```
 
   ## React binding
@@ -1340,41 +1658,41 @@
   To use a React component for a markview, you can use the `@tiptap/react` package:
 
   ```ts
-  import { Mark } from '@tiptap/core'
-  import { ReactMarkViewRenderer } from '@tiptap/react'
+  import { Mark } from "@tiptap/core";
+  import { ReactMarkViewRenderer } from "@tiptap/react";
 
-  import Component from './Component.jsx'
+  import Component from "./Component.jsx";
 
   export default Mark.create({
-    name: 'reactComponent',
+    name: "reactComponent",
 
     parseHTML() {
       return [
         {
-          tag: 'react-component',
+          tag: "react-component",
         },
-      ]
+      ];
     },
 
     renderHTML({ HTMLAttributes }) {
-      return ['react-component', HTMLAttributes]
+      return ["react-component", HTMLAttributes];
     },
 
     addMarkView() {
-      return ReactMarkViewRenderer(Component)
+      return ReactMarkViewRenderer(Component);
     },
-  })
+  });
   ```
 
   And here is an example of a React component:
 
   ```tsx
-  import { MarkViewContent, MarkViewRendererProps } from '@tiptap/react'
-  import React from 'react'
+  import { MarkViewContent, MarkViewRendererProps } from "@tiptap/react";
+  import React from "react";
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // oxlint-disable-next-line no-unused-vars
   export default (props: MarkViewRendererProps) => {
-    const [count, setCount] = React.useState(0)
+    const [count, setCount] = React.useState(0);
 
     return (
       <span className="content" data-test-id="mark-view">
@@ -1383,15 +1701,15 @@
           React component:
           <button
             onClick={() => {
-              setCount(count + 1)
+              setCount(count + 1);
             }}
           >
             This button has been clicked {count} times.
           </button>
         </label>
       </span>
-    )
-  }
+    );
+  };
   ```
 
   ## Vue 3 binding
@@ -1399,30 +1717,30 @@
   To use a Vue 3 component for a markview, you can use the `@tiptap/vue-3` package:
 
   ```ts
-  import { Mark } from '@tiptap/core'
-  import { VueMarkViewRenderer } from '@tiptap/vue-3'
+  import { Mark } from "@tiptap/core";
+  import { VueMarkViewRenderer } from "@tiptap/vue-3";
 
-  import Component from './Component.vue'
+  import Component from "./Component.vue";
 
   export default Mark.create({
-    name: 'vueComponent',
+    name: "vueComponent",
 
     parseHTML() {
       return [
         {
-          tag: 'vue-component',
+          tag: "vue-component",
         },
-      ]
+      ];
     },
 
     renderHTML({ HTMLAttributes }) {
-      return ['vue-component', HTMLAttributes]
+      return ["vue-component", HTMLAttributes];
     },
 
     addMarkView() {
-      return VueMarkViewRenderer(Component)
+      return VueMarkViewRenderer(Component);
     },
-  })
+  });
   ```
 
   And here is an example of a Vue 3 component:
@@ -1433,13 +1751,15 @@
       <mark-view-content />
       <label contenteditable="false"
         >Vue Component::
-        <button @click="increase" class="primary">This button has been clicked {{ count }} times.</button>
+        <button @click="increase" class="primary">
+          This button has been clicked {{ count }} times.
+        </button>
       </label>
     </span>
   </template>
 
   <script>
-  import { MarkViewContent, markViewProps } from '@tiptap/vue-3'
+  import { MarkViewContent, markViewProps } from "@tiptap/vue-3";
   export default {
     components: {
       MarkViewContent,
@@ -1447,15 +1767,15 @@
     data() {
       return {
         count: 0,
-      }
+      };
     },
     props: markViewProps,
     methods: {
       increase() {
-        this.count += 1
+        this.count += 1;
       },
     },
-  }
+  };
   </script>
   ```
 
@@ -1710,7 +2030,7 @@
         A highly optimized editor that only re-renders when it’s necessary.
       </p>
       `,
-  })
+  });
 
   /**
    * This hook allows us to select the editor state we want to use in our component.
@@ -1725,10 +2045,10 @@
      * It is evaluated on every editor transaction and compared to it's previously returned value.
      * You can return any data shape you want.
      */
-    selector: ctx => ({
-      isBold: ctx.editor.isActive('bold'),
-      isItalic: ctx.editor.isActive('italic'),
-      isStrike: ctx.editor.isActive('strike'),
+    selector: (ctx) => ({
+      isBold: ctx.editor.isActive("bold"),
+      isItalic: ctx.editor.isActive("italic"),
+      isStrike: ctx.editor.isActive("strike"),
     }),
     /**
      * This function allows us to customize the equality check for the selector.
@@ -1737,11 +2057,15 @@
     equalityFn: (prev, next) => {
       // A deep-equal function would probably be more maintainable here, but, we use a shallow one to show that it can be customized.
       if (!next) {
-        return false
+        return false;
       }
-      return prev.isBold === next.isBold && prev.isItalic === next.isItalic && prev.isStrike === next.isStrike
+      return (
+        prev.isBold === next.isBold &&
+        prev.isItalic === next.isItalic &&
+        prev.isStrike === next.isStrike
+      );
     },
-  })
+  });
   ```
 
 - Updated dependencies [fb45149]
@@ -1803,7 +2127,7 @@
         A highly optimized editor that only re-renders when it’s necessary.
       </p>
       `,
-  })
+  });
 
   /**
    * This hook allows us to select the editor state we want to use in our component.
@@ -1818,10 +2142,10 @@
      * It is evaluated on every editor transaction and compared to it's previously returned value.
      * You can return any data shape you want.
      */
-    selector: ctx => ({
-      isBold: ctx.editor.isActive('bold'),
-      isItalic: ctx.editor.isActive('italic'),
-      isStrike: ctx.editor.isActive('strike'),
+    selector: (ctx) => ({
+      isBold: ctx.editor.isActive("bold"),
+      isItalic: ctx.editor.isActive("italic"),
+      isStrike: ctx.editor.isActive("strike"),
     }),
     /**
      * This function allows us to customize the equality check for the selector.
@@ -1830,11 +2154,15 @@
     equalityFn: (prev, next) => {
       // A deep-equal function would probably be more maintainable here, but, we use a shallow one to show that it can be customized.
       if (!next) {
-        return false
+        return false;
       }
-      return prev.isBold === next.isBold && prev.isItalic === next.isItalic && prev.isStrike === next.isStrike
+      return (
+        prev.isBold === next.isBold &&
+        prev.isItalic === next.isItalic &&
+        prev.isStrike === next.isStrike
+      );
     },
-  })
+  });
   ```
 
   - @tiptap/core@2.5.0-pre.14
