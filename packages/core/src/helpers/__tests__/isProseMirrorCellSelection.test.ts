@@ -11,5 +11,7 @@ describe('isProseMirrorCellSelection', () => {
     expect(isProseMirrorCellSelection(null)).toBe(false)
     expect(isProseMirrorCellSelection(undefined)).toBe(false)
     expect(isProseMirrorCellSelection({})).toBe(false)
+    expect(isProseMirrorCellSelection('selection')).toBe(false)
+    expect(isProseMirrorCellSelection(42)).toBe(false)
   })
 })

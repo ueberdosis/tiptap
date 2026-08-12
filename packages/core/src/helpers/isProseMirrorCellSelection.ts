@@ -1,4 +1,3 @@
-import type { Selection } from '@tiptap/pm/state'
 import type { CellSelection } from '@tiptap/pm/tables'
 
 /**
@@ -10,13 +9,10 @@ import type { CellSelection } from '@tiptap/pm/tables'
  * isProseMirrorCellSelection(editor.state.selection)
  * ```
  */
-export function isProseMirrorCellSelection(
-  selection: Selection | null | undefined,
-): selection is CellSelection {
-  return (
-    selection !== null &&
-    selection !== undefined &&
-    'forEachCell' in selection &&
-    typeof selection.forEachCell === 'function'
-  )
+export function isProseMirrorCellSelection(selection: unknown): selection is CellSelection {
+  if (selection === null || typeof selection !== 'object') {
+    return false
+  }
+
+  return 'forEachCell' in selection && typeof selection.forEachCell === 'function'
 }

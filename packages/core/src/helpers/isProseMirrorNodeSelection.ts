@@ -1,4 +1,4 @@
-import type { NodeSelection, Selection } from '@tiptap/pm/state'
+import type { NodeSelection } from '@tiptap/pm/state'
 
 /**
  * Check whether a selection exposes a selected node.
@@ -9,6 +9,10 @@ import type { NodeSelection, Selection } from '@tiptap/pm/state'
  * isProseMirrorNodeSelection(editor.state.selection)
  * ```
  */
-export function isProseMirrorNodeSelection(selection: Selection): selection is NodeSelection {
-  return 'node' in selection && selection.node !== null
+export function isProseMirrorNodeSelection(selection: unknown): selection is NodeSelection {
+  if (selection === null || typeof selection !== 'object') {
+    return false
+  }
+
+  return 'node' in selection && selection.node != null
 }

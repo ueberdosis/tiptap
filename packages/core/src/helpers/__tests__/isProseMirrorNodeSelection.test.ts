@@ -25,5 +25,11 @@ describe('isProseMirrorNodeSelection', () => {
 
   it('returns false for other selections and values', () => {
     expect(isProseMirrorNodeSelection(TextSelection.create(createDoc(), 2))).toBe(false)
+    expect(isProseMirrorNodeSelection(null)).toBe(false)
+    expect(isProseMirrorNodeSelection(undefined)).toBe(false)
+    expect(isProseMirrorNodeSelection('selection')).toBe(false)
+    expect(isProseMirrorNodeSelection(42)).toBe(false)
+    expect(isProseMirrorNodeSelection({ node: undefined })).toBe(false)
+    expect(isProseMirrorNodeSelection({ node: null })).toBe(false)
   })
 })
