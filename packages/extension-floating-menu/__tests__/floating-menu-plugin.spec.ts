@@ -248,3 +248,53 @@ describe('FloatingMenuView destroy safety', () => {
     }
   })
 })
+
+describe('FloatingMenuView IME composition', () => {
+  it('re-evaluates shouldShow once the composition ends', async () => {
+    const editor = createEditor('<p></p>')
+    const shouldShow = vi.fn(() => false)
+    const view = createFloatingMenuView(editor, { shouldShow })
+
+    const oldState = editor.state
+
+    // Composed input: the text lands in the doc while `view.composing` is still true.
+    editor.view.dispatch(editor.state.tr.insertText('\uAC00'))
+    const composing = vi.spyOn(editor.view, 'composing', 'get').mockReturnValue(true)
+
+    shouldShow.mockClear()
+    view.update(editor.view, oldState)
+    expect(shouldShow).not.toHaveBeenCalled()
+
+    // The flush at the end of the composition carries no further change, so only the
+    // `compositionend` listener can trigger the re-evaluation.
+    composing.mockReturnValue(false)
+    editor.view.dom.dispatchEvent(new Event('compositionend'))
+    await new Promise(resolve => {
+      setTimeout(resolve)
+    })
+
+    expect(shouldShow).toHaveBeenCalled()
+
+    composing.mockRestore()
+    view.destroy()
+    editor.destroy()
+  })
+
+  it('removes the compositionend listener on destroy', async () => {
+    const editor = createEditor('<p></p>')
+    const shouldShow = vi.fn(() => false)
+    const view = createFloatingMenuView(editor, { shouldShow })
+
+    view.destroy()
+    shouldShow.mockClear()
+
+    editor.view.dom.dispatchEvent(new Event('compositionend'))
+    await new Promise(resolve => {
+      setTimeout(resolve)
+    })
+
+    expect(shouldShow).not.toHaveBeenCalled()
+
+    editor.destroy()
+  })
+})
