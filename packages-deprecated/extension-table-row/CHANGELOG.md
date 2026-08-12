@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.30.0
+
+### Patch Changes
+
+- Updated dependencies [eded5e4]
+  - @tiptap/extension-table@3.30.0
+
 ## 3.29.2
 
 ### Patch Changes

@@ -15,6 +15,8 @@ describe('static renderer: react', () => {
       class: 'my-class',
       style: 'color: red; font-size: 16px; transform: translateX(15px) translateY(10px);',
       id: 'my-id',
+      colspan: 2,
+      rowspan: 3,
     }
 
     const result = mapAttrsToHTMLAttributes(attrs, 'test-key')
@@ -23,6 +25,8 @@ describe('static renderer: react', () => {
       className: 'my-class',
       style: { color: 'red', fontSize: '16px', transform: 'translateX(15px) translateY(10px)' },
       id: 'my-id',
+      colSpan: 2,
+      rowSpan: 3,
       key: 'test-key',
     })
   })
