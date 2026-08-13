@@ -37,7 +37,11 @@ export function Fragment(props: { children: JSXRenderer[] }) {
   return props.children
 }
 
-export const h: JSXRenderer = (tag, attributes) => {
+function render(
+  tag: Parameters<JSXRenderer>[0],
+  attributes: Attributes | undefined,
+  hasMultipleChildren: boolean,
+) {
   // Treat the slot tag as the Prosemirror hole to render content into
   if (tag === 'slot') {
     return 0
@@ -56,12 +60,28 @@ export const h: JSXRenderer = (tag, attributes) => {
     )
   }
 
-  // Otherwise, return the tag, attributes, and children
+  if (hasMultipleChildren && Array.isArray(children)) {
+    return [tag, rest, ...children] as DOMOutputSpecArray
+  }
+
   return [tag, rest, children]
+}
+
+export const h: JSXRenderer = (tag, attributes) => render(tag, attributes, false)
+
+export const jsxs: JSXRenderer = (tag, attributes) => render(tag, attributes, true)
+
+export const jsxDEV = (
+  tag: Parameters<JSXRenderer>[0],
+  attributes?: Attributes,
+  _key?: unknown,
+  isStaticChildren?: boolean,
+) => {
+  return render(tag, attributes, Boolean(isStaticChildren))
 }
 
 // See
 // https://esbuild.github.io/api/#jsx-import-source
 // https://www.typescriptlang.org/tsconfig/#jsxImportSource
 
-export { h as createElement, h as jsx, h as jsxDEV, h as jsxs }
+export { h as createElement, h as jsx }
