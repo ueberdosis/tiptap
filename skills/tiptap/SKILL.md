@@ -37,8 +37,11 @@ Before doing any task that involves the Tiptap editor:
 2. Research the documentation and source code to see how to implement it
 
 Never implement new features from `tiptap-docs/src/content/ai/deprecated/`. Those pages document the
-retired AI Agent, AI Changes, and AI Suggestion extensions. Use the AI Toolkit or (less preferred) Basic AI Generation instead. 
-To move an existing integration off those deprecated products, see
+retired AI Agent, AI Changes, and AI Suggestion extensions. In general, prefer the more powerful and flexible
+AI Toolkit: it supports robust AI functionality with agents reading, editing, and commenting on docs in various ways.
+For simple, non-agentic (one-shot) use cases, Basic AI Generation may be sufficient.
+
+To move an existing integration off the deprecated products, see
 `tiptap-docs/src/content/ai/ai-toolkit/client/advanced-guides/migration-guides/`.
 
 ## Best Practices
