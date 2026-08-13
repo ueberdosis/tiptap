@@ -6,6 +6,7 @@ import { HardBreak } from '@tiptap/extension-hard-break'
 import { Heading } from '@tiptap/extension-heading'
 import { HorizontalRule } from '@tiptap/extension-horizontal-rule'
 import { BulletList, ListItem, OrderedList } from '@tiptap/extension-list'
+import { BlockMath } from '@tiptap/extension-mathematics'
 import { Paragraph } from '@tiptap/extension-paragraph'
 import { Text } from '@tiptap/extension-text'
 import { describe, expect, it } from 'vitest'
@@ -306,6 +307,7 @@ describe('Ordered list lazy continuation parsing', () => {
     BulletList,
     OrderedList,
     ListItem,
+    BlockMath,
   ]
 
   const listWithSingleItem = (text: string) => ({
@@ -349,6 +351,41 @@ describe('Ordered list lazy continuation parsing', () => {
           type: 'codeBlock',
           attrs: { language: null },
           content: [{ type: 'text', text: 'const x = 1' }],
+        },
+      ],
+    })
+  })
+
+  it('stops lazy continuation at a "$$" block math fence', () => {
+    const markdownManager = new MarkdownManager({ extensions: blockExtensions })
+
+    const markdown = ['1. one', '$$', 'x = 1', '$$'].join('\n')
+
+    expect(markdownManager.parse(markdown)).toEqual({
+      type: 'doc',
+      content: [listWithSingleItem('one'), { type: 'blockMath', attrs: { latex: 'x = 1' } }],
+    })
+  })
+
+  it('parses an indented "$$" block math fence as block content inside the list item', () => {
+    const markdownManager = new MarkdownManager({ extensions: blockExtensions })
+
+    const markdown = ['1. one', '   $$', '   x = 1', '   $$'].join('\n')
+
+    expect(markdownManager.parse(markdown)).toEqual({
+      type: 'doc',
+      content: [
+        {
+          type: 'orderedList',
+          content: [
+            {
+              type: 'listItem',
+              content: [
+                { type: 'paragraph', content: [{ type: 'text', text: 'one' }] },
+                { type: 'blockMath', attrs: { latex: 'x = 1' } },
+              ],
+            },
+          ],
         },
       ],
     })

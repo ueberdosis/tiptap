@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/pm",
-  "version": "3.29.2",
+  "version": "3.30.0",
   "description": "prosemirror wrapper package for tiptap",
   "keywords": [
     "prosemirror",
@@ -106,8 +106,8 @@
     },
     "./schema-list": {
       "types": {
-        "import": "./dist/schema/index.d.ts",
-        "require": "./dist/schema/index.d.cts"
+        "import": "./dist/schema-list/index.d.ts",
+        "require": "./dist/schema-list/index.d.cts"
       },
       "import": "./dist/schema-list/index.js",
       "require": "./dist/schema-list/index.cjs"

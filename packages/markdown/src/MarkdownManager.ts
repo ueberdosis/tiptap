@@ -59,6 +59,8 @@ export class MarkdownManager {
   private codeTypes: Set<string> = new Set()
   /** Lazy cache of tag names declared by the registered schema's parseDOM rules. */
   private schemaParseDomTagsCache: Set<string> | null = null
+  /** Lazy cache of the names of the schema's inline node types. */
+  private inlineNodeTypesCache: Set<string> | null = null
 
   /**
    * Create a MarkdownManager.
@@ -971,23 +973,68 @@ export class MarkdownManager {
           return parsed.content
         }
 
-        // For inline HTML, we need to flatten the content appropriately
-        // If there's only one paragraph with content, unwrap it
-        if (
-          parsed.content.length === 1 &&
-          parsed.content[0].type === 'paragraph' &&
-          parsed.content[0].content
-        ) {
-          return parsed.content[0].content
-        }
+        const inlineContent = this.toInlineContent(parsed.content)
 
-        return parsed.content
+        return inlineContent.length > 0 ? inlineContent : null
       }
 
       return parsed as JSONContent
     } catch (error) {
       throw new Error(`Failed to parse HTML in markdown: ${error}`)
     }
+  }
+
+  /**
+   * Keep only the inline nodes of parsed HTML content, unwrapping the block
+   * nodes around them. Inline HTML sits inside a textblock, where a block node
+   * would make the document invalid for the schema.
+   *
+   * @param content Content array of a parsed HTML fragment.
+   * @example
+   *   toInlineContent([{ type: 'paragraph', content: [{ type: 'text', text: 'hi' }] }])
+   *   // → [{ type: 'text', text: 'hi' }]
+   */
+  private toInlineContent(content: JSONContent[]): JSONContent[] {
+    const inlineTypes = this.getInlineNodeTypes()
+
+    return content.flatMap(node => {
+      if (node.type && inlineTypes.has(node.type)) {
+        return [node]
+      }
+
+      return node.content ? this.toInlineContent(node.content) : []
+    })
+  }
+
+  /**
+   * Collect the names of the node types the schema treats as inline. Result is
+   * cached for the lifetime of the manager since extensions don't change after
+   * registration.
+   *
+   * @example
+   *   getInlineNodeTypes().has('text') // → true
+   */
+  private getInlineNodeTypes(): Set<string> {
+    if (this.inlineNodeTypesCache) {
+      return this.inlineNodeTypesCache
+    }
+
+    const types = new Set<string>(['text'])
+
+    try {
+      const schema = getSchema(this.baseExtensions)
+
+      Object.values(schema.nodes).forEach(type => {
+        if (type.isInline) {
+          types.add(type.name)
+        }
+      })
+    } catch {
+      // If schema construction fails, only text nodes count as inline.
+    }
+
+    this.inlineNodeTypesCache = types
+    return types
   }
 
   /**
