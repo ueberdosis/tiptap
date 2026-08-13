@@ -1,5 +1,13 @@
 # @tiptap/extension-node-range
 
+## 3.30.1
+
+### Patch Changes
+
+- Updated dependencies [abc8828]
+  - @tiptap/core@3.30.1
+  - @tiptap/pm@3.30.1
+
 ## 3.30.0
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.30.1
+
+### Patch Changes
+
+- abc8828: Added new ProseMirror helpers that check whether a value is a specific ProseMirror type.
+  - @tiptap/pm@3.30.1
+
 ## 3.30.0
 
 ### Minor Changes
