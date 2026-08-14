@@ -157,6 +157,8 @@ export class FloatingMenuView {
 
   private resizeDebounceTimer: number | undefined
 
+  private compositionEndTimer: number | undefined
+
   private isVisible = false
 
   private scrollTarget: HTMLElement | Window = window
@@ -385,7 +387,9 @@ export class FloatingMenuView {
     // flush at the end of the composition usually carries no further doc or selection change, so it
     // hits the `isSame` early return as well. Without this the menu is never re-evaluated for
     // composed input (e.g. Hangul, where every syllable goes through a composition).
-    setTimeout(() => {
+    clearTimeout(this.compositionEndTimer)
+
+    this.compositionEndTimer = window.setTimeout(() => {
       if (this.editor.isDestroyed) {
         return
       }
@@ -580,6 +584,7 @@ export class FloatingMenuView {
     this.editor.off('blur', this.blurHandler)
     this.editor.off('transaction', this.transactionHandler)
     this.view.dom.removeEventListener('compositionend', this.compositionEndHandler)
+    clearTimeout(this.compositionEndTimer)
 
     if (this.floatingUIOptions.onDestroy) {
       this.floatingUIOptions.onDestroy()
