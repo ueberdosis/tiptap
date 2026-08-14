@@ -1099,6 +1099,7 @@ export class MarkdownManager {
     node: JSONContent,
     parentNode?: JSONContent,
     isLineStart = false,
+    isIndented = false,
   ): string {
     const isInsideCode =
       (parentNode?.type != null && this.codeTypes.has(parentNode.type)) ||
@@ -1109,7 +1110,7 @@ export class MarkdownManager {
     }
 
     const escaped = this.escapeMarkdownSyntax(encodeHtmlEntities(text))
-    return isLineStart ? this.escapeBlockSyntax(escaped) : escaped
+    return isLineStart ? this.escapeBlockSyntax(escaped, isIndented) : escaped
   }
 
   /**
@@ -1126,27 +1127,35 @@ export class MarkdownManager {
   }
 
   /**
-   * Backslash-escape leading syntax that would otherwise start a block, so a
-   * text node keeps its meaning when the serialized markdown is parsed again.
-   *
-   * Relevant at the start of every line, not just the start of the whole
-   * string: a text node can contain literal `\n` characters (e.g. pasted or
-   * API-constructed content), and each of those lines is its own block-start
-   * context once serialized. Up to three leading spaces are still considered
-   * "line start" per CommonMark's block-indentation rule. The caller passes
-   * `isLineStart` for the first inline child of a top-level paragraph, and
-   * for the text run right after a hard break.
+   * Backslash-escape leading block syntax so the text stays text when the markdown is parsed
+   * again. Runs per line, since a text node can contain literal `\n`.
    */
-  private escapeBlockSyntax(text: string): string {
-    const escapeLine = (line: string): string =>
-      line
-        .replace(/^( {0,3})(#{1,6})(\s|$)/, '$1\\$2$3')
-        .replace(/^( {0,3})([-+])(\s|$)/, '$1\\$2$3')
-        .replace(/^( {0,3})(\d{1,9})([.)])(\s|$)/, '$1$2\\$3$4')
-        .replace(/^( {0,3})(-{2,}|={1,})(\s*)$/, '$1\\$2$3')
-        .replace(/^( {0,3})(\|)/, '$1\\$2')
+  private escapeBlockSyntax(text: string, isIndented = false): string {
+    const lines = text.split('\n')
+    const isTableDelimiter = (line = '') => /^ {0,3}\|?[\s:|-]*-[\s:|-]*$/.test(line)
 
-    return text.split('\n').map(escapeLine).join('\n')
+    return lines
+      .map((line, index) => {
+        // marked reads the line above a delimiter row as a table header, so break the row.
+        if (index > 0 && isTableDelimiter(line)) {
+          return line.replace('-', '\\-')
+        }
+
+        let escaped = line
+          .replace(/^( {0,3})(#{1,6})(\s|$)/, '$1\\$2$3')
+          .replace(/^( {0,3})([-+])(\s|$)/, '$1\\$2$3')
+
+        // Inside a list item marked reads `1.` as text, so escaping it would only add noise.
+        if (!isIndented) {
+          escaped = escaped.replace(/^( {0,3})(\d{1,9})([.)])(\s|$)/, '$1$2\\$3$4')
+        }
+
+        // The first line has nothing above it to underline, so only a break can start a block.
+        return index === 0
+          ? escaped.replace(/^( {0,3})(-{3,})(\s*)$/, '$1\\$2$3')
+          : escaped.replace(/^( {0,3})(={1,})(\s*)$/, '$1\\$2$3')
+      })
+      .join('\n')
   }
 
   renderNodeToMarkdown(
@@ -1263,12 +1272,20 @@ export class MarkdownManager {
       }
 
       if (node.type === 'text') {
+        // Every paragraph starts a block, nested ones too, so its line starts carry block
+        // syntax. Marked text is already protected by the mark delimiters around it.
+        const renderedSoFar = result.join(separator)
         const isLineStart =
-          level === 0 &&
           parentNode?.type === 'paragraph' &&
           !node.marks?.length &&
-          (i === 0 || nodes[i - 1]?.type === 'hardBreak')
-        let textContent = this.encodeTextForMarkdown(node.text || '', node, parentNode, isLineStart)
+          (renderedSoFar === '' || renderedSoFar.endsWith('\n'))
+        let textContent = this.encodeTextForMarkdown(
+          node.text || '',
+          node,
+          parentNode,
+          isLineStart,
+          level > 0,
+        )
         const currentMarks = new Map((node.marks || []).map(mark => [mark.type, mark]))
 
         // Find marks that need to be closed and opened

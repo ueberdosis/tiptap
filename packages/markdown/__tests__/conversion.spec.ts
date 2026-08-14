@@ -1,4 +1,5 @@
 import type { Extension } from '@tiptap/core'
+import { Blockquote } from '@tiptap/extension-blockquote'
 import { Bold } from '@tiptap/extension-bold'
 import { Code } from '@tiptap/extension-code'
 import { CodeBlock } from '@tiptap/extension-code-block'
@@ -29,6 +30,7 @@ describe('Markdown Conversion Tests', () => {
     Heading,
     HardBreak,
     CodeBlock,
+    Blockquote,
     BulletList,
     OrderedList,
     ListItem,
@@ -584,6 +586,36 @@ describe('Markdown Conversion Tests', () => {
   })
 
   describe('markdown escape character handling', () => {
+    const paragraph = (text: string) => ({
+      type: 'doc',
+      content: [{ type: 'paragraph', content: [{ type: 'text', text }] }],
+    })
+
+    const listItem = (text: string) => ({
+      type: 'doc',
+      content: [
+        {
+          type: 'bulletList',
+          content: [
+            {
+              type: 'listItem',
+              content: [{ type: 'paragraph', content: [{ type: 'text', text }] }],
+            },
+          ],
+        },
+      ],
+    })
+
+    const blockquote = (text: string) => ({
+      type: 'doc',
+      content: [
+        {
+          type: 'blockquote',
+          content: [{ type: 'paragraph', content: [{ type: 'text', text }] }],
+        },
+      ],
+    })
+
     describe('parsing: escape tokens in markdown → text nodes', () => {
       it('should parse a backslash-escaped asterisk as a literal asterisk', () => {
         const json = markdownManager.parse('\\*text\\*')
@@ -780,11 +812,6 @@ describe('Markdown Conversion Tests', () => {
     })
 
     describe('serializing: leading block syntax → backslash-escaped markdown', () => {
-      const paragraph = (text: string) => ({
-        type: 'doc',
-        content: [{ type: 'paragraph', content: [{ type: 'text', text }] }],
-      })
-
       it('should escape a leading heading marker', () => {
         expect(markdownManager.serialize(paragraph('# not a heading'))).toBe('\\# not a heading')
       })
@@ -824,8 +851,20 @@ describe('Markdown Conversion Tests', () => {
         expect(markdownManager.serialize(paragraph('Title\n--'))).toBe('Title\n\\--')
       })
 
-      it('should escape a leading table-row pipe on a later line', () => {
-        expect(markdownManager.serialize(paragraph('a\n| b | c |'))).toBe('a\n\\| b | c |')
+      it('should escape a table delimiter row, which is what turns the line above into a table', () => {
+        expect(markdownManager.serialize(paragraph('| a | b |\n| - | - |'))).toBe(
+          '| a | b |\n| \\- | - |',
+        )
+        expect(markdownManager.serialize(paragraph('a | b\n--- | ---'))).toBe('a | b\n\\--- | ---')
+      })
+
+      it('should not escape a table row without a delimiter row under it', () => {
+        expect(markdownManager.serialize(paragraph('a\n| b | c |'))).toBe('a\n| b | c |')
+      })
+
+      it('should not escape an underline on the first line, where nothing is above it', () => {
+        expect(markdownManager.serialize(paragraph('==='))).toBe('===')
+        expect(markdownManager.serialize(paragraph('--'))).toBe('--')
       })
 
       it('should escape a block marker indented up to three spaces', () => {
@@ -851,6 +890,37 @@ describe('Markdown Conversion Tests', () => {
 
         expect(markdownManager.serialize(input)).toBe('Title  \n\\# not a heading')
       })
+
+      it('should escape a leading block marker when the node before it renders nothing', () => {
+        const input = {
+          type: 'doc',
+          content: [
+            {
+              type: 'paragraph',
+              content: [
+                { type: 'text', text: '' },
+                { type: 'text', text: '# not a heading' },
+              ],
+            },
+          ],
+        }
+
+        expect(markdownManager.serialize(input)).toBe('\\# not a heading')
+      })
+
+      it('should escape a leading block marker inside a list item', () => {
+        expect(markdownManager.serialize(listItem('# not a heading'))).toBe('- \\# not a heading')
+        expect(markdownManager.serialize(listItem('- not a list'))).toBe('- \\- not a list')
+      })
+
+      it('should escape a leading block marker inside a blockquote', () => {
+        expect(markdownManager.serialize(blockquote('# not a heading'))).toBe('> \\# not a heading')
+      })
+
+      it('should not escape an ordered-list marker inside a list item, where it stays text', () => {
+        expect(markdownManager.serialize(listItem('123.'))).toBe('- 123.')
+        expect(markdownManager.serialize(listItem('1. not a list'))).toBe('- 1. not a list')
+      })
     })
 
     describe('round-trip: leading block syntax stays a paragraph', () => {
@@ -859,11 +929,36 @@ describe('Markdown Conversion Tests', () => {
         return markdownManager.parse(md).content[0].type
       }
 
+      const roundTrip = (json: any) => markdownManager.parse(markdownManager.serialize(json))
+
       it('should keep escaped block syntax as a paragraph after round-trip', () => {
         expect(roundTripType('\\# not a heading')).toBe('paragraph')
         expect(roundTripType('1\\. not a list')).toBe('paragraph')
         expect(roundTripType('\\- not a list')).toBe('paragraph')
         expect(roundTripType('\\+ not a list')).toBe('paragraph')
+        expect(roundTripType('\\---')).toBe('paragraph')
+      })
+
+      it('should keep a thematic break as text after round-trip', () => {
+        expect(roundTrip(paragraph('---'))).toEqual(paragraph('---'))
+      })
+
+      it('should keep a table as text after round-trip', () => {
+        expect(roundTrip(paragraph('| a | b |\n| - | - |'))).toEqual(
+          paragraph('| a | b |\n| - | - |'),
+        )
+        expect(roundTrip(paragraph('a | b\n--- | ---'))).toEqual(paragraph('a | b\n--- | ---'))
+      })
+
+      it('should keep block syntax in a list item as text after round-trip', () => {
+        expect(roundTrip(listItem('# not a heading'))).toEqual(listItem('# not a heading'))
+        expect(roundTrip(listItem('- not a list'))).toEqual(listItem('- not a list'))
+        expect(roundTrip(listItem('123.'))).toEqual(listItem('123.'))
+      })
+
+      it('should keep block syntax in a blockquote as text after round-trip', () => {
+        expect(roundTrip(blockquote('# not a heading'))).toEqual(blockquote('# not a heading'))
+        expect(roundTrip(blockquote('1. not a list'))).toEqual(blockquote('1. not a list'))
       })
     })
 
