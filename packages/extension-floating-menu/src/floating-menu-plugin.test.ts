@@ -260,7 +260,7 @@ describe('FloatingMenuView IME composition', () => {
 
     const oldState = editor.state
 
-    // Composed input: the text lands in the doc while `view.composing` is still true.
+    // Text is inserted while composing is still true.
     editor.view.dispatch(editor.state.tr.insertText('\uAC00'))
     const composing = vi.spyOn(editor.view, 'composing', 'get').mockReturnValue(true)
 
@@ -269,8 +269,7 @@ describe('FloatingMenuView IME composition', () => {
     expect(shouldShow).not.toHaveBeenCalled()
     expect(onHide).not.toHaveBeenCalled()
 
-    // The flush at the end of the composition carries no further change, so only the
-    // `compositionend` listener can trigger the re-evaluation.
+    // The composition flush brings no further change, so only compositionend can trigger it.
     shouldShow.mockReturnValue(false)
     composing.mockReturnValue(false)
     editor.view.dom.dispatchEvent(new Event('compositionend'))
