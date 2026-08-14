@@ -13,13 +13,29 @@ export type DOMOutputSpecArray =
   | [string, Attributes, DOMOutputSpecArray | 0]
   | [string, DOMOutputSpecArray]
 
+// Child lists and DOM output specs are both arrays, so track JSX boundaries by identity.
+const jsxElements = new WeakSet<DOMOutputSpecArray>()
+const jsxFragments = new WeakSet<unknown[]>()
+
+/** Create a new JSX element from the given spec */
+function createJSXElement(spec: unknown[]): DOMOutputSpecArray {
+  const element = spec as DOMOutputSpecArray
+
+  jsxElements.add(element)
+
+  return element
+}
+
+/** Check if a spec is a JSX element */
+function isJSXElement(value: unknown): value is DOMOutputSpecArray {
+  return Array.isArray(value) && jsxElements.has(value as DOMOutputSpecArray)
+}
+
 // JSX types for Tiptap's JSX runtime
 // These types only apply when using @jsxImportSource @tiptap/core
-// oxlint-disable-next-lineno-namespace
-export namespace JSX {
+export declare namespace JSX {
   export type Element = DOMOutputSpecArray
   export interface IntrinsicElements {
-    // oxlint-disable-next-lineno-explicit-any
     [key: string]: any
   }
   export interface ElementChildrenAttribute {
@@ -34,6 +50,8 @@ export type JSXRenderer = (
 ) => DOMOutputSpecArray | DOMOutputSpecElement
 
 export function Fragment(props: { children: JSXRenderer[] }) {
+  jsxFragments.add(props.children)
+
   return props.children
 }
 
@@ -49,7 +67,13 @@ function render(
 
   // If the tag is a function, call it with the props
   if (tag instanceof Function) {
-    return tag(attributes)
+    const result = tag(attributes)
+
+    if (Array.isArray(result) && !isJSXElement(result) && !jsxFragments.has(result)) {
+      return createJSXElement(result)
+    }
+
+    return result
   }
 
   const { children, ...rest } = attributes ?? {}
@@ -62,49 +86,32 @@ function render(
 
   // Handle children array by spreading elements
   if (Array.isArray(children)) {
-    if (children.length === 0) {
-      // Empty array means no children
-      return [tag, rest]
+    if (isJSXElement(children)) {
+      return createJSXElement([tag, rest, children])
     }
 
-    // Check if this is a DOMOutputSpecArray (single child) or an array of children
-    // DOMOutputSpecArray always starts with a string tag as the first element,
-    // optionally followed by attributes object, 0 (content hole), or another DOMOutputSpecArray
-    // Note: We only check if firstElement is a string because per ProseMirror spec,
-    // DOMOutputSpec MUST start with a tag name (string). The 0 can only appear
-    // as a subsequent element to mark content insertion points.
-    const firstElement = children[0]
-    const secondElement = children.length > 1 ? children[1] : undefined
-    const isDOMOutputSpec =
-      typeof firstElement === 'string' &&
-      (secondElement === undefined ||
-        secondElement === 0 ||
-        typeof secondElement === 'string' ||
-        (typeof secondElement === 'object' && secondElement !== null && !Array.isArray(secondElement)) ||
-        (Array.isArray(secondElement) && typeof secondElement[0] === 'string'))
-
-    if (isDOMOutputSpec) {
-      // This is a single DOMOutputSpecArray child, not multiple children
-      return [tag, rest, children]
+    if (children.length === 0) {
+      // Empty array means no children
+      return createJSXElement([tag, rest])
     }
 
     // Filter out null/undefined values from array of children
     const validChildren = children.filter(child => child != null)
 
     if (validChildren.length === 0) {
-      return [tag, rest]
+      return createJSXElement([tag, rest])
     }
 
     // Spread children into the result array
-    return [tag, rest, ...validChildren]
+    return createJSXElement([tag, rest, ...validChildren])
   }
 
   // Single child or no children
   if (children !== undefined && children !== null) {
-    return [tag, rest, children]
+    return createJSXElement([tag, rest, children])
   }
 
-  return [tag, rest]
+  return createJSXElement([tag, rest])
 }
 
 export const h: JSXRenderer = (tag, attributes) => render(tag, attributes, false)

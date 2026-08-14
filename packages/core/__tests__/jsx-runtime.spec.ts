@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { Fragment, h } from '../src/jsx-runtime.js'
+import { Fragment, h, jsx, jsxs } from '../src/jsx-runtime.js'
 
 describe('JSX Runtime', () => {
   describe('basic functionality', () => {
@@ -27,6 +27,14 @@ describe('JSX Runtime', () => {
       const result = h(Component, { class: 'test' })
 
       expect(result).toEqual(['span', { class: 'test' }])
+    })
+
+    it('should keep a function component as a single child', () => {
+      const Component = (props: any) => ['span', props]
+      const component = h(Component, { class: 'test' })
+      const result = h('div', { children: [component, 'text'] })
+
+      expect(result).toEqual(['div', {}, ['span', { class: 'test' }], 'text'])
     })
 
     it('should throw error for svg elements', () => {
@@ -111,10 +119,10 @@ describe('JSX Runtime', () => {
 
     it('should handle the issue example: stats card with nested siblings', () => {
       // This is the exact scenario from GitHub issue #6949
-      const statTitle = h('div', { class: 'stat-title', children: 'Title' })
-      const statValue = h('div', { class: 'stat-value', children: '1,000' })
-      const stat = h('div', { class: 'stat', children: [statTitle, statValue] })
-      const result = h('div', { class: 'stats', children: [stat] })
+      const statTitle = jsx('div', { class: 'stat-title', children: 'Title' })
+      const statValue = jsx('div', { class: 'stat-value', children: '1,000' })
+      const stat = jsxs('div', { class: 'stat', children: [statTitle, statValue] })
+      const result = jsx('div', { class: 'stats', children: stat })
 
       expect(result).toEqual([
         'div',
@@ -185,6 +193,15 @@ describe('JSX Runtime', () => {
         ['div', {}, 'Second'],
       ])
     })
+
+    it('should spread fragment children when nested', () => {
+      const child1 = h('span', { children: 'A' })
+      const child2 = h('span', { children: 'B' })
+      const fragment = Fragment({ children: [child1, child2] })
+      const result = h('div', { children: fragment })
+
+      expect(result).toEqual(['div', {}, ['span', {}, 'A'], ['span', {}, 'B']])
+    })
   })
 
   describe('content hole (slot) integration', () => {
@@ -225,6 +242,20 @@ describe('JSX Runtime', () => {
       const result = h('p', { children: [bold, italic] })
 
       expect(result).toEqual(['p', {}, ['strong', {}, 'important'], ['em', {}, 'emphasis']])
+    })
+
+    it('should keep text and element siblings separate', () => {
+      const element = jsx('strong', { children: 'bold' })
+      const result = jsxs('p', { children: ['text', element] })
+
+      expect(result).toEqual(['p', {}, 'text', ['strong', {}, 'bold']])
+    })
+
+    it('should keep text and slot siblings separate', () => {
+      const slot = jsx('slot', {})
+      const result = jsxs('div', { children: ['text', slot] })
+
+      expect(result).toEqual(['div', {}, 'text', 0])
     })
   })
 
@@ -270,23 +301,7 @@ describe('JSX Runtime', () => {
     })
   })
 
-  describe('DOMOutputSpec detection edge cases', () => {
-    it('should correctly identify DOMOutputSpecArray with just tag and 0', () => {
-      // ['div', 0] is a valid DOMOutputSpecArray with content hole
-      const child = ['div', 0] as any
-      const result = h('section', { children: child })
-
-      expect(result).toEqual(['section', {}, ['div', 0]])
-    })
-
-    it('should correctly identify DOMOutputSpecArray with tag, attrs, and 0', () => {
-      // ['div', { class: 'x' }, 0] is a valid DOMOutputSpecArray
-      const child = ['div', { class: 'content' }, 0] as any
-      const result = h('section', { children: child })
-
-      expect(result).toEqual(['section', {}, ['div', { class: 'content' }, 0]])
-    })
-
+  describe('JSX boundary handling', () => {
     it('should spread array of DOMOutputSpecArrays, not treat as single child', () => {
       // Array of multiple DOMOutputSpecArrays should be spread
       const children = [
@@ -298,17 +313,7 @@ describe('JSX Runtime', () => {
       expect(result).toEqual(['div', {}, ['span', {}, 'A'], ['span', {}, 'B']])
     })
 
-    it('should handle DOMOutputSpecArray with nested child', () => {
-      // ['div', ['span', {}, 'text']] is valid - div with single child
-      const child = ['div', ['span', {}, 'text']] as any
-      const result = h('section', { children: child })
-
-      expect(result).toEqual(['section', {}, ['div', ['span', {}, 'text']]])
-    })
-
     it('should handle array starting with 0 as multiple children', () => {
-      // [0, 'text'] is NOT a DOMOutputSpec (those must start with string tag)
-      // This should be treated as multiple children and spread
       const children = [0, 'text'] as any
       const result = h('div', { children })
 
@@ -320,14 +325,6 @@ describe('JSX Runtime', () => {
       const result = h('div', { children: 0 })
 
       expect(result).toEqual(['div', {}, 0])
-    })
-
-    it('should handle DOMOutputSpecArray with text content as second element', () => {
-      // ['div', 'text'] is a valid DOMOutputSpec according to ProseMirror
-      const child = ['div', 'text content'] as any
-      const result = h('section', { children: child })
-
-      expect(result).toEqual(['section', {}, ['div', 'text content']])
     })
   })
 })
