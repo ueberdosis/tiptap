@@ -250,10 +250,13 @@ describe('FloatingMenuView destroy safety', () => {
 })
 
 describe('FloatingMenuView IME composition', () => {
-  it('re-evaluates shouldShow once the composition ends', async () => {
+  it('hides the menu once the composition ends', async () => {
     const editor = createEditor('<p></p>')
-    const shouldShow = vi.fn(() => false)
-    const view = createFloatingMenuView(editor, { shouldShow })
+    const shouldShow = vi.fn(() => true)
+    const onHide = vi.fn()
+    const view = createFloatingMenuView(editor, { shouldShow, options: { onHide } })
+
+    view.show()
 
     const oldState = editor.state
 
@@ -264,9 +267,11 @@ describe('FloatingMenuView IME composition', () => {
     shouldShow.mockClear()
     view.update(editor.view, oldState)
     expect(shouldShow).not.toHaveBeenCalled()
+    expect(onHide).not.toHaveBeenCalled()
 
     // The flush at the end of the composition carries no further change, so only the
     // `compositionend` listener can trigger the re-evaluation.
+    shouldShow.mockReturnValue(false)
     composing.mockReturnValue(false)
     editor.view.dom.dispatchEvent(new Event('compositionend'))
     await new Promise(resolve => {
@@ -274,6 +279,7 @@ describe('FloatingMenuView IME composition', () => {
     })
 
     expect(shouldShow).toHaveBeenCalled()
+    expect(onHide).toHaveBeenCalled()
 
     composing.mockRestore()
     view.destroy()
@@ -293,6 +299,25 @@ describe('FloatingMenuView IME composition', () => {
       setTimeout(resolve)
     })
 
+    expect(shouldShow).not.toHaveBeenCalled()
+
+    editor.destroy()
+  })
+
+  it('cancels a pending update when the view is destroyed while the editor lives on', async () => {
+    const editor = createEditor('<p></p>')
+    const shouldShow = vi.fn(() => false)
+    const view = createFloatingMenuView(editor, { shouldShow })
+
+    editor.view.dom.dispatchEvent(new Event('compositionend'))
+    shouldShow.mockClear()
+    view.destroy()
+
+    await new Promise(resolve => {
+      setTimeout(resolve)
+    })
+
+    expect(editor.isDestroyed).toBe(false)
     expect(shouldShow).not.toHaveBeenCalled()
 
     editor.destroy()
