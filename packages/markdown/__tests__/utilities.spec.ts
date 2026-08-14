@@ -6,6 +6,8 @@ import {
 } from '@tiptap/core'
 import { describe, expect, it } from 'vitest'
 
+import { wrapInMarkdownBlock } from '../src/utils/wrapInMarkdownBlock.js'
+
 describe('Markdown Utilities', () => {
   describe('createInlineMarkdownSpec', () => {
     it('should create a valid spec for self-closing inline nodes', () => {
@@ -443,6 +445,20 @@ describe('Markdown Utilities', () => {
         start: '0',
         width: '640',
       })
+    })
+  })
+
+  describe('wrapInMarkdownBlock', () => {
+    it('prefixes every line and separates blocks with a blank line', () => {
+      expect(wrapInMarkdownBlock('> ', 'first\nsecond')).toBe('> first\n> \n> second')
+    })
+
+    it('preserves multi-character prefixes exactly', () => {
+      expect(wrapInMarkdownBlock('  ', 'first\nsecond')).toBe('  first\n  \n  second')
+    })
+
+    it('does not append a trailing blank line', () => {
+      expect(wrapInMarkdownBlock('>', 'single')).toBe('>single')
     })
   })
 })
