@@ -12,6 +12,9 @@ const TRAILING_BLANK_LINES = /\n[^\S\n]*(?:\n[^\S\n]*)+$/
  * Recover blank lines absorbed into token `raw` as explicit `space` tokens.
  * @param tokens The marked token stream to normalize.
  * @returns A new token array with absorbed blank lines as `space` tokens.
+ * @example
+ * extractAbsorbedBlankLines([{ type: 'paragraph', raw: 'hello\n\n' }])
+ * // => [{ type: 'paragraph', raw: 'hello' }, { type: 'space', raw: '\n\n' }]
  */
 export function extractAbsorbedBlankLines(tokens: MarkdownToken[]): MarkdownToken[] {
   return tokens.flatMap((token, index) =>
