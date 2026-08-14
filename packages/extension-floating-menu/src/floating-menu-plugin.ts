@@ -383,10 +383,7 @@ export class FloatingMenuView {
   }
 
   compositionEndHandler = () => {
-    // While an IME composition is running `updateHandler` bails out on `view.composing`, and the
-    // flush at the end of the composition usually carries no further doc or selection change, so it
-    // hits the `isSame` early return as well. Without this the menu is never re-evaluated for
-    // composed input (e.g. Hangul, where every syllable goes through a composition).
+    // Re-check after IME input — updates are skipped while composing.
     clearTimeout(this.compositionEndTimer)
 
     this.compositionEndTimer = window.setTimeout(() => {
