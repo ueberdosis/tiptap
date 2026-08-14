@@ -60,10 +60,60 @@ decorations.filter(d => d.visible)
 
 ### Comments
 
-- Comment only when the reason is not visible in the code. Never restate what the lines below already say.
-- Two lines max. Only genuinely complex or hard to follow code earns more.
-- Say why, not what: `// We keep the old value because the transaction may be reverted.`
-- JSDoc on public APIs with `@param`, `@returns` and a runnable example. Those examples generate our API docs.
+Comments are a last resort. Prefer code that explains itself through clear names, structure, and small functions.
+
+* Default to **no comment**.
+* Comment only when the **reason for a decision is not apparent from the code**.
+* Keep comments **short, local, and intent-focused**.
+* Prefer a short one-line fragment or sentence.
+* Never restate what the code does.
+* Never narrate control flow.
+* Never explain surrounding architecture, history, edge cases, or implementation details unless they are essential to understanding the decision.
+* Never use comments as a substitute for clearer code, naming, or structure.
+* Do not write prose paragraphs, mini-documentation, or essay-style explanations in implementation code.
+* Do not add examples, scenarios, or parenthetical explanations to comments.
+* Do not use multi-line comments just because an explanation can be written. If it cannot be expressed concisely, reconsider whether the comment belongs in the code at all.
+* Existing verbose comments are not a style precedent. Do not imitate them.
+* When modifying code, remove comments that merely describe code made obvious by the change.
+
+Prefer:
+
+```ts
+// Skip empty text nodes
+// Preserve the original selection
+// Stop after the first match
+// Avoid dispatching during composition
+// Keep inactive editors measurable
+// Prevent collisions with imported IDs
+```
+
+Avoid:
+
+```ts
+// While composition is running, the update handler exits early because the
+// view is still composing. The final update may also contain no document or
+// selection changes, which means the menu would otherwise never update.
+```
+
+```ts
+/**
+ * Page content width used for the off-screen host. This is necessary because
+ * inactive editors need to remain measurable for ResizeObserver to detect
+ * changes while no overlay is currently open.
+ */
+```
+
+```ts
+/**
+ * Generates a unique endnote ID. Imported documents use numeric DOCX IDs,
+ * while client-created endnotes use this prefix to ensure that IDs cannot
+ * collide with imported endnotes or footnotes.
+ */
+```
+
+If a short comment loses useful detail, that detail usually belongs in the code structure, a test, commit/PR description, or documentation instead.
+
+JSDoc is exempt **only when it documents a public API**. Public API JSDoc should still be concise and include `@param`, `@returns`, and a runnable example where appropriate.
 
 ### Writing
 
