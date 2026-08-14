@@ -2,4 +2,4 @@
 '@tiptap/markdown': patch
 ---
 
-Fix `wrapInMarkdownBlock` corrupting multi-character prefixes and leaving a trailing blank line.
+Preserve multi-character prefixes and avoid trailing blank lines when wrapping Markdown blocks.
