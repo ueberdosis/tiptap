@@ -69,6 +69,14 @@ describe('MarkdownManager unrecognized HTML tags', () => {
     expect(text).toContain('after')
   })
 
+  it('keeps the separator space between inline literal HTML and following text', () => {
+    const manager = new MarkdownManager({ extensions: basicExtensions })
+    const doc = manager.parse('before <enter existing CID here> after')
+
+    const text = collectText(doc)
+    expect(text).toBe('before <enter existing CID here> after')
+  })
+
   it('still parses recognized inline HTML elements normally', () => {
     const manager = new MarkdownManager({ extensions: basicExtensions })
     const md = 'hello <em>world</em>'

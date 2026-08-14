@@ -11,8 +11,8 @@ export function htmlAsLiteralText(
   isBlock: boolean,
 ): JSONContent | JSONContent[] | null {
   // Strip trailing whitespace/newlines that marked appends to block HTML
-  // tokens so the rendered text doesn't end with stray blank lines.
-  const text = html.replace(/\s+$/, '')
+  // tokens, keeping inline text verbatim so separator spaces survive.
+  const text = isBlock ? html.replace(/\s+$/, '') : html
 
   if (!text) {
     return null
