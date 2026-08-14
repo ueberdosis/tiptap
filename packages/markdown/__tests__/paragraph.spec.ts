@@ -156,7 +156,7 @@ describe('Paragraph Markdown Rendering', () => {
         ],
       }
 
-      // Updated for #7495 (see comment above): whole-document structural emptiness
+      // whole-document structural emptiness
       // now takes precedence over rendering a bare ">" marker.
       const markdown = markdownManager.serialize(doc)
       expect(markdown).toBe('')
