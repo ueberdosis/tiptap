@@ -5,7 +5,7 @@ import {
   commands,
   Extension,
 } from '@tiptap/core'
-import type { marked } from 'marked'
+import type { Marked, marked } from 'marked'
 
 import MarkdownManager from './MarkdownManager.js'
 import type { ContentType } from './types.js'
@@ -75,9 +75,9 @@ export type MarkdownExtensionOptions = {
 
   /**
    * Use a custom version of `marked` for markdown parsing and serialization.
-   * If not provided, the default `marked` instance will be used.
+   * If not provided, an isolated `marked` instance is created per editor.
    */
-  marked?: typeof marked
+  marked?: typeof marked | Marked
 
   /**
    * Options to pass to `marked.setOptions()`.

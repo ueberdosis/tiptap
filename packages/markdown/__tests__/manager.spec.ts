@@ -18,7 +18,7 @@ import { Text } from '@tiptap/extension-text'
 import Underline from '@tiptap/extension-underline'
 import { Youtube } from '@tiptap/extension-youtube'
 import { MarkdownManager } from '@tiptap/markdown'
-import { Marked } from 'marked'
+import { Marked, marked } from 'marked'
 import { beforeEach, describe, expect, it } from 'vitest'
 
 // Create test extensions
@@ -213,11 +213,24 @@ Second paragraph.`
 
 **After** ordered list`
       const isolatedManager = new MarkdownManager({
-        marked: new Marked() as unknown as typeof import('marked').marked,
+        marked: new Marked(),
         extensions: basicExtensions,
       })
 
       expect(markdownManager.parse(markdown)).toEqual(isolatedManager.parse(markdown))
+    })
+
+    it('keeps the shared global marked instance unmodified', () => {
+      const blockTokenizersBefore = (marked.defaults as any).extensions?.block?.length ?? 0
+
+      // Creating a manager registers tokenizers and options; these must stay
+      // on the manager's own instance instead of the global `marked` singleton.
+      new MarkdownManager({
+        markedOptions: { gfm: false },
+        extensions: [...basicExtensions, TestProbe],
+      })
+
+      expect((marked.defaults as any).extensions?.block?.length ?? 0).toBe(blockTokenizersBefore)
     })
 
     it('keeps later inline parsing stable after a custom tokenizer uses inlineTokens', () => {
@@ -264,7 +277,7 @@ Second paragraph.`
       // Regression: custom tokenizers must still fire when a dedicated `marked`
       // instance is injected, not only on the default shared instance.
       const manager = new MarkdownManager({
-        marked: new Marked() as unknown as typeof import('marked').marked,
+        marked: new Marked(),
         extensions: [...basicExtensions, TestProbe],
       })
 

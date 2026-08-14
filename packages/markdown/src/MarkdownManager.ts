@@ -20,7 +20,14 @@ import {
   getSchema,
   sortExtensions,
 } from '@tiptap/core'
-import { type Lexer, type Token, type TokenizerExtension, type TokenizerThis, marked } from 'marked'
+import {
+  Marked,
+  type Lexer,
+  type Token,
+  type TokenizerExtension,
+  type TokenizerThis,
+  marked,
+} from 'marked'
 
 import { htmlContainsUnrecognizedTag } from './utils/htmlTagDetection.js'
 import { applyMarkToContent } from './utils/applyMarkToContent.js'
@@ -52,7 +59,7 @@ function isNonEmptyParseResult(result: JSONContent | JSONContent[] | null): bool
 }
 
 export class MarkdownManager {
-  private markedInstance: typeof marked
+  private markedInstance: typeof marked | Marked
   private activeParseLexer: Lexer | null = null
   private registry: Map<string, MarkdownExtensionSpec[]>
   private nodeTypeRegistry: Map<string, MarkdownExtensionSpec[]>
@@ -79,12 +86,14 @@ export class MarkdownManager {
    * @param options.extensions Extensions to register for markdown parsing and rendering.
    */
   constructor(options?: {
-    marked?: typeof marked
+    marked?: typeof marked | Marked
     markedOptions?: Parameters<typeof marked.setOptions>[0]
     indentation?: { style?: 'space' | 'tab'; size?: number }
     extensions: AnyExtension[]
   }) {
-    this.markedInstance = options?.marked ?? marked
+    // Use an isolated marked instance so options and tokenizers don't leak
+    // into the shared global `marked` singleton across editors.
+    this.markedInstance = options?.marked ?? new Marked()
     this.indentStyle = options?.indentation?.style ?? 'space'
     this.indentSize = options?.indentation?.size ?? 2
     this.baseExtensions = options?.extensions || []
@@ -105,7 +114,7 @@ export class MarkdownManager {
   }
 
   /** Returns the underlying marked instance. */
-  get instance(): typeof marked {
+  get instance(): typeof marked | Marked {
     return this.markedInstance
   }
 
