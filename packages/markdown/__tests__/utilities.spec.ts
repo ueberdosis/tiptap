@@ -6,6 +6,7 @@ import {
 } from '@tiptap/core'
 import { describe, expect, it } from 'vitest'
 
+import { findSplitHtmlFragment } from '../src/utils/findSplitHtmlFragment.js'
 import { wrapInMarkdownBlock } from '../src/utils/wrapInMarkdownBlock.js'
 
 describe('Markdown Utilities', () => {
@@ -459,6 +460,62 @@ describe('Markdown Utilities', () => {
 
     it('does not append a trailing blank line', () => {
       expect(wrapInMarkdownBlock('>', 'single')).toBe('>single')
+    })
+  })
+
+  describe('findSplitHtmlFragment', () => {
+    it('merges a simple split fragment up to the first closing tag', () => {
+      const tokens = [
+        { type: 'html', raw: '<em>' },
+        { type: 'text', raw: 'hi', text: 'hi' },
+        { type: 'html', raw: '</em>' },
+      ]
+
+      expect(findSplitHtmlFragment(tokens, 0, 'em', '<em>')).toEqual({
+        mergedRaw: '<em>hi</em>',
+        closingIndex: 2,
+      })
+    })
+
+    it('skips the inner closing tags of nested same-name elements', () => {
+      const tokens = [
+        { type: 'html', raw: '<span>' },
+        { type: 'text', raw: 'outer', text: 'outer' },
+        { type: 'html', raw: '<span>' },
+        { type: 'text', raw: 'inner', text: 'inner' },
+        { type: 'html', raw: '</span>' },
+        { type: 'text', raw: 'tail', text: 'tail' },
+        { type: 'html', raw: '</span>' },
+      ]
+
+      expect(findSplitHtmlFragment(tokens, 0, 'span', '<span>')).toEqual({
+        mergedRaw: '<span>outer<span>inner</span>tail</span>',
+        closingIndex: 6,
+      })
+    })
+
+    it('ignores nested elements with a different tag name', () => {
+      const tokens = [
+        { type: 'html', raw: '<span>' },
+        { type: 'html', raw: '<em>' },
+        { type: 'text', raw: 'x', text: 'x' },
+        { type: 'html', raw: '</em>' },
+        { type: 'html', raw: '</span>' },
+      ]
+
+      expect(findSplitHtmlFragment(tokens, 0, 'span', '<span>')).toEqual({
+        mergedRaw: '<span><em>x</em></span>',
+        closingIndex: 4,
+      })
+    })
+
+    it('returns null when no matching closing tag is found', () => {
+      const tokens = [
+        { type: 'html', raw: '<span>' },
+        { type: 'text', raw: 'x', text: 'x' },
+      ]
+
+      expect(findSplitHtmlFragment(tokens, 0, 'span', '<span>')).toBeNull()
     })
   })
 })
