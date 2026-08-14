@@ -5,6 +5,7 @@ import {
   type MarkdownExtensionSpec,
   type MarkdownLexerConfiguration,
   type MarkdownParseHelpers,
+  type MarkdownParseResult,
   type MarkdownRendererHelpers,
   type MarkdownToken,
   type MarkdownTokenizer,
@@ -517,7 +518,7 @@ export class MarkdownManager {
       const token = tokens[i]
 
       if (token.type === 'text') {
-        // Create text node – decode HTML entities so that e.g. `&lt;` displays as `<` in the editor
+        // Decode HTML entities so that e.g. `&lt;` displays as `<` in the editor
         result.push({
           type: 'text',
           text: decodeHtmlEntities(token.text || ''),
@@ -529,77 +530,96 @@ export class MarkdownManager {
           text: token.text || '',
         })
       } else if (token.type === 'html') {
-        // Handle possible split inline HTML by attempting to detect an
-        // opening tag and searching forward for a matching closing tag.
-        const raw = (token.raw ?? token.text ?? '').toString()
-        const { isClosing, isSelfClosing, tagName } = getHtmlTagInfo(raw)
-
-        if (!isClosing && tagName && !isSelfClosing) {
-          const fragment = findSplitHtmlFragment(tokens, i, tagName, raw)
-
-          if (fragment) {
-            // Merge opening + inner + closing into one html fragment and parse
-            const mergedToken = {
-              type: 'html',
-              raw: fragment.mergedRaw,
-              text: fragment.mergedRaw,
-              block: false,
-            } as unknown as MarkdownToken
-
-            const parsed = this.parseHTMLToken(mergedToken)
-            if (parsed) {
-              const normalized = normalizeParseResult(parsed as any)
-              if (Array.isArray(normalized)) {
-                result.push(...normalized)
-              } else if (normalized) {
-                result.push(normalized)
-              }
-            }
-
-            // Advance i to the closing token
-            i = fragment.closingIndex
-            continue
-          }
-        }
-
-        // Fallback: single html token parse
-        const parsedSingle = this.parseHTMLToken(token)
-        if (parsedSingle) {
-          const normalized = normalizeParseResult(parsedSingle as any)
-          if (Array.isArray(normalized)) {
-            result.push(...normalized)
-          } else if (normalized) {
-            result.push(normalized)
-          }
-        }
+        const parsed = this.parseInlineHtmlToken(tokens, i)
+        result.push(...parsed.nodes)
+        i = parsed.nextIndex
       } else if (token.type) {
         // Handle inline marks (bold, italic, etc.)
-        const markHandler = this.getHandlerForToken(token.type)
-        if (markHandler && markHandler.parseMarkdown) {
-          const helpers = this.createParseHelpers()
-          const parsed = markHandler.parseMarkdown(token, helpers)
-
-          if (isMarkResult(parsed)) {
-            // This is a mark result - apply the mark to the content
-            const markedContent = applyMarkToContent(parsed.mark, parsed.content, parsed.attrs)
-            result.push(...markedContent)
-          } else {
-            // Regular inline node
-            const normalized = normalizeParseResult(parsed)
-            if (Array.isArray(normalized)) {
-              result.push(...normalized)
-            } else if (normalized) {
-              result.push(normalized)
-            }
-          }
-        } else if (token.tokens) {
-          // Fallback: try to parse children if they exist
-          result.push(...this.parseInlineTokens(token.tokens))
-        }
+        result.push(...this.parseInlineMarkToken(token))
       }
     }
 
     return mergeAdjacentTextNodes(result)
+  }
+
+  /**
+   * Parse an inline html token, rejoining fragments that marked split apart.
+   */
+  private parseInlineHtmlToken(
+    tokens: MarkdownToken[],
+    index: number,
+  ): { nodes: JSONContent[]; nextIndex: number } {
+    const token = tokens[index]
+    const raw = (token.raw ?? token.text ?? '').toString()
+    const { isClosing, isSelfClosing, tagName } = getHtmlTagInfo(raw)
+    const nodes: JSONContent[] = []
+
+    if (!isClosing && tagName && !isSelfClosing) {
+      const fragment = findSplitHtmlFragment(tokens, index, tagName, raw)
+
+      if (fragment) {
+        // Merge opening + inner + closing into one html fragment and parse
+        const mergedToken = {
+          type: 'html',
+          raw: fragment.mergedRaw,
+          text: fragment.mergedRaw,
+          block: false,
+        } as unknown as MarkdownToken
+
+        this.appendParseResult(nodes, this.parseHTMLToken(mergedToken))
+        return { nodes, nextIndex: fragment.closingIndex }
+      }
+    }
+
+    // Fallback: single html token parse
+    this.appendParseResult(nodes, this.parseHTMLToken(token))
+    return { nodes, nextIndex: index }
+  }
+
+  /**
+   * Parse an inline mark token (bold, italic, etc.) into its content.
+   */
+  private parseInlineMarkToken(token: MarkdownToken): JSONContent[] {
+    if (!token.type) {
+      return []
+    }
+
+    const markHandler = this.getHandlerForToken(token.type)
+    const result: JSONContent[] = []
+
+    if (markHandler && markHandler.parseMarkdown) {
+      const helpers = this.createParseHelpers()
+      const parsed = markHandler.parseMarkdown(token, helpers)
+
+      if (isMarkResult(parsed)) {
+        // Apply the mark to the parsed content
+        return applyMarkToContent(parsed.mark, parsed.content, parsed.attrs)
+      }
+
+      this.appendParseResult(result, parsed)
+      return result
+    }
+
+    if (token.tokens) {
+      // Fallback: try to parse children if they exist
+      return this.parseInlineTokens(token.tokens)
+    }
+
+    return result
+  }
+
+  private appendParseResult(result: JSONContent[], parsed: MarkdownParseResult | null): void {
+    const normalized = normalizeParseResult(parsed)
+
+    if (!normalized) {
+      return
+    }
+
+    if (Array.isArray(normalized)) {
+      result.push(...normalized)
+    } else {
+      result.push(normalized)
+    }
   }
 
   /**
@@ -917,6 +937,7 @@ export class MarkdownManager {
     const activeMarks: Map<string, any> = new Map()
     const reopenWithHtmlOnNextOpen = new Set<string>()
     const markOpeningModes = new Map<string, 'markdown' | 'html'>()
+
     nodes.forEach((node, i) => {
       // Lookahead to the next node to determine if marks need to be closed
       const nextNode = i < nodes.length - 1 ? nodes[i + 1] : null
@@ -926,175 +947,260 @@ export class MarkdownManager {
       }
 
       if (node.type === 'text') {
-        let textContent = this.encodeTextForMarkdown(node.text || '', node, parentNode)
-        const currentMarks = new Map((node.marks || []).map(mark => [mark.type, mark]))
-
-        // Find marks that need to be closed and opened
-        const marksToOpen = this.getMarksToOpenForSerialization(activeMarks, currentMarks, nextNode)
-        const marksToClose = findMarksToClose(currentMarks, nextNode)
-
-        // When marks close and open on the same node, defer the closings to the
-        // end so delimiters stay properly nested.
-        const activeMarksClosingHere = marksToClose.filter(markType => activeMarks.has(markType))
-        const hasCrossedBoundary = activeMarksClosingHere.length > 0 && marksToOpen.length > 0
-
-        let middleTrailingWhitespace = ''
-
-        if (marksToClose.length > 0 && !hasCrossedBoundary) {
-          // Extract trailing whitespace before closing marks to prevent invalid markdown like "**text **"
-          const { text: trimmedText, whitespace } = extractTrailingWhitespace(textContent)
-          middleTrailingWhitespace = whitespace
-          textContent = trimmedText
-        }
-
-        if (!hasCrossedBoundary) {
-          // Normal path: close marks that are ending here (no new marks opening simultaneously).
-          // Reverse so the last-opened mark closes first (LIFO), preserving valid nesting.
-          marksToClose
-            .slice()
-            .reverse()
-            .forEach(markType => {
-              if (!activeMarks.has(markType)) {
-                return
-              }
-
-              const mark = currentMarks.get(markType)
-              const closeMarkdown = this.getMarkClosing(
-                markType,
-                mark,
-                markOpeningModes.get(markType),
-              )
-              if (closeMarkdown) {
-                textContent += closeMarkdown
-              }
-              if (activeMarks.has(markType)) {
-                activeMarks.delete(markType)
-                markOpeningModes.delete(markType)
-              }
-            })
-        }
-
-        // Prepend opening delimiters, keeping leading whitespace outside them.
-        let leadingWhitespace = ''
-        if (marksToOpen.length > 0) {
-          const { text: trimmedText, whitespace } = extractLeadingWhitespace(textContent)
-          leadingWhitespace = whitespace
-          textContent = trimmedText
-        }
-
-        // Snapshot active marks so each new delimiter excludes itself.
-        marksToOpen.forEach(({ type, mark }) => {
-          const openingMode = reopenWithHtmlOnNextOpen.has(type) ? 'html' : 'markdown'
-          const openMarkdown = this.getMarkOpening(type, mark, openingMode)
-          if (openMarkdown) {
-            textContent = openMarkdown + textContent
-          }
-          markOpeningModes.set(type, openingMode)
-          reopenWithHtmlOnNextOpen.delete(type)
-        })
-
-        if (!hasCrossedBoundary) {
-          marksToOpen
-            .slice()
-            .reverse()
-            .forEach(({ type, mark }) => {
-              activeMarks.set(type, mark)
-            })
-        }
-
-        // Add leading whitespace before the mark opening
-        textContent = leadingWhitespace + textContent
-
-        // On a crossed boundary, close new marks (inner) first, then old marks (outer).
-        let marksToCloseAtEnd: string[]
-        if (hasCrossedBoundary) {
-          const nextMarkTypes = new Set((nextNode?.marks || []).map((mark: any) => mark.type))
-
-          marksToOpen.forEach(({ type }) => {
-            if (nextMarkTypes.has(type) && this.getHtmlReopenTags(type)) {
-              reopenWithHtmlOnNextOpen.add(type)
-            }
-          })
-
-          // Close previously-active marks LIFO (innermost first).
-          const activeMarkKeys = Array.from(activeMarks.keys())
-          const activeMarksClosingHereLifo = activeMarksClosingHere
-            .slice()
-            .sort((a, b) => activeMarkKeys.indexOf(b) - activeMarkKeys.indexOf(a))
-
-          marksToCloseAtEnd = [
-            ...marksToOpen.map(m => m.type), // inner (opened here) — close first
-            ...activeMarksClosingHereLifo, // outer (were active before) — close last, LIFO
-          ]
-        } else {
-          marksToCloseAtEnd = findMarksToCloseAtEnd(
-            activeMarks,
-            currentMarks,
+        result.push(
+          this.renderTextNodeWithMarks(
+            node,
             nextNode,
-            this.markSetsEqual.bind(this),
-          )
-        }
-
-        // Extract trailing whitespace before closing marks to prevent invalid markdown like "**text **"
-        let trailingWhitespace = ''
-        if (marksToCloseAtEnd.length > 0) {
-          const { text: trimmedText, whitespace } = extractTrailingWhitespace(textContent)
-          trailingWhitespace = whitespace
-          textContent = trimmedText
-        }
-
-        marksToCloseAtEnd.forEach(markType => {
-          const mark = activeMarks.get(markType) ?? currentMarks.get(markType)
-          const closeMarkdown = this.getMarkClosing(markType, mark, markOpeningModes.get(markType))
-          if (closeMarkdown) {
-            textContent += closeMarkdown
-          }
-          activeMarks.delete(markType)
-          markOpeningModes.delete(markType)
-        })
-
-        // Add trailing whitespace after the mark closing
-        textContent += trailingWhitespace
-        textContent += middleTrailingWhitespace
-
-        result.push(textContent)
+            parentNode,
+            activeMarks,
+            markOpeningModes,
+            reopenWithHtmlOnNextOpen,
+          ),
+        )
       } else {
-        // For non-text nodes, close all active marks before rendering, then reopen after
-        // Only reopen marks that the node itself carries — marks don't skip over inline atoms.
-        const nodeMarkTypes = new Set((node.marks || []).map((mark: { type: string }) => mark.type))
-        const marksToReopen = new Map<string, { type: string; attrs?: Record<string, any> }>()
-        const openingModesToReopen = new Map<string, 'markdown' | 'html'>()
-        activeMarks.forEach((mark, type) => {
-          if (nodeMarkTypes.has(type)) {
-            marksToReopen.set(type, mark)
-            openingModesToReopen.set(type, markOpeningModes.get(type) ?? 'markdown')
-          }
-        })
-
-        // Close all marks before the node
-        const beforeMarkdown = closeMarksBeforeNode(activeMarks, (markType, mark) => {
-          return this.getMarkClosing(markType, mark, markOpeningModes.get(markType))
-        })
-        markOpeningModes.clear()
-
-        // Render the node
-        const nodeContent = this.renderNodeToMarkdown(node, parentNode, i, level)
-
-        // Reopen marks after the node, except after a hard break.
-        const afterMarkdown =
-          node.type === 'hardBreak'
-            ? ''
-            : reopenMarksAfterNode(marksToReopen, activeMarks, (markType, mark) => {
-                const openingMode = openingModesToReopen.get(markType) ?? 'markdown'
-                markOpeningModes.set(markType, openingMode)
-                return this.getMarkOpening(markType, mark, openingMode)
-              })
-
-        result.push(beforeMarkdown + nodeContent + afterMarkdown)
+        result.push(
+          this.renderNonTextNodeWithMarks(
+            node,
+            parentNode,
+            i,
+            level,
+            activeMarks,
+            markOpeningModes,
+          ),
+        )
       }
     })
 
     return result.join(separator)
+  }
+
+  /**
+   * Render a text node, opening and closing the marks that start and end on it.
+   */
+  private renderTextNodeWithMarks(
+    node: JSONContent,
+    nextNode: JSONContent | null,
+    parentNode: JSONContent | undefined,
+    activeMarks: Map<string, any>,
+    markOpeningModes: Map<string, 'markdown' | 'html'>,
+    reopenWithHtmlOnNextOpen: Set<string>,
+  ): string {
+    let textContent = this.encodeTextForMarkdown(node.text || '', node, parentNode)
+    const currentMarks = new Map((node.marks || []).map(mark => [mark.type, mark]))
+
+    // Find marks that need to be closed and opened
+    const marksToOpen = this.getMarksToOpenForSerialization(activeMarks, currentMarks, nextNode)
+    const marksToClose = findMarksToClose(currentMarks, nextNode)
+
+    // When marks close and open on the same node, defer the closings to the
+    // end so delimiters stay properly nested.
+    const activeMarksClosingHere = marksToClose.filter(markType => activeMarks.has(markType))
+    const hasCrossedBoundary = activeMarksClosingHere.length > 0 && marksToOpen.length > 0
+
+    // Extract trailing whitespace before closing marks to prevent invalid markdown like "**text **"
+    let middleTrailingWhitespace = ''
+    if (marksToClose.length > 0 && !hasCrossedBoundary) {
+      const { text: trimmedText, whitespace } = extractTrailingWhitespace(textContent)
+      middleTrailingWhitespace = whitespace
+      textContent = trimmedText
+    }
+
+    if (!hasCrossedBoundary) {
+      // Close marks that are ending here, last-opened first (LIFO) for valid nesting.
+      textContent += this.closeMarks(marksToClose, currentMarks, activeMarks, markOpeningModes, {
+        reverse: true,
+        skipInactive: true,
+      })
+    }
+
+    // Prepend opening delimiters, keeping leading whitespace outside them.
+    let leadingWhitespace = ''
+    if (marksToOpen.length > 0) {
+      const { text: trimmedText, whitespace } = extractLeadingWhitespace(textContent)
+      leadingWhitespace = whitespace
+      textContent = trimmedText
+    }
+
+    textContent = this.openStartingMarks(
+      marksToOpen,
+      textContent,
+      activeMarks,
+      markOpeningModes,
+      reopenWithHtmlOnNextOpen,
+      hasCrossedBoundary,
+    )
+
+    // Add leading whitespace before the mark opening
+    textContent = leadingWhitespace + textContent
+
+    const marksToCloseAtEnd = this.getMarksToCloseAtEnd(
+      activeMarks,
+      currentMarks,
+      nextNode,
+      marksToOpen,
+      activeMarksClosingHere,
+      hasCrossedBoundary,
+      reopenWithHtmlOnNextOpen,
+    )
+
+    // Extract trailing whitespace before closing marks to prevent invalid markdown like "**text **"
+    let trailingWhitespace = ''
+    if (marksToCloseAtEnd.length > 0) {
+      const { text: trimmedText, whitespace } = extractTrailingWhitespace(textContent)
+      trailingWhitespace = whitespace
+      textContent = trimmedText
+    }
+
+    textContent += this.closeMarks(marksToCloseAtEnd, currentMarks, activeMarks, markOpeningModes)
+    textContent += trailingWhitespace
+    textContent += middleTrailingWhitespace
+
+    return textContent
+  }
+
+  /**
+   * Close the given marks, updating the active marks. Reverse order for LIFO nesting.
+   */
+  private closeMarks(
+    markTypes: string[],
+    currentMarks: Map<string, any>,
+    activeMarks: Map<string, any>,
+    markOpeningModes: Map<string, 'markdown' | 'html'>,
+    options: { reverse?: boolean; skipInactive?: boolean } = {},
+  ): string {
+    const { reverse = false, skipInactive = false } = options
+    let closeMarkdown = ''
+    const ordered = reverse ? markTypes.slice().reverse() : markTypes
+
+    ordered.forEach(markType => {
+      if (skipInactive && !activeMarks.has(markType)) {
+        return
+      }
+
+      const mark = activeMarks.get(markType) ?? currentMarks.get(markType)
+      const closing = this.getMarkClosing(markType, mark, markOpeningModes.get(markType))
+      if (closing) {
+        closeMarkdown += closing
+      }
+      activeMarks.delete(markType)
+      markOpeningModes.delete(markType)
+    })
+
+    return closeMarkdown
+  }
+
+  /**
+   * Prepend the opening delimiters for marks that start here and activate them.
+   */
+  private openStartingMarks(
+    marksToOpen: Array<{ type: string; mark: any }>,
+    textContent: string,
+    activeMarks: Map<string, any>,
+    markOpeningModes: Map<string, 'markdown' | 'html'>,
+    reopenWithHtmlOnNextOpen: Set<string>,
+    hasCrossedBoundary: boolean,
+  ): string {
+    // Snapshot active marks so each new delimiter excludes itself.
+    marksToOpen.forEach(({ type, mark }) => {
+      const openingMode = reopenWithHtmlOnNextOpen.has(type) ? 'html' : 'markdown'
+      const openMarkdown = this.getMarkOpening(type, mark, openingMode)
+      if (openMarkdown) {
+        textContent = openMarkdown + textContent
+      }
+      markOpeningModes.set(type, openingMode)
+      reopenWithHtmlOnNextOpen.delete(type)
+    })
+
+    if (!hasCrossedBoundary) {
+      marksToOpen
+        .slice()
+        .reverse()
+        .forEach(({ type, mark }) => {
+          activeMarks.set(type, mark)
+        })
+    }
+
+    return textContent
+  }
+
+  /**
+   * Decide which marks to close at the end of the current text node.
+   */
+  private getMarksToCloseAtEnd(
+    activeMarks: Map<string, any>,
+    currentMarks: Map<string, any>,
+    nextNode: any,
+    marksToOpen: Array<{ type: string; mark: any }>,
+    activeMarksClosingHere: string[],
+    hasCrossedBoundary: boolean,
+    reopenWithHtmlOnNextOpen: Set<string>,
+  ): string[] {
+    if (hasCrossedBoundary) {
+      const nextMarkTypes = new Set((nextNode?.marks || []).map((mark: any) => mark.type))
+
+      marksToOpen.forEach(({ type }) => {
+        if (nextMarkTypes.has(type) && this.getHtmlReopenTags(type)) {
+          reopenWithHtmlOnNextOpen.add(type)
+        }
+      })
+
+      // Close previously-active marks LIFO (innermost first).
+      const activeMarkKeys = Array.from(activeMarks.keys())
+      const activeMarksClosingHereLifo = activeMarksClosingHere
+        .slice()
+        .sort((a, b) => activeMarkKeys.indexOf(b) - activeMarkKeys.indexOf(a))
+
+      return [
+        ...marksToOpen.map(m => m.type), // inner (opened here) — close first
+        ...activeMarksClosingHereLifo, // outer (were active before) — close last, LIFO
+      ]
+    }
+
+    return findMarksToCloseAtEnd(activeMarks, currentMarks, nextNode, this.markSetsEqual.bind(this))
+  }
+
+  /**
+   * Render a non-text node, closing all active marks around it and reopening the ones it carries.
+   */
+  private renderNonTextNodeWithMarks(
+    node: JSONContent,
+    parentNode: JSONContent | undefined,
+    index: number,
+    level: number,
+    activeMarks: Map<string, any>,
+    markOpeningModes: Map<string, 'markdown' | 'html'>,
+  ): string {
+    // Only reopen marks that the node itself carries — marks don't skip over inline atoms.
+    const nodeMarkTypes = new Set((node.marks || []).map((mark: { type: string }) => mark.type))
+    const marksToReopen = new Map<string, { type: string; attrs?: Record<string, any> }>()
+    const openingModesToReopen = new Map<string, 'markdown' | 'html'>()
+    activeMarks.forEach((mark, type) => {
+      if (nodeMarkTypes.has(type)) {
+        marksToReopen.set(type, mark)
+        openingModesToReopen.set(type, markOpeningModes.get(type) ?? 'markdown')
+      }
+    })
+
+    // Close all marks before the node
+    const beforeMarkdown = closeMarksBeforeNode(activeMarks, (markType, mark) => {
+      return this.getMarkClosing(markType, mark, markOpeningModes.get(markType))
+    })
+    markOpeningModes.clear()
+
+    // Render the node
+    const nodeContent = this.renderNodeToMarkdown(node, parentNode, index, level)
+
+    // Reopen marks after the node, except after a hard break.
+    const afterMarkdown =
+      node.type === 'hardBreak'
+        ? ''
+        : reopenMarksAfterNode(marksToReopen, activeMarks, (markType, mark) => {
+            const openingMode = openingModesToReopen.get(markType) ?? 'markdown'
+            markOpeningModes.set(markType, openingMode)
+            return this.getMarkOpening(markType, mark, openingMode)
+          })
+
+    return beforeMarkdown + nodeContent + afterMarkdown
   }
 
   /**
