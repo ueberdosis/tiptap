@@ -31,6 +31,20 @@ function isJSXElement(value: unknown): value is DOMOutputSpecArray {
   return Array.isArray(value) && jsxElements.has(value as DOMOutputSpecArray)
 }
 
+function flattenFragmentChildren(children: unknown[]): unknown[] {
+  return children.flatMap(child => {
+    if (child == null) {
+      return []
+    }
+
+    if (Array.isArray(child) && jsxFragments.has(child) && !isJSXElement(child)) {
+      return flattenFragmentChildren(child)
+    }
+
+    return [child]
+  })
+}
+
 // JSX types for Tiptap's JSX runtime
 // These types only apply when using @jsxImportSource @tiptap/core
 export declare namespace JSX {
@@ -43,13 +57,15 @@ export declare namespace JSX {
   }
 }
 
+type JSXChild = DOMOutputSpecElement | string | null | undefined | JSXChild[]
+
 export type JSXRenderer = (
   tag: 'slot' | string | ((props?: Attributes) => DOMOutputSpecArray | DOMOutputSpecElement),
   props?: Attributes,
-  ...children: JSXRenderer[]
+  ...children: JSXChild[]
 ) => DOMOutputSpecArray | DOMOutputSpecElement
 
-export function Fragment(props: { children: JSXRenderer[] }) {
+export function Fragment(props: { children: JSXChild[] }) {
   jsxFragments.add(props.children)
 
   return props.children
@@ -95,15 +111,14 @@ function render(
       return createJSXElement([tag, rest])
     }
 
-    // Filter out null/undefined values from array of children
-    const validChildren = children.filter(child => child != null)
+    const flattenedChildren = flattenFragmentChildren(children)
 
-    if (validChildren.length === 0) {
+    if (flattenedChildren.length === 0) {
       return createJSXElement([tag, rest])
     }
 
     // Spread children into the result array
-    return createJSXElement([tag, rest, ...validChildren])
+    return createJSXElement([tag, rest, ...flattenedChildren])
   }
 
   // Single child or no children

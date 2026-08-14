@@ -202,6 +202,25 @@ describe('JSX Runtime', () => {
 
       expect(result).toEqual(['div', {}, ['span', {}, 'A'], ['span', {}, 'B']])
     })
+
+    it('should spread a Fragment between sibling elements', () => {
+      const before = h('span', { children: 'Before' })
+      const nestedFragment = Fragment({
+        children: [h('span', { children: 'Inside A' }), h('span', { children: 'Inside B' })],
+      })
+      const fragment = Fragment({ children: [nestedFragment] })
+      const after = h('span', { children: 'After' })
+      const result = h('div', { children: [before, fragment, after] })
+
+      expect(result).toEqual([
+        'div',
+        {},
+        ['span', {}, 'Before'],
+        ['span', {}, 'Inside A'],
+        ['span', {}, 'Inside B'],
+        ['span', {}, 'After'],
+      ])
+    })
   })
 
   describe('content hole (slot) integration', () => {
