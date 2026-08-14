@@ -71,11 +71,7 @@ export function Fragment(props: { children: JSXChild[] }) {
   return props.children
 }
 
-function render(
-  tag: Parameters<JSXRenderer>[0],
-  attributes: Attributes | undefined,
-  hasMultipleChildren: boolean,
-) {
+function render(tag: Parameters<JSXRenderer>[0], attributes: Attributes | undefined) {
   // Treat the slot tag as the Prosemirror hole to render content into
   if (tag === 'slot') {
     return 0
@@ -129,17 +125,17 @@ function render(
   return createJSXElement([tag, rest])
 }
 
-export const h: JSXRenderer = (tag, attributes) => render(tag, attributes, false)
+export const h: JSXRenderer = (tag, attributes) => render(tag, attributes)
 
-export const jsxs: JSXRenderer = (tag, attributes) => render(tag, attributes, true)
+export const jsxs: JSXRenderer = (tag, attributes) => render(tag, attributes)
 
 export const jsxDEV = (
   tag: Parameters<JSXRenderer>[0],
   attributes?: Attributes,
   _key?: unknown,
-  isStaticChildren?: boolean,
+  _isStaticChildren?: boolean,
 ) => {
-  return render(tag, attributes, Boolean(isStaticChildren))
+  return render(tag, attributes)
 }
 
 // See
