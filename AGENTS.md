@@ -10,6 +10,12 @@ Published packages live in `packages/*`. `demos/` is a Vite app used as playgrou
 - Add a changeset for user-facing changes. Public API breaks need a major bump and migration notes.
 - Add or update a demo and tests for user-visible behavior. Prefer unit tests over e2e when deterministic.
 - Fix fallow findings your change introduced. Don't suppress them.
+- Comments should be clear, concise and use plain, simple english.
+  - Rather use a oneliner
+  - Try to always be intent-focused
+  - stay local with comments
+  - scannable, no long or complex wording
+  - assume the reader doesn't know what you're talking about
 
 ## Before opening a PR
 
