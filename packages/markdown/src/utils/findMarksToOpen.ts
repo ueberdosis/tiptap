@@ -1,14 +1,16 @@
 import { attrsEqual } from '@tiptap/core'
 
+import type { JSONMark } from '../types.js'
+
 /**
  * Determines which marks need to open, treating same-type marks with
  * different attributes as distinct (close + reopen).
  */
 export function findMarksToOpen(
-  activeMarks: Map<string, any>,
-  currentMarks: Map<string, any>,
-): Array<{ type: string; mark: any }> {
-  const marksToOpen: Array<{ type: string; mark: any }> = []
+  activeMarks: Map<string, JSONMark>,
+  currentMarks: Map<string, JSONMark>,
+): Array<{ type: string; mark: JSONMark }> {
+  const marksToOpen: Array<{ type: string; mark: JSONMark }> = []
   Array.from(currentMarks.entries()).forEach(([markType, mark]) => {
     const activeMark = activeMarks.get(markType)
 

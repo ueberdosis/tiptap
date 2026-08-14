@@ -6,7 +6,7 @@ import type { JSONContent } from '@tiptap/core'
  * @returns True when the result is a mark result.
  */
 export function isMarkResult(
-  result: any,
-): result is { mark: string; content: JSONContent[]; attrs?: any } {
-  return result && typeof result === 'object' && 'mark' in result
+  result: unknown,
+): result is { mark: string; content: JSONContent[]; attrs?: Record<string, any> } {
+  return !!result && typeof result === 'object' && 'mark' in result
 }
