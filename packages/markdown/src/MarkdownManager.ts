@@ -5,7 +5,6 @@ import {
   type MarkdownExtensionSpec,
   type MarkdownLexerConfiguration,
   type MarkdownParseHelpers,
-  type MarkdownParseResult,
   type MarkdownRendererHelpers,
   type MarkdownToken,
   type MarkdownTokenizer,
@@ -18,20 +17,38 @@ import {
   generateJSON,
   getExtensionField,
   getSchema,
-  marksEqual,
   sortExtensions,
 } from '@tiptap/core'
 import { type Lexer, type Token, type TokenizerExtension, type TokenizerThis, marked } from 'marked'
 
 import { htmlContainsUnrecognizedTag } from './utils/htmlTagDetection.js'
+import { applyMarkToContent } from './utils/applyMarkToContent.js'
 import { closeMarksBeforeNode } from './utils/closeMarksBeforeNode.js'
+import { createImplicitEmptyParagraphsFromSpace } from './utils/createImplicitEmptyParagraphsFromSpace.js'
+import { createParseHelpers } from './utils/createParseHelpers.js'
+import { escapeMarkdownSyntax } from './utils/escapeMarkdownSyntax.js'
 import { extractAbsorbedBlankLines } from './utils/extractAbsorbedBlankLines.js'
+import { extractLeadingWhitespace } from './utils/extractLeadingWhitespace.js'
+import { extractTrailingWhitespace } from './utils/extractTrailingWhitespace.js'
 import { findMarksToClose } from './utils/findMarksToClose.js'
 import { findMarksToCloseAtEnd } from './utils/findMarksToCloseAtEnd.js'
 import { findMarksToOpen } from './utils/findMarksToOpen.js'
+import { findSplitHtmlFragment } from './utils/findSplitHtmlFragment.js'
+import { getHtmlTagInfo } from './utils/getHtmlTagInfo.js'
+import { groupListItemsByType } from './utils/groupListItemsByType.js'
+import { htmlAsLiteralText } from './utils/htmlAsLiteralText.js'
+import { isEmptyOutput } from './utils/isEmptyOutput.js'
+import { isMarkResult } from './utils/isMarkResult.js'
 import { isTaskItem } from './utils/isTaskItem.js'
+import { mergeAdjacentTextNodes } from './utils/mergeAdjacentTextNodes.js'
+import { normalizeParseResult } from './utils/normalizeParseResult.js'
+import { renderSyntheticMark } from './utils/renderSyntheticMark.js'
 import { reopenMarksAfterNode } from './utils/reopenMarksAfterNode.js'
 import { wrapInMarkdownBlock } from './utils/wrapInMarkdownBlock.js'
+
+function isNonEmptyParseResult(result: JSONContent | JSONContent[] | null): boolean {
+  return !!result && (!Array.isArray(result) || result.length > 0)
+}
 
 export class MarkdownManager {
   private markedInstance: typeof marked
@@ -39,14 +56,7 @@ export class MarkdownManager {
   private registry: Map<string, MarkdownExtensionSpec[]>
   private nodeTypeRegistry: Map<string, MarkdownExtensionSpec[]>
   /**
-   * Order in which extensions were registered. Used to resolve mark nesting
-   * deterministically when several marks open on the same text node.
-   *
-   * The flattened extensions passed to the manager are pre-sorted by Tiptap's
-   * extension priority (descending), which is also the order ProseMirror uses
-   * to assign mark ranks. Recording that index here lets the serializer place
-   * higher-priority / lower-rank marks (e.g. link with priority 1000) on the
-   * outside without inspecting any rendered markdown output.
+   * Extension registration order, used to resolve mark nesting deterministically.
    */
   private extensionRanks: Map<string, number> = new Map()
   private indentStyle: 'space' | 'tab'
@@ -63,9 +73,9 @@ export class MarkdownManager {
   /**
    * Create a MarkdownManager.
    * @param options.marked Optional marked instance to use (injected).
-   * @param options.markedOptions Optional options to pass to marked.setOptions
+   * @param options.markedOptions Optional options to pass to marked.setOptions.
    * @param options.indentation Indentation settings (style and size).
-   * @param options.extensions An array of Tiptap extensions to register for markdown parsing and rendering.
+   * @param options.extensions Extensions to register for markdown parsing and rendering.
    */
   constructor(options?: {
     marked?: typeof marked
@@ -85,10 +95,7 @@ export class MarkdownManager {
     this.registry = new Map()
     this.nodeTypeRegistry = new Map()
 
-    // If extensions were provided, register them now. Sort by Tiptap priority
-    // first (matching how the editor builds its schema) so the registration
-    // index lines up with ProseMirror's mark rank — this is what the
-    // serializer relies on to nest higher-priority marks like link outermost.
+    // Register extensions in Tiptap priority order so ranks match mark nesting.
     if (options?.extensions) {
       this.baseExtensions = options.extensions
       const flattened = sortExtensions(flattenExtensions(options.extensions))
@@ -117,16 +124,13 @@ export class MarkdownManager {
   }
 
   /**
-   * Register a Tiptap extension (Node/Mark/Extension). This will read
-   * `markdownName`, `parseMarkdown`, `renderMarkdown` and `priority` from the
-   * extension config (using the same resolution used across the codebase).
+   * Register a Tiptap extension's markdown handlers.
    */
   registerExtension(extension: AnyExtension): void {
     // Keep track of all extensions for HTML parsing
     this.extensions.push(extension)
 
-    // Track extensions that declare `code: true` so we can skip HTML entity
-    // encoding inside code contexts without hardcoding specific type names.
+    // Track `code: true` extensions so entity encoding is skipped inside code contexts.
     const isCode = callOrReturn(getExtensionField(extension, 'code'))
 
     const name = extension.name
@@ -153,8 +157,7 @@ export class MarkdownManager {
       | ExtendableConfig['markdownTokenizer']
       | undefined
 
-    // Read the `markdown` object from the extension config. This allows
-    // extensions to provide `markdown: { name?, parseName?, renderName?, parse?, render?, match? }`.
+    // Read the `markdown` options object from the extension config.
     const markdownCfg = (getExtensionField(extension, 'markdownOptions') ??
       null) as ExtendableConfig['markdownOptions']
     const isIndenting = markdownCfg?.indentsContent ?? false
@@ -297,8 +300,7 @@ export class MarkdownManager {
   }
 
   /**
-   * Serialize a ProseMirror-like JSON document (or node array) to a Markdown string
-   * using registered renderers and fallback renderers.
+   * Serialize a JSON document to a Markdown string.
    */
   serialize(docOrContent: JSONContent): string {
     if (!docOrContent) {
@@ -307,25 +309,7 @@ export class MarkdownManager {
 
     const result = this.renderNodes(docOrContent, docOrContent)
     // Return empty string if result is only whitespace entities or non-breaking spaces
-    return this.isEmptyOutput(result) ? '' : result
-  }
-
-  /**
-   * Check if the markdown output represents an empty document.
-   * Empty documents may contain only &nbsp; entities or non-breaking space characters
-   * which are used by the Paragraph extension to preserve blank lines.
-   */
-  private isEmptyOutput(markdown: string): boolean {
-    if (!markdown || markdown.trim() === '') {
-      return true
-    }
-
-    // Check if the output is only &nbsp; entities or non-breaking space characters
-    const cleanedOutput = markdown
-      .replace(/&nbsp;/g, '')
-      .replace(/\u00A0/g, '')
-      .trim()
-    return cleanedOutput === ''
+    return isEmptyOutput(result) ? '' : result
   }
 
   /**
@@ -394,7 +378,7 @@ export class MarkdownManager {
       if (parseImplicitEmptyParagraphs && token.type === 'space') {
         const nextNonSpaceTokenIndex = nonSpaceTokenIndexes[nextNonSpaceTokenPointer] ?? -1
 
-        return this.createImplicitEmptyParagraphsFromSpace(
+        return createImplicitEmptyParagraphsFromSpace(
           token,
           previousNonSpaceTokenIndex,
           nextNonSpaceTokenIndex,
@@ -409,27 +393,6 @@ export class MarkdownManager {
 
       return Array.isArray(parsed) ? parsed : [parsed]
     })
-  }
-
-  private createImplicitEmptyParagraphsFromSpace(
-    token: MarkdownToken,
-    previousNonSpaceTokenIndex: number,
-    nextNonSpaceTokenIndex: number,
-  ): JSONContent[] {
-    const separatorCount = this.countParagraphSeparators(token.raw || '')
-
-    if (separatorCount === 0) {
-      return []
-    }
-
-    const isBoundarySpace = previousNonSpaceTokenIndex === -1 || nextNonSpaceTokenIndex === -1
-    const emptyParagraphCount = Math.max(separatorCount - (isBoundarySpace ? 0 : 1), 0)
-
-    return Array.from({ length: emptyParagraphCount }, () => ({ type: 'paragraph', content: [] }))
-  }
-
-  private countParagraphSeparators(raw: string): number {
-    return (raw.replace(/\r\n/g, '\n').match(/\n\n/g) || []).length
   }
 
   /**
@@ -448,47 +411,41 @@ export class MarkdownManager {
       return this.parseListToken(token)
     }
 
+    return (
+      this.findParseHandler(token) ?? this.parseFallbackToken(token, parseImplicitEmptyParagraphs)
+    )
+  }
+
+  /**
+   * Try each registered handler for a token type until one returns a valid result.
+   */
+  private findParseHandler(token: MarkdownToken): JSONContent | JSONContent[] | null {
+    if (!token.type) {
+      return null
+    }
+
     const handlers = this.getHandlersForToken(token.type)
     const helpers = this.createParseHelpers()
 
-    // Try each handler until one returns a valid result
-    const result = handlers.find(handler => {
+    for (const handler of handlers) {
       if (!handler.parseMarkdown) {
-        return false
+        continue
       }
 
-      const parseResult = handler.parseMarkdown(token, helpers)
-      const normalized = this.normalizeParseResult(parseResult)
+      const normalized = normalizeParseResult(handler.parseMarkdown(token, helpers))
 
-      // Check if this handler returned a valid result (not null/empty array)
-      if (normalized && (!Array.isArray(normalized) || normalized.length > 0)) {
-        // Store result for return
-        this.lastParseResult = normalized
-        return true
+      if (isNonEmptyParseResult(normalized)) {
+        return normalized
       }
-
-      return false
-    })
-
-    // If a handler worked, return its result
-    if (result && this.lastParseResult) {
-      const toReturn = this.lastParseResult
-      this.lastParseResult = null // Clean up
-      return toReturn
     }
 
-    // If no handler worked, try fallback parsing
-    return this.parseFallbackToken(token, parseImplicitEmptyParagraphs)
+    return null
   }
 
-  private lastParseResult: JSONContent | JSONContent[] | null = null
-
   /**
-   * Parse a list token, handling mixed bullet and task list items by splitting them into separate lists.
-   * This ensures that consecutive task items and bullet items are grouped and parsed as separate list nodes.
-   *
-   * @param token The list token to parse
-   * @returns Array of parsed list nodes, or null if parsing fails
+   * Parse a list token, splitting mixed bullet and task items into separate lists.
+   * @param token The list token to parse.
+   * @returns Array of parsed list nodes, or null when parsing fails.
    */
   private parseListToken(token: MarkdownToken): JSONContent | JSONContent[] | null {
     if (!token.items || token.items.length === 0) {
@@ -505,91 +462,11 @@ export class MarkdownManager {
     }
 
     // Mixed list with taskList extension available: split into separate lists
-    type TaskListItemToken = MarkdownToken & {
-      type: 'taskItem'
-      checked?: boolean
-      indentLevel?: number
-    }
-    const groups: { type: 'list' | 'taskList'; items: (MarkdownToken | TaskListItemToken)[] }[] = []
-    let currentGroup: (MarkdownToken | TaskListItemToken)[] = []
-    let currentType: 'list' | 'taskList' | null = null
-
-    for (let i = 0; i < token.items.length; i += 1) {
-      const item = token.items[i]
-      const { isTask, checked, indentLevel } = isTaskItem(item)
-      let processedItem = item
-
-      if (isTask) {
-        // Transform list_item into taskItem token
-        const raw = item.raw || item.text || ''
-
-        // Split raw content by lines to separate main content from nested
-        const lines = raw.split('\n')
-
-        // Extract main content from the first line
-        const firstLineMatch = lines[0].match(/^\s*[-+*]\s+\[([ xX])\]\s+(.*)$/)
-        const mainContent = firstLineMatch ? firstLineMatch[2] : ''
-
-        // Parse nested content from remaining lines
-        let nestedTokens: MarkdownToken[] = []
-        if (lines.length > 1) {
-          // Join all lines after the first
-          const nestedRaw = lines.slice(1).join('\n')
-
-          // Only parse if there's actual content
-          if (nestedRaw.trim()) {
-            // Find minimum indentation of non-empty lines
-            const nestedLines = lines.slice(1)
-            const nonEmptyLines = nestedLines.filter(line => line.trim())
-            if (nonEmptyLines.length > 0) {
-              const minIndent = Math.min(
-                ...nonEmptyLines.map(line => line.length - line.trimStart().length),
-              )
-              // Remove common indentation while preserving structure
-              const trimmedLines = nestedLines.map(line => {
-                if (!line.trim()) {
-                  return '' // Keep empty lines
-                }
-                return line.slice(minIndent)
-              })
-              const nestedContent = trimmedLines.join('\n').trim()
-              // Use the lexer to parse nested content
-              if (nestedContent) {
-                // Use the full lexer pipeline to ensure inline tokens are populated
-                nestedTokens = this.markedInstance.lexer(`${nestedContent}\n`)
-              }
-            }
-          }
-        }
-
-        processedItem = {
-          type: 'taskItem',
-          raw: '',
-          mainContent,
-          indentLevel,
-          checked: checked ?? false,
-          text: mainContent,
-          tokens: this.tokenizeInline(mainContent),
-          nestedTokens,
-        }
-      }
-
-      const itemType: 'list' | 'taskList' = isTask ? 'taskList' : 'list'
-
-      if (currentType !== itemType) {
-        if (currentGroup.length > 0) {
-          groups.push({ type: currentType!, items: currentGroup })
-        }
-        currentGroup = [processedItem]
-        currentType = itemType
-      } else {
-        currentGroup.push(processedItem)
-      }
-    }
-
-    if (currentGroup.length > 0) {
-      groups.push({ type: currentType!, items: currentGroup })
-    }
+    const groups = groupListItemsByType(
+      token.items,
+      src => this.markedInstance.lexer(src),
+      src => this.tokenizeInline(src),
+    )
 
     // Parse each group as a separate token
     const results: JSONContent[] = []
@@ -613,99 +490,29 @@ export class MarkdownManager {
    * Parse a token using registered handlers (extracted for reuse).
    */
   private parseTokenWithHandlers(token: MarkdownToken): JSONContent | JSONContent[] | null {
-    if (!token.type) {
-      return null
-    }
-
-    const handlers = this.getHandlersForToken(token.type)
-    const helpers = this.createParseHelpers()
-
-    // Try each handler until one returns a valid result
-    const result = handlers.find(handler => {
-      if (!handler.parseMarkdown) {
-        return false
-      }
-
-      const parseResult = handler.parseMarkdown(token, helpers)
-      const normalized = this.normalizeParseResult(parseResult)
-
-      // Check if this handler returned a valid result (not null/empty array)
-      if (normalized && (!Array.isArray(normalized) || normalized.length > 0)) {
-        // Store result for return
-        this.lastParseResult = normalized
-        return true
-      }
-
-      return false
-    })
-
-    // If a handler worked, return its result
-    if (result && this.lastParseResult) {
-      const toReturn = this.lastParseResult
-      this.lastParseResult = null // Clean up
-      return toReturn
-    }
-
-    // If no handler worked, try fallback parsing
-    return this.parseFallbackToken(token)
+    return this.findParseHandler(token) ?? this.parseFallbackToken(token)
   }
 
   /**
-   * Creates helper functions for parsing markdown tokens.
-   * @returns An object containing helper functions for parsing.
+   * Creates the helpers passed to extension parse handlers.
+   * @returns The markdown parse helpers.
    */
   private createParseHelpers(): MarkdownParseHelpers {
-    return {
+    return createParseHelpers({
       parseInline: (tokens: MarkdownToken[]) => this.parseInlineTokens(tokens),
       tokenizeInline: (src: string) => this.tokenizeInline(src),
       parseChildren: (tokens: MarkdownToken[]) => this.parseTokens(tokens),
       parseBlockChildren: (tokens: MarkdownToken[]) => this.parseTokens(tokens, true),
-      createTextNode: (text: string, marks?: Array<{ type: string; attrs?: any }>) => {
-        const node = {
-          type: 'text',
-          text,
-          marks: marks || undefined,
-        }
-
-        return node
-      },
-      createNode: (type: string, attrs?: any, content?: JSONContent[]) => {
-        const node = {
-          type,
-          attrs: attrs || undefined,
-          content: content || undefined,
-        }
-
-        if (!attrs || Object.keys(attrs).length === 0) {
-          delete node.attrs
-        }
-
-        return node
-      },
-      applyMark: (markType: string, content: JSONContent[], attrs?: any) => ({
-        mark: markType,
-        content,
-        attrs: attrs && Object.keys(attrs).length > 0 ? attrs : undefined,
-      }),
-    }
+    })
   }
 
   /**
-   * Escape special regex characters in a string.
-   */
-  private escapeRegex(str: string): string {
-    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-  }
-
-  /**
-   * Parse inline tokens (bold, italic, links, etc.) into text nodes with marks.
-   * This is the complex part that handles mark nesting and boundaries.
+   * Parse inline tokens into text nodes with marks.
    */
   private parseInlineTokens(tokens: MarkdownToken[]): JSONContent[] {
     const result: JSONContent[] = []
 
-    // Process tokens sequentially using an index so we can lookahead and
-    // merge split inline HTML fragments like: text / <em> / inner / </em> / text
+    // Lookahead across tokens to merge split inline HTML fragments.
     for (let i = 0; i < tokens.length; i += 1) {
       const token = tokens[i]
 
@@ -725,44 +532,23 @@ export class MarkdownManager {
         // Handle possible split inline HTML by attempting to detect an
         // opening tag and searching forward for a matching closing tag.
         const raw = (token.raw ?? token.text ?? '').toString()
+        const { isClosing, isSelfClosing, tagName } = getHtmlTagInfo(raw)
 
-        // Quick checks for opening vs. closing tag
-        const isClosing = /^<\/[\s]*[\w-]+/i.test(raw)
-        const openMatch = raw.match(/^<[\s]*([\w-]+)(\s|>|\/|$)/i)
+        if (!isClosing && tagName && !isSelfClosing) {
+          const fragment = findSplitHtmlFragment(tokens, i, tagName, raw)
 
-        // oxlint-disable-next-line prefer-string-starts-ends-with
-        if (!isClosing && openMatch && !/\/>$/.test(raw)) {
-          // Try to find the corresponding closing html token for this tag
-          const tagName = openMatch[1]
-          const escapedTagName = this.escapeRegex(tagName)
-          const closingRegex = new RegExp(`^<\\/\\s*${escapedTagName}\\b`, 'i')
-          let foundIndex = -1
-
-          // Collect intermediate raw parts to reconstruct full HTML fragment
-          const parts: string[] = [raw]
-          for (let j = i + 1; j < tokens.length; j += 1) {
-            const t = tokens[j]
-            const tRaw = (t.raw ?? t.text ?? '').toString()
-            parts.push(tRaw)
-            if (t.type === 'html' && closingRegex.test(tRaw)) {
-              foundIndex = j
-              break
-            }
-          }
-
-          if (foundIndex !== -1) {
+          if (fragment) {
             // Merge opening + inner + closing into one html fragment and parse
-            const mergedRaw = parts.join('')
             const mergedToken = {
               type: 'html',
-              raw: mergedRaw,
-              text: mergedRaw,
+              raw: fragment.mergedRaw,
+              text: fragment.mergedRaw,
               block: false,
             } as unknown as MarkdownToken
 
             const parsed = this.parseHTMLToken(mergedToken)
             if (parsed) {
-              const normalized = this.normalizeParseResult(parsed as any)
+              const normalized = normalizeParseResult(parsed as any)
               if (Array.isArray(normalized)) {
                 result.push(...normalized)
               } else if (normalized) {
@@ -771,7 +557,7 @@ export class MarkdownManager {
             }
 
             // Advance i to the closing token
-            i = foundIndex
+            i = fragment.closingIndex
             continue
           }
         }
@@ -779,7 +565,7 @@ export class MarkdownManager {
         // Fallback: single html token parse
         const parsedSingle = this.parseHTMLToken(token)
         if (parsedSingle) {
-          const normalized = this.normalizeParseResult(parsedSingle as any)
+          const normalized = normalizeParseResult(parsedSingle as any)
           if (Array.isArray(normalized)) {
             result.push(...normalized)
           } else if (normalized) {
@@ -793,13 +579,13 @@ export class MarkdownManager {
           const helpers = this.createParseHelpers()
           const parsed = markHandler.parseMarkdown(token, helpers)
 
-          if (this.isMarkResult(parsed)) {
+          if (isMarkResult(parsed)) {
             // This is a mark result - apply the mark to the content
-            const markedContent = this.applyMarkToContent(parsed.mark, parsed.content, parsed.attrs)
+            const markedContent = applyMarkToContent(parsed.mark, parsed.content, parsed.attrs)
             result.push(...markedContent)
           } else {
             // Regular inline node
-            const normalized = this.normalizeParseResult(parsed)
+            const normalized = normalizeParseResult(parsed)
             if (Array.isArray(normalized)) {
               result.push(...normalized)
             } else if (normalized) {
@@ -813,73 +599,7 @@ export class MarkdownManager {
       }
     }
 
-    // Merge adjacent text nodes with the same marks. The marked tokenizer may
-    // produce adjacent inline tokens (e.g. escape + text + escape) that each
-    // become separate text nodes. Merging them keeps the output compact and
-    // consistent with ProseMirror's expectation that contiguous styled text
-    // lives in a single text node.
-    for (let i = result.length - 1; i > 0; i -= 1) {
-      const current = result[i]
-      const previous = result[i - 1]
-
-      if (current.type === 'text' && previous.type === 'text') {
-        const currentMarks = current.marks || []
-        const previousMarks = previous.marks || []
-
-        if (marksEqual(currentMarks, previousMarks)) {
-          previous.text = (previous.text || '') + (current.text || '')
-          result.splice(i, 1)
-        }
-      }
-    }
-
-    return result
-  }
-
-  /**
-   * Apply a mark to content nodes.
-   */
-  private applyMarkToContent(markType: string, content: JSONContent[], attrs?: any): JSONContent[] {
-    return content.map(node => {
-      if (node.type === 'text') {
-        // Add the mark to existing marks or create new marks array
-        const existingMarks = node.marks || []
-        const newMark = attrs ? { type: markType, attrs } : { type: markType }
-        return {
-          ...node,
-          marks: [...existingMarks, newMark],
-        }
-      }
-
-      // For non-text nodes, recursively apply to content
-      return {
-        ...node,
-        content: node.content ? this.applyMarkToContent(markType, node.content, attrs) : undefined,
-      }
-    })
-  } /**
-   * Check if a parse result represents a mark to be applied.
-   */
-  private isMarkResult(
-    result: any,
-  ): result is { mark: string; content: JSONContent[]; attrs?: any } {
-    return result && typeof result === 'object' && 'mark' in result
-  }
-
-  /**
-   * Normalize parse results to ensure they're valid JSONContent.
-   */
-  private normalizeParseResult(result: MarkdownParseResult): JSONContent | JSONContent[] | null {
-    if (!result) {
-      return null
-    }
-
-    if (this.isMarkResult(result)) {
-      // This shouldn't happen at the top level, but handle it gracefully
-      return result.content
-    }
-
-    return result as JSONContent | JSONContent[]
+    return mergeAdjacentTextNodes(result)
   }
 
   /**
@@ -933,10 +653,7 @@ export class MarkdownManager {
   }
 
   /**
-   * Parse an HTML token from marked into JSONContent using the registered
-   * extensions' `parseHTML` rules. Falls back to literal text when the HTML
-   * has nothing for the schema to keep.
-   *
+   * Parse an HTML token with the extensions' parseHTML rules, falling back to literal text.
    * @param token Marked HTML token (block or inline).
    * @example
    *   parseHTMLToken({ type: 'html', raw: '<em>hi</em>', block: false })
@@ -949,15 +666,14 @@ export class MarkdownManager {
       return null
     }
 
-    // If the HTML would parse to nothing meaningful, keep the original
-    // characters as literal text instead of dropping them.
+    // Keep unrecognized HTML as literal text instead of dropping it.
     if (this.isUnrecognizedHtml(html)) {
-      return this.htmlAsLiteralText(html, !!token.block)
+      return htmlAsLiteralText(html, !!token.block)
     }
 
     // generateJSON requires window.DOMParser – treat recognized HTML as literal on the server
     if (typeof window === 'undefined' || typeof window.DOMParser === 'undefined') {
-      return this.htmlAsLiteralText(html, !!token.block)
+      return htmlAsLiteralText(html, !!token.block)
     }
 
     // Use generateJSON to parse the HTML using extensions' parseHTML rules
@@ -983,10 +699,7 @@ export class MarkdownManager {
   }
 
   /**
-   * Keep only the inline nodes of parsed HTML content, unwrapping the block
-   * nodes around them. Inline HTML sits inside a textblock, where a block node
-   * would make the document invalid for the schema.
-   *
+   * Keep only the inline nodes of parsed HTML content.
    * @param content Content array of a parsed HTML fragment.
    * @example
    *   toInlineContent([{ type: 'paragraph', content: [{ type: 'text', text: 'hi' }] }])
@@ -1005,10 +718,7 @@ export class MarkdownManager {
   }
 
   /**
-   * Collect the names of the node types the schema treats as inline. Result is
-   * cached for the lifetime of the manager since extensions don't change after
-   * registration.
-   *
+   * Names of the schema's inline node types, cached after registration.
    * @example
    *   getInlineNodeTypes().has('text') // → true
    */
@@ -1036,31 +746,18 @@ export class MarkdownManager {
   }
 
   /**
-   * Returns true when the HTML contains a tag that is neither a standard
-   * HTML/SVG element nor declared in a registered extension's parseDOM rules.
-   *
-   * Recognized but empty elements such as `<em></em>` or `<span></span>`,
-   * and hyphenated custom elements like `<my-mention>`, are not considered
-   * unrecognized.
-   *
+   * True when the HTML has a tag outside the standard set and the extensions' parseDOM rules.
    * @param html Raw HTML string from a marked token.
    * @example
    *   isUnrecognizedHtml('<enter foo bar>')  // → true
-   *   isUnrecognizedHtml('<em></em>')        // → false (empty, but real tag)
    *   isUnrecognizedHtml('<em>hi</em>')      // → false
-   *   isUnrecognizedHtml('<my-el></my-el>')  // → false (valid custom element)
-   *   isUnrecognizedHtml('<br>')             // → false
    */
   private isUnrecognizedHtml(html: string): boolean {
     return htmlContainsUnrecognizedTag(html, this.getSchemaParseDomTags())
   }
 
   /**
-   * Collect the lower-cased tag names declared by the registered extensions'
-   * parseDOM rules, so custom node/mark elements that use non-hyphenated,
-   * non-standard tag names are treated as recognized HTML. Result is cached for the
-   * lifetime of the manager since extensions don't change after registration.
-   *
+   * Tag names declared in the extensions' parseDOM rules, cached after registration.
    * @example
    *   // After registering an extension with parseDOM [{ tag: 'something' }]
    *   getSchemaParseDomTags().has('something') // → true
@@ -1103,41 +800,7 @@ export class MarkdownManager {
   }
 
   /**
-   * Build a JSONContent that preserves the original HTML markup as literal
-   * text. Used when the HTML would otherwise be silently dropped during
-   * schema-aware parsing.
-   *
-   * @param html Raw HTML string to preserve verbatim.
-   * @param isBlock Whether to wrap the text in a paragraph node (block tokens)
-   *   or return it as a bare text node (inline tokens).
-   * @example
-   *   htmlAsLiteralText('<enter foo>', true)
-   *   // → { type: 'paragraph', content: [{ type: 'text', text: '<enter foo>' }] }
-   */
-  private htmlAsLiteralText(html: string, isBlock: boolean): JSONContent | JSONContent[] | null {
-    // Strip trailing whitespace/newlines that marked appends to block HTML
-    // tokens so the rendered text doesn't end with stray blank lines.
-    const text = html.replace(/\s+$/, '')
-
-    if (!text) {
-      return null
-    }
-
-    if (isBlock) {
-      return {
-        type: 'paragraph',
-        content: [{ type: 'text', text }],
-      }
-    }
-
-    return { type: 'text', text }
-  }
-
-  /**
-   * Encode HTML entities in text unless the node is inside a code context
-   * (code mark or code-block parent) where literal characters should be preserved.
-   * Also backslash-escape markdown-significant characters in non-code text to
-   * prevent them from being misinterpreted as formatting delimiters.
+   * Encode HTML entities and escape markdown syntax, except inside code contexts.
    */
   private encodeTextForMarkdown(text: string, node: JSONContent, parentNode?: JSONContent): string {
     const isInsideCode =
@@ -1148,20 +811,7 @@ export class MarkdownManager {
       return text
     }
 
-    return this.escapeMarkdownSyntax(encodeHtmlEntities(text))
-  }
-
-  /**
-   * Backslash-escape characters that have special meaning in markdown inline
-   * syntax. This prevents literal characters in text nodes from being
-   * misinterpreted as formatting delimiters when the output is parsed again.
-   *
-   * The set covers the most common inline markdown syntax characters.
-   * Characters inside code blocks/code marks are skipped by the caller
-   * (`encodeTextForMarkdown`) via the existing `isInsideCode` guard.
-   */
-  private escapeMarkdownSyntax(text: string): string {
-    return text.replace(/([\\`*_[\]~])/g, '\\$1')
+    return escapeMarkdownSyntax(encodeHtmlEntities(text))
   }
 
   renderNodeToMarkdown(
@@ -1233,8 +883,7 @@ export class MarkdownManager {
   }
 
   /**
-   * Render a node or an array of nodes. Parent type controls how children
-   * are joined (which determines newline insertion between children).
+   * Render a node or array of nodes to a Markdown string.
    */
   renderNodes(
     nodeOrNodes: JSONContent | JSONContent[],
@@ -1256,8 +905,7 @@ export class MarkdownManager {
   }
 
   /**
-   * Render an array of nodes while properly tracking mark boundaries.
-   * This handles cases where marks span across multiple text nodes.
+   * Render nodes while tracking marks that span across text nodes.
    */
   private renderNodesWithMarkBoundaries(
     nodes: JSONContent[],
@@ -1285,17 +933,8 @@ export class MarkdownManager {
         const marksToOpen = this.getMarksToOpenForSerialization(activeMarks, currentMarks, nextNode)
         const marksToClose = findMarksToClose(currentMarks, nextNode)
 
-        // When marks simultaneously close (old) AND open (new) at this boundary, the naive
-        // approach of appending old-close and prepending new-open produces interleaved
-        // delimiters like `*456**` (italic open, text, bold close) instead of properly
-        // nested `_456_**` (italic open, text, italic close, bold close).
-        //
-        // The fix: when both are present, defer old mark closings to the end of the node
-        // (after the new marks also close), ensuring correct inner-before-outer order.
-        //
-        // If an already-active mark ends on this node while another mark opens on this same
-        // node, we defer closing the active mark until the end of the node so nesting stays
-        // valid (`**...++abc++**` instead of `**...++abc**++`).
+        // When marks close and open on the same node, defer the closings to the
+        // end so delimiters stay properly nested.
         const activeMarksClosingHere = marksToClose.filter(markType => activeMarks.has(markType))
         const hasCrossedBoundary = activeMarksClosingHere.length > 0 && marksToOpen.length > 0
 
@@ -1303,11 +942,9 @@ export class MarkdownManager {
 
         if (marksToClose.length > 0 && !hasCrossedBoundary) {
           // Extract trailing whitespace before closing marks to prevent invalid markdown like "**text **"
-          const middleTrailingMatch = textContent.match(/(\s+)$/)
-          if (middleTrailingMatch) {
-            middleTrailingWhitespace = middleTrailingMatch[1]
-            textContent = textContent.slice(0, -middleTrailingWhitespace.length)
-          }
+          const { text: trimmedText, whitespace } = extractTrailingWhitespace(textContent)
+          middleTrailingWhitespace = whitespace
+          textContent = trimmedText
         }
 
         if (!hasCrossedBoundary) {
@@ -1337,21 +974,15 @@ export class MarkdownManager {
             })
         }
 
-        // Open new marks (should be at the beginning)
-        // Extract leading whitespace before opening marks to prevent invalid markdown like "** text**"
+        // Prepend opening delimiters, keeping leading whitespace outside them.
         let leadingWhitespace = ''
         if (marksToOpen.length > 0) {
-          const leadingMatch = textContent.match(/^(\s+)/)
-          if (leadingMatch) {
-            leadingWhitespace = leadingMatch[1]
-            textContent = textContent.slice(leadingWhitespace.length)
-          }
+          const { text: trimmedText, whitespace } = extractLeadingWhitespace(textContent)
+          leadingWhitespace = whitespace
+          textContent = trimmedText
         }
 
-        // Snapshot active mark types before opening new marks, so each new mark's delimiter
-        // is chosen based on what is already active (not including itself).
-        // When crossing a boundary, old marks are still in activeMarks here (not yet removed),
-        // so new marks correctly see them as active context.
+        // Snapshot active marks so each new delimiter excludes itself.
         marksToOpen.forEach(({ type, mark }) => {
           const openingMode = reopenWithHtmlOnNextOpen.has(type) ? 'html' : 'markdown'
           const openMarkdown = this.getMarkOpening(type, mark, openingMode)
@@ -1374,10 +1005,7 @@ export class MarkdownManager {
         // Add leading whitespace before the mark opening
         textContent = leadingWhitespace + textContent
 
-        // Determine marks to close at the end of this node.
-        // On a crossed boundary, we close new marks (inner) first, then old marks (outer),
-        // ensuring correct nesting order. Both sets are removed from activeMarks so the
-        // next node's marksToOpen will reopen whichever ones continue.
+        // On a crossed boundary, close new marks (inner) first, then old marks (outer).
         let marksToCloseAtEnd: string[]
         if (hasCrossedBoundary) {
           const nextMarkTypes = new Set((nextNode?.marks || []).map((mark: any) => mark.type))
@@ -1388,9 +1016,7 @@ export class MarkdownManager {
             }
           })
 
-          // Sort the previously-active closures in LIFO order: the mark that
-          // was opened last (innermost) must close first. activeMarks preserves
-          // insertion order, so a higher indexOf means opened later = inner.
+          // Close previously-active marks LIFO (innermost first).
           const activeMarkKeys = Array.from(activeMarks.keys())
           const activeMarksClosingHereLifo = activeMarksClosingHere
             .slice()
@@ -1412,11 +1038,9 @@ export class MarkdownManager {
         // Extract trailing whitespace before closing marks to prevent invalid markdown like "**text **"
         let trailingWhitespace = ''
         if (marksToCloseAtEnd.length > 0) {
-          const trailingMatch = textContent.match(/(\s+)$/)
-          if (trailingMatch) {
-            trailingWhitespace = trailingMatch[1]
-            textContent = textContent.slice(0, -trailingWhitespace.length)
-          }
+          const { text: trimmedText, whitespace } = extractTrailingWhitespace(textContent)
+          trailingWhitespace = whitespace
+          textContent = trimmedText
         }
 
         marksToCloseAtEnd.forEach(markType => {
@@ -1456,8 +1080,7 @@ export class MarkdownManager {
         // Render the node
         const nodeContent = this.renderNodeToMarkdown(node, parentNode, i, level)
 
-        // Reopen marks after the node, but NOT after a hard break
-        // Hard breaks should terminate marks (they create a line break where marks don't continue)
+        // Reopen marks after the node, except after a hard break.
         const afterMarkdown =
           node.type === 'hardBreak'
             ? ''
@@ -1486,40 +1109,12 @@ export class MarkdownManager {
       return this.getHtmlReopenTags(markType)?.open || ''
     }
 
-    const handlers = this.getHandlersForNodeType(markType)
-    const handler = handlers.length > 0 ? handlers[0] : undefined
-    if (!handler || !handler.renderMarkdown) {
+    const handler = this.getHandlerForMark(markType)
+    if (!handler?.renderMarkdown) {
       return ''
     }
 
-    // Use a unique placeholder that's extremely unlikely to appear in real content
-    const placeholder = '\uE000__TIPTAP_MARKDOWN_PLACEHOLDER__\uE001'
-
-    // For most marks, we can extract the opening syntax by rendering a simple case
-    const syntheticNode: JSONContent = {
-      type: markType,
-      attrs: mark.attrs || {},
-      content: [{ type: 'text', text: placeholder }],
-    }
-
-    try {
-      const rendered = handler.renderMarkdown(
-        syntheticNode,
-        {
-          renderChildren: () => placeholder,
-          renderChild: () => placeholder,
-          indent: (content: string) => content,
-          wrapInBlock: (prefix: string, content: string) => prefix + content,
-        },
-        { index: 0, level: 0, parentType: 'text', meta: {} },
-      )
-
-      // Extract the opening part (everything before placeholder)
-      const placeholderIndex = rendered.indexOf(placeholder)
-      return placeholderIndex >= 0 ? rendered.substring(0, placeholderIndex) : ''
-    } catch (err) {
-      throw new Error(`Failed to get mark opening for ${markType}: ${err}`)
-    }
+    return renderSyntheticMark(handler.renderMarkdown, markType, mark.attrs || {}, 'open')
   }
 
   /**
@@ -1534,45 +1129,22 @@ export class MarkdownManager {
       return this.getHtmlReopenTags(markType)?.close || ''
     }
 
-    const handlers = this.getHandlersForNodeType(markType)
-    const handler = handlers.length > 0 ? handlers[0] : undefined
-    if (!handler || !handler.renderMarkdown) {
+    const handler = this.getHandlerForMark(markType)
+    if (!handler?.renderMarkdown) {
       return ''
     }
 
-    // Use a unique placeholder that's extremely unlikely to appear in real content
-    const placeholder = '\uE000__TIPTAP_MARKDOWN_PLACEHOLDER__\uE001'
+    return renderSyntheticMark(handler.renderMarkdown, markType, mark.attrs || {}, 'close')
+  }
 
-    const syntheticNode: JSONContent = {
-      type: markType,
-      attrs: mark.attrs || {},
-      content: [{ type: 'text', text: placeholder }],
-    }
-
-    try {
-      const rendered = handler.renderMarkdown(
-        syntheticNode,
-        {
-          renderChildren: () => placeholder,
-          renderChild: () => placeholder,
-          indent: (content: string) => content,
-          wrapInBlock: (prefix: string, content: string) => prefix + content,
-        },
-        { index: 0, level: 0, parentType: 'text', meta: {} },
-      )
-
-      // Extract the closing part (everything after placeholder)
-      const placeholderIndex = rendered.indexOf(placeholder)
-      const placeholderEnd = placeholderIndex + placeholder.length
-      return placeholderIndex >= 0 ? rendered.substring(placeholderEnd) : ''
-    } catch (err) {
-      throw new Error(`Failed to get mark closing for ${markType}: ${err}`)
-    }
+  /** Get the first render handler for a mark type (for backwards compatibility). */
+  private getHandlerForMark(markType: string): MarkdownExtensionSpec | undefined {
+    const handlers = this.getHandlersForNodeType(markType)
+    return handlers.length > 0 ? handlers[0] : undefined
   }
 
   /**
-   * Returns the inline HTML tags an extension exposes for overlap-boundary
-   * reopen handling, if that mark explicitly opted into HTML reopen mode.
+   * HTML reopen tags for a mark, when it opted into HTML reopen mode.
    */
   private getHtmlReopenTags(markType: string): { open: string; close: string } | undefined {
     const handlers = this.getHandlersForNodeType(markType)
@@ -1596,22 +1168,7 @@ export class MarkdownManager {
   }
 
   /**
-   * Decide the order in which marks open on the current text node.
-   *
-   * The returned array is iterated head-first when prepending opening
-   * delimiters, so the first entry becomes the innermost mark in the emitted
-   * markdown and the last becomes the outermost. Two stable signals drive
-   * the order — neither one inspects any rendered markdown:
-   *
-   *   1. Marks that end on this node must be inner relative to marks that
-   *      continue into the next node, otherwise the delimiters interleave
-   *      instead of nesting.
-   *   2. Within each lifetime group, marks are sorted so that lower
-   *      registration ranks (i.e. higher Tiptap extension priorities) end up
-   *      outermost. ProseMirror assigns mark ranks in the same priority-aware
-   *      order Tiptap uses when building the schema, so link (priority 1000)
-   *      naturally wraps bold/italic without the serializer needing to peek
-   *      at how any particular mark renders.
+   * Order marks so delimiters nest: ending marks inner, higher-ranked marks outer.
    */
   private getMarksToOpenForSerialization(
     activeMarks: Map<string, any>,
@@ -1626,15 +1183,11 @@ export class MarkdownManager {
 
     const nextMarks = nextNode?.marks || []
 
-    // Helper: check if the next node has a mark with the same type AND
-    // matching attributes. Two marks of the same type but with different
-    // attributes are logically distinct and must not be treated as continuing.
+    // Marks continue only when the next node has the same type and attrs.
     const continuesInNextNode = (markType: string, attrs: any) =>
       nextMarks.some((m: any) => m.type === markType && attrsEqual(m.attrs, attrs))
 
-    // Higher rank → earlier in the array → innermost mark. Marks without a
-    // recorded rank fall back to MAX_SAFE_INTEGER so they sort innermost,
-    // matching the implicit "registered last" assumption for ad-hoc marks.
+    // Higher rank sorts inner; unregistered marks fall back to innermost.
     const byRankInnerFirst = (a: { type: string }, b: { type: string }) => {
       const rankA = this.extensionRanks.get(a.type) ?? Number.MAX_SAFE_INTEGER
       const rankB = this.extensionRanks.get(b.type) ?? Number.MAX_SAFE_INTEGER

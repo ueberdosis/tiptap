@@ -4,7 +4,7 @@ import type { Fragment, Node } from '@tiptap/pm/model'
 import type { ContentType } from '../types.js'
 
 /**
- * Assumes the content type based off the content.
+ * Assume the content type based on the content value.
  * @param content The content to assume the type for.
  * @param contentType The content type that should be prioritized.
  */
