@@ -17,17 +17,19 @@ describe('isEmptyOutput', () => {
     expect(isEmptyOutput('&nbsp;&nbsp; &nbsp;')).toBe(true)
   })
 
+  it('returns true for only encoded &nbsp; entities', () => {
+    expect(isEmptyOutput('&amp;nbsp;')).toBe(true)
+    expect(isEmptyOutput('&amp;amp;nbsp;')).toBe(true)
+    expect(isEmptyOutput('&amp;nbsp; &amp;amp;nbsp; &nbsp;')).toBe(true)
+  })
+
   it('returns true for only non-breaking space characters', () => {
     expect(isEmptyOutput('\u00A0')).toBe(true)
     expect(isEmptyOutput('\u00A0 \u00A0')).toBe(true)
   })
 
-  it('returns false for &amp;nbsp;, which is literal text and not a non-breaking space', () => {
-    expect(isEmptyOutput('&amp;nbsp;')).toBe(false)
-  })
-
   it('returns false for output containing meaningful content', () => {
     expect(isEmptyOutput('Hello')).toBe(false)
-    expect(isEmptyOutput('&nbsp; &amp;nbsp;')).toBe(false)
+    expect(isEmptyOutput('&nbsp; &amp;nbsp; text')).toBe(false)
   })
 })

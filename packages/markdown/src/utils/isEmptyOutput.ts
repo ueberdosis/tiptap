@@ -10,6 +10,8 @@ export function isEmptyOutput(markdown: string): boolean {
 
   // Check if the output is only &nbsp; entities or non-breaking space characters
   const cleanedOutput = markdown
+    .replace(/&amp;amp;nbsp;/g, '')
+    .replace(/&amp;nbsp;/g, '')
     .replace(/&nbsp;/g, '')
     .replace(/\u00A0/g, '')
     .trim()
