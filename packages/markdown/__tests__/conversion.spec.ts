@@ -1000,8 +1000,7 @@ describe('Markdown Conversion Tests', () => {
           ],
         }
 
-        expect(roundTrip(input).content).toHaveLength(1)
-        expect(roundTrip(input).content[0].type).toBe('paragraph')
+        expect(roundTrip(input)).toEqual(input)
       })
 
       it('should keep block syntax in a list item as text after round-trip', () => {
