@@ -35,6 +35,16 @@ import {
 } from './utils.js'
 import { htmlContainsUnrecognizedTag } from './utils/htmlTagDetection.js'
 
+/**
+ * Where a text node sits in the line it is rendered on, so block syntax in it can be escaped.
+ */
+interface BlockLineContext {
+  /** Something already rendered on this line, so the first line of the node cannot start a block. */
+  startsMidLine: boolean
+  /** The paragraph is nested in a list item or a similar indenting block. */
+  isIndented: boolean
+}
+
 export class MarkdownManager {
   private markedInstance: typeof marked
   private activeParseLexer: Lexer | null = null
@@ -1098,8 +1108,7 @@ export class MarkdownManager {
     text: string,
     node: JSONContent,
     parentNode?: JSONContent,
-    isLineStart = false,
-    isIndented = false,
+    blockContext?: BlockLineContext,
   ): string {
     const isInsideCode =
       (parentNode?.type != null && this.codeTypes.has(parentNode.type)) ||
@@ -1110,7 +1119,7 @@ export class MarkdownManager {
     }
 
     const escaped = this.escapeMarkdownSyntax(encodeHtmlEntities(text))
-    return isLineStart ? this.escapeBlockSyntax(escaped, isIndented) : escaped
+    return blockContext ? this.escapeBlockSyntax(escaped, blockContext) : escaped
   }
 
   /**
@@ -1130,12 +1139,17 @@ export class MarkdownManager {
    * Backslash-escape leading block syntax so the text stays text when the markdown is parsed
    * again. Runs per line, since a text node can contain literal `\n`.
    */
-  private escapeBlockSyntax(text: string, isIndented = false): string {
+  private escapeBlockSyntax(text: string, { startsMidLine, isIndented }: BlockLineContext): string {
     const lines = text.split('\n')
     const isTableDelimiter = (line = '') => /^ {0,3}\|?[\s:|-]*-[\s:|-]*$/.test(line)
 
     return lines
       .map((line, index) => {
+        // Earlier nodes already put text on this line, so it cannot start a block.
+        if (index === 0 && startsMidLine) {
+          return line
+        }
+
         // marked reads the line above a delimiter row as a table header, so break the row.
         if (index > 0 && isTableDelimiter(line)) {
           return line.replace('-', '\\-')
@@ -1275,16 +1289,18 @@ export class MarkdownManager {
         // Every paragraph starts a block, nested ones too, so its line starts carry block
         // syntax. Marked text is already protected by the mark delimiters around it.
         const renderedSoFar = result.join(separator)
-        const isLineStart =
-          parentNode?.type === 'paragraph' &&
-          !node.marks?.length &&
-          (renderedSoFar === '' || renderedSoFar.endsWith('\n'))
+        const blockContext =
+          parentNode?.type === 'paragraph' && !node.marks?.length
+            ? {
+                startsMidLine: renderedSoFar !== '' && !renderedSoFar.endsWith('\n'),
+                isIndented: level > 0,
+              }
+            : undefined
         let textContent = this.encodeTextForMarkdown(
           node.text || '',
           node,
           parentNode,
-          isLineStart,
-          level > 0,
+          blockContext,
         )
         const currentMarks = new Map((node.marks || []).map(mark => [mark.type, mark]))
 

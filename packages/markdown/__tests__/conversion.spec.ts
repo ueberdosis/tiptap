@@ -908,6 +908,41 @@ describe('Markdown Conversion Tests', () => {
         expect(markdownManager.serialize(input)).toBe('\\# not a heading')
       })
 
+      it('should escape a block marker after a newline inside a later text node', () => {
+        const input = {
+          type: 'doc',
+          content: [
+            {
+              type: 'paragraph',
+              content: [
+                { type: 'text', text: 'text' },
+                { type: 'text', text: 'bold', marks: [{ type: 'bold' }] },
+                { type: 'text', text: '\n# not a heading' },
+              ],
+            },
+          ],
+        }
+
+        expect(markdownManager.serialize(input)).toBe('text**bold**\n\\# not a heading')
+      })
+
+      it('should not escape the first line of a text node that starts mid-line', () => {
+        const input = {
+          type: 'doc',
+          content: [
+            {
+              type: 'paragraph',
+              content: [
+                { type: 'text', text: 'a', marks: [{ type: 'bold' }] },
+                { type: 'text', text: '# b' },
+              ],
+            },
+          ],
+        }
+
+        expect(markdownManager.serialize(input)).toBe('**a**# b')
+      })
+
       it('should escape a leading block marker inside a list item', () => {
         expect(markdownManager.serialize(listItem('# not a heading'))).toBe('- \\# not a heading')
         expect(markdownManager.serialize(listItem('- not a list'))).toBe('- \\- not a list')
@@ -948,6 +983,25 @@ describe('Markdown Conversion Tests', () => {
           paragraph('| a | b |\n| - | - |'),
         )
         expect(roundTrip(paragraph('a | b\n--- | ---'))).toEqual(paragraph('a | b\n--- | ---'))
+      })
+
+      it('should keep a block marker after a mark and a newline as text after round-trip', () => {
+        const input = {
+          type: 'doc',
+          content: [
+            {
+              type: 'paragraph',
+              content: [
+                { type: 'text', text: 'text' },
+                { type: 'text', text: 'bold', marks: [{ type: 'bold' }] },
+                { type: 'text', text: '\n# not a heading' },
+              ],
+            },
+          ],
+        }
+
+        expect(roundTrip(input).content).toHaveLength(1)
+        expect(roundTrip(input).content[0].type).toBe('paragraph')
       })
 
       it('should keep block syntax in a list item as text after round-trip', () => {
