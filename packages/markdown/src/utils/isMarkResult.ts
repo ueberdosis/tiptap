@@ -8,5 +8,25 @@ import type { JSONContent } from '@tiptap/core'
 export function isMarkResult(
   result: unknown,
 ): result is { mark: string; content: JSONContent[]; attrs?: Record<string, any> } {
-  return !!result && typeof result === 'object' && 'mark' in result
+  if (!result || typeof result !== 'object' || Array.isArray(result)) {
+    return false
+  }
+
+  const candidate = result as { mark?: unknown; content?: unknown; attrs?: unknown }
+
+  if (typeof candidate.mark !== 'string' || !Array.isArray(candidate.content)) {
+    return false
+  }
+
+  if (candidate.attrs !== undefined) {
+    if (
+      candidate.attrs === null ||
+      typeof candidate.attrs !== 'object' ||
+      Array.isArray(candidate.attrs)
+    ) {
+      return false
+    }
+  }
+
+  return true
 }
