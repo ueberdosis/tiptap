@@ -87,7 +87,16 @@ class EditorStateManager<TEditor extends Editor | null = Editor | null> {
    * Watch the editor instance for changes.
    */
   watch(nextEditor: Editor | null): undefined | (() => void) {
+    const editorChanged = this.editor !== nextEditor
+
     this.editor = nextEditor as TEditor
+
+    if (editorChanged) {
+      // A new editor instance means a new snapshot. Without this, selectors
+      // would keep seeing the previous editor until its first transaction.
+      this.transactionNumber += 1
+      this.subscribers.forEach(callback => callback())
+    }
 
     if (this.editor) {
       /**
