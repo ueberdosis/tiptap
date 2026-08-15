@@ -1100,7 +1100,6 @@ export class MarkdownManager {
     reopenWithHtmlOnNextOpen: Set<string>,
     hasCrossedBoundary: boolean,
   ): string {
-    // Snapshot active marks so each new delimiter excludes itself.
     marksToOpen.forEach(({ type, mark }) => {
       const openingMode = reopenWithHtmlOnNextOpen.has(type) ? 'html' : 'markdown'
       const openMarkdown = this.getMarkOpening(type, mark, openingMode)
