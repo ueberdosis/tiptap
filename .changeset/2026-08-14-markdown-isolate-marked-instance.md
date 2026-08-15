@@ -2,4 +2,4 @@
 '@tiptap/markdown': patch
 ---
 
-Isolate the `marked` instance per editor so options and custom tokenizers no longer leak across editors. The `marked` option now also accepts a `Marked` instance.
+Markdown editor options and custom tokenizers are now isolated per editor instead of leaking across editors.
