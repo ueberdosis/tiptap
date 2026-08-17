@@ -110,7 +110,7 @@ jobs:
 
       - name: Run changesets release flow
         id: changesets
-        uses: changesets/action@v1
+        uses: changesets/action@v2
         with:
           createGithubReleases: false
           version: pnpm run version
