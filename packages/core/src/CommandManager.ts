@@ -103,6 +103,23 @@ export class CommandManager {
     return chain
   }
 
+  public static createFakeChain(): ChainedCommands {
+    const chain = new Proxy(
+      {},
+      {
+        get: (_target, property) => {
+          if (property === 'run') {
+            return () => false
+          }
+
+          return () => chain
+        },
+      },
+    ) as ChainedCommands
+
+    return chain
+  }
+
   public createCan(startTr?: Transaction): CanCommands {
     const { rawCommands, state } = this
     const dispatch = false
@@ -118,6 +135,30 @@ export class CommandManager {
       ...formattedCommands,
       chain: () => this.createChain(tr, dispatch),
     } as CanCommands
+  }
+
+  /**
+   * Creates a fake `CanCommands` for when the CommandManager is destroyed
+   * @returns A `CanCommands` object that always returns false
+   */
+  public static createFallbackCan(): CanCommands {
+    const chain = CommandManager.createFakeChain()
+    const can = new Proxy(
+      {
+        chain: () => chain,
+      },
+      {
+        get: (target, property) => {
+          if (property === 'chain') {
+            return target.chain
+          }
+
+          return () => false
+        },
+      },
+    ) as CanCommands
+
+    return can
   }
 
   public buildProps(tr: Transaction, shouldDispatch = true): CommandProps {
