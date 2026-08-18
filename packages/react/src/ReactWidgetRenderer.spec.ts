@@ -5,7 +5,7 @@ import Text from '@tiptap/extension-text'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { render, waitFor } from '@testing-library/react'
 import React from 'react'
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 
 import { EditorContent } from './EditorContent.js'
 import { ReactWidgetRenderer } from './ReactWidgetRenderer.js'

@@ -5,7 +5,7 @@ import Text from '@tiptap/extension-text'
 import type { Node } from '@tiptap/pm/model'
 import type { Transaction } from '@tiptap/pm/state'
 import { AttrStep } from '@tiptap/pm/transform'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 
 import { getRebuildRanges } from '../getRebuildRanges.js'
 import { isAttrStep } from '../isAttrStep.js'

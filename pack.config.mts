@@ -20,9 +20,10 @@ export const tsupCompatibleExtensions: OutExtensionFactory = ({ format }) => {
 export const basePackConfig = (): PackUserConfig => ({
   tsconfig: '../../tsconfig.build.json',
   outDir: 'dist',
-  dts: true,
+  dts: { sourcemap: true },
   clean: true,
   sourcemap: true,
+  target: 'es2019',
   format: ['esm', 'cjs'],
   outExtensions: tsupCompatibleExtensions,
 })

@@ -7,7 +7,7 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import type { Decoration as PMDecoration } from '@tiptap/pm/view'
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect, it, vi } from 'vite-plus/test'
 
 function createEditor(extension?: Extension, content = '<p>hello world</p>') {
   return new Editor({

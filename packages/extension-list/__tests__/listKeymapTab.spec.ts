@@ -5,7 +5,7 @@ import HorizontalRule from '@tiptap/extension-horizontal-rule'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { GapCursor } from '@tiptap/pm/gapcursor'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vite-plus/test'
 
 import { BulletList, ListItem, ListKeymap, TaskItem, TaskList } from '../src/index.js'
 

@@ -23,10 +23,8 @@ overrides:
   'minimatch@^3.0.5': '3.1.4'
   'minimatch@^3.1.2': '3.1.4'
   'qs': '^6.14.1'
-  'rollup': '4.60.1'
   'readdirp>picomatch': '2.3.2'
   'sass>immutable': '5.1.5'
-  'terser-webpack-plugin>serialize-javascript': '7.0.5'
   'tinyglobby>picomatch': '4.0.4'
   'vitest>picomatch': '4.0.4'
 peerDependencyRules:

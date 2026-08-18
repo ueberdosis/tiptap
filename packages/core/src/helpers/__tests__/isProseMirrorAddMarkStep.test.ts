@@ -1,6 +1,6 @@
 import type { Mark } from '@tiptap/pm/model'
 import { AddMarkStep, RemoveMarkStep } from '@tiptap/pm/transform'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 
 import { isProseMirrorAddMarkStep } from '../isProseMirrorAddMarkStep.js'
 
