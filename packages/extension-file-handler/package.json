@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/extension-file-handler",
-  "version": "3.30.1",
+  "version": "3.30.2",
   "description": "file handler extension for tiptap",
   "keywords": [
     "tiptap",
