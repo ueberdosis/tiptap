@@ -83,6 +83,17 @@ describe('clearNodes', () => {
     expect(editor.getHTML()).toBe('<p>item</p>'.repeat(depth))
   })
 
+  it('runs correctly after another node command in the same chain', () => {
+    const editor = createEditor('<p>one</p><p>two</p>')
+
+    editor.commands.selectAll()
+
+    // The transaction already carries steps by the time clearNodes runs, so
+    // the selection no longer points into the document it started from.
+    expect(() => editor.chain().focus().toggleBulletList().clearNodes().run()).not.toThrow()
+    expect(editor.getHTML()).toBe('<p>one</p><p>two</p>')
+  })
+
   it('leaves plain paragraphs untouched', () => {
     const editor = createEditor('<p>one</p><p>two</p>')
 

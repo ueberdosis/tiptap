@@ -24,28 +24,41 @@ export const clearNodes: RawCommands['clearNodes'] =
       return true
     }
 
+    // The ranges point into the document as it is now, which is not always the
+    // one the transaction started from: an earlier command in the same chain
+    // may already have changed it. Map them from here on, not from the start.
+    const commandStart = tr.mapping.maps.length
+
     ranges.forEach(({ $from, $to }) => {
       const from = $from.pos
       const to = $to.pos
 
       // A lift can only become legal once an earlier one has run: a list item
       // holding a nested list can't be lifted until that list is out of it. So
-      // sweep until nothing changes. Every sweep either lifts something, which
+      // sweep until nothing changes. Each sweep either lifts something, which
       // makes the range shallower, or ends the loop.
       for (;;) {
         const docBefore = tr.doc
-        // Positions below come from `docBefore`, so map them through this
-        // sweep's steps only, not the whole transaction.
         const sweepStart = tr.mapping.maps.length
+        const rangeMapping = tr.mapping.slice(commandStart)
 
-        docBefore.nodesBetween(tr.mapping.map(from), tr.mapping.map(to), (node, pos) => {
+        // Positions come from `docBefore`, so they need the steps this sweep
+        // adds. Rebuild that mapping only when a step lands, not per node.
+        let mappedThrough = sweepStart
+        let sweepMapping = tr.mapping.slice(sweepStart)
+
+        docBefore.nodesBetween(rangeMapping.map(from), rangeMapping.map(to), (node, pos) => {
           if (node.type.isText) {
             return
           }
 
-          const mapping = tr.mapping.slice(sweepStart)
-          const $mappedFrom = tr.doc.resolve(mapping.map(pos))
-          const $mappedTo = tr.doc.resolve(mapping.map(pos + node.nodeSize))
+          if (tr.mapping.maps.length !== mappedThrough) {
+            mappedThrough = tr.mapping.maps.length
+            sweepMapping = tr.mapping.slice(sweepStart)
+          }
+
+          const $mappedFrom = tr.doc.resolve(sweepMapping.map(pos))
+          const $mappedTo = tr.doc.resolve(sweepMapping.map(pos + node.nodeSize))
           const nodeRange = $mappedFrom.blockRange($mappedTo)
 
           if (!nodeRange) {
