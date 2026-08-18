@@ -3,7 +3,7 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { Markdown } from '@tiptap/markdown'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import Image from '../src/index.js'
 
@@ -497,6 +497,60 @@ describe('extension-image', () => {
       expect(img?.hasAttribute('alt')).toBe(false)
       expect(img?.hasAttribute('title')).toBe(false)
       expect(img?.hasAttribute('data-custom-id')).toBe(false)
+    })
+  })
+
+  describe('resizable image visibility', () => {
+    const setImageLoaded = (loaded: boolean) => {
+      vi.spyOn(HTMLImageElement.prototype, 'complete', 'get').mockReturnValue(loaded)
+      vi.spyOn(HTMLImageElement.prototype, 'naturalWidth', 'get').mockReturnValue(loaded ? 100 : 0)
+    }
+
+    const mountResizableImage = () => {
+      editor = new Editor({
+        element: createEditorEl(),
+        extensions: [Document, Paragraph, Text, Image.configure({ resize: { enabled: true } })],
+        content: {
+          type: 'doc',
+          content: [{ type: 'image', attrs: { src: imgSrc } }],
+        },
+      })
+
+      return editor.view.dom.querySelector('[data-resize-container]') as HTMLElement
+    }
+
+    afterEach(() => {
+      vi.restoreAllMocks()
+    })
+
+    it('should show the node view when the image is already loaded on mount', () => {
+      // A cached image is already complete before the node view mounts, so
+      // `load` never fires again and the image would stay hidden forever.
+      setImageLoaded(true)
+
+      expect(mountResizableImage().style.visibility).toBe('')
+    })
+
+    it('should hide the node view until a not-yet-loaded image fires load', () => {
+      setImageLoaded(false)
+
+      const container = mountResizableImage()
+
+      expect(container.style.visibility).toBe('hidden')
+
+      container.querySelector('img')?.dispatchEvent(new Event('load'))
+
+      expect(container.style.visibility).toBe('')
+    })
+
+    it('should show the node view when the image fails to load', () => {
+      setImageLoaded(false)
+
+      const container = mountResizableImage()
+
+      container.querySelector('img')?.dispatchEvent(new Event('error'))
+
+      expect(container.style.visibility).toBe('')
     })
   })
 })
