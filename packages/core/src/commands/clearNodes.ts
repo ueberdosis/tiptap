@@ -14,9 +14,6 @@ declare module '@tiptap/core' {
   }
 }
 
-// Deeper than any realistic block nesting; see the loop below.
-const MAX_PASSES = 20
-
 export const clearNodes: RawCommands['clearNodes'] =
   () =>
   ({ tr, dispatch }) => {
@@ -31,24 +28,22 @@ export const clearNodes: RawCommands['clearNodes'] =
       const from = $from.pos
       const to = $to.pos
 
-      // A lift can become legal only once an earlier lift in the same
-      // transaction has run: `listItem` is `paragraph block*`, so an item that
-      // still holds a nested list cannot be lifted until that list is out of
-      // it. Sweeping the range once therefore leaves the deepest items
-      // wrapped, so repeat until the document settles. The cap is only a
-      // runaway guard — the loop normally ends on the `eq` check.
-      for (let pass = 0; pass < MAX_PASSES; pass += 1) {
+      // A lift can only become legal once an earlier one has run: a list item
+      // holding a nested list can't be lifted until that list is out of it. So
+      // sweep until nothing changes. Every sweep either lifts something, which
+      // makes the range shallower, or ends the loop.
+      for (;;) {
         const docBefore = tr.doc
-        // Positions below are resolved against `docBefore`, so they must be
-        // mapped through the steps this pass adds — not the whole transaction.
-        const passMappingStart = tr.mapping.maps.length
+        // Positions below come from `docBefore`, so map them through this
+        // sweep's steps only, not the whole transaction.
+        const sweepStart = tr.mapping.maps.length
 
         docBefore.nodesBetween(tr.mapping.map(from), tr.mapping.map(to), (node, pos) => {
           if (node.type.isText) {
             return
           }
 
-          const mapping = tr.mapping.slice(passMappingStart)
+          const mapping = tr.mapping.slice(sweepStart)
           const $mappedFrom = tr.doc.resolve(mapping.map(pos))
           const $mappedTo = tr.doc.resolve(mapping.map(pos + node.nodeSize))
           const nodeRange = $mappedFrom.blockRange($mappedTo)
@@ -63,9 +58,8 @@ export const clearNodes: RawCommands['clearNodes'] =
             const { defaultType } = $mappedFrom.parent.contentMatchAt($mappedFrom.index())
             const target = tr.doc.nodeAt(nodeRange.start)
 
-            // Earlier lifts can leave this position on a node that cannot hold
-            // its own content as the default type, which `setNodeMarkup`
-            // rejects with `RangeError: Invalid content for node type`.
+            // An earlier lift can leave this position on a node that cannot
+            // hold its own content as the default type, which would throw.
             if (defaultType && target && defaultType.validContent(target.content)) {
               tr.setNodeMarkup(nodeRange.start, defaultType)
             }

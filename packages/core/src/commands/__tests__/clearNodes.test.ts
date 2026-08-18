@@ -71,6 +71,18 @@ describe('clearNodes', () => {
     )
   })
 
+  it('flattens a deeply nested list', () => {
+    const depth = 30
+    const open = '<ul><li><p>item</p>'.repeat(depth)
+    const close = '</li></ul>'.repeat(depth)
+    const editor = createEditor(open + close)
+
+    editor.commands.selectAll()
+    editor.commands.clearNodes()
+
+    expect(editor.getHTML()).toBe('<p>item</p>'.repeat(depth))
+  })
+
   it('leaves plain paragraphs untouched', () => {
     const editor = createEditor('<p>one</p><p>two</p>')
 
