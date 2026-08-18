@@ -1287,6 +1287,23 @@ export class MarkdownManager {
         const marksToOpen = this.getMarksToOpenForSerialization(activeMarks, currentMarks, nextNode)
         const marksToClose = findMarksToClose(currentMarks, nextNode)
 
+        // A whitespace-only text node has nothing to emphasise, and wrapping it emits an empty
+        // delimiter run: a bolded space between two words serializes to `a**** b`. `****` is not
+        // emphasis in CommonMark, so it round-trips as four literal asterisks (`` `` `` and `**`
+        // for code and italic behave the same way). Emit the whitespace on its own when the marks
+        // both start and end on this node - no mark is active to close, and none carries into the
+        // next node, so no delimiter is owed in either direction.
+        const isWhitespaceOnly = textContent.length > 0 && textContent.trim().length === 0
+        if (
+          isWhitespaceOnly &&
+          currentMarks.size > 0 &&
+          activeMarks.size === 0 &&
+          marksToClose.length === currentMarks.size
+        ) {
+          result.push(textContent)
+          return
+        }
+
         // When marks simultaneously close (old) AND open (new) at this boundary, the naive
         // approach of appending old-close and prepending new-open produces interleaved
         // delimiters like `*456**` (italic open, text, bold close) instead of properly
