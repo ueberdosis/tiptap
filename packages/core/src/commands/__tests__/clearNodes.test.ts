@@ -94,6 +94,19 @@ describe('clearNodes', () => {
     expect(editor.getHTML()).toBe('<p>one</p><p>two</p>')
   })
 
+  it('only clears the selected range', () => {
+    const editor = createEditor(
+      '<ul><li><p>keep</p></li></ul><p>middle</p><ul><li><p>clear</p></li></ul>',
+    )
+
+    // Select just the last list item, leaving the first list alone.
+    const pos = editor.state.doc.content.size - 3
+    editor.commands.setTextSelection(pos)
+    editor.commands.clearNodes()
+
+    expect(editor.getHTML()).toBe('<ul><li><p>keep</p></li></ul><p>middle</p><p>clear</p>')
+  })
+
   it('leaves plain paragraphs untouched', () => {
     const editor = createEditor('<p>one</p><p>two</p>')
 

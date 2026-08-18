@@ -71,9 +71,16 @@ export const clearNodes: RawCommands['clearNodes'] =
             const { defaultType } = $mappedFrom.parent.contentMatchAt($mappedFrom.index())
             const target = tr.doc.nodeAt(nodeRange.start)
 
-            // An earlier lift can leave this position on a node that cannot
-            // hold its own content as the default type, which would throw.
-            if (defaultType && target && defaultType.validContent(target.content)) {
+            // `setNodeMarkup` does not diff, so retyping a node that already
+            // has the default markup only adds a step that changes nothing.
+            // An earlier lift can also leave this position on a node that
+            // cannot hold its own content as that type, which would throw.
+            if (
+              defaultType &&
+              target &&
+              !target.hasMarkup(defaultType) &&
+              defaultType.validContent(target.content)
+            ) {
               tr.setNodeMarkup(nodeRange.start, defaultType)
             }
           }
