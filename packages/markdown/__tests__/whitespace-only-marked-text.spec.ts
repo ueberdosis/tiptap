@@ -3,13 +3,14 @@ import { Code } from '@tiptap/extension-code'
 import { Document } from '@tiptap/extension-document'
 import { Italic } from '@tiptap/extension-italic'
 import { Paragraph } from '@tiptap/extension-paragraph'
+import { Strike } from '@tiptap/extension-strike'
 import { Text } from '@tiptap/extension-text'
 import { describe, expect, it } from 'vitest'
 
 import { MarkdownManager } from '../src/MarkdownManager.js'
 
 describe('Whitespace-only marked text nodes', () => {
-  const extensions = [Document, Paragraph, Text, Bold, Italic, Code]
+  const extensions = [Document, Paragraph, Text, Bold, Italic, Code, Strike]
   const markdownManager = new MarkdownManager({ extensions })
 
   const paragraph = (content: Array<Record<string, any>>) => ({
@@ -21,6 +22,7 @@ describe('Whitespace-only marked text nodes', () => {
     ['bold', 'a b'],
     ['italic', 'a b'],
     ['code', 'a b'],
+    ['strike', 'a b'],
   ])('emits no delimiters for a whitespace-only %s node', (markType, expected) => {
     const markdown = markdownManager.serialize(
       paragraph([
@@ -31,6 +33,22 @@ describe('Whitespace-only marked text nodes', () => {
     )
 
     expect(markdown).toBe(expected)
+  })
+
+  it.each([
+    ['tab', '\t'],
+    ['non-breaking space', '\u00a0'],
+    ['newline', '\n'],
+  ])('emits no delimiters for a whitespace-only node containing a %s', (_name, whitespace) => {
+    const markdown = markdownManager.serialize(
+      paragraph([
+        { type: 'text', text: 'a' },
+        { type: 'text', text: whitespace, marks: [{ type: 'bold' }] },
+        { type: 'text', text: 'b' },
+      ]),
+    )
+
+    expect(markdown).toBe(`a${whitespace}b`)
   })
 
   it('emits no delimiters for a multi-space whitespace-only node', () => {
