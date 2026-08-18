@@ -1281,27 +1281,31 @@ export class MarkdownManager {
 
       if (node.type === 'text') {
         let textContent = this.encodeTextForMarkdown(node.text || '', node, parentNode)
-        const currentMarks = new Map((node.marks || []).map(mark => [mark.type, mark]))
+        let currentMarks = new Map((node.marks || []).map(mark => [mark.type, mark]))
 
         // Find marks that need to be closed and opened
-        const marksToOpen = this.getMarksToOpenForSerialization(activeMarks, currentMarks, nextNode)
-        const marksToClose = findMarksToClose(currentMarks, nextNode)
+        let marksToOpen = this.getMarksToOpenForSerialization(activeMarks, currentMarks, nextNode)
+        let marksToClose = findMarksToClose(currentMarks, nextNode)
 
-        // A whitespace-only text node has nothing to emphasise, and wrapping it emits an empty
-        // delimiter run: a bolded space between two words serializes to `a**** b`. `****` is not
-        // emphasis in CommonMark, so it round-trips as four literal asterisks (`` `` `` and `**`
-        // for code and italic behave the same way). Emit the whitespace on its own when the marks
-        // both start and end on this node - no mark is active to close, and none carries into the
-        // next node, so no delimiter is owed in either direction.
+        // A whitespace-only text node has nothing to emphasise. A mark that both opens and closes
+        // on such a node emits an empty delimiter run: a bolded space between two words serializes
+        // to `a**** b`, and `****` is not emphasis in CommonMark, so it round-trips as four
+        // literal asterisks (italic and code produce the same shape). Drop those marks here.
+        //
+        // Marks that carry into the next node are kept, so a space marked bold+italic followed by
+        // bold text still opens bold (`a **b**`), and a mark that opened on an earlier node still
+        // closes normally - that is the existing rule which expels whitespace out of a mark.
         const isWhitespaceOnly = textContent.length > 0 && textContent.trim().length === 0
-        if (
-          isWhitespaceOnly &&
-          currentMarks.size > 0 &&
-          activeMarks.size === 0 &&
-          marksToClose.length === currentMarks.size
-        ) {
-          result.push(textContent)
-          return
+        if (isWhitespaceOnly && currentMarks.size > 0) {
+          const transientMarks = marksToClose.filter(markType => !activeMarks.has(markType))
+
+          if (transientMarks.length > 0) {
+            currentMarks = new Map(
+              Array.from(currentMarks).filter(([markType]) => !transientMarks.includes(markType)),
+            )
+            marksToOpen = this.getMarksToOpenForSerialization(activeMarks, currentMarks, nextNode)
+            marksToClose = findMarksToClose(currentMarks, nextNode)
+          }
         }
 
         // When marks simultaneously close (old) AND open (new) at this boundary, the naive

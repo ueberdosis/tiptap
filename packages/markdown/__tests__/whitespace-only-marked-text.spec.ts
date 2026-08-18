@@ -70,6 +70,42 @@ describe('Whitespace-only marked text nodes', () => {
     expect(markdown).not.toContain('****')
   })
 
+  it('keeps a continuing mark and drops the transient one', () => {
+    const markdown = markdownManager.serialize(
+      paragraph([
+        { type: 'text', text: 'a' },
+        { type: 'text', text: ' ', marks: [{ type: 'bold' }, { type: 'italic' }] },
+        { type: 'text', text: 'b', marks: [{ type: 'bold' }] },
+      ]),
+    )
+
+    expect(markdown).toBe('a **b**')
+  })
+
+  it('keeps a continuing italic when bold is the transient mark', () => {
+    const markdown = markdownManager.serialize(
+      paragraph([
+        { type: 'text', text: 'a' },
+        { type: 'text', text: ' ', marks: [{ type: 'bold' }, { type: 'italic' }] },
+        { type: 'text', text: 'b', marks: [{ type: 'italic' }] },
+      ]),
+    )
+
+    expect(markdown).toBe('a *b*')
+  })
+
+  it('spans a mark across the whitespace when it opened on an earlier node', () => {
+    const markdown = markdownManager.serialize(
+      paragraph([
+        { type: 'text', text: 'a', marks: [{ type: 'bold' }] },
+        { type: 'text', text: ' ', marks: [{ type: 'bold' }, { type: 'italic' }] },
+        { type: 'text', text: 'b', marks: [{ type: 'bold' }] },
+      ]),
+    )
+
+    expect(markdown).toBe('**a b**')
+  })
+
   it('keeps expelling trailing whitespace out of a mark that has text', () => {
     const markdown = markdownManager.serialize(
       paragraph([
