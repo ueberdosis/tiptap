@@ -103,11 +103,22 @@ export class CommandManager {
     return chain
   }
 
+  /**
+   * Creates a chain that safely returns `false` when run.
+   * @returns A non-dispatching command chain.
+   * @example
+   * const chain = CommandManager.createFakeChain()
+   * chain.focus().run() // false
+   */
   public static createFakeChain(): ChainedCommands {
     const chain = new Proxy(
       {},
       {
         get: (_target, property) => {
+          if (property === 'then') {
+            return undefined
+          }
+
           if (property === 'run') {
             return () => false
           }
@@ -138,8 +149,11 @@ export class CommandManager {
   }
 
   /**
-   * Creates a fake `CanCommands` for when the CommandManager is destroyed
-   * @returns A `CanCommands` object that always returns false
+   * Creates capability checks that safely return `false`.
+   * @returns A non-dispatching capability checker.
+   * @example
+   * const can = CommandManager.createFallbackCan()
+   * can.focus() // false
    */
   public static createFallbackCan(): CanCommands {
     const chain = CommandManager.createFakeChain()
@@ -149,6 +163,10 @@ export class CommandManager {
       },
       {
         get: (target, property) => {
+          if (property === 'then') {
+            return undefined
+          }
+
           if (property === 'chain') {
             return target.chain
           }
