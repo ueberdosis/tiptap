@@ -80,6 +80,58 @@ describe('extension-youtube', () => {
     getEditorEl()?.remove()
   })
 
+  describe('YouTube Live URL handling', () => {
+    it('generates correct embed URL for a YouTube Live URL', () => {
+      const result = getEmbedUrlFromYoutubeUrl({
+        url: 'https://www.youtube.com/live/EkRHhOCdZjw',
+        controls: true,
+      })
+
+      expect(result).toBe('https://www.youtube.com/embed/EkRHhOCdZjw')
+    })
+
+    it('generates correct embed URL for a YouTube Live URL without www prefix', () => {
+      const result = getEmbedUrlFromYoutubeUrl({
+        url: 'https://youtube.com/live/EkRHhOCdZjw',
+        controls: true,
+        autoplay: true,
+      })
+
+      expect(result).toBe('https://www.youtube.com/embed/EkRHhOCdZjw?autoplay=1')
+    })
+
+    it('generates correct embed URL for a YouTube Live URL with multiple parameters', () => {
+      const result = getEmbedUrlFromYoutubeUrl({
+        url: 'https://www.youtube.com/live/EkRHhOCdZjw',
+        autoplay: true,
+        controls: false,
+        rel: 0,
+      })
+
+      expect(result).toBe('https://www.youtube.com/embed/EkRHhOCdZjw?autoplay=1&controls=0&rel=0')
+    })
+
+    it('generates correct embed URL for a YouTube Live URL with nocookie option', () => {
+      const result = getEmbedUrlFromYoutubeUrl({
+        url: 'https://www.youtube.com/live/EkRHhOCdZjw',
+        nocookie: true,
+        controls: true,
+        rel: 1,
+      })
+
+      expect(result).toBe('https://www.youtube-nocookie.com/embed/EkRHhOCdZjw?rel=1')
+    })
+
+    it('keeps a live URL with a query string on the video id', () => {
+      const result = getEmbedUrlFromYoutubeUrl({
+        url: 'https://www.youtube.com/live/EkRHhOCdZjw?feature=share',
+        controls: true,
+      })
+
+      expect(result).toBe('https://www.youtube.com/embed/EkRHhOCdZjw')
+    })
+  })
+
   describe('YouTube Shorts URL handling', () => {
     it('generates correct embed URL for YouTube Shorts with rel parameter', () => {
       const result = getEmbedUrlFromYoutubeUrl({
