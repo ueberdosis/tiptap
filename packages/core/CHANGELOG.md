@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.30.2
+
+### Patch Changes
+
+- 3dffed5: Keep mixed JSX children as separate siblings in DOM output.
+- 214a140: Fixed a bug where `editor.chain` and `editor.can` can not be accessed on editor initialization
+  - @tiptap/pm@3.30.2
+
 ## 3.30.1
 
 ### Patch Changes
