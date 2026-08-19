@@ -132,6 +132,20 @@ describe('extension-youtube', () => {
     })
   })
 
+  describe('YouTube path-like near misses', () => {
+    const nearMisses = [
+      'https://www.youtube.com/notlive/EkRHhOCdZjw',
+      'https://www.youtube.com/notshorts/EkRHhOCdZjw',
+      'https://www.youtube.com/watch?redirect=live/EkRHhOCdZjw',
+    ]
+
+    nearMisses.forEach(url => {
+      it(`does not embed a video id for ${url}`, () => {
+        expect(getEmbedUrlFromYoutubeUrl({ url, controls: true })).toBe(null)
+      })
+    })
+  })
+
   describe('YouTube Shorts URL handling', () => {
     it('generates correct embed URL for YouTube Shorts with rel parameter', () => {
       const result = getEmbedUrlFromYoutubeUrl({
