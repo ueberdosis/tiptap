@@ -24,37 +24,46 @@ export const clearNodes: RawCommands['clearNodes'] =
       return true
     }
 
-    // The ranges point into the document as it is now, which is not always the
-    // one the transaction started from: an earlier command in the same chain
-    // may already have changed it. Map them from here on, not from the start.
-    const commandStart = tr.mapping.maps.length
+    // map the position through the transaction
+    // earlier commands may have already changed the document
+    const startMapsLength = tr.mapping.maps.length
 
     ranges.forEach(({ $from, $to }) => {
       const from = $from.pos
       const to = $to.pos
 
-      // A lift can only become legal once an earlier one has run: a list item
-      // holding a nested list can't be lifted until that list is out of it. So
-      // sweep until nothing changes. Each sweep either lifts something, which
-      // makes the range shallower, or ends the loop.
-      for (;;) {
+      // a lift can only run once the nesting above it is gone, so the number of
+      // sweeps is bounded by how deep the range is
+      const depthMapping = tr.mapping.slice(startMapsLength)
+      let maxSweeps = 1
+
+      tr.doc.nodesBetween(depthMapping.map(from), depthMapping.map(to), (_node, pos) => {
+        maxSweeps = Math.max(maxSweeps, tr.doc.resolve(pos).depth + 1)
+      })
+
+      // keep sweeping until no more lifts become valid
+      // earlier lifts can make nested items liftable
+      for (let sweep = 0; sweep < maxSweeps; sweep += 1) {
         const docBefore = tr.doc
-        const sweepStart = tr.mapping.maps.length
-        const rangeMapping = tr.mapping.slice(commandStart)
+        const sweepMapsLength = tr.mapping.maps.length
+        const rangeMapping = tr.mapping.slice(startMapsLength)
 
-        // Positions come from `docBefore`, so they need the steps this sweep
-        // adds. Rebuild that mapping only when a step lands, not per node.
-        let mappedThrough = sweepStart
-        let sweepMapping = tr.mapping.slice(sweepStart)
+        // rebuild the mapping after each sweep changes the document
+        // positions still refer to `docBefore`
+        let cachedMapsLength = sweepMapsLength
+        let sweepMapping = tr.mapping.slice(sweepMapsLength)
 
-        docBefore.nodesBetween(rangeMapping.map(from), rangeMapping.map(to), (node, pos) => {
+        const mappedFrom = rangeMapping.map(from)
+        const mappedTo = rangeMapping.map(to)
+
+        docBefore.nodesBetween(mappedFrom, mappedTo, (node, pos) => {
           if (node.type.isText) {
             return
           }
 
-          if (tr.mapping.maps.length !== mappedThrough) {
-            mappedThrough = tr.mapping.maps.length
-            sweepMapping = tr.mapping.slice(sweepStart)
+          if (tr.mapping.maps.length !== cachedMapsLength) {
+            cachedMapsLength = tr.mapping.maps.length
+            sweepMapping = tr.mapping.slice(sweepMapsLength)
           }
 
           const $mappedFrom = tr.doc.resolve(sweepMapping.map(pos))
@@ -71,10 +80,8 @@ export const clearNodes: RawCommands['clearNodes'] =
             const { defaultType } = $mappedFrom.parent.contentMatchAt($mappedFrom.index())
             const target = tr.doc.nodeAt(nodeRange.start)
 
-            // `setNodeMarkup` does not diff, so retyping a node that already
-            // has the default markup only adds a step that changes nothing.
-            // An earlier lift can also leave this position on a node that
-            // cannot hold its own content as that type, which would throw.
+            // skip nodes that already have the default markup
+            // invalid nodes may throw after an earlier lift
             if (
               defaultType &&
               target &&
