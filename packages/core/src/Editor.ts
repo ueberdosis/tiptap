@@ -252,6 +252,10 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Create a command chain to call multiple commands at once.
    */
   public chain(): ChainedCommands {
+    if (!this.commandManager) {
+      return CommandManager.createFakeChain()
+    }
+
     return this.commandManager.chain()
   }
 
@@ -259,6 +263,10 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Check if a command or a command chain can be executed. Without executing it.
    */
   public can(): CanCommands {
+    if (!this.commandManager) {
+      return CommandManager.createFallbackCan()
+    }
+
     return this.commandManager.can()
   }
 
@@ -828,15 +836,13 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.destroyed = true
 
     this.emit('destroy')
-
     this.unmount()
-
     this.removeAllListeners()
 
     this.extensionManager.destroy()
     this.extensionManager = null as any
     this.schema = null as any
-    this.commandManager = null as any
+    this.commandManager = null as unknown as CommandManager
     this.extensionStorage = {} as Storage
   }
 
