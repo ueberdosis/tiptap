@@ -1,8 +1,9 @@
 import { Editor } from '@tiptap/core'
+import Blockquote from '@tiptap/extension-blockquote'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { FontSize, TextStyle } from '@tiptap/extension-text-style'
+import { Color, FontSize, TextStyle } from '@tiptap/extension-text-style'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
 describe('FontSize commands', () => {
@@ -38,5 +39,45 @@ describe('FontSize commands', () => {
 
     editor.commands.unsetFontSize()
     expect(editor.getHTML()).not.toContain('<span')
+  })
+})
+
+describe('FontSize commands inside a wrapper node', () => {
+  let editor: Editor
+
+  const editorWith = (content: string) => {
+    const element = document.createElement('div')
+    document.body.appendChild(element)
+    editor = new Editor({
+      element,
+      extensions: [Document, Paragraph, Text, Blockquote, TextStyle, Color, FontSize],
+      content,
+    })
+    editor.commands.selectAll()
+    return editor
+  }
+
+  afterEach(() => {
+    editor.destroy()
+  })
+
+  it('keeps the other text styles when unsetting inside a blockquote', () => {
+    editorWith(
+      '<blockquote><p><span style="color: #ff0000; font-size: 28px">Example Text</span></p></blockquote>',
+    )
+
+    editor.commands.unsetFontSize()
+
+    expect(editor.getHTML()).toContain('color: #ff0000')
+    expect(editor.getHTML()).not.toContain('font-size')
+  })
+
+  it('keeps the other text styles when unsetting inside a paragraph', () => {
+    editorWith('<p><span style="color: #ff0000; font-size: 28px">Example Text</span></p>')
+
+    editor.commands.unsetFontSize()
+
+    expect(editor.getHTML()).toContain('color: #ff0000')
+    expect(editor.getHTML()).not.toContain('font-size')
   })
 })
