@@ -29,7 +29,7 @@ runs:
       shell: bash
       run: pnpm config set store-dir ${{ github.workspace }}/${{ inputs.store-dir }}
 
-    - uses: voidzero-dev/setup-vp@v1
+    - uses: voidzero-dev/setup-vp@v1.17.0
       with:
         node-version: ${{ inputs.node-version }}
         cache: ${{ inputs.cache == 'true' && 'true' || 'false' }}
