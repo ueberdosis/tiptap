@@ -99,9 +99,19 @@ describe('clearNodes', () => {
       '<ul><li><p>keep</p></li></ul><p>middle</p><ul><li><p>clear</p></li></ul>',
     )
 
-    // Select just the last list item, leaving the first list alone.
-    const pos = editor.state.doc.content.size - 3
-    editor.commands.setTextSelection(pos)
+    // Select across the last list item only, leaving the first list alone.
+    let from = 0
+    let to = 0
+    editor.state.doc.descendants((node, pos) => {
+      if (node.isText && node.text === 'clear') {
+        from = pos
+        to = pos + node.nodeSize
+      }
+    })
+
+    editor.commands.setTextSelection({ from, to })
+    expect(editor.state.selection.empty).toBe(false)
+
     editor.commands.clearNodes()
 
     expect(editor.getHTML()).toBe('<ul><li><p>keep</p></li></ul><p>middle</p><p>clear</p>')
