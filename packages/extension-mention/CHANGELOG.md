@@ -1,5 +1,15 @@
 # Change Log
 
+## 3.30.2
+
+### Patch Changes
+
+- Updated dependencies [3dffed5]
+- Updated dependencies [214a140]
+  - @tiptap/core@3.30.2
+  - @tiptap/suggestion@3.30.2
+  - @tiptap/pm@3.30.2
+
 ## 3.30.1
 
 ### Patch Changes
