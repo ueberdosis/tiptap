@@ -32,6 +32,12 @@ describe('list indentation on serialize', () => {
     )
   })
 
+  it('keeps tab indentation on an ordered list, since a tab clears the marker', () => {
+    expect(roundTrip(manager({ style: 'tab', size: 1 }), orderedWide)).toBe(
+      ['10. ten', '\t1. inner', '11. eleven'].join('\n'),
+    )
+  })
+
   it('leaves bullet lists on the configured indent size', () => {
     expect(roundTrip(manager({ style: 'space', size: 4 }), bullet)).toBe(
       ['- one', '    - inner', '- two'].join('\n'),

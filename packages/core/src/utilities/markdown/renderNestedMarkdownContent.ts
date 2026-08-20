@@ -59,6 +59,19 @@ import type { JSONContent } from '@tiptap/core'
  * })
  * ```
  */
+const TAB_STOP = 4
+
+/** Width of indentation in Markdown columns, where a tab runs to the next tab stop. */
+function columnWidth(text: string): number {
+  let width = 0
+
+  for (const character of text) {
+    width = character === '\t' ? width + TAB_STOP - (width % TAB_STOP) : width + 1
+  }
+
+  return width
+}
+
 export function renderNestedMarkdownContent(
   node: JSONContent,
   h: {
@@ -99,11 +112,13 @@ export function renderNestedMarkdownContent(
           }
 
           // Keep the configured indentation when it already reaches the
-          // content column, so `Markdown.indentation` still applies.
+          // content column, so `Markdown.indentation` still applies. A tab
+          // runs to the next tab stop, so it is wider than its one character.
           const configured = h.indent('')
 
           return (
-            (configured.length >= prefix.length ? configured : ' '.repeat(prefix.length)) + line
+            (columnWidth(configured) >= prefix.length ? configured : ' '.repeat(prefix.length)) +
+            line
           )
         }
 
