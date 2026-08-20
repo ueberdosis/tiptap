@@ -1,5 +1,14 @@
 # Change Log
 
+## 3.30.3
+
+### Patch Changes
+
+- 1cb7ad3: Fix ReactNodeViewRenderer crash when contentComponent is not available
+- Updated dependencies [965a880]
+  - @tiptap/core@3.30.3
+  - @tiptap/pm@3.30.3
+
 ## 3.30.2
 
 ### Patch Changes
