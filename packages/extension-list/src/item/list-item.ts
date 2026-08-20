@@ -183,7 +183,7 @@ export const ListItem = Node.create<ListItemOptions>({
         return '- '
       },
       ctx,
-      { alignNestedToPrefix: true },
+      { alignNestedToPrefix: ctx?.parentType === 'orderedList' },
     )
   },
 

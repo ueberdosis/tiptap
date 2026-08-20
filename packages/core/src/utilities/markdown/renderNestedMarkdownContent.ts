@@ -18,6 +18,9 @@ import type { JSONContent } from '@tiptap/core'
  * @param h - The markdown renderer helper
  * @param prefixOrGenerator - Either a string prefix or a function that generates the prefix from context
  * @param ctx - Optional context object (used when prefixOrGenerator is a function)
+ * @param options - Optional rendering options
+ * @param options.alignNestedToPrefix - Indent nested content to the width of the prefix
+ * instead of the configured indent size, when the configured one is narrower
  * @returns The rendered markdown string
  *
  * @example
@@ -28,6 +31,9 @@ import type { JSONContent } from '@tiptap/core'
  * // For a task item with static prefix
  * const prefix = `- [${node.attrs?.checked ? 'x' : ' '}] `
  * return renderNestedMarkdownContent(node, h, prefix)
+ *
+ * // For an ordered list item, where the nested block has to line up with the marker
+ * return renderNestedMarkdownContent(node, h, '10. ', ctx, { alignNestedToPrefix: true })
  *
  * // For a blockquote with static prefix
  * return renderNestedMarkdownContent(node, h, '> ')
@@ -63,12 +69,7 @@ export function renderNestedMarkdownContent(
   prefixOrGenerator: string | ((ctx: any) => string),
   ctx?: any,
   options?: {
-    /**
-     * Indent nested content to the width of the prefix instead of the
-     * configured indent size. CommonMark reads a nested block as a child only
-     * when it starts at the parent item's content column, which for an ordered
-     * list depends on how wide the marker is (`1. ` is three, `10. ` is four).
-     */
+    /** See the `@param` note above. */
     alignNestedToPrefix?: boolean
   },
 ): string {
@@ -92,8 +93,19 @@ export function renderNestedMarkdownContent(
       const childContent = h.renderChild?.(child, index + 1) ?? h.renderChildren([child])
       if (childContent !== undefined && childContent !== null) {
         // Split the child content by lines and indent each line
-        const pad = options?.alignNestedToPrefix ? ' '.repeat(prefix.length) : null
-        const indentLine = (line: string) => (pad === null ? h.indent(line) : pad + line)
+        const indentLine = (line: string) => {
+          if (!options?.alignNestedToPrefix) {
+            return h.indent(line)
+          }
+
+          // Keep the configured indentation when it already reaches the
+          // content column, so `Markdown.indentation` still applies.
+          const configured = h.indent('')
+
+          return (
+            (configured.length >= prefix.length ? configured : ' '.repeat(prefix.length)) + line
+          )
+        }
 
         const indentedChild = childContent
           .split('\n')
