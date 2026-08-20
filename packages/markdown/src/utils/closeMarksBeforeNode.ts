@@ -1,16 +1,17 @@
+import type { JSONMark } from '../types.js'
+
 /**
  * Closes active marks before rendering a non-text node.
  * Returns the closing markdown syntax and clears the active marks.
  */
 export function closeMarksBeforeNode(
-  activeMarks: Map<string, any>,
-  getMarkClosing: (markType: string, mark: any) => string,
+  activeMarks: Map<string, JSONMark>,
+  getMarkClosing: (markType: string, mark: JSONMark) => string,
 ): string {
   let beforeMarkdown = ''
-  Array.from(activeMarks.keys())
+  Array.from(activeMarks.entries())
     .reverse()
-    .forEach(markType => {
-      const mark = activeMarks.get(markType)
+    .forEach(([markType, mark]) => {
       const closeMarkdown = getMarkClosing(markType, mark)
       if (closeMarkdown) {
         beforeMarkdown = closeMarkdown + beforeMarkdown

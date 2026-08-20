@@ -20,8 +20,10 @@ import {
   getSchema,
   sortExtensions,
 } from '@tiptap/core'
+import type { MarkSpec, NodeSpec, ParseRule } from '@tiptap/pm/model'
 import { type Lexer, type Token, type TokenizerExtension, type TokenizerThis, marked } from 'marked'
 
+import type { JSONMark } from './types.js'
 import { htmlContainsUnrecognizedTag } from './utils/htmlTagDetection.js'
 import { applyMarkToContent } from './utils/applyMarkToContent.js'
 import { closeMarksBeforeNode } from './utils/closeMarksBeforeNode.js'
@@ -792,12 +794,12 @@ export class MarkdownManager {
     try {
       const schema = getSchema(this.baseExtensions)
 
-      const collect = (spec: any) => {
+      const collect = (spec: NodeSpec | MarkSpec) => {
         const parseDOM = spec?.parseDOM
         if (!Array.isArray(parseDOM)) {
           return
         }
-        parseDOM.forEach((rule: any) => {
+        parseDOM.forEach((rule: ParseRule) => {
           if (typeof rule?.tag === 'string') {
             // Extract the bare tag name from selectors like "something.example"
             const match = rule.tag.match(/^[a-zA-Z][\w-]*/)
@@ -808,8 +810,8 @@ export class MarkdownManager {
         })
       }
 
-      Object.values(schema.nodes).forEach(type => collect((type as any).spec))
-      Object.values(schema.marks).forEach(type => collect((type as any).spec))
+      Object.values(schema.nodes).forEach(type => collect(type.spec))
+      Object.values(schema.marks).forEach(type => collect(type.spec))
     } catch {
       // If schema construction fails, leave the set empty – detection then
       // falls back to the standard HTML tag list only.
@@ -862,14 +864,8 @@ export class MarkdownManager {
       renderChildren: (nodes, separator) => {
         const childLevel = handler.isIndenting ? level + 1 : level
 
-        if (!Array.isArray(nodes) && (nodes as any).content) {
-          return this.renderNodes(
-            (nodes as any).content as JSONContent[],
-            node,
-            separator || '',
-            index,
-            childLevel,
-          )
+        if (!Array.isArray(nodes) && nodes.content) {
+          return this.renderNodes(nodes.content, node, separator || '', index, childLevel)
         }
 
         return this.renderNodes(nodes, node, separator || '', index, childLevel)
@@ -934,7 +930,7 @@ export class MarkdownManager {
     level = 0,
   ): string {
     const result: string[] = []
-    const activeMarks: Map<string, any> = new Map()
+    const activeMarks: Map<string, JSONMark> = new Map()
     const reopenWithHtmlOnNextOpen = new Set<string>()
     const markOpeningModes = new Map<string, 'markdown' | 'html'>()
 
@@ -981,7 +977,7 @@ export class MarkdownManager {
     node: JSONContent,
     nextNode: JSONContent | null,
     parentNode: JSONContent | undefined,
-    activeMarks: Map<string, any>,
+    activeMarks: Map<string, JSONMark>,
     markOpeningModes: Map<string, 'markdown' | 'html'>,
     reopenWithHtmlOnNextOpen: Set<string>,
   ): string {
@@ -1063,8 +1059,8 @@ export class MarkdownManager {
    */
   private closeMarks(
     markTypes: string[],
-    currentMarks: Map<string, any>,
-    activeMarks: Map<string, any>,
+    currentMarks: Map<string, JSONMark>,
+    activeMarks: Map<string, JSONMark>,
     markOpeningModes: Map<string, 'markdown' | 'html'>,
     options: { reverse?: boolean; skipInactive?: boolean } = {},
   ): string {
@@ -1077,7 +1073,7 @@ export class MarkdownManager {
         return
       }
 
-      const mark = activeMarks.get(markType) ?? currentMarks.get(markType)
+      const mark = (activeMarks.get(markType) ?? currentMarks.get(markType))!
       const closing = this.getMarkClosing(markType, mark, markOpeningModes.get(markType))
       if (closing) {
         closeMarkdown += closing
@@ -1093,9 +1089,9 @@ export class MarkdownManager {
    * Prepend the opening delimiters for marks that start here and activate them.
    */
   private openStartingMarks(
-    marksToOpen: Array<{ type: string; mark: any }>,
+    marksToOpen: Array<{ type: string; mark: JSONMark }>,
     textContent: string,
-    activeMarks: Map<string, any>,
+    activeMarks: Map<string, JSONMark>,
     markOpeningModes: Map<string, 'markdown' | 'html'>,
     reopenWithHtmlOnNextOpen: Set<string>,
     hasCrossedBoundary: boolean,
@@ -1126,16 +1122,16 @@ export class MarkdownManager {
    * Decide which marks to close at the end of the current text node.
    */
   private getMarksToCloseAtEnd(
-    activeMarks: Map<string, any>,
-    currentMarks: Map<string, any>,
-    nextNode: any,
-    marksToOpen: Array<{ type: string; mark: any }>,
+    activeMarks: Map<string, JSONMark>,
+    currentMarks: Map<string, JSONMark>,
+    nextNode: JSONContent | null,
+    marksToOpen: Array<{ type: string; mark: JSONMark }>,
     activeMarksClosingHere: string[],
     hasCrossedBoundary: boolean,
     reopenWithHtmlOnNextOpen: Set<string>,
   ): string[] {
     if (hasCrossedBoundary) {
-      const nextMarkTypes = new Set((nextNode?.marks || []).map((mark: any) => mark.type))
+      const nextMarkTypes = new Set((nextNode?.marks || []).map((mark: JSONMark) => mark.type))
 
       marksToOpen.forEach(({ type }) => {
         if (nextMarkTypes.has(type) && this.getHtmlReopenTags(type)) {
@@ -1166,12 +1162,12 @@ export class MarkdownManager {
     parentNode: JSONContent | undefined,
     index: number,
     level: number,
-    activeMarks: Map<string, any>,
+    activeMarks: Map<string, JSONMark>,
     markOpeningModes: Map<string, 'markdown' | 'html'>,
   ): string {
     // Only reopen marks that the node itself carries — marks don't skip over inline atoms.
-    const nodeMarkTypes = new Set((node.marks || []).map((mark: { type: string }) => mark.type))
-    const marksToReopen = new Map<string, { type: string; attrs?: Record<string, any> }>()
+    const nodeMarkTypes = new Set((node.marks || []).map((mark: JSONMark) => mark.type))
+    const marksToReopen = new Map<string, JSONMark>()
     const openingModesToReopen = new Map<string, 'markdown' | 'html'>()
     activeMarks.forEach((mark, type) => {
       if (nodeMarkTypes.has(type)) {
@@ -1207,7 +1203,7 @@ export class MarkdownManager {
    */
   private getMarkOpening(
     markType: string,
-    mark: any,
+    mark: JSONMark,
     openingMode: 'markdown' | 'html' = 'markdown',
   ): string {
     if (openingMode === 'html') {
@@ -1227,7 +1223,7 @@ export class MarkdownManager {
    */
   private getMarkClosing(
     markType: string,
-    mark: any,
+    mark: JSONMark,
     openingMode: 'markdown' | 'html' = 'markdown',
   ): string {
     if (openingMode === 'html') {
@@ -1261,7 +1257,7 @@ export class MarkdownManager {
   /**
    * Check if two mark sets are equal (same types and matching attributes).
    */
-  private markSetsEqual(marks1: Map<string, any>, marks2: Map<string, any>): boolean {
+  private markSetsEqual(marks1: Map<string, JSONMark>, marks2: Map<string, JSONMark>): boolean {
     if (marks1.size !== marks2.size) {
       return false
     }
@@ -1276,9 +1272,9 @@ export class MarkdownManager {
    * Order marks so delimiters nest: ending marks inner, higher-ranked marks outer.
    */
   private getMarksToOpenForSerialization(
-    activeMarks: Map<string, any>,
-    currentMarks: Map<string, any>,
-    nextNode: any,
+    activeMarks: Map<string, JSONMark>,
+    currentMarks: Map<string, JSONMark>,
+    nextNode: JSONContent | null,
   ) {
     const marksToOpen = findMarksToOpen(activeMarks, currentMarks)
 
@@ -1289,8 +1285,8 @@ export class MarkdownManager {
     const nextMarks = nextNode?.marks || []
 
     // Marks continue only when the next node has the same type and attrs.
-    const continuesInNextNode = (markType: string, attrs: any) =>
-      nextMarks.some((m: any) => m.type === markType && attrsEqual(m.attrs, attrs))
+    const continuesInNextNode = (markType: string, attrs?: Record<string, any>) =>
+      nextMarks.some((m: JSONMark) => m.type === markType && attrsEqual(m.attrs, attrs))
 
     // Higher rank sorts inner; unregistered marks fall back to innermost.
     const byRankInnerFirst = (a: { type: string }, b: { type: string }) => {

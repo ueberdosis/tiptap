@@ -10,7 +10,7 @@ import type { JSONContent } from '@tiptap/core'
 export function applyMarkToContent(
   markType: string,
   content: JSONContent[],
-  attrs?: any,
+  attrs?: Record<string, any>,
 ): JSONContent[] {
   return content.map(node => {
     if (node.type === 'text') {
