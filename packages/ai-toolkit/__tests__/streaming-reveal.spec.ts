@@ -101,7 +101,7 @@ function remoteInsert(peer: Y.Doc, ydoc: Y.Doc, index: number, text: string): vo
   Y.applyUpdate(ydoc, Y.encodeStateAsUpdate(peer, Y.encodeStateVector(ydoc)))
 }
 
-/** Applies a whole new block from `peer`, the way the AI writes a heading. */
+/** Applies a whole new block from `peer`, the way the AI writes a fresh paragraph. */
 function remoteInsertBlock(peer: Y.Doc, ydoc: Y.Doc, text: string): void {
   Y.applyUpdate(peer, Y.encodeStateAsUpdate(ydoc, Y.encodeStateVector(peer)))
   const fragment = peer.getXmlFragment('default')

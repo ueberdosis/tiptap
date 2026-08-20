@@ -2,4 +2,4 @@
 "@tiptap/ai-toolkit": minor
 ---
 
-Add the `AiInsertReveal` extension, exported from `@tiptap/ai-toolkit/streaming-reveal`, to fade in text as the AI streams it into a collaborative document. Pass your collaboration provider to it so only the AI's inserts are revealed, never another collaborator's.
+Add the `AiInsertReveal` extension (`@tiptap/ai-toolkit/streaming-reveal`) to fade in text as the AI streams it into a collaborative document.
