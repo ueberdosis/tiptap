@@ -61,14 +61,14 @@ export default {
       content: `
         <p>Figure + Figcaption</p>
         <figure>
-          <img src="https://dummyimage.com/800x400/orange/white" alt="Random photo of something" title="Who’s dat?">
+          <img src="https://dummyimage.com/800x400/ffa500/ffffff" alt="Random photo of something" title="Who’s dat?">
           <figcaption>
             <p>Amazing caption</p>
           </figcaption>
         </figure>
-        <img src="https://dummyimage.com/800x400/green/white">
-        <img src="https://dummyimage.com/800x400/blue/white">
-        <img src="https://dummyimage.com/800x400/black/white">
+        <img src="https://dummyimage.com/800x400/008000/ffffff">
+        <img src="https://dummyimage.com/800x400/0000ff/ffffff">
+        <img src="https://dummyimage.com/800x400/000000/ffffff">
         <p>That’s it.</p>
       `,
     })
