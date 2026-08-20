@@ -3,6 +3,13 @@ import type { JSONMark } from '../types.js'
 /**
  * Closes active marks before rendering a non-text node.
  * Returns the closing markdown syntax and clears the active marks.
+ * @param activeMarks The marks to close.
+ * @param getMarkClosing Returns the closing syntax for a mark.
+ * @returns The concatenated closing syntax, innermost mark last.
+ * @example
+ * const active = new Map([['bold', { type: 'bold' }], ['italic', { type: 'italic' }]])
+ * closeMarksBeforeNode(active, markType => (markType === 'bold' ? '**' : '*'))
+ * // => '***'  (italic closes before bold, LIFO)
  */
 export function closeMarksBeforeNode(
   activeMarks: Map<string, JSONMark>,
