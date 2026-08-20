@@ -135,6 +135,30 @@ describe('Whitespace-only marked text nodes', () => {
     expect(markdown).toBe('**Label:** value')
   })
 
+  it.each([
+    ['a single mark', [{ type: 'bold' }]],
+    ['nested marks', [{ type: 'bold' }, { type: 'italic' }]],
+  ])('survives repeated serialize/parse cycles with %s', (_name, marks) => {
+    // Empty delimiters do not merely fail to render: a reparse reads `****` as literal
+    // asterisks and the next serialize escapes them, so one round trip would bake
+    // `a\*\*\*\* b` into the document permanently. Assert the value on every cycle rather
+    // than that it settles - the corrupted output is itself stable after the first reparse.
+    let markdown = markdownManager.serialize(
+      paragraph([
+        { type: 'text', text: 'a' },
+        { type: 'text', text: ' ', marks },
+        { type: 'text', text: 'b' },
+      ]),
+    )
+
+    for (let cycle = 0; cycle < 3; cycle += 1) {
+      expect(markdown).toBe('a b')
+      markdown = markdownManager.serialize(markdownManager.parse(markdown))
+    }
+
+    expect(markdown).toBe('a b')
+  })
+
   it('still emphasises a node that is only punctuation', () => {
     const markdown = markdownManager.serialize(
       paragraph([{ type: 'text', text: ')', marks: [{ type: 'bold' }] }]),
