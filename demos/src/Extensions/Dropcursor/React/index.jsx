@@ -13,7 +13,7 @@ export default () => {
     extensions: [Document, Paragraph, Text, Image, Dropcursor],
     content: `
         <p>Try to drag around the image. While you drag, the editor should show a decoration under your cursor. The so called dropcursor.</p>
-        <img src="https://placehold.co/800x400" />
+        <img src="https://dummyimage.com/800x400" />
       `,
   })
 

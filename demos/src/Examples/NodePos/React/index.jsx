@@ -21,7 +21,7 @@ export default () => {
       <p>
         This is a <strong>simple</strong> paragraph.
       </p>
-      <img src="https://placehold.co/200x200" alt="A 200x200 square thumbnail from placehold.co." />
+      <img src="https://dummyimage.com/200x200" alt="A 200x200 square thumbnail from dummyimage.com." />
       <p>
         Here is another paragraph inside this document.
       </p>
@@ -75,11 +75,11 @@ export default () => {
       <blockquote>
         <p>Here we have another paragraph inside a blockquote.</p>
         <blockquote>
-          <img src="https://placehold.co/260x200" alt="A 260x200 landscape thumbnail from placehold.co." />
-          <img src="https://placehold.co/100x200" alt="A 100x200 portrait thumbnail from placehold.co." />
+          <img src="https://dummyimage.com/260x200" alt="A 260x200 landscape thumbnail from dummyimage.com." />
+          <img src="https://dummyimage.com/100x200" alt="A 100x200 portrait thumbnail from dummyimage.com." />
         </blockquote>
       </blockquote>
-      <img src="https://placehold.co/260x200" alt="A 260x200 landscape thumbnail from placehold.co." />
+      <img src="https://dummyimage.com/260x200" alt="A 260x200 landscape thumbnail from dummyimage.com." />
     `,
   })
 
@@ -163,7 +163,9 @@ export default () => {
   }, [editor])
 
   const findSquaredImage = useCallback(() => {
-    const nodePosition = editor.$doc.querySelector('image', { src: 'https://placehold.co/200x200' })
+    const nodePosition = editor.$doc.querySelector('image', {
+      src: 'https://dummyimage.com/200x200',
+    })
 
     if (!nodePosition) {
       setFoundNodes(null)
@@ -174,7 +176,9 @@ export default () => {
   }, [editor])
 
   const findLandscapeImage = useCallback(() => {
-    const nodePosition = editor.$doc.querySelector('image', { src: 'https://placehold.co/260x200' })
+    const nodePosition = editor.$doc.querySelector('image', {
+      src: 'https://dummyimage.com/260x200',
+    })
 
     if (!nodePosition) {
       setFoundNodes(null)
@@ -186,7 +190,7 @@ export default () => {
 
   const findAllLandscapeImages = useCallback(() => {
     const nodePosition = editor.$doc.querySelectorAll('image', {
-      src: 'https://placehold.co/260x200',
+      src: 'https://dummyimage.com/260x200',
     })
 
     if (!nodePosition) {
@@ -200,7 +204,7 @@ export default () => {
   const findFirstLandscapeImageWithAllQuery = useCallback(() => {
     const nodePosition = editor.$doc.querySelectorAll(
       'image',
-      { src: 'https://placehold.co/260x200' },
+      { src: 'https://dummyimage.com/260x200' },
       true,
     )
 
@@ -213,7 +217,9 @@ export default () => {
   }, [editor])
 
   const findPortraitImageInBlockquote = useCallback(() => {
-    const nodePosition = editor.$doc.querySelector('image', { src: 'https://placehold.co/100x200' })
+    const nodePosition = editor.$doc.querySelector('image', {
+      src: 'https://dummyimage.com/100x200',
+    })
 
     if (!nodePosition) {
       setFoundNodes(null)
