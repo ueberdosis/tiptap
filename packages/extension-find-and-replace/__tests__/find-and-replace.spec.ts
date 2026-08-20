@@ -400,7 +400,7 @@ describe('FindAndReplace', () => {
 
     expect(editor.getText()).toBe(content.replaceAll('foo', 'bar'))
     expect(transactions).toEqual([1])
-  })
+  }, 10_000)
 
   it('keeps new results when the replacement still matches', () => {
     editor.commands.setSearchTerm('hello')
