@@ -1,5 +1,5 @@
 /**
- * Wraps each line of the content with the given prefix.
+ * Wrap each line of the content with the given prefix.
  * @param prefix The prefix to wrap each line with.
  * @param content The content to wrap.
  * @returns The content with each line wrapped with the prefix.

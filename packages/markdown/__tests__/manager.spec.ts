@@ -287,6 +287,23 @@ Second paragraph.`
         },
       ])
     })
+
+    it('advances past the outer closing tag of nested same-name elements', () => {
+      // the fragment merge must balance nested same-name tags so
+      // that content after the inner closing tag stays inside the outer element.
+      const doc = markdownManager.parse('a <b>x<b>y</b>z</b> b')
+
+      expect(doc.content).toEqual([
+        {
+          type: 'paragraph',
+          content: [
+            { type: 'text', text: 'a ' },
+            { type: 'text', text: 'xyz', marks: [{ type: 'bold' }] },
+            { type: 'text', text: ' b' },
+          ],
+        },
+      ])
+    })
   })
   describe('simple nested Marks parsing', () => {
     beforeEach(() => {
