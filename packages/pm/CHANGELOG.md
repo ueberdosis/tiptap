@@ -1,5 +1,15 @@
 # Change Log
 
+## 3.30.2
+
+## 3.30.1
+
+## 3.30.0
+
+### Patch Changes
+
+- 58a8953: Fix the `./schema-list` export map pointing `types` at `dist/schema/`, which is not emitted. Tools that read the `types` condition directly could not resolve `@tiptap/pm/schema-list`.
+
 ## 3.29.2
 
 ## 3.29.1

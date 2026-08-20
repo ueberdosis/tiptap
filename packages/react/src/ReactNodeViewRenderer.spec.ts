@@ -1,5 +1,7 @@
 import { act, render } from '@testing-library/react'
 import { Editor, Node } from '@tiptap/core'
+import type { NodeViewRendererProps } from '@tiptap/core'
+import type { NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
@@ -211,6 +213,34 @@ describe('ReactNodeViewRenderer', () => {
     explodingIds.clear()
     beforeReplace = undefined
     document.body.innerHTML = ''
+  })
+
+  it('returns a valid fallback node view before EditorContent initializes', () => {
+    let fallbackNodeView: ProseMirrorNodeView | undefined
+    const FallbackParagraph = Paragraph.extend({
+      addNodeView() {
+        const renderNodeView = ReactNodeViewRenderer(ReactParagraphComponent)
+
+        return (props: NodeViewRendererProps) => {
+          fallbackNodeView = renderNodeView(props)
+
+          return fallbackNodeView
+        }
+      },
+    })
+    let editor: Editor | undefined
+
+    expect(() => {
+      editor = new Editor({
+        extensions: [Document, FallbackParagraph, Text],
+        content: '<p>Hello</p>',
+      })
+    }).not.toThrow()
+
+    expect(fallbackNodeView?.dom).toBeInstanceOf(HTMLElement)
+    expect(fallbackNodeView?.contentDOM).toBeNull()
+    expect((fallbackNodeView?.update as (() => boolean) | undefined)?.()).toBe(false)
+    expect(() => editor?.destroy()).not.toThrow()
   })
 
   it('renders nested node views and resolves getPos during render', async () => {

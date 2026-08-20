@@ -1,5 +1,35 @@
 # Change Log
 
+## 3.30.2
+
+### Patch Changes
+
+- Updated dependencies [3dffed5]
+- Updated dependencies [214a140]
+  - @tiptap/core@3.30.2
+  - @tiptap/pm@3.30.2
+
+## 3.30.1
+
+### Patch Changes
+
+- 3c929ad: Fixed table markdown pipe escaping so the extension loads on older Safari and iOS versions (WebKit before Safari 16.4).
+- Updated dependencies [abc8828]
+  - @tiptap/core@3.30.1
+  - @tiptap/pm@3.30.1
+
+## 3.30.0
+
+### Patch Changes
+
+- eded5e4: Deleting the last row or column of a table no longer moves the cursor outside the table when there is content below it.
+- Updated dependencies [0247d39]
+- Updated dependencies [58a8953]
+- Updated dependencies [51909d3]
+- Updated dependencies [3099eef]
+  - @tiptap/core@3.30.0
+  - @tiptap/pm@3.30.0
+
 ## 3.29.2
 
 ### Patch Changes

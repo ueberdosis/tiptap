@@ -1,5 +1,34 @@
 # Change Log
 
+## 3.30.2
+
+### Patch Changes
+
+- Updated dependencies [3dffed5]
+- Updated dependencies [214a140]
+  - @tiptap/core@3.30.2
+  - @tiptap/pm@3.30.2
+
+## 3.30.1
+
+### Patch Changes
+
+- Updated dependencies [abc8828]
+  - @tiptap/core@3.30.1
+  - @tiptap/pm@3.30.1
+
+## 3.30.0
+
+### Patch Changes
+
+- 4ec64c7: Fixed Backspace freezing after merging a paragraph into a blockquote.
+- Updated dependencies [0247d39]
+- Updated dependencies [58a8953]
+- Updated dependencies [51909d3]
+- Updated dependencies [3099eef]
+  - @tiptap/core@3.30.0
+  - @tiptap/pm@3.30.0
+
 ## 3.29.2
 
 ### Patch Changes

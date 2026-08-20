@@ -1,5 +1,103 @@
 # Change Log
 
+## 3.30.2
+
+### Patch Changes
+
+- Updated dependencies [3dffed5]
+- Updated dependencies [214a140]
+  - @tiptap/core@3.30.2
+  - @tiptap/extension-blockquote@3.30.2
+  - @tiptap/extension-bold@3.30.2
+  - @tiptap/extension-code@3.30.2
+  - @tiptap/extension-code-block@3.30.2
+  - @tiptap/extension-document@3.30.2
+  - @tiptap/extension-hard-break@3.30.2
+  - @tiptap/extension-heading@3.30.2
+  - @tiptap/extension-horizontal-rule@3.30.2
+  - @tiptap/extension-italic@3.30.2
+  - @tiptap/extension-link@3.30.2
+  - @tiptap/extension-list@3.30.2
+  - @tiptap/extension-paragraph@3.30.2
+  - @tiptap/extension-strike@3.30.2
+  - @tiptap/extension-text@3.30.2
+  - @tiptap/extension-underline@3.30.2
+  - @tiptap/extensions@3.30.2
+  - @tiptap/extension-list-item@3.30.2
+  - @tiptap/extension-list-keymap@3.30.2
+  - @tiptap/extension-bullet-list@3.30.2
+  - @tiptap/extension-ordered-list@3.30.2
+  - @tiptap/extension-dropcursor@3.30.2
+  - @tiptap/extension-gapcursor@3.30.2
+  - @tiptap/pm@3.30.2
+
+## 3.30.1
+
+### Patch Changes
+
+- Updated dependencies [abc8828]
+  - @tiptap/core@3.30.1
+  - @tiptap/extension-blockquote@3.30.1
+  - @tiptap/extension-bold@3.30.1
+  - @tiptap/extension-code@3.30.1
+  - @tiptap/extension-code-block@3.30.1
+  - @tiptap/extension-document@3.30.1
+  - @tiptap/extension-hard-break@3.30.1
+  - @tiptap/extension-heading@3.30.1
+  - @tiptap/extension-horizontal-rule@3.30.1
+  - @tiptap/extension-italic@3.30.1
+  - @tiptap/extension-link@3.30.1
+  - @tiptap/extension-list@3.30.1
+  - @tiptap/extension-paragraph@3.30.1
+  - @tiptap/extension-strike@3.30.1
+  - @tiptap/extension-text@3.30.1
+  - @tiptap/extension-underline@3.30.1
+  - @tiptap/extensions@3.30.1
+  - @tiptap/extension-list-item@3.30.1
+  - @tiptap/extension-list-keymap@3.30.1
+  - @tiptap/extension-bullet-list@3.30.1
+  - @tiptap/extension-ordered-list@3.30.1
+  - @tiptap/extension-dropcursor@3.30.1
+  - @tiptap/extension-gapcursor@3.30.1
+  - @tiptap/pm@3.30.1
+
+## 3.30.0
+
+### Patch Changes
+
+- d18533a: StarterKit now pins its bundled `@tiptap/*` dependencies to the exact version it was released with, so installing a specific StarterKit version gives you that version's extension set instead of the newest one.
+- Updated dependencies [0247d39]
+- Updated dependencies [c296281]
+- Updated dependencies [ceb0dac]
+- Updated dependencies [58a8953]
+- Updated dependencies [4ec64c7]
+- Updated dependencies [51909d3]
+- Updated dependencies [3099eef]
+  - @tiptap/extension-list@3.30.0
+  - @tiptap/core@3.30.0
+  - @tiptap/pm@3.30.0
+  - @tiptap/extension-blockquote@3.30.0
+  - @tiptap/extension-list-item@3.30.0
+  - @tiptap/extension-list-keymap@3.30.0
+  - @tiptap/extension-bullet-list@3.30.0
+  - @tiptap/extension-ordered-list@3.30.0
+  - @tiptap/extension-bold@3.30.0
+  - @tiptap/extension-code@3.30.0
+  - @tiptap/extension-code-block@3.30.0
+  - @tiptap/extension-document@3.30.0
+  - @tiptap/extension-hard-break@3.30.0
+  - @tiptap/extension-heading@3.30.0
+  - @tiptap/extension-horizontal-rule@3.30.0
+  - @tiptap/extension-italic@3.30.0
+  - @tiptap/extension-link@3.30.0
+  - @tiptap/extension-paragraph@3.30.0
+  - @tiptap/extension-strike@3.30.0
+  - @tiptap/extension-text@3.30.0
+  - @tiptap/extension-underline@3.30.0
+  - @tiptap/extensions@3.30.0
+  - @tiptap/extension-dropcursor@3.30.0
+  - @tiptap/extension-gapcursor@3.30.0
+
 ## 3.29.2
 
 ### Patch Changes
