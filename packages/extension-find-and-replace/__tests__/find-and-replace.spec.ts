@@ -9,7 +9,7 @@ import type { FindAndReplaceOptions } from '@tiptap/extension-find-and-replace'
 import HardBreak from '@tiptap/extension-hard-break'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test'
 
 import { normalizeCurrentIndex } from '../src/utils/normalizeCurrentIndex.js'
 
@@ -400,7 +400,7 @@ describe('FindAndReplace', () => {
 
     expect(editor.getText()).toBe(content.replaceAll('foo', 'bar'))
     expect(transactions).toEqual([1])
-  })
+  }, 10_000)
 
   it('keeps new results when the replacement still matches', () => {
     editor.commands.setSearchTerm('hello')

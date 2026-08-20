@@ -48,7 +48,7 @@
     }
   },
   "scripts": {
-    "build": "tsup"
+    "build": "vp pack"
   },
   "dependencies": {
     "@types/use-sync-external-store": "^0.0.6",

@@ -42,7 +42,7 @@
     }
   },
   "scripts": {
-    "build": "tsup"
+    "build": "vp pack"
   },
   "dependencies": {
     "marked": "^17.0.1"

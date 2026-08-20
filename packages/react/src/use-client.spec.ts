@@ -4,7 +4,7 @@
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 
 // The package boundary must stay a client module so it can be imported from
 // React Server Components without evaluating the class components inside.

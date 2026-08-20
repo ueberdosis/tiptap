@@ -39,7 +39,7 @@
     }
   },
   "scripts": {
-    "build": "tsup"
+    "build": "vp pack"
   },
   "dependencies": {
     "linkifyjs": "^4.3.3"

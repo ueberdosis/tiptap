@@ -3,7 +3,7 @@ import Document from '@tiptap/extension-document'
 import Image from '@tiptap/extension-image'
 import Mention from '@tiptap/extension-mention'
 import StarterKit from '@tiptap/starter-kit'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 
 const schema = getSchema([StarterKit, Mention])
 const modifiedSchema = getSchema([

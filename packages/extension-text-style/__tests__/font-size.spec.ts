@@ -1,5 +1,5 @@
 import { FontSize } from '@tiptap/extension-text-style'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 
 const ext: any = (FontSize as any).configure()
 const globalAttrs = ext.config.addGlobalAttributes && ext.config.addGlobalAttributes.call(ext)[0]

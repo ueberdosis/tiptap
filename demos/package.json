@@ -4,10 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "vite --host",
-    "start:e2e": "vite --host --port 4080",
-    "build:demos": "vite build",
-    "preview": "vite preview"
+    "start": "vp dev --host",
+    "start:e2e": "vp dev --host --port 4080",
+    "build:demos": "vp build",
+    "preview": "vp preview"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.6.13",
@@ -48,10 +48,10 @@
     "yjs": "13.6.23"
   },
   "devDependencies": {
-    "@sveltejs/vite-plugin-svelte": "3.1.2",
-    "@types/node": "22.10.3",
-    "@vitejs/plugin-react": "^1.3.2",
-    "@vitejs/plugin-vue": "^5.2.1",
+    "@sveltejs/vite-plugin-svelte": "7.2.0",
+    "@types/node": "^22.12.0",
+    "@vitejs/plugin-react": "6.0.5",
+    "@vitejs/plugin-vue": "6.0.8",
     "autoprefixer": "^10.4.20",
     "esbuild": "0.28.1",
     "iframe-resizer": "^4.4.5",
@@ -60,12 +60,11 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "sass-embedded": "^1.99.0",
-    "svelte": "^4.2.19",
+    "svelte": "^5.56.8",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.7.2",
     "uuid": "^14.0.0",
-    "vite": "^5.4.20",
-    "vite-plugin-checker": "^0.6.4",
+    "vite-plus": "catalog:",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
   }

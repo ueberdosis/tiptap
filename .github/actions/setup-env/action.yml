@@ -1,5 +1,5 @@
-name: Setup Node.js and pnpm
-description: Install pnpm, setup Node.js, and optionally configure pnpm store
+name: Setup Vite+ and pnpm environment
+description: Install Vite+ (vp) and pnpm, setup Node.js, and optionally configure the pnpm store
 
 inputs:
   node-version:
@@ -13,7 +13,7 @@ inputs:
     default: ''
     required: false
   cache:
-    description: Whether to use setup-node's pnpm caching (pass literal string `'true'` to enable)
+    description: Whether to use setup-vp's dependency caching (pass literal string `'true'` to enable)
     default: 'false'
     required: false
 
@@ -24,12 +24,13 @@ runs:
       with:
         version: ${{ inputs.pnpm-version }}
 
-    - uses: actions/setup-node@v4
-      with:
-        node-version: ${{ inputs.node-version }}
-        cache: ${{ inputs.cache == 'true' && 'pnpm' || '' }}
-
     - name: Configure pnpm store
       if: inputs.store-dir != ''
       shell: bash
       run: pnpm config set store-dir ${{ github.workspace }}/${{ inputs.store-dir }}
+
+    - uses: voidzero-dev/setup-vp@v1.17.0
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: ${{ inputs.cache == 'true' && 'true' || 'false' }}
+        run-install: false

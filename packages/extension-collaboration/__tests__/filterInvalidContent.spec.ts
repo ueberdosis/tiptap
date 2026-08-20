@@ -4,7 +4,7 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import type { Plugin } from '@tiptap/pm/state'
 import { ySyncPluginKey } from '@tiptap/y-tiptap'
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 import * as Y from 'yjs'
 
 import Collaboration from '../src/index.js'

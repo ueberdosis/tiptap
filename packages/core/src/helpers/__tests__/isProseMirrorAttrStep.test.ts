@@ -1,6 +1,6 @@
 import { AttrStep, ReplaceStep } from '@tiptap/pm/transform'
 import { Slice } from '@tiptap/pm/model'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 
 import { isProseMirrorAttrStep } from '../isProseMirrorAttrStep.js'
 

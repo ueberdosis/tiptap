@@ -3,7 +3,7 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { NodeSelection } from '@tiptap/pm/state'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vite-plus/test'
 
 import { BulletList, ListItem } from '../src/index.js'
 import { hasBranchingNestedListAfterCursor } from '../src/helpers/hasBranchingNestedListAfterCursor.js'

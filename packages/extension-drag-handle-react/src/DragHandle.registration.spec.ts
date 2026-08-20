@@ -5,7 +5,7 @@ import Text from '@tiptap/extension-text'
 import { useEditorState } from '@tiptap/react'
 import { act, render } from '@testing-library/react'
 import React from 'react'
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 
 import { DragHandle } from './DragHandle.js'
 

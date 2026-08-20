@@ -4,7 +4,7 @@ import {
   underscoreInputRegex,
   underscorePasteRegex,
 } from '@tiptap/extension-bold'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 
 describe('bold regex test', () => {
   it('star input regex matches', () => {
