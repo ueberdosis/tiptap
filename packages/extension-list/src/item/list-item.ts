@@ -183,6 +183,7 @@ export const ListItem = Node.create<ListItemOptions>({
         return '- '
       },
       ctx,
+      { alignNestedToPrefix: true },
     )
   },
 

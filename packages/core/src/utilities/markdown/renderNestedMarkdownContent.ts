@@ -62,6 +62,15 @@ export function renderNestedMarkdownContent(
   },
   prefixOrGenerator: string | ((ctx: any) => string),
   ctx?: any,
+  options?: {
+    /**
+     * Indent nested content to the width of the prefix instead of the
+     * configured indent size. CommonMark reads a nested block as a child only
+     * when it starts at the parent item's content column, which for an ordered
+     * list depends on how wide the marker is (`1. ` is three, `10. ` is four).
+     */
+    alignNestedToPrefix?: boolean
+  },
 ): string {
   if (!node || !Array.isArray(node.content)) {
     return ''
@@ -83,9 +92,12 @@ export function renderNestedMarkdownContent(
       const childContent = h.renderChild?.(child, index + 1) ?? h.renderChildren([child])
       if (childContent !== undefined && childContent !== null) {
         // Split the child content by lines and indent each line
+        const pad = options?.alignNestedToPrefix ? ' '.repeat(prefix.length) : null
+        const indentLine = (line: string) => (pad === null ? h.indent(line) : pad + line)
+
         const indentedChild = childContent
           .split('\n')
-          .map(line => (line ? h.indent(line) : h.indent('')))
+          .map(line => (line ? indentLine(line) : indentLine('')))
           .join('\n')
 
         output += child.type === 'paragraph' ? `\n\n${indentedChild}` : `\n${indentedChild}`
