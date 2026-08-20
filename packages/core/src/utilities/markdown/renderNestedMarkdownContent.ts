@@ -115,10 +115,10 @@ export function renderNestedMarkdownContent(
           // content column, so `Markdown.indentation` still applies. A tab
           // runs to the next tab stop, so it is wider than its one character.
           const configured = h.indent('')
+          const prefixWidth = columnWidth(prefix)
 
           return (
-            (columnWidth(configured) >= prefix.length ? configured : ' '.repeat(prefix.length)) +
-            line
+            (columnWidth(configured) >= prefixWidth ? configured : ' '.repeat(prefixWidth)) + line
           )
         }
 
