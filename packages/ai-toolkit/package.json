@@ -39,6 +39,14 @@
       },
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
+    },
+    "./streaming-reveal": {
+      "types": {
+        "import": "./dist/streaming-reveal.d.ts",
+        "require": "./dist/streaming-reveal.d.cts"
+      },
+      "import": "./dist/streaming-reveal.js",
+      "require": "./dist/streaming-reveal.cjs"
     }
   },
   "scripts": {
@@ -51,10 +59,22 @@
   },
   "devDependencies": {
     "@tiptap/core": "workspace:^",
-    "@tiptap/pm": "workspace:^"
+    "@tiptap/pm": "workspace:^",
+    "@tiptap/y-tiptap": "^3.0.7",
+    "yjs": "^13.6.23"
   },
   "peerDependencies": {
     "@tiptap/core": "^3.0.1",
-    "@tiptap/pm": "^3.0.1"
+    "@tiptap/pm": "^3.0.1",
+    "@tiptap/y-tiptap": "^3.0.0",
+    "yjs": "^13.6.23"
+  },
+  "peerDependenciesMeta": {
+    "@tiptap/y-tiptap": {
+      "optional": true
+    },
+    "yjs": {
+      "optional": true
+    }
   }
 }
