@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.30.3
+
+### Patch Changes
+
+- @tiptap/extension-table@3.30.3
+
 ## 3.30.2
 
 ### Patch Changes
