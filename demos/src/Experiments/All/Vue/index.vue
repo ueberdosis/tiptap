@@ -273,8 +273,8 @@ export default {
           </tbody>
         </table>
         <p>This is a basic example of implementing images. Drag to re-order.</p>
-        <img src="https://placehold.co/800x400" />
-        <img src="https://placehold.co/800x400/6A00F5/white" />
+        <img src="https://dummyimage.com/800x400" />
+        <img src="https://dummyimage.com/800x400/6A00F5/ffffff" />
       `,
     })
   },
