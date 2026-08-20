@@ -273,11 +273,7 @@ export class MarkdownManager {
 
   /** Get registered handlers for a token type and try each until one succeeds. */
   private getHandlersForToken(type: string): MarkdownExtensionSpec[] {
-    try {
-      return this.registry.get(type) || []
-    } catch {
-      return []
-    }
+    return this.registry.get(type) || []
   }
 
   /** Get the first handler for a token type (for backwards compatibility). */
@@ -295,11 +291,7 @@ export class MarkdownManager {
 
   /** Get registered handlers for a node type (for rendering). */
   private getHandlersForNodeType(type: string): MarkdownExtensionSpec[] {
-    try {
-      return this.nodeTypeRegistry.get(type) || []
-    } catch {
-      return []
-    }
+    return this.nodeTypeRegistry.get(type) || []
   }
 
   /**
