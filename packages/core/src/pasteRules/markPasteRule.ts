@@ -52,6 +52,14 @@ export function markPasteRule(config: {
           return null
         }
 
+        // A mark can come with the pasted content, like a link whose text contains a URL. Pasting
+        // only the matched text is a deliberate replacement, so the rule still applies there.
+        const isWholePastedText = match.index === 0 && match[0].length === match.input?.length
+
+        if (!isWholePastedText && state.doc.rangeHasMark(textStart, textEnd, config.type)) {
+          return null
+        }
+
         if (textEnd < range.to) {
           tr.delete(textEnd, range.to)
         }

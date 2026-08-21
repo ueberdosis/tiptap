@@ -488,4 +488,40 @@ describe('extension-link', () => {
       getEditorEl()?.remove()
     })
   })
+
+  describe('pasting a link whose text contains a URL', () => {
+    const pasteHTML = (content: string) => {
+      editor = new Editor({
+        element: createEditorEl(),
+        extensions: [Document, Text, Paragraph, Link],
+      })
+      editor.commands.focus('end')
+      editor.view.pasteHTML(content)
+
+      const html = editor.getHTML()
+
+      editor.destroy()
+      getEditorEl()?.remove()
+      return html
+    }
+
+    it('keeps the pasted href instead of splitting on the domain in the text', () => {
+      const result = pasteHTML(
+        '<p><a href="https://track.example.com/x">Visit tiptap.dev today</a></p>',
+      )
+
+      expect(result).toContain('href="https://track.example.com/x"')
+      expect(result).not.toContain('href="http://tiptap.dev"')
+      expect(result.match(/<a /g)).toHaveLength(1)
+    })
+
+    it('still links a bare URL that is not already inside a link', () => {
+      const result = pasteHTML(
+        '<p><a href="https://track.example.com/x">no domain here</a> but tiptap.dev outside</p>',
+      )
+
+      expect(result).toContain('href="https://track.example.com/x"')
+      expect(result).toContain('href="http://tiptap.dev"')
+    })
+  })
 })
