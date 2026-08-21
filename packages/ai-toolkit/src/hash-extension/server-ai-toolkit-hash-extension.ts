@@ -1,4 +1,10 @@
-import { Extension } from '@tiptap/core'
+import {
+  type AnyExtension,
+  callOrReturn,
+  Extension,
+  getExtensionField,
+  type NodeConfig,
+} from '@tiptap/core'
 
 /**
  * The attribute name used to store the hash on nodes.
@@ -13,6 +19,29 @@ const ATTRIBUTE_NAME = '_hash'
  */
 function hasAiToolkitExtension(extensionNames: string[]): boolean {
   return extensionNames.includes('aiToolkit')
+}
+
+/**
+ * Checks whether an extension declares an inline node.
+ *
+ * @param extension - The extension to check.
+ * @return `true` when the node is inline.
+ */
+function isInlineNode(extension: AnyExtension): boolean {
+  try {
+    // `inline` can be a function, and it runs here without the editor core passes
+    return (
+      callOrReturn(
+        getExtensionField<NodeConfig['inline']>(extension, 'inline', {
+          name: extension.name,
+          options: extension.options,
+          storage: extension.storage,
+        }),
+      ) === true
+    )
+  } catch {
+    return false
+  }
 }
 
 /**
@@ -45,7 +74,7 @@ export const ServerAiToolkitHashExtension = Extension.create({
           ext.name === 'tableHeader' ||
           ext.name === 'tableCell' ||
           // Exclude inline nodes
-          (typeof ext.config?.group === 'string' && ext.config.group.includes('inline'))
+          isInlineNode(ext)
         ) {
           return false
         }

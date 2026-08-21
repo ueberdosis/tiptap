@@ -1,6 +1,7 @@
 // @vitest-environment happy-dom
 
-import { Editor, Extension } from '@tiptap/core'
+import { Editor, Extension, type Extensions, Node } from '@tiptap/core'
+import Image from '@tiptap/extension-image'
 import StarterKit from '@tiptap/starter-kit'
 import { describe, expect, it } from 'vite-plus/test'
 
@@ -18,7 +19,7 @@ interface CreateEditorOptions {
   /**
    * Additional extensions to include alongside the default ones.
    */
-  extensions?: Extension[]
+  extensions?: Extensions
 }
 
 /**
@@ -48,7 +49,7 @@ function createEditor(options: CreateEditorOptions): Promise<Editor> {
  * @return Promise resolving once the editor create lifecycle has finished.
  */
 function createEditorWithExplicitExtensions(
-  extensions: Extension[],
+  extensions: Extensions,
   content?: Record<string, unknown>,
 ): Promise<Editor> {
   return new Promise(resolve => {
@@ -66,6 +67,46 @@ function createEditorWithExplicitExtensions(
 const MockAiToolkit = Extension.create({
   name: 'aiToolkit',
 })
+
+// Inline nodes are not always grouped `inline`.
+const InlineNodeWithCustomGroup = Node.create({
+  name: 'inlineNodeWithCustomGroup',
+  inline: true,
+  group: 'someCustom',
+  parseHTML() {
+    return [{ tag: 'inline-node-with-custom-group' }]
+  },
+  renderHTML() {
+    return ['inline-node-with-custom-group']
+  },
+})
+
+// `inline` may read the editor, which is not available while attributes are built.
+const NodeReadingEditorInInline = Node.create({
+  name: 'nodeReadingEditorInInline',
+  inline() {
+    return this.editor!.isEditable
+  },
+  group: 'inline',
+  parseHTML() {
+    return [{ tag: 'node-reading-editor-in-inline' }]
+  },
+  renderHTML() {
+    return ['node-reading-editor-in-inline']
+  },
+})
+
+/**
+ * Checks whether a node type has the `_hash` attribute registered.
+ *
+ * @param editor - The editor to inspect.
+ * @param typeName - The node type name.
+ * @return `true` when `_hash` is registered on the node type.
+ */
+function hasHashAttribute(editor: Editor, typeName: string): boolean {
+  // oxlint-disable-next-line no-underscore-dangle
+  return '_hash' in (editor.schema.nodes[typeName].spec.attrs ?? {})
+}
 
 describe('ServerAiToolkit', () => {
   it('registers _hash attributes without generating values on creation', async () => {
@@ -121,6 +162,34 @@ describe('ServerAiToolkit', () => {
     expect(secondHash).toBe(firstHash)
 
     secondEditor.destroy()
+  })
+
+  it('skips inline images but still hashes block images', async () => {
+    const inlineEditor = await createEditor({ extensions: [Image.configure({ inline: true })] })
+    const blockEditor = await createEditor({ extensions: [Image.configure({ inline: false })] })
+
+    expect(hasHashAttribute(inlineEditor, 'image')).toBe(false)
+    expect(hasHashAttribute(blockEditor, 'image')).toBe(true)
+
+    inlineEditor.destroy()
+    blockEditor.destroy()
+  })
+
+  it('skips inline nodes that are not grouped inline', async () => {
+    const editor = await createEditor({ extensions: [InlineNodeWithCustomGroup] })
+
+    expect(editor.schema.nodes.inlineNodeWithCustomGroup.isInline).toBe(true)
+    expect(hasHashAttribute(editor, 'inlineNodeWithCustomGroup')).toBe(false)
+
+    editor.destroy()
+  })
+
+  it('creates the editor when a node reads the editor in inline', async () => {
+    const editor = await createEditor({ extensions: [NodeReadingEditorInInline] })
+
+    expect(editor.schema.nodes.nodeReadingEditorInInline.isInline).toBe(true)
+
+    editor.destroy()
   })
 
   it('does not synthesize hashes when the AI Toolkit extension is present', async () => {
