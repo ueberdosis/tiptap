@@ -5,7 +5,7 @@ import Text from '@tiptap/extension-text'
 import { Editor } from '@tiptap/core'
 import type { Node } from '@tiptap/pm/model'
 import { Transform } from '@tiptap/pm/transform'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 
 import { getChangedRanges } from '../getChangedRanges.js'
 

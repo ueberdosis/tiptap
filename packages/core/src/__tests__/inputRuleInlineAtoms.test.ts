@@ -3,7 +3,7 @@ import Code from '@tiptap/extension-code'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vite-plus/test'
 
 // minimal stand-in for a mention-like node. inline atoms expand to %leaf% (6 chars)
 // in getTextContentFromNodes but only take up 1 position in the doc,

@@ -4,7 +4,7 @@ import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'
 import { Table, TableCell, TableHeader, TableRow } from '@tiptap/extension-table'
 import Text from '@tiptap/extension-text'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vite-plus/test'
 
 /** Regression tests for empty `<td>`/`<th>` insertion — https://github.com/ueberdosis/tiptap/issues/6237 */
 describe('extension table empty cell/header parsing', () => {

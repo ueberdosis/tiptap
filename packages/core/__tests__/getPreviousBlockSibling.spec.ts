@@ -6,7 +6,7 @@ import ListItem from '@tiptap/extension-list-item'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { Node } from '@tiptap/pm/model'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 
 const schema = getSchemaByResolvedExtensions([
   Document,

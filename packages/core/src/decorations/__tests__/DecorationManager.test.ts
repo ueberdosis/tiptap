@@ -11,7 +11,7 @@ import {
 } from '@tiptap/core'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import type { EditorState } from '@tiptap/pm/state'
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect, it, vi } from 'vite-plus/test'
 
 import * as mergeModule from '../helpers/mergeDecorationSets.js'
 

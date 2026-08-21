@@ -4,7 +4,7 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { TextStyleKit } from '@tiptap/extension-text-style'
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it } from 'vite-plus/test'
 
 const demoContent = `
   <p><span>This has a &lt;span&gt; tag without a style attribute, so it's thrown away.</span></p>

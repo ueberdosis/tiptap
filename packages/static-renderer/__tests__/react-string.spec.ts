@@ -7,7 +7,7 @@ import Text from '@tiptap/extension-text'
 import { Mark, Node } from '@tiptap/pm/model'
 import { mapAttrsToHTMLAttributes, renderToReactElement } from '@tiptap/static-renderer/pm/react'
 import React from 'react'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 
 describe('static renderer: react', () => {
   it('mapAttrsToHTMLAttributes maps attributes to React attributes', () => {

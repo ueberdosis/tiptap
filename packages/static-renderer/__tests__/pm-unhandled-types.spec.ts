@@ -10,7 +10,7 @@ import { renderToHTMLString } from '@tiptap/static-renderer/pm/html-string'
 import { renderToMarkdown } from '@tiptap/static-renderer/pm/markdown'
 import { renderToReactElement } from '@tiptap/static-renderer/pm/react'
 import React from 'react'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 
 const extensions = [Document, Paragraph, Text, Bold, Heading]
 

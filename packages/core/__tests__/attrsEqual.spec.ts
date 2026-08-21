@@ -1,5 +1,5 @@
 import { attrsEqual } from '@tiptap/core'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 
 describe('attrsEqual', () => {
   it('returns true for identical objects with same key order', () => {

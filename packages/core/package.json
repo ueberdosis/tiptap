@@ -61,10 +61,11 @@
     }
   },
   "scripts": {
-    "build": "tsup"
+    "build": "vp pack"
   },
   "devDependencies": {
-    "@tiptap/pm": "workspace:^"
+    "@tiptap/pm": "workspace:^",
+    "prosemirror-model": "^1.25.11"
   },
   "peerDependencies": {
     "@tiptap/pm": "workspace:*"

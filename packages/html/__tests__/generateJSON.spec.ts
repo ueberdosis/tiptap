@@ -3,7 +3,7 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import TextAlign from '@tiptap/extension-text-align'
 import { generateJSON } from '@tiptap/html'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 
 describe('generateJSON', () => {
   it('generate JSON from HTML without an editor instance', () => {

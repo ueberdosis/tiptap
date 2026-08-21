@@ -16,7 +16,7 @@ import {
   getTopLevelBlocksInRange,
   toContentRelativeRange,
 } from '../src/placeholder/utils/resolveTopLevelRange.js'
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 
 /** Lets ProseMirror DOMObserver timers settle before teardown. */
 function flushView(): Promise<void> {

@@ -1,5 +1,5 @@
 import { Extension, Mark, Node } from '@tiptap/core'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 
 describe('extension options', () => {
   ;[Extension, Node, Mark].forEach(Extendable => {
