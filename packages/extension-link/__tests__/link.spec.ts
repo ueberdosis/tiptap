@@ -523,5 +523,37 @@ describe('extension-link', () => {
       expect(result).toContain('href="https://track.example.com/x"')
       expect(result).toContain('href="http://tiptap.dev"')
     })
+
+    it('keeps the pasted href when the link text is only a domain', () => {
+      const result = pasteHTML('<p><a href="https://track.example.com/x">tiptap.dev</a></p>')
+
+      expect(result).toContain('href="https://track.example.com/x"')
+      expect(result).not.toContain('href="http://tiptap.dev"')
+    })
+
+    it('keeps the pasted href when the link is one of several pasted blocks', () => {
+      const result = pasteHTML(
+        '<p><a href="https://track.example.com/x">tiptap.dev</a></p><p>second block</p>',
+      )
+
+      expect(result).toContain('href="https://track.example.com/x"')
+      expect(result).not.toContain('href="http://tiptap.dev"')
+    })
+
+    it('keeps the pasted href when only part of the match carries the link', () => {
+      const result = pasteHTML('<p>tip<a href="https://track.example.com/x">tap.dev</a> end</p>')
+
+      expect(result).toContain('href="https://track.example.com/x"')
+      expect(result).not.toContain('href="http://tiptap.dev"')
+    })
+
+    it('keeps the pasted href when the link is the last pasted block', () => {
+      const result = pasteHTML(
+        '<p>first block</p><p><a href="https://track.example.com/x">tiptap.dev</a></p>',
+      )
+
+      expect(result).toContain('href="https://track.example.com/x"')
+      expect(result).not.toContain('href="http://tiptap.dev"')
+    })
   })
 })

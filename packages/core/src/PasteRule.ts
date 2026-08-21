@@ -39,6 +39,7 @@ export class PasteRule {
   handler: (props: {
     state: EditorState
     range: Range
+    pasteRange: Range
     match: ExtendedRegExpMatchArray
     commands: SingleCommands
     chain: () => ChainedCommands
@@ -56,6 +57,7 @@ export class PasteRule {
       dropEvent: DragEvent | null
       match: ExtendedRegExpMatchArray
       pasteEvent: ClipboardEvent | null
+      pasteRange: Range
       range: Range
       state: EditorState
     }) => void | null
@@ -159,9 +161,16 @@ function run(config: {
         to: state.tr.mapping.map(end),
       }
 
+      // Bounds of the pasted content, shifted like `range` above.
+      const pasteRange = {
+        from: state.tr.mapping.map(from + 1),
+        to: state.tr.mapping.map(to + 1),
+      }
+
       const handler = rule.handler({
         state,
         range,
+        pasteRange,
         match,
         commands,
         chain,

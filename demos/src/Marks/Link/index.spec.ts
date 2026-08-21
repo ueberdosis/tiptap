@@ -9,14 +9,18 @@ const demoPath = '/src/Marks'
 async function paste(
   editor: ReturnType<typeof getEditor> extends Promise<infer T> ? T : never,
   payload: string,
+  format: 'text/plain' | 'text/html' = 'text/plain',
 ) {
-  await editor.evaluate((el: HTMLElement, text: string) => {
-    const dt = new DataTransfer()
-    dt.setData('text/plain', text)
-    el.dispatchEvent(
-      new ClipboardEvent('paste', { clipboardData: dt, bubbles: true, cancelable: true }),
-    )
-  }, payload)
+  await editor.evaluate(
+    (el: HTMLElement, { text, type }: { text: string; type: string }) => {
+      const dt = new DataTransfer()
+      dt.setData(type, text)
+      el.dispatchEvent(
+        new ClipboardEvent('paste', { clipboardData: dt, bubbles: true, cancelable: true }),
+      )
+    },
+    { text: payload, type: format },
+  )
 }
 
 test.describe(`${demoPath}/${demoName}`, () => {
@@ -115,6 +119,22 @@ test.describe(`${demoPath}/${demoName}`, () => {
         await editor.click()
         await paste(editor, 'some text https://example1.com around an url')
         await expect(page.locator('.tiptap a')).toHaveAttribute('href', 'https://example1.com')
+      })
+
+      test('keeps the pasted href when the link text is a domain', async ({ page }) => {
+        const editor = await getEditor(page)
+        await editor.evaluate((el: any) => el.editor.commands.clearContent())
+        await editor.click()
+        await paste(
+          editor,
+          '<p><a href="https://track.example.com/x">tiptap.dev</a></p>',
+          'text/html',
+        )
+        await expect(page.locator('.tiptap a')).toHaveCount(1)
+        await expect(page.locator('.tiptap a')).toHaveAttribute(
+          'href',
+          'https://track.example.com/x',
+        )
       })
 
       test('detects a pasted URL with query params', async ({ page }) => {

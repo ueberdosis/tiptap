@@ -22,7 +22,7 @@ export function markPasteRule(config: {
 }) {
   return new PasteRule({
     find: config.find,
-    handler: ({ state, range, match, pasteEvent }) => {
+    handler: ({ state, range, pasteRange, match, pasteEvent }) => {
       const attributes = callOrReturn(config.getAttributes, undefined, match, pasteEvent)
 
       if (attributes === false || attributes === null) {
@@ -52,11 +52,16 @@ export function markPasteRule(config: {
           return null
         }
 
-        // A mark can come with the pasted content, like a link whose text contains a URL. Pasting
-        // only the matched text is a deliberate replacement, so the rule still applies there.
-        const isWholePastedText = match.index === 0 && match[0].length === match.input?.length
+        // Keep a mark that came with the paste, like a link whose text contains a URL.
+        // One already in the document reaches past the paste, so replacing it is intended.
+        const existingMarks = getMarksBetween(textStart, textEnd, state.doc).filter(
+          item => item.mark.type === config.type,
+        )
 
-        if (!isWholePastedText && state.doc.rangeHasMark(textStart, textEnd, config.type)) {
+        if (
+          existingMarks.length &&
+          existingMarks.every(item => item.from >= pasteRange.from && item.to <= pasteRange.to)
+        ) {
           return null
         }
 
