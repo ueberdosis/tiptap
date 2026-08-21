@@ -40,7 +40,8 @@ function isInlineNode(extension: AnyExtension): boolean {
       ) === true
     )
   } catch {
-    return false
+    // Fall back to the previous static check when `inline` needs an editor
+    return typeof extension.config?.group === 'string' && extension.config.group.includes('inline')
   }
 }
 

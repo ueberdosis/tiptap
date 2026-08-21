@@ -184,10 +184,11 @@ describe('ServerAiToolkit', () => {
     editor.destroy()
   })
 
-  it('creates the editor when a node reads the editor in inline', async () => {
+  it('creates the editor and still skips the node when a node reads the editor in inline', async () => {
     const editor = await createEditor({ extensions: [NodeReadingEditorInInline] })
 
     expect(editor.schema.nodes.nodeReadingEditorInInline.isInline).toBe(true)
+    expect(hasHashAttribute(editor, 'nodeReadingEditorInInline')).toBe(false)
 
     editor.destroy()
   })
