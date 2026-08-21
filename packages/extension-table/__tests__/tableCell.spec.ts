@@ -127,6 +127,28 @@ describe('extension table cell', () => {
     getEditorEl()?.remove()
   })
 
+  it('should only render colspan and rowspan when they are not the default', () => {
+    const content =
+      '<table><tbody><tr><td>Name</td><td colspan="2">Description</td></tr><tr><td rowspan="2">Cyndi Lauper</td><td>Singer</td><td>Songwriter</td></tr></tbody></table>'
+
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [Document, Text, Paragraph, TableCell, TableHeader, TableRow, Table],
+      content,
+    })
+
+    const html = editor.getHTML()
+
+    expect(html).toContain('<td><p>Name</p></td>')
+    expect(html).toContain('<td colspan="2"><p>Description</p></td>')
+    expect(html).toContain('<td rowspan="2"><p>Cyndi Lauper</p></td>')
+    expect(html).not.toContain('colspan="1"')
+    expect(html).not.toContain('rowspan="1"')
+
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
+
   it('should prefer the colwidth attribute over the colgroup col width', () => {
     const content =
       '<table><colgroup><col width="64" /><col /></colgroup><tbody><tr><td colwidth="200">hello</td><td>world</td></tr></tbody></table>'

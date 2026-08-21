@@ -34,9 +34,27 @@ export const TableHeader = Node.create<TableHeaderOptions>({
     return {
       colspan: {
         default: 1,
+        renderHTML: attributes => {
+          if (attributes.colspan === 1) {
+            return {}
+          }
+
+          return {
+            colspan: attributes.colspan,
+          }
+        },
       },
       rowspan: {
         default: 1,
+        renderHTML: attributes => {
+          if (attributes.rowspan === 1) {
+            return {}
+          }
+
+          return {
+            rowspan: attributes.rowspan,
+          }
+        },
       },
       colwidth: {
         default: null,
