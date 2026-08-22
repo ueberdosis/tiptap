@@ -1,5 +1,6 @@
 import './styles.scss'
 
+import { TaskItem, TaskList } from '@tiptap/extension-list'
 import { TextStyleKit } from '@tiptap/extension-text-style'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
@@ -7,7 +8,7 @@ import React from 'react'
 
 import { MenuBar } from './MenuBar.jsx'
 
-const extensions = [TextStyleKit, StarterKit]
+const extensions = [TextStyleKit, StarterKit, TaskItem.configure({ nested: true }), TaskList]
 
 export default () => {
   const editor = useEditor({
