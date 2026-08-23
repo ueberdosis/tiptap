@@ -5,7 +5,11 @@ import Text from '@tiptap/extension-text'
 import Youtube from '@tiptap/extension-youtube'
 import { describe, expect, it } from 'vite-plus/test'
 
-import { getAttributesFromYoutubeEmbedUrl, getEmbedUrlFromYoutubeUrl } from '../src/utils.ts'
+import {
+  getAttributesFromYoutubeEmbedUrl,
+  getEmbedUrlFromYoutubeUrl,
+  isValidYoutubeUrl,
+} from '../src/utils.ts'
 
 /**
  * Most youtube tests should actually exist in the demo/ app folder
@@ -440,5 +444,52 @@ describe('extension-youtube', () => {
     'https://example.com/embed/dQw4w9WgXcQ',
   ])('returns null for unsupported youtube embed urls: %s', embedUrl => {
     expect(getAttributesFromYoutubeEmbedUrl(embedUrl)).toBeNull()
+  })
+
+  describe('missing src attribute', () => {
+    // The `src` attribute is declared with `default: null` and its `parseHTML` returns
+    // `undefined` when the iframe carries no `src`, so a node with a null `src` is a
+    // legitimate parse result rather than a malformed document.
+    const iframeWithoutSrc =
+      '<div data-youtube-video=""><iframe class="w-full aspect-video" width="640" height="480" allowfullscreen="true" start="0"></iframe></div>'
+
+    it('accepts a well-formed youtube url', () => {
+      expect(isValidYoutubeUrl('https://www.youtube.com/watch?v=EkRHhOCdZjw')).toBeTruthy()
+    })
+
+    it('returns null for a missing url instead of throwing', () => {
+      expect(isValidYoutubeUrl(null as unknown as string)).toBe(null)
+    })
+
+    it('returns null from getEmbedUrlFromYoutubeUrl when the url is missing', () => {
+      expect(getEmbedUrlFromYoutubeUrl({ url: null as unknown as string })).toBe(null)
+    })
+
+    it('refuses setYoutubeVideo with a missing src instead of throwing', () => {
+      editor = new Editor({
+        element: createEditorEl(),
+        extensions: [Document, Text, Paragraph, Youtube],
+      })
+
+      expect(editor.commands.setYoutubeVideo({ src: null as unknown as string })).toBe(false)
+
+      editor?.destroy()
+      getEditorEl()?.remove()
+    })
+
+    it('parses an iframe without a src attribute without throwing', () => {
+      expect(() => {
+        editor = new Editor({
+          element: createEditorEl(),
+          extensions: [Document, Text, Paragraph, Youtube],
+          content: iframeWithoutSrc,
+        })
+      }).not.toThrow()
+
+      expect(editor?.getHTML()).not.toContain('src=')
+
+      editor?.destroy()
+      getEditorEl()?.remove()
+    })
   })
 })
