@@ -1,3 +1,4 @@
+import type { InputRuleMatch } from '@tiptap/core'
 import { InputRule, mergeAttributes, Node } from '@tiptap/core'
 import type { Node as PMNode } from '@tiptap/pm/model'
 import katex, { type KatexOptions } from 'katex'
@@ -63,6 +64,41 @@ declare module '@tiptap/core' {
       updateInlineMath: (options?: { latex?: string; pos?: number }) => ReturnType
     }
   }
+}
+
+/**
+ * Finds the `$$latex$$` sequence that the inline math input rule should replace.
+ *
+ * This is a function finder rather than a regex literal because the rule has to
+ * reject a sequence preceded by a third `$`, and there is no way to express that
+ * in a regex without a lookbehind. A lookbehind inside a regex *literal* fails at
+ * parse time on WebKit older than Safari 16.4, which takes down the whole chunk
+ * rather than just this rule.
+ *
+ * Rewriting the lookbehind as a consuming group such as `(^|[^$])` is not
+ * equivalent: the preceding character becomes part of the match, and the input
+ * rule range is derived from the match length, so that character gets replaced
+ * along with the math. A function finder can look at the preceding character
+ * without consuming it.
+ */
+const findInlineMath = (text: string): InputRuleMatch | null => {
+  const pattern = /\$\$([^$\n]+?)\$\$(?!\$)/g
+
+  let match = pattern.exec(text)
+
+  while (match !== null) {
+    // Stands in for a negative lookbehind rejecting a preceding `$`.
+    if (match.index === 0 || text[match.index - 1] !== '$') {
+      return { index: match.index, text: match[0], data: { latex: match[1] } }
+    }
+
+    // Resume from the character after the rejected match rather than from its end:
+    // a valid match can begin inside a rejected one, at its trailing `$$`.
+    pattern.lastIndex = match.index + 1
+    match = pattern.exec(text)
+  }
+
+  return null
 }
 
 /**
@@ -220,9 +256,14 @@ export const InlineMath = Node.create<InlineMathOptions>({
   addInputRules() {
     return [
       new InputRule({
-        find: /(?<!\$)(\$\$([^$\n]+?)\$\$)(?!\$)/,
+        find: findInlineMath,
         handler: ({ state, range, match }) => {
-          const latex = match[2]
+          const latex = match.data?.latex
+
+          if (typeof latex !== 'string') {
+            return null
+          }
+
           const { tr } = state
           const start = range.from
           const end = range.to
