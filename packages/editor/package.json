@@ -519,7 +519,7 @@
     }
   },
   "scripts": {
-    "build": "NODE_OPTIONS=--max-old-space-size=8192 vp pack"
+    "build": "NODE_OPTIONS=--max-old-space-size=8192 vp pack --concurrency 1"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.0.0",
