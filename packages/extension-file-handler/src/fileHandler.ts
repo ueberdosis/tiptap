@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core'
+import { Extension } from '@tiptap/editor'
 import { PluginKey } from '@tiptap/pm/state'
 
 import { FileHandlePlugin } from './FileHandlePlugin.js'

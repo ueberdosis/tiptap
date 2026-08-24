@@ -1,5 +1,5 @@
-import type { InputRuleMatch, PasteRuleMatch } from '@tiptap/core'
-import { Mark, markInputRule, markPasteRule, mergeAttributes } from '@tiptap/core'
+import type { InputRuleMatch, PasteRuleMatch } from '@tiptap/editor'
+import { Mark, markInputRule, markPasteRule, mergeAttributes } from '@tiptap/editor'
 
 export interface CodeOptions {
   /**
@@ -10,7 +10,7 @@ export interface CodeOptions {
   HTMLAttributes: Record<string, any>
 }
 
-declare module '@tiptap/core' {
+declare module '@tiptap/editor' {
   interface Commands<ReturnType> {
     code: {
       /**

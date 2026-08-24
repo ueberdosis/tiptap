@@ -1,4 +1,4 @@
-import { mergeAttributes, Node } from '@tiptap/core'
+import { mergeAttributes, Node } from '@tiptap/editor'
 import { Plugin } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
 import { VueNodeViewRenderer } from '@tiptap/vue-3'

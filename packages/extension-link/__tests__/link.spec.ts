@@ -1,4 +1,4 @@
-import { Editor } from '@tiptap/core'
+import { Editor } from '@tiptap/editor'
 import Document from '@tiptap/extension-document'
 import Image from '@tiptap/extension-image'
 import Link, { isAllowedUri } from '@tiptap/extension-link'

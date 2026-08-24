@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { Extension } from '@tiptap/core'
+import { Extension } from '@tiptap/editor'
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 

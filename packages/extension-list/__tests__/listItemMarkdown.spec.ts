@@ -1,4 +1,4 @@
-import type { MarkdownParseHelpers, MarkdownToken } from '@tiptap/core'
+import type { MarkdownParseHelpers, MarkdownToken } from '@tiptap/editor'
 import { describe, expect, it } from 'vite-plus/test'
 
 import { ListItem } from '../src/index.js'

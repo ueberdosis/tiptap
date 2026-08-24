@@ -1,4 +1,4 @@
-import { Extension, isNodeSelection, type Editor } from '@tiptap/core'
+import { Extension, isNodeSelection, type Editor } from '@tiptap/editor'
 import { Plugin, PluginKey, type EditorState } from '@tiptap/pm/state'
 import type { EditorView } from '@tiptap/pm/view'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'

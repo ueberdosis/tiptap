@@ -1,4 +1,4 @@
-import type { Extension } from '@tiptap/core'
+import type { Extension } from '@tiptap/editor'
 import { Bold } from '@tiptap/extension-bold'
 import { Code } from '@tiptap/extension-code'
 import { CodeBlock } from '@tiptap/extension-code-block'

@@ -1,4 +1,4 @@
-import { Node } from '@tiptap/core'
+import { Node } from '@tiptap/editor'
 
 export interface IframeOptions {
   allowFullscreen: boolean
@@ -7,7 +7,7 @@ export interface IframeOptions {
   }
 }
 
-declare module '@tiptap/core' {
+declare module '@tiptap/editor' {
   interface Commands<ReturnType> {
     iframe: {
       /**

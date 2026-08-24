@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core'
+import { Extension } from '@tiptap/editor'
 
 import type { BubbleMenuPluginProps } from './bubble-menu-plugin.js'
 import { BubbleMenuPlugin } from './bubble-menu-plugin.js'

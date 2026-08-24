@@ -1,4 +1,4 @@
-import { Mark, mergeAttributes } from '@tiptap/core'
+import { Mark, mergeAttributes } from '@tiptap/editor'
 
 import type { RubyTextAnnotationEditorProps } from './ruby-text-decoration-plugin.js'
 import { RubyTextDecorationPlugin } from './ruby-text-decoration-plugin.js'
@@ -33,7 +33,7 @@ export interface RubyTextAttributes {
   rt: string | null
 }
 
-declare module '@tiptap/core' {
+declare module '@tiptap/editor' {
   interface Commands<ReturnType> {
     rubyText: {
       /**

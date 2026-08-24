@@ -1,5 +1,5 @@
-import type { PasteRuleMatch } from '@tiptap/core'
-import { Mark, markPasteRule, mergeAttributes } from '@tiptap/core'
+import type { PasteRuleMatch } from '@tiptap/editor'
+import { Mark, markPasteRule, mergeAttributes } from '@tiptap/editor'
 import type { Plugin } from '@tiptap/pm/state'
 import { find, registerCustomProtocol, reset } from 'linkifyjs'
 
@@ -137,7 +137,7 @@ export interface LinkOptions {
   shouldAutoLink: (url: string) => boolean
 }
 
-declare module '@tiptap/core' {
+declare module '@tiptap/editor' {
   interface Commands<ReturnType> {
     link: {
       /**

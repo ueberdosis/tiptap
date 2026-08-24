@@ -1,5 +1,5 @@
-import type { Editor } from '@tiptap/core'
-import { getAttributes } from '@tiptap/core'
+import type { Editor } from '@tiptap/editor'
+import { getAttributes } from '@tiptap/editor'
 import type { MarkType } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 

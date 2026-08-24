@@ -1,5 +1,5 @@
 import type { Middleware } from '@floating-ui/dom'
-import { Editor, Extension } from '@tiptap/core'
+import { Editor, Extension } from '@tiptap/editor'
 import StarterKit from '@tiptap/starter-kit'
 import { describe, expect, it, vi } from 'vite-plus/test'
 

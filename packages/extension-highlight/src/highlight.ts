@@ -1,4 +1,10 @@
-import { getStyleProperty, Mark, markInputRule, markPasteRule, mergeAttributes } from '@tiptap/core'
+import {
+  getStyleProperty,
+  Mark,
+  markInputRule,
+  markPasteRule,
+  mergeAttributes,
+} from '@tiptap/editor'
 
 export interface HighlightOptions {
   /**
@@ -16,7 +22,7 @@ export interface HighlightOptions {
   HTMLAttributes: Record<string, any>
 }
 
-declare module '@tiptap/core' {
+declare module '@tiptap/editor' {
   interface Commands<ReturnType> {
     highlight: {
       /**

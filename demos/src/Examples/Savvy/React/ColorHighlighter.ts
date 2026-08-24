@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core'
+import { Extension } from '@tiptap/editor'
 import { Plugin } from '@tiptap/pm/state'
 
 import findColors from './findColors.js'

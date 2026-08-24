@@ -1,4 +1,4 @@
-import type { Editor, Predicate } from '@tiptap/core'
+import type { Editor, Predicate } from '@tiptap/editor'
 import type { Node as ProseMirrorNode, ResolvedPos } from '@tiptap/pm/model'
 
 import { isNodeVisible } from './isNodeVisible.js'

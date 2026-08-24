@@ -1,4 +1,4 @@
-import { InputRule, mergeAttributes, Node } from '@tiptap/core'
+import { InputRule, mergeAttributes, Node } from '@tiptap/editor'
 import type { Node as PMNode } from '@tiptap/pm/model'
 import katex, { type KatexOptions } from 'katex'
 
@@ -39,7 +39,7 @@ export type InlineMathOptions = {
   onClick?: (node: PMNode, pos: number) => void
 }
 
-declare module '@tiptap/core' {
+declare module '@tiptap/editor' {
   interface Commands<ReturnType> {
     inlineMath: {
       /**
@@ -73,7 +73,7 @@ declare module '@tiptap/core' {
  * @example
  * ```javascript
  * import { InlineMath } from '@tiptap/extension-mathematics'
- * import { Editor } from '@tiptap/core'
+ * import { Editor } from '@tiptap/editor'
  *
  * const editor = new Editor({
  *   extensions: [

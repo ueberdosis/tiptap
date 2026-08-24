@@ -6,7 +6,7 @@ import {
   findChildrenInRange,
   getChangedRanges,
   splitExtensions,
-} from '@tiptap/core'
+} from '@tiptap/editor'
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { Fragment, Slice } from '@tiptap/pm/model'
 import type { Transaction } from '@tiptap/pm/state'

@@ -1,5 +1,5 @@
-import { createWidgetDecoration } from '@tiptap/core'
-import type { Editor, WidgetDecoration, WidgetDecorationOptions } from '@tiptap/core'
+import { createWidgetDecoration } from '@tiptap/editor'
+import type { Editor, WidgetDecoration, WidgetDecorationOptions } from '@tiptap/editor'
 import type { ComponentType } from 'react'
 
 import { ReactRenderer } from './ReactRenderer.js'

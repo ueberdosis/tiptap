@@ -1,5 +1,5 @@
-import { Decoration, Extension } from '@tiptap/core'
-import type { Editor } from '@tiptap/core'
+import { Decoration, Extension } from '@tiptap/editor'
+import type { Editor } from '@tiptap/editor'
 import type { EditorState } from '@tiptap/pm/state'
 
 export interface HighlightDecorationsOptions {
@@ -11,7 +11,7 @@ export interface HighlightDecorationsStorage {
   term: string
 }
 
-declare module '@tiptap/core' {
+declare module '@tiptap/editor' {
   interface Storage {
     highlightDecorations: HighlightDecorationsStorage
   }

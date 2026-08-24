@@ -1,4 +1,4 @@
-import { createAtomBlockMarkdownSpec, mergeAttributes, Node, nodePasteRule } from '@tiptap/core'
+import { createAtomBlockMarkdownSpec, mergeAttributes, Node, nodePasteRule } from '@tiptap/editor'
 
 import {
   getAttributesFromYoutubeEmbedUrl,
@@ -216,7 +216,7 @@ type SetYoutubeVideoOptions = {
   start?: number
 }
 
-declare module '@tiptap/core' {
+declare module '@tiptap/editor' {
   interface Commands<ReturnType> {
     youtube: {
       /**

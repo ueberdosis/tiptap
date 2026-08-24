@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core'
+import { Extension } from '@tiptap/editor'
 import { history, redo, undo } from '@tiptap/pm/history'
 
 export interface UndoRedoOptions {
@@ -17,7 +17,7 @@ export interface UndoRedoOptions {
   newGroupDelay: number
 }
 
-declare module '@tiptap/core' {
+declare module '@tiptap/editor' {
   interface Commands<ReturnType> {
     undoRedo: {
       /**

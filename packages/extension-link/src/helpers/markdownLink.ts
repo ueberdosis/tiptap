@@ -1,5 +1,5 @@
-import type { InputRuleMatch, PasteRuleMatch } from '@tiptap/core'
-import { InputRule, markInputRule, markPasteRule, PasteRule } from '@tiptap/core'
+import type { InputRuleMatch, PasteRuleMatch } from '@tiptap/editor'
+import { InputRule, markInputRule, markPasteRule, PasteRule } from '@tiptap/editor'
 import type { MarkType } from '@tiptap/pm/model'
 
 /**

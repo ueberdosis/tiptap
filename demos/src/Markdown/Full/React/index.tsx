@@ -1,7 +1,7 @@
 import './styles.scss'
 import 'katex/dist/katex.min.css'
 
-import { createBlockMarkdownSpec, Node } from '@tiptap/core'
+import { createBlockMarkdownSpec, Node } from '@tiptap/editor'
 import { Details, DetailsContent, DetailsSummary } from '@tiptap/extension-details'
 import { Highlight } from '@tiptap/extension-highlight'
 import { Image } from '@tiptap/extension-image'

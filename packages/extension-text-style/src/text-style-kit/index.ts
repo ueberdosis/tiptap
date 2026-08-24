@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core'
+import { Extension } from '@tiptap/editor'
 
 import type { BackgroundColorOptions } from '../background-color/index.js'
 import { BackgroundColor } from '../background-color/index.js'

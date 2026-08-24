@@ -1,7 +1,7 @@
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { Plugin } from '@tiptap/pm/state'
 
-import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core'
+import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/editor'
 
 import {
   buildNestedStructure,
@@ -43,7 +43,7 @@ export interface OrderedListOptions {
   keepAttributes: boolean
 }
 
-declare module '@tiptap/core' {
+declare module '@tiptap/editor' {
   interface Commands<ReturnType> {
     orderedList: {
       /**

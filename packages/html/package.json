@@ -54,13 +54,13 @@
     "build": "vp pack"
   },
   "devDependencies": {
-    "@tiptap/core": "workspace:^",
+    "@tiptap/editor": "workspace:^",
     "@tiptap/pm": "workspace:^",
     "@types/node": "^22.0.0",
     "happy-dom": "^20.8.9"
   },
   "peerDependencies": {
-    "@tiptap/core": "workspace:*",
+    "@tiptap/editor": "workspace:*",
     "@tiptap/pm": "workspace:*",
     "happy-dom": "^20.8.9"
   }

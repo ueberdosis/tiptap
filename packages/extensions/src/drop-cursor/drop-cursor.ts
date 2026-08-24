@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core'
+import { Extension } from '@tiptap/editor'
 import { dropCursor } from '@tiptap/pm/dropcursor'
 
 export interface DropcursorOptions {

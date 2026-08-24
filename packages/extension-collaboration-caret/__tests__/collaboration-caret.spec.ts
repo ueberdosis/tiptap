@@ -1,4 +1,4 @@
-import { Editor } from '@tiptap/core'
+import { Editor } from '@tiptap/editor'
 import Collaboration from '@tiptap/extension-collaboration'
 import CollaborationCaret from '@tiptap/extension-collaboration-caret'
 import Document from '@tiptap/extension-document'

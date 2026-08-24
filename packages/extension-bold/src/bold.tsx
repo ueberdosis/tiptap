@@ -1,5 +1,5 @@
-/** @jsxImportSource @tiptap/core */
-import { Mark, markInputRule, markPasteRule, mergeAttributes } from '@tiptap/core'
+/** @jsxImportSource @tiptap/editor */
+import { Mark, markInputRule, markPasteRule, mergeAttributes } from '@tiptap/editor'
 
 export interface BoldOptions {
   /**
@@ -10,7 +10,7 @@ export interface BoldOptions {
   HTMLAttributes: Record<string, any>
 }
 
-declare module '@tiptap/core' {
+declare module '@tiptap/editor' {
   interface Commands<ReturnType> {
     bold: {
       /**

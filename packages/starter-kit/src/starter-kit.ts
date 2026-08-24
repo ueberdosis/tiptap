@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core'
+import { Extension } from '@tiptap/editor'
 import type { BlockquoteOptions } from '@tiptap/extension-blockquote'
 import { Blockquote } from '@tiptap/extension-blockquote'
 import type { BoldOptions } from '@tiptap/extension-bold'

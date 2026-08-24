@@ -1,4 +1,4 @@
-import type { JSONContent, MarkdownRendererHelpers } from '@tiptap/core'
+import type { JSONContent, MarkdownRendererHelpers } from '@tiptap/editor'
 
 import {
   type TableCellAlign as TableCellAlignType,

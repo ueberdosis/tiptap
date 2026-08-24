@@ -1,4 +1,4 @@
-import { Editor, getChangedRanges } from '@tiptap/core'
+import { Editor, getChangedRanges } from '@tiptap/editor'
 import BulletList from '@tiptap/extension-bullet-list'
 import Document from '@tiptap/extension-document'
 import ListItem from '@tiptap/extension-list-item'

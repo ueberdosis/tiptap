@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core'
+import { Extension } from '@tiptap/editor'
 
 import { BlockMath, InlineMath } from './extensions/index.js'
 import type { MathematicsOptions } from './types.js'
@@ -11,7 +11,7 @@ import type { MathematicsOptions } from './types.js'
  *
  * @example
  * ```typescript
- * import { Editor } from '@tiptap/core'
+ * import { Editor } from '@tiptap/editor'
  * import { Mathematics } from '@tiptap/extension-mathematics'
  * import { migrateMathStrings } from '@tiptap/extension-mathematics/utils'
  *

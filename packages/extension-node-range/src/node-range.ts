@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core'
+import { Extension } from '@tiptap/editor'
 import type { SelectionRange } from '@tiptap/pm/state'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 

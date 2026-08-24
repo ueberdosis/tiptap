@@ -1,4 +1,4 @@
-import type { Editor } from '@tiptap/core'
+import type { Editor } from '@tiptap/editor'
 import type { z } from 'zod'
 
 /**
@@ -41,7 +41,7 @@ export type AddJsonSchemaAwareness<Options = any, Storage = any> = (this: {
   editor?: Editor
 }) => Omit<JsonItem, 'extensionName' | 'isMark'>
 
-declare module '@tiptap/core' {
+declare module '@tiptap/editor' {
   interface NodeConfig<Options, Storage> {
     addJsonSchemaAwareness?: AddJsonSchemaAwareness<Options, Storage>
   }

@@ -1,6 +1,6 @@
 import { act, render } from '@testing-library/react'
-import { Editor, Node } from '@tiptap/core'
-import type { NodeViewRendererProps } from '@tiptap/core'
+import { Editor, Node } from '@tiptap/editor'
+import type { NodeViewRendererProps } from '@tiptap/editor'
 import type { NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'

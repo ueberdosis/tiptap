@@ -1,11 +1,11 @@
-import type { KeyboardShortcutCommand } from '@tiptap/core'
+import type { KeyboardShortcutCommand } from '@tiptap/editor'
 import {
   getRenderedAttributes,
   mergeAttributes,
   Node,
   renderNestedMarkdownContent,
   wrappingInputRule,
-} from '@tiptap/core'
+} from '@tiptap/editor'
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 
 import { createBranchingListDeleteKeymap } from '../helpers/createBranchingListDeleteKeymap.js'

@@ -1,6 +1,6 @@
 /* oslint-disable no-underscore-dangle */
-import type { MarkViewProps, MarkViewRenderer, MarkViewRendererOptions } from '@tiptap/core'
-import { MarkView } from '@tiptap/core'
+import type { MarkViewProps, MarkViewRenderer, MarkViewRendererOptions } from '@tiptap/editor'
+import { MarkView } from '@tiptap/editor'
 import type { Component, PropType } from 'vue'
 import { defineComponent, h, toRaw } from 'vue'
 

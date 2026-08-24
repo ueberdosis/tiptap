@@ -1,4 +1,4 @@
-import { Editor } from '@tiptap/core'
+import { Editor } from '@tiptap/editor'
 import UniqueID from '@tiptap/extension-unique-id'
 import StarterKit from '@tiptap/starter-kit'
 import { afterEach, beforeEach, describe, expect, it } from 'vite-plus/test'

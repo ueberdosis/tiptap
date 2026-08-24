@@ -1,5 +1,5 @@
-/** @jsxImportSource @tiptap/core */
-import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core'
+/** @jsxImportSource @tiptap/editor */
+import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/editor'
 
 import { handleBackspace } from './handleBackspace.js'
 
@@ -12,7 +12,7 @@ export interface BlockquoteOptions {
   HTMLAttributes: Record<string, any>
 }
 
-declare module '@tiptap/core' {
+declare module '@tiptap/editor' {
   interface Commands<ReturnType> {
     blockQuote: {
       /**

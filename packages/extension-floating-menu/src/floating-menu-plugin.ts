@@ -10,8 +10,8 @@ import {
   shift,
   size,
 } from '@floating-ui/dom'
-import type { Editor } from '@tiptap/core'
-import { getText, getTextSerializersFromSchema, posToDOMRect } from '@tiptap/core'
+import type { Editor } from '@tiptap/editor'
+import { getText, getTextSerializersFromSchema, posToDOMRect } from '@tiptap/editor'
 import type { Node as ProsemirrorNode } from '@tiptap/pm/model'
 import type { EditorState, Transaction } from '@tiptap/pm/state'
 import { Plugin, PluginKey } from '@tiptap/pm/state'

@@ -11,8 +11,8 @@ import {
   shift,
   size,
 } from '@floating-ui/dom'
-import type { Editor } from '@tiptap/core'
-import { isTextSelection, posToDOMRect } from '@tiptap/core'
+import type { Editor } from '@tiptap/editor'
+import { isTextSelection, posToDOMRect } from '@tiptap/editor'
 import type { EditorState, PluginView, Transaction } from '@tiptap/pm/state'
 import { NodeSelection, Plugin, PluginKey } from '@tiptap/pm/state'
 import { CellSelection } from '@tiptap/pm/tables'

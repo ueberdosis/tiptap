@@ -1,4 +1,4 @@
-import type { Editor } from '@tiptap/core'
+import type { Editor } from '@tiptap/editor'
 
 import { hoistBranchingNestedList } from './hoistBranchingNestedList.js'
 

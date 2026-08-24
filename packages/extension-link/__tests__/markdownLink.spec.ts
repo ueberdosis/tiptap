@@ -1,4 +1,4 @@
-import { Editor, Mark } from '@tiptap/core'
+import { Editor, Mark } from '@tiptap/editor'
 import Document from '@tiptap/extension-document'
 import Link from '@tiptap/extension-link'
 import Paragraph from '@tiptap/extension-paragraph'

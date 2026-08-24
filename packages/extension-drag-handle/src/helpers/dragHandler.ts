@@ -1,4 +1,4 @@
-import type { Editor } from '@tiptap/core'
+import type { Editor } from '@tiptap/editor'
 import { getSelectionRanges, NodeRangeSelection } from '@tiptap/extension-node-range'
 import type { Node } from '@tiptap/pm/model'
 import { type SelectionRange, NodeSelection } from '@tiptap/pm/state'

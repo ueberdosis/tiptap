@@ -1,4 +1,4 @@
-import type { Editor } from '@tiptap/core'
+import type { Editor } from '@tiptap/editor'
 import type { Node } from '@tiptap/pm/model'
 import { Decoration } from '@tiptap/pm/view'
 

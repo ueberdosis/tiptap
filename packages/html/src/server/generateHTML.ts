@@ -1,4 +1,4 @@
-import { type Extensions, type JSONContent, getSchema } from '@tiptap/core'
+import { type Extensions, type JSONContent, getSchema } from '@tiptap/editor'
 import { Node } from '@tiptap/pm/model'
 
 import { getHTMLFromFragment } from './getHTMLFromFragment.js'

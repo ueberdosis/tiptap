@@ -1,4 +1,10 @@
-import { canInsertNode, isNodeSelection, mergeAttributes, Node, nodeInputRule } from '@tiptap/core'
+import {
+  canInsertNode,
+  isNodeSelection,
+  mergeAttributes,
+  Node,
+  nodeInputRule,
+} from '@tiptap/editor'
 import { NodeSelection, TextSelection } from '@tiptap/pm/state'
 
 export interface HorizontalRuleOptions {
@@ -16,7 +22,7 @@ export interface HorizontalRuleOptions {
   nextNodeType: string
 }
 
-declare module '@tiptap/core' {
+declare module '@tiptap/editor' {
   interface Commands<ReturnType> {
     horizontalRule: {
       /**

@@ -2,9 +2,9 @@
 
 ## Primary scopes (monorepo packages)
 
-### Core, framework bindings, and shared utilities
+### Editor, framework bindings, and shared utilities
 
-- core
+- editor
 - ai-toolkit
 - extensions
 - html

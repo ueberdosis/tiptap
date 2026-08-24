@@ -27,7 +27,7 @@ vp run test:e2e
 vp run fallow:audit   # verdict must be pass or warn, never fail
 ```
 
-Single package failing types: `vp run -F @tiptap/core build`.
+Single package failing types: `vp run -F @tiptap/editor build`.
 Dependency or lockfile errors: `vp run reset`, then rebuild.
 
 ## Code style
@@ -134,7 +134,7 @@ Then run `pnpm fallow` for complexity and dead code, `pnpm fallow:health` for re
 
 - Path pattern is `demos/src/<Category>/<DemoName>/<Variant>`, for example `demos/src/Marks/Bold/React`. Scaffold with `pnpm make:demo`.
 - Every demo needs an empty `index.html`. Vite routes by filesystem and ignores folders without it.
-- Import from `@tiptap/core` and friends, never relative paths. The demos `tsconfig.json` aliases those to the local package sources.
+- Import from `@tiptap/editor` and friends, never relative paths. The demos `tsconfig.json` aliases those to the local package sources.
 - Reuse the global styles in `demos/setup/style.scss`: `.button-group` for rows of buttons, `.control-group` to wrap a toolbar, `.output-group` for demo output. Don't style `.tiptap`, that is the editor content itself.
 
 ## Changesets
@@ -143,7 +143,7 @@ Run `pnpm changeset`, or write the file yourself as `.changeset/YYYY-MM-DD-short
 
 ```markdown
 ---
-'@tiptap/core': patch
+'@tiptap/editor': patch
 ---
 
 One short sentence on what changed for the user.

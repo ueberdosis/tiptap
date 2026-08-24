@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core'
+import { Extension } from '@tiptap/editor'
 
 import { InvisibleCharactersPlugin, InvisibleCharactersPluginKey } from './plugin/index.js'
 import { HardBreakNode } from './plugin/invisible-characters/hardBreak.js'
@@ -8,7 +8,7 @@ import type { InvisibleCharactersOptions } from './types.js'
 
 export { HardBreakNode, ParagraphNode, SpaceCharacter }
 
-declare module '@tiptap/core' {
+declare module '@tiptap/editor' {
   interface Commands<ReturnType> {
     invisibleCharacters: {
       /**

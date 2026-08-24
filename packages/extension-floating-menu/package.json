@@ -44,12 +44,12 @@
   },
   "devDependencies": {
     "@floating-ui/dom": "^1.6.12",
-    "@tiptap/core": "workspace:^",
+    "@tiptap/editor": "workspace:^",
     "@tiptap/pm": "workspace:^"
   },
   "peerDependencies": {
     "@floating-ui/dom": "^1.0.0",
-    "@tiptap/core": "workspace:*",
+    "@tiptap/editor": "workspace:*",
     "@tiptap/pm": "workspace:*"
   }
 }

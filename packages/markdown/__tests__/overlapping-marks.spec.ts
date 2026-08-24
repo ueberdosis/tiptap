@@ -1,4 +1,4 @@
-import { Editor } from '@tiptap/core'
+import { Editor } from '@tiptap/editor'
 import { Bold } from '@tiptap/extension-bold'
 import { Document } from '@tiptap/extension-document'
 import { HardBreak } from '@tiptap/extension-hard-break'

@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core'
+import { Extension } from '@tiptap/editor'
 
 import type { TableCellOptions } from '../cell/index.js'
 import { TableCell } from '../cell/index.js'

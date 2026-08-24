@@ -6,7 +6,7 @@ import {
   isActive,
   mergeAttributes,
   Node,
-} from '@tiptap/core'
+} from '@tiptap/editor'
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { Plugin, PluginKey, Selection, TextSelection } from '@tiptap/pm/state'
 import type { ViewMutationRecord } from '@tiptap/pm/view'
@@ -51,7 +51,7 @@ export interface DetailsOptions {
   renderToggleButton: (options: DetailsRenderToggleButtonOptions) => void
 }
 
-declare module '@tiptap/core' {
+declare module '@tiptap/editor' {
   interface Commands<ReturnType> {
     details: {
       /**

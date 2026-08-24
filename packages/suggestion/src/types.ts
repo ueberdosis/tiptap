@@ -1,5 +1,5 @@
 import type { AutoUpdateOptions, Middleware } from '@floating-ui/dom'
-import type { Editor, Range } from '@tiptap/core'
+import type { Editor, Range } from '@tiptap/editor'
 import type { EditorState, PluginKey, Transaction } from '@tiptap/pm/state'
 import type { EditorView } from '@tiptap/pm/view'
 

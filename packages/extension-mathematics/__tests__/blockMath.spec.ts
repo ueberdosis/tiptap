@@ -1,4 +1,4 @@
-import { Editor } from '@tiptap/core'
+import { Editor } from '@tiptap/editor'
 import Document from '@tiptap/extension-document'
 import { BulletList, ListItem } from '@tiptap/extension-list'
 import Paragraph from '@tiptap/extension-paragraph'

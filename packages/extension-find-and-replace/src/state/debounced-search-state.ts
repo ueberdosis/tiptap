@@ -1,4 +1,4 @@
-import type { Editor } from '@tiptap/core'
+import type { Editor } from '@tiptap/editor'
 
 export interface DebouncedSearchState {
   timeout: ReturnType<typeof setTimeout> | null

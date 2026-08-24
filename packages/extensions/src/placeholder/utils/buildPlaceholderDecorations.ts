@@ -1,5 +1,5 @@
-import type { Editor } from '@tiptap/core'
-import { isNodeEmpty } from '@tiptap/core'
+import type { Editor } from '@tiptap/editor'
+import { isNodeEmpty } from '@tiptap/editor'
 import type { Node } from '@tiptap/pm/model'
 import type { Selection } from '@tiptap/pm/state'
 import type { Decoration } from '@tiptap/pm/view'

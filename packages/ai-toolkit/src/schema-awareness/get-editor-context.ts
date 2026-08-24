@@ -1,4 +1,4 @@
-import { type Editor, getExtensionField, Mark } from '@tiptap/core'
+import { type Editor, getExtensionField, Mark } from '@tiptap/editor'
 import { z } from 'zod'
 
 import type { EditorContext } from './types/editor-context.js'

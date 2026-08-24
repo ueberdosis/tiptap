@@ -1,5 +1,5 @@
-import type { JSONContent } from '@tiptap/core'
-import { Editor } from '@tiptap/core'
+import type { JSONContent } from '@tiptap/editor'
+import { Editor } from '@tiptap/editor'
 import Bold from '@tiptap/extension-bold'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'

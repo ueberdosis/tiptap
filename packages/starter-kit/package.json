@@ -42,7 +42,7 @@
     "build": "vp pack"
   },
   "dependencies": {
-    "@tiptap/core": "workspace:*",
+    "@tiptap/editor": "workspace:*",
     "@tiptap/extension-blockquote": "workspace:*",
     "@tiptap/extension-bold": "workspace:*",
     "@tiptap/extension-bullet-list": "workspace:*",

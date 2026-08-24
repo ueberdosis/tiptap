@@ -397,9 +397,9 @@ importers:
         specifier: ^4.1.8
         version: 4.4.3
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
@@ -410,7 +410,7 @@ importers:
         specifier: ^13.6.23
         version: 13.6.23
 
-  packages/core:
+  packages/editor:
     devDependencies:
       '@tiptap/pm':
         specifier: workspace:^
@@ -421,24 +421,24 @@ importers:
 
   packages/extension-audio:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
 
   packages/extension-blockquote:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
 
   packages/extension-bold:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
 
   packages/extension-bubble-menu:
     dependencies:
@@ -446,9 +446,9 @@ importers:
         specifier: ^1.0.0
         version: 1.8.0
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
@@ -461,15 +461,15 @@ importers:
 
   packages/extension-code:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
 
   packages/extension-code-block:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
@@ -480,9 +480,9 @@ importers:
         specifier: ^11
         version: 11.12.0
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
       '@tiptap/extension-code-block':
         specifier: workspace:^
         version: link:../extension-code-block
@@ -499,9 +499,9 @@ importers:
         specifier: ^13
         version: 13.6.23
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
@@ -511,9 +511,9 @@ importers:
 
   packages/extension-collaboration-caret:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
       '@tiptap/extension-collaboration':
         specifier: workspace:^
         version: link:../extension-collaboration
@@ -556,9 +556,9 @@ importers:
 
   packages/extension-details:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
       '@tiptap/extension-text-style':
         specifier: workspace:^
         version: link:../extension-text-style
@@ -568,9 +568,9 @@ importers:
 
   packages/extension-document:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
 
   packages/extension-drag-handle:
     dependencies:
@@ -578,9 +578,9 @@ importers:
         specifier: ^1.6.13
         version: 1.8.0
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
       '@tiptap/extension-collaboration':
         specifier: workspace:^
         version: link:../extension-collaboration
@@ -663,9 +663,9 @@ importers:
         specifier: ^0.0.5
         version: 0.0.5
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
@@ -684,9 +684,9 @@ importers:
 
   packages/extension-file-handler:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
       '@tiptap/extension-text-style':
         specifier: workspace:^
         version: link:../extension-text-style
@@ -700,9 +700,9 @@ importers:
         specifier: ^2.8.6
         version: 2.8.6
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
@@ -712,9 +712,9 @@ importers:
       '@floating-ui/dom':
         specifier: ^1.6.12
         version: 1.8.0
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
@@ -727,42 +727,42 @@ importers:
 
   packages/extension-hard-break:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
 
   packages/extension-heading:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
 
   packages/extension-highlight:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
 
   packages/extension-horizontal-rule:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
 
   packages/extension-image:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
 
   packages/extension-invisible-characters:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
       '@tiptap/extension-text-style':
         specifier: workspace:^
         version: link:../extension-text-style
@@ -772,9 +772,9 @@ importers:
 
   packages/extension-italic:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
 
   packages/extension-link:
     dependencies:
@@ -782,18 +782,18 @@ importers:
         specifier: ^4.3.3
         version: 4.3.3
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
 
   packages/extension-list:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
@@ -804,9 +804,9 @@ importers:
         specifier: ^0.16.4 || ^0.17.0 || ^0.18.0
         version: 0.18.4
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
@@ -816,9 +816,9 @@ importers:
 
   packages/extension-mention:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
@@ -828,9 +828,9 @@ importers:
 
   packages/extension-node-range:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
@@ -843,48 +843,48 @@ importers:
 
   packages/extension-paragraph:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
 
   packages/extension-ruby-text:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
 
   packages/extension-strike:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
 
   packages/extension-subscript:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
 
   packages/extension-superscript:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
 
   packages/extension-table:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
@@ -895,48 +895,48 @@ importers:
         specifier: ^14.0.0
         version: 14.0.1
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
 
   packages/extension-text:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
 
   packages/extension-text-align:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
 
   packages/extension-text-style:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
 
   packages/extension-twitch:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
 
   packages/extension-typography:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
 
   packages/extension-underline:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
 
   packages/extension-unique-id:
     dependencies:
@@ -944,33 +944,33 @@ importers:
         specifier: ^14.0.0
         version: 14.0.1
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
 
   packages/extension-youtube:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
 
   packages/extensions:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
 
   packages/html:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
@@ -987,9 +987,9 @@ importers:
         specifier: ^17.0.1
         version: 17.0.6
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
@@ -1048,9 +1048,9 @@ importers:
         specifier: ^1.4.0
         version: 1.6.0(react@19.2.8)
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
@@ -1076,9 +1076,9 @@ importers:
 
   packages/starter-kit:
     dependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:*
-        version: link:../core
+        version: link:../editor
       '@tiptap/extension-blockquote':
         specifier: workspace:*
         version: link:../extension-blockquote
@@ -1151,9 +1151,9 @@ importers:
 
   packages/static-renderer:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
@@ -1175,9 +1175,9 @@ importers:
       '@floating-ui/dom':
         specifier: ^1.6.12
         version: 1.8.0
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
@@ -1188,9 +1188,9 @@ importers:
         specifier: 1.6.2
         version: 1.6.2(vue@2.7.16)
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
@@ -1211,9 +1211,9 @@ importers:
         specifier: ^1.0.0
         version: 1.8.0
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../core
+        version: link:../editor
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm

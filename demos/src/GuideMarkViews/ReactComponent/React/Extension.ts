@@ -1,4 +1,4 @@
-import { Mark } from '@tiptap/core'
+import { Mark } from '@tiptap/editor'
 import { ReactMarkViewRenderer } from '@tiptap/react'
 
 import Component from './Component.js'

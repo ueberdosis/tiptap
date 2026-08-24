@@ -1,4 +1,4 @@
-import { createBlockMarkdownSpec, mergeAttributes, Node } from '@tiptap/core'
+import { createBlockMarkdownSpec, mergeAttributes, Node } from '@tiptap/editor'
 
 export interface DetailsSummaryOptions {
   /**

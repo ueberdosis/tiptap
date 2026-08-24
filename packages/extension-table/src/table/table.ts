@@ -8,7 +8,7 @@ import {
   getExtensionField,
   mergeAttributes,
   Node,
-} from '@tiptap/core'
+} from '@tiptap/editor'
 import type { DOMOutputSpec, Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { TextSelection } from '@tiptap/pm/state'
 import {
@@ -111,7 +111,7 @@ export interface TableOptions {
   allowTableNodeSelection: boolean
 }
 
-declare module '@tiptap/core' {
+declare module '@tiptap/editor' {
   interface Commands<ReturnType> {
     table: {
       /**

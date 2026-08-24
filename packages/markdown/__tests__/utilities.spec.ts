@@ -1,9 +1,9 @@
-import type { JSONContent } from '@tiptap/core'
+import type { JSONContent } from '@tiptap/editor'
 import {
   createAtomBlockMarkdownSpec,
   createBlockMarkdownSpec,
   createInlineMarkdownSpec,
-} from '@tiptap/core'
+} from '@tiptap/editor'
 import { describe, expect, it } from 'vite-plus/test'
 
 describe('Markdown Utilities', () => {

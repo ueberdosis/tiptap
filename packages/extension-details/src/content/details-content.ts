@@ -4,7 +4,7 @@ import {
   findParentNode,
   mergeAttributes,
   Node,
-} from '@tiptap/core'
+} from '@tiptap/editor'
 import { Selection } from '@tiptap/pm/state'
 import type { ViewMutationRecord } from '@tiptap/pm/view'
 

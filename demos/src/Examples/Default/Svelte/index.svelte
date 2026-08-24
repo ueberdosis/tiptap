@@ -5,7 +5,7 @@
   import { ListItem } from '@tiptap/extension-list'
   import { TextStyle } from '@tiptap/extension-text-style'
   import StarterKit from "@tiptap/starter-kit";
-  import { Editor } from "@tiptap/core";
+  import { Editor } from "@tiptap/editor";
   import { onMount } from "svelte";
 
   // oxlint-disable-next-line

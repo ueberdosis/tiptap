@@ -1,10 +1,10 @@
-import { createWidgetDecoration } from '@tiptap/core'
+import { createWidgetDecoration } from '@tiptap/editor'
 import type {
   Editor as CoreEditor,
   WidgetDecoration,
   WidgetDecorationOptions,
   WidgetRenderer,
-} from '@tiptap/core'
+} from '@tiptap/editor'
 import type { Component, VueConstructor } from 'vue'
 
 import type { Editor } from './Editor.js'

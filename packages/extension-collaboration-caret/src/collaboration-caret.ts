@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core'
+import { Extension } from '@tiptap/editor'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import type { DecorationAttrs } from '@tiptap/pm/view'
 import { defaultSelectionBuilder, yCursorPlugin } from '@tiptap/y-tiptap'
@@ -61,7 +61,7 @@ export interface CollaborationCaretOptions {
   onUpdate: (users: { clientId: number; [key: string]: any }[]) => null
 }
 
-declare module '@tiptap/core' {
+declare module '@tiptap/editor' {
   interface Commands<ReturnType> {
     collaborationCaret: {
       /**

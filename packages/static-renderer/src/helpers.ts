@@ -4,7 +4,7 @@ import {
   type MarkType,
   type NodeType,
   mergeAttributes,
-} from '@tiptap/core'
+} from '@tiptap/editor'
 
 /**
  * This function returns the attributes of a node or mark that are defined by the given extension attributes.

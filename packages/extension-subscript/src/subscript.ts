@@ -1,4 +1,4 @@
-import { Mark, mergeAttributes } from '@tiptap/core'
+import { Mark, mergeAttributes } from '@tiptap/editor'
 import type { StyleParseRule } from '@tiptap/pm/model'
 
 export interface SubscriptExtensionOptions {
@@ -10,7 +10,7 @@ export interface SubscriptExtensionOptions {
   HTMLAttributes: Record<string, any>
 }
 
-declare module '@tiptap/core' {
+declare module '@tiptap/editor' {
   interface Commands<ReturnType> {
     subscript: {
       /**

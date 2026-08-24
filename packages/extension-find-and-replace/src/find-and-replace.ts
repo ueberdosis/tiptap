@@ -1,5 +1,5 @@
-import type { Command, Editor } from '@tiptap/core'
-import { Extension } from '@tiptap/core'
+import type { Command, Editor } from '@tiptap/editor'
+import { Extension } from '@tiptap/editor'
 import type { EditorState, Transaction } from '@tiptap/pm/state'
 import { TextSelection } from '@tiptap/pm/state'
 
@@ -14,7 +14,7 @@ import type { SearchResult } from './search/search.js'
 import type { FindAndReplaceOptions, FindAndReplaceStorage } from './types.js'
 import { replaceAllResults } from './utils/replaceAllResults.js'
 
-declare module '@tiptap/core' {
+declare module '@tiptap/editor' {
   interface Commands<ReturnType> {
     findAndReplace: {
       /**

@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core'
+import { Extension } from '@tiptap/editor'
 
 export interface TextAlignOptions {
   /**
@@ -23,7 +23,7 @@ export interface TextAlignOptions {
   defaultAlignment: string | null
 }
 
-declare module '@tiptap/core' {
+declare module '@tiptap/editor' {
   interface Commands<ReturnType> {
     textAlign: {
       /**

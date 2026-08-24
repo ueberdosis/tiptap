@@ -4,7 +4,7 @@ import {
   createInlineMarkdownSpec,
   Extension,
   Node,
-} from '@tiptap/core'
+} from '@tiptap/editor'
 import { Bold } from '@tiptap/extension-bold'
 import { Document } from '@tiptap/extension-document'
 import { Heading } from '@tiptap/extension-heading'

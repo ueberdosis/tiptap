@@ -1,5 +1,5 @@
 /* oslint-disableno-explicit-any */
-import type { DOMOutputSpecArray, Extensions, JSONContent } from '@tiptap/core'
+import type { DOMOutputSpecArray, Extensions, JSONContent } from '@tiptap/editor'
 import type { DOMOutputSpec, Mark, Node } from '@tiptap/pm/model'
 
 import {

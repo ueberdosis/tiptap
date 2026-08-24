@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core'
+import { Extension } from '@tiptap/editor'
 import { NodeSelection, Plugin } from '@tiptap/pm/state'
 
 function removeNode(node) {

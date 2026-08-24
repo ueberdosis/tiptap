@@ -5,8 +5,8 @@ import type {
   NodeViewRenderer,
   NodeViewRendererOptions,
   NodeViewRendererProps,
-} from '@tiptap/core'
-import { isNodeViewSelected, NodeView } from '@tiptap/core'
+} from '@tiptap/editor'
+import { isNodeViewSelected, NodeView } from '@tiptap/editor'
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import type { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
 import type { Component, PropType, Ref } from 'vue'

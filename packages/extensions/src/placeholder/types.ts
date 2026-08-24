@@ -1,4 +1,4 @@
-import type { Editor } from '@tiptap/core'
+import type { Editor } from '@tiptap/editor'
 import type { Node as ProsemirrorNode } from '@tiptap/pm/model'
 
 export interface PlaceholderOptions {

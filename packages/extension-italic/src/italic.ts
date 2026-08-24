@@ -1,4 +1,4 @@
-import { Mark, markInputRule, markPasteRule, mergeAttributes } from '@tiptap/core'
+import { Mark, markInputRule, markPasteRule, mergeAttributes } from '@tiptap/editor'
 
 export interface ItalicOptions {
   /**
@@ -9,7 +9,7 @@ export interface ItalicOptions {
   HTMLAttributes: Record<string, any>
 }
 
-declare module '@tiptap/core' {
+declare module '@tiptap/editor' {
   interface Commands<ReturnType> {
     italic: {
       /**

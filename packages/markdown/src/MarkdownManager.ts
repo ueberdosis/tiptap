@@ -20,7 +20,7 @@ import {
   getSchema,
   marksEqual,
   sortExtensions,
-} from '@tiptap/core'
+} from '@tiptap/editor'
 import { type Lexer, type Token, type TokenizerExtension, type TokenizerThis, marked } from 'marked'
 
 import {

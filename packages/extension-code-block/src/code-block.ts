@@ -1,4 +1,4 @@
-import { mergeAttributes, Node, textblockTypeInputRule } from '@tiptap/core'
+import { mergeAttributes, Node, textblockTypeInputRule } from '@tiptap/editor'
 import { Plugin, PluginKey, Selection, TextSelection } from '@tiptap/pm/state'
 
 const DEFAULT_TAB_SIZE = 4
@@ -48,7 +48,7 @@ export interface CodeBlockOptions {
   HTMLAttributes: Record<string, any>
 }
 
-declare module '@tiptap/core' {
+declare module '@tiptap/editor' {
   interface Commands<ReturnType> {
     codeBlock: {
       /**

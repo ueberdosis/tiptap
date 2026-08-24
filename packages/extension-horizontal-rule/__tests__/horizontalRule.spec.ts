@@ -1,4 +1,4 @@
-import { Editor } from '@tiptap/core'
+import { Editor } from '@tiptap/editor'
 import Document from '@tiptap/extension-document'
 import HorizontalRule from '@tiptap/extension-horizontal-rule'
 import Image from '@tiptap/extension-image'

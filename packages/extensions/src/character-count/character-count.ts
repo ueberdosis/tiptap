@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core'
+import { Extension } from '@tiptap/editor'
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 
@@ -54,7 +54,7 @@ export interface CharacterCountStorage {
   words: (options?: { node?: ProseMirrorNode }) => number
 }
 
-declare module '@tiptap/core' {
+declare module '@tiptap/editor' {
   interface Storage {
     characterCount: CharacterCountStorage
   }

@@ -25,7 +25,7 @@ Key points for AI assistants:
 ```
 .
 ├─ packages/                 # Core and all first-party extensions
-│  ├─ core/                  # Editor core (@tiptap/core)
+│  ├─ core/                  # Editor core (@tiptap/editor)
 │  ├─ extension-*/           # Individual extensions
 │  ├─ pm/                    # ProseMirror related internals and helpers
 │  └─ ...                    # Shared utilities, framework bindings, etc.
@@ -119,7 +119,7 @@ When adding a demo, keep it small and self-contained, with imports from publishe
 
 Two layers:
 
-- **Unit tests** with Vitest in `packages/**/__tests__/` (happy-dom). These test `@tiptap/core` and individual extensions in isolation.
+- **Unit tests** with Vitest in `packages/**/__tests__/` (happy-dom). These test `@tiptap/editor` and individual extensions in isolation.
 - **E2E tests** with Playwright, colocated next to their demos as `demos/src/**/index.spec.ts`. They drive the real Vite-served demo pages in Chromium.
 
 Run them:
@@ -235,7 +235,7 @@ vp run test:e2e   # Playwright (auto-starts the demo server)
 vp run dev        # optionally run the demos and open http://localhost:3000
 ```
 
-If a single package is failing types, run a targeted build for that package (e.g. `vp run -F @tiptap/core build`), or run `vp run build` at the repo root.
+If a single package is failing types, run a targeted build for that package (e.g. `vp run -F @tiptap/editor build`), or run `vp run build` at the repo root.
 
 ### PR checklist
 

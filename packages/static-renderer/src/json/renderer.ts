@@ -1,5 +1,5 @@
 /* oslint-disableno-explicit-any */
-import type { JSONContent } from '@tiptap/core'
+import type { JSONContent } from '@tiptap/editor'
 
 /**
  * A JSON representation of a mark (a Tiptap/ProseMirror mark serialized to JSON).

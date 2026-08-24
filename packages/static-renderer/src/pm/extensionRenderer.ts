@@ -9,15 +9,15 @@ import type {
   MarkConfig,
   Node as NodeExtension,
   NodeConfig,
-} from '@tiptap/core'
+} from '@tiptap/editor'
 import {
-  extensions as coreExtensions,
+  baseExtensions,
   getAttributesFromExtensions,
   getExtensionField,
   getSchemaByResolvedExtensions,
   resolveExtensions,
   splitExtensions,
-} from '@tiptap/core'
+} from '@tiptap/editor'
 import type { DOMOutputSpec, Mark } from '@tiptap/pm/model'
 import { Node, Schema } from '@tiptap/pm/model'
 
@@ -63,7 +63,7 @@ export function applyStaticEditorOptionsToExtensions(
   }
 
   return [
-    coreExtensions.TextDirection.configure({ direction: options.textDirection }),
+    baseExtensions.TextDirection.configure({ direction: options.textDirection }),
     ...extensions,
   ]
 }

@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import { getDebugJSON } from '@tiptap/core'
+import { getDebugJSON } from '@tiptap/editor'
 
 import DemoFrame from './DemoFrame.vue'
 import Shiki from './Shiki.vue'

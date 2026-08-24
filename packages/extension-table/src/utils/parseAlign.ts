@@ -1,4 +1,4 @@
-import type { Attribute } from '@tiptap/core'
+import type { Attribute } from '@tiptap/editor'
 
 /**
  * Supported table cell alignment values

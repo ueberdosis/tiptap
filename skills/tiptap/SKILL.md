@@ -48,11 +48,11 @@ To move an existing integration off the deprecated products, see
 
 ### General
 
-- For a new install, use the latest stable version. Resolve it with `npm view @tiptap/core version`.
+- For a new install, use the latest stable version. Resolve it with `npm view @tiptap/editor version`.
 - The editor and extension packages published from the tiptap monorepo share one version line. Pin
   every one of them to that same version. Mixing versions risks introducing bugs. 
 - Some packages have their own version line. Resolve these from the registry, never from
-  `@tiptap/core`: `@tiptap/ai-toolkit`, `@tiptap/y-tiptap`, `@tiptap-pro/*` (private registry),
+  `@tiptap/editor`: `@tiptap/ai-toolkit`, `@tiptap/y-tiptap`, `@tiptap-pro/*` (private registry),
   `@hocuspocus/*`.
 - Do not mix majors. For a project still on Tiptap 2, upgrade first. See
   `tiptap-docs/src/content/guides/upgrade-tiptap-v2.mdx`.

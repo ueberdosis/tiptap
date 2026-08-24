@@ -1,5 +1,5 @@
-import type { KeyboardShortcutCommand } from '@tiptap/core'
-import { findParentNodeClosestToPos } from '@tiptap/core'
+import type { KeyboardShortcutCommand } from '@tiptap/editor'
+import { findParentNodeClosestToPos } from '@tiptap/editor'
 
 import { isCellSelection } from './isCellSelection.js'
 

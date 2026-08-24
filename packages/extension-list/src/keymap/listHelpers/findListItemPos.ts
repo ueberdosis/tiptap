@@ -1,4 +1,4 @@
-import { getNodeType } from '@tiptap/core'
+import { getNodeType } from '@tiptap/editor'
 import type { NodeType } from '@tiptap/pm/model'
 import type { EditorState } from '@tiptap/pm/state'
 

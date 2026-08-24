@@ -1,6 +1,6 @@
 import '../text-style/index.js'
 
-import { Extension, getStyleProperty } from '@tiptap/core'
+import { Extension, getStyleProperty } from '@tiptap/editor'
 
 export type FontSizeOptions = {
   /**
@@ -11,7 +11,7 @@ export type FontSizeOptions = {
   types: string[]
 }
 
-declare module '@tiptap/core' {
+declare module '@tiptap/editor' {
   interface Commands<ReturnType> {
     fontSize: {
       /**

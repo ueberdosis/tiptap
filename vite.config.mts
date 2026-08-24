@@ -93,12 +93,12 @@ export default defineConfig({
   resolve: {
     alias: [
       {
-        find: /^@tiptap\/core\/jsx-dev-runtime$/,
-        replacement: resolve('./packages/core/src/jsx-runtime.ts'),
+        find: /^@tiptap\/editor\/jsx-dev-runtime$/,
+        replacement: resolve('./packages/editor/src/jsx-runtime.ts'),
       },
       {
-        find: /^@tiptap\/core\/jsx-runtime$/,
-        replacement: resolve('./packages/core/src/jsx-runtime.ts'),
+        find: /^@tiptap\/editor\/jsx-runtime$/,
+        replacement: resolve('./packages/editor/src/jsx-runtime.ts'),
       },
       ...Object.entries(getPackageAliases()).map(([find, replacement]) => ({
         find,

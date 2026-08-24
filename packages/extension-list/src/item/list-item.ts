@@ -1,5 +1,5 @@
-import type { JSONContent, MarkdownParseHelpers, MarkdownToken } from '@tiptap/core'
-import { mergeAttributes, Node, renderNestedMarkdownContent } from '@tiptap/core'
+import type { JSONContent, MarkdownParseHelpers, MarkdownToken } from '@tiptap/editor'
+import { mergeAttributes, Node, renderNestedMarkdownContent } from '@tiptap/editor'
 
 import { createBranchingListDeleteKeymap } from '../helpers/createBranchingListDeleteKeymap.js'
 

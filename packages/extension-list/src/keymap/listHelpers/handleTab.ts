@@ -1,5 +1,5 @@
-import type { Editor } from '@tiptap/core'
-import { getPreviousBlockSibling, isNodeActive } from '@tiptap/core'
+import type { Editor } from '@tiptap/editor'
+import { getPreviousBlockSibling, isNodeActive } from '@tiptap/editor'
 import { Fragment } from '@tiptap/pm/model'
 import { TextSelection } from '@tiptap/pm/state'
 

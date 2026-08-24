@@ -1,4 +1,4 @@
-import { Editor } from '@tiptap/core'
+import { Editor } from '@tiptap/editor'
 import Blockquote from '@tiptap/extension-blockquote'
 import Document from '@tiptap/extension-document'
 import HorizontalRule from '@tiptap/extension-horizontal-rule'

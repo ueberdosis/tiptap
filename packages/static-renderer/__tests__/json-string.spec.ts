@@ -1,4 +1,4 @@
-import { extensions as coreExtensions } from '@tiptap/core'
+import { baseExtensions as coreExtensions } from '@tiptap/editor'
 import Bold from '@tiptap/extension-bold'
 import CodeBlock from '@tiptap/extension-code-block'
 import Document from '@tiptap/extension-document'

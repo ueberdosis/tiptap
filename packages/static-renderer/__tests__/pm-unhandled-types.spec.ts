@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react'
-import type { JSONContent } from '@tiptap/core'
+import type { JSONContent } from '@tiptap/editor'
 import Bold from '@tiptap/extension-bold'
 import Document from '@tiptap/extension-document'
 import Heading from '@tiptap/extension-heading'

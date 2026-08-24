@@ -1,4 +1,4 @@
-import { Extension, textInputRule } from '@tiptap/core'
+import { Extension, textInputRule } from '@tiptap/editor'
 
 /**
  * Configuration for directional quotes (open/close pair).

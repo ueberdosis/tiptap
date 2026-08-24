@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core'
+import { Extension } from '@tiptap/editor'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import type { EditorView } from '@tiptap/pm/view'
 import { redo, undo, ySyncPlugin, yUndoPlugin, yUndoPluginKey } from '@tiptap/y-tiptap'
@@ -21,7 +21,7 @@ export interface CollaborationStorage {
   isDisabled: boolean
 }
 
-declare module '@tiptap/core' {
+declare module '@tiptap/editor' {
   interface Commands<ReturnType> {
     collaboration: {
       /**

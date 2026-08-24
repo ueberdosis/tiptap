@@ -1,5 +1,5 @@
-import type { Editor } from '@tiptap/core'
-import { getChangedRanges } from '@tiptap/core'
+import type { Editor } from '@tiptap/editor'
+import { getChangedRanges } from '@tiptap/editor'
 import type { Node } from '@tiptap/pm/model'
 import type { EditorState, StateField, Transaction } from '@tiptap/pm/state'
 import type { Selection } from '@tiptap/pm/state'

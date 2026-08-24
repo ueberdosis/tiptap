@@ -1,4 +1,4 @@
-import type { Editor } from '@tiptap/core'
+import type { Editor } from '@tiptap/editor'
 import { PluginKey } from '@tiptap/pm/state'
 import type { SuggestionOptions } from '@tiptap/suggestion'
 

@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core'
+import { Extension } from '@tiptap/editor'
 
 import { handleBackspace, handleDelete, handleTab } from './listHelpers/index.js'
 

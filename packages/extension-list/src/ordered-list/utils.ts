@@ -3,7 +3,7 @@ import type {
   MarkdownLexerConfiguration,
   MarkdownParseHelpers,
   MarkdownToken,
-} from '@tiptap/core'
+} from '@tiptap/editor'
 
 import {
   areOrderedListMarkersSequential,

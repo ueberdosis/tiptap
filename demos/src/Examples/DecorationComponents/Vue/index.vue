@@ -7,7 +7,7 @@
 <script>
 import '../styles.scss'
 
-import { Extension } from '@tiptap/core'
+import { Extension } from '@tiptap/editor'
 import UniqueID from '@tiptap/extension-unique-id'
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent, VueWidgetRenderer } from '@tiptap/vue-3'

@@ -9,7 +9,7 @@ import {
   Node,
   nodeInputRule,
   PasteRule,
-} from '@tiptap/core'
+} from '@tiptap/editor'
 import type { Transaction } from '@tiptap/pm/state'
 import { Plugin, PluginKey, TextSelection } from '@tiptap/pm/state'
 import type { SuggestionOptions } from '@tiptap/suggestion'
@@ -22,7 +22,7 @@ import { emojiToShortcode } from './helpers/emojiToShortcode.js'
 import { removeDuplicates } from './helpers/removeDuplicates.js'
 import { shortcodeToEmoji } from './helpers/shortcodeToEmoji.js'
 
-declare module '@tiptap/core' {
+declare module '@tiptap/editor' {
   interface Commands<ReturnType> {
     emoji: {
       /**

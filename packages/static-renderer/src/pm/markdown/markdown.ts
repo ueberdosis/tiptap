@@ -1,4 +1,4 @@
-import type { Extensions, JSONContent } from '@tiptap/core'
+import type { Extensions, JSONContent } from '@tiptap/editor'
 import type { Mark, Node } from '@tiptap/pm/model'
 import { TableMap } from '@tiptap/pm/tables'
 

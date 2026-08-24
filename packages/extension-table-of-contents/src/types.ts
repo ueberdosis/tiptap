@@ -1,4 +1,4 @@
-import type { Editor } from '@tiptap/core'
+import type { Editor } from '@tiptap/editor'
 import type { Node } from '@tiptap/pm/model'
 
 export type GetTableOfContentLevelFunction = (
@@ -44,7 +44,7 @@ export type TableOfContentDataItem = {
   textContent: string
 }
 
-declare module '@tiptap/core' {
+declare module '@tiptap/editor' {
   interface Commands<ReturnType> {
     tableOfContents: {
       updateTableOfContents: () => ReturnType

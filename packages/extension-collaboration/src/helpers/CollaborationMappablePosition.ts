@@ -2,7 +2,7 @@ import {
   type GetUpdatedPositionResult,
   getUpdatedPosition as coreGetUpdatedPosition,
   MappablePosition,
-} from '@tiptap/core'
+} from '@tiptap/editor'
 import type { EditorState, Transaction } from '@tiptap/pm/state'
 
 import { isChangeOrigin } from './isChangeOrigin.js'

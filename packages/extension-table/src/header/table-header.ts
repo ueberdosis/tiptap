@@ -1,6 +1,6 @@
 import '../types.js'
 
-import { mergeAttributes, Node } from '@tiptap/core'
+import { mergeAttributes, Node } from '@tiptap/editor'
 
 import { createAlignAttribute } from '../utils/parseAlign.js'
 import { parseColwidth } from '../utils/parseColwidth.js'

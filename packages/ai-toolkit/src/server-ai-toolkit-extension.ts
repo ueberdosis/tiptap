@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core'
+import { Extension } from '@tiptap/editor'
 
 import { ServerAiToolkitHashExtension } from './hash-extension/server-ai-toolkit-hash-extension.js'
 

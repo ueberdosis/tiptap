@@ -1,5 +1,5 @@
-import type { Range } from '@tiptap/core'
-import { escapeForRegEx } from '@tiptap/core'
+import type { Range } from '@tiptap/editor'
+import { escapeForRegEx } from '@tiptap/editor'
 import type { ResolvedPos } from '@tiptap/pm/model'
 
 export interface Trigger {

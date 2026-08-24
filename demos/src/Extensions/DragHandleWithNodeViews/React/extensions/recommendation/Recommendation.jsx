@@ -1,4 +1,4 @@
-import { mergeAttributes, Node } from '@tiptap/core'
+import { mergeAttributes, Node } from '@tiptap/editor'
 import { ReactNodeViewRenderer } from '@tiptap/react'
 
 import { RecommendationView } from './views/index.jsx'

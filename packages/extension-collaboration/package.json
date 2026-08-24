@@ -42,12 +42,12 @@
     "build": "vp pack"
   },
   "devDependencies": {
-    "@tiptap/core": "workspace:^",
+    "@tiptap/editor": "workspace:^",
     "@tiptap/pm": "workspace:^",
     "@tiptap/y-tiptap": "^3.0.7"
   },
   "peerDependencies": {
-    "@tiptap/core": "workspace:*",
+    "@tiptap/editor": "workspace:*",
     "@tiptap/pm": "workspace:*",
     "@tiptap/y-tiptap": "^3.0.7",
     "yjs": "^13"

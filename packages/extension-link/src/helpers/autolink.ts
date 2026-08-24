@@ -1,10 +1,10 @@
-import type { NodeWithPos } from '@tiptap/core'
+import type { NodeWithPos } from '@tiptap/editor'
 import {
   combineTransactionSteps,
   findChildrenInRange,
   getChangedRanges,
   getMarksBetween,
-} from '@tiptap/core'
+} from '@tiptap/editor'
 import type { MarkType } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import type { MultiToken } from 'linkifyjs'

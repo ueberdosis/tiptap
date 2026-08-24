@@ -1,5 +1,5 @@
-import type { Extensions, JSONContent } from '@tiptap/core'
-import { findChildren, getSchema } from '@tiptap/core'
+import type { Extensions, JSONContent } from '@tiptap/editor'
+import { findChildren, getSchema } from '@tiptap/editor'
 import { Node } from '@tiptap/pm/model'
 import { EditorState } from '@tiptap/pm/state'
 

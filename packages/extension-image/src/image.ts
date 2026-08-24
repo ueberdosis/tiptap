@@ -1,11 +1,11 @@
-import type { ResizableNodeViewDirection, ResizableNodeViewOptions } from '@tiptap/core'
+import type { ResizableNodeViewDirection, ResizableNodeViewOptions } from '@tiptap/editor'
 import {
   getRenderedAttributes,
   mergeAttributes,
   Node,
   nodeInputRule,
   ResizableNodeView,
-} from '@tiptap/core'
+} from '@tiptap/editor'
 
 export interface ImageOptions {
   /**
@@ -54,7 +54,7 @@ export interface SetImageOptions {
   height?: number
 }
 
-declare module '@tiptap/core' {
+declare module '@tiptap/editor' {
   interface Commands<ReturnType> {
     image: {
       /**

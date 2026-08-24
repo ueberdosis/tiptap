@@ -1,4 +1,4 @@
-import { createAtomBlockMarkdownSpec, mergeAttributes, Node, nodePasteRule } from '@tiptap/core'
+import { createAtomBlockMarkdownSpec, mergeAttributes, Node, nodePasteRule } from '@tiptap/editor'
 
 import {
   getAttributesFromTwitchEmbedUrl,
@@ -126,7 +126,7 @@ type SetTwitchVideoOptions = {
   time?: string
 }
 
-declare module '@tiptap/core' {
+declare module '@tiptap/editor' {
   interface Commands<ReturnType> {
     twitch: {
       /**

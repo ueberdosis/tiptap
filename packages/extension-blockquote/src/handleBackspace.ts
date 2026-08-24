@@ -1,4 +1,4 @@
-import type { Editor } from '@tiptap/core'
+import type { Editor } from '@tiptap/editor'
 import { Slice, type NodeType } from '@tiptap/pm/model'
 import { TextSelection } from '@tiptap/pm/state'
 

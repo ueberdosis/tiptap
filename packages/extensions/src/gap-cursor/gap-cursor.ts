@@ -1,8 +1,8 @@
-import type { ParentConfig } from '@tiptap/core'
-import { callOrReturn, Extension, getExtensionField } from '@tiptap/core'
+import type { ParentConfig } from '@tiptap/editor'
+import { callOrReturn, Extension, getExtensionField } from '@tiptap/editor'
 import { gapCursor } from '@tiptap/pm/gapcursor'
 
-declare module '@tiptap/core' {
+declare module '@tiptap/editor' {
   interface NodeConfig<Options, Storage> {
     /**
      * A function to determine whether the gap cursor is allowed at the current position. Must return `true` or `false`.

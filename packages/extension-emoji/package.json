@@ -47,7 +47,7 @@
     "is-emoji-supported": "^0.0.5"
   },
   "devDependencies": {
-    "@tiptap/core": "workspace:^",
+    "@tiptap/editor": "workspace:^",
     "@tiptap/pm": "workspace:^",
     "@tiptap/suggestion": "workspace:^",
     "emoji-datasource": "^16.0.0",
@@ -55,7 +55,7 @@
     "tsm": "^2.3.0"
   },
   "peerDependencies": {
-    "@tiptap/core": "workspace:*",
+    "@tiptap/editor": "workspace:*",
     "@tiptap/pm": "workspace:*",
     "@tiptap/suggestion": "workspace:*"
   }

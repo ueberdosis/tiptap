@@ -2,7 +2,7 @@
  * @vitest-environment happy-dom
  */
 
-import { Node } from '@tiptap/core'
+import { Node } from '@tiptap/editor'
 import { Document } from '@tiptap/extension-document'
 import { Heading } from '@tiptap/extension-heading'
 import { Italic } from '@tiptap/extension-italic'

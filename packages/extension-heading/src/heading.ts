@@ -1,4 +1,4 @@
-import { mergeAttributes, Node, textblockTypeInputRule } from '@tiptap/core'
+import { mergeAttributes, Node, textblockTypeInputRule } from '@tiptap/editor'
 
 /**
  * The heading level options.
@@ -21,7 +21,7 @@ export interface HeadingOptions {
   HTMLAttributes: Record<string, any>
 }
 
-declare module '@tiptap/core' {
+declare module '@tiptap/editor' {
   interface Commands<ReturnType> {
     heading: {
       /**

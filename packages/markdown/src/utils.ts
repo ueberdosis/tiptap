@@ -1,5 +1,5 @@
-import { attrsEqual } from '@tiptap/core'
-import type { Content, MarkdownToken } from '@tiptap/core'
+import { attrsEqual } from '@tiptap/editor'
+import type { Content, MarkdownToken } from '@tiptap/editor'
 import type { Fragment, Node } from '@tiptap/pm/model'
 
 import type { ContentType } from './types.js'

@@ -1,4 +1,4 @@
-import { Editor, Extension } from '@tiptap/core'
+import { Editor, Extension } from '@tiptap/editor'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
@@ -12,8 +12,8 @@ import { ReactWidgetRenderer } from './ReactWidgetRenderer.js'
 
 import { UndoRedo } from '@tiptap/extensions'
 
-vi.mock('@tiptap/core/jsx-runtime', async () => import('react/jsx-runtime'))
-vi.mock('@tiptap/core/jsx-dev-runtime', async () => import('react/jsx-dev-runtime'))
+vi.mock('@tiptap/editor/jsx-runtime', async () => import('react/jsx-runtime'))
+vi.mock('@tiptap/editor/jsx-dev-runtime', async () => import('react/jsx-dev-runtime'))
 
 // The lifecycle tests below use this lightweight component with a mock content
 // component. Separate tests mount widgets through a real React root.

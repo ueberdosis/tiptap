@@ -1,5 +1,5 @@
-import type { Extensions } from '@tiptap/core'
-import { getSchema } from '@tiptap/core'
+import type { Extensions } from '@tiptap/editor'
+import { getSchema } from '@tiptap/editor'
 import type { ParseOptions } from '@tiptap/pm/model'
 import { DOMParser } from '@tiptap/pm/model'
 

@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core'
+import { Extension } from '@tiptap/editor'
 
 import { DEFAULT_DATA_ATTRIBUTE } from './constants.js'
 import { createPlaceholderPlugin } from './plugins/PlaceholderPlugin.js'

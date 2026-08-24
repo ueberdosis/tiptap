@@ -89,7 +89,7 @@ export interface FindAndReplaceStorage {
   currentIndex: number | null
 }
 
-declare module '@tiptap/core' {
+declare module '@tiptap/editor' {
   interface Storage {
     findAndReplace: FindAndReplaceStorage
   }

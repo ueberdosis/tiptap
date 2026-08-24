@@ -27,7 +27,7 @@ export interface InvisibleCharactersStorage {
   visibility: () => boolean
 }
 
-declare module '@tiptap/core' {
+declare module '@tiptap/editor' {
   interface Storage {
     invisibleCharacters: InvisibleCharactersStorage
   }

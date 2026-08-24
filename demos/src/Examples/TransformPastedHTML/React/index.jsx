@@ -1,6 +1,6 @@
 import './styles.scss'
 
-import { Extension } from '@tiptap/core'
+import { Extension } from '@tiptap/editor'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useCallback } from 'react'

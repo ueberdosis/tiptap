@@ -1,5 +1,5 @@
 import { type ComputePositionConfig, type VirtualElement, computePosition } from '@floating-ui/dom'
-import { type Editor, isFirefox } from '@tiptap/core'
+import { type Editor, isFirefox } from '@tiptap/editor'
 import { isChangeOrigin } from '@tiptap/extension-collaboration'
 import type { Node } from '@tiptap/pm/model'
 import { type EditorState, type Transaction, Plugin, PluginKey } from '@tiptap/pm/state'

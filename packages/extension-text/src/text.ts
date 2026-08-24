@@ -1,4 +1,4 @@
-import { Node } from '@tiptap/core'
+import { Node } from '@tiptap/editor'
 
 /**
  * This extension allows you to create text nodes.
