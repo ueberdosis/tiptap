@@ -1,5 +1,5 @@
 import { Collaboration } from '@tiptap/editor/extensions/collaboration'
-import { CollaborationCaret } from '@tiptap/editor/extnesions/collaboration-caret'
+import { CollaborationCaret } from '@tiptap/editor/extensions/collaboration-caret'
 import { Highlight } from '@tiptap/editor/extensions/highlight'
 import { TaskItem, TaskList } from '@tiptap/editor/extensions/list'
 import { CharacterCount } from '@tiptap/editor/extensions/character-count'

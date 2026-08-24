@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite-plus'
 import { tsupCompatibleExtensions } from '../../pack.config.mjs'
 
-const entries = ['src/menus/index.ts', 'src/index.ts']
+const entries = ['src/drag-handle/index.ts', 'src/index.ts', 'src/menus/index.ts']
 
 export default defineConfig({
   pack: entries.map(entry => ({

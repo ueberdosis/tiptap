@@ -1,6 +1,6 @@
 import './styles.scss'
 
-import { DragHandle } from '@tiptap/editor/extensions/drag-handle/react'
+import { DragHandle } from '@tiptap/react/drag-handle'
 import { Image } from '@tiptap/editor/extensions/image'
 import { TableKit } from '@tiptap/editor/kits/table'
 import { EditorContent, useEditor, useEditorState } from '@tiptap/react'

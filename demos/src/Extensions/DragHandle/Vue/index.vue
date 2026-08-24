@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { DragHandle } from '@tiptap/editor/extensions/drag-handle/vue'
+import { DragHandle } from '@tiptap/vue/drag-handle'
 import { Image } from '@tiptap/editor/extensions/image'
 import { NodeRange } from '@tiptap/editor/extensions/node-range'
 import { TableKit } from '@tiptap/editor/kits/table'

@@ -71,26 +71,29 @@ import { Highlight } from '@tiptap/editor/extensions/highlight'
 
 The subpath name normally matches the old package name. For example:
 
-| Old package                                  | New import                                               |
-| -------------------------------------------- | -------------------------------------------------------- |
-| `@tiptap/extension-audio`                    | `@tiptap/editor/extensions/audio`                        |
-| `@tiptap/extension-code-block-lowlight`      | `@tiptap/editor/extensions/code-block-lowlight`          |
-| `@tiptap/extension-emoji`                    | `@tiptap/editor/extensions/emoji`                        |
-| `@tiptap/extension-file-handler`             | `@tiptap/editor/extensions/file-handler`                 |
-| `@tiptap/extension-find-and-replace`         | `@tiptap/editor/extensions/find-and-replace`             |
-| `@tiptap/extension-invisible-characters`     | `@tiptap/editor/extensions/invisible-characters`         |
-| `@tiptap/extension-mathematics`              | `@tiptap/editor/extensions/mathematics`                  |
-| `@tiptap/extension-mention`                  | `@tiptap/editor/extensions/mention`                      |
-| `@tiptap/extension-node-range`               | `@tiptap/editor/extensions/node-range`                   |
-| `@tiptap/extension-ruby-text`                | `@tiptap/editor/extensions/ruby-text`                    |
-| `@tiptap/extension-table-of-contents`        | `@tiptap/editor/extensions/table-of-contents`            |
-| `@tiptap/extension-twitch`                   | `@tiptap/editor/extensions/twitch`                       |
-| `@tiptap/extension-typography`               | `@tiptap/editor/extensions/typography`                   |
-| `@tiptap/extension-unique-id`                | `@tiptap/editor/extensions/unique-id`                    |
-| `@tiptap/extension-youtube`                  | `@tiptap/editor/extensions/youtube`                      |
-| `@tiptap/suggestion`                         | `@tiptap/editor/extensions/suggestion`                   |
-| `@tiptap/extension-collaboration`            | `@tiptap/editor/extensions/collaboration`                |
-| `@tiptap/extension-collaboration-caret`      | `@tiptap/editor/extensions/collaboration-caret`          |
+| Old package                              | New import                                       |
+| ---------------------------------------- | ------------------------------------------------ |
+| `@tiptap/extension-audio`                | `@tiptap/editor/extensions/audio`                |
+| `@tiptap/extension-code-block-lowlight`  | `@tiptap/editor/extensions/code-block-lowlight`  |
+| `@tiptap/extension-emoji`                | `@tiptap/editor/extensions/emoji`                |
+| `@tiptap/extension-file-handler`         | `@tiptap/editor/extensions/file-handler`         |
+| `@tiptap/extension-find-and-replace`     | `@tiptap/editor/extensions/find-and-replace`     |
+| `@tiptap/extension-invisible-characters` | `@tiptap/editor/extensions/invisible-characters` |
+| `@tiptap/extension-mathematics`          | `@tiptap/editor/extensions/mathematics`          |
+| `@tiptap/extension-mention`              | `@tiptap/editor/extensions/mention`              |
+| `@tiptap/extension-node-range`           | `@tiptap/editor/extensions/node-range`           |
+| `@tiptap/extension-ruby-text`            | `@tiptap/editor/extensions/ruby-text`            |
+| `@tiptap/extension-table-of-contents`    | `@tiptap/editor/extensions/table-of-contents`    |
+| `@tiptap/extension-twitch`               | `@tiptap/editor/extensions/twitch`               |
+| `@tiptap/extension-typography`           | `@tiptap/editor/extensions/typography`           |
+| `@tiptap/extension-unique-id`            | `@tiptap/editor/extensions/unique-id`            |
+| `@tiptap/extension-youtube`              | `@tiptap/editor/extensions/youtube`              |
+| `@tiptap/suggestion`                     | `@tiptap/editor/extensions/suggestion`           |
+| `@tiptap/extension-collaboration`        | `@tiptap/editor/extensions/collaboration`        |
+| `@tiptap/extension-collaboration-caret`  | `@tiptap/editor/extensions/collaboration-caret`  |
+| `@tiptap/extension-drag-handle`          | `@tiptap/editor/extensions/drag-handle`          |
+| `@tiptap/extension-drag-handle-react`    | `@tiptap/react/drag-handle`                      |
+| `@tiptap/extension-drag-handle-vue-3`    | `@tiptap/vue/drag-handle`                        |
 
 The editor package also contains the common nodes, marks, menus, and behavior
 extensions. This includes `document`, `text`, `paragraph`, `heading`, `bold`,

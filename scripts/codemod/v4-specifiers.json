@@ -76,11 +76,11 @@
   },
   "@tiptap/extension-drag-handle-react": {
     "defaultExport": "DragHandle",
-    "fallback": "@tiptap/editor/extensions/drag-handle/react"
+    "fallback": "@tiptap/react/drag-handle"
   },
   "@tiptap/extension-drag-handle-vue-3": {
     "defaultExport": "DragHandle",
-    "fallback": "@tiptap/editor/extensions/drag-handle/vue"
+    "fallback": "@tiptap/vue/drag-handle"
   },
   "@tiptap/extension-dropcursor": {
     "defaultExport": "Dropcursor",

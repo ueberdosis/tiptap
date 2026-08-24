@@ -38,6 +38,14 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
+    "./drag-handle": {
+      "types": {
+        "import": "./dist/drag-handle/index.d.ts",
+        "require": "./dist/drag-handle/index.d.cts"
+      },
+      "import": "./dist/drag-handle/index.js",
+      "require": "./dist/drag-handle/index.cjs"
+    },
     "./menus": {
       "types": {
         "import": "./dist/menus/index.d.ts",
