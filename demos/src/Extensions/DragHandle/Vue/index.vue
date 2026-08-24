@@ -23,9 +23,9 @@
 </template>
 
 <script>
-import { DragHandle } from '@tiptap/extension-drag-handle-vue-3'
+import { DragHandle } from '@tiptap/extras/drag-handle/vue'
 import { Image } from '@tiptap/editor/extensions/image'
-import NodeRange from '@tiptap/extension-node-range'
+import { NodeRange } from '@tiptap/extras/node-range'
 import { TableKit } from '@tiptap/editor/kits/table'
 import { StarterKit } from '@tiptap/editor/kits/starter'
 import { Editor, EditorContent } from '@tiptap/vue-3'

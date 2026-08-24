@@ -90,7 +90,7 @@
 
 <script setup lang="ts">
 import { Document } from '@tiptap/editor/extensions/document'
-import FindAndReplace from '@tiptap/extension-find-and-replace'
+import { FindAndReplace } from '@tiptap/extras/find-and-replace'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'
 import { Editor, EditorContent } from '@tiptap/vue-3'

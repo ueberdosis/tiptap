@@ -1,6 +1,6 @@
 import './styles.scss'
 
-import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import { CodeBlockLowlight } from '@tiptap/extras/code-block-lowlight'
 import { Document } from '@tiptap/editor/extensions/document'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'

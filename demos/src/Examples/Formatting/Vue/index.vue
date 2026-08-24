@@ -81,8 +81,8 @@
 </template>
 
 <script>
-import Highlight from '@tiptap/extension-highlight'
-import TextAlign from '@tiptap/extension-text-align'
+import { Highlight } from '@tiptap/extras/highlight'
+import { TextAlign } from '@tiptap/extras/text-align'
 import { StarterKit } from '@tiptap/editor/kits/starter'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 

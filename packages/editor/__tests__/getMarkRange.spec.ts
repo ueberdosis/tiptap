@@ -1,6 +1,6 @@
 import { getMarkRange, getSchemaByResolvedExtensions } from '@tiptap/editor'
 import { Document } from '@tiptap/editor/extensions/document'
-import Highlight from '@tiptap/extension-highlight'
+import { Highlight } from '@tiptap/extras/highlight'
 import { Link } from '@tiptap/editor/extensions/link'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'

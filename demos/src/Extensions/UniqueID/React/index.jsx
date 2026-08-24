@@ -1,6 +1,6 @@
 import './styles.scss'
 
-import UniqueID from '@tiptap/extension-unique-id'
+import { UniqueID } from '@tiptap/extras/unique-id'
 import { EditorContent, useEditor } from '@tiptap/react'
 import { StarterKit } from '@tiptap/editor/kits/starter'
 import React from 'react'

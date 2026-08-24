@@ -5,10 +5,10 @@ import { Document } from '@tiptap/editor/extensions/document'
 import { Heading } from '@tiptap/editor/extensions/heading'
 import { Link } from '@tiptap/editor/extensions/link'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
-import { generateTocIds, TableOfContents } from '@tiptap/extension-table-of-contents'
+import { TableOfContents, generateTocIds } from '@tiptap/extras/table-of-contents'
 import { Text } from '@tiptap/editor/extensions/text'
-import { generateUniqueIds, UniqueID } from '@tiptap/extension-unique-id'
-import Youtube from '@tiptap/extension-youtube'
+import { UniqueID, generateUniqueIds } from '@tiptap/extras/unique-id'
+import { Youtube } from '@tiptap/extras/embeds/youtube'
 import { Mark, Node } from '@tiptap/editor/pm/model'
 import {
   renderJSONContentToString,

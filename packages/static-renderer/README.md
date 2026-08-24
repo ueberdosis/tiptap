@@ -27,8 +27,8 @@ The static renderer builds the ProseMirror schema and runs each extension's
 For these cases, pre-process the JSON document before rendering:
 
 ```ts
-import { generateUniqueIds } from '@tiptap/extension-unique-id'
-import { generateTocIds } from '@tiptap/extension-table-of-contents'
+import { generateUniqueIds } from '@tiptap/extras/unique-id'
+import { generateTocIds } from '@tiptap/extras/table-of-contents'
 import { renderToHTMLString } from '@tiptap/static-renderer/pm/html-string'
 
 let doc = sourceJson

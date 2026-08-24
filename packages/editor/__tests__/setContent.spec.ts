@@ -1,5 +1,5 @@
 import { Editor } from '@tiptap/editor'
-import Mention from '@tiptap/extension-mention'
+import { Mention } from '@tiptap/extras/mention'
 import { StarterKit } from '@tiptap/editor/kits/starter'
 import { afterEach, beforeEach, describe, expect, it } from 'vite-plus/test'
 

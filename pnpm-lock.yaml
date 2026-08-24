@@ -474,240 +474,65 @@ importers:
         specifier: ^20.8.9
         version: 20.11.2
 
-  packages/extension-audio:
+  packages/extras:
     devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-
-  packages/extension-code-block-lowlight:
-    dependencies:
-      highlight.js:
-        specifier: ^11
-        version: 11.12.0
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-      lowlight:
-        specifier: ^3.3.0
-        version: 3.3.0
-
-  packages/extension-details:
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-
-  packages/extension-drag-handle:
-    dependencies:
       '@floating-ui/dom':
         specifier: ^1.6.13
         version: 1.8.0
-    devDependencies:
       '@tiptap/collaboration':
         specifier: workspace:^
         version: link:../collaboration
       '@tiptap/editor':
         specifier: workspace:^
         version: link:../editor
-      '@tiptap/extension-node-range':
-        specifier: workspace:^
-        version: link:../extension-node-range
-
-  packages/extension-drag-handle-react:
-    devDependencies:
-      '@tiptap/extension-drag-handle':
-        specifier: workspace:^
-        version: link:../extension-drag-handle
       '@tiptap/react':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../react
-      '@types/react':
-        specifier: ^19.0.0
-        version: 19.2.18
-      '@types/react-dom':
-        specifier: ^19.0.0
-        version: 19.2.4(@types/react@19.2.18)
-      react:
-        specifier: ^19.0.0
-        version: 19.2.8
-      react-dom:
-        specifier: ^19.0.0
-        version: 19.2.8(react@19.2.8)
-
-  packages/extension-drag-handle-vue-2:
-    devDependencies:
-      '@tiptap/extension-drag-handle':
-        specifier: workspace:^
-        version: link:../extension-drag-handle
-      '@tiptap/vue-2':
-        specifier: workspace:^
-        version: link:../vue-2
-      vue:
-        specifier: ^2.0.0
-        version: 2.7.16
-      vue-ts-types:
-        specifier: 1.6.2
-        version: 1.6.2(vue@2.7.16)
-
-  packages/extension-drag-handle-vue-3:
-    devDependencies:
-      '@tiptap/extension-drag-handle':
-        specifier: workspace:^
-        version: link:../extension-drag-handle
       '@tiptap/vue-3':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../vue-3
-      vue:
-        specifier: ^3.0.0
-        version: 3.5.41(typescript@5.9.3)
-
-  packages/extension-emoji:
-    dependencies:
+      emoji-datasource:
+        specifier: ^16.0.0
+        version: 16.0.0
       emoji-regex:
         specifier: ^10.6.0
         version: 10.6.0
       emojibase-data:
         specifier: ^17
         version: 17.0.0(emojibase@17.0.0)
+      highlight.js:
+        specifier: ^11
+        version: 11.12.0
       is-emoji-supported:
         specifier: ^0.0.5
         version: 0.0.5
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-      '@tiptap/suggestion':
-        specifier: workspace:^
-        version: link:../suggestion
-      emoji-datasource:
-        specifier: ^16.0.0
-        version: 16.0.0
       json5:
         specifier: ^2.2.3
         version: 2.2.3
-      tsm:
-        specifier: ^2.3.0
-        version: 2.3.0
-
-  packages/extension-file-handler:
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-
-  packages/extension-find-and-replace:
-    dependencies:
-      re2js:
-        specifier: ^2.8.6
-        version: 2.8.6
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-
-  packages/extension-highlight:
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-
-  packages/extension-invisible-characters:
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-
-  packages/extension-mathematics:
-    dependencies:
       katex:
         specifier: ^0.16.4 || ^0.17.0 || ^0.18.0
         version: 0.18.4
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-      '@types/katex':
-        specifier: ^0.16.7 || ^0.17.0
-        version: 0.16.8
-
-  packages/extension-mention:
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-      '@tiptap/suggestion':
-        specifier: workspace:^
-        version: link:../suggestion
-
-  packages/extension-node-range:
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-
-  packages/extension-ruby-text:
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-
-  packages/extension-subscript:
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-
-  packages/extension-superscript:
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-
-  packages/extension-table-of-contents:
-    dependencies:
+      lowlight:
+        specifier: ^2 || ^3
+        version: 3.3.0
+      re2js:
+        specifier: ^2.8.6
+        version: 2.8.6
+      react:
+        specifier: ^16.8 || ^17 || ^18 || ^19
+        version: 19.2.8
+      react-dom:
+        specifier: ^16.8 || ^17 || ^18 || ^19
+        version: 19.2.8(react@19.2.8)
+      tsm:
+        specifier: ^2.3.0
+        version: 2.3.0
       uuid:
         specifier: ^14.0.0
         version: 14.0.1
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-
-  packages/extension-text-align:
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-
-  packages/extension-twitch:
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-
-  packages/extension-typography:
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-
-  packages/extension-unique-id:
-    dependencies:
-      uuid:
-        specifier: ^14.0.0
-        version: 14.0.1
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-
-  packages/extension-youtube:
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
+      vue:
+        specifier: ^3.0.0
+        version: 3.5.41(typescript@5.9.3)
 
   packages/react:
     dependencies:
@@ -754,15 +579,6 @@ importers:
       react-dom:
         specifier: ^19.0.0
         version: 19.2.8(react@19.2.8)
-
-  packages/suggestion:
-    devDependencies:
-      '@floating-ui/dom':
-        specifier: ^1.6.12
-        version: 1.8.0
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
 
   packages/vue-2:
     dependencies:
@@ -2807,9 +2623,6 @@ packages:
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
-
-  '@types/katex@0.16.8':
-    resolution: {integrity: sha512-trgaNyfU+Xh2Tc+ABIb44a5AYUpicB3uwirOioeOkNPPbmgRNtcWyDeeFRzjPZENO9Vq8gvVqfhaaXWLlevVwg==}
 
   '@types/linkify-it@5.0.0':
     resolution: {integrity: sha512-sVDA58zAw4eWAffKOaQH5/5j3XeayukzDk+ewSsnv3p4yJEZHCCzMDiZM8e0OUrRvmpGZ85jf4yDHkHsgBNr9Q==}
@@ -8236,8 +8049,6 @@ snapshots:
       '@types/unist': 3.0.3
 
   '@types/json-schema@7.0.15': {}
-
-  '@types/katex@0.16.8': {}
 
   '@types/linkify-it@5.0.0': {}
 

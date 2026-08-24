@@ -4,7 +4,7 @@
 
 <script>
 import { Document } from '@tiptap/editor/extensions/document'
-import FileHandler from '@tiptap/extension-file-handler'
+import { FileHandler } from '@tiptap/extras/file-handler'
 import { Heading } from '@tiptap/editor/extensions/heading'
 import { Image } from '@tiptap/editor/extensions/image'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'

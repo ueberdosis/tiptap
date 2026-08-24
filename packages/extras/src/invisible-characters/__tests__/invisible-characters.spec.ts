@@ -1,0 +1,33 @@
+import { Editor } from '@tiptap/editor'
+import { Document } from '@tiptap/editor/extensions/document'
+import { HardBreak } from '@tiptap/editor/extensions/hard-break'
+import { Heading } from '@tiptap/editor/extensions/heading'
+import { InvisibleCharacters } from '@tiptap/extras/invisible-characters'
+import { Paragraph } from '@tiptap/editor/extensions/paragraph'
+import { Text } from '@tiptap/editor/extensions/text'
+import { afterEach, beforeEach, describe, expect, it } from 'vite-plus/test'
+
+describe('InvisibleCharacters', () => {
+  let editor: Editor
+
+  beforeEach(() => {
+    const element = document.createElement('div')
+    document.body.appendChild(element)
+    editor = new Editor({
+      element,
+      extensions: [Document, Paragraph, Heading, Text, InvisibleCharacters, HardBreak],
+      content:
+        '<h1>This is a heading.</h1><p>This<br>is<br>a<br>paragraph.</p><p>Another paragraph.</p>',
+    })
+  })
+
+  afterEach(() => {
+    editor.destroy()
+  })
+
+  it('renders invisible character decorations when shown', () => {
+    editor.commands.showInvisibleCharacters()
+    const decorations = editor.view.dom.querySelectorAll('[class*="tiptap-invisible-character"]')
+    expect(decorations.length).toBeGreaterThan(0)
+  })
+})

@@ -6,7 +6,7 @@
 
 <script>
 import { Document } from '@tiptap/editor/extensions/document'
-import Mention from '@tiptap/extension-mention'
+import { Mention } from '@tiptap/extras/mention'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'
 import { Editor, EditorContent } from '@tiptap/vue-3'

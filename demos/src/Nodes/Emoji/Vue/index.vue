@@ -8,7 +8,8 @@
 </template>
 
 <script>
-import Emoji, { gitHubEmojis } from '@tiptap/extension-emoji'
+import { Emoji } from '@tiptap/extras/emoji'
+import { gitHubEmojis } from '@tiptap/extras/emoji/data'
 import { StarterKit } from '@tiptap/editor/kits/starter'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import { defineComponent } from 'vue'

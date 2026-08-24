@@ -2,7 +2,7 @@ import './styles.scss'
 
 import { Document } from '@tiptap/editor/extensions/document'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
-import Subscript from '@tiptap/extension-subscript'
+import { Subscript } from '@tiptap/extras/subscript'
 import { Text } from '@tiptap/editor/extensions/text'
 import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import React from 'react'

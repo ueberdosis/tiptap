@@ -3,7 +3,7 @@ import './styles.scss'
 import { Document } from '@tiptap/editor/extensions/document'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'
-import Youtube from '@tiptap/extension-youtube'
+import { Youtube } from '@tiptap/extras/embeds/youtube'
 import { EditorContent, useEditor } from '@tiptap/react'
 import React from 'react'
 

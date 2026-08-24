@@ -1,6 +1,6 @@
 import { Collaboration } from '@tiptap/collaboration'
 import { CollaborationCaret } from '@tiptap/collaboration/caret'
-import Highlight from '@tiptap/extension-highlight'
+import { Highlight } from '@tiptap/extras/highlight'
 import { TaskItem, TaskList } from '@tiptap/editor/extensions/list'
 import { CharacterCount } from '@tiptap/editor/extensions/character-count'
 import { EditorContent, useEditor, useEditorState } from '@tiptap/react'

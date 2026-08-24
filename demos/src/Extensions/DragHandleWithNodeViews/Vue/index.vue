@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { DragHandle } from '@tiptap/extension-drag-handle-vue-3'
+import { DragHandle } from '@tiptap/extras/drag-handle/vue'
 import { StarterKit } from '@tiptap/editor/kits/starter'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 

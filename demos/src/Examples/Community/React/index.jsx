@@ -1,7 +1,7 @@
 import './styles.scss'
 
 import { Document } from '@tiptap/editor/extensions/document'
-import Mention from '@tiptap/extension-mention'
+import { Mention } from '@tiptap/extras/mention'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'
 import { CharacterCount } from '@tiptap/editor/extensions/character-count'

@@ -29,7 +29,7 @@
 <script>
 import { Document } from '@tiptap/editor/extensions/document'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
-import Subscript from '@tiptap/extension-subscript'
+import { Subscript } from '@tiptap/extras/subscript'
 import { Text } from '@tiptap/editor/extensions/text'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
