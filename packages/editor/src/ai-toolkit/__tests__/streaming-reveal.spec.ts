@@ -1,12 +1,11 @@
 // @vitest-environment happy-dom
 
 import { Editor } from '@tiptap/editor'
+import { AiInsertReveal } from '@tiptap/editor/ai-toolkit/streaming-reveal'
 import { Collaboration } from '@tiptap/editor/extensions/collaboration'
 import { StarterKit } from '@tiptap/editor/kits/starter'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import * as Y from 'yjs'
-
-import { AiInsertReveal } from '../src/streaming-reveal.js'
 
 const AI_CLIENT_ID = 111111
 const HUMAN_CLIENT_ID = 222222

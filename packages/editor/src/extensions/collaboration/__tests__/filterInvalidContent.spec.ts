@@ -1,4 +1,5 @@
 import { Editor } from '@tiptap/editor'
+import { Collaboration } from '@tiptap/editor/extensions/collaboration'
 import { Document } from '@tiptap/editor/extensions/document'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'
@@ -6,8 +7,6 @@ import type { Plugin } from '@tiptap/editor/pm/state'
 import { ySyncPluginKey } from '@tiptap/y-tiptap'
 import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 import * as Y from 'yjs'
-
-import { Collaboration } from '../src/index.js'
 
 describe('filterInvalidContent', () => {
   let editor: Editor | null = null
