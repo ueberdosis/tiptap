@@ -28,7 +28,7 @@ import { Image } from '@tiptap/editor/extensions/image'
 import { NodeRange } from '@tiptap/extras/node-range'
 import { TableKit } from '@tiptap/editor/kits/table'
 import { StarterKit } from '@tiptap/editor/kits/starter'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 
 const NESTED_CONFIG_LTR = { edgeDetection: { threshold: -16, edges: ['left'] } }
 const NESTED_CONFIG_RTL = { edgeDetection: { threshold: -16, edges: ['right'] } }

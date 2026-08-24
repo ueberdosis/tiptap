@@ -41,7 +41,7 @@ export function InsertMenu({ editor }: { editor: Editor }) {
       role="menubar"
       aria-label="Insert Element menu"
       className="floating-menu"
-      // Types are broken here, since we import jsx from vue-2
+      // useRef gives RefObject<HTMLDivElement | null>, the prop wants RefObject<HTMLElement>
       ref={containerRef as any}
       onFocus={e => {
         // The ref we have is to the container, not the menu itself

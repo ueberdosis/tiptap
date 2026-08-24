@@ -9,7 +9,7 @@ import { Document } from '@tiptap/editor/extensions/document'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'
 import { Placeholder } from '@tiptap/editor/extensions/placeholder'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 import { WebrtcProvider } from 'y-webrtc'
 import * as Y from 'yjs'
 

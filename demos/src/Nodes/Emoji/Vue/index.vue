@@ -11,7 +11,7 @@
 import { Emoji } from '@tiptap/extras/emoji'
 import { gitHubEmojis } from '@tiptap/extras/emoji/data'
 import { StarterKit } from '@tiptap/editor/kits/starter'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 import { defineComponent } from 'vue'
 
 import suggestion from './suggestion.js'

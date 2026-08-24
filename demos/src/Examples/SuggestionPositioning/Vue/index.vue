@@ -9,7 +9,7 @@ import { Document } from '@tiptap/editor/extensions/document'
 import { Mention } from '@tiptap/extras/mention'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 
 import suggestion from './suggestion.js'
 

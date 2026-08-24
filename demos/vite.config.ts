@@ -39,8 +39,6 @@ export default defineConfig({
   plugins: [
     // checker({ typescript: { tsconfigPath: './tsconfig.base.json' } }),
     // checker({ typescript: { tsconfigPath: './tsconfig.react.json' } }),
-    // checker({ typescript: { tsconfigPath: './tsconfig.vue-2.json' } }),
-    // checker({ typescript: { tsconfigPath: './tsconfig.vue-3.json' } }),
     // @ts-ignore
     vue(),
     // @ts-ignore

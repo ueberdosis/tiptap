@@ -19,7 +19,7 @@
 <script>
 import { TableOfContents, getHierarchicalIndexes } from '@tiptap/extras/table-of-contents'
 import { StarterKit } from '@tiptap/editor/kits/starter'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 import { defineComponent } from 'vue'
 
 import { content as bookContent } from '../content.js'

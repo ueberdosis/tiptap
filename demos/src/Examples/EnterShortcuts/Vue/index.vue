@@ -29,7 +29,7 @@
 
 <script>
 import { StarterKit } from '@tiptap/editor/kits/starter'
-import { Editor, EditorContent, Extension } from '@tiptap/vue-3'
+import { Editor, EditorContent, Extension } from '@tiptap/vue'
 
 const CustomKeyboardShortcutExtension = Extension.create({
   name: 'customKeyboardShortcuts',

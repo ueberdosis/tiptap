@@ -47,7 +47,7 @@ import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'
 import { FontFamily } from '@tiptap/editor/extensions/font-family'
 import { TextStyle } from '@tiptap/editor/extensions/text-style'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 
 export default {
   components: {

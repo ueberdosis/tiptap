@@ -1,5 +1,5 @@
 {
-  "name": "@tiptap/vue-3",
+  "name": "@tiptap/vue",
   "version": "3.30.3",
   "description": "Vue components for tiptap",
   "keywords": [
@@ -14,7 +14,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
-    "directory": "packages/vue-3"
+    "directory": "packages/vue"
   },
   "funding": {
     "type": "github",

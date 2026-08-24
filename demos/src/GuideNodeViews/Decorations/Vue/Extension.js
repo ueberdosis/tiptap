@@ -1,7 +1,7 @@
 import { mergeAttributes, Node } from '@tiptap/editor'
 import { Plugin } from '@tiptap/editor/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/editor/pm/view'
-import { VueNodeViewRenderer } from '@tiptap/vue-3'
+import { VueNodeViewRenderer } from '@tiptap/vue'
 
 import Component from './Component.vue'
 

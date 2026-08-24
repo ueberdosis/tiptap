@@ -8,7 +8,7 @@ import { Heading } from '@tiptap/editor/extensions/heading'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'
 import { UniqueID } from '@tiptap/extras/unique-id'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 import { defineComponent } from 'vue'
 
 export default defineComponent({

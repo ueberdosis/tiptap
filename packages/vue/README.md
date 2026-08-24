@@ -1,8 +1,8 @@
-# @tiptap/vue-2
+# @tiptap/vue
 
-[![Version](https://img.shields.io/npm/v/@tiptap/vue-2.svg?label=version)](https://www.npmjs.com/package/@tiptap/vue-2)
-[![Downloads](https://img.shields.io/npm/dm/@tiptap/vue-2.svg)](https://npmcharts.com/compare/tiptap?minimal=true)
-[![License](https://img.shields.io/npm/l/@tiptap/vue-2.svg)](https://www.npmjs.com/package/@tiptap/vue-2)
+[![Version](https://img.shields.io/npm/v/@tiptap/vue.svg?label=version)](https://www.npmjs.com/package/@tiptap/vue)
+[![Downloads](https://img.shields.io/npm/dm/@tiptap/vue.svg)](https://npmcharts.com/compare/tiptap?minimal=true)
+[![License](https://img.shields.io/npm/l/@tiptap/vue.svg)](https://www.npmjs.com/package/@tiptap/vue)
 [![Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub)](https://github.com/sponsors/ueberdosis)
 
 ## Introduction

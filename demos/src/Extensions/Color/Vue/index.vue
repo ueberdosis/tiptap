@@ -62,7 +62,7 @@ import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'
 import { Color } from '@tiptap/editor/extensions/color'
 import { TextStyle } from '@tiptap/editor/extensions/text-style'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 
 export default {
   components: {

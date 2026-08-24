@@ -12,7 +12,7 @@ import { BulletList, ListItem } from '@tiptap/editor/extensions/list'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'
 import { TrailingNode } from '@tiptap/editor/extensions/trailing-node'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 
 export default {
   components: {

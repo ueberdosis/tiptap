@@ -2,7 +2,7 @@
 import { TiptapCollabProvider } from '@hocuspocus/provider'
 import { Collaboration } from '@tiptap/collaboration'
 import { StarterKit } from '@tiptap/editor/kits/starter'
-import { EditorContent, useEditor } from '@tiptap/vue-3'
+import { EditorContent, useEditor } from '@tiptap/vue'
 import { onMounted, onUnmounted } from 'vue'
 import * as Y from 'yjs'
 

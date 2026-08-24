@@ -64,7 +64,6 @@ body:
         CodeSandbox templates:
         * JavaScript: [JS Template](https://codesandbox.io/s/tiptap-js-fv1lyo)
         * React: [React Template](https://codesandbox.io/s/tiptap-react-qidlsv)
-        * Vue 2: [Vue 2 Template](https://codesandbox.io/s/tiptap-vue-2-25nq3g)
         * Vue 3: [Vue 3 Template](https://codesandbox.io/p/sandbox/tiptap-vue-3-ci7q9h)
   - type: input
     id: sandbox

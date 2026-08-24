@@ -29,7 +29,7 @@
 <script>
 import { Image } from '@tiptap/editor/extensions/image'
 import { StarterKit } from '@tiptap/editor/kits/starter'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 
 import { Figure } from './figure.ts'
 

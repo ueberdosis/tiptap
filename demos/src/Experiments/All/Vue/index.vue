@@ -139,7 +139,7 @@ import { Dropcursor } from '@tiptap/editor/extensions/drop-cursor'
 import { Gapcursor } from '@tiptap/editor/extensions/gap-cursor'
 import { Placeholder } from '@tiptap/editor/extensions/placeholder'
 import { UndoRedo } from '@tiptap/editor/extensions/undo-redo'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 import { all, createLowlight } from 'lowlight'
 
 const lowlight = createLowlight(all)

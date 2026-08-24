@@ -29,7 +29,7 @@ import { Highlight } from '@tiptap/extras/highlight'
 import { TaskItem, TaskList } from '@tiptap/editor/extensions/list'
 import { CharacterCount } from '@tiptap/editor/extensions/character-count'
 import { StarterKit } from '@tiptap/editor/kits/starter'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 import * as Y from 'yjs'
 
 import { variables } from '../../../variables.js'

@@ -25,7 +25,7 @@ import { ListKit } from '@tiptap/editor/kits/list'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'
 import { Twitch } from '@tiptap/extras/embeds/twitch'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 
 export default {
   components: {

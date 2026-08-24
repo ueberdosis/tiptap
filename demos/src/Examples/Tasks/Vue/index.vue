@@ -7,7 +7,7 @@ import { Document } from '@tiptap/editor/extensions/document'
 import { TaskItem, TaskList } from '@tiptap/editor/extensions/list'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 
 const CustomDocument = Document.extend({
   content: 'taskList',

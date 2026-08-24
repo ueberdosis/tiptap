@@ -37,7 +37,7 @@ import { TaskItem, TaskList } from '@tiptap/editor/extensions/list'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'
 import { Dropcursor } from '@tiptap/editor/extensions/drop-cursor'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 import { yDocToProsemirrorJSON } from '@tiptap/y-tiptap'
 import * as Y from 'yjs'
 

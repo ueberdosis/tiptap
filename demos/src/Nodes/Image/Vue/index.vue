@@ -15,7 +15,7 @@ import { Image } from '@tiptap/editor/extensions/image'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'
 import { Dropcursor } from '@tiptap/editor/extensions/drop-cursor'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 
 export default {
   components: {

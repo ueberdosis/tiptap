@@ -129,7 +129,7 @@ import { ListItem } from '@tiptap/editor/extensions/list'
 import { Color } from '@tiptap/editor/extensions/color'
 import { TextStyle } from '@tiptap/editor/extensions/text-style'
 import { StarterKit } from '@tiptap/editor/kits/starter'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 
 export default {
   components: {

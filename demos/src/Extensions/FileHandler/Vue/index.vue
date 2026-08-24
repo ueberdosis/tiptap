@@ -9,7 +9,7 @@ import { Heading } from '@tiptap/editor/extensions/heading'
 import { Image } from '@tiptap/editor/extensions/image'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 import { defineComponent } from 'vue'
 
 export default defineComponent({

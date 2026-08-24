@@ -29,7 +29,7 @@
 import { FontSize } from '@tiptap/editor/extensions/font-size'
 import { TextStyle } from '@tiptap/editor/extensions/text-style'
 import { StarterKit } from '@tiptap/editor/kits/starter'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 
 export default {
   components: {

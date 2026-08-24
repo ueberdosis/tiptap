@@ -240,7 +240,7 @@
     "@tiptap/collaboration": "workspace:^",
     "@tiptap/editor": "workspace:^",
     "@tiptap/react": "workspace:*",
-    "@tiptap/vue-3": "workspace:*",
+    "@tiptap/vue": "workspace:*",
     "emoji-datasource": "^16.0.0",
     "emoji-regex": "^10.6.0",
     "emojibase-data": "^17",
@@ -261,7 +261,7 @@
     "@tiptap/collaboration": "workspace:*",
     "@tiptap/editor": "workspace:*",
     "@tiptap/react": "workspace:*",
-    "@tiptap/vue-3": "workspace:*",
+    "@tiptap/vue": "workspace:*",
     "emoji-regex": "^10.6.0",
     "emojibase-data": "^17",
     "highlight.js": "^11",
@@ -284,7 +284,7 @@
     "@tiptap/react": {
       "optional": true
     },
-    "@tiptap/vue-3": {
+    "@tiptap/vue": {
       "optional": true
     },
     "emoji-regex": {

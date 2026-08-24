@@ -52,8 +52,8 @@
 
 <script>
 import { StarterKit } from '@tiptap/editor/kits/starter'
-import { Editor, EditorContent } from '@tiptap/vue-3'
-import { BubbleMenu, FloatingMenu } from '@tiptap/vue-3/menus'
+import { Editor, EditorContent } from '@tiptap/vue'
+import { BubbleMenu, FloatingMenu } from '@tiptap/vue/menus'
 
 export default {
   components: {

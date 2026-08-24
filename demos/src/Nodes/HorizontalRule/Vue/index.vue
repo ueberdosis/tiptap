@@ -16,7 +16,7 @@ import { Document } from '@tiptap/editor/extensions/document'
 import { HorizontalRule } from '@tiptap/editor/extensions/horizontal-rule'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 
 export default {
   components: {

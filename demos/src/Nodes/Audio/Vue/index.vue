@@ -78,7 +78,7 @@
 <script>
 import { Audio } from '@tiptap/extras/media/audio'
 import { StarterKit } from '@tiptap/editor/kits/starter'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 
 const DEFAULT_AUDIO_SRC = 'https://www.w3schools.com/html/horse.ogg'
 

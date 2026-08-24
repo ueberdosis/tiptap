@@ -39,7 +39,7 @@ import { Document } from '@tiptap/editor/extensions/document'
 import { Heading } from '@tiptap/editor/extensions/heading'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 import * as Y from 'yjs'
 
 import CollaborationAnnotation from './extension/index.ts'
