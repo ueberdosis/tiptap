@@ -1,6 +1,6 @@
 import './styles.scss'
 
-import { Mention as Mentions } from '@tiptap/extras/mention'
+import { Mention as Mentions } from '@tiptap/editor/extensions/mention'
 import { Color } from '@tiptap/editor/extensions/color'
 import { TextStyle } from '@tiptap/editor/extensions/text-style'
 import { EditorProvider } from '@tiptap/react'

@@ -32,7 +32,7 @@
 import { Document } from '@tiptap/editor/extensions/document'
 import { HardBreak } from '@tiptap/editor/extensions/hard-break'
 import { Heading } from '@tiptap/editor/extensions/heading'
-import { InvisibleCharacters } from '@tiptap/extras/invisible-characters'
+import { InvisibleCharacters } from '@tiptap/editor/extensions/invisible-characters'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'
 import { Editor, EditorContent } from '@tiptap/vue'

@@ -1,7 +1,7 @@
 import './styles.scss'
 
 import { Document } from '@tiptap/editor/extensions/document'
-import { Highlight } from '@tiptap/extras/highlight'
+import { Highlight } from '@tiptap/editor/extensions/highlight'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'
 import { EditorContent, useEditor, useEditorState } from '@tiptap/react'

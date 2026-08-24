@@ -1,5 +1,5 @@
 import type { Editor } from '@tiptap/vue'
-import type { FindAndReplaceStorage } from '@tiptap/extras/find-and-replace'
+import type { FindAndReplaceStorage } from '@tiptap/editor/extensions/find-and-replace'
 import { computed, ref } from 'vue'
 
 function createFindAndReplaceState(): FindAndReplaceStorage {

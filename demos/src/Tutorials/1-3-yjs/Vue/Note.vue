@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Collaboration } from '@tiptap/collaboration'
+import { Collaboration } from '@tiptap/editor/extensions/collaboration'
 import { StarterKit } from '@tiptap/editor/kits/starter'
 import { EditorContent, useEditor } from '@tiptap/vue'
 import * as Y from 'yjs'

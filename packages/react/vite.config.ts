@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite-plus'
 import { tsupCompatibleExtensions } from '../../pack.config.mjs'
 
-const entries = ['src/index.ts', 'src/menus/index.ts']
+const entries = ['src/index.ts', 'src/menus/index.ts', 'src/static-renderer/index.ts']
 
 export default defineConfig({
   pack: entries.map(entry => ({

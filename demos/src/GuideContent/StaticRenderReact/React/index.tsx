@@ -2,7 +2,7 @@ import { Bold } from '@tiptap/editor/extensions/bold'
 import { Document } from '@tiptap/editor/extensions/document'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'
-import { renderToReactElement } from '@tiptap/static-renderer'
+import { renderToReactElement } from '@tiptap/react/static-renderer'
 import React, { useMemo } from 'react'
 
 const json = {

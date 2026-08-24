@@ -1,8 +1,8 @@
 import './styles.scss'
 
 import { TiptapCollabProvider } from '@hocuspocus/provider'
-import { Collaboration } from '@tiptap/collaboration'
-import { CollaborationCaret } from '@tiptap/collaboration/caret'
+import { Collaboration } from '@tiptap/editor/extensions/collaboration'
+import { CollaborationCaret } from '@tiptap/editor/extensions/collaboration-caret'
 import { CharacterCount } from '@tiptap/editor/extensions/character-count'
 import { EditorContent, useEditor } from '@tiptap/react'
 import { StarterKit } from '@tiptap/editor/kits/starter'

@@ -304,42 +304,14 @@ importers:
         specifier: ^4.5.0
         version: 4.6.4(vue@3.5.41(typescript@5.9.3))
 
-  packages/ai-toolkit:
-    dependencies:
-      es-toolkit:
-        specifier: ^1.41.0
-        version: 1.50.0
-      zod:
-        specifier: ^4.1.8
-        version: 4.4.3
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-      '@tiptap/y-tiptap':
-        specifier: ^3.0.7
-        version: 3.0.8(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-view@1.42.2)(y-protocols@1.0.7(yjs@13.6.23))(yjs@13.6.23)
-      yjs:
-        specifier: ^13.6.23
-        version: 13.6.23
-
-  packages/collaboration:
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-      '@tiptap/y-tiptap':
-        specifier: ^3.0.7
-        version: 3.0.8(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-view@1.42.2)(y-protocols@1.0.7(yjs@13.6.23))(yjs@13.6.23)
-      yjs:
-        specifier: ^13.6.23
-        version: 13.6.23
-
   packages/editor:
     dependencies:
       '@floating-ui/dom':
         specifier: ^1.0.0
         version: 1.8.0
+      es-toolkit:
+        specifier: ^1.41.0
+        version: 1.50.0
       linkifyjs:
         specifier: ^4.3.3
         version: 4.3.3
@@ -385,28 +357,13 @@ importers:
       prosemirror-view:
         specifier: ^1.41.9
         version: 1.42.2
+      zod:
+        specifier: ^4.1.8
+        version: 4.4.3
     devDependencies:
-      happy-dom:
-        specifier: ^20.8.9
-        version: 20.11.2
-
-  packages/extras:
-    devDependencies:
-      '@floating-ui/dom':
-        specifier: ^1.6.13
-        version: 1.8.0
-      '@tiptap/collaboration':
-        specifier: workspace:^
-        version: link:../collaboration
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-      '@tiptap/react':
-        specifier: workspace:*
-        version: link:../react
-      '@tiptap/vue':
-        specifier: workspace:*
-        version: link:../vue
+      '@tiptap/y-tiptap':
+        specifier: ^3.0.0
+        version: 3.0.8(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-view@1.42.2)(y-protocols@1.0.7(yjs@13.6.23))(yjs@13.6.23)
       emoji-datasource:
         specifier: ^16.0.0
         version: 16.0.0
@@ -416,6 +373,9 @@ importers:
       emojibase-data:
         specifier: ^17
         version: 17.0.0(emojibase@17.0.0)
+      happy-dom:
+        specifier: ^20.8.9
+        version: 20.11.2
       highlight.js:
         specifier: ^11
         version: 11.12.0
@@ -449,6 +409,9 @@ importers:
       vue:
         specifier: ^3.0.0
         version: 3.5.41(typescript@5.9.3)
+      yjs:
+        specifier: ^13.6.23
+        version: 13.6.23
 
   packages/react:
     dependencies:
@@ -461,24 +424,6 @@ importers:
       use-sync-external-store:
         specifier: ^1.4.0
         version: 1.6.0(react@19.2.8)
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-      '@types/react':
-        specifier: ^19.0.0
-        version: 19.2.18
-      '@types/react-dom':
-        specifier: ^19.0.0
-        version: 19.2.4(@types/react@19.2.18)
-      react:
-        specifier: ^19.0.0
-        version: 19.2.8
-      react-dom:
-        specifier: ^19.0.0
-        version: 19.2.8(react@19.2.8)
-
-  packages/static-renderer:
     devDependencies:
       '@tiptap/editor':
         specifier: workspace:^

@@ -8,7 +8,7 @@
 import '../styles.scss'
 
 import { Extension } from '@tiptap/editor'
-import { UniqueID } from '@tiptap/extras/unique-id'
+import { UniqueID } from '@tiptap/editor/extensions/unique-id'
 import { StarterKit } from '@tiptap/editor/kits/starter'
 import { Editor, EditorContent, VueWidgetRenderer } from '@tiptap/vue'
 

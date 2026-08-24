@@ -45,6 +45,14 @@
       },
       "import": "./dist/menus/index.js",
       "require": "./dist/menus/index.cjs"
+    },
+    "./static-renderer": {
+      "types": {
+        "import": "./dist/static-renderer/index.d.ts",
+        "require": "./dist/static-renderer/index.d.cts"
+      },
+      "import": "./dist/static-renderer/index.js",
+      "require": "./dist/static-renderer/index.cjs"
     }
   },
   "scripts": {

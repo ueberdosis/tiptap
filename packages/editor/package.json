@@ -32,7 +32,10 @@
     "THIRD_PARTY_LICENSES.md"
   ],
   "type": "module",
-  "sideEffects": false,
+  "sideEffects": [
+    "./dist/extensions/node-range/index.js",
+    "./dist/extensions/node-range/index.cjs"
+  ],
   "main": "dist/index.cjs",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -61,6 +64,22 @@
       "import": "./jsx-dev-runtime/index.js",
       "require": "./jsx-dev-runtime/index.cjs"
     },
+    "./ai-toolkit": {
+      "types": {
+        "import": "./dist/ai-toolkit/index.d.ts",
+        "require": "./dist/ai-toolkit/index.d.cts"
+      },
+      "import": "./dist/ai-toolkit/index.js",
+      "require": "./dist/ai-toolkit/index.cjs"
+    },
+    "./ai-toolkit/streaming-reveal": {
+      "types": {
+        "import": "./dist/ai-toolkit/streaming-reveal/index.d.ts",
+        "require": "./dist/ai-toolkit/streaming-reveal/index.d.cts"
+      },
+      "import": "./dist/ai-toolkit/streaming-reveal/index.js",
+      "require": "./dist/ai-toolkit/streaming-reveal/index.cjs"
+    },
     "./markdown": {
       "types": {
         "import": "./dist/markdown/index.d.ts",
@@ -68,6 +87,14 @@
       },
       "import": "./dist/markdown/index.js",
       "require": "./dist/markdown/index.cjs"
+    },
+    "./static-renderer": {
+      "types": {
+        "import": "./dist/static-renderer/index.d.ts",
+        "require": "./dist/static-renderer/index.d.cts"
+      },
+      "import": "./dist/static-renderer/index.js",
+      "require": "./dist/static-renderer/index.cjs"
     },
     "./html": {
       "types": {
@@ -84,6 +111,14 @@
       },
       "import": "./dist/html/server/index.js",
       "require": "./dist/html/server/index.cjs"
+    },
+    "./extensions/audio": {
+      "types": {
+        "import": "./dist/extensions/audio/index.d.ts",
+        "require": "./dist/extensions/audio/index.d.cts"
+      },
+      "import": "./dist/extensions/audio/index.js",
+      "require": "./dist/extensions/audio/index.cjs"
     },
     "./extensions/background-color": {
       "types": {
@@ -141,6 +176,30 @@
       "import": "./dist/extensions/code-block/index.js",
       "require": "./dist/extensions/code-block/index.cjs"
     },
+    "./extensions/code-block-lowlight": {
+      "types": {
+        "import": "./dist/extensions/code-block-lowlight/index.d.ts",
+        "require": "./dist/extensions/code-block-lowlight/index.d.cts"
+      },
+      "import": "./dist/extensions/code-block-lowlight/index.js",
+      "require": "./dist/extensions/code-block-lowlight/index.cjs"
+    },
+    "./extensions/collaboration": {
+      "types": {
+        "import": "./dist/extensions/collaboration/index.d.ts",
+        "require": "./dist/extensions/collaboration/index.d.cts"
+      },
+      "import": "./dist/extensions/collaboration/index.js",
+      "require": "./dist/extensions/collaboration/index.cjs"
+    },
+    "./extensions/collaboration-caret": {
+      "types": {
+        "import": "./dist/extensions/collaboration-caret/index.d.ts",
+        "require": "./dist/extensions/collaboration-caret/index.d.cts"
+      },
+      "import": "./dist/extensions/collaboration-caret/index.js",
+      "require": "./dist/extensions/collaboration-caret/index.cjs"
+    },
     "./extensions/color": {
       "types": {
         "import": "./dist/extensions/color/index.d.ts",
@@ -165,6 +224,14 @@
       "import": "./dist/extensions/document/index.js",
       "require": "./dist/extensions/document/index.cjs"
     },
+    "./extensions/drag-handle": {
+      "types": {
+        "import": "./dist/extensions/drag-handle/index.d.ts",
+        "require": "./dist/extensions/drag-handle/index.d.cts"
+      },
+      "import": "./dist/extensions/drag-handle/index.js",
+      "require": "./dist/extensions/drag-handle/index.cjs"
+    },
     "./extensions/drop-cursor": {
       "types": {
         "import": "./dist/extensions/drop-cursor/index.d.ts",
@@ -172,6 +239,38 @@
       },
       "import": "./dist/extensions/drop-cursor/index.js",
       "require": "./dist/extensions/drop-cursor/index.cjs"
+    },
+    "./extensions/emoji": {
+      "types": {
+        "import": "./dist/extensions/emoji/index.d.ts",
+        "require": "./dist/extensions/emoji/index.d.cts"
+      },
+      "import": "./dist/extensions/emoji/index.js",
+      "require": "./dist/extensions/emoji/index.cjs"
+    },
+    "./extensions/emoji/data": {
+      "types": {
+        "import": "./dist/extensions/emoji/data/index.d.ts",
+        "require": "./dist/extensions/emoji/data/index.d.cts"
+      },
+      "import": "./dist/extensions/emoji/data/index.js",
+      "require": "./dist/extensions/emoji/data/index.cjs"
+    },
+    "./extensions/file-handler": {
+      "types": {
+        "import": "./dist/extensions/file-handler/index.d.ts",
+        "require": "./dist/extensions/file-handler/index.d.cts"
+      },
+      "import": "./dist/extensions/file-handler/index.js",
+      "require": "./dist/extensions/file-handler/index.cjs"
+    },
+    "./extensions/find-and-replace": {
+      "types": {
+        "import": "./dist/extensions/find-and-replace/index.d.ts",
+        "require": "./dist/extensions/find-and-replace/index.d.cts"
+      },
+      "import": "./dist/extensions/find-and-replace/index.js",
+      "require": "./dist/extensions/find-and-replace/index.cjs"
     },
     "./extensions/floating-menu": {
       "types": {
@@ -229,6 +328,14 @@
       "import": "./dist/extensions/heading/index.js",
       "require": "./dist/extensions/heading/index.cjs"
     },
+    "./extensions/highlight": {
+      "types": {
+        "import": "./dist/extensions/highlight/index.d.ts",
+        "require": "./dist/extensions/highlight/index.d.cts"
+      },
+      "import": "./dist/extensions/highlight/index.js",
+      "require": "./dist/extensions/highlight/index.cjs"
+    },
     "./extensions/horizontal-rule": {
       "types": {
         "import": "./dist/extensions/horizontal-rule/index.d.ts",
@@ -244,6 +351,14 @@
       },
       "import": "./dist/extensions/image/index.js",
       "require": "./dist/extensions/image/index.cjs"
+    },
+    "./extensions/invisible-characters": {
+      "types": {
+        "import": "./dist/extensions/invisible-characters/index.d.ts",
+        "require": "./dist/extensions/invisible-characters/index.d.cts"
+      },
+      "import": "./dist/extensions/invisible-characters/index.js",
+      "require": "./dist/extensions/invisible-characters/index.cjs"
     },
     "./extensions/italic": {
       "types": {
@@ -277,6 +392,30 @@
       "import": "./dist/extensions/list/index.js",
       "require": "./dist/extensions/list/index.cjs"
     },
+    "./extensions/mathematics": {
+      "types": {
+        "import": "./dist/extensions/mathematics/index.d.ts",
+        "require": "./dist/extensions/mathematics/index.d.cts"
+      },
+      "import": "./dist/extensions/mathematics/index.js",
+      "require": "./dist/extensions/mathematics/index.cjs"
+    },
+    "./extensions/mention": {
+      "types": {
+        "import": "./dist/extensions/mention/index.d.ts",
+        "require": "./dist/extensions/mention/index.d.cts"
+      },
+      "import": "./dist/extensions/mention/index.js",
+      "require": "./dist/extensions/mention/index.cjs"
+    },
+    "./extensions/node-range": {
+      "types": {
+        "import": "./dist/extensions/node-range/index.d.ts",
+        "require": "./dist/extensions/node-range/index.d.cts"
+      },
+      "import": "./dist/extensions/node-range/index.js",
+      "require": "./dist/extensions/node-range/index.cjs"
+    },
     "./extensions/paragraph": {
       "types": {
         "import": "./dist/extensions/paragraph/index.d.ts",
@@ -292,6 +431,14 @@
       },
       "import": "./dist/extensions/placeholder/index.js",
       "require": "./dist/extensions/placeholder/index.cjs"
+    },
+    "./extensions/ruby-text": {
+      "types": {
+        "import": "./dist/extensions/ruby-text/index.d.ts",
+        "require": "./dist/extensions/ruby-text/index.d.cts"
+      },
+      "import": "./dist/extensions/ruby-text/index.js",
+      "require": "./dist/extensions/ruby-text/index.cjs"
     },
     "./extensions/selection": {
       "types": {
@@ -317,6 +464,14 @@
       "import": "./dist/extensions/subscript/index.js",
       "require": "./dist/extensions/subscript/index.cjs"
     },
+    "./extensions/suggestion": {
+      "types": {
+        "import": "./dist/extensions/suggestion/index.d.ts",
+        "require": "./dist/extensions/suggestion/index.d.cts"
+      },
+      "import": "./dist/extensions/suggestion/index.js",
+      "require": "./dist/extensions/suggestion/index.cjs"
+    },
     "./extensions/superscript": {
       "types": {
         "import": "./dist/extensions/superscript/index.d.ts",
@@ -332,6 +487,14 @@
       },
       "import": "./dist/extensions/table/index.js",
       "require": "./dist/extensions/table/index.cjs"
+    },
+    "./extensions/table-of-contents": {
+      "types": {
+        "import": "./dist/extensions/table-of-contents/index.d.ts",
+        "require": "./dist/extensions/table-of-contents/index.d.cts"
+      },
+      "import": "./dist/extensions/table-of-contents/index.js",
+      "require": "./dist/extensions/table-of-contents/index.cjs"
     },
     "./extensions/text": {
       "types": {
@@ -365,6 +528,22 @@
       "import": "./dist/extensions/trailing-node/index.js",
       "require": "./dist/extensions/trailing-node/index.cjs"
     },
+    "./extensions/twitch": {
+      "types": {
+        "import": "./dist/extensions/twitch/index.d.ts",
+        "require": "./dist/extensions/twitch/index.d.cts"
+      },
+      "import": "./dist/extensions/twitch/index.js",
+      "require": "./dist/extensions/twitch/index.cjs"
+    },
+    "./extensions/typography": {
+      "types": {
+        "import": "./dist/extensions/typography/index.d.ts",
+        "require": "./dist/extensions/typography/index.d.cts"
+      },
+      "import": "./dist/extensions/typography/index.js",
+      "require": "./dist/extensions/typography/index.cjs"
+    },
     "./extensions/underline": {
       "types": {
         "import": "./dist/extensions/underline/index.d.ts",
@@ -380,6 +559,22 @@
       },
       "import": "./dist/extensions/undo-redo/index.js",
       "require": "./dist/extensions/undo-redo/index.cjs"
+    },
+    "./extensions/unique-id": {
+      "types": {
+        "import": "./dist/extensions/unique-id/index.d.ts",
+        "require": "./dist/extensions/unique-id/index.d.cts"
+      },
+      "import": "./dist/extensions/unique-id/index.js",
+      "require": "./dist/extensions/unique-id/index.cjs"
+    },
+    "./extensions/youtube": {
+      "types": {
+        "import": "./dist/extensions/youtube/index.d.ts",
+        "require": "./dist/extensions/youtube/index.d.cts"
+      },
+      "import": "./dist/extensions/youtube/index.js",
+      "require": "./dist/extensions/youtube/index.cjs"
     },
     "./kits/list": {
       "types": {
@@ -519,10 +714,12 @@
     }
   },
   "scripts": {
-    "build": "NODE_OPTIONS=--max-old-space-size=8192 vp pack --concurrency 1"
+    "build": "NODE_OPTIONS=--max-old-space-size=8192 vp pack --concurrency 1",
+    "generate:emoji-data": "tsm scripts/generate-emoji-data.ts"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.0.0",
+    "es-toolkit": "^1.41.0",
     "linkifyjs": "^4.3.3",
     "marked": "^17.0.1",
     "prosemirror-changeset": "^2.4.1",
@@ -537,17 +734,82 @@
     "prosemirror-state": "^1.4.4",
     "prosemirror-tables": "^1.8.5",
     "prosemirror-transform": "^1.12.0",
-    "prosemirror-view": "^1.41.9"
-  },
-  "peerDependencies": {
-    "happy-dom": "^20.8.9"
-  },
-  "peerDependenciesMeta": {
-    "happy-dom": {
-      "optional": true
-    }
+    "prosemirror-view": "^1.41.9",
+    "zod": "^4.1.8"
   },
   "devDependencies": {
-    "happy-dom": "^20.8.9"
+    "@tiptap/y-tiptap": "^3.0.0",
+    "emoji-datasource": "^16.0.0",
+    "emoji-regex": "^10.6.0",
+    "emojibase-data": "^17",
+    "happy-dom": "^20.8.9",
+    "highlight.js": "^11",
+    "is-emoji-supported": "^0.0.5",
+    "json5": "^2.2.3",
+    "katex": "^0.16.4 || ^0.17.0 || ^0.18.0",
+    "lowlight": "^2 || ^3",
+    "re2js": "^2.8.6",
+    "react": "^16.8 || ^17 || ^18 || ^19",
+    "react-dom": "^16.8 || ^17 || ^18 || ^19",
+    "tsm": "^2.3.0",
+    "uuid": "^14.0.0",
+    "vue": "^3.0.0",
+    "yjs": "^13.6.23"
+  },
+  "peerDependencies": {
+    "@tiptap/y-tiptap": "^3.0.0",
+    "emoji-regex": "^10.6.0",
+    "happy-dom": "^20.8.9",
+    "highlight.js": "^11",
+    "is-emoji-supported": "^0.0.5",
+    "katex": "^0.16.4 || ^0.17.0 || ^0.18.0",
+    "lowlight": "^2 || ^3",
+    "re2js": "^2.8.6",
+    "react": "^16.8 || ^17 || ^18 || ^19",
+    "react-dom": "^16.8 || ^17 || ^18 || ^19",
+    "uuid": "^14.0.0",
+    "vue": "^3.0.0",
+    "yjs": "^13.6.23"
+  },
+  "peerDependenciesMeta": {
+    "@tiptap/y-tiptap": {
+      "optional": true
+    },
+    "happy-dom": {
+      "optional": true
+    },
+    "emoji-regex": {
+      "optional": true
+    },
+    "highlight.js": {
+      "optional": true
+    },
+    "is-emoji-supported": {
+      "optional": true
+    },
+    "katex": {
+      "optional": true
+    },
+    "lowlight": {
+      "optional": true
+    },
+    "re2js": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    },
+    "uuid": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    },
+    "yjs": {
+      "optional": true
+    }
   }
 }

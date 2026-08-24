@@ -1,6 +1,6 @@
 import './styles.scss'
 
-import { DragHandle } from '@tiptap/extras/drag-handle/react'
+import { DragHandle } from '@tiptap/editor/extensions/drag-handle/react'
 import { EditorContent, useEditor } from '@tiptap/react'
 import { StarterKit } from '@tiptap/editor/kits/starter'
 import React from 'react'

@@ -108,11 +108,11 @@
 import { Blockquote } from '@tiptap/editor/extensions/blockquote'
 import { Bold } from '@tiptap/editor/extensions/bold'
 import { Code } from '@tiptap/editor/extensions/code'
-import { CodeBlockLowlight } from '@tiptap/extras/code-block-lowlight'
+import { CodeBlockLowlight } from '@tiptap/editor/extensions/code-block-lowlight'
 import { Document } from '@tiptap/editor/extensions/document'
 import { HardBreak } from '@tiptap/editor/extensions/hard-break'
 import { Heading } from '@tiptap/editor/extensions/heading'
-import { Highlight } from '@tiptap/extras/highlight'
+import { Highlight } from '@tiptap/editor/extensions/highlight'
 import { HorizontalRule } from '@tiptap/editor/extensions/horizontal-rule'
 import { Image } from '@tiptap/editor/extensions/image'
 import { Italic } from '@tiptap/editor/extensions/italic'
@@ -124,7 +124,7 @@ import {
   TaskItem,
   TaskList,
 } from '@tiptap/editor/extensions/list'
-import { Mention } from '@tiptap/extras/mention'
+import { Mention } from '@tiptap/editor/extensions/mention'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Strike } from '@tiptap/editor/extensions/strike'
 import { Subscript } from '@tiptap/editor/extensions/subscript'

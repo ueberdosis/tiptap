@@ -6,7 +6,7 @@
 import { Document } from '@tiptap/editor/extensions/document'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'
-import { Typography } from '@tiptap/extras/typography'
+import { Typography } from '@tiptap/editor/extensions/typography'
 import { Editor, EditorContent } from '@tiptap/vue'
 
 export default {

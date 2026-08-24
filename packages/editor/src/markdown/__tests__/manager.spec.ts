@@ -17,12 +17,12 @@ import {
   TaskItem,
   TaskList,
 } from '@tiptap/editor/extensions/list'
-import { Mention } from '@tiptap/extras/mention'
+import { Mention } from '@tiptap/editor/extensions/mention'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Strike } from '@tiptap/editor/extensions/strike'
 import { Text } from '@tiptap/editor/extensions/text'
 import { Underline } from '@tiptap/editor/extensions/underline'
-import { Youtube } from '@tiptap/extras/embeds/youtube'
+import { Youtube } from '@tiptap/editor/extensions/youtube'
 import { MarkdownManager } from '@tiptap/editor/markdown'
 import { Marked } from 'marked'
 import { beforeEach, describe, expect, it } from 'vite-plus/test'

@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import { Audio } from '@tiptap/extras/media/audio'
+import { Audio } from '@tiptap/editor/extensions/audio'
 import { StarterKit } from '@tiptap/editor/kits/starter'
 import { Editor, EditorContent } from '@tiptap/vue'
 

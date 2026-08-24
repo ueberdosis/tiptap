@@ -1,6 +1,6 @@
 import './styles.scss'
 
-import { Audio } from '@tiptap/extras/media/audio'
+import { Audio } from '@tiptap/editor/extensions/audio'
 import { EditorContent, useEditor } from '@tiptap/react'
 import { StarterKit } from '@tiptap/editor/kits/starter'
 import React from 'react'

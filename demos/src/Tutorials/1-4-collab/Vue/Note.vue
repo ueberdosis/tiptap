@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TiptapCollabProvider } from '@hocuspocus/provider'
-import { Collaboration } from '@tiptap/collaboration'
+import { Collaboration } from '@tiptap/editor/extensions/collaboration'
 import { StarterKit } from '@tiptap/editor/kits/starter'
 import { EditorContent, useEditor } from '@tiptap/vue'
 import { onMounted, onUnmounted } from 'vue'

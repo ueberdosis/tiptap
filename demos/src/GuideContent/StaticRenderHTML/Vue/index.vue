@@ -7,7 +7,7 @@ import { Bold } from '@tiptap/editor/extensions/bold'
 import { Document } from '@tiptap/editor/extensions/document'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'
-import { renderToHTMLString } from '@tiptap/static-renderer'
+import { renderToHTMLString } from '@tiptap/editor/static-renderer'
 
 const json = {
   type: 'doc',

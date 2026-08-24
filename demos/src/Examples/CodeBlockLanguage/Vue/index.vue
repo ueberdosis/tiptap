@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { CodeBlockLowlight } from '@tiptap/extras/code-block-lowlight'
+import { CodeBlockLowlight } from '@tiptap/editor/extensions/code-block-lowlight'
 import { Document } from '@tiptap/editor/extensions/document'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'

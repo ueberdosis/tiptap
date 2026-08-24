@@ -3,8 +3,8 @@
 </template>
 
 <script>
-import { Highlight } from '@tiptap/extras/highlight'
-import { Typography } from '@tiptap/extras/typography'
+import { Highlight } from '@tiptap/editor/extensions/highlight'
+import { Typography } from '@tiptap/editor/extensions/typography'
 import { StarterKit } from '@tiptap/editor/kits/starter'
 import { Editor, EditorContent } from '@tiptap/vue'
 

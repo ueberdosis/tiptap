@@ -14,10 +14,10 @@ import {
   TaskItem,
   TaskList,
 } from '@tiptap/editor/extensions/list'
-import { Mention } from '@tiptap/extras/mention'
+import { Mention } from '@tiptap/editor/extensions/mention'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'
-import { Youtube } from '@tiptap/extras/embeds/youtube'
+import { Youtube } from '@tiptap/editor/extensions/youtube'
 import { MarkdownManager } from '@tiptap/editor/markdown'
 import { describe, expect, it } from 'vite-plus/test'
 

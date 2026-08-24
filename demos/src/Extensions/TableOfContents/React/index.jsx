@@ -1,6 +1,9 @@
 import './styles.scss'
 
-import { TableOfContents, getHierarchicalIndexes } from '@tiptap/extras/table-of-contents'
+import {
+  TableOfContents,
+  getHierarchicalIndexes,
+} from '@tiptap/editor/extensions/table-of-contents'
 import { EditorContent, useEditor } from '@tiptap/react'
 import { StarterKit } from '@tiptap/editor/kits/starter'
 import React, { useState } from 'react'

@@ -1,10 +1,22 @@
 {
+  "@tiptap/ai-toolkit": {
+    "fallback": "@tiptap/editor/ai-toolkit"
+  },
+  "@tiptap/ai-toolkit/streaming-reveal": {
+    "fallback": "@tiptap/editor/ai-toolkit/streaming-reveal"
+  },
+  "@tiptap/collaboration": {
+    "fallback": "@tiptap/editor/extensions/collaboration"
+  },
+  "@tiptap/collaboration/caret": {
+    "fallback": "@tiptap/editor/extensions/collaboration-caret"
+  },
   "@tiptap/core": {
     "fallback": "@tiptap/editor"
   },
   "@tiptap/extension-audio": {
     "defaultExport": "Audio",
-    "fallback": "@tiptap/extras/media/audio"
+    "fallback": "@tiptap/editor/extensions/audio"
   },
   "@tiptap/extension-blockquote": {
     "defaultExport": "Blockquote",
@@ -36,15 +48,15 @@
   },
   "@tiptap/extension-code-block-lowlight": {
     "defaultExport": "CodeBlockLowlight",
-    "fallback": "@tiptap/extras/code-block-lowlight"
+    "fallback": "@tiptap/editor/extensions/code-block-lowlight"
   },
   "@tiptap/extension-collaboration": {
     "defaultExport": "Collaboration",
-    "fallback": "@tiptap/collaboration"
+    "fallback": "@tiptap/editor/extensions/collaboration"
   },
   "@tiptap/extension-collaboration-caret": {
     "defaultExport": "CollaborationCaret",
-    "fallback": "@tiptap/collaboration/caret"
+    "fallback": "@tiptap/editor/extensions/collaboration-caret"
   },
   "@tiptap/extension-color": {
     "defaultExport": "Color",
@@ -60,15 +72,15 @@
   },
   "@tiptap/extension-drag-handle": {
     "defaultExport": "DragHandle",
-    "fallback": "@tiptap/extras/drag-handle"
+    "fallback": "@tiptap/editor/extensions/drag-handle"
   },
   "@tiptap/extension-drag-handle-react": {
     "defaultExport": "DragHandle",
-    "fallback": "@tiptap/extras/drag-handle/react"
+    "fallback": "@tiptap/editor/extensions/drag-handle/react"
   },
   "@tiptap/extension-drag-handle-vue-3": {
     "defaultExport": "DragHandle",
-    "fallback": "@tiptap/extras/drag-handle/vue"
+    "fallback": "@tiptap/editor/extensions/drag-handle/vue"
   },
   "@tiptap/extension-dropcursor": {
     "defaultExport": "Dropcursor",
@@ -76,20 +88,20 @@
   },
   "@tiptap/extension-emoji": {
     "defaultExport": "Emoji",
-    "fallback": "@tiptap/extras/emoji",
+    "fallback": "@tiptap/editor/extensions/emoji",
     "symbols": {
-      "emojis": "@tiptap/extras/emoji/data",
-      "gitHubEmojis": "@tiptap/extras/emoji/data",
-      "gitHubCustomEmojis": "@tiptap/extras/emoji/data"
+      "emojis": "@tiptap/editor/extensions/emoji/data",
+      "gitHubEmojis": "@tiptap/editor/extensions/emoji/data",
+      "gitHubCustomEmojis": "@tiptap/editor/extensions/emoji/data"
     }
   },
   "@tiptap/extension-file-handler": {
     "defaultExport": "FileHandler",
-    "fallback": "@tiptap/extras/file-handler"
+    "fallback": "@tiptap/editor/extensions/file-handler"
   },
   "@tiptap/extension-find-and-replace": {
     "defaultExport": "FindAndReplace",
-    "fallback": "@tiptap/extras/find-and-replace"
+    "fallback": "@tiptap/editor/extensions/find-and-replace"
   },
   "@tiptap/extension-floating-menu": {
     "defaultExport": "FloatingMenu",
@@ -117,7 +129,7 @@
   },
   "@tiptap/extension-highlight": {
     "defaultExport": "Highlight",
-    "fallback": "@tiptap/extras/highlight"
+    "fallback": "@tiptap/editor/extensions/highlight"
   },
   "@tiptap/extension-history": {
     "defaultExport": "History",
@@ -133,7 +145,7 @@
   },
   "@tiptap/extension-invisible-characters": {
     "defaultExport": "InvisibleCharacters",
-    "fallback": "@tiptap/extras/invisible-characters"
+    "fallback": "@tiptap/editor/extensions/invisible-characters"
   },
   "@tiptap/extension-italic": {
     "defaultExport": "Italic",
@@ -160,15 +172,15 @@
   },
   "@tiptap/extension-mathematics": {
     "defaultExport": "Mathematics",
-    "fallback": "@tiptap/extras/mathematics"
+    "fallback": "@tiptap/editor/extensions/mathematics"
   },
   "@tiptap/extension-mention": {
     "defaultExport": "Mention",
-    "fallback": "@tiptap/extras/mention"
+    "fallback": "@tiptap/editor/extensions/mention"
   },
   "@tiptap/extension-node-range": {
     "defaultExport": "NodeRange",
-    "fallback": "@tiptap/extras/node-range"
+    "fallback": "@tiptap/editor/extensions/node-range"
   },
   "@tiptap/extension-ordered-list": {
     "defaultExport": "OrderedList",
@@ -184,7 +196,7 @@
   },
   "@tiptap/extension-ruby-text": {
     "defaultExport": "RubyText",
-    "fallback": "@tiptap/extras/ruby-text"
+    "fallback": "@tiptap/editor/extensions/ruby-text"
   },
   "@tiptap/extension-strike": {
     "defaultExport": "Strike",
@@ -215,7 +227,7 @@
   },
   "@tiptap/extension-table-of-contents": {
     "defaultExport": "TableOfContents",
-    "fallback": "@tiptap/extras/table-of-contents"
+    "fallback": "@tiptap/editor/extensions/table-of-contents"
   },
   "@tiptap/extension-table-row": {
     "defaultExport": "TableRow",
@@ -258,11 +270,11 @@
   },
   "@tiptap/extension-twitch": {
     "defaultExport": "Twitch",
-    "fallback": "@tiptap/extras/embeds/twitch"
+    "fallback": "@tiptap/editor/extensions/twitch"
   },
   "@tiptap/extension-typography": {
     "defaultExport": "Typography",
-    "fallback": "@tiptap/extras/typography"
+    "fallback": "@tiptap/editor/extensions/typography"
   },
   "@tiptap/extension-underline": {
     "defaultExport": "Underline",
@@ -270,11 +282,11 @@
   },
   "@tiptap/extension-unique-id": {
     "defaultExport": "UniqueID",
-    "fallback": "@tiptap/extras/unique-id"
+    "fallback": "@tiptap/editor/extensions/unique-id"
   },
   "@tiptap/extension-youtube": {
     "defaultExport": "Youtube",
-    "fallback": "@tiptap/extras/embeds/youtube"
+    "fallback": "@tiptap/editor/extensions/youtube"
   },
   "@tiptap/html": {
     "fallback": "@tiptap/editor/html"
@@ -325,7 +337,47 @@
     "fallback": "@tiptap/editor/pm/view"
   },
   "@tiptap/server-ai-toolkit": {
-    "fallback": "@tiptap/ai-toolkit"
+    "fallback": "@tiptap/editor/ai-toolkit"
+  },
+  "@tiptap/static-renderer": {
+    "fallback": "@tiptap/editor/static-renderer",
+    "symbols": {
+      "domOutputSpecToReactElement": "@tiptap/react/static-renderer",
+      "mapAttrsToHTMLAttributes": "@tiptap/react/static-renderer",
+      "renderJSONContentToReactElement": "@tiptap/react/static-renderer",
+      "renderToReactElement": "@tiptap/react/static-renderer"
+    }
+  },
+  "@tiptap/static-renderer/json/html-string": {
+    "fallback": "@tiptap/editor/static-renderer"
+  },
+  "@tiptap/static-renderer/json/react": {
+    "fallback": "@tiptap/react/static-renderer",
+    "symbols": {
+      "JSONMarkType": "@tiptap/editor/static-renderer",
+      "JSONNodeType": "@tiptap/editor/static-renderer",
+      "MarkProps": "@tiptap/editor/static-renderer",
+      "NodeProps": "@tiptap/editor/static-renderer",
+      "TiptapStaticRenderer": "@tiptap/editor/static-renderer",
+      "TiptapStaticRendererOptions": "@tiptap/editor/static-renderer"
+    }
+  },
+  "@tiptap/static-renderer/pm/html-string": {
+    "fallback": "@tiptap/editor/static-renderer"
+  },
+  "@tiptap/static-renderer/pm/markdown": {
+    "fallback": "@tiptap/editor/static-renderer"
+  },
+  "@tiptap/static-renderer/pm/react": {
+    "fallback": "@tiptap/react/static-renderer",
+    "symbols": {
+      "DomOutputSpecToElement": "@tiptap/editor/static-renderer",
+      "StaticEditorOptions": "@tiptap/editor/static-renderer",
+      "applyStaticEditorOptionsToExtensions": "@tiptap/editor/static-renderer",
+      "mapMarkExtensionToReactNode": "@tiptap/editor/static-renderer",
+      "mapNodeExtensionToReactNode": "@tiptap/editor/static-renderer",
+      "renderToElement": "@tiptap/editor/static-renderer"
+    }
   },
   "@tiptap/starter-kit": {
     "defaultExport": "StarterKit",
@@ -333,7 +385,7 @@
   },
   "@tiptap/suggestion": {
     "defaultExport": "Suggestion",
-    "fallback": "@tiptap/extras/suggestion"
+    "fallback": "@tiptap/editor/extensions/suggestion"
   },
   "@tiptap/vue-3": {
     "fallback": "@tiptap/vue"

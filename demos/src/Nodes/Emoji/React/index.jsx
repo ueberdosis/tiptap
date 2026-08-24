@@ -1,7 +1,7 @@
 import './styles.scss'
 
-import { Emoji } from '@tiptap/extras/emoji'
-import { gitHubEmojis } from '@tiptap/extras/emoji/data'
+import { Emoji } from '@tiptap/editor/extensions/emoji'
+import { gitHubEmojis } from '@tiptap/editor/extensions/emoji/data'
 import { EditorContent, useEditor } from '@tiptap/react'
 import { StarterKit } from '@tiptap/editor/kits/starter'
 import React from 'react'
