@@ -14,8 +14,7 @@
  *   node scripts/check-bundle-sizes.mjs --update   rewrite the baseline
  */
 import { execFileSync } from 'node:child_process'
-import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
-import { tmpdir } from 'node:os'
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import fg from 'fast-glob'
 
@@ -33,8 +32,11 @@ const specifiers = fg
   })
   .sort()
 
-const workDir = mkdtempSync(join(tmpdir(), 'tiptap-sizes-'))
+// inside the repo, so bare `@tiptap/*` specifiers resolve through node_modules
+const workDir = 'node_modules/.bundle-size-check'
+mkdirSync(workDir, { recursive: true })
 const sizes = {}
+const failures = new Map()
 
 try {
   for (const specifier of specifiers) {
@@ -62,8 +64,9 @@ try {
         { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 },
       )
       sizes[specifier] = Buffer.byteLength(output)
-    } catch {
+    } catch (error) {
       sizes[specifier] = null
+      failures.set(specifier, String(error.stderr || error.message).trim().split('\n')[0])
     }
   }
 } finally {
@@ -87,7 +90,7 @@ for (const [specifier, size] of Object.entries(sizes)) {
     continue
   }
   if (size === null) {
-    problems.push(`${specifier}: failed to bundle`)
+    problems.push(`${specifier}: failed to bundle - ${failures.get(specifier) ?? 'unknown'}`)
     continue
   }
   if (before !== null && size > before * (1 + TOLERANCE)) {

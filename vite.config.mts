@@ -7,6 +7,13 @@ export default defineConfig({
     // Cache package.json scripts (build, lint, test, ...). Persistent
     // scripts like `dev` never exit, so they are never cached.
     cache: { scripts: true, tasks: true },
+    tasks: {
+      // Defined here rather than as package.json scripts, because a delete has
+      // no output to restore and a cache hit would leave the files in place.
+      // sh -c because the runner does not expand globs.
+      'clean:packages': { command: "sh -c 'rm -rf ./packages/*/dist'", cache: false },
+      'clean:packs': { command: "sh -c 'rm -rf ./packages/*/*.tgz'", cache: false },
+    },
   },
   test: {
     environment: 'happy-dom',
