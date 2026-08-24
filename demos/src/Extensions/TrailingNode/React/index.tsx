@@ -6,7 +6,7 @@ import Document from '@tiptap/extension-document'
 import { BulletList, ListItem } from '@tiptap/extension-list'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { TrailingNode } from '@tiptap/extensions'
+import { TrailingNode } from '@tiptap/editor/extensions/trailing-node'
 import { EditorContent, useEditor } from '@tiptap/react'
 import React from 'react'
 

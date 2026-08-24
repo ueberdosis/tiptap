@@ -32,9 +32,13 @@ import { Strike } from '@tiptap/extension-strike'
 import { Text } from '@tiptap/extension-text'
 import type { UnderlineOptions } from '@tiptap/extension-underline'
 import { Underline } from '@tiptap/extension-underline'
-import type { DropcursorOptions, TrailingNodeOptions, UndoRedoOptions } from '@tiptap/extensions'
-import { Dropcursor, Gapcursor, TrailingNode, UndoRedo } from '@tiptap/extensions'
-
+import type { DropcursorOptions } from '@tiptap/editor/extensions/drop-cursor'
+import type { TrailingNodeOptions } from '@tiptap/editor/extensions/trailing-node'
+import type { UndoRedoOptions } from '@tiptap/editor/extensions/undo-redo'
+import { Dropcursor } from '@tiptap/editor/extensions/drop-cursor'
+import { Gapcursor } from '@tiptap/editor/extensions/gap-cursor'
+import { TrailingNode } from '@tiptap/editor/extensions/trailing-node'
+import { UndoRedo } from '@tiptap/editor/extensions/undo-redo'
 export interface StarterKitOptions {
   /**
    * If set to false, the blockquote extension will not be registered

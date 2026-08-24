@@ -3,76 +3,11 @@ import react from '@vitejs/plugin-react'
 import vue from '@vitejs/plugin-vue'
 import fg from 'fast-glob'
 import fs from 'fs'
-import { basename, dirname, join, resolve } from 'path'
+import { basename, dirname, join } from 'path'
 import { v4 as uuid } from 'uuid'
 import { defineConfig } from 'vite-plus'
 
-const getPackageDependencies = () => {
-  const paths: Array<{ find: string; replacement: any }> = []
-
-  function collectPackageInformation(path: string) {
-    fg.sync(`../${path}/*`, { onlyDirectories: true })
-      .map(name => name.replace(`../${path}/`, ''))
-      .forEach(name => {
-        if (name === 'editor') {
-          // subpaths first: a bare `@tiptap/editor` alias would prefix-match them
-          fg.sync(`../${path}/${name}/src/pm/*`, { onlyDirectories: true }).forEach(subName => {
-            const subPkgName = subName.replace(`../${path}/${name}/src/pm/`, '')
-
-            paths.push({
-              find: `@tiptap/${name}/pm/${subPkgName}`,
-              replacement: resolve(`../${path}/${name}/src/pm/${subPkgName}/index.ts`),
-            })
-          })
-          paths.push({
-            find: `@tiptap/${name}`,
-            replacement: resolve(`../${path}/${name}/src/index.ts`),
-          })
-        } else if (
-          name === 'extension-text-style' ||
-          name === 'extension-table' ||
-          name === 'extensions' ||
-          name === 'extension-list' ||
-          name === 'react' ||
-          name === 'vue-2' ||
-          name === 'vue-3'
-        ) {
-          fg.sync(`../${path}/${name}/src/*`, { onlyDirectories: true }).forEach(subName => {
-            const subPkgName = subName.replace(`../${path}/${name}/src/`, '')
-
-            paths.push({
-              find: `@tiptap/${name}/${subPkgName}`,
-              replacement: resolve(`../${path}/${name}/src/${subPkgName}/index.ts`),
-            })
-          })
-          paths.push({
-            find: `@tiptap/${name}`,
-            replacement: resolve(`../${path}/${name}/src/index.ts`),
-          })
-        } else {
-          paths.push({
-            find: `@tiptap/${name}`,
-            replacement: resolve(`../${path}/${name}/src/index.ts`),
-          })
-        }
-      })
-  }
-
-  collectPackageInformation('packages')
-  collectPackageInformation('packages-deprecated')
-
-  // Handle the JSX runtime alias
-  paths.unshift({
-    find: '@tiptap/editor/jsx-runtime',
-    replacement: resolve('../packages/editor/src/jsx-runtime.ts'),
-  })
-  paths.unshift({
-    find: '@tiptap/editor/jsx-dev-runtime',
-    replacement: resolve('../packages/editor/src/jsx-runtime.ts'),
-  })
-
-  return paths
-}
+import { packageAliases } from '../packageAliases.mjs'
 
 const dedupeDeps = fs
   .readFileSync('./dedupeDeps.txt')
@@ -341,7 +276,7 @@ export default defineConfig({
   ],
 
   resolve: {
-    alias: getPackageDependencies(),
+    alias: packageAliases('..'),
     dedupe: dedupeDeps,
   },
 })

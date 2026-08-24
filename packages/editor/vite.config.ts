@@ -1,20 +1,29 @@
 import { defineConfig } from 'vite-plus'
 import { basePackConfig, tsupCompatibleExtensions } from '../../pack.config.mjs'
 
-const pmSubExports = [
-  'changeset',
-  'commands',
-  'dropcursor',
-  'gapcursor',
-  'history',
-  'inputrules',
-  'keymap',
-  'model',
-  'schema-list',
-  'state',
-  'tables',
-  'transform',
-  'view',
+/** Keep in sync with the `exports` map in package.json. */
+const subExports = [
+  'extensions/character-count',
+  'extensions/drop-cursor',
+  'extensions/focus',
+  'extensions/gap-cursor',
+  'extensions/placeholder',
+  'extensions/selection',
+  'extensions/trailing-node',
+  'extensions/undo-redo',
+  'pm/changeset',
+  'pm/commands',
+  'pm/dropcursor',
+  'pm/gapcursor',
+  'pm/history',
+  'pm/inputrules',
+  'pm/keymap',
+  'pm/model',
+  'pm/schema-list',
+  'pm/state',
+  'pm/tables',
+  'pm/transform',
+  'pm/view',
 ]
 
 export default defineConfig({
@@ -29,12 +38,12 @@ export default defineConfig({
       entry: ['src/jsx-runtime.ts'],
       outDir: 'dist/jsx-runtime',
     },
-    ...pmSubExports.map(name => ({
+    ...subExports.map(subpath => ({
       ...basePackConfig(),
-      entry: [`src/pm/${name}/index.ts`],
-      outDir: `dist/pm/${name}`,
+      entry: [`src/${subpath}/index.ts`],
+      outDir: `dist/${subpath}`,
       clean: false,
-      // keep self-references and prosemirror imports external so nothing is duplicated
+      // self-references and third-party deps stay external so nothing is duplicated
       deps: { neverBundle: [/^[^./]/] },
       outExtensions: tsupCompatibleExtensions,
     })),

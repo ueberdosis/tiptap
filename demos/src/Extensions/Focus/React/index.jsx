@@ -5,7 +5,7 @@ import Document from '@tiptap/extension-document'
 import { BulletList, ListItem } from '@tiptap/extension-list'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { Focus } from '@tiptap/extensions'
+import { Focus } from '@tiptap/editor/extensions/focus'
 import { EditorContent, useEditor } from '@tiptap/react'
 import React from 'react'
 

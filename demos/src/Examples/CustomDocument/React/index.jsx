@@ -1,7 +1,7 @@
 import './styles.scss'
 
 import Document from '@tiptap/extension-document'
-import { Placeholder } from '@tiptap/extensions'
+import { Placeholder } from '@tiptap/editor/extensions/placeholder'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'

@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { Placeholder } from '@tiptap/extensions'
+import { Placeholder } from '@tiptap/editor/extensions/placeholder'
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 

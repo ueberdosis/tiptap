@@ -10,8 +10,7 @@ import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 import { EditorContent } from './EditorContent.js'
 import { ReactWidgetRenderer } from './ReactWidgetRenderer.js'
 
-import { UndoRedo } from '@tiptap/extensions'
-
+import { UndoRedo } from '@tiptap/editor/extensions/undo-redo'
 vi.mock('@tiptap/editor/jsx-runtime', async () => import('react/jsx-runtime'))
 vi.mock('@tiptap/editor/jsx-dev-runtime', async () => import('react/jsx-dev-runtime'))
 

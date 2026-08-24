@@ -43,7 +43,7 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import { TableKit } from '@tiptap/extension-table'
 import Text from '@tiptap/extension-text'
-import { Gapcursor } from '@tiptap/extensions'
+import { Gapcursor } from '@tiptap/editor/extensions/gap-cursor'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
 export default {

@@ -164,6 +164,70 @@
       },
       "import": "./dist/pm/view/index.js",
       "require": "./dist/pm/view/index.cjs"
+    },
+    "./extensions/character-count": {
+      "types": {
+        "import": "./dist/extensions/character-count/index.d.ts",
+        "require": "./dist/extensions/character-count/index.d.cts"
+      },
+      "import": "./dist/extensions/character-count/index.js",
+      "require": "./dist/extensions/character-count/index.cjs"
+    },
+    "./extensions/drop-cursor": {
+      "types": {
+        "import": "./dist/extensions/drop-cursor/index.d.ts",
+        "require": "./dist/extensions/drop-cursor/index.d.cts"
+      },
+      "import": "./dist/extensions/drop-cursor/index.js",
+      "require": "./dist/extensions/drop-cursor/index.cjs"
+    },
+    "./extensions/focus": {
+      "types": {
+        "import": "./dist/extensions/focus/index.d.ts",
+        "require": "./dist/extensions/focus/index.d.cts"
+      },
+      "import": "./dist/extensions/focus/index.js",
+      "require": "./dist/extensions/focus/index.cjs"
+    },
+    "./extensions/gap-cursor": {
+      "types": {
+        "import": "./dist/extensions/gap-cursor/index.d.ts",
+        "require": "./dist/extensions/gap-cursor/index.d.cts"
+      },
+      "import": "./dist/extensions/gap-cursor/index.js",
+      "require": "./dist/extensions/gap-cursor/index.cjs"
+    },
+    "./extensions/placeholder": {
+      "types": {
+        "import": "./dist/extensions/placeholder/index.d.ts",
+        "require": "./dist/extensions/placeholder/index.d.cts"
+      },
+      "import": "./dist/extensions/placeholder/index.js",
+      "require": "./dist/extensions/placeholder/index.cjs"
+    },
+    "./extensions/selection": {
+      "types": {
+        "import": "./dist/extensions/selection/index.d.ts",
+        "require": "./dist/extensions/selection/index.d.cts"
+      },
+      "import": "./dist/extensions/selection/index.js",
+      "require": "./dist/extensions/selection/index.cjs"
+    },
+    "./extensions/trailing-node": {
+      "types": {
+        "import": "./dist/extensions/trailing-node/index.d.ts",
+        "require": "./dist/extensions/trailing-node/index.d.cts"
+      },
+      "import": "./dist/extensions/trailing-node/index.js",
+      "require": "./dist/extensions/trailing-node/index.cjs"
+    },
+    "./extensions/undo-redo": {
+      "types": {
+        "import": "./dist/extensions/undo-redo/index.d.ts",
+        "require": "./dist/extensions/undo-redo/index.d.cts"
+      },
+      "import": "./dist/extensions/undo-redo/index.js",
+      "require": "./dist/extensions/undo-redo/index.cjs"
     }
   },
   "scripts": {

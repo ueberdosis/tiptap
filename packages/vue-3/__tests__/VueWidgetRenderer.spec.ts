@@ -2,7 +2,7 @@ import { type AnyExtension, Extension } from '@tiptap/editor'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { UndoRedo } from '@tiptap/extensions'
+import { UndoRedo } from '@tiptap/editor/extensions/undo-redo'
 import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 import { defineComponent, h } from 'vue'
 

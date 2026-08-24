@@ -4,7 +4,7 @@ import Document from '@tiptap/extension-document'
 import Image from '@tiptap/extension-image'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { Dropcursor } from '@tiptap/extensions'
+import { Dropcursor } from '@tiptap/editor/extensions/drop-cursor'
 import { EditorContent, useEditor } from '@tiptap/react'
 import { useCallback } from 'react'
 

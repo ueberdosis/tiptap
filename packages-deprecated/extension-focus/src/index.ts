@@ -1,6 +1,6 @@
-import { Focus } from '@tiptap/extensions'
+import { Focus } from '@tiptap/editor/extensions/focus'
 
-export type { FocusOptions } from '@tiptap/extensions'
-export { Focus } from '@tiptap/extensions'
+export type { FocusOptions } from '@tiptap/editor/extensions/focus'
+export { Focus } from '@tiptap/editor/extensions/focus'
 
 export default Focus

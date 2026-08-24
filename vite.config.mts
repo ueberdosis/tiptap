@@ -1,68 +1,6 @@
-import fg from 'fast-glob'
-import { resolve } from 'path'
 import { defineConfig } from 'vite-plus'
 
-const getPackageAliases = () => {
-  const aliases: Record<string, string> = {}
-
-  function collectPackageInformation(path: string) {
-    fg.sync(`${path}/*`, { onlyDirectories: true })
-      .map(name => name.replace(`${path}/`, ''))
-      .forEach(name => {
-        if (name === 'editor') {
-          fg.sync(`${path}/${name}/src/pm/*`, { onlyDirectories: true }).forEach(subName => {
-            const subPkgName = subName.replace(`${path}/${name}/src/pm/`, '')
-
-            aliases[`@tiptap/${name}/pm/${subPkgName}`] = resolve(
-              `${path}/${name}/src/pm/${subPkgName}/index.ts`,
-            )
-          })
-          aliases[`@tiptap/${name}`] = resolve(`${path}/${name}/src/index.ts`)
-        } else if (name === 'static-renderer') {
-          // Handle static-renderer subpaths
-          fg.sync(`${path}/${name}/src/*`, { onlyDirectories: true }).forEach(subName => {
-            const subPkgName = subName.replace(`${path}/${name}/src/`, '')
-
-            if (subPkgName === 'json' || subPkgName === 'pm') {
-              fg.sync(`${path}/${name}/src/${subPkgName}/*`, { onlyDirectories: true }).forEach(
-                subSubName => {
-                  const subSubPkgName = subSubName.replace(`${path}/${name}/src/${subPkgName}/`, '')
-                  aliases[`@tiptap/${name}/${subPkgName}/${subSubPkgName}`] = resolve(
-                    `${path}/${name}/src/${subPkgName}/${subSubPkgName}/index.ts`,
-                  )
-                },
-              )
-            }
-          })
-          aliases[`@tiptap/${name}`] = resolve(`${path}/${name}/src/index.ts`)
-        } else if (
-          name === 'extension-text-style' ||
-          name === 'extension-table' ||
-          name === 'extensions' ||
-          name === 'extension-list' ||
-          name === 'react' ||
-          name === 'vue-2' ||
-          name === 'vue-3'
-        ) {
-          fg.sync(`${path}/${name}/src/*`, { onlyDirectories: true }).forEach(subName => {
-            const subPkgName = subName.replace(`${path}/${name}/src/`, '')
-
-            aliases[`@tiptap/${name}/${subPkgName}`] = resolve(
-              `${path}/${name}/src/${subPkgName}/index.ts`,
-            )
-          })
-          aliases[`@tiptap/${name}`] = resolve(`${path}/${name}/src/index.ts`)
-        } else {
-          aliases[`@tiptap/${name}`] = resolve(`${path}/${name}/src/index.ts`)
-        }
-      })
-  }
-
-  collectPackageInformation('./packages')
-  collectPackageInformation('./packages-deprecated')
-
-  return aliases
-}
+import { packageAliases } from './packageAliases.mjs'
 
 export default defineConfig({
   run: {
@@ -88,20 +26,7 @@ export default defineConfig({
     return [`oxfmt ${fileList}`, `oxlint --fix --quiet --no-error-on-unmatched-pattern ${fileList}`]
   },
   resolve: {
-    alias: [
-      {
-        find: /^@tiptap\/editor\/jsx-dev-runtime$/,
-        replacement: resolve('./packages/editor/src/jsx-runtime.ts'),
-      },
-      {
-        find: /^@tiptap\/editor\/jsx-runtime$/,
-        replacement: resolve('./packages/editor/src/jsx-runtime.ts'),
-      },
-      ...Object.entries(getPackageAliases()).map(([find, replacement]) => ({
-        find,
-        replacement,
-      })),
-    ],
+    alias: packageAliases('.'),
   },
   esbuild: {
     jsx: 'automatic',

@@ -63,7 +63,8 @@
     "@tiptap/extension-paragraph": "workspace:*",
     "@tiptap/extension-strike": "workspace:*",
     "@tiptap/extension-text": "workspace:*",
-    "@tiptap/extension-underline": "workspace:*",
-    "@tiptap/extensions": "workspace:*"
-  }
+    "@tiptap/extension-underline": "workspace:*"
+  },
+  "devDependencies": {},
+  "peerDependencies": {}
 }

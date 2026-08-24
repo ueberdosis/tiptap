@@ -7,7 +7,7 @@ import Document from '@tiptap/extension-document'
 import Image from '@tiptap/extension-image'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { Dropcursor } from '@tiptap/extensions'
+import { Dropcursor } from '@tiptap/editor/extensions/drop-cursor'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
 export default {

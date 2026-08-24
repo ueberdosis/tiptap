@@ -1,6 +1,6 @@
-import { CharacterCount } from '@tiptap/extensions'
+import { CharacterCount } from '@tiptap/editor/extensions/character-count'
 
-export type { CharacterCountOptions } from '@tiptap/extensions'
-export { CharacterCount } from '@tiptap/extensions'
+export type { CharacterCountOptions } from '@tiptap/editor/extensions/character-count'
+export { CharacterCount } from '@tiptap/editor/extensions/character-count'
 
 export default CharacterCount

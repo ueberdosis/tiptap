@@ -306,33 +306,33 @@ importers:
 
   packages-deprecated/extension-character-count:
     devDependencies:
-      '@tiptap/extensions':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../../packages/extensions
+        version: link:../../packages/editor
 
   packages-deprecated/extension-dropcursor:
     devDependencies:
-      '@tiptap/extensions':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../../packages/extensions
+        version: link:../../packages/editor
 
   packages-deprecated/extension-focus:
     devDependencies:
-      '@tiptap/extensions':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../../packages/extensions
+        version: link:../../packages/editor
 
   packages-deprecated/extension-gapcursor:
     devDependencies:
-      '@tiptap/extensions':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../../packages/extensions
+        version: link:../../packages/editor
 
   packages-deprecated/extension-history:
     devDependencies:
-      '@tiptap/extensions':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../../packages/extensions
+        version: link:../../packages/editor
 
   packages-deprecated/extension-list-item:
     devDependencies:
@@ -348,9 +348,9 @@ importers:
 
   packages-deprecated/extension-placeholder:
     devDependencies:
-      '@tiptap/extensions':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../../packages/extensions
+        version: link:../../packages/editor
 
   packages-deprecated/extension-table-cell:
     devDependencies:
@@ -903,12 +903,6 @@ importers:
         specifier: workspace:^
         version: link:../editor
 
-  packages/extensions:
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-
   packages/html:
     devDependencies:
       '@tiptap/editor':
@@ -1034,9 +1028,6 @@ importers:
       '@tiptap/extension-underline':
         specifier: workspace:*
         version: link:../extension-underline
-      '@tiptap/extensions':
-        specifier: workspace:*
-        version: link:../extensions
 
   packages/static-renderer:
     devDependencies:
