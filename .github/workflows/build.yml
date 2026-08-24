@@ -12,14 +12,10 @@ concurrency:
 on:
   push:
     branches:
-      - main
-      - next
-      - release/*
+      - maintenance/v3
   pull_request:
     branches:
-      - main
-      - next
-      - release/*
+      - maintenance/v3
 
 jobs:
   install-node-dependencies:
