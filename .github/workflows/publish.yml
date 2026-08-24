@@ -117,7 +117,7 @@ jobs:
         with:
           createGithubReleases: false
           version: vp run version
-          publish: vp exec changeset publish --tag ${{ needs.resolve-config.outputs.dist_tag }}
+          publish: vp exec changeset publish
           title: ${{ needs.resolve-config.outputs.title }}
           commit: ${{ needs.resolve-config.outputs.commit }}
         env:
