@@ -2,4 +2,4 @@
 '@tiptap/static-renderer': patch
 ---
 
-`renderToHTMLString` no longer copies the `xmlns` prefix of a namespaced `DOMOutputSpec` into the closing tag, and namespaced non-self-closing tags such as `div` or `iframe` are no longer self-closed.
+`renderToHTMLString` now closes namespaced elements correctly. The closing tag no longer repeats the `xmlns` declaration, and tags that cannot self-close, such as `div` or `iframe`, are no longer written as self-closing.
