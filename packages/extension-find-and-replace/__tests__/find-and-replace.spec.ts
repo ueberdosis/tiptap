@@ -153,6 +153,8 @@ describe('FindAndReplace', () => {
     editor.commands.setSearchTerm('([')
 
     expect(editor.storage.findAndReplace.results).toEqual([])
+    expect(editor.commands.replaceAll()).toBe(false)
+    expect(editor.getText()).toBe('Hello hello HELLO')
   })
 
   it('finds matches across marks', () => {
@@ -364,6 +366,292 @@ describe('FindAndReplace', () => {
     expect(editor.storage.findAndReplace.currentIndex).toBeNull()
   })
 
+  it('expands capture groups per regex match when replacing all', () => {
+    editor.destroy()
+    editor = createEditor('<p>cat dog</p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('(cat|dog)')
+    editor.commands.setReplaceTerm('[$1]')
+    editor.commands.replaceAll()
+
+    expect(editor.getText()).toBe('[cat] [dog]')
+  })
+
+  it('reorders multiple regex capture groups', () => {
+    editor.destroy()
+    editor = createEditor('<p>alice@example bob@test</p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('(\\w+)@(\\w+)')
+    editor.commands.setReplaceTerm('$2:$1')
+    editor.commands.replaceAll()
+
+    expect(editor.getText()).toBe('example:alice test:bob')
+  })
+
+  it('expands whole-match and literal-dollar replacement tokens', () => {
+    editor.destroy()
+    editor = createEditor('<p>cat</p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('(cat)')
+    editor.commands.setReplaceTerm('$$[$&]')
+    editor.commands.replaceAll()
+
+    expect(editor.getText()).toBe('$[cat]')
+  })
+
+  it('inserts an empty string for unmatched optional groups', () => {
+    editor.destroy()
+    editor = createEditor('<p>a ab</p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('(a)(b)?')
+    editor.commands.setReplaceTerm('$2-$1')
+    editor.commands.replaceAll()
+
+    expect(editor.getText()).toBe('-a b-a')
+  })
+
+  it('deletes a single match when its replacement group is unmatched', () => {
+    editor.destroy()
+    editor = createEditor('<p>a a</p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('(a)(b)?')
+    editor.commands.setReplaceTerm('$2')
+    editor.commands.replace()
+
+    expect(editor.getText()).toBe(' a')
+    expect(editor.storage.findAndReplace.results).toEqual([{ from: 2, to: 3 }])
+    expect(editor.state.selection.from).toBe(2)
+    expect(editor.state.selection.to).toBe(3)
+  })
+
+  it('keeps out-of-range capture references literal', () => {
+    editor.destroy()
+    editor = createEditor('<p>cat</p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('(cat)')
+    editor.commands.setReplaceTerm('$9')
+    editor.commands.replaceAll()
+
+    expect(editor.getText()).toBe('$9')
+  })
+
+  it('expands named and unmatched named capture groups', () => {
+    editor.destroy()
+    editor = createEditor('<p>cat cats</p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('(?<word>cat)(?<suffix>s)?')
+    editor.commands.setReplaceTerm('$<suffix>:$<word>')
+    editor.commands.replaceAll()
+
+    expect(editor.getText()).toBe(':cat s:cat')
+  })
+
+  it('keeps replacement tokens literal outside regex mode', () => {
+    editor.destroy()
+    editor = createEditor('<p>cat</p>')
+    editor.commands.setSearchTerm('cat')
+    editor.commands.setReplaceTerm('$$:$&:$1:$<word>')
+    editor.commands.replaceAll()
+
+    expect(editor.getText()).toBe('$$:$&:$1:$<word>')
+  })
+
+  it('uses the same capture expansion for replace and replaceAll', () => {
+    editor.destroy()
+    editor = createEditor('<p>cat</p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('(cat)')
+    editor.commands.setReplaceTerm('[$1]')
+    editor.commands.replace()
+    const singleReplacement = editor.getText()
+
+    editor.destroy()
+    editor = createEditor('<p>cat</p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('(cat)')
+    editor.commands.setReplaceTerm('[$1]')
+    editor.commands.replaceAll()
+
+    expect(singleReplacement).toBe('[cat]')
+    expect(editor.getText()).toBe(singleReplacement)
+  })
+
+  it('skips an expanded replacement that still matches the regex', () => {
+    editor.destroy()
+    editor = createEditor('<p>foo foo</p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('(foo)')
+    editor.commands.setReplaceTerm('$1bar')
+    editor.commands.replace()
+
+    expect(editor.getText()).toBe('foobar foo')
+    expect(editor.storage.findAndReplace.currentIndex).toBe(1)
+    expect(editor.state.selection.from).toBe(8)
+    expect(editor.state.selection.to).toBe(11)
+  })
+
+  it('advances past a Unicode capture after a single replacement', () => {
+    editor.destroy()
+    editor = createEditor('<p>😀 😀</p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('(😀)')
+    editor.commands.setReplaceTerm('[$1]')
+    editor.commands.replace()
+
+    expect(editor.getText()).toBe('[😀] 😀')
+    expect(editor.storage.findAndReplace.currentIndex).toBe(1)
+    // JavaScript and ProseMirror count UTF-16 code units, so the emoji spans two positions.
+    expect(editor.state.selection.from).toBe(6)
+    expect(editor.state.selection.to).toBe(8)
+  })
+
+  it('expands captures for regex matches split across marks', () => {
+    editor.destroy()
+    editor = createEditor('<p>he<strong>llo</strong> he<strong>llo</strong></p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('(hello)')
+    editor.commands.setReplaceTerm('[$1]')
+    editor.commands.replaceAll()
+
+    expect(editor.getText()).toBe('[hello] [hello]')
+  })
+
+  it('expands captures around non-text inline nodes', () => {
+    editor.destroy()
+    editor = new Editor({
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        HardBreak,
+        FindAndReplace.configure({ searchDebounceMs: 0 }),
+      ],
+      content: '<p>cat<br>cat</p>',
+    })
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('(cat)')
+    editor.commands.setReplaceTerm('[$1]')
+    editor.commands.replaceAll()
+
+    expect(editor.getHTML()).toBe('<p>[cat]<br>[cat]</p>')
+  })
+
+  it('preserves boundary context when a regex match starts at a mark', () => {
+    editor.destroy()
+    editor = createEditor('<p>x<strong>foo</strong></p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('(\\Bfoo)')
+    editor.commands.setReplaceTerm('[$1]')
+    editor.commands.replaceAll()
+
+    expect(editor.getText()).toBe('x[foo]')
+  })
+
+  it('expands captures independently across textblocks', () => {
+    editor.destroy()
+    editor = createEditor('<p>cat</p><p>dog</p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('(cat|dog)')
+    editor.commands.setReplaceTerm('[$1]')
+    editor.commands.replaceAll()
+
+    expect(editor.getHTML()).toBe('<p>[cat]</p><p>[dog]</p>')
+  })
+
+  it('expands captures independently when textblocks share a node instance', () => {
+    // ProseMirror nodes are immutable, so one instance may appear at multiple document positions.
+    const textblock = editor.schema.node('paragraph', null, [editor.schema.text('cat')])
+
+    editor.view.dispatch(
+      editor.state.tr.replaceWith(0, editor.state.doc.content.size, [textblock, textblock]),
+    )
+
+    expect(editor.state.doc.child(0)).toBe(editor.state.doc.child(1))
+
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('(cat)')
+    editor.commands.setReplaceTerm('[$1]')
+    editor.commands.replaceAll()
+
+    expect(editor.getHTML()).toBe('<p>[cat]</p><p>[cat]</p>')
+  })
+
+  it('matches String.prototype.replaceAll across supported regex replacements', () => {
+    const cases = [
+      {
+        text: 'cat dog',
+        source: '(cat|dog)',
+        replacement: '[$1]',
+      },
+      {
+        text: 'alice@example bob@test',
+        source: '(\\w+)@(\\w+)',
+        replacement: '$2:$1',
+      },
+      {
+        text: 'a ab',
+        source: '(a)(b)?',
+        replacement: '$2-$1',
+      },
+      {
+        text: 'cat cats',
+        source: '(?<word>cat)(?<suffix>s)?',
+        replacement: '$<suffix>:$<word>',
+      },
+      {
+        text: 'cat dog',
+        source: '(cat|dog)',
+        replacement: '$$[$&]-$9',
+      },
+      {
+        text: 'foo foo',
+        source: '(^foo)',
+        replacement: '[$1]',
+      },
+      {
+        text: 'foo foo',
+        source: '(foo$)',
+        replacement: '[$1]',
+      },
+      {
+        text: 'xfoo',
+        source: '(\\Bfoo)',
+        replacement: '[$1]',
+      },
+      {
+        text: 'cat CAT',
+        source: '(cat)',
+        replacement: '<$1>',
+      },
+      {
+        text: 'cat',
+        source: '(cat)',
+        replacement: '[$01]',
+      },
+      {
+        text: '😀 😀',
+        source: '(😀)',
+        replacement: '[$1]',
+      },
+    ]
+
+    editor.destroy()
+
+    for (const { text, source, replacement } of cases) {
+      editor = createEditor(`<p>${text}</p>`)
+      editor.commands.setUseRegex(true)
+      editor.commands.setSearchTerm(source)
+      editor.commands.setReplaceTerm(replacement)
+      editor.commands.replaceAll()
+
+      expect(editor.getText(), `${source} with ${replacement}`).toBe(
+        text.replaceAll(new RegExp(source, 'giu'), replacement),
+      )
+
+      editor.destroy()
+    }
+  })
+
   it('replaces results across textblocks without removing trailing text', () => {
     editor.destroy()
     editor = createEditor('<p>foo end</p><p>foo end</p>')
@@ -401,6 +689,25 @@ describe('FindAndReplace', () => {
     expect(editor.getText()).toBe(content.replaceAll('foo', 'bar'))
     expect(transactions).toEqual([1])
   }, 10_000)
+
+  it('expands many regex captures in one transaction step', () => {
+    const resultCount = 5_000
+    const content = Array.from({ length: resultCount }, () => 'a').join(' ')
+    const transactions: number[] = []
+
+    editor.destroy()
+    editor = createEditor(`<p>${content}</p>`)
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('(a)')
+    editor.commands.setReplaceTerm('[$1]')
+    editor.on('transaction', ({ transaction }) => {
+      transactions.push(transaction.steps.length)
+    })
+    editor.commands.replaceAll()
+
+    expect(editor.getText()).toBe(content.replaceAll(/(a)/gu, '[$1]'))
+    expect(transactions).toEqual([1])
+  })
 
   it('keeps new results when the replacement still matches', () => {
     editor.commands.setSearchTerm('hello')
@@ -484,14 +791,164 @@ describe('FindAndReplace', () => {
     ])
   })
 
-  it('ignores wholeWord when regex mode is enabled', () => {
+  it('finds only whole words when regex mode is enabled', () => {
     editor.destroy()
     editor = createEditor('<p>hello helloworld worldhello hello</p>')
     editor.commands.setUseRegex(true)
     editor.commands.setSearchTerm('hello')
     editor.commands.setWholeWord(true)
 
-    expect(editor.storage.findAndReplace.results).toHaveLength(4)
+    expect(editor.storage.findAndReplace.results).toEqual([
+      { from: 1, to: 6 },
+      { from: 29, to: 34 },
+    ])
+  })
+
+  it('finds Unicode whole words when regex mode is enabled', () => {
+    editor.destroy()
+    editor = createEditor('<p>café caféine café</p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('café')
+    editor.commands.setWholeWord(true)
+
+    expect(editor.storage.findAndReplace.results).toEqual([
+      { from: 1, to: 5 },
+      { from: 14, to: 18 },
+    ])
+  })
+
+  it('rejects regex matches next to Unicode letters stored as surrogate pairs', () => {
+    // U+10400 is above 0xffff, so JavaScript stores this Deseret letter in two UTF-16 code units.
+    const deseretLetter = '𐐀'
+
+    editor.destroy()
+    editor = createEditor(`<p>${deseretLetter}cat cat${deseretLetter} cat</p>`)
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('cat')
+    editor.commands.setWholeWord(true)
+
+    expect(editor.storage.findAndReplace.results).toEqual([{ from: 13, to: 16 }])
+  })
+
+  it('tries later regex alternatives when the first one is not a whole word', () => {
+    editor.destroy()
+    editor = createEditor('<p>catalog cat cats</p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('cat|catalog')
+    editor.commands.setWholeWord(true)
+
+    expect(editor.storage.findAndReplace.results).toEqual([
+      { from: 1, to: 8 },
+      { from: 9, to: 12 },
+    ])
+  })
+
+  it('tries longer regex alternatives when a boundary requires them', () => {
+    editor.destroy()
+    editor = createEditor('<p>cat cats</p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('cat|cats')
+    editor.commands.setWholeWord(true)
+
+    expect(editor.storage.findAndReplace.results).toEqual([
+      { from: 1, to: 4 },
+      { from: 5, to: 9 },
+    ])
+  })
+
+  it('reuses shared punctuation boundaries between consecutive matches', () => {
+    editor.destroy()
+    editor = createEditor('<p>cat-cat.cat</p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('cat')
+    editor.commands.setWholeWord(true)
+
+    expect(editor.storage.findAndReplace.results).toEqual([
+      { from: 1, to: 4 },
+      { from: 5, to: 8 },
+      { from: 9, to: 12 },
+    ])
+  })
+
+  it('preserves inline regex flags when whole-word mode wraps the pattern', () => {
+    editor.destroy()
+    editor = createEditor('<p>Catalog CAT cats</p>')
+    editor.commands.setCaseSensitive(true)
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('(?i)cat|catalog')
+    editor.commands.setWholeWord(true)
+
+    expect(editor.storage.findAndReplace.results).toEqual([
+      { from: 1, to: 8 },
+      { from: 9, to: 12 },
+    ])
+  })
+
+  it('backtracks quantified whitespace to preserve whole-word matches', () => {
+    editor.destroy()
+    editor = createEditor('<p>(cat) #cat cat! cat.cat cat-cat</p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('\\s*cat\\s*')
+    editor.commands.setWholeWord(true)
+
+    expect(editor.storage.findAndReplace.results).toEqual([
+      { from: 2, to: 5 },
+      { from: 8, to: 11 },
+      { from: 12, to: 15 },
+      { from: 16, to: 20 },
+      { from: 21, to: 24 },
+      { from: 25, to: 28 },
+      { from: 29, to: 32 },
+    ])
+  })
+
+  it('preserves numeric captures when replacing boundary-constrained alternatives', () => {
+    editor.destroy()
+    editor = createEditor('<p>catalog cat cats</p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('(cat|catalog)')
+    editor.commands.setWholeWord(true)
+    editor.commands.setReplaceTerm('[$1]')
+    editor.commands.replaceAll()
+
+    expect(editor.getText()).toBe('[catalog] [cat] cats')
+  })
+
+  it('preserves captures when replacing one boundary-constrained result', () => {
+    editor.destroy()
+    editor = createEditor('<p>catalog cat cats</p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('(cat|catalog)')
+    editor.commands.setWholeWord(true)
+    editor.commands.setReplaceTerm('[$1]-$&')
+    editor.commands.replace()
+
+    expect(editor.getText()).toBe('[catalog]-catalog cat cats')
+  })
+
+  it('preserves named captures when replacing boundary-constrained alternatives', () => {
+    editor.destroy()
+    editor = createEditor('<p>catalog cat cats</p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('(?P<word>cat|catalog)')
+    editor.commands.setWholeWord(true)
+    editor.commands.setReplaceTerm('[$<word>]-$&')
+    editor.commands.replaceAll()
+
+    expect(editor.getText()).toBe('[catalog]-catalog [cat]-cat cats')
+  })
+
+  it('finds Unicode alternatives that satisfy whole-word boundaries', () => {
+    editor.destroy()
+    editor = createEditor('<p>caféine café</p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('café|caféine')
+    editor.commands.setWholeWord(true)
+
+    expect(editor.storage.findAndReplace.results).toEqual([
+      { from: 1, to: 8 },
+      { from: 9, to: 13 },
+    ])
   })
 
   it('syncs wholeWord to the storage', () => {
