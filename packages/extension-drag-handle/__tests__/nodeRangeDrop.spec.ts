@@ -3,7 +3,7 @@ import Document from '@tiptap/extension-document'
 import { isNodeRangeSelection, NodeRangeSelection } from '@tiptap/extension-node-range'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { TextSelection } from '@tiptap/pm/state'
+import { TextSelection } from '@tiptap/editor/pm/state'
 import { afterEach, describe, expect, it } from 'vite-plus/test'
 
 import {

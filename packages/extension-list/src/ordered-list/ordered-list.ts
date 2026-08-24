@@ -1,5 +1,5 @@
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
-import { Plugin } from '@tiptap/pm/state'
+import type { Node as ProseMirrorNode } from '@tiptap/editor/pm/model'
+import { Plugin } from '@tiptap/editor/pm/state'
 
 import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/editor'
 

@@ -1,5 +1,5 @@
 import type { Editor } from '@tiptap/editor'
-import type { PluginKey } from '@tiptap/pm/state'
+import type { PluginKey } from '@tiptap/editor/pm/state'
 
 export type FileHandlePluginOptions = {
   /**

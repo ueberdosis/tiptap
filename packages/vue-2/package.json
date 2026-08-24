@@ -55,12 +55,10 @@
   },
   "devDependencies": {
     "@tiptap/editor": "workspace:^",
-    "@tiptap/pm": "workspace:^",
     "vue": "^2.7.16"
   },
   "peerDependencies": {
     "@tiptap/editor": "workspace:*",
-    "@tiptap/pm": "workspace:*",
     "vue": "^2.6.0"
   },
   "optionalDependencies": {

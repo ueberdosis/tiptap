@@ -1,4 +1,4 @@
-import type { NodeSelection } from '@tiptap/pm/state'
+import type { NodeSelection } from 'prosemirror-state'
 
 /**
  * Check whether a selection exposes a selected node.

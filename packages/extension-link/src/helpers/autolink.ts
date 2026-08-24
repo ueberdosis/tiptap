@@ -5,8 +5,8 @@ import {
   getChangedRanges,
   getMarksBetween,
 } from '@tiptap/editor'
-import type { MarkType } from '@tiptap/pm/model'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
+import type { MarkType } from '@tiptap/editor/pm/model'
+import { Plugin, PluginKey } from '@tiptap/editor/pm/state'
 import type { MultiToken } from 'linkifyjs'
 import { tokenize } from 'linkifyjs'
 

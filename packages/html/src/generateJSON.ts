@@ -1,7 +1,7 @@
 import type { Extensions } from '@tiptap/editor'
 import { getSchema } from '@tiptap/editor'
-import type { ParseOptions } from '@tiptap/pm/model'
-import { DOMParser } from '@tiptap/pm/model'
+import type { ParseOptions } from '@tiptap/editor/pm/model'
+import { DOMParser } from '@tiptap/editor/pm/model'
 
 /**
  * Generates a JSON object from the given HTML string and converts it into a Prosemirror node with content.

@@ -1,6 +1,6 @@
 import type { FloatingMenuPluginProps } from '@tiptap/extension-floating-menu'
 import { FloatingMenuPlugin } from '@tiptap/extension-floating-menu'
-import { PluginKey } from '@tiptap/pm/state'
+import { PluginKey } from '@tiptap/editor/pm/state'
 import type { PropType } from 'vue'
 import { defineComponent, h, onBeforeUnmount, onMounted, ref } from 'vue'
 

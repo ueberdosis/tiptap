@@ -1,4 +1,4 @@
-import type { Node, ResolvedPos } from '@tiptap/pm/model'
+import type { Node, ResolvedPos } from 'prosemirror-model'
 
 /**
  * Returns the block-level sibling immediately before the cursor's textblock

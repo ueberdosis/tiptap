@@ -1,5 +1,5 @@
-import type { Node } from '@tiptap/pm/model'
-import { Decoration, DecorationSet } from '@tiptap/pm/view'
+import type { Node } from '@tiptap/editor/pm/model'
+import { Decoration, DecorationSet } from '@tiptap/editor/pm/view'
 
 export default function (doc: Node): DecorationSet {
   const hexColor = /(#[0-9a-f]{3,6})\b/gi

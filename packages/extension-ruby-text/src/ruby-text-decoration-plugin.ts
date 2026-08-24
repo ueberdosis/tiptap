@@ -1,7 +1,7 @@
 import type { Editor } from '@tiptap/editor'
-import type { Mark, MarkType, Node as ProseMirrorNode } from '@tiptap/pm/model'
-import { Plugin, PluginKey, TextSelection } from '@tiptap/pm/state'
-import { Decoration, DecorationSet, type EditorView } from '@tiptap/pm/view'
+import type { Mark, MarkType, Node as ProseMirrorNode } from '@tiptap/editor/pm/model'
+import { Plugin, PluginKey, TextSelection } from '@tiptap/editor/pm/state'
+import { Decoration, DecorationSet, type EditorView } from '@tiptap/editor/pm/view'
 
 const rubyTextDecorationPluginKey = new PluginKey('rubyTextDecoration')
 

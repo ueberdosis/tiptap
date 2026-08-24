@@ -1,4 +1,4 @@
-import type { Fragment, Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Fragment, Node as ProseMirrorNode } from 'prosemirror-model'
 
 /**
  * Checks whether a node or fragment is a fragment. Looks for a missing `type` field,

@@ -1,9 +1,9 @@
 import type { Editor } from '@tiptap/editor'
 import { isNodeEmpty } from '@tiptap/editor'
-import type { Node } from '@tiptap/pm/model'
-import type { Selection } from '@tiptap/pm/state'
-import type { Decoration } from '@tiptap/pm/view'
-import { DecorationSet } from '@tiptap/pm/view'
+import type { Node } from '@tiptap/editor/pm/model'
+import type { Selection } from '@tiptap/editor/pm/state'
+import type { Decoration } from '@tiptap/editor/pm/view'
+import { DecorationSet } from '@tiptap/editor/pm/view'
 
 import type { PlaceholderOptions } from '../types.js'
 import { createPlaceholderDecoration } from './createPlaceholderDecoration.js'

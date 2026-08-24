@@ -1,5 +1,5 @@
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
-import type { EditorView, NodeView, ViewMutationRecord } from '@tiptap/pm/view'
+import type { Node as ProseMirrorNode } from '@tiptap/editor/pm/model'
+import type { EditorView, NodeView, ViewMutationRecord } from '@tiptap/editor/pm/view'
 
 import { getColStyleDeclaration } from './utilities/colStyle.js'
 

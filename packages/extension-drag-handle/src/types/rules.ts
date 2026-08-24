@@ -1,5 +1,5 @@
-import type { Node, ResolvedPos } from '@tiptap/pm/model'
-import type { EditorView } from '@tiptap/pm/view'
+import type { Node, ResolvedPos } from '@tiptap/editor/pm/model'
+import type { EditorView } from '@tiptap/editor/pm/view'
 
 /**
  * Context provided to each rule evaluation function.

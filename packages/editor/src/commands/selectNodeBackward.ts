@@ -1,4 +1,4 @@
-import { selectNodeBackward as originalSelectNodeBackward } from '@tiptap/pm/commands'
+import { selectNodeBackward as originalSelectNodeBackward } from 'prosemirror-commands'
 
 import type { RawCommands } from '../types.js'
 

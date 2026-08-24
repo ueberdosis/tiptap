@@ -1,5 +1,5 @@
-import type { EditorState, Transaction } from '@tiptap/pm/state'
-import type { DecorationSet, EditorView } from '@tiptap/pm/view'
+import type { EditorState, Transaction } from 'prosemirror-state'
+import type { DecorationSet, EditorView } from 'prosemirror-view'
 
 import type { Editor } from '../Editor.js'
 import type { Decoration } from './Decoration.js'

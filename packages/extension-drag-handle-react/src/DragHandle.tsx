@@ -6,7 +6,7 @@ import {
   dragHandlePluginDefaultKey,
   normalizeNestedOptions,
 } from '@tiptap/extension-drag-handle'
-import type { Node } from '@tiptap/pm/model'
+import type { Node } from '@tiptap/editor/pm/model'
 import type { Editor } from '@tiptap/react'
 import { type ReactNode, useEffect, useMemo, useRef } from 'react'
 import { createPortal } from 'react-dom'

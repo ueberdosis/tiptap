@@ -4,7 +4,7 @@ import Document from '@tiptap/extension-document'
 import HorizontalRule from '@tiptap/extension-horizontal-rule'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { GapCursor } from '@tiptap/pm/gapcursor'
+import { GapCursor } from '@tiptap/editor/pm/gapcursor'
 import { afterEach, describe, expect, it } from 'vite-plus/test'
 
 import { BulletList, ListItem, ListKeymap, TaskItem, TaskList } from '../src/index.js'

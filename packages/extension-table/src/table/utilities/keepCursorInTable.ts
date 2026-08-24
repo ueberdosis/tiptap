@@ -1,5 +1,5 @@
 import { findParentNodeClosestToPos } from '@tiptap/editor'
-import { TextSelection, type Transaction } from '@tiptap/pm/state'
+import { TextSelection, type Transaction } from '@tiptap/editor/pm/state'
 
 // prosemirror-tables does not move the selection after a deletion, so removing the
 // last row or column can push the cursor out of the table into the content below.

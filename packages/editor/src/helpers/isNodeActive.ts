@@ -1,5 +1,5 @@
-import type { NodeType } from '@tiptap/pm/model'
-import type { EditorState } from '@tiptap/pm/state'
+import type { NodeType } from 'prosemirror-model'
+import type { EditorState } from 'prosemirror-state'
 
 import type { NodeRange } from '../types.js'
 import { objectIncludes } from '../utilities/objectIncludes.js'

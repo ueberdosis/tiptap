@@ -1,4 +1,4 @@
-import type { MarkType } from '@tiptap/pm/model'
+import type { MarkType } from 'prosemirror-model'
 
 import { getMarkType } from '../helpers/getMarkType.js'
 import { isMarkActive } from '../helpers/isMarkActive.js'

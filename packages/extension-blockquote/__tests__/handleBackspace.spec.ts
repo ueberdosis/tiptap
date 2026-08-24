@@ -3,7 +3,7 @@ import Document from '@tiptap/extension-document'
 import Image from '@tiptap/extension-image'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { GapCursor } from '@tiptap/pm/gapcursor'
+import { GapCursor } from '@tiptap/editor/pm/gapcursor'
 import { afterEach, beforeEach, describe, expect, it } from 'vite-plus/test'
 
 import { handleBackspace } from '../src/handleBackspace.js'

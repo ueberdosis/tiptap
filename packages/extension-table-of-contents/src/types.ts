@@ -1,5 +1,5 @@
 import type { Editor } from '@tiptap/editor'
-import type { Node } from '@tiptap/pm/model'
+import type { Node } from '@tiptap/editor/pm/model'
 
 export type GetTableOfContentLevelFunction = (
   headline: { node: Node; pos: number },

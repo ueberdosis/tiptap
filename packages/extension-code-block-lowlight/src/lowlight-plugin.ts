@@ -1,7 +1,7 @@
 import { findChildren } from '@tiptap/editor'
-import type { Node as ProsemirrorNode } from '@tiptap/pm/model'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
-import { Decoration, DecorationSet } from '@tiptap/pm/view'
+import type { Node as ProsemirrorNode } from '@tiptap/editor/pm/model'
+import { Plugin, PluginKey } from '@tiptap/editor/pm/state'
+import { Decoration, DecorationSet } from '@tiptap/editor/pm/view'
 // @ts-ignore
 import highlight from 'highlight.js/lib/core'
 

@@ -1,6 +1,6 @@
 import type { InputRuleMatch, PasteRuleMatch } from '@tiptap/editor'
 import { InputRule, markInputRule, markPasteRule, PasteRule } from '@tiptap/editor'
-import type { MarkType } from '@tiptap/pm/model'
+import type { MarkType } from '@tiptap/editor/pm/model'
 
 /**
  * Matches a Markdown link with an optional quoted title.

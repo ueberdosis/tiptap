@@ -1,4 +1,4 @@
-import { type Step } from '@tiptap/pm/transform'
+import { type Step } from 'prosemirror-transform'
 
 /**
  * Checks if a value is a ProseMirror step

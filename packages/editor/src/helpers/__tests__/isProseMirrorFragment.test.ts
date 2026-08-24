@@ -1,4 +1,4 @@
-import { Fragment } from '@tiptap/pm/model'
+import { Fragment } from 'prosemirror-model'
 import { describe, expect, it } from 'vite-plus/test'
 
 import { isProseMirrorFragment } from '../isProseMirrorFragment.js'

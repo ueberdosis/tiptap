@@ -9,7 +9,7 @@ import { generateTocIds, TableOfContents } from '@tiptap/extension-table-of-cont
 import Text from '@tiptap/extension-text'
 import { generateUniqueIds, UniqueID } from '@tiptap/extension-unique-id'
 import Youtube from '@tiptap/extension-youtube'
-import { Mark, Node } from '@tiptap/pm/model'
+import { Mark, Node } from '@tiptap/editor/pm/model'
 import {
   renderJSONContentToString,
   serializeAttrsToHTMLString,

@@ -1,8 +1,8 @@
-import type { Node } from '@tiptap/pm/model'
-import type { EditorState, Transaction } from '@tiptap/pm/state'
-import { Plugin } from '@tiptap/pm/state'
-import type { EditorView } from '@tiptap/pm/view'
-import { DecorationSet } from '@tiptap/pm/view'
+import type { Node } from 'prosemirror-model'
+import type { EditorState, Transaction } from 'prosemirror-state'
+import { Plugin } from 'prosemirror-state'
+import type { EditorView } from 'prosemirror-view'
+import { DecorationSet } from 'prosemirror-view'
 
 import type { Editor } from '../Editor.js'
 import type { Range } from '../types.js'

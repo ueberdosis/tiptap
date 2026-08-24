@@ -1,4 +1,4 @@
-import type { Node as ProseMirrorNode, ResolvedPos } from '@tiptap/pm/model'
+import type { Node as ProseMirrorNode, ResolvedPos } from 'prosemirror-model'
 
 import type { Predicate } from '../types.js'
 

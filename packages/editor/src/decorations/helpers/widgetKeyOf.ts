@@ -1,4 +1,4 @@
-import type { Decoration } from '@tiptap/pm/view'
+import type { Decoration } from 'prosemirror-view'
 
 /**
  * Extracts the widget key from a decoration spec.

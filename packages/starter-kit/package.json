@@ -64,7 +64,6 @@
     "@tiptap/extension-strike": "workspace:*",
     "@tiptap/extension-text": "workspace:*",
     "@tiptap/extension-underline": "workspace:*",
-    "@tiptap/extensions": "workspace:*",
-    "@tiptap/pm": "workspace:*"
+    "@tiptap/extensions": "workspace:*"
   }
 }

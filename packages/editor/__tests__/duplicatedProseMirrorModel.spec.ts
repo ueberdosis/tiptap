@@ -8,14 +8,14 @@ import Text from '@tiptap/extension-text'
 import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 
 // Put @tiptap/editor on the CJS build and the rest of ProseMirror on the ESM one
-vi.mock('@tiptap/pm/model', () => {
+vi.mock('prosemirror-model', () => {
   const require = createRequire(import.meta.url)
 
   return { ...require('prosemirror-model') }
 })
 
 // Same version, but a different module instance than the one core now uses.
-const otherCopy = await vi.importActual<typeof import('@tiptap/pm/model')>('@tiptap/pm/model')
+const otherCopy = await vi.importActual<typeof import('prosemirror-model')>('prosemirror-model')
 
 const IMAGE = {
   type: 'image',

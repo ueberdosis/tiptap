@@ -1,4 +1,4 @@
-import type { EditorView } from '@tiptap/pm/view'
+import type { EditorView } from '@tiptap/editor/pm/view'
 
 import { getComputedStyle } from './getComputedStyle.js'
 import { minMax } from './minMax.js'

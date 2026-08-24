@@ -1,5 +1,5 @@
-import type { NodeType } from '@tiptap/pm/model'
-import { Fragment } from '@tiptap/pm/model'
+import type { NodeType } from '@tiptap/editor/pm/model'
+import { Fragment } from '@tiptap/editor/pm/model'
 
 // ASCII whitespace only, so a non-breaking-space cell is not treated as empty.
 const COLLAPSIBLE_WHITESPACE = /[ \t\r\n\f]+/g

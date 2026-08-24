@@ -1,4 +1,4 @@
-import { AllSelection } from '@tiptap/pm/state'
+import { AllSelection } from 'prosemirror-state'
 
 import type { RawCommands } from '../types.js'
 

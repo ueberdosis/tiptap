@@ -1,4 +1,4 @@
-import { joinTextblockForward as originalCommand } from '@tiptap/pm/commands'
+import { joinTextblockForward as originalCommand } from 'prosemirror-commands'
 
 import type { RawCommands } from '../types.js'
 

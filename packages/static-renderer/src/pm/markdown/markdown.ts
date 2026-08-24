@@ -1,6 +1,6 @@
 import type { Extensions, JSONContent } from '@tiptap/editor'
-import type { Mark, Node } from '@tiptap/pm/model'
-import { TableMap } from '@tiptap/pm/tables'
+import type { Mark, Node } from '@tiptap/editor/pm/model'
+import { TableMap } from '@tiptap/editor/pm/tables'
 
 import type { TiptapStaticRendererOptions } from '../../json/renderer.js'
 import type { StaticEditorOptions } from '../extensionRenderer.js'

@@ -1,5 +1,5 @@
-import type { ResolvedPos, Schema } from '@tiptap/pm/model'
-import { TextSelection } from '@tiptap/pm/state'
+import type { ResolvedPos, Schema } from 'prosemirror-model'
+import { TextSelection } from 'prosemirror-state'
 
 import type { RawCommands } from '../types.js'
 

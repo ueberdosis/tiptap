@@ -1,4 +1,4 @@
-import type { Plugin } from '@tiptap/pm/state'
+import type { Plugin } from 'prosemirror-state'
 
 import type { Editor } from './Editor.js'
 import type { DecorationSpec } from './decorations/index.js'

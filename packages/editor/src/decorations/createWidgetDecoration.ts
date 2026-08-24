@@ -1,4 +1,4 @@
-import type { EditorView } from '@tiptap/pm/view'
+import type { EditorView } from 'prosemirror-view'
 
 import type { Editor } from '../Editor.js'
 import { attrsEqual } from '../utilities/attrsEqual.js'

@@ -5,8 +5,8 @@ import {
   dragHandlePluginDefaultKey,
   normalizeNestedOptions,
 } from '@tiptap/extension-drag-handle'
-import type { Node } from '@tiptap/pm/model'
-import type { Plugin, PluginKey } from '@tiptap/pm/state'
+import type { Node } from '@tiptap/editor/pm/model'
+import type { Plugin, PluginKey } from '@tiptap/editor/pm/state'
 import type { Editor } from '@tiptap/vue-3'
 import type { PropType } from 'vue'
 import {

@@ -5,7 +5,7 @@ import Document from '@tiptap/extension-document'
 import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { NodeSelection } from '@tiptap/pm/state'
+import { NodeSelection } from 'prosemirror-state'
 import { afterEach, beforeEach, describe, expect, it } from 'vite-plus/test'
 
 describe('insertDefaultBlock', () => {

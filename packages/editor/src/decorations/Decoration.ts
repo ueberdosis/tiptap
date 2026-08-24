@@ -1,5 +1,5 @@
-import type { Mark } from '@tiptap/pm/model'
-import { DecorationAttrs, Decoration as PMDecoration, type EditorView } from '@tiptap/pm/view'
+import type { Mark } from 'prosemirror-model'
+import { DecorationAttrs, Decoration as PMDecoration, type EditorView } from 'prosemirror-view'
 
 export interface WidgetDecorationOptions {
   side?: number
@@ -19,12 +19,12 @@ export type DecorationKind = 'inline' | 'node' | 'widget'
 
 /**
  * Base class for decorations built in `addDecorations()`. Shadows `Decoration`
- * from `@tiptap/pm/view`, like core's `Node` and `Mark` do, so alias one of them
+ * from `prosemirror-view`, like core's `Node` and `Mark` do, so alias one of them
  * in files that need both.
  *
  * @example
  * import { Decoration } from '@tiptap/editor'
- * import { Decoration as PMDecoration } from '@tiptap/pm/view'
+ * import { Decoration as PMDecoration } from 'prosemirror-view'
  *
  * const highlight = Decoration.Inline(1, 5, { class: 'highlight' })
  */

@@ -1,6 +1,6 @@
 import { attrsEqual } from '@tiptap/editor'
 import type { Content, MarkdownToken } from '@tiptap/editor'
-import type { Fragment, Node } from '@tiptap/pm/model'
+import type { Fragment, Node } from '@tiptap/editor/pm/model'
 
 import type { ContentType } from './types.js'
 

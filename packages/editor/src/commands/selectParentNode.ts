@@ -1,4 +1,4 @@
-import { selectParentNode as originalSelectParentNode } from '@tiptap/pm/commands'
+import { selectParentNode as originalSelectParentNode } from 'prosemirror-commands'
 
 import type { RawCommands } from '../types.js'
 

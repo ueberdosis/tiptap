@@ -1,7 +1,7 @@
 import type { Command, Editor } from '@tiptap/editor'
 import { Extension } from '@tiptap/editor'
-import type { EditorState, Transaction } from '@tiptap/pm/state'
-import { TextSelection } from '@tiptap/pm/state'
+import type { EditorState, Transaction } from '@tiptap/editor/pm/state'
+import { TextSelection } from '@tiptap/editor/pm/state'
 
 import {
   clearDebouncedSearchState,

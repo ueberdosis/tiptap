@@ -3,7 +3,7 @@ import Bold from '@tiptap/extension-bold'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { AllSelection } from '@tiptap/pm/state'
+import { AllSelection } from 'prosemirror-state'
 import { describe, expect, it, vi } from 'vite-plus/test'
 
 const InlineDocument = Document.extend({

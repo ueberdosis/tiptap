@@ -19,7 +19,7 @@
     "paths": {
       "@tiptap/static-renderer/pm/*": ["packages/static-renderer/src/pm/*"],
       "@tiptap/static-renderer/json/*": ["packages/static-renderer/src/json/*"],
-      "@tiptap/pm/*": ["packages/pm/*/index.ts"],
+      "@tiptap/editor/pm/*": ["packages/editor/src/pm/*/index.ts"],
       "@tiptap/*": ["packages/*/src/index.ts", "packages-deprecated/*/src/index.ts"]
     },
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]

@@ -1,4 +1,4 @@
-import { Decoration, DecorationSet } from '@tiptap/pm/view'
+import { Decoration, DecorationSet } from '@tiptap/editor/pm/view'
 
 import type { SearchResult } from '../search/search.js'
 

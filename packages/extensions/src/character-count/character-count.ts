@@ -1,6 +1,6 @@
 import { Extension } from '@tiptap/editor'
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
+import type { Node as ProseMirrorNode } from '@tiptap/editor/pm/model'
+import { Plugin, PluginKey } from '@tiptap/editor/pm/state'
 
 export interface CharacterCountOptions {
   /**

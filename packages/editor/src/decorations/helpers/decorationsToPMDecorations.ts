@@ -1,4 +1,4 @@
-import { Decoration as PMDecoration } from '@tiptap/pm/view'
+import { Decoration as PMDecoration } from 'prosemirror-view'
 
 import type { Decoration, WidgetDecoration } from '../Decoration.js'
 

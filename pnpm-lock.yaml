@@ -400,9 +400,6 @@ importers:
       '@tiptap/editor':
         specifier: workspace:^
         version: link:../editor
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
       '@tiptap/y-tiptap':
         specifier: ^3.0.7
         version: 3.0.8(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-view@1.42.2)(y-protocols@1.0.7(yjs@13.6.23))(yjs@13.6.23)
@@ -411,13 +408,46 @@ importers:
         version: 13.6.23
 
   packages/editor:
-    devDependencies:
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
+    dependencies:
+      prosemirror-changeset:
+        specifier: ^2.4.1
+        version: 2.4.1
+      prosemirror-commands:
+        specifier: ^1.7.1
+        version: 1.7.2
+      prosemirror-dropcursor:
+        specifier: ^1.8.2
+        version: 1.8.3
+      prosemirror-gapcursor:
+        specifier: ^1.4.1
+        version: 1.4.1
+      prosemirror-history:
+        specifier: ^1.5.0
+        version: 1.5.0
+      prosemirror-inputrules:
+        specifier: ^1.5.1
+        version: 1.5.1
+      prosemirror-keymap:
+        specifier: ^1.2.3
+        version: 1.2.3
       prosemirror-model:
         specifier: ^1.25.11
         version: 1.25.11
+      prosemirror-schema-list:
+        specifier: ^1.5.1
+        version: 1.5.1
+      prosemirror-state:
+        specifier: ^1.4.4
+        version: 1.4.4
+      prosemirror-tables:
+        specifier: ^1.8.5
+        version: 1.8.5
+      prosemirror-transform:
+        specifier: ^1.12.0
+        version: 1.12.0
+      prosemirror-view:
+        specifier: ^1.41.9
+        version: 1.42.2
 
   packages/extension-audio:
     devDependencies:
@@ -430,9 +460,6 @@ importers:
       '@tiptap/editor':
         specifier: workspace:^
         version: link:../editor
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
 
   packages/extension-bold:
     devDependencies:
@@ -449,9 +476,6 @@ importers:
       '@tiptap/editor':
         specifier: workspace:^
         version: link:../editor
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
 
   packages/extension-bullet-list:
     devDependencies:
@@ -470,9 +494,6 @@ importers:
       '@tiptap/editor':
         specifier: workspace:^
         version: link:../editor
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
 
   packages/extension-code-block-lowlight:
     dependencies:
@@ -486,9 +507,6 @@ importers:
       '@tiptap/extension-code-block':
         specifier: workspace:^
         version: link:../extension-code-block
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
       lowlight:
         specifier: ^3.3.0
         version: 3.3.0
@@ -502,9 +520,6 @@ importers:
       '@tiptap/editor':
         specifier: workspace:^
         version: link:../editor
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
       '@tiptap/y-tiptap':
         specifier: ^3.0.7
         version: 3.0.8(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-view@1.42.2)(y-protocols@1.0.7(yjs@13.6.23))(yjs@13.6.23)
@@ -538,9 +553,6 @@ importers:
       '@tiptap/extension-text':
         specifier: workspace:^
         version: link:../extension-text
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
       '@tiptap/y-tiptap':
         specifier: ^3.0.7
         version: 3.0.8(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-view@1.42.2)(y-protocols@1.0.7(yjs@13.6.23))(yjs@13.6.23)
@@ -562,9 +574,6 @@ importers:
       '@tiptap/extension-text-style':
         specifier: workspace:^
         version: link:../extension-text-style
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
 
   packages/extension-document:
     devDependencies:
@@ -587,9 +596,6 @@ importers:
       '@tiptap/extension-node-range':
         specifier: workspace:^
         version: link:../extension-node-range
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
       '@tiptap/y-tiptap':
         specifier: ^3.0.7
         version: 3.0.8(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-view@1.42.2)(y-protocols@1.0.7(yjs@13.6.23))(yjs@13.6.23)
@@ -599,9 +605,6 @@ importers:
       '@tiptap/extension-drag-handle':
         specifier: workspace:^
         version: link:../extension-drag-handle
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
       '@tiptap/react':
         specifier: workspace:^
         version: link:../react
@@ -623,9 +626,6 @@ importers:
       '@tiptap/extension-drag-handle':
         specifier: workspace:^
         version: link:../extension-drag-handle
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
       '@tiptap/vue-2':
         specifier: workspace:^
         version: link:../vue-2
@@ -641,9 +641,6 @@ importers:
       '@tiptap/extension-drag-handle':
         specifier: workspace:^
         version: link:../extension-drag-handle
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
       '@tiptap/vue-3':
         specifier: workspace:^
         version: link:../vue-3
@@ -666,9 +663,6 @@ importers:
       '@tiptap/editor':
         specifier: workspace:^
         version: link:../editor
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
       '@tiptap/suggestion':
         specifier: workspace:^
         version: link:../suggestion
@@ -690,9 +684,6 @@ importers:
       '@tiptap/extension-text-style':
         specifier: workspace:^
         version: link:../extension-text-style
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
 
   packages/extension-find-and-replace:
     dependencies:
@@ -703,9 +694,6 @@ importers:
       '@tiptap/editor':
         specifier: workspace:^
         version: link:../editor
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
 
   packages/extension-floating-menu:
     devDependencies:
@@ -715,9 +703,6 @@ importers:
       '@tiptap/editor':
         specifier: workspace:^
         version: link:../editor
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
 
   packages/extension-font-family:
     devDependencies:
@@ -748,9 +733,6 @@ importers:
       '@tiptap/editor':
         specifier: workspace:^
         version: link:../editor
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
 
   packages/extension-image:
     devDependencies:
@@ -766,9 +748,6 @@ importers:
       '@tiptap/extension-text-style':
         specifier: workspace:^
         version: link:../extension-text-style
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
 
   packages/extension-italic:
     devDependencies:
@@ -785,18 +764,12 @@ importers:
       '@tiptap/editor':
         specifier: workspace:^
         version: link:../editor
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
 
   packages/extension-list:
     devDependencies:
       '@tiptap/editor':
         specifier: workspace:^
         version: link:../editor
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
 
   packages/extension-mathematics:
     dependencies:
@@ -807,9 +780,6 @@ importers:
       '@tiptap/editor':
         specifier: workspace:^
         version: link:../editor
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
       '@types/katex':
         specifier: ^0.16.7 || ^0.17.0
         version: 0.16.8
@@ -819,9 +789,6 @@ importers:
       '@tiptap/editor':
         specifier: workspace:^
         version: link:../editor
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
       '@tiptap/suggestion':
         specifier: workspace:^
         version: link:../suggestion
@@ -831,9 +798,6 @@ importers:
       '@tiptap/editor':
         specifier: workspace:^
         version: link:../editor
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
 
   packages/extension-ordered-list:
     devDependencies:
@@ -852,9 +816,6 @@ importers:
       '@tiptap/editor':
         specifier: workspace:^
         version: link:../editor
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
 
   packages/extension-strike:
     devDependencies:
@@ -867,27 +828,18 @@ importers:
       '@tiptap/editor':
         specifier: workspace:^
         version: link:../editor
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
 
   packages/extension-superscript:
     devDependencies:
       '@tiptap/editor':
         specifier: workspace:^
         version: link:../editor
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
 
   packages/extension-table:
     devDependencies:
       '@tiptap/editor':
         specifier: workspace:^
         version: link:../editor
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
 
   packages/extension-table-of-contents:
     dependencies:
@@ -898,9 +850,6 @@ importers:
       '@tiptap/editor':
         specifier: workspace:^
         version: link:../editor
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
 
   packages/extension-text:
     devDependencies:
@@ -947,9 +896,6 @@ importers:
       '@tiptap/editor':
         specifier: workspace:^
         version: link:../editor
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
 
   packages/extension-youtube:
     devDependencies:
@@ -962,18 +908,12 @@ importers:
       '@tiptap/editor':
         specifier: workspace:^
         version: link:../editor
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
 
   packages/html:
     devDependencies:
       '@tiptap/editor':
         specifier: workspace:^
         version: link:../editor
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
       '@types/node':
         specifier: ^22.0.0
         version: 22.20.1
@@ -990,51 +930,6 @@ importers:
       '@tiptap/editor':
         specifier: workspace:^
         version: link:../editor
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
-
-  packages/pm:
-    dependencies:
-      prosemirror-changeset:
-        specifier: ^2.4.1
-        version: 2.4.1
-      prosemirror-commands:
-        specifier: ^1.7.1
-        version: 1.7.2
-      prosemirror-dropcursor:
-        specifier: ^1.8.2
-        version: 1.8.3
-      prosemirror-gapcursor:
-        specifier: ^1.4.1
-        version: 1.4.1
-      prosemirror-history:
-        specifier: ^1.5.0
-        version: 1.5.0
-      prosemirror-inputrules:
-        specifier: ^1.5.1
-        version: 1.5.1
-      prosemirror-keymap:
-        specifier: ^1.2.3
-        version: 1.2.3
-      prosemirror-model:
-        specifier: ^1.25.11
-        version: 1.25.11
-      prosemirror-schema-list:
-        specifier: ^1.5.1
-        version: 1.5.1
-      prosemirror-state:
-        specifier: ^1.4.4
-        version: 1.4.4
-      prosemirror-tables:
-        specifier: ^1.8.5
-        version: 1.8.5
-      prosemirror-transform:
-        specifier: ^1.12.0
-        version: 1.12.0
-      prosemirror-view:
-        specifier: ^1.41.9
-        version: 1.42.2
 
   packages/react:
     dependencies:
@@ -1051,9 +946,6 @@ importers:
       '@tiptap/editor':
         specifier: workspace:^
         version: link:../editor
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
       '@types/react':
         specifier: ^19.0.0
         version: 19.2.18
@@ -1145,18 +1037,12 @@ importers:
       '@tiptap/extensions':
         specifier: workspace:*
         version: link:../extensions
-      '@tiptap/pm':
-        specifier: workspace:*
-        version: link:../pm
 
   packages/static-renderer:
     devDependencies:
       '@tiptap/editor':
         specifier: workspace:^
         version: link:../editor
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
       '@types/react':
         specifier: ^19.0.0
         version: 19.2.18
@@ -1178,9 +1064,6 @@ importers:
       '@tiptap/editor':
         specifier: workspace:^
         version: link:../editor
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
 
   packages/vue-2:
     dependencies:
@@ -1191,9 +1074,6 @@ importers:
       '@tiptap/editor':
         specifier: workspace:^
         version: link:../editor
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
       vue:
         specifier: ^2.7.16
         version: 2.7.16
@@ -1214,9 +1094,6 @@ importers:
       '@tiptap/editor':
         specifier: workspace:^
         version: link:../editor
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
       vue:
         specifier: ^3.5.13
         version: 3.5.41(typescript@5.9.3)

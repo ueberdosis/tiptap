@@ -1,7 +1,7 @@
 import type { Range } from '@tiptap/editor'
-import type { EditorState, Transaction } from '@tiptap/pm/state'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
-import type { EditorView } from '@tiptap/pm/view'
+import type { EditorState, Transaction } from '@tiptap/editor/pm/state'
+import { Plugin, PluginKey } from '@tiptap/editor/pm/state'
+import type { EditorView } from '@tiptap/editor/pm/view'
 
 import type { SuggestionMatch } from './findSuggestionMatch.js'
 import { findSuggestionMatch as defaultFindSuggestionMatch } from './findSuggestionMatch.js'

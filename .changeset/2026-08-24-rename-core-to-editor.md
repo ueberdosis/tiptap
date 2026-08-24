@@ -12,5 +12,16 @@ import { Editor, Node } from '@tiptap/core'
 import { Editor, Node } from '@tiptap/editor'
 ```
 
-Rename it everywhere else too: `@tiptap/editor/jsx-runtime`, the
-`@jsxImportSource` pragma, and `declare module` blocks.
+Also update the JSX runtime import, the `@jsxImportSource` pragma, and any
+`declare module` blocks.
+
+The `extensions` namespace is now `baseExtensions`. It holds the plugins the
+editor always loads.
+
+```ts
+// before
+import { extensions } from '@tiptap/core'
+
+// after
+import { baseExtensions } from '@tiptap/editor'
+```

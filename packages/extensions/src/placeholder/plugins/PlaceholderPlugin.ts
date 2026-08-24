@@ -1,6 +1,6 @@
 import type { Editor } from '@tiptap/editor'
-import { Plugin } from '@tiptap/pm/state'
-import { DecorationSet } from '@tiptap/pm/view'
+import { Plugin } from '@tiptap/editor/pm/state'
+import { DecorationSet } from '@tiptap/editor/pm/view'
 
 import { DEFAULT_DATA_ATTRIBUTE, PLUGIN_KEY } from '../constants.js'
 import type { PlaceholderOptions } from '../types.js'

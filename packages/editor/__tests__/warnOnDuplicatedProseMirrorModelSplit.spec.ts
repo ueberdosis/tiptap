@@ -8,7 +8,7 @@ import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 
 // Put @tiptap/editor on the CJS build and the rest of ProseMirror on the ESM one.
 // Own file because the warning fires once per process.
-vi.mock('@tiptap/pm/model', () => {
+vi.mock('prosemirror-model', () => {
   const require = createRequire(import.meta.url)
 
   return { ...require('prosemirror-model') }

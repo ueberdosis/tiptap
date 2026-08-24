@@ -1,5 +1,5 @@
-import { lift as originalLift } from '@tiptap/pm/commands'
-import type { NodeType } from '@tiptap/pm/model'
+import { lift as originalLift } from 'prosemirror-commands'
+import type { NodeType } from 'prosemirror-model'
 
 import { getNodeType } from '../helpers/getNodeType.js'
 import { isNodeActive } from '../helpers/isNodeActive.js'

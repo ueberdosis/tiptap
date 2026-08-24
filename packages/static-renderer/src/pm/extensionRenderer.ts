@@ -18,8 +18,8 @@ import {
   resolveExtensions,
   splitExtensions,
 } from '@tiptap/editor'
-import type { DOMOutputSpec, Mark } from '@tiptap/pm/model'
-import { Node, Schema } from '@tiptap/pm/model'
+import type { DOMOutputSpec, Mark } from '@tiptap/editor/pm/model'
+import { Node, Schema } from '@tiptap/editor/pm/model'
 
 import { getHTMLAttributes } from '../helpers.js'
 import type { MarkProps, NodeProps, TiptapStaticRendererOptions } from '../json/renderer.js'

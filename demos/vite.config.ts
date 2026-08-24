@@ -14,18 +14,19 @@ const getPackageDependencies = () => {
     fg.sync(`../${path}/*`, { onlyDirectories: true })
       .map(name => name.replace(`../${path}/`, ''))
       .forEach(name => {
-        if (name === 'pm') {
-          fg.sync(`../${path}/${name}/*`, { onlyDirectories: true }).forEach(subName => {
-            const subPkgName = subName.replace(`../${path}/${name}/`, '')
-
-            if (subPkgName === 'dist' || subPkgName === 'node_modules') {
-              return
-            }
+        if (name === 'editor') {
+          // subpaths first: a bare `@tiptap/editor` alias would prefix-match them
+          fg.sync(`../${path}/${name}/src/pm/*`, { onlyDirectories: true }).forEach(subName => {
+            const subPkgName = subName.replace(`../${path}/${name}/src/pm/`, '')
 
             paths.push({
-              find: `@tiptap/${name}/${subPkgName}`,
-              replacement: resolve(`../${path}/${name}/${subPkgName}/index.ts`),
+              find: `@tiptap/${name}/pm/${subPkgName}`,
+              replacement: resolve(`../${path}/${name}/src/pm/${subPkgName}/index.ts`),
             })
+          })
+          paths.push({
+            find: `@tiptap/${name}`,
+            replacement: resolve(`../${path}/${name}/src/index.ts`),
           })
         } else if (
           name === 'extension-text-style' ||

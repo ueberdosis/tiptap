@@ -1,8 +1,8 @@
 /* oslint-disableno-empty-object-type */
-import type { MarkType, Node as ProseMirrorNode, NodeType, Schema } from '@tiptap/pm/model'
-import type { Plugin, PluginKey, Transaction } from '@tiptap/pm/state'
-import { EditorState } from '@tiptap/pm/state'
-import { type DirectEditorProps, EditorView } from '@tiptap/pm/view'
+import type { MarkType, Node as ProseMirrorNode, NodeType, Schema } from 'prosemirror-model'
+import type { Plugin, PluginKey, Transaction } from 'prosemirror-state'
+import { EditorState } from 'prosemirror-state'
+import { type DirectEditorProps, EditorView } from 'prosemirror-view'
 
 import { CommandManager } from './CommandManager.js'
 import { isInDecorationApplyScope } from './decorations/decorationApplyScope.js'

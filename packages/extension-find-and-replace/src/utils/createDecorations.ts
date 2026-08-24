@@ -1,5 +1,5 @@
-import type { Node } from '@tiptap/pm/model'
-import { DecorationSet } from '@tiptap/pm/view'
+import type { Node } from '@tiptap/editor/pm/model'
+import { DecorationSet } from '@tiptap/editor/pm/view'
 
 import type { SearchResult } from '../search/search.js'
 

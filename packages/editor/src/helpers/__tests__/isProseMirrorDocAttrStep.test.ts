@@ -1,5 +1,5 @@
-import { DocAttrStep, ReplaceStep } from '@tiptap/pm/transform'
-import { Slice } from '@tiptap/pm/model'
+import { DocAttrStep, ReplaceStep } from 'prosemirror-transform'
+import { Slice } from 'prosemirror-model'
 import { describe, expect, it } from 'vite-plus/test'
 
 import { isProseMirrorDocAttrStep } from '../isProseMirrorDocAttrStep.js'

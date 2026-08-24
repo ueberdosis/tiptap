@@ -9,8 +9,8 @@ import {
   Extension,
   liveWidgetKeys,
 } from '@tiptap/editor'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
-import type { EditorState } from '@tiptap/pm/state'
+import { Plugin, PluginKey } from 'prosemirror-state'
+import type { EditorState } from 'prosemirror-state'
 import { describe, expect, it, vi } from 'vite-plus/test'
 
 import * as mergeModule from '../helpers/mergeDecorationSets.js'

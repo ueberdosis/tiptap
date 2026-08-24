@@ -1,6 +1,6 @@
-import type { EditorState } from '@tiptap/pm/state'
-import { NodeSelection, TextSelection } from '@tiptap/pm/state'
-import { canSplit } from '@tiptap/pm/transform'
+import type { EditorState } from 'prosemirror-state'
+import { NodeSelection, TextSelection } from 'prosemirror-state'
+import { canSplit } from 'prosemirror-transform'
 
 import { defaultBlockAt } from '../helpers/defaultBlockAt.js'
 import { getSplittedAttributes } from '../helpers/getSplittedAttributes.js'

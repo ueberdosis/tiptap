@@ -3,7 +3,7 @@ import {
   getUpdatedPosition as coreGetUpdatedPosition,
   MappablePosition,
 } from '@tiptap/editor'
-import type { EditorState, Transaction } from '@tiptap/pm/state'
+import type { EditorState, Transaction } from '@tiptap/editor/pm/state'
 
 import { isChangeOrigin } from './isChangeOrigin.js'
 import {

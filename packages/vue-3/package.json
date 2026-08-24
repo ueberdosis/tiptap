@@ -52,13 +52,11 @@
   },
   "devDependencies": {
     "@tiptap/editor": "workspace:^",
-    "@tiptap/pm": "workspace:^",
     "vue": "^3.5.13"
   },
   "peerDependencies": {
     "@floating-ui/dom": "^1.0.0",
     "@tiptap/editor": "workspace:*",
-    "@tiptap/pm": "workspace:*",
     "vue": "^3.0.0"
   },
   "optionalDependencies": {

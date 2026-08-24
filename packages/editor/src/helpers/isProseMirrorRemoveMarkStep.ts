@@ -1,4 +1,4 @@
-import { type RemoveMarkStep } from '@tiptap/pm/transform'
+import { type RemoveMarkStep } from 'prosemirror-transform'
 import { isProseMirrorStep } from './isProseMirrorStep.js'
 
 /**

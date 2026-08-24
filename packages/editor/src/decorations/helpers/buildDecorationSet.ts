@@ -1,5 +1,5 @@
-import type { Node } from '@tiptap/pm/model'
-import { DecorationSet } from '@tiptap/pm/view'
+import type { Node } from 'prosemirror-model'
+import { DecorationSet } from 'prosemirror-view'
 
 import type { Decoration } from '../Decoration.js'
 import { decorationsToPMDecorations } from './decorationsToPMDecorations.js'

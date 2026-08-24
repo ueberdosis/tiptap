@@ -1,6 +1,6 @@
 import type { Editor } from '@tiptap/editor'
-import { Slice, type NodeType } from '@tiptap/pm/model'
-import { TextSelection } from '@tiptap/pm/state'
+import { Slice, type NodeType } from '@tiptap/editor/pm/model'
+import { TextSelection } from '@tiptap/editor/pm/state'
 
 /**
  * Restructure the blockquote boundary at the caret.

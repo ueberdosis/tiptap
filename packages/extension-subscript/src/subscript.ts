@@ -1,5 +1,5 @@
 import { Mark, mergeAttributes } from '@tiptap/editor'
-import type { StyleParseRule } from '@tiptap/pm/model'
+import type { StyleParseRule } from '@tiptap/editor/pm/model'
 
 export interface SubscriptExtensionOptions {
   /**

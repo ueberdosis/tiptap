@@ -1,5 +1,5 @@
-import { type ResolvedPos, NodeRange } from '@tiptap/pm/model'
-import { SelectionRange } from '@tiptap/pm/state'
+import { type ResolvedPos, NodeRange } from '@tiptap/editor/pm/model'
+import { SelectionRange } from '@tiptap/editor/pm/state'
 
 export interface GetSelectionRangesOptions {
   /**

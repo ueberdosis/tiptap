@@ -1,5 +1,5 @@
 import { mergeAttributes, Node, textblockTypeInputRule } from '@tiptap/editor'
-import { Plugin, PluginKey, Selection, TextSelection } from '@tiptap/pm/state'
+import { Plugin, PluginKey, Selection, TextSelection } from '@tiptap/editor/pm/state'
 
 const DEFAULT_TAB_SIZE = 4
 

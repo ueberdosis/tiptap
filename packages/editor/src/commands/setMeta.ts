@@ -1,4 +1,4 @@
-import type { Plugin, PluginKey } from '@tiptap/pm/state'
+import type { Plugin, PluginKey } from 'prosemirror-state'
 
 import type { RawCommands } from '../types.js'
 

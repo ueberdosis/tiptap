@@ -1,6 +1,6 @@
 import type { Range } from '@tiptap/editor'
 import { escapeForRegEx } from '@tiptap/editor'
-import type { ResolvedPos } from '@tiptap/pm/model'
+import type { ResolvedPos } from '@tiptap/editor/pm/model'
 
 export interface Trigger {
   char: string

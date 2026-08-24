@@ -1,5 +1,5 @@
 import { InputRule, mergeAttributes, Node } from '@tiptap/editor'
-import type { Node as PMNode } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/editor/pm/model'
 import katex, { type KatexOptions } from 'katex'
 
 /**

@@ -1,4 +1,4 @@
-import { Schema } from '@tiptap/pm/model'
+import { Schema } from 'prosemirror-model'
 import { describe, expect, it } from 'vite-plus/test'
 
 import { rewriteUnknownContent } from '../helpers/rewriteUnknownContent.js'

@@ -1,4 +1,4 @@
-import { type Fragment } from '@tiptap/pm/model'
+import { type Fragment } from 'prosemirror-model'
 
 /**
  * Checks if a value is a ProseMirror fragment by inspecting it

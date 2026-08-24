@@ -1,5 +1,5 @@
-import type { MarkType } from '@tiptap/pm/model'
-import { TextSelection } from '@tiptap/pm/state'
+import type { MarkType } from 'prosemirror-model'
+import { TextSelection } from 'prosemirror-state'
 
 import { getMarkRange } from '../helpers/getMarkRange.js'
 import { getMarkType } from '../helpers/getMarkType.js'

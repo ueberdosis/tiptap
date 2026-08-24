@@ -1,4 +1,4 @@
-import { Plugin, PluginKey } from '@tiptap/pm/state'
+import { Plugin, PluginKey } from '@tiptap/editor/pm/state'
 
 import type { FileHandlePluginOptions } from './types.js'
 

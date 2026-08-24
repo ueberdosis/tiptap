@@ -1,4 +1,4 @@
-import type { Mapping } from '@tiptap/pm/transform'
+import type { Mapping } from '@tiptap/editor/pm/transform'
 
 import type { FindAndReplacePluginState } from '../plugin/plugin-state.js'
 import type { SearchResult } from '../search/search.js'

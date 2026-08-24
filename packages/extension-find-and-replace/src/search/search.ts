@@ -1,4 +1,4 @@
-import type { Node } from '@tiptap/pm/model'
+import type { Node } from '@tiptap/editor/pm/model'
 
 import { createSearchRegex } from './regex.js'
 import { searchTextblock } from './textblock-search.js'

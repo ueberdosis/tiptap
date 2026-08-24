@@ -1,5 +1,5 @@
-import { Fragment } from '@tiptap/pm/model'
-import type { EditorState, Transaction } from '@tiptap/pm/state'
+import { Fragment } from '@tiptap/editor/pm/model'
+import type { EditorState, Transaction } from '@tiptap/editor/pm/state'
 
 import { getBranchingNestedListAtCursor } from './getBranchingNestedListAtCursor.js'
 

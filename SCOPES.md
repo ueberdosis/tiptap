@@ -9,7 +9,6 @@
 - extensions
 - html
 - markdown
-- pm
 - react
 - server-ai-toolkit
 - starter-kit

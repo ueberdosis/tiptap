@@ -1,4 +1,4 @@
-import { type Slice } from '@tiptap/pm/model'
+import { type Slice } from 'prosemirror-model'
 import { isProseMirrorFragment } from './isProseMirrorFragment.js'
 
 /**

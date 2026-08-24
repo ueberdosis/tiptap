@@ -1,5 +1,5 @@
-import type { Node as ProseMirrorNode, ParseOptions } from '@tiptap/pm/model'
-import { Fragment } from '@tiptap/pm/model'
+import type { Node as ProseMirrorNode, ParseOptions } from 'prosemirror-model'
+import { Fragment } from 'prosemirror-model'
 
 import { createNodeFromContent } from '../helpers/createNodeFromContent.js'
 import { isFragment } from '../helpers/isFragment.js'

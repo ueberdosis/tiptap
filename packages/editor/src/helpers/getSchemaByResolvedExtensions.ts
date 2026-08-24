@@ -1,5 +1,5 @@
-import type { MarkSpec, NodeSpec, TagParseRule } from '@tiptap/pm/model'
-import { Schema } from '@tiptap/pm/model'
+import type { MarkSpec, NodeSpec, TagParseRule } from 'prosemirror-model'
+import { Schema } from 'prosemirror-model'
 
 import type { Editor, MarkConfig, NodeConfig } from '../index.js'
 import type { AnyConfig, Extensions } from '../types.js'

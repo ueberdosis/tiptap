@@ -1,5 +1,5 @@
-import type { Node } from '@tiptap/pm/model'
-import { DecorationSet } from '@tiptap/pm/view'
+import type { Node } from 'prosemirror-model'
+import { DecorationSet } from 'prosemirror-view'
 
 /**
  * Merges multiple decoration sets into a single decoration set.

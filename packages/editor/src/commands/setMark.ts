@@ -1,5 +1,5 @@
-import type { MarkType, ResolvedPos } from '@tiptap/pm/model'
-import type { EditorState, Transaction } from '@tiptap/pm/state'
+import type { MarkType, ResolvedPos } from 'prosemirror-model'
+import type { EditorState, Transaction } from 'prosemirror-state'
 
 import { getMarkAttributes } from '../helpers/getMarkAttributes.js'
 import { getMarkType } from '../helpers/getMarkType.js'

@@ -1,5 +1,5 @@
-import type { Node } from '@tiptap/pm/model'
-import type { Transaction } from '@tiptap/pm/state'
+import type { Node } from 'prosemirror-model'
+import type { Transaction } from 'prosemirror-state'
 
 import { getChangedRanges } from '../../helpers/getChangedRanges.js'
 import type { Range } from '../../types.js'

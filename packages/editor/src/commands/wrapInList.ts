@@ -1,5 +1,5 @@
-import type { NodeType } from '@tiptap/pm/model'
-import { wrapInList as originalWrapInList } from '@tiptap/pm/schema-list'
+import type { NodeType } from 'prosemirror-model'
+import { wrapInList as originalWrapInList } from 'prosemirror-schema-list'
 
 import { getNodeType } from '../helpers/getNodeType.js'
 import type { RawCommands } from '../types.js'

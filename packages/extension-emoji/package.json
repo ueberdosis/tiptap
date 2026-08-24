@@ -48,7 +48,6 @@
   },
   "devDependencies": {
     "@tiptap/editor": "workspace:^",
-    "@tiptap/pm": "workspace:^",
     "@tiptap/suggestion": "workspace:^",
     "emoji-datasource": "^16.0.0",
     "json5": "^2.2.3",
@@ -56,7 +55,6 @@
   },
   "peerDependencies": {
     "@tiptap/editor": "workspace:*",
-    "@tiptap/pm": "workspace:*",
     "@tiptap/suggestion": "workspace:*"
   }
 }

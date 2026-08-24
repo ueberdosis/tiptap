@@ -4,7 +4,7 @@ import Highlight from '@tiptap/extension-highlight'
 import Link from '@tiptap/extension-link'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { Node } from '@tiptap/pm/model'
+import { Node } from 'prosemirror-model'
 import { describe, expect, it } from 'vite-plus/test'
 
 describe('getMarkRange', () => {

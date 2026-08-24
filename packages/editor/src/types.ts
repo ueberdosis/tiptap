@@ -3,9 +3,9 @@ import type {
   Node as ProseMirrorNode,
   ParseOptions,
   Slice,
-} from '@tiptap/pm/model'
-import type { EditorState, Transaction } from '@tiptap/pm/state'
-import type { Mappable, Transform } from '@tiptap/pm/transform'
+} from 'prosemirror-model'
+import type { EditorState, Transaction } from 'prosemirror-state'
+import type { Mappable, Transform } from 'prosemirror-transform'
 import type {
   Decoration,
   DecorationAttrs,
@@ -16,7 +16,7 @@ import type {
   NodeView,
   NodeViewConstructor,
   ViewMutationRecord,
-} from '@tiptap/pm/view'
+} from 'prosemirror-view'
 
 import type { Editor } from './Editor.js'
 import type { Extendable } from './Extendable.js'

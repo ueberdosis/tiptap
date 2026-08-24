@@ -1,6 +1,6 @@
 import type { FloatingMenuPluginProps } from '@tiptap/extension-floating-menu'
 import { FloatingMenuPlugin } from '@tiptap/extension-floating-menu'
-import type { PluginKey } from '@tiptap/pm/state'
+import type { PluginKey } from '@tiptap/editor/pm/state'
 import { useCurrentEditor } from '@tiptap/react'
 import React, { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'

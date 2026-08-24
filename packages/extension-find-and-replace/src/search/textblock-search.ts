@@ -1,4 +1,4 @@
-import type { Node } from '@tiptap/pm/model'
+import type { Node } from '@tiptap/editor/pm/model'
 
 import { findMatches } from './matches.js'
 import type { SearchRegex } from './regex.js'

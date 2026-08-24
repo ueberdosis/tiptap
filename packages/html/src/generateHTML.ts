@@ -1,6 +1,6 @@
 import type { Extensions, JSONContent } from '@tiptap/editor'
 import { getSchema } from '@tiptap/editor'
-import { Node } from '@tiptap/pm/model'
+import { Node } from '@tiptap/editor/pm/model'
 
 import { getHTMLFromFragment } from './getHTMLFromFragment.js'
 

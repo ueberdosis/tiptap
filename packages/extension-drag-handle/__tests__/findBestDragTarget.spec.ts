@@ -1,5 +1,5 @@
-import type { Node, ResolvedPos } from '@tiptap/pm/model'
-import type { EditorView } from '@tiptap/pm/view'
+import type { Node, ResolvedPos } from '@tiptap/editor/pm/model'
+import type { EditorView } from '@tiptap/editor/pm/view'
 import { describe, expect, it, vi } from 'vite-plus/test'
 
 import { findBestDragTarget } from '../src/helpers/findBestDragTarget.js'

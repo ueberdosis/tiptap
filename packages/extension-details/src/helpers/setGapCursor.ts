@@ -1,8 +1,8 @@
 import type { Editor } from '@tiptap/editor'
 import { findChildren, findParentNode } from '@tiptap/editor'
-import { GapCursor } from '@tiptap/pm/gapcursor'
-import type { ResolvedPos } from '@tiptap/pm/model'
-import type { Selection } from '@tiptap/pm/state'
+import { GapCursor } from '@tiptap/editor/pm/gapcursor'
+import type { ResolvedPos } from '@tiptap/editor/pm/model'
+import type { Selection } from '@tiptap/editor/pm/state'
 
 import { isNodeVisible } from './isNodeVisible.js'
 

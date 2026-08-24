@@ -1,5 +1,5 @@
-import { PluginKey } from '@tiptap/pm/state'
-import type { DecorationSet } from '@tiptap/pm/view'
+import { PluginKey } from '@tiptap/editor/pm/state'
+import type { DecorationSet } from '@tiptap/editor/pm/view'
 
 /** The default data attribute label */
 export const DEFAULT_DATA_ATTRIBUTE = 'placeholder'

@@ -1,5 +1,5 @@
-import type { Node } from '@tiptap/pm/model'
-import type { Mapping } from '@tiptap/pm/transform'
+import type { Node } from '@tiptap/editor/pm/model'
+import type { Mapping } from '@tiptap/editor/pm/transform'
 
 import type { TextblockRange } from './types.js'
 

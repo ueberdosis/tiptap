@@ -45,11 +45,9 @@
     "linkifyjs": "^4.3.3"
   },
   "devDependencies": {
-    "@tiptap/editor": "workspace:^",
-    "@tiptap/pm": "workspace:^"
+    "@tiptap/editor": "workspace:^"
   },
   "peerDependencies": {
-    "@tiptap/editor": "workspace:*",
-    "@tiptap/pm": "workspace:*"
+    "@tiptap/editor": "workspace:*"
   }
 }

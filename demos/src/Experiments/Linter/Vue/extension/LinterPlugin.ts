@@ -1,4 +1,4 @@
-import type { Node as ProsemirrorNode } from '@tiptap/pm/model'
+import type { Node as ProsemirrorNode } from '@tiptap/editor/pm/model'
 
 export interface Result {
   message: string

@@ -1,6 +1,6 @@
 import type { Editor } from '@tiptap/editor'
-import type { Node } from '@tiptap/pm/model'
-import { Decoration } from '@tiptap/pm/view'
+import type { Node } from '@tiptap/editor/pm/model'
+import { Decoration } from '@tiptap/editor/pm/view'
 
 import type { PlaceholderOptions } from '../types.js'
 

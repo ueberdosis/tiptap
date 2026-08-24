@@ -1,6 +1,6 @@
-import type { EditorState, PluginKey } from '@tiptap/pm/state'
-import type { EditorView } from '@tiptap/pm/view'
-import { Decoration, DecorationSet } from '@tiptap/pm/view'
+import type { EditorState, PluginKey } from '@tiptap/editor/pm/state'
+import type { EditorView } from '@tiptap/editor/pm/view'
+import { Decoration, DecorationSet } from '@tiptap/editor/pm/view'
 
 import type { SuggestionKeyDownProps, SuggestionPluginState } from '../types.js'
 

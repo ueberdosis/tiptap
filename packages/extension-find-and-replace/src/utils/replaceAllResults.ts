@@ -1,4 +1,4 @@
-import type { EditorState, Transaction } from '@tiptap/pm/state'
+import type { EditorState, Transaction } from '@tiptap/editor/pm/state'
 
 import type { SearchResult } from '../search/search.js'
 import { groupResults } from './groupResults.js'

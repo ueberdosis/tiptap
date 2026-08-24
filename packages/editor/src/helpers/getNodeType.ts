@@ -1,4 +1,4 @@
-import type { NodeType, Schema } from '@tiptap/pm/model'
+import type { NodeType, Schema } from 'prosemirror-model'
 
 export function getNodeType(nameOrType: string | NodeType, schema: Schema): NodeType {
   if (typeof nameOrType === 'string') {

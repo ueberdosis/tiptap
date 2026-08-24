@@ -6,8 +6,12 @@ import type {
   NodeViewRendererProps,
 } from '@tiptap/editor'
 import { isNodeViewSelected, NodeView } from '@tiptap/editor'
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
-import type { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
+import type { Node as ProseMirrorNode } from '@tiptap/editor/pm/model'
+import type {
+  Decoration,
+  DecorationSource,
+  NodeView as ProseMirrorNodeView,
+} from '@tiptap/editor/pm/view'
 import type { VueConstructor } from 'vue'
 import { booleanProp, functionProp, objectProp } from 'vue-ts-types'
 

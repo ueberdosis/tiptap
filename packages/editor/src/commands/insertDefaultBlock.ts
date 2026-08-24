@@ -1,4 +1,4 @@
-import type { Node as ProseMirrorNode, Fragment, ResolvedPos } from '@tiptap/pm/model'
+import type { Node as ProseMirrorNode, Fragment, ResolvedPos } from 'prosemirror-model'
 
 import { createNodeFromContent } from '../helpers/createNodeFromContent.js'
 import { defaultBlockAt } from '../helpers/defaultBlockAt.js'

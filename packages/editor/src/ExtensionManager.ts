@@ -1,7 +1,7 @@
-import { keymap } from '@tiptap/pm/keymap'
-import type { Schema } from '@tiptap/pm/model'
-import type { Plugin, Transaction } from '@tiptap/pm/state'
-import type { EditorView, MarkViewConstructor, NodeViewConstructor } from '@tiptap/pm/view'
+import { keymap } from 'prosemirror-keymap'
+import type { Schema } from 'prosemirror-model'
+import type { Plugin, Transaction } from 'prosemirror-state'
+import type { EditorView, MarkViewConstructor, NodeViewConstructor } from 'prosemirror-view'
 
 import type { Editor } from './Editor.js'
 import { DecorationManager, type DecorationManagerEntry } from './decorations/DecorationManager.js'

@@ -1,4 +1,4 @@
-import { joinPoint } from '@tiptap/pm/transform'
+import { joinPoint } from 'prosemirror-transform'
 
 import type { RawCommands } from '../types.js'
 

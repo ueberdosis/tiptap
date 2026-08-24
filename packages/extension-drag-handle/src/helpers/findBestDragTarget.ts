@@ -1,5 +1,5 @@
-import type { Node, ResolvedPos } from '@tiptap/pm/model'
-import type { EditorView } from '@tiptap/pm/view'
+import type { Node, ResolvedPos } from '@tiptap/editor/pm/model'
+import type { EditorView } from '@tiptap/editor/pm/view'
 
 import type { NormalizedNestedOptions } from '../types/options.js'
 import type { DragHandleRule, RuleContext } from '../types/rules.js'

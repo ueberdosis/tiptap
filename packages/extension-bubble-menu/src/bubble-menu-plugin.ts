@@ -13,10 +13,10 @@ import {
 } from '@floating-ui/dom'
 import type { Editor } from '@tiptap/editor'
 import { isTextSelection, posToDOMRect } from '@tiptap/editor'
-import type { EditorState, PluginView, Transaction } from '@tiptap/pm/state'
-import { NodeSelection, Plugin, PluginKey } from '@tiptap/pm/state'
-import { CellSelection } from '@tiptap/pm/tables'
-import type { EditorView } from '@tiptap/pm/view'
+import type { EditorState, PluginView, Transaction } from '@tiptap/editor/pm/state'
+import { NodeSelection, Plugin, PluginKey } from '@tiptap/editor/pm/state'
+import { CellSelection } from '@tiptap/editor/pm/tables'
+import type { EditorView } from '@tiptap/editor/pm/view'
 
 function combineDOMRects(rect1: DOMRect, rect2: DOMRect): DOMRect {
   const top = Math.min(rect1.top, rect2.top)

@@ -1,6 +1,6 @@
-import type { Mapping } from '@tiptap/pm/transform'
-import type { Node } from '@tiptap/pm/model'
-import { DecorationSet } from '@tiptap/pm/view'
+import type { Mapping } from 'prosemirror-transform'
+import type { Node } from 'prosemirror-model'
+import { DecorationSet } from 'prosemirror-view'
 
 type RemovedDecorationSpec = { key?: unknown } | undefined
 

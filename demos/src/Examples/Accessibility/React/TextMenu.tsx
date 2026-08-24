@@ -1,4 +1,4 @@
-import { Selection } from '@tiptap/pm/state'
+import { Selection } from '@tiptap/editor/pm/state'
 import type { Editor } from '@tiptap/react'
 import { useEditorState } from '@tiptap/react'
 import { BubbleMenu } from '@tiptap/react/menus'

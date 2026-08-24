@@ -1,7 +1,7 @@
-import type { NodeType } from '@tiptap/pm/model'
-import type { Transaction } from '@tiptap/pm/state'
-import { TextSelection } from '@tiptap/pm/state'
-import { canJoin } from '@tiptap/pm/transform'
+import type { NodeType } from 'prosemirror-model'
+import type { Transaction } from 'prosemirror-state'
+import { TextSelection } from 'prosemirror-state'
+import { canJoin } from 'prosemirror-transform'
 
 import { findParentNode } from '../helpers/findParentNode.js'
 import { getNodeType } from '../helpers/getNodeType.js'

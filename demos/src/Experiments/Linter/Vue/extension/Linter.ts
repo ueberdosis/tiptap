@@ -1,7 +1,7 @@
 import { Extension } from '@tiptap/editor'
-import type { Node as ProsemirrorNode } from '@tiptap/pm/model'
-import { Plugin, PluginKey, TextSelection } from '@tiptap/pm/state'
-import { Decoration, DecorationSet } from '@tiptap/pm/view'
+import type { Node as ProsemirrorNode } from '@tiptap/editor/pm/model'
+import { Plugin, PluginKey, TextSelection } from '@tiptap/editor/pm/state'
+import { Decoration, DecorationSet } from '@tiptap/editor/pm/view'
 
 import type { Result as Issue } from './LinterPlugin.js'
 import type LinterPlugin from './LinterPlugin.js'

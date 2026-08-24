@@ -1,4 +1,4 @@
-import type { ContentMatch, NodeType } from '@tiptap/pm/model'
+import type { ContentMatch, NodeType } from 'prosemirror-model'
 
 /**
  * Gets the default block type at a given match

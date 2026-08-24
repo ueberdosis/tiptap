@@ -1,6 +1,6 @@
 import type { ComputePositionConfig, VirtualElement } from '@floating-ui/dom'
 import { type Editor, Extension } from '@tiptap/editor'
-import type { Node } from '@tiptap/pm/model'
+import type { Node } from '@tiptap/editor/pm/model'
 
 import { DragHandlePlugin } from './drag-handle-plugin.js'
 import { normalizeNestedOptions } from './helpers/normalizeOptions.js'

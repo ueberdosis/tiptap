@@ -1,4 +1,4 @@
-import type { Fragment, Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Fragment, Node as ProseMirrorNode } from 'prosemirror-model'
 
 /**
  * Checks whether a value is already a ProseMirror node or fragment. Looks for the

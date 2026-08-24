@@ -1,6 +1,6 @@
 import { mergeAttributes, Node } from '@tiptap/editor'
-import { Plugin } from '@tiptap/pm/state'
-import { Decoration, DecorationSet } from '@tiptap/pm/view'
+import { Plugin } from '@tiptap/editor/pm/state'
+import { Decoration, DecorationSet } from '@tiptap/editor/pm/view'
 import { ReactNodeViewRenderer } from '@tiptap/react'
 
 import Component from './Component.jsx'

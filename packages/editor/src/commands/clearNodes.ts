@@ -1,4 +1,4 @@
-import { liftTarget } from '@tiptap/pm/transform'
+import { liftTarget } from 'prosemirror-transform'
 
 import type { RawCommands } from '../types.js'
 

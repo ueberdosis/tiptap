@@ -1,4 +1,4 @@
-import type { EditorState } from '@tiptap/pm/state'
+import type { EditorState } from '@tiptap/editor/pm/state'
 
 export const hasListBefore = (
   editorState: EditorState,

@@ -1,6 +1,6 @@
 import type { ParentConfig } from '@tiptap/editor'
 import { callOrReturn, Extension, getExtensionField } from '@tiptap/editor'
-import { gapCursor } from '@tiptap/pm/gapcursor'
+import { gapCursor } from '@tiptap/editor/pm/gapcursor'
 
 declare module '@tiptap/editor' {
   interface NodeConfig<Options, Storage> {

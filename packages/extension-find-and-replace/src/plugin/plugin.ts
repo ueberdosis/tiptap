@@ -1,4 +1,4 @@
-import { Plugin, PluginKey } from '@tiptap/pm/state'
+import { Plugin, PluginKey } from '@tiptap/editor/pm/state'
 
 import { currentResultClass, resultClass } from '../constants/constants.js'
 import { createStyleTag } from '../style/create-style-tag.js'

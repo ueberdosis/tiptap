@@ -1,5 +1,5 @@
-import type { Node } from '@tiptap/pm/model'
-import type { EditorState } from '@tiptap/pm/state'
+import type { Node } from '@tiptap/editor/pm/model'
+import type { EditorState } from '@tiptap/editor/pm/state'
 
 export type BranchingNestedListAtCursor = {
   listItemDepth: number

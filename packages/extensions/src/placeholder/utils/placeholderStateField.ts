@@ -1,9 +1,9 @@
 import type { Editor } from '@tiptap/editor'
 import { getChangedRanges } from '@tiptap/editor'
-import type { Node } from '@tiptap/pm/model'
-import type { EditorState, StateField, Transaction } from '@tiptap/pm/state'
-import type { Selection } from '@tiptap/pm/state'
-import { DecorationSet } from '@tiptap/pm/view'
+import type { Node } from '@tiptap/editor/pm/model'
+import type { EditorState, StateField, Transaction } from '@tiptap/editor/pm/state'
+import type { Selection } from '@tiptap/editor/pm/state'
+import { DecorationSet } from '@tiptap/editor/pm/view'
 
 import type { PlaceholderOptions } from '../types.js'
 import {

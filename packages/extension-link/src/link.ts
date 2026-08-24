@@ -1,6 +1,6 @@
 import type { PasteRuleMatch } from '@tiptap/editor'
 import { Mark, markPasteRule, mergeAttributes } from '@tiptap/editor'
-import type { Plugin } from '@tiptap/pm/state'
+import type { Plugin } from '@tiptap/editor/pm/state'
 import { find, registerCustomProtocol, reset } from 'linkifyjs'
 
 import { autolink } from './helpers/autolink.js'

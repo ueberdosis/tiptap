@@ -12,10 +12,10 @@ import {
 } from '@floating-ui/dom'
 import type { Editor } from '@tiptap/editor'
 import { getText, getTextSerializersFromSchema, posToDOMRect } from '@tiptap/editor'
-import type { Node as ProsemirrorNode } from '@tiptap/pm/model'
-import type { EditorState, Transaction } from '@tiptap/pm/state'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
-import type { EditorView } from '@tiptap/pm/view'
+import type { Node as ProsemirrorNode } from '@tiptap/editor/pm/model'
+import type { EditorState, Transaction } from '@tiptap/editor/pm/state'
+import { Plugin, PluginKey } from '@tiptap/editor/pm/state'
+import type { EditorView } from '@tiptap/editor/pm/view'
 
 export interface FloatingMenuPluginProps {
   /**

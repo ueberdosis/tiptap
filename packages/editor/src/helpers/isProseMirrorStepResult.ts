@@ -1,4 +1,4 @@
-import { type StepResult } from '@tiptap/pm/transform'
+import { type StepResult } from 'prosemirror-transform'
 
 /**
  * Checks if a value is a ProseMirror step result

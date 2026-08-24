@@ -1,7 +1,7 @@
 import type { Editor } from '@tiptap/editor'
 import { getAttributes } from '@tiptap/editor'
-import type { MarkType } from '@tiptap/pm/model'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
+import type { MarkType } from '@tiptap/editor/pm/model'
+import { Plugin, PluginKey } from '@tiptap/editor/pm/state'
 
 type ClickHandlerOptions = {
   type: MarkType

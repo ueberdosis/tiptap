@@ -1,6 +1,6 @@
-import type { Node as ProseMirrorNode, ResolvedPos } from '@tiptap/pm/model'
-import { Selection } from '@tiptap/pm/state'
-import type { Mapping } from '@tiptap/pm/transform'
+import type { Node as ProseMirrorNode, ResolvedPos } from '@tiptap/editor/pm/model'
+import { Selection } from '@tiptap/editor/pm/state'
+import type { Mapping } from '@tiptap/editor/pm/transform'
 
 import { getSelectionRanges } from './getSelectionRanges.js'
 import { NodeRangeBookmark } from './NodeRangeBookmark.js'

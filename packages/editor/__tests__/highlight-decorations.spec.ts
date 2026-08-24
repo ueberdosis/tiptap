@@ -2,7 +2,7 @@ import { Editor, Node } from '@tiptap/editor'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import type { Decoration } from '@tiptap/pm/view'
+import type { Decoration } from 'prosemirror-view'
 import { describe, expect, it } from 'vite-plus/test'
 
 import { DECORATION_MANAGER_PLUGIN_KEY } from '../src/decorations/constants.js'

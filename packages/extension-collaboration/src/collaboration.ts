@@ -1,6 +1,6 @@
 import { Extension } from '@tiptap/editor'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
-import type { EditorView } from '@tiptap/pm/view'
+import { Plugin, PluginKey } from '@tiptap/editor/pm/state'
+import type { EditorView } from '@tiptap/editor/pm/view'
 import { redo, undo, ySyncPlugin, yUndoPlugin, yUndoPluginKey } from '@tiptap/y-tiptap'
 import type { Doc, UndoManager, XmlFragment } from 'yjs'
 

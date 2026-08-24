@@ -1,5 +1,5 @@
-import { ReplaceAroundStep, ReplaceStep } from '@tiptap/pm/transform'
-import { Slice } from '@tiptap/pm/model'
+import { ReplaceAroundStep, ReplaceStep } from 'prosemirror-transform'
+import { Slice } from 'prosemirror-model'
 import { describe, expect, it } from 'vite-plus/test'
 
 import { isProseMirrorReplaceAroundStep } from '../isProseMirrorReplaceAroundStep.js'

@@ -1,4 +1,4 @@
-import type { Node } from '@tiptap/pm/model'
+import type { Node } from '@tiptap/editor/pm/model'
 
 import type { FindAndReplaceMeta, FindAndReplacePluginState } from '../plugin/plugin-state.js'
 

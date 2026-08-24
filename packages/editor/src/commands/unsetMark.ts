@@ -1,4 +1,4 @@
-import type { MarkType } from '@tiptap/pm/model'
+import type { MarkType } from 'prosemirror-model'
 
 import { getMarkRange } from '../helpers/getMarkRange.js'
 import { getMarkType } from '../helpers/getMarkType.js'

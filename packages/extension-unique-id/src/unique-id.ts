@@ -7,10 +7,10 @@ import {
   getChangedRanges,
   splitExtensions,
 } from '@tiptap/editor'
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
-import { Fragment, Slice } from '@tiptap/pm/model'
-import type { Transaction } from '@tiptap/pm/state'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
+import type { Node as ProseMirrorNode } from '@tiptap/editor/pm/model'
+import { Fragment, Slice } from '@tiptap/editor/pm/model'
+import type { Transaction } from '@tiptap/editor/pm/state'
+import { Plugin, PluginKey } from '@tiptap/editor/pm/state'
 import { v4 as uuidv4 } from 'uuid'
 
 import { findDuplicates } from './helpers/findDuplicates.js'

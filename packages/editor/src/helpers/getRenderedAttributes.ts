@@ -1,4 +1,4 @@
-import type { Mark, Node } from '@tiptap/pm/model'
+import type { Mark, Node } from 'prosemirror-model'
 
 import type { ExtensionAttribute } from '../types.js'
 import { mergeAttributes } from '../utilities/mergeAttributes.js'

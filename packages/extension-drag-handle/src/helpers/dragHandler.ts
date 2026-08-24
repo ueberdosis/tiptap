@@ -1,7 +1,7 @@
 import type { Editor } from '@tiptap/editor'
 import { getSelectionRanges, NodeRangeSelection } from '@tiptap/extension-node-range'
-import type { Node } from '@tiptap/pm/model'
-import { type SelectionRange, NodeSelection } from '@tiptap/pm/state'
+import type { Node } from '@tiptap/editor/pm/model'
+import { type SelectionRange, NodeSelection } from '@tiptap/editor/pm/state'
 
 import type { NormalizedNestedOptions } from '../types/options.js'
 import { cloneElement } from './cloneElement.js'

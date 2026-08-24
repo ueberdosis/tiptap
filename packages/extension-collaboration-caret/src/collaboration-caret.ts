@@ -1,6 +1,6 @@
 import { Extension } from '@tiptap/editor'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
-import type { DecorationAttrs } from '@tiptap/pm/view'
+import { Plugin, PluginKey } from '@tiptap/editor/pm/state'
+import type { DecorationAttrs } from '@tiptap/editor/pm/view'
 import { defaultSelectionBuilder, yCursorPlugin } from '@tiptap/y-tiptap'
 
 type CollaborationCaretStorage = {

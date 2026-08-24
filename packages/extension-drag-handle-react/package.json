@@ -43,7 +43,6 @@
   },
   "devDependencies": {
     "@tiptap/extension-drag-handle": "workspace:^",
-    "@tiptap/pm": "workspace:^",
     "@tiptap/react": "workspace:^",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
@@ -52,7 +51,6 @@
   },
   "peerDependencies": {
     "@tiptap/extension-drag-handle": "workspace:*",
-    "@tiptap/pm": "workspace:*",
     "@tiptap/react": "workspace:*",
     "react": "^16.8 || ^17 || ^18 || ^19",
     "react-dom": "^16.8 || ^17 || ^18 || ^19"

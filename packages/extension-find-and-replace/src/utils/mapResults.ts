@@ -1,4 +1,4 @@
-import type { Mapping } from '@tiptap/pm/transform'
+import type { Mapping } from '@tiptap/editor/pm/transform'
 
 import type { SearchResult } from '../search/search.js'
 

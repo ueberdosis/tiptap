@@ -1,7 +1,7 @@
 import { Extension } from '@tiptap/editor'
-import type { Node as PMNode } from '@tiptap/pm/model'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
-import { Decoration, DecorationSet } from '@tiptap/pm/view'
+import type { Node as PMNode } from '@tiptap/editor/pm/model'
+import { Plugin, PluginKey } from '@tiptap/editor/pm/state'
+import { Decoration, DecorationSet } from '@tiptap/editor/pm/view'
 import { relativePositionToAbsolutePosition, ySyncPluginKey } from '@tiptap/y-tiptap'
 import * as Y from 'yjs'
 

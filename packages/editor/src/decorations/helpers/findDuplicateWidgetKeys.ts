@@ -1,4 +1,4 @@
-import type { DecorationSet } from '@tiptap/pm/view'
+import type { DecorationSet } from 'prosemirror-view'
 
 import { widgetKeyOf } from './widgetKeyOf.js'
 

@@ -1,4 +1,4 @@
-import type { AttributeSpec, MarkSpec, NodeSpec, Schema } from '@tiptap/pm/model'
+import type { AttributeSpec, MarkSpec, NodeSpec, Schema } from '@tiptap/editor/pm/model'
 import { omit } from 'es-toolkit'
 
 /**

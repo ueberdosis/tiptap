@@ -1,6 +1,6 @@
 import { isNodeRangeSelection, NodeRangeSelection } from '@tiptap/extension-node-range'
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
-import type { Selection } from '@tiptap/pm/state'
+import type { Node as ProseMirrorNode } from '@tiptap/editor/pm/model'
+import type { Selection } from '@tiptap/editor/pm/state'
 
 export interface ActiveDragRange {
   anchorPos: number

@@ -1,9 +1,9 @@
 import { type ComputePositionConfig, type VirtualElement, computePosition } from '@floating-ui/dom'
 import { type Editor, isFirefox } from '@tiptap/editor'
 import { isChangeOrigin } from '@tiptap/extension-collaboration'
-import type { Node } from '@tiptap/pm/model'
-import { type EditorState, type Transaction, Plugin, PluginKey } from '@tiptap/pm/state'
-import type { EditorView } from '@tiptap/pm/view'
+import type { Node } from '@tiptap/editor/pm/model'
+import { type EditorState, type Transaction, Plugin, PluginKey } from '@tiptap/editor/pm/state'
+import type { EditorView } from '@tiptap/editor/pm/view'
 import {
   absolutePositionToRelativePosition,
   relativePositionToAbsolutePosition,

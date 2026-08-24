@@ -1,5 +1,5 @@
 import type { Editor } from '@tiptap/editor'
-import { PluginKey } from '@tiptap/pm/state'
+import { PluginKey } from '@tiptap/editor/pm/state'
 import type { SuggestionOptions } from '@tiptap/suggestion'
 
 /**

@@ -6,8 +6,12 @@ import type {
   NodeViewRendererProps,
 } from '@tiptap/editor'
 import { getRenderedAttributes, isNodeViewSelected, NodeView } from '@tiptap/editor'
-import type { Node, Node as ProseMirrorNode } from '@tiptap/pm/model'
-import type { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
+import type { Node, Node as ProseMirrorNode } from '@tiptap/editor/pm/model'
+import type {
+  Decoration,
+  DecorationSource,
+  NodeView as ProseMirrorNodeView,
+} from '@tiptap/editor/pm/view'
 import type { ComponentType, NamedExoticComponent } from 'react'
 import { createElement, createRef, memo } from 'react'
 

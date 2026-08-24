@@ -48,11 +48,9 @@
     "marked": "^17.0.1"
   },
   "devDependencies": {
-    "@tiptap/editor": "workspace:^",
-    "@tiptap/pm": "workspace:^"
+    "@tiptap/editor": "workspace:^"
   },
   "peerDependencies": {
-    "@tiptap/editor": "workspace:*",
-    "@tiptap/pm": "workspace:*"
+    "@tiptap/editor": "workspace:*"
   }
 }

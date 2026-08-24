@@ -2,7 +2,7 @@ import { Editor } from '@tiptap/editor'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { NodeSelection, TextSelection } from '@tiptap/pm/state'
+import { NodeSelection, TextSelection } from 'prosemirror-state'
 import { describe, expect, it } from 'vite-plus/test'
 
 import { isProseMirrorNodeSelection } from '../isProseMirrorNodeSelection.js'

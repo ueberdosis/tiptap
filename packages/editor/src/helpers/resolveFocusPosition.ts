@@ -1,5 +1,5 @@
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
-import { Selection, TextSelection } from '@tiptap/pm/state'
+import type { Node as ProseMirrorNode } from 'prosemirror-model'
+import { Selection, TextSelection } from 'prosemirror-state'
 
 import type { FocusPosition } from '../types.js'
 import { minMax } from '../utilities/minMax.js'

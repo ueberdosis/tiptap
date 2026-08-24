@@ -27,7 +27,9 @@
     "src",
     "dist",
     "jsx-runtime",
-    "jsx-dev-runtime"
+    "jsx-dev-runtime",
+    "LICENSE",
+    "THIRD_PARTY_LICENSES.md"
   ],
   "type": "module",
   "sideEffects": false,
@@ -58,16 +60,128 @@
       },
       "import": "./jsx-dev-runtime/index.js",
       "require": "./jsx-dev-runtime/index.cjs"
+    },
+    "./pm/changeset": {
+      "types": {
+        "import": "./dist/pm/changeset/index.d.ts",
+        "require": "./dist/pm/changeset/index.d.cts"
+      },
+      "import": "./dist/pm/changeset/index.js",
+      "require": "./dist/pm/changeset/index.cjs"
+    },
+    "./pm/commands": {
+      "types": {
+        "import": "./dist/pm/commands/index.d.ts",
+        "require": "./dist/pm/commands/index.d.cts"
+      },
+      "import": "./dist/pm/commands/index.js",
+      "require": "./dist/pm/commands/index.cjs"
+    },
+    "./pm/dropcursor": {
+      "types": {
+        "import": "./dist/pm/dropcursor/index.d.ts",
+        "require": "./dist/pm/dropcursor/index.d.cts"
+      },
+      "import": "./dist/pm/dropcursor/index.js",
+      "require": "./dist/pm/dropcursor/index.cjs"
+    },
+    "./pm/gapcursor": {
+      "types": {
+        "import": "./dist/pm/gapcursor/index.d.ts",
+        "require": "./dist/pm/gapcursor/index.d.cts"
+      },
+      "import": "./dist/pm/gapcursor/index.js",
+      "require": "./dist/pm/gapcursor/index.cjs"
+    },
+    "./pm/history": {
+      "types": {
+        "import": "./dist/pm/history/index.d.ts",
+        "require": "./dist/pm/history/index.d.cts"
+      },
+      "import": "./dist/pm/history/index.js",
+      "require": "./dist/pm/history/index.cjs"
+    },
+    "./pm/inputrules": {
+      "types": {
+        "import": "./dist/pm/inputrules/index.d.ts",
+        "require": "./dist/pm/inputrules/index.d.cts"
+      },
+      "import": "./dist/pm/inputrules/index.js",
+      "require": "./dist/pm/inputrules/index.cjs"
+    },
+    "./pm/keymap": {
+      "types": {
+        "import": "./dist/pm/keymap/index.d.ts",
+        "require": "./dist/pm/keymap/index.d.cts"
+      },
+      "import": "./dist/pm/keymap/index.js",
+      "require": "./dist/pm/keymap/index.cjs"
+    },
+    "./pm/model": {
+      "types": {
+        "import": "./dist/pm/model/index.d.ts",
+        "require": "./dist/pm/model/index.d.cts"
+      },
+      "import": "./dist/pm/model/index.js",
+      "require": "./dist/pm/model/index.cjs"
+    },
+    "./pm/schema-list": {
+      "types": {
+        "import": "./dist/pm/schema-list/index.d.ts",
+        "require": "./dist/pm/schema-list/index.d.cts"
+      },
+      "import": "./dist/pm/schema-list/index.js",
+      "require": "./dist/pm/schema-list/index.cjs"
+    },
+    "./pm/state": {
+      "types": {
+        "import": "./dist/pm/state/index.d.ts",
+        "require": "./dist/pm/state/index.d.cts"
+      },
+      "import": "./dist/pm/state/index.js",
+      "require": "./dist/pm/state/index.cjs"
+    },
+    "./pm/tables": {
+      "types": {
+        "import": "./dist/pm/tables/index.d.ts",
+        "require": "./dist/pm/tables/index.d.cts"
+      },
+      "import": "./dist/pm/tables/index.js",
+      "require": "./dist/pm/tables/index.cjs"
+    },
+    "./pm/transform": {
+      "types": {
+        "import": "./dist/pm/transform/index.d.ts",
+        "require": "./dist/pm/transform/index.d.cts"
+      },
+      "import": "./dist/pm/transform/index.js",
+      "require": "./dist/pm/transform/index.cjs"
+    },
+    "./pm/view": {
+      "types": {
+        "import": "./dist/pm/view/index.d.ts",
+        "require": "./dist/pm/view/index.d.cts"
+      },
+      "import": "./dist/pm/view/index.js",
+      "require": "./dist/pm/view/index.cjs"
     }
   },
   "scripts": {
     "build": "vp pack"
   },
-  "devDependencies": {
-    "@tiptap/pm": "workspace:^",
-    "prosemirror-model": "^1.25.11"
-  },
-  "peerDependencies": {
-    "@tiptap/pm": "workspace:*"
+  "dependencies": {
+    "prosemirror-changeset": "^2.4.1",
+    "prosemirror-commands": "^1.7.1",
+    "prosemirror-dropcursor": "^1.8.2",
+    "prosemirror-gapcursor": "^1.4.1",
+    "prosemirror-history": "^1.5.0",
+    "prosemirror-inputrules": "^1.5.1",
+    "prosemirror-keymap": "^1.2.3",
+    "prosemirror-model": "^1.25.11",
+    "prosemirror-schema-list": "^1.5.1",
+    "prosemirror-state": "^1.4.4",
+    "prosemirror-tables": "^1.8.5",
+    "prosemirror-transform": "^1.12.0",
+    "prosemirror-view": "^1.41.9"
   }
 }

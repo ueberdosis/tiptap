@@ -1,6 +1,6 @@
 import type { Extensions } from '@tiptap/editor'
 import { getSchema } from '@tiptap/editor'
-import { type ParseOptions, DOMParser as PMDOMParser } from '@tiptap/pm/model'
+import { type ParseOptions, DOMParser as PMDOMParser } from '@tiptap/editor/pm/model'
 import { Window } from 'happy-dom'
 
 /**

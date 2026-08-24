@@ -1,6 +1,6 @@
 import type { Editor } from '@tiptap/editor'
 import { isAtStartOfNode, isNodeActive } from '@tiptap/editor'
-import type { Node } from '@tiptap/pm/model'
+import type { Node } from '@tiptap/editor/pm/model'
 
 import { hasListBefore } from './hasListBefore.js'
 

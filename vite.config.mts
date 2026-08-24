@@ -9,18 +9,15 @@ const getPackageAliases = () => {
     fg.sync(`${path}/*`, { onlyDirectories: true })
       .map(name => name.replace(`${path}/`, ''))
       .forEach(name => {
-        if (name === 'pm') {
-          fg.sync(`${path}/${name}/*`, { onlyDirectories: true }).forEach(subName => {
-            const subPkgName = subName.replace(`${path}/${name}/`, '')
+        if (name === 'editor') {
+          fg.sync(`${path}/${name}/src/pm/*`, { onlyDirectories: true }).forEach(subName => {
+            const subPkgName = subName.replace(`${path}/${name}/src/pm/`, '')
 
-            if (subPkgName === 'dist' || subPkgName === 'node_modules') {
-              return
-            }
-
-            aliases[`@tiptap/${name}/${subPkgName}`] = resolve(
-              `${path}/${name}/${subPkgName}/index.ts`,
+            aliases[`@tiptap/${name}/pm/${subPkgName}`] = resolve(
+              `${path}/${name}/src/pm/${subPkgName}/index.ts`,
             )
           })
+          aliases[`@tiptap/${name}`] = resolve(`${path}/${name}/src/index.ts`)
         } else if (name === 'static-renderer') {
           // Handle static-renderer subpaths
           fg.sync(`${path}/${name}/src/*`, { onlyDirectories: true }).forEach(subName => {

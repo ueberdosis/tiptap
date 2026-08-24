@@ -1,5 +1,5 @@
 import type { Editor, Range } from '@tiptap/editor'
-import type { EditorState, PluginKey, Transaction } from '@tiptap/pm/state'
+import type { EditorState, PluginKey, Transaction } from '@tiptap/editor/pm/state'
 
 import type {
   findSuggestionMatch as defaultFindSuggestionMatch,

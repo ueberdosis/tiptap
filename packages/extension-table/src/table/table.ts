@@ -9,8 +9,8 @@ import {
   mergeAttributes,
   Node,
 } from '@tiptap/editor'
-import type { DOMOutputSpec, Node as ProseMirrorNode } from '@tiptap/pm/model'
-import { TextSelection } from '@tiptap/pm/state'
+import type { DOMOutputSpec, Node as ProseMirrorNode } from '@tiptap/editor/pm/model'
+import { TextSelection } from '@tiptap/editor/pm/state'
 import {
   addColumnAfter,
   addColumnBefore,
@@ -29,8 +29,8 @@ import {
   tableEditing,
   toggleHeader,
   toggleHeaderCell,
-} from '@tiptap/pm/tables'
-import type { EditorView, NodeView } from '@tiptap/pm/view'
+} from '@tiptap/editor/pm/tables'
+import type { EditorView, NodeView } from '@tiptap/editor/pm/view'
 
 import { type TableCellAlign, normalizeTableCellAlign } from '../utils/parseAlign.js'
 import { TableView } from './TableView.js'

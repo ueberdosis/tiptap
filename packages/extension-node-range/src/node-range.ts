@@ -1,6 +1,6 @@
 import { Extension } from '@tiptap/editor'
-import type { SelectionRange } from '@tiptap/pm/state'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
+import type { SelectionRange } from '@tiptap/editor/pm/state'
+import { Plugin, PluginKey } from '@tiptap/editor/pm/state'
 
 import { getNodeRangeDecorations } from './helpers/getNodeRangeDecorations.js'
 import { getSelectionRanges } from './helpers/getSelectionRanges.js'

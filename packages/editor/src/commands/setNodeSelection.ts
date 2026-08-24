@@ -1,4 +1,4 @@
-import { NodeSelection } from '@tiptap/pm/state'
+import { NodeSelection } from 'prosemirror-state'
 
 import type { RawCommands } from '../types.js'
 import { minMax } from '../utilities/minMax.js'

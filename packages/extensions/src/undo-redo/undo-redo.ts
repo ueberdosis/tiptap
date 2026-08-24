@@ -1,5 +1,5 @@
 import { Extension } from '@tiptap/editor'
-import { history, redo, undo } from '@tiptap/pm/history'
+import { history, redo, undo } from '@tiptap/editor/pm/history'
 
 export interface UndoRedoOptions {
   /**

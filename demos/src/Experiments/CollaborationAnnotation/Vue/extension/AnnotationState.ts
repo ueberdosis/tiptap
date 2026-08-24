@@ -1,5 +1,5 @@
-import type { EditorState, Transaction } from '@tiptap/pm/state'
-import { Decoration, DecorationSet } from '@tiptap/pm/view'
+import type { EditorState, Transaction } from '@tiptap/editor/pm/state'
+import { Decoration, DecorationSet } from '@tiptap/editor/pm/view'
 import {
   absolutePositionToRelativePosition,
   relativePositionToAbsolutePosition,

@@ -1,4 +1,4 @@
-import type { EditorState } from '@tiptap/pm/state'
+import type { EditorState } from '@tiptap/editor/pm/state'
 
 import { findListItemPos } from './findListItemPos.js'
 import { getNextListDepth } from './getNextListDepth.js'

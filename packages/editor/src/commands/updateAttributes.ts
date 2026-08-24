@@ -1,5 +1,5 @@
-import type { Mark, MarkType, Node, NodeType } from '@tiptap/pm/model'
-import type { SelectionRange } from '@tiptap/pm/state'
+import type { Mark, MarkType, Node, NodeType } from 'prosemirror-model'
+import type { SelectionRange } from 'prosemirror-state'
 
 import { getMarkType } from '../helpers/getMarkType.js'
 import { getNodeType } from '../helpers/getNodeType.js'

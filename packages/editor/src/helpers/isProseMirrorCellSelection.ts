@@ -1,4 +1,4 @@
-import type { CellSelection } from '@tiptap/pm/tables'
+import type { CellSelection } from 'prosemirror-tables'
 
 /**
  * Check whether a selection provides the cell-iteration API.

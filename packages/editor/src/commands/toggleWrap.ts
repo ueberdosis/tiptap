@@ -1,4 +1,4 @@
-import type { NodeType } from '@tiptap/pm/model'
+import type { NodeType } from 'prosemirror-model'
 
 import { getNodeType } from '../helpers/getNodeType.js'
 import { isNodeActive } from '../helpers/isNodeActive.js'

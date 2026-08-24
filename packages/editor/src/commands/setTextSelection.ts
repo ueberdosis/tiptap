@@ -1,4 +1,4 @@
-import { TextSelection } from '@tiptap/pm/state'
+import { TextSelection } from 'prosemirror-state'
 
 import type { Range, RawCommands } from '../types.js'
 import { minMax } from '../utilities/minMax.js'

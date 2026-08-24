@@ -1,4 +1,4 @@
-import { Node } from '@tiptap/pm/model'
+import { Node } from 'prosemirror-model'
 
 import type { Extensions, JSONContent, TextSerializer } from '../types.js'
 import { getSchema } from './getSchema.js'

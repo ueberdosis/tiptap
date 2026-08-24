@@ -1,5 +1,5 @@
 import { Extension } from '@tiptap/editor'
-import { PluginKey } from '@tiptap/pm/state'
+import { PluginKey } from '@tiptap/editor/pm/state'
 
 import { FileHandlePlugin } from './FileHandlePlugin.js'
 import type { FileHandlerOptions } from './types.js'

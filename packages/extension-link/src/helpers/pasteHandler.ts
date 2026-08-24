@@ -1,6 +1,6 @@
 import type { Editor } from '@tiptap/editor'
-import type { MarkType } from '@tiptap/pm/model'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
+import type { MarkType } from '@tiptap/editor/pm/model'
+import { Plugin, PluginKey } from '@tiptap/editor/pm/state'
 import { find } from 'linkifyjs'
 
 import type { LinkOptions } from '../link.js'

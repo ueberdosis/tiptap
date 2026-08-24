@@ -1,7 +1,7 @@
 import type { Extensions, JSONContent } from '@tiptap/editor'
 import { findChildren, getSchema } from '@tiptap/editor'
-import { Node } from '@tiptap/pm/model'
-import { EditorState } from '@tiptap/pm/state'
+import { Node } from '@tiptap/editor/pm/model'
+import { EditorState } from '@tiptap/editor/pm/state'
 
 import type { UniqueID } from './unique-id.js'
 

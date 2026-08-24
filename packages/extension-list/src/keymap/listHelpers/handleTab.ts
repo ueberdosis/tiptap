@@ -1,7 +1,7 @@
 import type { Editor } from '@tiptap/editor'
 import { getPreviousBlockSibling, isNodeActive } from '@tiptap/editor'
-import { Fragment } from '@tiptap/pm/model'
-import { TextSelection } from '@tiptap/pm/state'
+import { Fragment } from '@tiptap/editor/pm/model'
+import { TextSelection } from '@tiptap/editor/pm/state'
 
 export const handleTab = (editor: Editor, name: string, parentListTypes: string[]) => {
   const { state } = editor

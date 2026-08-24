@@ -1,5 +1,5 @@
-import type { Fragment, Schema } from '@tiptap/pm/model'
-import { DOMSerializer } from '@tiptap/pm/model'
+import type { Fragment, Schema } from 'prosemirror-model'
+import { DOMSerializer } from 'prosemirror-model'
 
 export function getHTMLFromFragment(fragment: Fragment, schema: Schema): string {
   const documentFragment = DOMSerializer.fromSchema(schema).serializeFragment(fragment)

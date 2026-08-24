@@ -1,6 +1,6 @@
 import type { Editor, Range } from '@tiptap/editor'
-import type { EditorState, PluginKey, Transaction } from '@tiptap/pm/state'
-import type { EditorView } from '@tiptap/pm/view'
+import type { EditorState, PluginKey, Transaction } from '@tiptap/editor/pm/state'
+import type { EditorView } from '@tiptap/editor/pm/view'
 
 import type { SuggestionMatch } from './findSuggestionMatch.js'
 import type { SuggestionOptions, SuggestionPluginState } from './types.js'

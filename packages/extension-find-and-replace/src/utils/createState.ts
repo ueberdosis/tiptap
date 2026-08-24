@@ -1,4 +1,4 @@
-import type { Node } from '@tiptap/pm/model'
+import type { Node } from '@tiptap/editor/pm/model'
 
 import type { FindAndReplaceOptions } from '../types.js'
 import type { FindAndReplacePluginState } from '../plugin/plugin-state.js'

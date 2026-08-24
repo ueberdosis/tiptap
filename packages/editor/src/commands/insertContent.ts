@@ -1,4 +1,4 @@
-import type { Fragment, Node as ProseMirrorNode, ParseOptions } from '@tiptap/pm/model'
+import type { Fragment, Node as ProseMirrorNode, ParseOptions } from 'prosemirror-model'
 
 import type { Content, RawCommands } from '../types.js'
 

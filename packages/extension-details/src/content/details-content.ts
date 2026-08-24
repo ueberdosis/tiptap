@@ -5,8 +5,8 @@ import {
   mergeAttributes,
   Node,
 } from '@tiptap/editor'
-import { Selection } from '@tiptap/pm/state'
-import type { ViewMutationRecord } from '@tiptap/pm/view'
+import { Selection } from '@tiptap/editor/pm/state'
+import type { ViewMutationRecord } from '@tiptap/editor/pm/view'
 
 export interface DetailsContentOptions {
   /**

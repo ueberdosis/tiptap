@@ -11,7 +11,7 @@ import {
   Placeholder,
   preparePlaceholderAttribute,
 } from '@tiptap/extensions'
-import { Node } from '@tiptap/pm/model'
+import { Node } from '@tiptap/editor/pm/model'
 import {
   getTopLevelBlocksInRange,
   toContentRelativeRange,

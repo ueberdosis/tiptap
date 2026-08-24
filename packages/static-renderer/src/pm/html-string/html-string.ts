@@ -1,6 +1,6 @@
 /* oslint-disableno-explicit-any */
 import type { DOMOutputSpecArray, Extensions, JSONContent } from '@tiptap/editor'
-import type { DOMOutputSpec, Mark, Node } from '@tiptap/pm/model'
+import type { DOMOutputSpec, Mark, Node } from '@tiptap/editor/pm/model'
 
 import {
   escapeHTML,

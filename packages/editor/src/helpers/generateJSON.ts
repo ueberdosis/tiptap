@@ -1,4 +1,4 @@
-import { DOMParser } from '@tiptap/pm/model'
+import { DOMParser } from 'prosemirror-model'
 
 import type { Extensions } from '../types.js'
 import { elementFromString } from '../utilities/elementFromString.js'

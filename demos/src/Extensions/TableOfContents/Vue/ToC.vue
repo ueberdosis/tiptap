@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { TextSelection } from '@tiptap/pm/state'
+import { TextSelection } from '@tiptap/editor/pm/state'
 import { defineComponent } from 'vue'
 
 import ToCEmptyState from './ToCEmptyState.vue'

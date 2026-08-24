@@ -1,4 +1,4 @@
-import type { Step } from '@tiptap/pm/transform'
+import type { Step } from 'prosemirror-transform'
 
 import { isAttrStep } from './isAttrStep.js'
 

@@ -1,5 +1,5 @@
-import { DecorationSet } from '@tiptap/pm/view'
-import type { Transaction } from '@tiptap/pm/state'
+import { DecorationSet } from 'prosemirror-view'
+import type { Transaction } from 'prosemirror-state'
 
 import type { DecorationManagerState } from '../types.js'
 import { mapDecorationSet } from './mapDecorationSet.js'

@@ -1,7 +1,7 @@
-import type { Node as ProseMirrorNode, NodeType } from '@tiptap/pm/model'
-import { Fragment, Slice } from '@tiptap/pm/model'
-import { TextSelection } from '@tiptap/pm/state'
-import { canSplit } from '@tiptap/pm/transform'
+import type { Node as ProseMirrorNode, NodeType } from 'prosemirror-model'
+import { Fragment, Slice } from 'prosemirror-model'
+import { TextSelection } from 'prosemirror-state'
+import { canSplit } from 'prosemirror-transform'
 
 import { getNodeType } from '../helpers/getNodeType.js'
 import { getSplittedAttributes } from '../helpers/getSplittedAttributes.js'

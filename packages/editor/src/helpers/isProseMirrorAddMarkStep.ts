@@ -1,4 +1,4 @@
-import { type AddMarkStep } from '@tiptap/pm/transform'
+import { type AddMarkStep } from 'prosemirror-transform'
 import { isProseMirrorStep } from './isProseMirrorStep.js'
 
 /**

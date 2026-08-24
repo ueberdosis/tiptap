@@ -1,6 +1,6 @@
-import type { Schema } from '@tiptap/pm/model'
-import { Fragment } from '@tiptap/pm/model'
-import { ReplaceStep } from '@tiptap/pm/transform'
+import type { Schema } from 'prosemirror-model'
+import { Fragment } from 'prosemirror-model'
+import { ReplaceStep } from 'prosemirror-transform'
 
 let hasChecked = false
 

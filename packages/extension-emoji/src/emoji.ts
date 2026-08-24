@@ -10,8 +10,8 @@ import {
   nodeInputRule,
   PasteRule,
 } from '@tiptap/editor'
-import type { Transaction } from '@tiptap/pm/state'
-import { Plugin, PluginKey, TextSelection } from '@tiptap/pm/state'
+import type { Transaction } from '@tiptap/editor/pm/state'
+import { Plugin, PluginKey, TextSelection } from '@tiptap/editor/pm/state'
 import type { SuggestionOptions } from '@tiptap/suggestion'
 import { Suggestion } from '@tiptap/suggestion'
 import emojiRegex from 'emoji-regex'

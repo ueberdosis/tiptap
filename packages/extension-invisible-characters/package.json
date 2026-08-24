@@ -43,12 +43,10 @@
   },
   "devDependencies": {
     "@tiptap/editor": "workspace:^",
-    "@tiptap/extension-text-style": "workspace:^",
-    "@tiptap/pm": "workspace:^"
+    "@tiptap/extension-text-style": "workspace:^"
   },
   "peerDependencies": {
     "@tiptap/editor": "workspace:*",
-    "@tiptap/extension-text-style": "workspace:*",
-    "@tiptap/pm": "workspace:*"
+    "@tiptap/extension-text-style": "workspace:*"
   }
 }

@@ -1,6 +1,6 @@
 import type { BubbleMenuPluginProps } from '@tiptap/extension-bubble-menu'
 import { BubbleMenuPlugin } from '@tiptap/extension-bubble-menu'
-import { PluginKey } from '@tiptap/pm/state'
+import { PluginKey } from '@tiptap/editor/pm/state'
 import type { Component, CreateElement, PropType, VNode } from 'vue'
 
 export interface BubbleMenuInterface {

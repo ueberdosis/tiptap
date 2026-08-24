@@ -1,7 +1,7 @@
 import type { AutoUpdateOptions, Middleware } from '@floating-ui/dom'
 import type { Editor, Range } from '@tiptap/editor'
-import type { EditorState, PluginKey, Transaction } from '@tiptap/pm/state'
-import type { EditorView } from '@tiptap/pm/view'
+import type { EditorState, PluginKey, Transaction } from '@tiptap/editor/pm/state'
+import type { EditorView } from '@tiptap/editor/pm/view'
 
 import type {
   findSuggestionMatch as defaultFindSuggestionMatch,

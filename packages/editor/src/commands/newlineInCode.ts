@@ -1,4 +1,4 @@
-import { newlineInCode as originalNewlineInCode } from '@tiptap/pm/commands'
+import { newlineInCode as originalNewlineInCode } from 'prosemirror-commands'
 
 import type { RawCommands } from '../types.js'
 

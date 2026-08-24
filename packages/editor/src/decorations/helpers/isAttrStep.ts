@@ -1,4 +1,4 @@
-import type { Step } from '@tiptap/pm/transform'
+import type { Step } from 'prosemirror-transform'
 
 /** `jsonID` is set on each step's prototype by `Step.jsonID`; not in the type defs. */
 type StepWithId = Step & { jsonID?: string }

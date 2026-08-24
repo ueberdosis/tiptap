@@ -1,4 +1,4 @@
-import type { MarkType, NodeType } from '@tiptap/pm/model'
+import type { MarkType, NodeType } from 'prosemirror-model'
 
 import { getMarkType } from '../helpers/getMarkType.js'
 import { getNodeType } from '../helpers/getNodeType.js'

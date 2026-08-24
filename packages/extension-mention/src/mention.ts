@@ -1,7 +1,7 @@
 import type { Editor } from '@tiptap/editor'
 import { createInlineMarkdownSpec, mergeAttributes, Node } from '@tiptap/editor'
-import type { DOMOutputSpec } from '@tiptap/pm/model'
-import { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { DOMOutputSpec } from '@tiptap/editor/pm/model'
+import { Node as ProseMirrorNode } from '@tiptap/editor/pm/model'
 import type { SuggestionOptions } from '@tiptap/suggestion'
 import { Suggestion } from '@tiptap/suggestion'
 

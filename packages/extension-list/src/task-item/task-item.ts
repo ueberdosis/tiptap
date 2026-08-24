@@ -6,7 +6,7 @@ import {
   renderNestedMarkdownContent,
   wrappingInputRule,
 } from '@tiptap/editor'
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Node as ProseMirrorNode } from '@tiptap/editor/pm/model'
 
 import { createBranchingListDeleteKeymap } from '../helpers/createBranchingListDeleteKeymap.js'
 

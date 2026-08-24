@@ -1,4 +1,4 @@
-import { createParagraphNear as originalCreateParagraphNear } from '@tiptap/pm/commands'
+import { createParagraphNear as originalCreateParagraphNear } from 'prosemirror-commands'
 
 import type { RawCommands } from '../types.js'
 

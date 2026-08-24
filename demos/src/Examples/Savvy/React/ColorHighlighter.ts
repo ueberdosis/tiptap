@@ -1,5 +1,5 @@
 import { Extension } from '@tiptap/editor'
-import { Plugin } from '@tiptap/pm/state'
+import { Plugin } from '@tiptap/editor/pm/state'
 
 import findColors from './findColors.js'
 

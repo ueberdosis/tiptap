@@ -1,5 +1,5 @@
 import { getNodeAtPosition } from '@tiptap/editor'
-import type { EditorState } from '@tiptap/pm/state'
+import type { EditorState } from '@tiptap/editor/pm/state'
 
 import { findListItemPos } from './findListItemPos.js'
 

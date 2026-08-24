@@ -1,7 +1,7 @@
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
-import { Fragment } from '@tiptap/pm/model'
-import type { EditorState, TextSelection } from '@tiptap/pm/state'
-import { Plugin } from '@tiptap/pm/state'
+import type { Node as ProseMirrorNode } from 'prosemirror-model'
+import { Fragment } from 'prosemirror-model'
+import type { EditorState, TextSelection } from 'prosemirror-state'
+import { Plugin } from 'prosemirror-state'
 
 import { CommandManager } from './CommandManager.js'
 import type { Editor } from './Editor.js'

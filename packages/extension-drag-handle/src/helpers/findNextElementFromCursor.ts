@@ -1,6 +1,6 @@
 import type { Editor } from '@tiptap/editor'
-import type { Node } from '@tiptap/pm/model'
-import type { EditorView } from '@tiptap/pm/view'
+import type { Node } from '@tiptap/editor/pm/model'
+import type { EditorView } from '@tiptap/editor/pm/view'
 
 import type { NormalizedNestedOptions } from '../types/options.js'
 import { findBestDragTarget } from './findBestDragTarget.js'

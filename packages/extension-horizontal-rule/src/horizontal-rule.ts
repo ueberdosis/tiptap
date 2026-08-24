@@ -5,7 +5,7 @@ import {
   Node,
   nodeInputRule,
 } from '@tiptap/editor'
-import { NodeSelection, TextSelection } from '@tiptap/pm/state'
+import { NodeSelection, TextSelection } from '@tiptap/editor/pm/state'
 
 export interface HorizontalRuleOptions {
   /**

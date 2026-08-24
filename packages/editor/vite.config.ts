@@ -1,31 +1,42 @@
 import { defineConfig } from 'vite-plus'
-import { tsupCompatibleExtensions } from '../../pack.config.mjs'
+import { basePackConfig, tsupCompatibleExtensions } from '../../pack.config.mjs'
+
+const pmSubExports = [
+  'changeset',
+  'commands',
+  'dropcursor',
+  'gapcursor',
+  'history',
+  'inputrules',
+  'keymap',
+  'model',
+  'schema-list',
+  'state',
+  'tables',
+  'transform',
+  'view',
+]
 
 export default defineConfig({
   pack: [
     {
+      ...basePackConfig(),
       entry: ['src/index.ts'],
-      // Use a local tsconfig with a wider rootDir so monorepo-only @tiptap/pm path
-      // aliases can resolve without pulling external workspace files outside the program.
-      tsconfig: './tsconfig.build.json',
       outDir: 'dist',
-      dts: { sourcemap: true },
-      clean: true,
-      sourcemap: true,
-      target: 'es2019',
-      format: ['esm', 'cjs'],
-      outExtensions: tsupCompatibleExtensions,
     },
     {
+      ...basePackConfig(),
       entry: ['src/jsx-runtime.ts'],
-      tsconfig: '../../tsconfig.build.json',
       outDir: 'dist/jsx-runtime',
-      dts: { sourcemap: true },
-      clean: true,
-      sourcemap: true,
-      target: 'es2019',
-      format: ['esm', 'cjs'],
-      outExtensions: tsupCompatibleExtensions,
     },
+    ...pmSubExports.map(name => ({
+      ...basePackConfig(),
+      entry: [`src/pm/${name}/index.ts`],
+      outDir: `dist/pm/${name}`,
+      clean: false,
+      // keep self-references and prosemirror imports external so nothing is duplicated
+      deps: { neverBundle: [/^[^./]/] },
+      outExtensions: tsupCompatibleExtensions,
+    })),
   ],
 })

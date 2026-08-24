@@ -1,6 +1,6 @@
 import { Decoration, Extension } from '@tiptap/editor'
 import type { Editor } from '@tiptap/editor'
-import type { EditorState } from '@tiptap/pm/state'
+import type { EditorState } from '@tiptap/editor/pm/state'
 
 export interface HighlightDecorationsOptions {
   /** The term to highlight. Change at runtime via `editor.storage.highlightDecorations.term`. */
