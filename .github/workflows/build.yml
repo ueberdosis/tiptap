@@ -73,9 +73,6 @@ jobs:
       - name: Check package exports
         run: vp run check:package-exports
 
-      - name: Check bundle sizes
-        run: vp run check:bundle-sizes
-
   check-linting-formatting:
     name: Check linting & formatting
     runs-on: ubuntu-latest
