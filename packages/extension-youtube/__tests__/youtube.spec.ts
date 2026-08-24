@@ -458,7 +458,7 @@ describe('extension-youtube', () => {
     })
 
     it('returns null for a missing url instead of throwing', () => {
-      expect(isValidYoutubeUrl(null as unknown as string)).toBe(null)
+      expect(isValidYoutubeUrl(null)).toBe(null)
     })
 
     it('returns null from getEmbedUrlFromYoutubeUrl when the url is missing', () => {

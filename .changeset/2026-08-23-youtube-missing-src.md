@@ -2,4 +2,4 @@
 '@tiptap/extension-youtube': patch
 ---
 
-A YouTube iframe pasted without a `src` attribute no longer throws `Cannot read properties of null (reading 'match')`; the node is now rendered without a source instead.
+Pasting a YouTube iframe without a `src` attribute no longer crashes the editor. The embed is kept without a source.
