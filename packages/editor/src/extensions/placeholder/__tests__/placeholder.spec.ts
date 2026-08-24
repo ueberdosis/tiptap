@@ -1,10 +1,10 @@
 import { Editor, getChangedRanges } from '@tiptap/editor'
 import { BulletList } from '@tiptap/editor/extensions/list'
 import { Document } from '@tiptap/editor/extensions/document'
-import ListItem from '@tiptap/extension-list-item'
+import { ListItem } from '@tiptap/editor/extensions/list'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
-import TaskItem from '@tiptap/extension-task-item'
-import TaskList from '@tiptap/extension-task-list'
+import { TaskItem } from '@tiptap/editor/extensions/list'
+import { TaskList } from '@tiptap/editor/extensions/list'
 import { Text } from '@tiptap/editor/extensions/text'
 import {
   Placeholder,

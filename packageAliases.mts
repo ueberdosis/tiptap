@@ -2,7 +2,7 @@ import fg from 'fast-glob'
 import { readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 
-const WORKSPACE_GLOBS = ['packages/*/package.json', 'packages-deprecated/*/package.json']
+const WORKSPACE_GLOBS = ['packages/*/package.json']
 
 /** `./pm/model` -> `src/pm/model/index.ts`, `.` -> `src/index.ts` */
 const sourceFor = (subpath: string) => {

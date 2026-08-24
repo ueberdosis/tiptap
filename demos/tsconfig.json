@@ -4,13 +4,7 @@
     "skipLibCheck": true,
     "types": ["node"],
     "module": "nodenext",
-    "moduleResolution": "nodenext",
-    "paths": {
-      "@tiptap/editor/pm/*": ["./packages/editor/src/pm/*/index.ts"],
-      "@tiptap/static-renderer/pm/*": ["./packages/static-renderer/src/pm/*"],
-      "@tiptap/static-renderer/json/*": ["./packages/static-renderer/src/json/*"],
-      "@tiptap/*": ["./packages/*/src/index.ts", "./packages-deprecated/*/src/index.ts"]
-    }
+    "moduleResolution": "nodenext"
   },
   "include": [
     "../packages/*/src/**/*.d.ts",

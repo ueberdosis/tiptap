@@ -7,7 +7,7 @@ import {
   renderJSONContentToString,
   serializeAttrsToHTMLString,
   serializeChildrenToHTMLString,
-} from '../../json/html-string/string.js'
+} from '@tiptap/static-renderer/json/html-string'
 import type { TiptapStaticRendererOptions } from '../../json/renderer.js'
 import type { StaticEditorOptions } from '../extensionRenderer.js'
 import { applyStaticEditorOptionsToExtensions, renderToElement } from '../extensionRenderer.js'
@@ -15,7 +15,7 @@ import { applyStaticEditorOptionsToExtensions, renderToElement } from '../extens
 export {
   serializeAttrsToHTMLString,
   serializeChildrenToHTMLString,
-} from '../../json/html-string/string.js'
+} from '@tiptap/static-renderer/json/html-string'
 
 /**
  * HTML elements that cannot be self-closing and must always have a closing tag.

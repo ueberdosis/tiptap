@@ -3,7 +3,7 @@ import type { DOMOutputSpecArray, Extensions, JSONContent } from '@tiptap/editor
 import type { DOMOutputSpec, Mark, Node } from '@tiptap/editor/pm/model'
 import React from 'react'
 
-import { renderJSONContentToReactElement } from '../../json/react/react.js'
+import { renderJSONContentToReactElement } from '@tiptap/static-renderer/json/react'
 import type { TiptapStaticRendererOptions } from '../../json/renderer.js'
 import type { StaticEditorOptions } from '../extensionRenderer.js'
 import { applyStaticEditorOptionsToExtensions, renderToElement } from '../extensionRenderer.js'

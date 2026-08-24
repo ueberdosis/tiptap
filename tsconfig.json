@@ -12,15 +12,18 @@
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "sourceMap": true,
-    "baseUrl": ".",
     "rootDir": ".",
     "allowJs": true,
     "checkJs": false,
     "paths": {
-      "@tiptap/static-renderer/pm/*": ["packages/static-renderer/src/pm/*"],
-      "@tiptap/static-renderer/json/*": ["packages/static-renderer/src/json/*"],
-      "@tiptap/editor/pm/*": ["packages/editor/src/pm/*/index.ts"],
-      "@tiptap/*": ["packages/*/src/index.ts", "packages-deprecated/*/src/index.ts"]
+      "@tiptap/*": ["./packages/*/src/index.ts"],
+      "@tiptap/editor/*": ["./packages/editor/src/*/index.ts"],
+      "@tiptap/editor/extensions/*": ["./packages/editor/src/extensions/*/index.ts"],
+      "@tiptap/editor/kits/*": ["./packages/editor/src/kits/*/index.ts"],
+      "@tiptap/editor/pm/*": ["./packages/editor/src/pm/*/index.ts"],
+      "@tiptap/extras/*": ["./packages/extras/src/*/index.ts"],
+      "@tiptap/static-renderer/json/*": ["./packages/static-renderer/src/json/*"],
+      "@tiptap/static-renderer/pm/*": ["./packages/static-renderer/src/pm/*"]
     },
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },

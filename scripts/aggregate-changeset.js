@@ -112,13 +112,10 @@ async function addCommitsToChangesets(cwd, changesets) {
 }
 
 async function loadWorkspacePackages(cwd) {
-  const packageFiles = await fg(
-    ['packages/*/package.json', 'packages-deprecated/*/package.json', 'demos/package.json'],
-    {
-      cwd,
-      absolute: true,
-    },
-  )
+  const packageFiles = await fg(['packages/*/package.json', 'demos/package.json'], {
+    cwd,
+    absolute: true,
+  })
 
   const packages = new Map()
 

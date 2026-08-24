@@ -19,7 +19,7 @@ function collectTargets(value, targets = []) {
   return targets
 }
 
-for (const dir of ['packages', 'packages-deprecated']) {
+for (const dir of ['packages']) {
   const base = join(root, dir)
   if (!existsSync(base)) continue
 

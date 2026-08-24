@@ -4,7 +4,10 @@ import { TableMap } from '@tiptap/editor/pm/tables'
 
 import type { TiptapStaticRendererOptions } from '../../json/renderer.js'
 import type { StaticEditorOptions } from '../extensionRenderer.js'
-import { renderToHTMLString, serializeChildrenToHTMLString } from '../html-string/html-string.js'
+import {
+  renderToHTMLString,
+  serializeChildrenToHTMLString,
+} from '@tiptap/static-renderer/pm/html-string'
 
 /**
  * This code is just to show the flexibility of this renderer. We can potentially render content to any format we want.

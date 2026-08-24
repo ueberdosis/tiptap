@@ -2,7 +2,7 @@ import { getPreviousBlockSibling, getSchemaByResolvedExtensions } from '@tiptap/
 import { Blockquote } from '@tiptap/editor/extensions/blockquote'
 import { BulletList } from '@tiptap/editor/extensions/list'
 import { Document } from '@tiptap/editor/extensions/document'
-import ListItem from '@tiptap/extension-list-item'
+import { ListItem } from '@tiptap/editor/extensions/list'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'
 import { Node } from 'prosemirror-model'
