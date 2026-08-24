@@ -1,9 +1,9 @@
 import { Mark, mergeAttributes } from '@tiptap/editor'
-import type { StyleParseRule } from '@tiptap/editor/pm/model'
+import type { StyleParseRule } from 'prosemirror-model'
 
-export interface SubscriptExtensionOptions {
+export interface SuperscriptExtensionOptions {
   /**
-   * HTML attributes to add to the subscript element.
+   * HTML attributes to add to the superscript element.
    * @default {}
    * @example { class: 'foo' }
    */
@@ -12,32 +12,32 @@ export interface SubscriptExtensionOptions {
 
 declare module '@tiptap/editor' {
   interface Commands<ReturnType> {
-    subscript: {
+    superscript: {
       /**
-       * Set a subscript mark
-       * @example editor.commands.setSubscript()
+       * Set a superscript mark
+       * @example editor.commands.setSuperscript()
        */
-      setSubscript: () => ReturnType
+      setSuperscript: () => ReturnType
       /**
-       * Toggle a subscript mark
-       * @example editor.commands.toggleSubscript()
+       * Toggle a superscript mark
+       * @example editor.commands.toggleSuperscript()
        */
-      toggleSubscript: () => ReturnType
+      toggleSuperscript: () => ReturnType
       /**
-       * Unset a subscript mark
-       * @example editor.commands.unsetSubscript()
+       * Unset a superscript mark
+       *  @example editor.commands.unsetSuperscript()
        */
-      unsetSubscript: () => ReturnType
+      unsetSuperscript: () => ReturnType
     }
   }
 }
 
 /**
- * This extension allows you to create subscript text.
- * @see https://www.tiptap.dev/api/marks/subscript
+ * This extension allows you to create superscript text.
+ * @see https://www.tiptap.dev/api/marks/superscript
  */
-export const Subscript = Mark.create<SubscriptExtensionOptions>({
-  name: 'subscript',
+export const Superscript = Mark.create<SuperscriptExtensionOptions>({
+  name: 'superscript',
 
   addOptions() {
     return {
@@ -48,13 +48,13 @@ export const Subscript = Mark.create<SubscriptExtensionOptions>({
   parseHTML() {
     return [
       {
-        tag: 'sub',
+        tag: 'sup',
       },
       {
         style: 'vertical-align',
         getAttrs(value) {
-          // Don’t match this rule if the vertical align isn’t sub.
-          if (value !== 'sub') {
+          // Don’t match this rule if the vertical align isn’t super.
+          if (value !== 'super') {
             return false
           }
 
@@ -66,22 +66,22 @@ export const Subscript = Mark.create<SubscriptExtensionOptions>({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['sub', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
+    return ['sup', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
   addCommands() {
     return {
-      setSubscript:
+      setSuperscript:
         () =>
         ({ commands }) => {
           return commands.setMark(this.name)
         },
-      toggleSubscript:
+      toggleSuperscript:
         () =>
         ({ commands }) => {
           return commands.toggleMark(this.name)
         },
-      unsetSubscript:
+      unsetSuperscript:
         () =>
         ({ commands }) => {
           return commands.unsetMark(this.name)
@@ -91,7 +91,7 @@ export const Subscript = Mark.create<SubscriptExtensionOptions>({
 
   addKeyboardShortcuts() {
     return {
-      'Mod-,': () => this.editor.commands.toggleSubscript(),
+      'Mod-.': () => this.editor.commands.toggleSuperscript(),
     }
   },
 })

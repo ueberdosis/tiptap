@@ -104,6 +104,8 @@ const rewriteStatement = (match, groups) => {
 const files = execFileSync('git', ['ls-files'], { encoding: 'utf8' })
   .split('\n')
   .filter(file => file && !file.endsWith('CHANGELOG.md') && file !== 'pnpm-lock.yaml')
+  // changesets and docs quote the old specifiers on purpose, as migration examples
+  .filter(file => !file.startsWith('.changeset/'))
   .filter(file => {
     try {
       return lstatSync(file).isFile() && !lstatSync(file).isSymbolicLink()

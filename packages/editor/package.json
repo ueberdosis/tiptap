@@ -149,6 +149,14 @@
       "import": "./dist/extensions/color/index.js",
       "require": "./dist/extensions/color/index.cjs"
     },
+    "./extensions/details": {
+      "types": {
+        "import": "./dist/extensions/details/index.d.ts",
+        "require": "./dist/extensions/details/index.d.cts"
+      },
+      "import": "./dist/extensions/details/index.js",
+      "require": "./dist/extensions/details/index.cjs"
+    },
     "./extensions/document": {
       "types": {
         "import": "./dist/extensions/document/index.d.ts",
@@ -301,6 +309,22 @@
       "import": "./dist/extensions/strike/index.js",
       "require": "./dist/extensions/strike/index.cjs"
     },
+    "./extensions/subscript": {
+      "types": {
+        "import": "./dist/extensions/subscript/index.d.ts",
+        "require": "./dist/extensions/subscript/index.d.cts"
+      },
+      "import": "./dist/extensions/subscript/index.js",
+      "require": "./dist/extensions/subscript/index.cjs"
+    },
+    "./extensions/superscript": {
+      "types": {
+        "import": "./dist/extensions/superscript/index.d.ts",
+        "require": "./dist/extensions/superscript/index.d.cts"
+      },
+      "import": "./dist/extensions/superscript/index.js",
+      "require": "./dist/extensions/superscript/index.cjs"
+    },
     "./extensions/table": {
       "types": {
         "import": "./dist/extensions/table/index.d.ts",
@@ -316,6 +340,14 @@
       },
       "import": "./dist/extensions/text/index.js",
       "require": "./dist/extensions/text/index.cjs"
+    },
+    "./extensions/text-align": {
+      "types": {
+        "import": "./dist/extensions/text-align/index.d.ts",
+        "require": "./dist/extensions/text-align/index.d.cts"
+      },
+      "import": "./dist/extensions/text-align/index.js",
+      "require": "./dist/extensions/text-align/index.cjs"
     },
     "./extensions/text-style": {
       "types": {

@@ -4,7 +4,7 @@ import { Document } from '@tiptap/editor/extensions/document'
 import { Heading } from '@tiptap/editor/extensions/heading'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'
-import { TextAlign } from '@tiptap/extras/text-align'
+import { TextAlign } from '@tiptap/editor/extensions/text-align'
 import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import React from 'react'
 

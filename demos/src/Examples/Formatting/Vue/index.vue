@@ -82,7 +82,7 @@
 
 <script>
 import { Highlight } from '@tiptap/extras/highlight'
-import { TextAlign } from '@tiptap/extras/text-align'
+import { TextAlign } from '@tiptap/editor/extensions/text-align'
 import { StarterKit } from '@tiptap/editor/kits/starter'
 import { Editor, EditorContent } from '@tiptap/vue'
 

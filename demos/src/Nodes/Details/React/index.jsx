@@ -1,6 +1,6 @@
 import './styles.scss'
 
-import { Details, DetailsContent, DetailsSummary } from '@tiptap/extras/details'
+import { Details, DetailsContent, DetailsSummary } from '@tiptap/editor/extensions/details'
 import { Placeholder } from '@tiptap/editor/extensions/placeholder'
 import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import { StarterKit } from '@tiptap/editor/kits/starter'

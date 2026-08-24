@@ -1,7 +1,7 @@
 import { Document } from '@tiptap/editor/extensions/document'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'
-import { TextAlign } from '@tiptap/extras/text-align'
+import { TextAlign } from '@tiptap/editor/extensions/text-align'
 import { generateJSON } from '@tiptap/editor/html'
 import { describe, expect, it } from 'vite-plus/test'
 

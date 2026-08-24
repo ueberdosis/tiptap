@@ -2,7 +2,7 @@ import './styles.scss'
 import 'katex/dist/katex.min.css'
 
 import { createBlockMarkdownSpec, Node } from '@tiptap/editor'
-import { Details, DetailsContent, DetailsSummary } from '@tiptap/extras/details'
+import { Details, DetailsContent, DetailsSummary } from '@tiptap/editor/extensions/details'
 import { Highlight } from '@tiptap/extras/highlight'
 import { Image } from '@tiptap/editor/extensions/image'
 import { TaskItem, TaskList } from '@tiptap/editor/extensions/list'

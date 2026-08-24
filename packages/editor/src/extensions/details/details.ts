@@ -7,9 +7,9 @@ import {
   mergeAttributes,
   Node,
 } from '@tiptap/editor'
-import type { Node as ProseMirrorNode } from '@tiptap/editor/pm/model'
-import { Plugin, PluginKey, Selection, TextSelection } from '@tiptap/editor/pm/state'
-import type { ViewMutationRecord } from '@tiptap/editor/pm/view'
+import type { Node as ProseMirrorNode } from 'prosemirror-model'
+import { Plugin, PluginKey, Selection, TextSelection } from 'prosemirror-state'
+import type { ViewMutationRecord } from 'prosemirror-view'
 
 import { findClosestVisibleNode } from './helpers/findClosestVisibleNode.js'
 import { isNodeVisible } from './helpers/isNodeVisible.js'

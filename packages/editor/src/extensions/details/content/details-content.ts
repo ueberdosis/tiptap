@@ -5,8 +5,8 @@ import {
   mergeAttributes,
   Node,
 } from '@tiptap/editor'
-import { Selection } from '@tiptap/editor/pm/state'
-import type { ViewMutationRecord } from '@tiptap/editor/pm/view'
+import { Selection } from 'prosemirror-state'
+import type { ViewMutationRecord } from 'prosemirror-view'
 
 export interface DetailsContentOptions {
   /**

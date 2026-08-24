@@ -38,14 +38,6 @@
       "import": "./dist/code-block-lowlight/index.js",
       "require": "./dist/code-block-lowlight/index.cjs"
     },
-    "./details": {
-      "types": {
-        "import": "./dist/details/index.d.ts",
-        "require": "./dist/details/index.d.cts"
-      },
-      "import": "./dist/details/index.js",
-      "require": "./dist/details/index.cjs"
-    },
     "./drag-handle": {
       "types": {
         "import": "./dist/drag-handle/index.d.ts",
@@ -174,14 +166,6 @@
       "import": "./dist/ruby-text/index.js",
       "require": "./dist/ruby-text/index.cjs"
     },
-    "./subscript": {
-      "types": {
-        "import": "./dist/subscript/index.d.ts",
-        "require": "./dist/subscript/index.d.cts"
-      },
-      "import": "./dist/subscript/index.js",
-      "require": "./dist/subscript/index.cjs"
-    },
     "./suggestion": {
       "types": {
         "import": "./dist/suggestion/index.d.ts",
@@ -190,14 +174,6 @@
       "import": "./dist/suggestion/index.js",
       "require": "./dist/suggestion/index.cjs"
     },
-    "./superscript": {
-      "types": {
-        "import": "./dist/superscript/index.d.ts",
-        "require": "./dist/superscript/index.d.cts"
-      },
-      "import": "./dist/superscript/index.js",
-      "require": "./dist/superscript/index.cjs"
-    },
     "./table-of-contents": {
       "types": {
         "import": "./dist/table-of-contents/index.d.ts",
@@ -205,14 +181,6 @@
       },
       "import": "./dist/table-of-contents/index.js",
       "require": "./dist/table-of-contents/index.cjs"
-    },
-    "./text-align": {
-      "types": {
-        "import": "./dist/text-align/index.d.ts",
-        "require": "./dist/text-align/index.d.cts"
-      },
-      "import": "./dist/text-align/index.js",
-      "require": "./dist/text-align/index.cjs"
     },
     "./typography": {
       "types": {

@@ -1,7 +1,7 @@
 import './styles.scss'
 
 import { Highlight } from '@tiptap/extras/highlight'
-import { TextAlign } from '@tiptap/extras/text-align'
+import { TextAlign } from '@tiptap/editor/extensions/text-align'
 import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import { StarterKit } from '@tiptap/editor/kits/starter'
 import React from 'react'

@@ -3,7 +3,7 @@
 ---
 
 The extensions every editor needs now ship inside `@tiptap/editor`, one subpath
-each. Twenty separate packages and `@tiptap/extensions` are gone.
+each. Twenty-four separate packages and `@tiptap/extensions` are gone.
 
 ```ts
 // before
@@ -19,13 +19,16 @@ import { CharacterCount } from '@tiptap/editor/extensions/character-count'
 
 Every subpath exports names only, so replace default imports with named ones.
 
-**Nodes** `blockquote` `code-block` `document` `hard-break` `heading`
+**Nodes** `blockquote` `code-block` `details` `document` `hard-break` `heading`
 `horizontal-rule` `image` `list` `paragraph` `table` `text`
 
-**Marks** `bold` `code` `italic` `link` `strike` `underline`
+**Marks** `bold` `code` `italic` `link` `strike` `subscript` `superscript`
+`underline`
 
 **Behaviour** `character-count` `drop-cursor` `focus` `gap-cursor` `placeholder`
 `selection` `trailing-node` `undo-redo`
+
+**Formatting** `text-align`
 
 **Menus** `bubble-menu` `floating-menu`
 

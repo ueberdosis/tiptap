@@ -4,7 +4,6 @@ import { basePackConfig, tsupCompatibleExtensions } from '../../pack.config.mjs'
 /** Keep in sync with the `exports` map in package.json. */
 const subExports = [
   'code-block-lowlight',
-  'details',
   'drag-handle',
   'drag-handle/react',
   'drag-handle/vue',
@@ -21,11 +20,8 @@ const subExports = [
   'mention',
   'node-range',
   'ruby-text',
-  'subscript',
   'suggestion',
-  'superscript',
   'table-of-contents',
-  'text-align',
   'typography',
   'unique-id',
 ]

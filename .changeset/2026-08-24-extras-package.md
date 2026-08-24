@@ -2,7 +2,7 @@
 '@tiptap/extras': major
 ---
 
-New package `@tiptap/extras` replaces 22 optional extension packages, one
+New package `@tiptap/extras` replaces 20 optional extension packages, one
 subpath each.
 
 ```ts
@@ -22,11 +22,7 @@ Every subpath exports names only, so replace default imports with named ones.
 | Old | New |
 | --- | --- |
 | `@tiptap/extension-highlight` | `@tiptap/extras/highlight` |
-| `@tiptap/extension-text-align` | `@tiptap/extras/text-align` |
-| `@tiptap/extension-subscript` | `@tiptap/extras/subscript` |
-| `@tiptap/extension-superscript` | `@tiptap/extras/superscript` |
 | `@tiptap/extension-typography` | `@tiptap/extras/typography` |
-| `@tiptap/extension-details` | `@tiptap/extras/details` |
 | `@tiptap/extension-ruby-text` | `@tiptap/extras/ruby-text` |
 | `@tiptap/extension-invisible-characters` | `@tiptap/extras/invisible-characters` |
 | `@tiptap/extension-audio` | `@tiptap/extras/media/audio` |
