@@ -5,7 +5,7 @@ import { Document } from '@tiptap/editor/extensions/document'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'
 // Option 1: Browser + server-side
-import { generateJSON } from '@tiptap/html'
+import { generateJSON } from '@tiptap/editor/html'
 import React, { useMemo } from 'react'
 
 const html = '<p>Example <strong>Text</strong></p>'

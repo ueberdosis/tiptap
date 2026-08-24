@@ -1,12 +1,12 @@
 import { Image } from '@tiptap/editor/extensions/image'
 import { TableKit } from '@tiptap/editor/kits/table'
-import { Markdown } from '@tiptap/markdown'
+import { Markdown } from '@tiptap/editor/markdown'
 import { EditorContent, useEditor } from '@tiptap/react'
 import { StarterKit } from '@tiptap/editor/kits/starter'
 
 const markdown = `# Markdown parsing demo
 
-This document demonstrates which Markdown constructs are parsed and preserved when using the @tiptap/markdown extension together with the editor's registered extensions.
+This document demonstrates which Markdown constructs are parsed and preserved when using the @tiptap/editor/markdown extension together with the editor's registered extensions.
 
 ## Headings
 
@@ -60,7 +60,7 @@ export default () => {
   const editor = useEditor({
     extensions: [Markdown, StarterKit, Image, TableKit.configure({ table: { cellMinWidth: 150 } })],
     content: `
-      <p>In this demo you can parse Markdown content into Tiptap on the client-side via <code>@tiptap/markdown</code>.</p>
+      <p>In this demo you can parse Markdown content into Tiptap on the client-side via <code>@tiptap/editor/markdown</code>.</p>
       <p>Click the button above or use your own markdown file to test it out.</p>
     `,
   })

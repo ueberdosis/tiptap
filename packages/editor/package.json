@@ -61,6 +61,30 @@
       "import": "./jsx-dev-runtime/index.js",
       "require": "./jsx-dev-runtime/index.cjs"
     },
+    "./markdown": {
+      "types": {
+        "import": "./dist/markdown/index.d.ts",
+        "require": "./dist/markdown/index.d.cts"
+      },
+      "import": "./dist/markdown/index.js",
+      "require": "./dist/markdown/index.cjs"
+    },
+    "./html": {
+      "types": {
+        "import": "./dist/html/index.d.ts",
+        "require": "./dist/html/index.d.cts"
+      },
+      "import": "./dist/html/index.js",
+      "require": "./dist/html/index.cjs"
+    },
+    "./html/server": {
+      "types": {
+        "import": "./dist/html/server/index.d.ts",
+        "require": "./dist/html/server/index.d.cts"
+      },
+      "import": "./dist/html/server/index.js",
+      "require": "./dist/html/server/index.cjs"
+    },
     "./extensions/background-color": {
       "types": {
         "import": "./dist/extensions/background-color/index.d.ts",
@@ -463,11 +487,12 @@
     }
   },
   "scripts": {
-    "build": "vp pack"
+    "build": "NODE_OPTIONS=--max-old-space-size=8192 vp pack"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.0.0",
     "linkifyjs": "^4.3.3",
+    "marked": "^17.0.1",
     "prosemirror-changeset": "^2.4.1",
     "prosemirror-commands": "^1.7.1",
     "prosemirror-dropcursor": "^1.8.2",
@@ -481,5 +506,16 @@
     "prosemirror-tables": "^1.8.5",
     "prosemirror-transform": "^1.12.0",
     "prosemirror-view": "^1.41.9"
+  },
+  "peerDependencies": {
+    "happy-dom": "^20.8.9"
+  },
+  "peerDependenciesMeta": {
+    "happy-dom": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "happy-dom": "^20.8.9"
   }
 }

@@ -2,7 +2,7 @@ import './styles.scss'
 
 import { Image } from '@tiptap/editor/extensions/image'
 import { TableKit } from '@tiptap/editor/kits/table'
-import { Markdown } from '@tiptap/markdown'
+import { Markdown } from '@tiptap/editor/markdown'
 import {
   createAtomBlockMarkdownSpec,
   createBlockMarkdownSpec,

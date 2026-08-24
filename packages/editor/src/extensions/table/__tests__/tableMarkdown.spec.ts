@@ -5,7 +5,7 @@ import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { escapeTableCellPipes } from '@tiptap/editor/extensions/table'
 import { TableKit } from '@tiptap/editor/kits/table'
 import { Text } from '@tiptap/editor/extensions/text'
-import { MarkdownManager } from '@tiptap/markdown'
+import { MarkdownManager } from '@tiptap/editor/markdown'
 import { describe, expect, it } from 'vite-plus/test'
 
 describe('table markdown — inline code with pipe characters', () => {

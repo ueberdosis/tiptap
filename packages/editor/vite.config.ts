@@ -36,10 +36,13 @@ const subExports = [
   'extensions/trailing-node',
   'extensions/underline',
   'extensions/undo-redo',
+  'html',
+  'html/server',
   'kits/list',
   'kits/starter',
   'kits/table',
   'kits/text-style',
+  'markdown',
   'pm/changeset',
   'pm/commands',
   'pm/dropcursor',
@@ -66,7 +69,10 @@ export default defineConfig({
       ...basePackConfig(),
       entry: ['src/jsx-runtime.ts'],
       outDir: 'dist/jsx-runtime',
+      clean: false,
     },
+    // One config per subpath. Sharing a config collapses the declaration file
+    // names, because dts output is named from the entry basename.
     ...subExports.map(subpath => ({
       ...basePackConfig(),
       entry: [`src/${subpath}/index.ts`],

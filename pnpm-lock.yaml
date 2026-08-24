@@ -415,6 +415,9 @@ importers:
       linkifyjs:
         specifier: ^4.3.3
         version: 4.3.3
+      marked:
+        specifier: ^17.0.1
+        version: 17.0.6
       prosemirror-changeset:
         specifier: ^2.4.1
         version: 2.4.1
@@ -454,6 +457,10 @@ importers:
       prosemirror-view:
         specifier: ^1.41.9
         version: 1.42.2
+    devDependencies:
+      happy-dom:
+        specifier: ^20.8.9
+        version: 20.11.2
 
   packages/extension-audio:
     devDependencies:
@@ -725,28 +732,6 @@ importers:
         version: link:../editor
 
   packages/extension-youtube:
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-
-  packages/html:
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-      '@types/node':
-        specifier: ^22.0.0
-        version: 22.20.1
-      happy-dom:
-        specifier: ^20.8.9
-        version: 20.11.2
-
-  packages/markdown:
-    dependencies:
-      marked:
-        specifier: ^17.0.1
-        version: 17.0.6
     devDependencies:
       '@tiptap/editor':
         specifier: workspace:^

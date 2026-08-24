@@ -2,7 +2,7 @@ import { Editor, Extension } from '@tiptap/editor'
 import { Document } from '@tiptap/editor/extensions/document'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'
-import { Markdown } from '@tiptap/markdown'
+import { Markdown } from '@tiptap/editor/markdown'
 import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 
 import { Image } from '../index.js'

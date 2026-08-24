@@ -2,7 +2,7 @@ import './styles.scss'
 
 import { Image } from '@tiptap/editor/extensions/image'
 import { TableKit } from '@tiptap/editor/kits/table'
-import { Markdown } from '@tiptap/markdown'
+import { Markdown } from '@tiptap/editor/markdown'
 import { EditorContent, useEditor } from '@tiptap/react'
 import { StarterKit } from '@tiptap/editor/kits/starter'
 import { useState } from 'react'
@@ -12,7 +12,7 @@ export default () => {
   const editor = useEditor({
     extensions: [Markdown, StarterKit, Image, TableKit],
     content: `
-      <p>In this demo, you can serialize Tiptap content into Markdown on the client-side via <code>@tiptap/markdown</code>.</p>
+      <p>In this demo, you can serialize Tiptap content into Markdown on the client-side via <code>@tiptap/editor/markdown</code>.</p>
       <p>Feel free to edit this document to see the live-changes.</p>
     `,
     onUpdate: ({ editor: currentEditor }) => {

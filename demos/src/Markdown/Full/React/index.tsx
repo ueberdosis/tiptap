@@ -11,7 +11,7 @@ import { Mention } from '@tiptap/extension-mention'
 import { TableKit } from '@tiptap/editor/kits/table'
 import { Twitch } from '@tiptap/extension-twitch'
 import { Youtube } from '@tiptap/extension-youtube'
-import { Markdown } from '@tiptap/markdown'
+import { Markdown } from '@tiptap/editor/markdown'
 import {
   EditorContent,
   NodeViewContent,

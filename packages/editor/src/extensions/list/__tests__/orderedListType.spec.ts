@@ -4,7 +4,7 @@ import { Bold } from '@tiptap/editor/extensions/bold'
 import { Document } from '@tiptap/editor/extensions/document'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'
-import { MarkdownManager } from '@tiptap/markdown'
+import { MarkdownManager } from '@tiptap/editor/markdown'
 import { afterEach, describe, expect, it } from 'vite-plus/test'
 
 import {
