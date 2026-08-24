@@ -232,11 +232,11 @@ The AI Toolkit now ships from `@tiptap/editor`.
 
 ```ts
 // before
-import { AiToolkit } from '@tiptap/ai-toolkit'
+import { ServerAiToolkit } from '@tiptap/ai-toolkit'
 import { AiInsertReveal } from '@tiptap/ai-toolkit/streaming-reveal'
 
 // after
-import { AiToolkit } from '@tiptap/editor/ai-toolkit'
+import { ServerAiToolkit } from '@tiptap/editor/ai-toolkit'
 import { AiInsertReveal } from '@tiptap/editor/ai-toolkit/streaming-reveal'
 ```
 
