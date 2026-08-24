@@ -1,5 +1,5 @@
 import { prettyDOM, render } from '@testing-library/react'
-import Bold from '@tiptap/extension-bold'
+import { Bold } from '@tiptap/editor/extensions/bold'
 import Document from '@tiptap/extension-document'
 import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'

@@ -1,7 +1,7 @@
 import { getMarkRange, getSchemaByResolvedExtensions } from '@tiptap/editor'
 import Document from '@tiptap/extension-document'
 import Highlight from '@tiptap/extension-highlight'
-import Link from '@tiptap/extension-link'
+import { Link } from '@tiptap/editor/extensions/link'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { Node } from 'prosemirror-model'

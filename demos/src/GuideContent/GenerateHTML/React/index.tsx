@@ -1,4 +1,4 @@
-import Bold from '@tiptap/extension-bold'
+import { Bold } from '@tiptap/editor/extensions/bold'
 // Option 2: Browser-only (lightweight)
 // import { generateHTML } from '@tiptap/editor'
 import Document from '@tiptap/extension-document'

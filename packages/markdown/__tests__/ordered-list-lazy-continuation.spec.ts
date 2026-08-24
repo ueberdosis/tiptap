@@ -1,5 +1,5 @@
 import { Blockquote } from '@tiptap/extension-blockquote'
-import { Bold } from '@tiptap/extension-bold'
+import { Bold } from '@tiptap/editor/extensions/bold'
 import { CodeBlock } from '@tiptap/extension-code-block'
 import { Document } from '@tiptap/extension-document'
 import { HardBreak } from '@tiptap/extension-hard-break'

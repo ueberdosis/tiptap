@@ -44,9 +44,7 @@
   "dependencies": {
     "@tiptap/editor": "workspace:*",
     "@tiptap/extension-blockquote": "workspace:*",
-    "@tiptap/extension-bold": "workspace:*",
     "@tiptap/extension-bullet-list": "workspace:*",
-    "@tiptap/extension-code": "workspace:*",
     "@tiptap/extension-code-block": "workspace:*",
     "@tiptap/extension-document": "workspace:*",
     "@tiptap/extension-dropcursor": "workspace:*",
@@ -54,17 +52,11 @@
     "@tiptap/extension-hard-break": "workspace:*",
     "@tiptap/extension-heading": "workspace:*",
     "@tiptap/extension-horizontal-rule": "workspace:*",
-    "@tiptap/extension-italic": "workspace:*",
-    "@tiptap/extension-link": "workspace:*",
     "@tiptap/extension-list": "workspace:*",
     "@tiptap/extension-list-item": "workspace:*",
     "@tiptap/extension-list-keymap": "workspace:*",
     "@tiptap/extension-ordered-list": "workspace:*",
     "@tiptap/extension-paragraph": "workspace:*",
-    "@tiptap/extension-strike": "workspace:*",
-    "@tiptap/extension-text": "workspace:*",
-    "@tiptap/extension-underline": "workspace:*"
-  },
-  "devDependencies": {},
-  "peerDependencies": {}
+    "@tiptap/extension-text": "workspace:*"
+  }
 }

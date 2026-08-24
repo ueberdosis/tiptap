@@ -1,4 +1,4 @@
-import { Code } from '@tiptap/extension-code'
+import { Code } from '@tiptap/editor/extensions/code'
 import Document from '@tiptap/extension-document'
 import HardBreak from '@tiptap/extension-hard-break'
 import Paragraph from '@tiptap/extension-paragraph'

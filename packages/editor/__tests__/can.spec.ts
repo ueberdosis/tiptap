@@ -1,6 +1,6 @@
 import { Editor } from '@tiptap/editor'
-import Bold from '@tiptap/extension-bold'
-import Code from '@tiptap/extension-code'
+import { Bold } from '@tiptap/editor/extensions/bold'
+import { Code } from '@tiptap/editor/extensions/code'
 import CodeBlock from '@tiptap/extension-code-block'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'

@@ -1,7 +1,7 @@
 import './styles.scss'
 
 import Document from '@tiptap/extension-document'
-import Italic from '@tiptap/extension-italic'
+import { Italic } from '@tiptap/editor/extensions/italic'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { EditorContent, useEditor, useEditorState } from '@tiptap/react'

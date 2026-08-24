@@ -1,5 +1,5 @@
 import { Editor } from '@tiptap/editor'
-import Bold from '@tiptap/extension-bold'
+import { Bold } from '@tiptap/editor/extensions/bold'
 import Document from '@tiptap/extension-document'
 import FindAndReplace, {
   createSearchRegex,

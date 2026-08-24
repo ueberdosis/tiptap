@@ -1,6 +1,6 @@
 import './styles.scss'
 
-import Bold from '@tiptap/extension-bold'
+import { Bold } from '@tiptap/editor/extensions/bold'
 import Collaboration from '@tiptap/extension-collaboration'
 import Document from '@tiptap/extension-document'
 import Heading from '@tiptap/extension-heading'

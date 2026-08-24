@@ -1,6 +1,6 @@
 import './styles.scss'
 
-import Link from '@tiptap/extension-link'
+import { Link } from '@tiptap/editor/extensions/link'
 import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'

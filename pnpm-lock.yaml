@@ -409,6 +409,9 @@ importers:
 
   packages/editor:
     dependencies:
+      linkifyjs:
+        specifier: ^4.3.3
+        version: 4.3.3
       prosemirror-changeset:
         specifier: ^2.4.1
         version: 2.4.1
@@ -461,12 +464,6 @@ importers:
         specifier: workspace:^
         version: link:../editor
 
-  packages/extension-bold:
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-
   packages/extension-bubble-menu:
     dependencies:
       '@floating-ui/dom':
@@ -482,12 +479,6 @@ importers:
       '@tiptap/extension-list':
         specifier: workspace:^
         version: link:../extension-list
-
-  packages/extension-code:
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
 
   packages/extension-code-block:
     devDependencies:
@@ -749,22 +740,6 @@ importers:
         specifier: workspace:^
         version: link:../extension-text-style
 
-  packages/extension-italic:
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-
-  packages/extension-link:
-    dependencies:
-      linkifyjs:
-        specifier: ^4.3.3
-        version: 4.3.3
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-
   packages/extension-list:
     devDependencies:
       '@tiptap/editor':
@@ -812,12 +787,6 @@ importers:
         version: link:../editor
 
   packages/extension-ruby-text:
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-
-  packages/extension-strike:
     devDependencies:
       '@tiptap/editor':
         specifier: workspace:^
@@ -876,12 +845,6 @@ importers:
         version: link:../editor
 
   packages/extension-typography:
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-
-  packages/extension-underline:
     devDependencies:
       '@tiptap/editor':
         specifier: workspace:^
@@ -968,15 +931,9 @@ importers:
       '@tiptap/extension-blockquote':
         specifier: workspace:*
         version: link:../extension-blockquote
-      '@tiptap/extension-bold':
-        specifier: workspace:*
-        version: link:../extension-bold
       '@tiptap/extension-bullet-list':
         specifier: workspace:*
         version: link:../extension-bullet-list
-      '@tiptap/extension-code':
-        specifier: workspace:*
-        version: link:../extension-code
       '@tiptap/extension-code-block':
         specifier: workspace:*
         version: link:../extension-code-block
@@ -998,12 +955,6 @@ importers:
       '@tiptap/extension-horizontal-rule':
         specifier: workspace:*
         version: link:../extension-horizontal-rule
-      '@tiptap/extension-italic':
-        specifier: workspace:*
-        version: link:../extension-italic
-      '@tiptap/extension-link':
-        specifier: workspace:*
-        version: link:../extension-link
       '@tiptap/extension-list':
         specifier: workspace:*
         version: link:../extension-list
@@ -1019,15 +970,9 @@ importers:
       '@tiptap/extension-paragraph':
         specifier: workspace:*
         version: link:../extension-paragraph
-      '@tiptap/extension-strike':
-        specifier: workspace:*
-        version: link:../extension-strike
       '@tiptap/extension-text':
         specifier: workspace:*
         version: link:../extension-text
-      '@tiptap/extension-underline':
-        specifier: workspace:*
-        version: link:../extension-underline
 
   packages/static-renderer:
     devDependencies:

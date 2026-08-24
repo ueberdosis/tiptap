@@ -1,7 +1,7 @@
 import './styles.scss'
 
 import { Image } from '@tiptap/extension-image'
-import Link from '@tiptap/extension-link'
+import { Link } from '@tiptap/editor/extensions/link'
 import { Color, TextStyle } from '@tiptap/extension-text-style'
 import { EditorProvider, useCurrentEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'

@@ -2,11 +2,11 @@
  * @vitest-environment node
  */
 
-import { Code } from '@tiptap/extension-code'
+import { Code } from '@tiptap/editor/extensions/code'
 import { Document } from '@tiptap/extension-document'
 import { Heading } from '@tiptap/extension-heading'
 import { Paragraph } from '@tiptap/extension-paragraph'
-import { Strike } from '@tiptap/extension-strike'
+import { Strike } from '@tiptap/editor/extensions/strike'
 import { Text } from '@tiptap/extension-text'
 import { MarkdownManager } from '@tiptap/markdown'
 import { beforeEach, describe, expect, it } from 'vite-plus/test'

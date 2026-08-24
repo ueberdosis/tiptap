@@ -1,6 +1,6 @@
 import './styles.scss'
 
-import Code from '@tiptap/extension-code'
+import { Code } from '@tiptap/editor/extensions/code'
 import CodeBlock from '@tiptap/extension-code-block'
 import Document from '@tiptap/extension-document'
 import { BulletList, ListItem } from '@tiptap/extension-list'

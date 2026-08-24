@@ -16,9 +16,9 @@
 </template>
 
 <script>
-import Code from '@tiptap/extension-code'
+import { Code } from '@tiptap/editor/extensions/code'
 import Document from '@tiptap/extension-document'
-import Link from '@tiptap/extension-link'
+import { Link } from '@tiptap/editor/extensions/link'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { Editor, EditorContent } from '@tiptap/vue-3'

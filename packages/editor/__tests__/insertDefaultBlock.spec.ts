@@ -1,6 +1,6 @@
 import { Editor } from '@tiptap/editor'
 import Blockquote from '@tiptap/extension-blockquote'
-import Bold from '@tiptap/extension-bold'
+import { Bold } from '@tiptap/editor/extensions/bold'
 import Document from '@tiptap/extension-document'
 import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'

@@ -3,13 +3,19 @@ import { basePackConfig, tsupCompatibleExtensions } from '../../pack.config.mjs'
 
 /** Keep in sync with the `exports` map in package.json. */
 const subExports = [
+  'extensions/bold',
   'extensions/character-count',
+  'extensions/code',
   'extensions/drop-cursor',
   'extensions/focus',
   'extensions/gap-cursor',
+  'extensions/italic',
+  'extensions/link',
   'extensions/placeholder',
   'extensions/selection',
+  'extensions/strike',
   'extensions/trailing-node',
+  'extensions/underline',
   'extensions/undo-redo',
   'pm/changeset',
   'pm/commands',

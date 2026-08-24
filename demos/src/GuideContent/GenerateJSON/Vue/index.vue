@@ -4,7 +4,7 @@
 
 <script>
 // Option 1: Browser + server-side
-import Bold from '@tiptap/extension-bold'
+import { Bold } from '@tiptap/editor/extensions/bold'
 // Option 2: Browser-only (lightweight)
 // import { generateJSON } from '@tiptap/editor'
 import Document from '@tiptap/extension-document'

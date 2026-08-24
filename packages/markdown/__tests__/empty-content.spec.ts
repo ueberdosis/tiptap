@@ -1,5 +1,5 @@
 import { Editor } from '@tiptap/editor'
-import { Bold } from '@tiptap/extension-bold'
+import { Bold } from '@tiptap/editor/extensions/bold'
 import { Document } from '@tiptap/extension-document'
 import { Paragraph } from '@tiptap/extension-paragraph'
 import { Text } from '@tiptap/extension-text'

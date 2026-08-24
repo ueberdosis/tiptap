@@ -5,7 +5,7 @@
 import { Document } from '@tiptap/extension-document'
 import { HardBreak } from '@tiptap/extension-hard-break'
 import { Heading } from '@tiptap/extension-heading'
-import { Italic } from '@tiptap/extension-italic'
+import { Italic } from '@tiptap/editor/extensions/italic'
 import { Paragraph } from '@tiptap/extension-paragraph'
 import { Text } from '@tiptap/extension-text'
 import { MarkdownManager } from '@tiptap/markdown'

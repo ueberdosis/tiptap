@@ -228,12 +228,61 @@
       },
       "import": "./dist/extensions/undo-redo/index.js",
       "require": "./dist/extensions/undo-redo/index.cjs"
+    },
+    "./extensions/bold": {
+      "types": {
+        "import": "./dist/extensions/bold/index.d.ts",
+        "require": "./dist/extensions/bold/index.d.cts"
+      },
+      "import": "./dist/extensions/bold/index.js",
+      "require": "./dist/extensions/bold/index.cjs"
+    },
+    "./extensions/code": {
+      "types": {
+        "import": "./dist/extensions/code/index.d.ts",
+        "require": "./dist/extensions/code/index.d.cts"
+      },
+      "import": "./dist/extensions/code/index.js",
+      "require": "./dist/extensions/code/index.cjs"
+    },
+    "./extensions/italic": {
+      "types": {
+        "import": "./dist/extensions/italic/index.d.ts",
+        "require": "./dist/extensions/italic/index.d.cts"
+      },
+      "import": "./dist/extensions/italic/index.js",
+      "require": "./dist/extensions/italic/index.cjs"
+    },
+    "./extensions/link": {
+      "types": {
+        "import": "./dist/extensions/link/index.d.ts",
+        "require": "./dist/extensions/link/index.d.cts"
+      },
+      "import": "./dist/extensions/link/index.js",
+      "require": "./dist/extensions/link/index.cjs"
+    },
+    "./extensions/strike": {
+      "types": {
+        "import": "./dist/extensions/strike/index.d.ts",
+        "require": "./dist/extensions/strike/index.d.cts"
+      },
+      "import": "./dist/extensions/strike/index.js",
+      "require": "./dist/extensions/strike/index.cjs"
+    },
+    "./extensions/underline": {
+      "types": {
+        "import": "./dist/extensions/underline/index.d.ts",
+        "require": "./dist/extensions/underline/index.d.cts"
+      },
+      "import": "./dist/extensions/underline/index.js",
+      "require": "./dist/extensions/underline/index.cjs"
     }
   },
   "scripts": {
     "build": "vp pack"
   },
   "dependencies": {
+    "linkifyjs": "^4.3.3",
     "prosemirror-changeset": "^2.4.1",
     "prosemirror-commands": "^1.7.1",
     "prosemirror-dropcursor": "^1.8.2",

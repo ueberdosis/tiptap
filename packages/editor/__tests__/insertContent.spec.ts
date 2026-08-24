@@ -1,7 +1,7 @@
 import { Editor } from '@tiptap/editor'
 import Document from '@tiptap/extension-document'
 import Image from '@tiptap/extension-image'
-import Link from '@tiptap/extension-link'
+import { Link } from '@tiptap/editor/extensions/link'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { Color, TextStyle } from '@tiptap/extension-text-style'

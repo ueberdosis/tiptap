@@ -1,5 +1,5 @@
 import { Editor, Node } from '@tiptap/editor'
-import Code from '@tiptap/extension-code'
+import { Code } from '@tiptap/editor/extensions/code'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
