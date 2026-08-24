@@ -1,7 +1,7 @@
 // @vitest-environment happy-dom
 
 import { Editor } from '@tiptap/editor'
-import { Collaboration } from '@tiptap/extension-collaboration'
+import { Collaboration } from '@tiptap/collaboration'
 import { StarterKit } from '@tiptap/editor/kits/starter'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import * as Y from 'yjs'

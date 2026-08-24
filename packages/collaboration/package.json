@@ -1,10 +1,11 @@
 {
-  "name": "@tiptap/extension-collaboration",
+  "name": "@tiptap/collaboration",
   "version": "3.30.3",
-  "description": "collaboration extension for tiptap",
+  "description": "Yjs binding for Tiptap",
   "keywords": [
+    "collaboration",
     "tiptap",
-    "tiptap extension"
+    "yjs"
   ],
   "homepage": "https://tiptap.dev",
   "bugs": {
@@ -14,7 +15,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
-    "directory": "packages/extension-collaboration"
+    "directory": "packages/collaboration"
   },
   "funding": {
     "type": "github",
@@ -25,6 +26,7 @@
     "dist"
   ],
   "type": "module",
+  "sideEffects": false,
   "main": "dist/index.cjs",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -36,6 +38,14 @@
       },
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
+    },
+    "./caret": {
+      "types": {
+        "import": "./dist/caret/index.d.ts",
+        "require": "./dist/caret/index.d.cts"
+      },
+      "import": "./dist/caret/index.js",
+      "require": "./dist/caret/index.cjs"
     }
   },
   "scripts": {
@@ -43,7 +53,8 @@
   },
   "devDependencies": {
     "@tiptap/editor": "workspace:^",
-    "@tiptap/y-tiptap": "^3.0.7"
+    "@tiptap/y-tiptap": "^3.0.7",
+    "yjs": "^13.6.23"
   },
   "peerDependencies": {
     "@tiptap/editor": "workspace:*",

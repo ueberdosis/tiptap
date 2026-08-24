@@ -38,10 +38,10 @@ declare module '@tiptap/editor' {
  * This extension allows you to undo and redo recent changes.
  * @see https://www.tiptap.dev/api/extensions/undo-redo
  *
- * **Important**: If the `@tiptap/extension-collaboration` package is used, make sure to remove
+ * **Important**: If the `@tiptap/collaboration` package is used, make sure to remove
  * the `undo-redo` extension, as it is not compatible with the `collaboration` extension.
  *
- * `@tiptap/extension-collaboration` uses its own history implementation.
+ * `@tiptap/collaboration` uses its own history implementation.
  */
 export const UndoRedo = Extension.create<UndoRedoOptions>({
   name: 'undoRedo',

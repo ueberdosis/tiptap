@@ -111,7 +111,7 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
   onCreate() {
     if (this.editor.extensionManager.extensions.find(extension => extension.name === 'undoRedo')) {
       console.warn(
-        '[tiptap warn]: "@tiptap/extension-collaboration" comes with its own history support and is not compatible with "@tiptap/extension-undo-redo".',
+        '[tiptap warn]: "@tiptap/collaboration" comes with its own history support and is not compatible with the UndoRedo extension.',
       )
     }
   },

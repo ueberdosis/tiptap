@@ -46,15 +46,18 @@
   },
   "devDependencies": {
     "@floating-ui/dom": "^1.6.13",
+    "@tiptap/collaboration": "workspace:^",
     "@tiptap/editor": "workspace:^",
-    "@tiptap/extension-collaboration": "workspace:^",
-    "@tiptap/extension-node-range": "workspace:^",
-    "@tiptap/y-tiptap": "^3.0.7"
+    "@tiptap/extension-node-range": "workspace:^"
   },
   "peerDependencies": {
+    "@tiptap/collaboration": "workspace:*",
     "@tiptap/editor": "workspace:*",
-    "@tiptap/extension-collaboration": "workspace:*",
-    "@tiptap/extension-node-range": "workspace:*",
-    "@tiptap/y-tiptap": "^3.0.7"
+    "@tiptap/extension-node-range": "workspace:*"
+  },
+  "peerDependenciesMeta": {
+    "@tiptap/collaboration": {
+      "optional": true
+    }
   }
 }

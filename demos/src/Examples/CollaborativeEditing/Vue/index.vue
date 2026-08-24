@@ -23,8 +23,8 @@
 
 <script>
 import { TiptapCollabProvider } from '@hocuspocus/provider'
-import Collaboration from '@tiptap/extension-collaboration'
-import CollaborationCaret from '@tiptap/extension-collaboration-caret'
+import { Collaboration } from '@tiptap/collaboration'
+import { CollaborationCaret } from '@tiptap/collaboration/caret'
 import Highlight from '@tiptap/extension-highlight'
 import { TaskItem, TaskList } from '@tiptap/editor/extensions/list'
 import { CharacterCount } from '@tiptap/editor/extensions/character-count'

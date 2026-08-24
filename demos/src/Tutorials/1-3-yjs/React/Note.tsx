@@ -1,4 +1,4 @@
-import { Collaboration } from '@tiptap/extension-collaboration'
+import { Collaboration } from '@tiptap/collaboration'
 import { EditorContent, useEditor } from '@tiptap/react'
 import { StarterKit } from '@tiptap/editor/kits/starter'
 import React from 'react'

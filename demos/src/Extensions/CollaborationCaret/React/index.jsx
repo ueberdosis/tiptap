@@ -1,7 +1,7 @@
 import './styles.scss'
 
-import Collaboration from '@tiptap/extension-collaboration'
-import CollaborationCaret from '@tiptap/extension-collaboration-caret'
+import { Collaboration } from '@tiptap/collaboration'
+import { CollaborationCaret } from '@tiptap/collaboration/caret'
 import { Document } from '@tiptap/editor/extensions/document'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'

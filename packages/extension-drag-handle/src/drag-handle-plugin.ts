@@ -1,14 +1,9 @@
 import { type ComputePositionConfig, type VirtualElement, computePosition } from '@floating-ui/dom'
 import { type Editor, isFirefox } from '@tiptap/editor'
-import { isChangeOrigin } from '@tiptap/extension-collaboration'
+import { getYAbsolutePosition, getYRelativePosition, isChangeOrigin } from '@tiptap/collaboration'
 import type { Node } from '@tiptap/editor/pm/model'
-import { type EditorState, type Transaction, Plugin, PluginKey } from '@tiptap/editor/pm/state'
+import { type Transaction, Plugin, PluginKey } from '@tiptap/editor/pm/state'
 import type { EditorView } from '@tiptap/editor/pm/view'
-import {
-  absolutePositionToRelativePosition,
-  relativePositionToAbsolutePosition,
-  ySyncPluginKey,
-} from '@tiptap/y-tiptap'
 
 import { dragHandler } from './helpers/dragHandler.js'
 import { findElementNextToCoords } from './helpers/findNextElementFromCursor.js'
@@ -24,34 +19,6 @@ import type { NormalizedNestedOptions } from './types/options.js'
 
 type PluginState = {
   locked: boolean
-}
-
-const getRelativePos = (state: EditorState, absolutePos: number) => {
-  const ystate = ySyncPluginKey.getState(state)
-
-  if (!ystate) {
-    return null
-  }
-
-  return absolutePositionToRelativePosition(absolutePos, ystate.type, ystate.binding.mapping)
-}
-
-// biome-ignore lint/suspicious/noExplicitAny: y-prosemirror (and y-tiptap by extension) does not have types for relative positions
-const getAbsolutePos = (state: EditorState, relativePos: any) => {
-  const ystate = ySyncPluginKey.getState(state)
-
-  if (!ystate) {
-    return -1
-  }
-
-  return (
-    relativePositionToAbsolutePosition(
-      ystate.doc,
-      ystate.type,
-      relativePos,
-      ystate.binding.mapping,
-    ) || 0
-  )
 }
 
 const getOuterDomNode = (view: EditorView, domNode: HTMLElement) => {
@@ -119,7 +86,7 @@ export const DragHandlePlugin = ({
 
     pendingRestore = mapPendingRestoreAnchor(pendingRestore, tr, {
       isChangeOrigin: isChangeOrigin(tr),
-      getAbsolutePos: relativePos => getAbsolutePos(state, relativePos),
+      getAbsolutePos: relativePos => getYAbsolutePosition(state, relativePos),
     })
   }
 
@@ -245,7 +212,7 @@ export const DragHandlePlugin = ({
     }
 
     const anchorPos = editor.state.selection.from
-    const relativeAnchorPos = getRelativePos(editor.state, anchorPos)
+    const relativeAnchorPos = getYRelativePosition(editor.state, anchorPos)
 
     pendingRestore = {
       ...activeDragRange,
@@ -314,7 +281,7 @@ export const DragHandlePlugin = ({
             // If change comes from another user …
             if (isChangeOrigin(tr)) {
               // https://discuss.yjs.dev/t/y-prosemirror-mapping-a-single-relative-position-when-doc-changes/851/3
-              const newPos = getAbsolutePos(state, currentNodeRelPos)
+              const newPos = getYAbsolutePosition(state, currentNodeRelPos)
 
               if (newPos !== currentNodePos) {
                 // Set the new position for our current node.
@@ -334,7 +301,7 @@ export const DragHandlePlugin = ({
                 currentNodePos = newPos
 
                 // Memorize relative position to retrieve absolute position in case of collaboration
-                currentNodeRelPos = getRelativePos(state, currentNodePos)
+                currentNodeRelPos = getYRelativePosition(state, currentNodePos)
 
                 // We will get the outer node with data and position in views update method.
               }
@@ -416,7 +383,7 @@ export const DragHandlePlugin = ({
             currentNodePos = outerNodePos
 
             // Memorize relative position to retrieve absolute position in case of collaboration
-            currentNodeRelPos = getRelativePos(view.state, currentNodePos)
+            currentNodeRelPos = getYRelativePosition(view.state, currentNodePos)
 
             onNodeChange?.({ editor, node: currentNode, pos: currentNodePos })
 
@@ -538,7 +505,7 @@ export const DragHandlePlugin = ({
                 currentNodePos = targetPos ?? -1
 
                 // Memorize relative position to retrieve absolute position in case of collaboration
-                currentNodeRelPos = getRelativePos(view.state, currentNodePos)
+                currentNodeRelPos = getYRelativePosition(view.state, currentNodePos)
 
                 onNodeChange?.({ editor, node: currentNode, pos: currentNodePos })
 

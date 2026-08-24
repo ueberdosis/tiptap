@@ -407,6 +407,18 @@ importers:
         specifier: ^13.6.23
         version: 13.6.23
 
+  packages/collaboration:
+    devDependencies:
+      '@tiptap/editor':
+        specifier: workspace:^
+        version: link:../editor
+      '@tiptap/y-tiptap':
+        specifier: ^3.0.7
+        version: 3.0.8(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-view@1.42.2)(y-protocols@1.0.7(yjs@13.6.23))(yjs@13.6.23)
+      yjs:
+        specifier: ^13.6.23
+        version: 13.6.23
+
   packages/editor:
     dependencies:
       '@floating-ui/dom':
@@ -481,43 +493,6 @@ importers:
         specifier: ^3.3.0
         version: 3.3.0
 
-  packages/extension-collaboration:
-    dependencies:
-      yjs:
-        specifier: ^13
-        version: 13.6.23
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-      '@tiptap/y-tiptap':
-        specifier: ^3.0.7
-        version: 3.0.8(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-view@1.42.2)(y-protocols@1.0.7(yjs@13.6.23))(yjs@13.6.23)
-
-  packages/extension-collaboration-caret:
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-      '@tiptap/extension-collaboration':
-        specifier: workspace:^
-        version: link:../extension-collaboration
-      '@tiptap/extension-table-cell':
-        specifier: workspace:^
-        version: link:../../packages-deprecated/extension-table-cell
-      '@tiptap/extension-table-header':
-        specifier: workspace:^
-        version: link:../../packages-deprecated/extension-table-header
-      '@tiptap/extension-table-row':
-        specifier: workspace:^
-        version: link:../../packages-deprecated/extension-table-row
-      '@tiptap/y-tiptap':
-        specifier: ^3.0.7
-        version: 3.0.8(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-view@1.42.2)(y-protocols@1.0.7(yjs@13.6.23))(yjs@13.6.23)
-      yjs:
-        specifier: ^13.6.23
-        version: 13.6.23
-
   packages/extension-details:
     devDependencies:
       '@tiptap/editor':
@@ -530,18 +505,15 @@ importers:
         specifier: ^1.6.13
         version: 1.8.0
     devDependencies:
+      '@tiptap/collaboration':
+        specifier: workspace:^
+        version: link:../collaboration
       '@tiptap/editor':
         specifier: workspace:^
         version: link:../editor
-      '@tiptap/extension-collaboration':
-        specifier: workspace:^
-        version: link:../extension-collaboration
       '@tiptap/extension-node-range':
         specifier: workspace:^
         version: link:../extension-node-range
-      '@tiptap/y-tiptap':
-        specifier: ^3.0.7
-        version: 3.0.8(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-view@1.42.2)(y-protocols@1.0.7(yjs@13.6.23))(yjs@13.6.23)
 
   packages/extension-drag-handle-react:
     devDependencies:

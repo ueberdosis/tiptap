@@ -5,7 +5,7 @@ import { Text } from '@tiptap/editor/extensions/text'
 import { afterEach, describe, expect, it } from 'vite-plus/test'
 import * as Y from 'yjs'
 
-import Collaboration from '../src/index.js'
+import { Collaboration } from '../src/index.js'
 
 /**
  * Regression test for the memory leak where destroying an editor while the

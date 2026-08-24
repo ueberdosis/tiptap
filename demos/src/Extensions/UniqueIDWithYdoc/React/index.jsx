@@ -1,7 +1,7 @@
 import './styles.scss'
 
 import { TiptapTransformer } from '@hocuspocus/transformer'
-import Collaboration from '@tiptap/extension-collaboration'
+import { Collaboration } from '@tiptap/collaboration'
 import { Document } from '@tiptap/editor/extensions/document'
 import { Heading } from '@tiptap/editor/extensions/heading'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
