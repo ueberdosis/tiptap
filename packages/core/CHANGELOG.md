@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.30.3
+
+### Patch Changes
+
+- 965a880: Fix JSX runtime to properly render nested sibling elements by spreading children arrays into DOMOutputSpec
+  - @tiptap/pm@3.30.3
+
 ## 3.30.2
 
 ### Patch Changes
