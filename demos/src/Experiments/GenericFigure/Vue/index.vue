@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import Image from '@tiptap/extension-image'
-import { TableKit } from '@tiptap/extension-table'
+import { Image } from '@tiptap/editor/extensions/image'
+import { TableKit } from '@tiptap/editor/extensions/table'
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 

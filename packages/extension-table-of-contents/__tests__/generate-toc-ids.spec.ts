@@ -1,8 +1,8 @@
 import type { JSONContent } from '@tiptap/editor'
-import Document from '@tiptap/extension-document'
-import Heading from '@tiptap/extension-heading'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
+import { Document } from '@tiptap/editor/extensions/document'
+import { Heading } from '@tiptap/editor/extensions/heading'
+import { Paragraph } from '@tiptap/editor/extensions/paragraph'
+import { Text } from '@tiptap/editor/extensions/text'
 import { describe, expect, it } from 'vite-plus/test'
 
 import { generateTocIds, TableOfContents } from '../src/index.js'

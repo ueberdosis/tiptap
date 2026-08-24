@@ -8,7 +8,7 @@ const { floatingMenuPluginMock } = vi.hoisted(() => ({
   floatingMenuPluginMock: vi.fn(() => ({ key: 'floating-menu-plugin' })),
 }))
 
-vi.mock('@tiptap/extension-floating-menu', () => ({
+vi.mock('@tiptap/editor/extensions/floating-menu', () => ({
   FloatingMenuPlugin: floatingMenuPluginMock,
 }))
 

@@ -1,6 +1,6 @@
 import { getSchema, isNodeEmpty } from '@tiptap/editor'
-import Document from '@tiptap/extension-document'
-import Image from '@tiptap/extension-image'
+import { Document } from '@tiptap/editor/extensions/document'
+import { Image } from '@tiptap/editor/extensions/image'
 import Mention from '@tiptap/extension-mention'
 import StarterKit from '@tiptap/starter-kit'
 import { describe, expect, it } from 'vite-plus/test'

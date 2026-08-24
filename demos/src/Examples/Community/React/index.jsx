@@ -1,9 +1,9 @@
 import './styles.scss'
 
-import Document from '@tiptap/extension-document'
+import { Document } from '@tiptap/editor/extensions/document'
 import Mention from '@tiptap/extension-mention'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
+import { Paragraph } from '@tiptap/editor/extensions/paragraph'
+import { Text } from '@tiptap/editor/extensions/text'
 import { CharacterCount } from '@tiptap/editor/extensions/character-count'
 import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import React from 'react'

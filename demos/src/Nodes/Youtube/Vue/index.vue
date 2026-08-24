@@ -19,9 +19,9 @@
 </template>
 
 <script>
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
+import { Document } from '@tiptap/editor/extensions/document'
+import { Paragraph } from '@tiptap/editor/extensions/paragraph'
+import { Text } from '@tiptap/editor/extensions/text'
 import Youtube from '@tiptap/extension-youtube'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 

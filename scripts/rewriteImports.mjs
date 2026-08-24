@@ -13,8 +13,8 @@
  *       "defaultExport": "Bold",
  *       "fallback": "@tiptap/editor/extensions/bold"
  *     },
- *     "@tiptap/extension-text-style": {
- *       "symbols": { "Color": "@tiptap/editor/extensions/color" }
+ *     "@tiptap/extension-list": {
+ *       "symbols": { "BulletList": "@tiptap/editor/extensions/list" }
  *     }
  *   }
  *
@@ -40,7 +40,10 @@ const parseClause = clause => {
         .map(part => part.trim())
         .filter(Boolean)
     : []
-  const defaultName = clause.replace(/\{[\s\S]*\}/, '').replace(/,/g, '').trim()
+  const defaultName = clause
+    .replace(/\{[\s\S]*\}/, '')
+    .replace(/,/g, '')
+    .trim()
 
   return { defaultName, named }
 }
@@ -52,7 +55,11 @@ const homeFor = (rule, name) => {
 }
 
 /** `type Foo as Bar` -> the imported name, ignoring the local alias */
-const importedName = specifier => specifier.replace(/^type\s+/, '').split(/\s+as\s+/)[0].trim()
+const importedName = specifier =>
+  specifier
+    .replace(/^type\s+/, '')
+    .split(/\s+as\s+/)[0]
+    .trim()
 
 const rewriteStatement = (match, groups) => {
   const rule = config[groups.specifier]
@@ -87,7 +94,10 @@ const rewriteStatement = (match, groups) => {
 
   return [...byHome.entries()]
     .sort(([a], [b]) => a.localeCompare(b))
-    .map(([home, specifiers]) => `${prefix}{ ${[...new Set(specifiers)].sort().join(', ')} } from '${home}'`)
+    .map(
+      ([home, specifiers]) =>
+        `${prefix}{ ${[...new Set(specifiers)].sort().join(', ')} } from '${home}'`,
+    )
     .join('\n')
 }
 
@@ -102,7 +112,9 @@ const files = execFileSync('git', ['ls-files'], { encoding: 'utf8' })
     }
   })
 
-let changed = 0
+// Resolve every file before writing any, so a statement this tool cannot
+// handle leaves the tree untouched instead of half-rewritten.
+const pending = []
 
 for (const file of files) {
   let text
@@ -122,10 +134,9 @@ for (const file of files) {
     }
   })
 
-  if (next !== text) {
-    writeFileSync(file, next)
-    changed += 1
-  }
+  if (next !== text) pending.push([file, next])
 }
 
-console.log(`rewrote ${changed} files`)
+for (const [file, text] of pending) writeFileSync(file, text)
+
+console.log(`rewrote ${pending.length} files`)

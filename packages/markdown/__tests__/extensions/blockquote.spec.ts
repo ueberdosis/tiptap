@@ -1,8 +1,8 @@
-import { Blockquote } from '@tiptap/extension-blockquote'
-import { Document } from '@tiptap/extension-document'
-import { Heading } from '@tiptap/extension-heading'
-import { Paragraph } from '@tiptap/extension-paragraph'
-import { Text } from '@tiptap/extension-text'
+import { Blockquote } from '@tiptap/editor/extensions/blockquote'
+import { Document } from '@tiptap/editor/extensions/document'
+import { Heading } from '@tiptap/editor/extensions/heading'
+import { Paragraph } from '@tiptap/editor/extensions/paragraph'
+import { Text } from '@tiptap/editor/extensions/text'
 import { MarkdownManager } from '@tiptap/markdown'
 import { beforeEach, describe, expect, it } from 'vite-plus/test'
 

@@ -1,7 +1,7 @@
 import { Editor, Node } from '@tiptap/editor'
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
+import { Document } from '@tiptap/editor/extensions/document'
+import { Paragraph } from '@tiptap/editor/extensions/paragraph'
+import { Text } from '@tiptap/editor/extensions/text'
 import type { Decoration } from 'prosemirror-view'
 import { describe, expect, it } from 'vite-plus/test'
 

@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import Image from '@tiptap/extension-image'
+import { Image } from '@tiptap/editor/extensions/image'
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 

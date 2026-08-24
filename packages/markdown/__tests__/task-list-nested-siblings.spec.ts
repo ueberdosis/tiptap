@@ -1,7 +1,7 @@
-import { Document } from '@tiptap/extension-document'
-import { BulletList, ListItem, TaskItem, TaskList } from '@tiptap/extension-list'
-import { Paragraph } from '@tiptap/extension-paragraph'
-import { Text } from '@tiptap/extension-text'
+import { Document } from '@tiptap/editor/extensions/document'
+import { BulletList, ListItem, TaskItem, TaskList } from '@tiptap/editor/extensions/list'
+import { Paragraph } from '@tiptap/editor/extensions/paragraph'
+import { Text } from '@tiptap/editor/extensions/text'
 import { describe, expect, it } from 'vite-plus/test'
 
 import { MarkdownManager } from '../src/MarkdownManager.js'

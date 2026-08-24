@@ -336,15 +336,15 @@ importers:
 
   packages-deprecated/extension-list-item:
     devDependencies:
-      '@tiptap/extension-list':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../../packages/extension-list
+        version: link:../../packages/editor
 
   packages-deprecated/extension-list-keymap:
     devDependencies:
-      '@tiptap/extension-list':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../../packages/extension-list
+        version: link:../../packages/editor
 
   packages-deprecated/extension-placeholder:
     devDependencies:
@@ -354,33 +354,33 @@ importers:
 
   packages-deprecated/extension-table-cell:
     devDependencies:
-      '@tiptap/extension-table':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../../packages/extension-table
+        version: link:../../packages/editor
 
   packages-deprecated/extension-table-header:
     devDependencies:
-      '@tiptap/extension-table':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../../packages/extension-table
+        version: link:../../packages/editor
 
   packages-deprecated/extension-table-row:
     devDependencies:
-      '@tiptap/extension-table':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../../packages/extension-table
+        version: link:../../packages/editor
 
   packages-deprecated/extension-task-item:
     devDependencies:
-      '@tiptap/extension-list':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../../packages/extension-list
+        version: link:../../packages/editor
 
   packages-deprecated/extension-task-list:
     devDependencies:
-      '@tiptap/extension-list':
+      '@tiptap/editor':
         specifier: workspace:^
-        version: link:../../packages/extension-list
+        version: link:../../packages/editor
 
   packages-deprecated/server-ai-toolkit:
     dependencies:
@@ -409,6 +409,9 @@ importers:
 
   packages/editor:
     dependencies:
+      '@floating-ui/dom':
+        specifier: ^1.0.0
+        version: 1.8.0
       linkifyjs:
         specifier: ^4.3.3
         version: 4.3.3
@@ -458,34 +461,6 @@ importers:
         specifier: workspace:^
         version: link:../editor
 
-  packages/extension-blockquote:
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-
-  packages/extension-bubble-menu:
-    dependencies:
-      '@floating-ui/dom':
-        specifier: ^1.0.0
-        version: 1.8.0
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-
-  packages/extension-bullet-list:
-    devDependencies:
-      '@tiptap/extension-list':
-        specifier: workspace:^
-        version: link:../extension-list
-
-  packages/extension-code-block:
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-
   packages/extension-code-block-lowlight:
     dependencies:
       highlight.js:
@@ -495,9 +470,6 @@ importers:
       '@tiptap/editor':
         specifier: workspace:^
         version: link:../editor
-      '@tiptap/extension-code-block':
-        specifier: workspace:^
-        version: link:../extension-code-block
       lowlight:
         specifier: ^3.3.0
         version: 3.3.0
@@ -523,15 +495,6 @@ importers:
       '@tiptap/extension-collaboration':
         specifier: workspace:^
         version: link:../extension-collaboration
-      '@tiptap/extension-document':
-        specifier: workspace:^
-        version: link:../extension-document
-      '@tiptap/extension-paragraph':
-        specifier: workspace:^
-        version: link:../extension-paragraph
-      '@tiptap/extension-table':
-        specifier: workspace:^
-        version: link:../extension-table
       '@tiptap/extension-table-cell':
         specifier: workspace:^
         version: link:../../packages-deprecated/extension-table-cell
@@ -541,9 +504,6 @@ importers:
       '@tiptap/extension-table-row':
         specifier: workspace:^
         version: link:../../packages-deprecated/extension-table-row
-      '@tiptap/extension-text':
-        specifier: workspace:^
-        version: link:../extension-text
       '@tiptap/y-tiptap':
         specifier: ^3.0.7
         version: 3.0.8(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-view@1.42.2)(y-protocols@1.0.7(yjs@13.6.23))(yjs@13.6.23)
@@ -551,22 +511,7 @@ importers:
         specifier: ^13.6.23
         version: 13.6.23
 
-  packages/extension-color:
-    devDependencies:
-      '@tiptap/extension-text-style':
-        specifier: workspace:^
-        version: link:../extension-text-style
-
   packages/extension-details:
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-      '@tiptap/extension-text-style':
-        specifier: workspace:^
-        version: link:../extension-text-style
-
-  packages/extension-document:
     devDependencies:
       '@tiptap/editor':
         specifier: workspace:^
@@ -672,9 +617,6 @@ importers:
       '@tiptap/editor':
         specifier: workspace:^
         version: link:../editor
-      '@tiptap/extension-text-style':
-        specifier: workspace:^
-        version: link:../extension-text-style
 
   packages/extension-find-and-replace:
     dependencies:
@@ -686,61 +628,13 @@ importers:
         specifier: workspace:^
         version: link:../editor
 
-  packages/extension-floating-menu:
-    devDependencies:
-      '@floating-ui/dom':
-        specifier: ^1.6.12
-        version: 1.8.0
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-
-  packages/extension-font-family:
-    devDependencies:
-      '@tiptap/extension-text-style':
-        specifier: workspace:^
-        version: link:../extension-text-style
-
-  packages/extension-hard-break:
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-
-  packages/extension-heading:
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-
   packages/extension-highlight:
     devDependencies:
       '@tiptap/editor':
         specifier: workspace:^
         version: link:../editor
 
-  packages/extension-horizontal-rule:
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-
-  packages/extension-image:
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-
   packages/extension-invisible-characters:
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-      '@tiptap/extension-text-style':
-        specifier: workspace:^
-        version: link:../extension-text-style
-
-  packages/extension-list:
     devDependencies:
       '@tiptap/editor':
         specifier: workspace:^
@@ -774,18 +668,6 @@ importers:
         specifier: workspace:^
         version: link:../editor
 
-  packages/extension-ordered-list:
-    devDependencies:
-      '@tiptap/extension-list':
-        specifier: workspace:^
-        version: link:../extension-list
-
-  packages/extension-paragraph:
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-
   packages/extension-ruby-text:
     devDependencies:
       '@tiptap/editor':
@@ -804,12 +686,6 @@ importers:
         specifier: workspace:^
         version: link:../editor
 
-  packages/extension-table:
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-
   packages/extension-table-of-contents:
     dependencies:
       uuid:
@@ -820,19 +696,7 @@ importers:
         specifier: workspace:^
         version: link:../editor
 
-  packages/extension-text:
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-
   packages/extension-text-align:
-    devDependencies:
-      '@tiptap/editor':
-        specifier: workspace:^
-        version: link:../editor
-
-  packages/extension-text-style:
     devDependencies:
       '@tiptap/editor':
         specifier: workspace:^
@@ -915,64 +779,24 @@ importers:
       react-dom:
         specifier: ^19.0.0
         version: 19.2.8(react@19.2.8)
-    optionalDependencies:
-      '@tiptap/extension-bubble-menu':
-        specifier: workspace:^
-        version: link:../extension-bubble-menu
-      '@tiptap/extension-floating-menu':
-        specifier: workspace:^
-        version: link:../extension-floating-menu
 
   packages/starter-kit:
     dependencies:
       '@tiptap/editor':
         specifier: workspace:*
         version: link:../editor
-      '@tiptap/extension-blockquote':
-        specifier: workspace:*
-        version: link:../extension-blockquote
-      '@tiptap/extension-bullet-list':
-        specifier: workspace:*
-        version: link:../extension-bullet-list
-      '@tiptap/extension-code-block':
-        specifier: workspace:*
-        version: link:../extension-code-block
-      '@tiptap/extension-document':
-        specifier: workspace:*
-        version: link:../extension-document
       '@tiptap/extension-dropcursor':
         specifier: workspace:*
         version: link:../../packages-deprecated/extension-dropcursor
       '@tiptap/extension-gapcursor':
         specifier: workspace:*
         version: link:../../packages-deprecated/extension-gapcursor
-      '@tiptap/extension-hard-break':
-        specifier: workspace:*
-        version: link:../extension-hard-break
-      '@tiptap/extension-heading':
-        specifier: workspace:*
-        version: link:../extension-heading
-      '@tiptap/extension-horizontal-rule':
-        specifier: workspace:*
-        version: link:../extension-horizontal-rule
-      '@tiptap/extension-list':
-        specifier: workspace:*
-        version: link:../extension-list
       '@tiptap/extension-list-item':
         specifier: workspace:*
         version: link:../../packages-deprecated/extension-list-item
       '@tiptap/extension-list-keymap':
         specifier: workspace:*
         version: link:../../packages-deprecated/extension-list-keymap
-      '@tiptap/extension-ordered-list':
-        specifier: workspace:*
-        version: link:../extension-ordered-list
-      '@tiptap/extension-paragraph':
-        specifier: workspace:*
-        version: link:../extension-paragraph
-      '@tiptap/extension-text':
-        specifier: workspace:*
-        version: link:../extension-text
 
   packages/static-renderer:
     devDependencies:
@@ -1013,13 +837,6 @@ importers:
       vue:
         specifier: ^2.7.16
         version: 2.7.16
-    optionalDependencies:
-      '@tiptap/extension-bubble-menu':
-        specifier: workspace:^
-        version: link:../extension-bubble-menu
-      '@tiptap/extension-floating-menu':
-        specifier: workspace:^
-        version: link:../extension-floating-menu
 
   packages/vue-3:
     dependencies:
@@ -1033,13 +850,6 @@ importers:
       vue:
         specifier: ^3.5.13
         version: 3.5.41(typescript@5.9.3)
-    optionalDependencies:
-      '@tiptap/extension-bubble-menu':
-        specifier: workspace:^
-        version: link:../extension-bubble-menu
-      '@tiptap/extension-floating-menu':
-        specifier: workspace:^
-        version: link:../extension-floating-menu
 
 packages:
 

@@ -1,9 +1,9 @@
 import './styles.scss'
 
 import { Bold } from '@tiptap/editor/extensions/bold'
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
+import { Document } from '@tiptap/editor/extensions/document'
+import { Paragraph } from '@tiptap/editor/extensions/paragraph'
+import { Text } from '@tiptap/editor/extensions/text'
 import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import React from 'react'
 

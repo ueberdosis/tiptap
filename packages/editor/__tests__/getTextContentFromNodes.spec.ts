@@ -1,8 +1,8 @@
 import { getSchemaByResolvedExtensions, getTextContentFromNodes } from '@tiptap/editor'
-import Document from '@tiptap/extension-document'
+import { Document } from '@tiptap/editor/extensions/document'
 import Mention from '@tiptap/extension-mention'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
+import { Paragraph } from '@tiptap/editor/extensions/paragraph'
+import { Text } from '@tiptap/editor/extensions/text'
 import { Node } from 'prosemirror-model'
 import { describe, expect, it } from 'vite-plus/test'
 

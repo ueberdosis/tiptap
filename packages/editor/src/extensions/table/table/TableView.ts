@@ -1,0 +1,154 @@
+import type { Node as ProseMirrorNode } from 'prosemirror-model'
+import type { EditorView, NodeView, ViewMutationRecord } from 'prosemirror-view'
+
+import { getColStyleDeclaration } from './utilities/colStyle.js'
+
+export function updateColumns(
+  node: ProseMirrorNode,
+  colgroup: HTMLTableColElement, // <colgroup> has the same prototype as <col>
+  table: HTMLTableElement,
+  cellMinWidth: number,
+  overrideCol?: number,
+  overrideValue?: number,
+) {
+  let totalWidth = 0
+  let fixedWidth = true
+  let nextDOM = colgroup.firstChild
+  const row = node.firstChild
+
+  if (row !== null) {
+    for (let i = 0, col = 0; i < row.childCount; i += 1) {
+      const { colspan, colwidth } = row.child(i).attrs
+
+      for (let j = 0; j < colspan; j += 1, col += 1) {
+        const hasWidth =
+          overrideCol === col ? overrideValue : ((colwidth && colwidth[j]) as number | undefined)
+        const cssWidth = hasWidth ? `${hasWidth}px` : ''
+
+        totalWidth += hasWidth || cellMinWidth
+
+        if (!hasWidth) {
+          fixedWidth = false
+        }
+
+        if (!nextDOM) {
+          const colElement = document.createElement('col')
+
+          const [propertyKey, propertyValue] = getColStyleDeclaration(cellMinWidth, hasWidth)
+
+          colElement.style.setProperty(propertyKey, propertyValue)
+
+          colgroup.appendChild(colElement)
+        } else {
+          if ((nextDOM as HTMLTableColElement).style.width !== cssWidth) {
+            const [propertyKey, propertyValue] = getColStyleDeclaration(cellMinWidth, hasWidth)
+
+            ;(nextDOM as HTMLTableColElement).style.setProperty(propertyKey, propertyValue)
+          }
+
+          nextDOM = nextDOM.nextSibling
+        }
+      }
+    }
+  }
+
+  while (nextDOM) {
+    const after = nextDOM.nextSibling
+
+    nextDOM.parentNode?.removeChild(nextDOM)
+    nextDOM = after
+  }
+
+  // Check if user has set a width style on the table node
+  const hasUserWidth =
+    node.attrs.style &&
+    typeof node.attrs.style === 'string' &&
+    /\bwidth\s*:/i.test(node.attrs.style)
+
+  if (fixedWidth && !hasUserWidth) {
+    table.style.width = `${totalWidth}px`
+    table.style.minWidth = ''
+  } else {
+    table.style.width = ''
+    table.style.minWidth = `${totalWidth}px`
+  }
+}
+
+export class TableView implements NodeView {
+  node: ProseMirrorNode
+
+  cellMinWidth: number
+
+  dom: HTMLDivElement
+
+  table: HTMLTableElement
+
+  colgroup: HTMLTableColElement
+
+  contentDOM: HTMLTableSectionElement
+
+  constructor(
+    node: ProseMirrorNode,
+    cellMinWidth: number,
+    _view?: EditorView,
+    HTMLAttributes: Record<string, any> = {},
+  ) {
+    this.node = node
+    this.cellMinWidth = cellMinWidth
+    this.dom = document.createElement('div')
+    this.dom.className = 'tableWrapper'
+    this.table = this.dom.appendChild(document.createElement('table'))
+
+    // Apply extension-configured HTMLAttributes to the table element
+    // (e.g. class, data-* set via Table.configure({ HTMLAttributes }))
+    for (const [key, value] of Object.entries(HTMLAttributes)) {
+      if (value !== undefined && value !== null) {
+        if (key === 'style') {
+          this.table.style.cssText = String(value)
+        } else {
+          this.table.setAttribute(key, String(value))
+        }
+      }
+    }
+
+    // Apply user styles from the ProseMirror document node.
+    // This may come from HTML parsing (e.g. <table style="...">) and should
+    // override any style set via extension-configured HTMLAttributes above.
+    if (node.attrs.style) {
+      this.table.style.cssText = node.attrs.style
+    }
+
+    this.colgroup = this.table.appendChild(document.createElement('colgroup'))
+    updateColumns(node, this.colgroup, this.table, cellMinWidth)
+    this.contentDOM = this.table.appendChild(document.createElement('tbody'))
+  }
+
+  update(node: ProseMirrorNode) {
+    if (node.type !== this.node.type) {
+      return false
+    }
+
+    this.node = node
+    updateColumns(node, this.colgroup, this.table, this.cellMinWidth)
+
+    return true
+  }
+
+  ignoreMutation(mutation: ViewMutationRecord) {
+    const target = mutation.target as Node
+    const isInsideWrapper = this.dom.contains(target)
+    const isInsideContent = this.contentDOM.contains(target)
+
+    if (isInsideWrapper && !isInsideContent) {
+      if (
+        mutation.type === 'attributes' ||
+        mutation.type === 'childList' ||
+        mutation.type === 'characterData'
+      ) {
+        return true
+      }
+    }
+
+    return false
+  }
+}

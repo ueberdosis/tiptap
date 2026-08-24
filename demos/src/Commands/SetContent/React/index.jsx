@@ -1,7 +1,8 @@
 import './styles.scss'
 
 import Mentions from '@tiptap/extension-mention'
-import { Color, TextStyle } from '@tiptap/extension-text-style'
+import { Color } from '@tiptap/editor/extensions/color'
+import { TextStyle } from '@tiptap/editor/extensions/text-style'
 import { EditorProvider } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'

@@ -8,7 +8,7 @@ const { bubbleMenuPluginMock } = vi.hoisted(() => ({
   bubbleMenuPluginMock: vi.fn(() => ({ key: 'bubble-menu-plugin' })),
 }))
 
-vi.mock('@tiptap/extension-bubble-menu', () => ({
+vi.mock('@tiptap/editor/extensions/bubble-menu', () => ({
   BubbleMenuPlugin: bubbleMenuPluginMock,
 }))
 

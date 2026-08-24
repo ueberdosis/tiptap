@@ -1,8 +1,8 @@
 import { Editor } from '@tiptap/editor'
-import Document from '@tiptap/extension-document'
+import { Document } from '@tiptap/editor/extensions/document'
 import { isNodeRangeSelection, NodeRangeSelection } from '@tiptap/extension-node-range'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
+import { Paragraph } from '@tiptap/editor/extensions/paragraph'
+import { Text } from '@tiptap/editor/extensions/text'
 import { TextSelection } from '@tiptap/editor/pm/state'
 import { afterEach, describe, expect, it } from 'vite-plus/test'
 

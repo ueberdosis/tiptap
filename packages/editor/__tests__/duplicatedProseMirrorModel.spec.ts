@@ -1,10 +1,10 @@
 import { createRequire } from 'node:module'
 
 import { Editor, createNodeFromContent } from '@tiptap/editor'
-import Document from '@tiptap/extension-document'
-import Image from '@tiptap/extension-image'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
+import { Document } from '@tiptap/editor/extensions/document'
+import { Image } from '@tiptap/editor/extensions/image'
+import { Paragraph } from '@tiptap/editor/extensions/paragraph'
+import { Text } from '@tiptap/editor/extensions/text'
 import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 
 // Put @tiptap/editor on the CJS build and the rest of ProseMirror on the ESM one

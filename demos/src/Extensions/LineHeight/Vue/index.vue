@@ -38,7 +38,8 @@
 <script>
 import './styles.scss'
 
-import { LineHeight, TextStyle } from '@tiptap/extension-text-style'
+import { LineHeight } from '@tiptap/editor/extensions/line-height'
+import { TextStyle } from '@tiptap/editor/extensions/text-style'
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 

@@ -1,7 +1,7 @@
 import Collaboration from '@tiptap/extension-collaboration'
 import CollaborationCaret from '@tiptap/extension-collaboration-caret'
 import Highlight from '@tiptap/extension-highlight'
-import { TaskItem, TaskList } from '@tiptap/extension-list'
+import { TaskItem, TaskList } from '@tiptap/editor/extensions/list'
 import { CharacterCount } from '@tiptap/editor/extensions/character-count'
 import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'

@@ -1,6 +1,6 @@
-import { TableHeader } from '@tiptap/extension-table'
+import { TableHeader } from '@tiptap/editor/extensions/table'
 
-export type { TableHeaderOptions } from '@tiptap/extension-table'
-export { TableHeader } from '@tiptap/extension-table'
+export type { TableHeaderOptions } from '@tiptap/editor/extensions/table'
+export { TableHeader } from '@tiptap/editor/extensions/table'
 
 export default TableHeader

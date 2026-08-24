@@ -1,9 +1,11 @@
 import { Editor } from '@tiptap/editor'
-import CodeBlock from '@tiptap/extension-code-block'
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import { Color, FontFamily, TextStyle } from '@tiptap/extension-text-style'
+import { CodeBlock } from '@tiptap/editor/extensions/code-block'
+import { Document } from '@tiptap/editor/extensions/document'
+import { Paragraph } from '@tiptap/editor/extensions/paragraph'
+import { Text } from '@tiptap/editor/extensions/text'
+import { Color } from '@tiptap/editor/extensions/color'
+import { FontFamily } from '@tiptap/editor/extensions/font-family'
+import { TextStyle } from '@tiptap/editor/extensions/text-style'
 import { afterEach, describe, expect, it } from 'vite-plus/test'
 
 describe('isActive', () => {

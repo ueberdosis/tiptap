@@ -3,10 +3,10 @@
 </template>
 
 <script>
-import Document from '@tiptap/extension-document'
-import Image from '@tiptap/extension-image'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
+import { Document } from '@tiptap/editor/extensions/document'
+import { Image } from '@tiptap/editor/extensions/image'
+import { Paragraph } from '@tiptap/editor/extensions/paragraph'
+import { Text } from '@tiptap/editor/extensions/text'
 import { Gapcursor } from '@tiptap/editor/extensions/gap-cursor'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 

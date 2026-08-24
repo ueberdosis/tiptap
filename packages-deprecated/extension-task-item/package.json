@@ -42,9 +42,9 @@
     "build": "vp pack"
   },
   "devDependencies": {
-    "@tiptap/extension-list": "workspace:^"
+    "@tiptap/editor": "workspace:^"
   },
   "peerDependencies": {
-    "@tiptap/extension-list": "workspace:*"
+    "@tiptap/editor": "workspace:*"
   }
 }

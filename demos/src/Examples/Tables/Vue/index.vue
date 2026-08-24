@@ -129,7 +129,7 @@
 </template>
 
 <script>
-import { TableCell, TableKit } from '@tiptap/extension-table'
+import { TableCell, TableKit } from '@tiptap/editor/extensions/table'
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 

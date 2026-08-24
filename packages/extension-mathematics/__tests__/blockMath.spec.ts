@@ -1,8 +1,8 @@
 import { Editor } from '@tiptap/editor'
-import Document from '@tiptap/extension-document'
-import { BulletList, ListItem } from '@tiptap/extension-list'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
+import { Document } from '@tiptap/editor/extensions/document'
+import { BulletList, ListItem } from '@tiptap/editor/extensions/list'
+import { Paragraph } from '@tiptap/editor/extensions/paragraph'
+import { Text } from '@tiptap/editor/extensions/text'
 import { afterEach, describe, expect, it } from 'vite-plus/test'
 
 import { BlockMath, InlineMath } from '../src/index.js'

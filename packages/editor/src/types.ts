@@ -1102,4 +1102,7 @@ export type Utils = {
 // oxlint-disable-next-line no-unused-vars
 export interface Commands<ReturnType = any> {}
 
+/** Attributes on the textStyle mark. Attribute extensions augment this. */
+export interface TextStyleAttributes extends Record<string, any> {}
+
 export interface Storage {}

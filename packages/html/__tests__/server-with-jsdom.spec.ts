@@ -4,9 +4,9 @@
  *
  * This is a regression test for https://github.com/ueberdosis/tiptap/issues/6951
  */
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
+import { Document } from '@tiptap/editor/extensions/document'
+import { Paragraph } from '@tiptap/editor/extensions/paragraph'
+import { Text } from '@tiptap/editor/extensions/text'
 import { describe, expect, it } from 'vite-plus/test'
 
 // Import directly from server to bypass vitest aliases

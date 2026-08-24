@@ -1,4 +1,4 @@
-import { Paragraph as BaseParagraph } from '@tiptap/extension-paragraph'
+import { Paragraph as BaseParagraph } from '@tiptap/editor/extensions/paragraph'
 import { NodeViewContent, NodeViewWrapper, ReactNodeViewRenderer } from '@tiptap/react'
 
 const ParagraphComponent = ({ node }) => {

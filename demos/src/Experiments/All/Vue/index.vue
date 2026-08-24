@@ -105,28 +105,35 @@
 </template>
 
 <script>
-import Blockquote from '@tiptap/extension-blockquote'
+import { Blockquote } from '@tiptap/editor/extensions/blockquote'
 import { Bold } from '@tiptap/editor/extensions/bold'
 import { Code } from '@tiptap/editor/extensions/code'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
-import Document from '@tiptap/extension-document'
-import HardBreak from '@tiptap/extension-hard-break'
-import Heading from '@tiptap/extension-heading'
+import { Document } from '@tiptap/editor/extensions/document'
+import { HardBreak } from '@tiptap/editor/extensions/hard-break'
+import { Heading } from '@tiptap/editor/extensions/heading'
 import Highlight from '@tiptap/extension-highlight'
-import HorizontalRule from '@tiptap/extension-horizontal-rule'
-import Image from '@tiptap/extension-image'
+import { HorizontalRule } from '@tiptap/editor/extensions/horizontal-rule'
+import { Image } from '@tiptap/editor/extensions/image'
 import { Italic } from '@tiptap/editor/extensions/italic'
 import { Link } from '@tiptap/editor/extensions/link'
-import { BulletList, ListItem, OrderedList, TaskItem, TaskList } from '@tiptap/extension-list'
+import {
+  BulletList,
+  ListItem,
+  OrderedList,
+  TaskItem,
+  TaskList,
+} from '@tiptap/editor/extensions/list'
 import Mention from '@tiptap/extension-mention'
-import Paragraph from '@tiptap/extension-paragraph'
+import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Strike } from '@tiptap/editor/extensions/strike'
 import Subscript from '@tiptap/extension-subscript'
 import Superscript from '@tiptap/extension-superscript'
-import { TableKit } from '@tiptap/extension-table'
-import Text from '@tiptap/extension-text'
+import { TableKit } from '@tiptap/editor/extensions/table'
+import { Text } from '@tiptap/editor/extensions/text'
 import TextAlign from '@tiptap/extension-text-align'
-import { Color, TextStyle } from '@tiptap/extension-text-style'
+import { Color } from '@tiptap/editor/extensions/color'
+import { TextStyle } from '@tiptap/editor/extensions/text-style'
 import { Underline } from '@tiptap/editor/extensions/underline'
 import { Dropcursor } from '@tiptap/editor/extensions/drop-cursor'
 import { Gapcursor } from '@tiptap/editor/extensions/gap-cursor'

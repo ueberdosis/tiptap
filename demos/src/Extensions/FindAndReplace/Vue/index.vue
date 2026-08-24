@@ -89,10 +89,10 @@
 </template>
 
 <script setup lang="ts">
-import Document from '@tiptap/extension-document'
+import { Document } from '@tiptap/editor/extensions/document'
 import FindAndReplace from '@tiptap/extension-find-and-replace'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
+import { Paragraph } from '@tiptap/editor/extensions/paragraph'
+import { Text } from '@tiptap/editor/extensions/text'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import { onBeforeUnmount, onMounted, shallowRef } from 'vue'
 

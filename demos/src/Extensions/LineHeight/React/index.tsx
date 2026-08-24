@@ -1,6 +1,7 @@
 import './styles.scss'
 
-import { LineHeight, TextStyle } from '@tiptap/extension-text-style'
+import { LineHeight } from '@tiptap/editor/extensions/line-height'
+import { TextStyle } from '@tiptap/editor/extensions/text-style'
 import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'

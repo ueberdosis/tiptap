@@ -1,9 +1,9 @@
 import './styles.scss'
 
 import Collaboration from '@tiptap/extension-collaboration'
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
+import { Document } from '@tiptap/editor/extensions/document'
+import { Paragraph } from '@tiptap/editor/extensions/paragraph'
+import { Text } from '@tiptap/editor/extensions/text'
 import { Placeholder } from '@tiptap/editor/extensions/placeholder'
 import type { Node } from '@tiptap/editor/pm/model'
 import { Plugin, PluginKey } from '@tiptap/editor/pm/state'

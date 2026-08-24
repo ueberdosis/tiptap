@@ -1,14 +1,14 @@
 import { Editor } from '@tiptap/editor'
 import { Bold } from '@tiptap/editor/extensions/bold'
-import Document from '@tiptap/extension-document'
+import { Document } from '@tiptap/editor/extensions/document'
 import FindAndReplace, {
   createSearchRegex,
   searchDocument,
 } from '@tiptap/extension-find-and-replace'
 import type { FindAndReplaceOptions } from '@tiptap/extension-find-and-replace'
-import HardBreak from '@tiptap/extension-hard-break'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
+import { HardBreak } from '@tiptap/editor/extensions/hard-break'
+import { Paragraph } from '@tiptap/editor/extensions/paragraph'
+import { Text } from '@tiptap/editor/extensions/text'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test'
 
 import { normalizeCurrentIndex } from '../src/utils/normalizeCurrentIndex.js'

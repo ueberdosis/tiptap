@@ -1,6 +1,6 @@
 import './styles.scss'
 
-import Image from '@tiptap/extension-image'
+import { Image } from '@tiptap/editor/extensions/image'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useCallback, useState } from 'react'

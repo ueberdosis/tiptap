@@ -58,9 +58,5 @@
     "@floating-ui/dom": "^1.0.0",
     "@tiptap/editor": "workspace:*",
     "vue": "^3.0.0"
-  },
-  "optionalDependencies": {
-    "@tiptap/extension-bubble-menu": "workspace:^",
-    "@tiptap/extension-floating-menu": "workspace:^"
   }
 }

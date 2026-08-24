@@ -3,11 +3,11 @@
  */
 
 import { Code } from '@tiptap/editor/extensions/code'
-import { Document } from '@tiptap/extension-document'
-import { Heading } from '@tiptap/extension-heading'
-import { Paragraph } from '@tiptap/extension-paragraph'
+import { Document } from '@tiptap/editor/extensions/document'
+import { Heading } from '@tiptap/editor/extensions/heading'
+import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Strike } from '@tiptap/editor/extensions/strike'
-import { Text } from '@tiptap/extension-text'
+import { Text } from '@tiptap/editor/extensions/text'
 import { MarkdownManager } from '@tiptap/markdown'
 import { beforeEach, describe, expect, it } from 'vite-plus/test'
 

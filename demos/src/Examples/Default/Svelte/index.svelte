@@ -1,9 +1,9 @@
 <script>
   import "./styles.scss";
 
-  import { Color } from '@tiptap/extension-text-style'
-  import { ListItem } from '@tiptap/extension-list'
-  import { TextStyle } from '@tiptap/extension-text-style'
+  import { Color } from '@tiptap/editor/extensions/color'
+  import { ListItem } from '@tiptap/editor/extensions/list'
+  import { TextStyle } from '@tiptap/editor/extensions/text-style'
   import StarterKit from "@tiptap/starter-kit";
   import { Editor } from "@tiptap/editor";
   import { onMount } from "svelte";

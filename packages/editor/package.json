@@ -61,6 +61,278 @@
       "import": "./jsx-dev-runtime/index.js",
       "require": "./jsx-dev-runtime/index.cjs"
     },
+    "./extensions/background-color": {
+      "types": {
+        "import": "./dist/extensions/background-color/index.d.ts",
+        "require": "./dist/extensions/background-color/index.d.cts"
+      },
+      "import": "./dist/extensions/background-color/index.js",
+      "require": "./dist/extensions/background-color/index.cjs"
+    },
+    "./extensions/blockquote": {
+      "types": {
+        "import": "./dist/extensions/blockquote/index.d.ts",
+        "require": "./dist/extensions/blockquote/index.d.cts"
+      },
+      "import": "./dist/extensions/blockquote/index.js",
+      "require": "./dist/extensions/blockquote/index.cjs"
+    },
+    "./extensions/bold": {
+      "types": {
+        "import": "./dist/extensions/bold/index.d.ts",
+        "require": "./dist/extensions/bold/index.d.cts"
+      },
+      "import": "./dist/extensions/bold/index.js",
+      "require": "./dist/extensions/bold/index.cjs"
+    },
+    "./extensions/bubble-menu": {
+      "types": {
+        "import": "./dist/extensions/bubble-menu/index.d.ts",
+        "require": "./dist/extensions/bubble-menu/index.d.cts"
+      },
+      "import": "./dist/extensions/bubble-menu/index.js",
+      "require": "./dist/extensions/bubble-menu/index.cjs"
+    },
+    "./extensions/character-count": {
+      "types": {
+        "import": "./dist/extensions/character-count/index.d.ts",
+        "require": "./dist/extensions/character-count/index.d.cts"
+      },
+      "import": "./dist/extensions/character-count/index.js",
+      "require": "./dist/extensions/character-count/index.cjs"
+    },
+    "./extensions/code": {
+      "types": {
+        "import": "./dist/extensions/code/index.d.ts",
+        "require": "./dist/extensions/code/index.d.cts"
+      },
+      "import": "./dist/extensions/code/index.js",
+      "require": "./dist/extensions/code/index.cjs"
+    },
+    "./extensions/code-block": {
+      "types": {
+        "import": "./dist/extensions/code-block/index.d.ts",
+        "require": "./dist/extensions/code-block/index.d.cts"
+      },
+      "import": "./dist/extensions/code-block/index.js",
+      "require": "./dist/extensions/code-block/index.cjs"
+    },
+    "./extensions/color": {
+      "types": {
+        "import": "./dist/extensions/color/index.d.ts",
+        "require": "./dist/extensions/color/index.d.cts"
+      },
+      "import": "./dist/extensions/color/index.js",
+      "require": "./dist/extensions/color/index.cjs"
+    },
+    "./extensions/document": {
+      "types": {
+        "import": "./dist/extensions/document/index.d.ts",
+        "require": "./dist/extensions/document/index.d.cts"
+      },
+      "import": "./dist/extensions/document/index.js",
+      "require": "./dist/extensions/document/index.cjs"
+    },
+    "./extensions/drop-cursor": {
+      "types": {
+        "import": "./dist/extensions/drop-cursor/index.d.ts",
+        "require": "./dist/extensions/drop-cursor/index.d.cts"
+      },
+      "import": "./dist/extensions/drop-cursor/index.js",
+      "require": "./dist/extensions/drop-cursor/index.cjs"
+    },
+    "./extensions/floating-menu": {
+      "types": {
+        "import": "./dist/extensions/floating-menu/index.d.ts",
+        "require": "./dist/extensions/floating-menu/index.d.cts"
+      },
+      "import": "./dist/extensions/floating-menu/index.js",
+      "require": "./dist/extensions/floating-menu/index.cjs"
+    },
+    "./extensions/focus": {
+      "types": {
+        "import": "./dist/extensions/focus/index.d.ts",
+        "require": "./dist/extensions/focus/index.d.cts"
+      },
+      "import": "./dist/extensions/focus/index.js",
+      "require": "./dist/extensions/focus/index.cjs"
+    },
+    "./extensions/font-family": {
+      "types": {
+        "import": "./dist/extensions/font-family/index.d.ts",
+        "require": "./dist/extensions/font-family/index.d.cts"
+      },
+      "import": "./dist/extensions/font-family/index.js",
+      "require": "./dist/extensions/font-family/index.cjs"
+    },
+    "./extensions/font-size": {
+      "types": {
+        "import": "./dist/extensions/font-size/index.d.ts",
+        "require": "./dist/extensions/font-size/index.d.cts"
+      },
+      "import": "./dist/extensions/font-size/index.js",
+      "require": "./dist/extensions/font-size/index.cjs"
+    },
+    "./extensions/gap-cursor": {
+      "types": {
+        "import": "./dist/extensions/gap-cursor/index.d.ts",
+        "require": "./dist/extensions/gap-cursor/index.d.cts"
+      },
+      "import": "./dist/extensions/gap-cursor/index.js",
+      "require": "./dist/extensions/gap-cursor/index.cjs"
+    },
+    "./extensions/hard-break": {
+      "types": {
+        "import": "./dist/extensions/hard-break/index.d.ts",
+        "require": "./dist/extensions/hard-break/index.d.cts"
+      },
+      "import": "./dist/extensions/hard-break/index.js",
+      "require": "./dist/extensions/hard-break/index.cjs"
+    },
+    "./extensions/heading": {
+      "types": {
+        "import": "./dist/extensions/heading/index.d.ts",
+        "require": "./dist/extensions/heading/index.d.cts"
+      },
+      "import": "./dist/extensions/heading/index.js",
+      "require": "./dist/extensions/heading/index.cjs"
+    },
+    "./extensions/horizontal-rule": {
+      "types": {
+        "import": "./dist/extensions/horizontal-rule/index.d.ts",
+        "require": "./dist/extensions/horizontal-rule/index.d.cts"
+      },
+      "import": "./dist/extensions/horizontal-rule/index.js",
+      "require": "./dist/extensions/horizontal-rule/index.cjs"
+    },
+    "./extensions/image": {
+      "types": {
+        "import": "./dist/extensions/image/index.d.ts",
+        "require": "./dist/extensions/image/index.d.cts"
+      },
+      "import": "./dist/extensions/image/index.js",
+      "require": "./dist/extensions/image/index.cjs"
+    },
+    "./extensions/italic": {
+      "types": {
+        "import": "./dist/extensions/italic/index.d.ts",
+        "require": "./dist/extensions/italic/index.d.cts"
+      },
+      "import": "./dist/extensions/italic/index.js",
+      "require": "./dist/extensions/italic/index.cjs"
+    },
+    "./extensions/line-height": {
+      "types": {
+        "import": "./dist/extensions/line-height/index.d.ts",
+        "require": "./dist/extensions/line-height/index.d.cts"
+      },
+      "import": "./dist/extensions/line-height/index.js",
+      "require": "./dist/extensions/line-height/index.cjs"
+    },
+    "./extensions/link": {
+      "types": {
+        "import": "./dist/extensions/link/index.d.ts",
+        "require": "./dist/extensions/link/index.d.cts"
+      },
+      "import": "./dist/extensions/link/index.js",
+      "require": "./dist/extensions/link/index.cjs"
+    },
+    "./extensions/list": {
+      "types": {
+        "import": "./dist/extensions/list/index.d.ts",
+        "require": "./dist/extensions/list/index.d.cts"
+      },
+      "import": "./dist/extensions/list/index.js",
+      "require": "./dist/extensions/list/index.cjs"
+    },
+    "./extensions/paragraph": {
+      "types": {
+        "import": "./dist/extensions/paragraph/index.d.ts",
+        "require": "./dist/extensions/paragraph/index.d.cts"
+      },
+      "import": "./dist/extensions/paragraph/index.js",
+      "require": "./dist/extensions/paragraph/index.cjs"
+    },
+    "./extensions/placeholder": {
+      "types": {
+        "import": "./dist/extensions/placeholder/index.d.ts",
+        "require": "./dist/extensions/placeholder/index.d.cts"
+      },
+      "import": "./dist/extensions/placeholder/index.js",
+      "require": "./dist/extensions/placeholder/index.cjs"
+    },
+    "./extensions/selection": {
+      "types": {
+        "import": "./dist/extensions/selection/index.d.ts",
+        "require": "./dist/extensions/selection/index.d.cts"
+      },
+      "import": "./dist/extensions/selection/index.js",
+      "require": "./dist/extensions/selection/index.cjs"
+    },
+    "./extensions/strike": {
+      "types": {
+        "import": "./dist/extensions/strike/index.d.ts",
+        "require": "./dist/extensions/strike/index.d.cts"
+      },
+      "import": "./dist/extensions/strike/index.js",
+      "require": "./dist/extensions/strike/index.cjs"
+    },
+    "./extensions/table": {
+      "types": {
+        "import": "./dist/extensions/table/index.d.ts",
+        "require": "./dist/extensions/table/index.d.cts"
+      },
+      "import": "./dist/extensions/table/index.js",
+      "require": "./dist/extensions/table/index.cjs"
+    },
+    "./extensions/text": {
+      "types": {
+        "import": "./dist/extensions/text/index.d.ts",
+        "require": "./dist/extensions/text/index.d.cts"
+      },
+      "import": "./dist/extensions/text/index.js",
+      "require": "./dist/extensions/text/index.cjs"
+    },
+    "./extensions/text-style": {
+      "types": {
+        "import": "./dist/extensions/text-style/index.d.ts",
+        "require": "./dist/extensions/text-style/index.d.cts"
+      },
+      "import": "./dist/extensions/text-style/index.js",
+      "require": "./dist/extensions/text-style/index.cjs"
+    },
+    "./extensions/trailing-node": {
+      "types": {
+        "import": "./dist/extensions/trailing-node/index.d.ts",
+        "require": "./dist/extensions/trailing-node/index.d.cts"
+      },
+      "import": "./dist/extensions/trailing-node/index.js",
+      "require": "./dist/extensions/trailing-node/index.cjs"
+    },
+    "./extensions/underline": {
+      "types": {
+        "import": "./dist/extensions/underline/index.d.ts",
+        "require": "./dist/extensions/underline/index.d.cts"
+      },
+      "import": "./dist/extensions/underline/index.js",
+      "require": "./dist/extensions/underline/index.cjs"
+    },
+    "./extensions/undo-redo": {
+      "types": {
+        "import": "./dist/extensions/undo-redo/index.d.ts",
+        "require": "./dist/extensions/undo-redo/index.d.cts"
+      },
+      "import": "./dist/extensions/undo-redo/index.js",
+      "require": "./dist/extensions/undo-redo/index.cjs"
+    },
+    "./kits/text-style": {
+      "types": {
+        "import": "./dist/kits/text-style/index.d.ts",
+        "require": "./dist/kits/text-style/index.d.cts"
+      },
+      "import": "./dist/kits/text-style/index.js",
+      "require": "./dist/kits/text-style/index.cjs"
+    },
     "./pm/changeset": {
       "types": {
         "import": "./dist/pm/changeset/index.d.ts",
@@ -164,124 +436,13 @@
       },
       "import": "./dist/pm/view/index.js",
       "require": "./dist/pm/view/index.cjs"
-    },
-    "./extensions/character-count": {
-      "types": {
-        "import": "./dist/extensions/character-count/index.d.ts",
-        "require": "./dist/extensions/character-count/index.d.cts"
-      },
-      "import": "./dist/extensions/character-count/index.js",
-      "require": "./dist/extensions/character-count/index.cjs"
-    },
-    "./extensions/drop-cursor": {
-      "types": {
-        "import": "./dist/extensions/drop-cursor/index.d.ts",
-        "require": "./dist/extensions/drop-cursor/index.d.cts"
-      },
-      "import": "./dist/extensions/drop-cursor/index.js",
-      "require": "./dist/extensions/drop-cursor/index.cjs"
-    },
-    "./extensions/focus": {
-      "types": {
-        "import": "./dist/extensions/focus/index.d.ts",
-        "require": "./dist/extensions/focus/index.d.cts"
-      },
-      "import": "./dist/extensions/focus/index.js",
-      "require": "./dist/extensions/focus/index.cjs"
-    },
-    "./extensions/gap-cursor": {
-      "types": {
-        "import": "./dist/extensions/gap-cursor/index.d.ts",
-        "require": "./dist/extensions/gap-cursor/index.d.cts"
-      },
-      "import": "./dist/extensions/gap-cursor/index.js",
-      "require": "./dist/extensions/gap-cursor/index.cjs"
-    },
-    "./extensions/placeholder": {
-      "types": {
-        "import": "./dist/extensions/placeholder/index.d.ts",
-        "require": "./dist/extensions/placeholder/index.d.cts"
-      },
-      "import": "./dist/extensions/placeholder/index.js",
-      "require": "./dist/extensions/placeholder/index.cjs"
-    },
-    "./extensions/selection": {
-      "types": {
-        "import": "./dist/extensions/selection/index.d.ts",
-        "require": "./dist/extensions/selection/index.d.cts"
-      },
-      "import": "./dist/extensions/selection/index.js",
-      "require": "./dist/extensions/selection/index.cjs"
-    },
-    "./extensions/trailing-node": {
-      "types": {
-        "import": "./dist/extensions/trailing-node/index.d.ts",
-        "require": "./dist/extensions/trailing-node/index.d.cts"
-      },
-      "import": "./dist/extensions/trailing-node/index.js",
-      "require": "./dist/extensions/trailing-node/index.cjs"
-    },
-    "./extensions/undo-redo": {
-      "types": {
-        "import": "./dist/extensions/undo-redo/index.d.ts",
-        "require": "./dist/extensions/undo-redo/index.d.cts"
-      },
-      "import": "./dist/extensions/undo-redo/index.js",
-      "require": "./dist/extensions/undo-redo/index.cjs"
-    },
-    "./extensions/bold": {
-      "types": {
-        "import": "./dist/extensions/bold/index.d.ts",
-        "require": "./dist/extensions/bold/index.d.cts"
-      },
-      "import": "./dist/extensions/bold/index.js",
-      "require": "./dist/extensions/bold/index.cjs"
-    },
-    "./extensions/code": {
-      "types": {
-        "import": "./dist/extensions/code/index.d.ts",
-        "require": "./dist/extensions/code/index.d.cts"
-      },
-      "import": "./dist/extensions/code/index.js",
-      "require": "./dist/extensions/code/index.cjs"
-    },
-    "./extensions/italic": {
-      "types": {
-        "import": "./dist/extensions/italic/index.d.ts",
-        "require": "./dist/extensions/italic/index.d.cts"
-      },
-      "import": "./dist/extensions/italic/index.js",
-      "require": "./dist/extensions/italic/index.cjs"
-    },
-    "./extensions/link": {
-      "types": {
-        "import": "./dist/extensions/link/index.d.ts",
-        "require": "./dist/extensions/link/index.d.cts"
-      },
-      "import": "./dist/extensions/link/index.js",
-      "require": "./dist/extensions/link/index.cjs"
-    },
-    "./extensions/strike": {
-      "types": {
-        "import": "./dist/extensions/strike/index.d.ts",
-        "require": "./dist/extensions/strike/index.d.cts"
-      },
-      "import": "./dist/extensions/strike/index.js",
-      "require": "./dist/extensions/strike/index.cjs"
-    },
-    "./extensions/underline": {
-      "types": {
-        "import": "./dist/extensions/underline/index.d.ts",
-        "require": "./dist/extensions/underline/index.d.cts"
-      },
-      "import": "./dist/extensions/underline/index.js",
-      "require": "./dist/extensions/underline/index.cjs"
     }
   },
   "scripts": {
     "build": "vp pack"
   },
   "dependencies": {
+    "@floating-ui/dom": "^1.0.0",
     "linkifyjs": "^4.3.3",
     "prosemirror-changeset": "^2.4.1",
     "prosemirror-commands": "^1.7.1",

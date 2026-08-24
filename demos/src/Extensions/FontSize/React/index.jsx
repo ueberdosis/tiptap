@@ -1,4 +1,5 @@
-import { FontSize, TextStyle } from '@tiptap/extension-text-style'
+import { FontSize } from '@tiptap/editor/extensions/font-size'
+import { TextStyle } from '@tiptap/editor/extensions/text-style'
 import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 

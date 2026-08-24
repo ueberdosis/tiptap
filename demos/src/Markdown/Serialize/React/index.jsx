@@ -1,7 +1,7 @@
 import './styles.scss'
 
-import Image from '@tiptap/extension-image'
-import { TableKit } from '@tiptap/extension-table'
+import { Image } from '@tiptap/editor/extensions/image'
+import { TableKit } from '@tiptap/editor/extensions/table'
 import { Markdown } from '@tiptap/markdown'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'

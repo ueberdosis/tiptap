@@ -1,8 +1,9 @@
 import './styles.scss'
 
-import { Image } from '@tiptap/extension-image'
+import { Image } from '@tiptap/editor/extensions/image'
 import { Link } from '@tiptap/editor/extensions/link'
-import { Color, TextStyle } from '@tiptap/extension-text-style'
+import { Color } from '@tiptap/editor/extensions/color'
+import { TextStyle } from '@tiptap/editor/extensions/text-style'
 import { EditorProvider, useCurrentEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useCallback } from 'react'

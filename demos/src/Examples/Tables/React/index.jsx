@@ -1,6 +1,6 @@
 import './styles.scss'
 
-import { TableCell, TableKit } from '@tiptap/extension-table'
+import { TableCell, TableKit } from '@tiptap/editor/extensions/table'
 import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'

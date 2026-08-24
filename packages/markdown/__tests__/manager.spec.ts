@@ -6,15 +6,21 @@ import {
   Node,
 } from '@tiptap/editor'
 import { Bold } from '@tiptap/editor/extensions/bold'
-import { Document } from '@tiptap/extension-document'
-import { Heading } from '@tiptap/extension-heading'
+import { Document } from '@tiptap/editor/extensions/document'
+import { Heading } from '@tiptap/editor/extensions/heading'
 import { Italic } from '@tiptap/editor/extensions/italic'
 import { Link } from '@tiptap/editor/extensions/link'
-import { BulletList, ListItem, OrderedList, TaskItem, TaskList } from '@tiptap/extension-list'
+import {
+  BulletList,
+  ListItem,
+  OrderedList,
+  TaskItem,
+  TaskList,
+} from '@tiptap/editor/extensions/list'
 import { Mention } from '@tiptap/extension-mention'
-import { Paragraph } from '@tiptap/extension-paragraph'
+import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Strike } from '@tiptap/editor/extensions/strike'
-import { Text } from '@tiptap/extension-text'
+import { Text } from '@tiptap/editor/extensions/text'
 import { Underline } from '@tiptap/editor/extensions/underline'
 import { Youtube } from '@tiptap/extension-youtube'
 import { MarkdownManager } from '@tiptap/markdown'

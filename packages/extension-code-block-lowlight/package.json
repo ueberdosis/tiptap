@@ -43,12 +43,10 @@
   },
   "devDependencies": {
     "@tiptap/editor": "workspace:^",
-    "@tiptap/extension-code-block": "workspace:^",
     "lowlight": "^3.3.0"
   },
   "peerDependencies": {
     "@tiptap/editor": "workspace:*",
-    "@tiptap/extension-code-block": "workspace:*",
     "highlight.js": "^11",
     "lowlight": "^2 || ^3"
   }

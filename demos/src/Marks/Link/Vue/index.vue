@@ -17,10 +17,10 @@
 
 <script>
 import { Code } from '@tiptap/editor/extensions/code'
-import Document from '@tiptap/extension-document'
+import { Document } from '@tiptap/editor/extensions/document'
 import { Link } from '@tiptap/editor/extensions/link'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
+import { Paragraph } from '@tiptap/editor/extensions/paragraph'
+import { Text } from '@tiptap/editor/extensions/text'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
 export default {

@@ -1,6 +1,6 @@
 import './styles.scss'
 
-import { TextStyleKit } from '@tiptap/extension-text-style'
+import { TextStyleKit } from '@tiptap/editor/kits/text-style'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'

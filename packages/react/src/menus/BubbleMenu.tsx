@@ -1,4 +1,4 @@
-import { type BubbleMenuPluginProps, BubbleMenuPlugin } from '@tiptap/extension-bubble-menu'
+import { BubbleMenuPlugin, type BubbleMenuPluginProps } from '@tiptap/editor/extensions/bubble-menu'
 import type { PluginKey } from '@tiptap/editor/pm/state'
 import { useCurrentEditor } from '@tiptap/react'
 import React, { useEffect, useRef, useState } from 'react'
