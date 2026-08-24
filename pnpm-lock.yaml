@@ -780,24 +780,6 @@ importers:
         specifier: ^19.0.0
         version: 19.2.8(react@19.2.8)
 
-  packages/starter-kit:
-    dependencies:
-      '@tiptap/editor':
-        specifier: workspace:*
-        version: link:../editor
-      '@tiptap/extension-dropcursor':
-        specifier: workspace:*
-        version: link:../../packages-deprecated/extension-dropcursor
-      '@tiptap/extension-gapcursor':
-        specifier: workspace:*
-        version: link:../../packages-deprecated/extension-gapcursor
-      '@tiptap/extension-list-item':
-        specifier: workspace:*
-        version: link:../../packages-deprecated/extension-list-item
-      '@tiptap/extension-list-keymap':
-        specifier: workspace:*
-        version: link:../../packages-deprecated/extension-list-keymap
-
   packages/static-renderer:
     devDependencies:
       '@tiptap/editor':

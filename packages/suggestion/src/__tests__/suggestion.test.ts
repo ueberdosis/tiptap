@@ -1,6 +1,6 @@
 import type { Middleware } from '@floating-ui/dom'
 import { Editor, Extension } from '@tiptap/editor'
-import StarterKit from '@tiptap/starter-kit'
+import { StarterKit } from '@tiptap/editor/kits/starter'
 import { describe, expect, it, vi } from 'vite-plus/test'
 
 import { exitSuggestion, Suggestion, SuggestionPluginKey } from '../suggestion.js'

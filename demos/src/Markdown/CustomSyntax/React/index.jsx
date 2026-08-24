@@ -1,7 +1,7 @@
 import './styles.scss'
 
 import { Image } from '@tiptap/editor/extensions/image'
-import { TableKit } from '@tiptap/editor/extensions/table'
+import { TableKit } from '@tiptap/editor/kits/table'
 import { Markdown } from '@tiptap/markdown'
 import {
   createAtomBlockMarkdownSpec,
@@ -12,7 +12,7 @@ import {
   Node,
   useEditor,
 } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import { StarterKit } from '@tiptap/editor/kits/starter'
 import { useState } from 'react'
 
 const CustomNode = Node.create({

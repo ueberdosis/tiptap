@@ -21,7 +21,7 @@
 <script>
 import { Document } from '@tiptap/editor/extensions/document'
 import { Heading } from '@tiptap/editor/extensions/heading'
-import { ListKit } from '@tiptap/editor/extensions/list'
+import { ListKit } from '@tiptap/editor/kits/list'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'
 import Twitch from '@tiptap/extension-twitch'

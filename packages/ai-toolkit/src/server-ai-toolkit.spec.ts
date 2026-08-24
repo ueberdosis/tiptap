@@ -1,7 +1,7 @@
 // @vitest-environment happy-dom
 
 import { Editor, Extension } from '@tiptap/editor'
-import StarterKit from '@tiptap/starter-kit'
+import { StarterKit } from '@tiptap/editor/kits/starter'
 import { describe, expect, it } from 'vite-plus/test'
 
 import { ServerAiToolkit } from './index.js'

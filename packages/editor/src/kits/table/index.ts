@@ -1,13 +1,13 @@
 import { Extension } from '@tiptap/editor'
 
-import type { TableCellOptions } from '../cell/index.js'
-import { TableCell } from '../cell/index.js'
-import type { TableHeaderOptions } from '../header/index.js'
-import { TableHeader } from '../header/index.js'
-import type { TableRowOptions } from '../row/index.js'
-import { TableRow } from '../row/index.js'
-import type { TableOptions } from '../table/index.js'
-import { Table } from '../table/index.js'
+import type { TableCellOptions } from '@tiptap/editor/extensions/table'
+import { TableCell } from '@tiptap/editor/extensions/table'
+import type { TableHeaderOptions } from '@tiptap/editor/extensions/table'
+import { TableHeader } from '@tiptap/editor/extensions/table'
+import type { TableRowOptions } from '@tiptap/editor/extensions/table'
+import { TableRow } from '@tiptap/editor/extensions/table'
+import type { TableOptions } from '@tiptap/editor/extensions/table'
+import { Table } from '@tiptap/editor/extensions/table'
 
 export interface TableKitOptions {
   /**

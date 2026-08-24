@@ -2,9 +2,9 @@ import './styles.scss'
 
 import DragHandle from '@tiptap/extension-drag-handle-react'
 import { Image } from '@tiptap/editor/extensions/image'
-import { TableKit } from '@tiptap/editor/extensions/table'
+import { TableKit } from '@tiptap/editor/kits/table'
 import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import { StarterKit } from '@tiptap/editor/kits/starter'
 import { useEffect, useState } from 'react'
 
 const NESTED_CONFIG_LTR = { edgeDetection: { threshold: -16, edges: ['left'] } }

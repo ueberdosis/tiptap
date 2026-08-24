@@ -4,7 +4,7 @@ import { Text } from '@tiptap/editor/extensions/text'
 import { TextStyle } from '@tiptap/editor/extensions/text-style'
 import Youtube from '@tiptap/extension-youtube'
 import { generateHTML, generateJSON } from '@tiptap/html'
-import StarterKit from '@tiptap/starter-kit'
+import { StarterKit } from '@tiptap/editor/kits/starter'
 import { describe, expect, it } from 'vite-plus/test'
 
 describe('generateHTML', () => {

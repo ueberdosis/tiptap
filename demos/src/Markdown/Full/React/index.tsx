@@ -8,7 +8,7 @@ import { Image } from '@tiptap/editor/extensions/image'
 import { TaskItem, TaskList } from '@tiptap/editor/extensions/list'
 import { Mathematics } from '@tiptap/extension-mathematics'
 import { Mention } from '@tiptap/extension-mention'
-import { TableKit } from '@tiptap/editor/extensions/table'
+import { TableKit } from '@tiptap/editor/kits/table'
 import { Twitch } from '@tiptap/extension-twitch'
 import { Youtube } from '@tiptap/extension-youtube'
 import { Markdown } from '@tiptap/markdown'
@@ -19,7 +19,7 @@ import {
   ReactNodeViewRenderer,
   useEditor,
 } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import { StarterKit } from '@tiptap/editor/kits/starter'
 import React, { useState } from 'react'
 
 import { mdContent } from './content.js'

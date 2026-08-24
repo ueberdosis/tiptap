@@ -1,6 +1,6 @@
 import { Editor } from '@tiptap/editor'
 import Mention from '@tiptap/extension-mention'
-import StarterKit from '@tiptap/starter-kit'
+import { StarterKit } from '@tiptap/editor/kits/starter'
 import { afterEach, beforeEach, describe, expect, it } from 'vite-plus/test'
 
 describe('setContent command', () => {

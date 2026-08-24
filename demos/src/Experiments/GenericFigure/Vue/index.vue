@@ -14,8 +14,8 @@
 
 <script>
 import { Image } from '@tiptap/editor/extensions/image'
-import { TableKit } from '@tiptap/editor/extensions/table'
-import StarterKit from '@tiptap/starter-kit'
+import { TableKit } from '@tiptap/editor/kits/table'
+import { StarterKit } from '@tiptap/editor/kits/starter'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
 import { Figcaption } from './figcaption.ts'

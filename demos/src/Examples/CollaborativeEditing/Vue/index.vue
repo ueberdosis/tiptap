@@ -28,7 +28,7 @@ import CollaborationCaret from '@tiptap/extension-collaboration-caret'
 import Highlight from '@tiptap/extension-highlight'
 import { TaskItem, TaskList } from '@tiptap/editor/extensions/list'
 import { CharacterCount } from '@tiptap/editor/extensions/character-count'
-import StarterKit from '@tiptap/starter-kit'
+import { StarterKit } from '@tiptap/editor/kits/starter'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import * as Y from 'yjs'
 

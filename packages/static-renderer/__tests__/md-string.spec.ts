@@ -1,5 +1,5 @@
-import { TableKit } from '@tiptap/editor/extensions/table'
-import StarterKit from '@tiptap/starter-kit'
+import { TableKit } from '@tiptap/editor/kits/table'
+import { StarterKit } from '@tiptap/editor/kits/starter'
 import { renderToMarkdown } from '@tiptap/static-renderer/pm/markdown'
 import { describe, expect, it } from 'vite-plus/test'
 

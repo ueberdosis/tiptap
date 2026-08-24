@@ -1,6 +1,6 @@
 import { Editor } from '@tiptap/editor'
 import UniqueID from '@tiptap/extension-unique-id'
-import StarterKit from '@tiptap/starter-kit'
+import { StarterKit } from '@tiptap/editor/kits/starter'
 import { afterEach, beforeEach, describe, expect, it } from 'vite-plus/test'
 
 describe('UniqueID', () => {

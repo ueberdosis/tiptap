@@ -27,7 +27,7 @@ import { lstatSync, readFileSync, writeFileSync } from 'node:fs'
 const config = JSON.parse(readFileSync(process.argv[2], 'utf8'))
 
 const STATEMENT = new RegExp(
-  String.raw`(?<kind>import|export)\s+(?<typeOnly>type\s+)?(?<clause>[^;'"]*?)\s*from\s*'(?<specifier>[^']+)';?`,
+  String.raw`(?<kind>import|export)\s+(?<typeOnly>type\s+)?(?<clause>[^;'"]*?)\s*from\s*(?<quote>['"])(?<specifier>[^'"]+)\k<quote>;?`,
   'g',
 )
 
@@ -96,7 +96,7 @@ const rewriteStatement = (match, groups) => {
     .sort(([a], [b]) => a.localeCompare(b))
     .map(
       ([home, specifiers]) =>
-        `${prefix}{ ${[...new Set(specifiers)].sort().join(', ')} } from '${home}'`,
+        `${prefix}{ ${[...new Set(specifiers)].sort().join(', ')} } from ${groups.quote}${home}${groups.quote}`,
     )
     .join('\n')
 }
@@ -123,7 +123,7 @@ for (const file of files) {
   } catch {
     continue
   }
-  if (!Object.keys(config).some(specifier => text.includes(`'${specifier}'`))) continue
+  if (!Object.keys(config).some(specifier => text.includes(specifier))) continue
 
   const next = text.replace(STATEMENT, (...args) => {
     const groups = args.at(-1)

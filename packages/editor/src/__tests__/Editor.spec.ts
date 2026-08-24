@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { Editor } from '../Editor.js'
 import { Extension } from '../Extension.js'
-import StarterKit from '@tiptap/starter-kit'
+import { StarterKit } from '@tiptap/editor/kits/starter'
 
 const createTestEditor = () =>
   new Editor({

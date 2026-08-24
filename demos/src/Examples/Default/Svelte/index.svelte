@@ -4,7 +4,7 @@
   import { Color } from '@tiptap/editor/extensions/color'
   import { ListItem } from '@tiptap/editor/extensions/list'
   import { TextStyle } from '@tiptap/editor/extensions/text-style'
-  import StarterKit from "@tiptap/starter-kit";
+  import { StarterKit } from "@tiptap/editor/kits/starter"
   import { Editor } from "@tiptap/editor";
   import { onMount } from "svelte";
 

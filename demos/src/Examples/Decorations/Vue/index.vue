@@ -16,7 +16,7 @@
 <script>
 import './styles.scss'
 
-import StarterKit from '@tiptap/starter-kit'
+import { StarterKit } from '@tiptap/editor/kits/starter'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
 import { HighlightDecorations } from './highlight-decorations.ts'

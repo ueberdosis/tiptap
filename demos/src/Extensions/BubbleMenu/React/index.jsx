@@ -8,7 +8,7 @@ import {
   useEditorState,
 } from '@tiptap/react'
 import { BubbleMenu } from '@tiptap/react/menus'
-import StarterKit from '@tiptap/starter-kit'
+import { StarterKit } from '@tiptap/editor/kits/starter'
 import React, { useEffect } from 'react'
 
 export default () => {

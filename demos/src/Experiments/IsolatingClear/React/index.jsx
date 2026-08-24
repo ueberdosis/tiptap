@@ -4,7 +4,7 @@ import { ListItem } from '@tiptap/editor/extensions/list'
 import { Color } from '@tiptap/editor/extensions/color'
 import { TextStyle } from '@tiptap/editor/extensions/text-style'
 import { EditorContent, Node, useEditor, useEditorState } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import { StarterKit } from '@tiptap/editor/kits/starter'
 import React from 'react'
 
 import { content } from '../content.ts'

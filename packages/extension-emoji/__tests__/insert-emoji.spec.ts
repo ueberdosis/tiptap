@@ -1,6 +1,6 @@
 import { Editor } from '@tiptap/editor'
 import Emoji, { gitHubEmojis } from '@tiptap/extension-emoji'
-import StarterKit from '@tiptap/starter-kit'
+import { StarterKit } from '@tiptap/editor/kits/starter'
 import { afterEach, beforeEach, describe, expect, it } from 'vite-plus/test'
 
 describe('Emoji.setEmoji command', () => {

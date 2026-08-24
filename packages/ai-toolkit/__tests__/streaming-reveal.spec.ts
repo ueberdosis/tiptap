@@ -2,7 +2,7 @@
 
 import { Editor } from '@tiptap/editor'
 import { Collaboration } from '@tiptap/extension-collaboration'
-import StarterKit from '@tiptap/starter-kit'
+import { StarterKit } from '@tiptap/editor/kits/starter'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import * as Y from 'yjs'
 

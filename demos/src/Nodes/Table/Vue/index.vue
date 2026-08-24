@@ -41,7 +41,7 @@
 <script>
 import { Document } from '@tiptap/editor/extensions/document'
 import { Paragraph } from '@tiptap/editor/extensions/paragraph'
-import { TableKit } from '@tiptap/editor/extensions/table'
+import { TableKit } from '@tiptap/editor/kits/table'
 import { Text } from '@tiptap/editor/extensions/text'
 import { Gapcursor } from '@tiptap/editor/extensions/gap-cursor'
 import { Editor, EditorContent } from '@tiptap/vue-3'

@@ -6,7 +6,7 @@ import { Paragraph } from '@tiptap/editor/extensions/paragraph'
 import { Text } from '@tiptap/editor/extensions/text'
 import { Color } from '@tiptap/editor/extensions/color'
 import { TextStyle } from '@tiptap/editor/extensions/text-style'
-import StarterKit from '@tiptap/starter-kit'
+import { StarterKit } from '@tiptap/editor/kits/starter'
 import { afterEach, beforeEach, describe, expect, it } from 'vite-plus/test'
 
 describe('insertContent', () => {

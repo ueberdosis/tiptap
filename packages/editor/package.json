@@ -325,6 +325,30 @@
       "import": "./dist/extensions/undo-redo/index.js",
       "require": "./dist/extensions/undo-redo/index.cjs"
     },
+    "./kits/list": {
+      "types": {
+        "import": "./dist/kits/list/index.d.ts",
+        "require": "./dist/kits/list/index.d.cts"
+      },
+      "import": "./dist/kits/list/index.js",
+      "require": "./dist/kits/list/index.cjs"
+    },
+    "./kits/starter": {
+      "types": {
+        "import": "./dist/kits/starter/index.d.ts",
+        "require": "./dist/kits/starter/index.d.cts"
+      },
+      "import": "./dist/kits/starter/index.js",
+      "require": "./dist/kits/starter/index.cjs"
+    },
+    "./kits/table": {
+      "types": {
+        "import": "./dist/kits/table/index.d.ts",
+        "require": "./dist/kits/table/index.d.cts"
+      },
+      "import": "./dist/kits/table/index.js",
+      "require": "./dist/kits/table/index.cjs"
+    },
     "./kits/text-style": {
       "types": {
         "import": "./dist/kits/text-style/index.d.ts",
