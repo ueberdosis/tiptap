@@ -10,6 +10,8 @@ import { EditorContent } from '@tiptap/vue-3'
 import '@tiptap/vue-3'
 import '@tiptap/extension-drag-handle-vue-3'
 const DragHandle = require('@tiptap/extension-drag-handle-vue-3')
+const example = "import('@tiptap/vue-3')"
+// require('@tiptap/extension-drag-handle-vue-3')
 const legacyPackage = '@tiptap/vue-2'
 </script>`
 
@@ -19,6 +21,8 @@ import { EditorContent } from '@tiptap/vue'
 import '@tiptap/vue'
 import '@tiptap/extension-drag-handle-vue'
 const DragHandle = require('@tiptap/extension-drag-handle-vue')
+const example = "import('@tiptap/vue-3')"
+// require('@tiptap/extension-drag-handle-vue-3')
 const legacyPackage = '@tiptap/vue-2'
 </script>`
 

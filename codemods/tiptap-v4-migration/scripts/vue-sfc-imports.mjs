@@ -8,20 +8,194 @@ const packageSpecifiers = new Map([
 ])
 
 const scriptPattern = /<script\b[^>]*>([\s\S]*?)<\/script>/gi
-const importPattern = /\b(from\s*|import\s*(?:\(\s*)?|require\s*\(\s*)(['"])(@tiptap\/(?:vue-3|extension-drag-handle-vue-3))\2/g
 const skippedDirectories = new Set(['.git', 'build', 'dist', 'node_modules'])
+
+function skipTrivia(source, start) {
+  let index = start
+
+  while (index < source.length) {
+    if (/\s/.test(source[index])) {
+      index += 1
+      continue
+    }
+
+    if (source.startsWith('//', index)) {
+      const lineEnd = source.indexOf('\n', index + 2)
+      index = lineEnd === -1 ? source.length : lineEnd + 1
+      continue
+    }
+
+    if (source.startsWith('/*', index)) {
+      const commentEnd = source.indexOf('*/', index + 2)
+      index = commentEnd === -1 ? source.length : commentEnd + 2
+      continue
+    }
+
+    break
+  }
+
+  return index
+}
+
+function readStringEnd(source, start) {
+  const quote = source[start]
+
+  for (let index = start + 1; index < source.length; index += 1) {
+    if (source[index] === '\\') {
+      index += 1
+      continue
+    }
+
+    if (source[index] === quote) {
+      return index
+    }
+  }
+
+  return source.length
+}
+
+function readIdentifierEnd(source, start) {
+  let index = start
+
+  while (index < source.length && /[\w$]/.test(source[index])) {
+    index += 1
+  }
+
+  return index
+}
+
+function isIdentifierStart(character) {
+  return /[A-Za-z_$]/.test(character)
+}
+
+function getSpecifierEdit(source, start) {
+  const quote = source[start]
+
+  if (quote !== "'" && quote !== '"') {
+    return null
+  }
+
+  const end = readStringEnd(source, start)
+  const specifier = source.slice(start + 1, end)
+  const replacement = packageSpecifiers.get(specifier)
+
+  if (!replacement || end === source.length) {
+    return null
+  }
+
+  return {
+    end: end + 1,
+    start,
+    text: `${quote}${replacement}${quote}`,
+  }
+}
+
+function findSpecifier(source, start, requiresCall) {
+  let index = skipTrivia(source, start)
+
+  if (requiresCall) {
+    if (source[index] !== '(') {
+      return null
+    }
+
+    index = skipTrivia(source, index + 1)
+  }
+
+  return getSpecifierEdit(source, index)
+}
+
+function findImportedSpecifier(source, start) {
+  for (let index = start; index < source.length; index += 1) {
+    if (source.startsWith('//', index)) {
+      const lineEnd = source.indexOf('\n', index + 2)
+      index = lineEnd === -1 ? source.length : lineEnd
+      continue
+    }
+
+    if (source.startsWith('/*', index)) {
+      const commentEnd = source.indexOf('*/', index + 2)
+      index = commentEnd === -1 ? source.length : commentEnd + 1
+      continue
+    }
+
+    if (source[index] === "'" || source[index] === '"' || source[index] === '`') {
+      index = readStringEnd(source, index)
+      continue
+    }
+
+    if (isIdentifierStart(source[index])) {
+      const end = readIdentifierEnd(source, index)
+
+      if (source.slice(index, end) === 'from') {
+        return findSpecifier(source, end, false)
+      }
+
+      index = end - 1
+    }
+  }
+
+  return null
+}
+
+function replacePackageSpecifiers(source) {
+  const edits = []
+
+  for (let index = 0; index < source.length; ) {
+    if (source.startsWith('//', index)) {
+      const lineEnd = source.indexOf('\n', index + 2)
+      index = lineEnd === -1 ? source.length : lineEnd + 1
+      continue
+    }
+
+    if (source.startsWith('/*', index)) {
+      const commentEnd = source.indexOf('*/', index + 2)
+      index = commentEnd === -1 ? source.length : commentEnd + 2
+      continue
+    }
+
+    if (source[index] === "'" || source[index] === '"' || source[index] === '`') {
+      index = readStringEnd(source, index) + 1
+      continue
+    }
+
+    if (!isIdentifierStart(source[index])) {
+      index += 1
+      continue
+    }
+
+    const end = readIdentifierEnd(source, index)
+    const identifier = source.slice(index, end)
+    const previous = source.slice(0, index).trimEnd().at(-1)
+
+    if (previous === '.') {
+      index = end
+      continue
+    }
+
+    const edit = identifier === 'import'
+      ? findSpecifier(source, end, source[skipTrivia(source, end)] === '(')
+        ?? findImportedSpecifier(source, end)
+      : identifier === 'require'
+        ? findSpecifier(source, end, true)
+        : null
+
+    if (edit) {
+      edits.push(edit)
+    }
+
+    index = end
+  }
+
+  return edits.reduceRight((result, edit) => (
+    `${result.slice(0, edit.start)}${edit.text}${result.slice(edit.end)}`
+  ), source)
+}
 
 /** Rewrites known Tiptap package specifiers inside Vue script blocks. */
 export function transformVueSource(source) {
-  return source.replace(scriptPattern, (script, content) => {
-    const transformedContent = content.replace(importPattern, (match, prefix, quote, specifier) => {
-      const replacement = packageSpecifiers.get(specifier)
-
-      return replacement ? `${prefix}${quote}${replacement}${quote}` : match
-    })
-
-    return script.replace(content, transformedContent)
-  })
+  return source.replace(scriptPattern, (script, content) => (
+    script.replace(content, replacePackageSpecifiers(content))
+  ))
 }
 
 async function findVueFiles(directory) {
