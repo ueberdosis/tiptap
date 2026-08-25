@@ -32,7 +32,7 @@ pnpm exec codemod publish
 Run the published workflow against a disposable project before documenting it in a release:
 
 ```bash
-npx codemod@latest run @tiptap/codemod-v3-to-v4 \
+npx codemod@latest @tiptap/codemod-v3-to-v4 \
   --target /path/to/project \
   --param vue_target_path=/path/to/project
 ```
