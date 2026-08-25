@@ -3,6 +3,8 @@
  * @param prefix The prefix to wrap each line with.
  * @param content The content to wrap.
  * @returns The content with each line wrapped with the prefix.
+ * @example
+ * wrapInMarkdownBlock('> ', 'first\nsecond') // => '> first\n> \n> second'
  */
 export function wrapInMarkdownBlock(prefix: string, content: string) {
   // split content lines

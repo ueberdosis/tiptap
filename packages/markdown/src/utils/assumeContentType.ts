@@ -7,6 +7,10 @@ import type { ContentType } from '../types.js'
  * Assume the content type based on the content value.
  * @param content The content to assume the type for.
  * @param contentType The content type that should be prioritized.
+ * @returns 'json' when the content is not a string, otherwise the given contentType.
+ * @example
+ * assumeContentType({ type: 'paragraph' }, 'html') // => 'json'
+ * assumeContentType('**bold**', 'markdown') // => 'markdown'
  */
 export function assumeContentType(
   content: (Content | Fragment | Node) | string,

@@ -6,6 +6,18 @@ import type { JSONMark } from '../types.js'
 /**
  * Determines which marks to close based on the next node's marks,
  * treating same-type marks with different attributes as distinct.
+ * @param currentMarks The marks on the current text node.
+ * @param nextNode The following node, or null when this is the last node.
+ * @returns The mark types that do not continue on the next node.
+ * @example
+ * findMarksToClose(new Map([['bold', { type: 'bold' }]]), null)
+ * // => ['bold']
+ * findMarksToClose(new Map([['bold', { type: 'bold' }]]), {
+ *   type: 'text',
+ *   text: 'x',
+ *   marks: [{ type: 'bold' }],
+ * })
+ * // => []  (bold continues on the next node)
  */
 export function findMarksToClose(
   currentMarks: Map<string, JSONMark>,
