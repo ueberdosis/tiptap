@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.30.3
+
+### Patch Changes
+
+- 4ae6ea0: Unsetting one text style inside a blockquote no longer removes the other text styles in it.
+- Updated dependencies [965a880]
+  - @tiptap/core@3.30.3
+
 ## 3.30.2
 
 ### Patch Changes
