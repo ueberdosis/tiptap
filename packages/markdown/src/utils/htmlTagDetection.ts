@@ -1,13 +1,5 @@
 /**
- * Standard HTML and common SVG element names. Used to tell apart real
- * (but possibly empty) elements like `<em></em>` from genuinely unknown
- * angle-bracket text such as `<enter foo bar>` so the latter can be
- * preserved as literal text.
- *
- * Non-hyphenated tags not in this set are treated as unknown unless
- * declared in the schema's parseDOM rules. This does not claim full
- * parity with browser `HTMLUnknownElement` classification across all
- * namespaces (e.g. rare SVG filter elements, MathML).
+ * Standard HTML and common SVG element names, used to detect unknown angle-bracket text.
  */
 export const STANDARD_HTML_TAGS = new Set([
   'a',

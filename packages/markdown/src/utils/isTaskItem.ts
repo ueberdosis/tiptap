@@ -1,11 +1,9 @@
 import type { MarkdownToken } from '@tiptap/core'
 
 /**
- * Check if a markdown list item token is a task item and extract its state.
- *
- * @param item The list item token to check
- * @returns Object containing isTask flag, checked state, and indentation level
- *
+ * Check if a list item token is a task item and extract its state.
+ * @param item The list item token to check.
+ * @returns Object containing isTask flag, checked state, and indentation level.
  * @example
  * ```ts
  * isTaskItem({ raw: '- [ ] Task' }) // { isTask: true, checked: false, indentLevel: 0 }

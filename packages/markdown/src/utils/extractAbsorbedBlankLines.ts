@@ -1,9 +1,7 @@
 import type { MarkdownToken } from '@tiptap/core'
 
 /**
- * Matches a run of two or more consecutive line breaks (a blank line) at the
- * end of a string, allowing horizontal whitespace between the breaks.
- *
+ * Matches a run of blank lines at the end of a string.
  * @example
  * TRAILING_BLANK_LINES.test('paragraph\n  \n')
  * // => true
@@ -11,8 +9,7 @@ import type { MarkdownToken } from '@tiptap/core'
 const TRAILING_BLANK_LINES = /\n[^\S\n]*(?:\n[^\S\n]*)+$/
 
 /**
- * Extracts blank lines absorbed into marked token `raw` back into explicit
- * `space` tokens so they're handled uniformly by the reconstruction path.
+ * Recover blank lines absorbed into token `raw` as explicit `space` tokens.
  * @param tokens The marked token stream to normalize.
  * @returns A new token array with absorbed blank lines as `space` tokens.
  */
@@ -22,6 +19,9 @@ export function extractAbsorbedBlankLines(tokens: MarkdownToken[]): MarkdownToke
   )
 }
 
+/**
+ * Recover blank lines absorbed into a single token's raw source as space tokens.
+ */
 function extractAbsorbedBlankLinesFromToken(
   token: MarkdownToken,
   nextToken: MarkdownToken | undefined,
