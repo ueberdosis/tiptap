@@ -6,7 +6,7 @@ import type {
   NodeViewRendererProps,
 } from '@tiptap/core'
 import { getRenderedAttributes, isNodeViewSelected, NodeView } from '@tiptap/core'
-import type { Node, Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Node as PMNode, Node as ProseMirrorNode } from '@tiptap/pm/model'
 import type { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
 import type { ComponentType, NamedExoticComponent } from 'react'
 import { createElement, createRef, memo } from 'react'
@@ -314,7 +314,7 @@ export class ReactNodeView<
    * To prevent unnecessary updates, the `update` option can be used.
    */
   update(
-    node: Node,
+    node: PMNode,
     decorations: readonly Decoration[],
     innerDecorations: DecorationSource,
   ): boolean {

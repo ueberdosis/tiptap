@@ -1,4 +1,4 @@
-import type { Node, NodeType } from '@tiptap/pm/model'
+import type { Node as PMNode, NodeType } from '@tiptap/pm/model'
 import type { EditorState } from '@tiptap/pm/state'
 
 /**
@@ -18,7 +18,7 @@ export const getNodeAtPosition = (
   const $pos = state.doc.resolve(pos)
 
   let currentDepth = maxDepth
-  let node: Node | null = null
+  let node: PMNode | null = null
 
   while (currentDepth > 0 && node === null) {
     const currentNode = $pos.node(currentDepth)
@@ -30,5 +30,5 @@ export const getNodeAtPosition = (
     }
   }
 
-  return [node, currentDepth] as [Node | null, number]
+  return [node, currentDepth] as [PMNode | null, number]
 }

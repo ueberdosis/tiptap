@@ -1,4 +1,4 @@
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import type { Transaction } from '@tiptap/pm/state'
 
 import { getChangedRanges } from '../../helpers/getChangedRanges.js'
@@ -12,7 +12,7 @@ export type RebuildRangeResolution = { type: 'ranges'; ranges: Range[] } | { typ
  * Expands a changed range to the top-level blocks it touches. Blocks are
  * ordered, so the walk stops as soon as it passes the range.
  */
-function blockRangeFor(doc: Node, changed: Range): Range | null {
+function blockRangeFor(doc: PMNode, changed: Range): Range | null {
   let from: number | null = null
   let to = 0
   let nodeStart = 0
@@ -47,7 +47,7 @@ function blockRangeFor(doc: Node, changed: Range): Range | null {
  * @param doc The new document after the transaction.
  * @returns The block ranges to recompute, or a full-recompute signal.
  */
-export function getRebuildRanges(tr: Transaction, doc: Node): RebuildRangeResolution {
+export function getRebuildRanges(tr: Transaction, doc: PMNode): RebuildRangeResolution {
   // If any step cannot be resolved, fall back to full recompute.
   if (tr.steps.some(step => !hasResolvableChangedRange(step))) {
     return { type: 'full' }

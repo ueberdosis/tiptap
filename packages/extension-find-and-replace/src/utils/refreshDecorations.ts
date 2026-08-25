@@ -1,4 +1,4 @@
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import { DecorationSet } from '@tiptap/pm/view'
 
 import type { SearchResult } from '../search/search.js'
@@ -10,7 +10,7 @@ import type { TextblockRange } from './types.js'
 
 export function refreshDecorations(
   decorations: DecorationSet,
-  doc: Node,
+  doc: PMNode,
   results: SearchResult[],
   currentIndex: number | null,
   textblocks: readonly TextblockRange[],

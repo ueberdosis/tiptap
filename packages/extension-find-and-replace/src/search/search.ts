@@ -1,4 +1,4 @@
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 
 import { createSearchRegex } from './regex.js'
 import { searchTextblock } from './textblock-search.js'
@@ -36,7 +36,7 @@ export function searchTextblocks(
  * @param options Case sensitivity, regex mode, and whole word matching.
  * @returns The list of matched ranges in document order.
  */
-export function searchDocument(doc: Node, term: string, options: SearchOptions): SearchResult[] {
+export function searchDocument(doc: PMNode, term: string, options: SearchOptions): SearchResult[] {
   const textblocks: TextblockSearchTarget[] = []
 
   doc.descendants((node, pos) => {

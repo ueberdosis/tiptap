@@ -4,7 +4,7 @@ import Document from '@tiptap/extension-document'
 import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { Mark, Node } from '@tiptap/pm/model'
+import { Mark, Node as PMNode } from '@tiptap/pm/model'
 import { mapAttrsToHTMLAttributes, renderToReactElement } from '@tiptap/static-renderer/pm/react'
 import React from 'react'
 import { describe, expect, it } from 'vite-plus/test'
@@ -158,7 +158,7 @@ describe('static render json to react elements (with prosemirror)', () => {
           nodeMapping: {
             doc: ({ children, node }) => {
               expect(node.type.name).toBe('doc')
-              expect(node).toBeInstanceOf(Node)
+              expect(node).toBeInstanceOf(PMNode)
               return React.createElement('doc', {}, children)
             },
           },

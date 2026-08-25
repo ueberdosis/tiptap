@@ -9,7 +9,7 @@ import { generateTocIds, TableOfContents } from '@tiptap/extension-table-of-cont
 import Text from '@tiptap/extension-text'
 import { generateUniqueIds, UniqueID } from '@tiptap/extension-unique-id'
 import Youtube from '@tiptap/extension-youtube'
-import { Mark, Node } from '@tiptap/pm/model'
+import { Mark, Node as PMNode } from '@tiptap/pm/model'
 import {
   renderJSONContentToString,
   serializeAttrsToHTMLString,
@@ -390,7 +390,7 @@ describe('static render json to string (with prosemirror)', () => {
         nodeMapping: {
           doc: ({ children, node }) => {
             expect(node.type.name).toBe('doc')
-            expect(node).toBeInstanceOf(Node)
+            expect(node).toBeInstanceOf(PMNode)
             return `<doc>${serializeChildrenToHTMLString(children)}</doc>`
           },
         },

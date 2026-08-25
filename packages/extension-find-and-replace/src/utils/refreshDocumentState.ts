@@ -1,4 +1,4 @@
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import type { Mapping } from '@tiptap/pm/transform'
 
 import type { FindAndReplaceMeta, FindAndReplacePluginState } from '../plugin/plugin-state.js'
@@ -15,7 +15,7 @@ import { resultInTextblocks } from './resultInTextblocks.js'
 export function refreshDocumentState(
   previousState: FindAndReplacePluginState,
   state: FindAndReplacePluginState,
-  doc: Node,
+  doc: PMNode,
   meta: FindAndReplaceMeta | undefined,
   mapping: Mapping,
 ): FindAndReplacePluginState {
