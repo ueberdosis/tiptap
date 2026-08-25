@@ -58,7 +58,6 @@ const getPackageDependencies = () => {
   }
 
   collectPackageInformation('packages')
-  collectPackageInformation('packages-deprecated')
 
   // Handle the JSX runtime alias
   paths.unshift({

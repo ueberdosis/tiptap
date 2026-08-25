@@ -1,6 +1,5 @@
 packages:
   - 'packages/*'
-  - 'packages-deprecated/*'
   - 'demos'
 catalog:
   # vite is a vendored fork (vite-plus-core). Keep the peerDependencyRules

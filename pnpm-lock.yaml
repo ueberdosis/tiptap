@@ -145,7 +145,7 @@ importers:
         version: 2.15.3(y-protocols@1.0.7(yjs@13.6.23))(yjs@13.6.23)
       '@hocuspocus/transformer':
         specifier: ^2.15.0
-        version: 2.15.3(@tiptap/core@3.30.2(@tiptap/pm@3.30.2))(@tiptap/pm@3.30.2)(y-prosemirror@1.3.7(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-view@1.42.2)(y-protocols@1.0.7(yjs@13.6.23))(yjs@13.6.23))(yjs@13.6.23)
+        version: 2.15.3(@tiptap/core@3.30.3(@tiptap/pm@3.30.3))(@tiptap/pm@3.30.3)(y-prosemirror@1.3.7(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-view@1.42.2)(y-protocols@1.0.7(yjs@13.6.23))(yjs@13.6.23))(yjs@13.6.23)
       '@lexical/react':
         specifier: ^0.36.2
         version: 0.36.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(yjs@13.6.23)
@@ -304,90 +304,6 @@ importers:
         specifier: ^4.5.0
         version: 4.6.4(vue@3.5.41(typescript@5.9.3))
 
-  packages-deprecated/extension-character-count:
-    devDependencies:
-      '@tiptap/extensions':
-        specifier: workspace:^
-        version: link:../../packages/extensions
-
-  packages-deprecated/extension-dropcursor:
-    devDependencies:
-      '@tiptap/extensions':
-        specifier: workspace:^
-        version: link:../../packages/extensions
-
-  packages-deprecated/extension-focus:
-    devDependencies:
-      '@tiptap/extensions':
-        specifier: workspace:^
-        version: link:../../packages/extensions
-
-  packages-deprecated/extension-gapcursor:
-    devDependencies:
-      '@tiptap/extensions':
-        specifier: workspace:^
-        version: link:../../packages/extensions
-
-  packages-deprecated/extension-history:
-    devDependencies:
-      '@tiptap/extensions':
-        specifier: workspace:^
-        version: link:../../packages/extensions
-
-  packages-deprecated/extension-list-item:
-    devDependencies:
-      '@tiptap/extension-list':
-        specifier: workspace:^
-        version: link:../../packages/extension-list
-
-  packages-deprecated/extension-list-keymap:
-    devDependencies:
-      '@tiptap/extension-list':
-        specifier: workspace:^
-        version: link:../../packages/extension-list
-
-  packages-deprecated/extension-placeholder:
-    devDependencies:
-      '@tiptap/extensions':
-        specifier: workspace:^
-        version: link:../../packages/extensions
-
-  packages-deprecated/extension-table-cell:
-    devDependencies:
-      '@tiptap/extension-table':
-        specifier: workspace:^
-        version: link:../../packages/extension-table
-
-  packages-deprecated/extension-table-header:
-    devDependencies:
-      '@tiptap/extension-table':
-        specifier: workspace:^
-        version: link:../../packages/extension-table
-
-  packages-deprecated/extension-table-row:
-    devDependencies:
-      '@tiptap/extension-table':
-        specifier: workspace:^
-        version: link:../../packages/extension-table
-
-  packages-deprecated/extension-task-item:
-    devDependencies:
-      '@tiptap/extension-list':
-        specifier: workspace:^
-        version: link:../../packages/extension-list
-
-  packages-deprecated/extension-task-list:
-    devDependencies:
-      '@tiptap/extension-list':
-        specifier: workspace:^
-        version: link:../../packages/extension-list
-
-  packages-deprecated/server-ai-toolkit:
-    dependencies:
-      '@tiptap/ai-toolkit':
-        specifier: workspace:*
-        version: link:../../packages/ai-toolkit
-
   packages/ai-toolkit:
     dependencies:
       es-toolkit:
@@ -526,15 +442,6 @@ importers:
       '@tiptap/extension-table':
         specifier: workspace:^
         version: link:../extension-table
-      '@tiptap/extension-table-cell':
-        specifier: workspace:^
-        version: link:../../packages-deprecated/extension-table-cell
-      '@tiptap/extension-table-header':
-        specifier: workspace:^
-        version: link:../../packages-deprecated/extension-table-header
-      '@tiptap/extension-table-row':
-        specifier: workspace:^
-        version: link:../../packages-deprecated/extension-table-row
       '@tiptap/extension-text':
         specifier: workspace:^
         version: link:../extension-text
@@ -1097,12 +1004,6 @@ importers:
       '@tiptap/extension-document':
         specifier: workspace:*
         version: link:../extension-document
-      '@tiptap/extension-dropcursor':
-        specifier: workspace:*
-        version: link:../../packages-deprecated/extension-dropcursor
-      '@tiptap/extension-gapcursor':
-        specifier: workspace:*
-        version: link:../../packages-deprecated/extension-gapcursor
       '@tiptap/extension-hard-break':
         specifier: workspace:*
         version: link:../extension-hard-break
@@ -1121,12 +1022,6 @@ importers:
       '@tiptap/extension-list':
         specifier: workspace:*
         version: link:../extension-list
-      '@tiptap/extension-list-item':
-        specifier: workspace:*
-        version: link:../../packages-deprecated/extension-list-item
-      '@tiptap/extension-list-keymap':
-        specifier: workspace:*
-        version: link:../../packages-deprecated/extension-list-keymap
       '@tiptap/extension-ordered-list':
         specifier: workspace:*
         version: link:../extension-ordered-list
@@ -3101,10 +2996,10 @@ packages:
     peerDependencies:
       '@tiptap/pm': ^2.7.0
 
-  '@tiptap/core@3.30.2':
-    resolution: {integrity: sha512-QbZC/s1OOqcoUdkhIY16TjR/gCtR0qAk9e4bJwUqOJqZuv5ozqCL5hzWm22jjTPp6c6Ei2tPd6t30VwfIKW4lQ==}
+  '@tiptap/core@3.30.3':
+    resolution: {integrity: sha512-kDD8KY99lBCKntCqTBE9eNR1ul/i/wPFw2METWT+LYZvifljXq2oiX6JaGF1Sk59efe7+sq9IISxOk47YlBiWQ==}
     peerDependencies:
-      '@tiptap/pm': 3.30.2
+      '@tiptap/pm': 3.30.3
 
   '@tiptap/extension-blockquote@2.27.2':
     resolution: {integrity: sha512-oIGZgiAeA4tG3YxbTDfrmENL4/CIwGuP3THtHsNhwRqwsl9SfMk58Ucopi2GXTQSdYXpRJ0ahE6nPqB5D6j/Zw==}
@@ -3209,8 +3104,8 @@ packages:
   '@tiptap/pm@2.27.2':
     resolution: {integrity: sha512-kaEg7BfiJPDQMKbjVIzEPO3wlcA+pZb2tlcK9gPrdDnEFaec2QTF1sXz2ak2IIb2curvnIrQ4yrfHgLlVA72wA==}
 
-  '@tiptap/pm@3.30.2':
-    resolution: {integrity: sha512-BJN8tUx4ppFN3R3cV/FJfrJbJkvo1lj4uciq+nwpjwzdRvFzqIuglWf+HLcJ6CwlYpLOHp7ArgkBg4Q5e60Gog==}
+  '@tiptap/pm@3.30.3':
+    resolution: {integrity: sha512-VheaqLAFUe+PCYEgHubM96Z1OAiluFhijQ2Cy1Ghiozoxm5OzevSaKhqm8SQ1VGfzZZko59oUjRzOmu8tB8yfA==}
 
   '@tiptap/starter-kit@2.27.2':
     resolution: {integrity: sha512-bb0gJvPoDuyRUQ/iuN52j1//EtWWttw+RXAv1uJxfR0uKf8X7uAqzaOOgwjknoCIDC97+1YHwpGdnRjpDkOBxw==}
@@ -7771,10 +7666,10 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@hocuspocus/transformer@2.15.3(@tiptap/core@3.30.2(@tiptap/pm@3.30.2))(@tiptap/pm@3.30.2)(y-prosemirror@1.3.7(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-view@1.42.2)(y-protocols@1.0.7(yjs@13.6.23))(yjs@13.6.23))(yjs@13.6.23)':
+  '@hocuspocus/transformer@2.15.3(@tiptap/core@3.30.3(@tiptap/pm@3.30.3))(@tiptap/pm@3.30.3)(y-prosemirror@1.3.7(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-view@1.42.2)(y-protocols@1.0.7(yjs@13.6.23))(yjs@13.6.23))(yjs@13.6.23)':
     dependencies:
-      '@tiptap/core': 3.30.2(@tiptap/pm@3.30.2)
-      '@tiptap/pm': 3.30.2
+      '@tiptap/core': 3.30.3(@tiptap/pm@3.30.3)
+      '@tiptap/pm': 3.30.3
       '@tiptap/starter-kit': 2.27.2
       y-prosemirror: 1.3.7(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-view@1.42.2)(y-protocols@1.0.7(yjs@13.6.23))(yjs@13.6.23)
       yjs: 13.6.23
@@ -8499,9 +8394,9 @@ snapshots:
     dependencies:
       '@tiptap/pm': 2.27.2
 
-  '@tiptap/core@3.30.2(@tiptap/pm@3.30.2)':
+  '@tiptap/core@3.30.3(@tiptap/pm@3.30.3)':
     dependencies:
-      '@tiptap/pm': 3.30.2
+      '@tiptap/pm': 3.30.3
 
   '@tiptap/extension-blockquote@2.27.2(@tiptap/core@2.27.2(@tiptap/pm@2.27.2))':
     dependencies:
@@ -8605,7 +8500,7 @@ snapshots:
       prosemirror-transform: 1.12.0
       prosemirror-view: 1.42.2
 
-  '@tiptap/pm@3.30.2':
+  '@tiptap/pm@3.30.3':
     dependencies:
       prosemirror-changeset: 2.4.1
       prosemirror-commands: 1.7.2

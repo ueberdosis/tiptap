@@ -62,7 +62,6 @@ const getPackageAliases = () => {
   }
 
   collectPackageInformation('./packages')
-  collectPackageInformation('./packages-deprecated')
 
   return aliases
 }
