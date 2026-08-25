@@ -6,7 +6,7 @@ import type {
   NodeViewRendererProps,
 } from '@tiptap/core'
 import { isNodeViewSelected, NodeView } from '@tiptap/core'
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import type { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
 import type { VueConstructor } from 'vue'
 import { booleanProp, functionProp, objectProp } from 'vue-ts-types'
@@ -29,10 +29,10 @@ export const nodeViewProps = {
 export interface VueNodeViewRendererOptions extends NodeViewRendererOptions {
   update:
     | ((props: {
-        oldNode: ProseMirrorNode
+        oldNode: PMNode
         oldDecorations: readonly Decoration[]
         oldInnerDecorations: DecorationSource
-        newNode: ProseMirrorNode
+        newNode: PMNode
         newDecorations: readonly Decoration[]
         innerDecorations: DecorationSource
         updateProps: () => void
@@ -212,7 +212,7 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
    * To prevent unnecessary updates, the `update` option can be used.
    */
   update(
-    node: ProseMirrorNode,
+    node: PMNode,
     decorations: readonly Decoration[],
     innerDecorations: DecorationSource,
   ): boolean {

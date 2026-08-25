@@ -1,7 +1,7 @@
 import type { Editor } from '@tiptap/core'
 import { createInlineMarkdownSpec, mergeAttributes, Node } from '@tiptap/core'
 import type { DOMOutputSpec } from '@tiptap/pm/model'
-import { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import { Node as PMNode } from '@tiptap/pm/model'
 import type { SuggestionOptions } from '@tiptap/suggestion'
 import { Suggestion } from '@tiptap/suggestion'
 
@@ -46,7 +46,7 @@ export interface MentionOptions<
    */
   renderLabel?: (props: {
     options: MentionOptions<SuggestionItem, Attrs>
-    node: ProseMirrorNode
+    node: PMNode
     suggestion: SuggestionOptions | null
   }) => string
 
@@ -58,7 +58,7 @@ export interface MentionOptions<
    */
   renderText: (props: {
     options: MentionOptions<SuggestionItem, Attrs>
-    node: ProseMirrorNode
+    node: PMNode
     suggestion: SuggestionOptions | null
   }) => string
 
@@ -70,7 +70,7 @@ export interface MentionOptions<
    */
   renderHTML: (props: {
     options: MentionOptions<SuggestionItem, Attrs>
-    node: ProseMirrorNode
+    node: PMNode
     suggestion: SuggestionOptions | null
   }) => DOMOutputSpec
 
@@ -333,7 +333,7 @@ export const Mention = Node.create<MentionOptions>({
           }
 
           // Store node and position for later use
-          let mentionNode = new ProseMirrorNode()
+          let mentionNode = new PMNode()
           let mentionPos = 0
 
           state.doc.nodesBetween(anchor - 1, anchor, (node, pos) => {

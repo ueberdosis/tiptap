@@ -1,4 +1,4 @@
-import type { Node as ProseMirrorNode, NodeType } from '@tiptap/pm/model'
+import type { Node as PMNode, NodeType } from '@tiptap/pm/model'
 import { Fragment, Slice } from '@tiptap/pm/model'
 import { TextSelection } from '@tiptap/pm/state'
 import { canSplit } from '@tiptap/pm/transform'
@@ -32,7 +32,7 @@ export const splitListItem: RawCommands['splitListItem'] =
 
     // @ts-ignore
     // oxlint-disable-next-line
-    const node: ProseMirrorNode = state.selection.node
+    const node: PMNode = state.selection.node
 
     if ((node && node.isBlock) || $from.depth < 2 || !$from.sameParent($to)) {
       return false

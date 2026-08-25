@@ -9,7 +9,7 @@ import {
   mergeAttributes,
   Node,
 } from '@tiptap/core'
-import type { DOMOutputSpec, Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { DOMOutputSpec, Node as PMNode } from '@tiptap/pm/model'
 import { TextSelection } from '@tiptap/pm/state'
 import {
   addColumnAfter,
@@ -89,7 +89,7 @@ export interface TableOptions {
    */
   View:
     | (new (
-        node: ProseMirrorNode,
+        node: PMNode,
         cellMinWidth: number,
         view: EditorView,
         HTMLAttributes?: Record<string, any>,
