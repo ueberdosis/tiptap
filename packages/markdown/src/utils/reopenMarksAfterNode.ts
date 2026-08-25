@@ -1,11 +1,13 @@
+import type { JSONMark } from '../types.js'
+
 /**
  * Reopens marks after rendering a non-text node.
  * Returns the opening markdown syntax and updates the active marks.
  */
 export function reopenMarksAfterNode(
-  marksToReopen: Map<string, any>,
-  activeMarks: Map<string, any>,
-  getMarkOpening: (markType: string, mark: any) => string,
+  marksToReopen: Map<string, JSONMark>,
+  activeMarks: Map<string, JSONMark>,
+  getMarkOpening: (markType: string, mark: JSONMark) => string,
 ): string {
   let afterMarkdown = ''
   Array.from(marksToReopen.entries()).forEach(([markType, mark]) => {

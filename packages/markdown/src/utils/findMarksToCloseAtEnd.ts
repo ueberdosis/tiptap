@@ -1,17 +1,20 @@
 import { attrsEqual } from '@tiptap/core'
+import type { JSONContent } from '@tiptap/core'
+
+import type { JSONMark } from '../types.js'
 
 /**
  * Determines which marks to close at the node end, treating same-type marks
  * with different attributes as distinct (close + reopen).
  */
 export function findMarksToCloseAtEnd(
-  activeMarks: Map<string, any>,
-  currentMarks: Map<string, any>,
-  nextNode: any,
-  markSetsEqual: (a: Map<string, { type: string }>, b: Map<string, { type: string }>) => boolean,
+  activeMarks: Map<string, JSONMark>,
+  currentMarks: Map<string, JSONMark>,
+  nextNode: JSONContent | null,
+  markSetsEqual: (a: Map<string, JSONMark>, b: Map<string, JSONMark>) => boolean,
 ): string[] {
-  const nextMarks = (nextNode?.marks as any[]) || []
-  const nextMarksByType = new Map(nextMarks.map((mark: any) => [mark.type, mark]))
+  const nextMarks = nextNode?.marks || []
+  const nextMarksByType = new Map(nextMarks.map((mark: JSONMark) => [mark.type, mark]))
 
   if (!nextNode || nextMarks.length === 0) {
     return Array.from(activeMarks.keys()).reverse()
