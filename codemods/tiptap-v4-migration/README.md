@@ -15,3 +15,25 @@ pnpm validate
 pnpm test
 pnpm exec codemod workflow run -w . -t /path/to/project --param vue_target_path=/path/to/project
 ```
+
+## Publish
+
+Run these commands from this directory:
+
+```bash
+pnpm exec codemod login
+pnpm validate
+pnpm test
+pnpm exec codemod publish
+```
+
+## Verify the published workflow
+
+Run the published workflow against a disposable project before documenting it in a release:
+
+```bash
+npx codemod@latest run @tiptap/codemod-v3-to-v4 \
+  --target /path/to/project \
+  --param vue_target_path=/path/to/project \
+  --allow-fs
+```
