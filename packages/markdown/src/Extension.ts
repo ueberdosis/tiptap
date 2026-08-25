@@ -9,7 +9,7 @@ import type { marked } from 'marked'
 
 import MarkdownManager from './MarkdownManager.js'
 import type { ContentType } from './types.js'
-import { assumeContentType } from './utils.js'
+import { assumeContentType } from './utils/assumeContentType.js'
 
 declare module '@tiptap/core' {
   interface Editor {

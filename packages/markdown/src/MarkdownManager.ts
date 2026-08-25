@@ -23,17 +23,15 @@ import {
 } from '@tiptap/core'
 import { type Lexer, type Token, type TokenizerExtension, type TokenizerThis, marked } from 'marked'
 
-import {
-  closeMarksBeforeNode,
-  extractAbsorbedBlankLines,
-  findMarksToClose,
-  findMarksToCloseAtEnd,
-  findMarksToOpen,
-  isTaskItem,
-  reopenMarksAfterNode,
-  wrapInMarkdownBlock,
-} from './utils.js'
 import { htmlContainsUnrecognizedTag } from './utils/htmlTagDetection.js'
+import { closeMarksBeforeNode } from './utils/closeMarksBeforeNode.js'
+import { extractAbsorbedBlankLines } from './utils/extractAbsorbedBlankLines.js'
+import { findMarksToClose } from './utils/findMarksToClose.js'
+import { findMarksToCloseAtEnd } from './utils/findMarksToCloseAtEnd.js'
+import { findMarksToOpen } from './utils/findMarksToOpen.js'
+import { isTaskItem } from './utils/isTaskItem.js'
+import { reopenMarksAfterNode } from './utils/reopenMarksAfterNode.js'
+import { wrapInMarkdownBlock } from './utils/wrapInMarkdownBlock.js'
 
 export class MarkdownManager {
   private markedInstance: typeof marked
