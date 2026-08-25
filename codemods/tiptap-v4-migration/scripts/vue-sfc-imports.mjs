@@ -175,9 +175,11 @@ function replacePackageSpecifiers(source) {
     const edit = identifier === 'import'
       ? findSpecifier(source, end, source[skipTrivia(source, end)] === '(')
         ?? findImportedSpecifier(source, end)
-      : identifier === 'require'
-        ? findSpecifier(source, end, true)
-        : null
+      : identifier === 'export'
+        ? findImportedSpecifier(source, end)
+        : identifier === 'require'
+          ? findSpecifier(source, end, true)
+          : null
 
     if (edit) {
       edits.push(edit)
