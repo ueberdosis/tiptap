@@ -19,5 +19,3 @@ keywords: ["migration", "tiptap", "v3-to-v4"]
 registry:
   access: "public"
   visibility: "public"
-
-capabilities: ["fs"]

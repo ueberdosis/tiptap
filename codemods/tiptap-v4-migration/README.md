@@ -34,6 +34,5 @@ Run the published workflow against a disposable project before documenting it in
 ```bash
 npx codemod@latest run @tiptap/codemod-v3-to-v4 \
   --target /path/to/project \
-  --param vue_target_path=/path/to/project \
-  --allow-fs
+  --param vue_target_path=/path/to/project
 ```
