@@ -12,7 +12,7 @@ export interface WidgetDecorationOptions {
    * skipped on teardown for widgets made with the React or Vue widget renderer.
    * receives the DOM node, not a ProseMirror node.
    */
-  destroy?: (node: globalThis.Node) => void
+  destroy?: (node: Node) => void
 }
 
 export type DecorationKind = 'inline' | 'node' | 'widget'
