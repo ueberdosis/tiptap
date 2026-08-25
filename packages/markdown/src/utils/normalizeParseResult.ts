@@ -8,7 +8,7 @@ import { isMarkResult } from './isMarkResult.js'
  * @returns The JSON content, or null when the result was empty.
  */
 export function normalizeParseResult(
-  result: MarkdownParseResult,
+  result: MarkdownParseResult | null,
 ): JSONContent | JSONContent[] | null {
   if (!result) {
     return null
