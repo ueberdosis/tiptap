@@ -8,7 +8,7 @@ const packageSpecifiers = new Map([
 ])
 
 const scriptPattern = /<script\b[^>]*>([\s\S]*?)<\/script>/gi
-const importPattern = /\b(from\s*|import\s*\(\s*|require\s*\(\s*)(['"])(@tiptap\/(?:vue-3|extension-drag-handle-vue-3))\2/g
+const importPattern = /\b(from\s*|import\s*(?:\(\s*)?|require\s*\(\s*)(['"])(@tiptap\/(?:vue-3|extension-drag-handle-vue-3))\2/g
 const skippedDirectories = new Set(['.git', 'build', 'dist', 'node_modules'])
 
 /** Rewrites known Tiptap package specifiers inside Vue script blocks. */
