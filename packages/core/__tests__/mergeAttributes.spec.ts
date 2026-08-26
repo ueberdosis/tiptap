@@ -1,4 +1,5 @@
 import { mergeAttributes } from '@tiptap/core'
+import { DOMSerializer, Schema } from '@tiptap/pm/model'
 import { describe, expect, it } from 'vite-plus/test'
 
 describe('mergeAttributes', () => {
@@ -63,6 +64,36 @@ describe('mergeAttributes', () => {
     expect(value).toEqual({
       class: 'foo',
     })
+  })
+
+  it('should not inherit attributes from an own __proto__ key', () => {
+    const attributes = mergeAttributes(
+      JSON.parse(
+        '{"__proto__":{"data-inherited-canary":"present","src":"x-invalid://canary","onerror":"globalThis.__tiptapXss += 1"}}',
+      ),
+    )
+    const schema = new Schema({
+      nodes: {
+        doc: { content: 'image' },
+        image: { toDOM: () => ['img', attributes] },
+        text: {},
+      },
+    })
+    const document = window.document.implementation.createHTMLDocument()
+    const fragment = DOMSerializer.fromSchema(schema).serializeFragment(
+      schema.node('doc', null, [schema.node('image')]).content,
+      { document },
+    )
+    const image = fragment.firstChild as HTMLImageElement
+
+    expect(Object.getPrototypeOf(attributes)).toBe(Object.prototype)
+    expect(Object.prototype.hasOwnProperty.call(attributes, '__proto__')).toBe(true)
+    expect(attributes['data-inherited-canary']).toBeUndefined()
+    expect(attributes.src).toBeUndefined()
+    expect(attributes.onerror).toBeUndefined()
+    expect(image.getAttribute('data-inherited-canary')).toBeNull()
+    expect(image.getAttribute('src')).toBeNull()
+    expect(image.getAttribute('onerror')).toBeNull()
   })
 
   it('should overwrite styles', () => {
