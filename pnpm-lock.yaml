@@ -130,6 +130,18 @@ importers:
         specifier: ^5.97.1
         version: 5.109.2
 
+  codemods/tiptap-v4-migration:
+    devDependencies:
+      '@codemod.com/jssg-types':
+        specifier: ^1.6.3
+        version: 1.6.3
+      codemod:
+        specifier: ^1.15.2
+        version: 1.15.2
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+
   demos:
     dependencies:
       '@floating-ui/dom':
@@ -1763,6 +1775,55 @@ packages:
 
   '@changesets/write@0.4.0':
     resolution: {integrity: sha512-CdTLvIOPiCNuH71pyDu3rA+Q0n65cmAbXnwWH84rKGiFumFzkmHNT8KHTMEchcxN+Kl8I54xGUhJ7l3E7X396Q==}
+
+  '@codemod.com/cli-darwin-arm64@1.15.2':
+    resolution: {integrity: sha512-t4RJF2Tpiy3w4GbOw28NcTfdxkmGzgtJDUHyJnpo9E+GM0vdyOLw7lAhreRxqDQ6ogz6l7xFSAfqV+v1Pxq3Nw==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@codemod.com/cli-darwin-x64@1.15.2':
+    resolution: {integrity: sha512-mSetWtKP5V5ZdSxT6XBNWFsLz5QtT2GDs6/eak0CY4T1aaU3m+z/sqOi1QHWzUlZh31z/Be+l2l/yn23BanQrg==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [darwin]
+
+  '@codemod.com/cli-linux-arm64-gnu@1.15.2':
+    resolution: {integrity: sha512-kpp/SvzNeb1ykZMEGh/MTcv2hRDe+c/E369Dbqjqkd+DXLF5UF98wnHVm+XU0NE+FBvPL14e5WHOKlx2FPS5Kw==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+    libc: [glibc]
+
+  '@codemod.com/cli-linux-arm64-musl@1.15.2':
+    resolution: {integrity: sha512-NOaabvyVEKOH1e+SrvHXU2DQgudfzmsq5Z7wzCPNlkTvo7Acltx+kWLuRTUhqvSkPJ4yYaSRHaHW9FK1xNCsew==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+    libc: [musl]
+
+  '@codemod.com/cli-linux-x64-gnu@1.15.2':
+    resolution: {integrity: sha512-wxh/xMsQ6rMhmGT00HzXrk8LmI3ncjpocZag9n3RrOq/4C9YAPJE4eWQbJCiAFaAGjnGDPjPkOvlsCBam1IuRw==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+    libc: [glibc]
+
+  '@codemod.com/cli-linux-x64-musl@1.15.2':
+    resolution: {integrity: sha512-/Ix8QZ9szi+irOxkSKQiBdW7Cd57Bp0NDcxDxDcUVoREmCxiTrv/3lHHqJXg4Kbsr3gFFK5ryXD3dXcrs1WTJw==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+    libc: [musl]
+
+  '@codemod.com/cli-win32-x64-msvc@1.15.2':
+    resolution: {integrity: sha512-w/ZsKT2E1AdQ/49OiOa8JWxbK3ARRnBRNx2VLWrPa4Q1FY9pU1UGnU1Z1HimudnG3s6nhGsSZ8Lo+ewCZjFMzg==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [win32]
+
+  '@codemod.com/jssg-types@1.6.3':
+    resolution: {integrity: sha512-b5829ixO5TdGL5xg5YcL9YfiLC3WwFZU+8Zx78NpsHlJ1iySbqfA0g0psqNXv8ss/r7hdpy2KiBXm3GE6bN5bQ==}
 
   '@commitlint/cli@19.8.1':
     resolution: {integrity: sha512-LXUdNIkspyxrlV6VDHWBmCZRtkEVRpBKxi2Gtw3J54cGWhLCTouVD/Q6ZSaSvd2YaDObWK8mDjrz3TIKtaQMAA==}
@@ -3438,6 +3499,11 @@ packages:
   clsx@2.1.1:
     resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
     engines: {node: '>=6'}
+
+  codemod@1.15.2:
+    resolution: {integrity: sha512-xm0q23QykfzDzo4tRXhbU9IbBy2mppBIjUv6WZ7Pk3ky2z28rGdcccFaMMXTxx8SphE1QCtHeamufN3hWDCrIA==}
+    engines: {node: '>= 16.0.0'}
+    hasBin: true
 
   color-convert@1.9.3:
     resolution: {integrity: sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==}
@@ -6934,6 +7000,29 @@ snapshots:
       human-id: 4.2.0
       prettier: 2.8.8
 
+  '@codemod.com/cli-darwin-arm64@1.15.2':
+    optional: true
+
+  '@codemod.com/cli-darwin-x64@1.15.2':
+    optional: true
+
+  '@codemod.com/cli-linux-arm64-gnu@1.15.2':
+    optional: true
+
+  '@codemod.com/cli-linux-arm64-musl@1.15.2':
+    optional: true
+
+  '@codemod.com/cli-linux-x64-gnu@1.15.2':
+    optional: true
+
+  '@codemod.com/cli-linux-x64-musl@1.15.2':
+    optional: true
+
+  '@codemod.com/cli-win32-x64-msvc@1.15.2':
+    optional: true
+
+  '@codemod.com/jssg-types@1.6.3': {}
+
   '@commitlint/cli@19.8.1(@types/node@22.20.1)(typescript@5.9.3)':
     dependencies:
       '@commitlint/format': 19.8.1
@@ -8648,6 +8737,18 @@ snapshots:
   clone@1.0.4: {}
 
   clsx@2.1.1: {}
+
+  codemod@1.15.2:
+    dependencies:
+      detect-libc: 2.1.2
+    optionalDependencies:
+      '@codemod.com/cli-darwin-arm64': 1.15.2
+      '@codemod.com/cli-darwin-x64': 1.15.2
+      '@codemod.com/cli-linux-arm64-gnu': 1.15.2
+      '@codemod.com/cli-linux-arm64-musl': 1.15.2
+      '@codemod.com/cli-linux-x64-gnu': 1.15.2
+      '@codemod.com/cli-linux-x64-musl': 1.15.2
+      '@codemod.com/cli-win32-x64-msvc': 1.15.2
 
   color-convert@1.9.3:
     dependencies:
