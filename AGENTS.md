@@ -123,7 +123,7 @@ Short, simple English in comments, docs, changesets and PRs. Most important info
 
 Simplify what is hard to follow. Remove needless nesting and abstractions. Split large or unfocused files. Move reusable utilities into their own files. Drop redundant comments.
 
-Then run `pnpm fallow` for complexity and dead code, `pnpm fallow:health` for refactor targets, and `pnpm fallow:audit` on your changes.
+Then run `vp run fallow` for complexity and dead code, `vp run fallow:health` for refactor targets, and `vp run fallow:audit` on your changes.
 
 ## Tests
 
@@ -132,14 +132,14 @@ Then run `pnpm fallow` for complexity and dead code, `pnpm fallow:health` for re
 
 ## Demos
 
-- Path pattern is `demos/src/<Category>/<DemoName>/<Variant>`, for example `demos/src/Marks/Bold/React`. Scaffold with `pnpm make:demo`.
+- Path pattern is `demos/src/<Category>/<DemoName>/<Variant>`, for example `demos/src/Marks/Bold/React`. Scaffold with `vp run make:demo`.
 - Every demo needs an empty `index.html`. Vite routes by filesystem and ignores folders without it.
 - Import from `@tiptap/core` and friends, never relative paths. The demos `tsconfig.json` aliases those to the local package sources.
 - Reuse the global styles in `demos/setup/style.scss`: `.button-group` for rows of buttons, `.control-group` to wrap a toolbar, `.output-group` for demo output. Don't style `.tiptap`, that is the editor content itself.
 
 ## Changesets
 
-Run `pnpm changeset`, or write the file yourself as `.changeset/YYYY-MM-DD-short-description.md`:
+Run `vp run changeset`, or write the file yourself as `.changeset/YYYY-MM-DD-short-description.md`:
 
 ```markdown
 ---
