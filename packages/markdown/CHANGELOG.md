@@ -1,5 +1,13 @@
 # @tiptap/markdown
 
+## 3.30.5
+
+### Patch Changes
+
+- Updated dependencies [d0d499b]
+  - @tiptap/core@3.30.5
+  - @tiptap/pm@3.30.5
+
 ## 3.30.4
 
 ### Patch Changes
