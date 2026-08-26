@@ -1,5 +1,6 @@
 packages:
   - 'packages/*'
+  - 'codemods/*'
   - 'demos'
 catalog:
   vite: npm:@voidzero-dev/vite-plus-core@0.3.0

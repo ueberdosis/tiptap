@@ -1,5 +1,5 @@
 import { flip, shift } from '@floating-ui/dom'
-import { VueRenderer } from '@tiptap/vue-3'
+import { VueRenderer } from '@tiptap/vue'
 
 import DropdownList from './DropdownList.vue'
 

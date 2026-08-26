@@ -1,0 +1,24 @@
+{
+  "name": "@tiptap/codemod-v3-to-v4",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Migrate Tiptap Vue package imports for v4",
+  "type": "module",
+  "scripts": {
+    "build": "pnpm validate",
+    "check-types": "tsc --noEmit",
+    "test": "pnpm test:javascript && pnpm test:typescript && pnpm test:tsx && pnpm test:json && pnpm test:vue",
+    "test:javascript": "codemod jssg test -l javascript scripts/vue-package-renames.ts tests/javascript",
+    "test:json": "codemod jssg test -l json scripts/vue-package-renames.ts tests/json",
+    "test:tsx": "codemod jssg test -l tsx scripts/vue-package-renames.ts tests/tsx",
+    "test:typescript": "codemod jssg test -l typescript scripts/vue-package-renames.ts tests/typescript",
+    "test:vue": "node --test tests/vue-sfc-imports.test.mjs",
+    "validate": "codemod workflow validate -w workflow.yaml"
+  },
+  "devDependencies": {
+    "@codemod.com/jssg-types": "^1.6.3",
+    "codemod": "^1.15.2",
+    "typescript": "^5.7.3"
+  },
+  "packageManager": "pnpm@11.2.2"
+}
