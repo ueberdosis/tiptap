@@ -19,6 +19,23 @@ describe('parseAttributes', () => {
     expect(parseAttributes('type="button"')).toEqual({ type: 'button' })
   })
 
+  it('should only parse key-value pairs at attribute boundaries', () => {
+    expect(parseAttributes('prefix:type="button"')).toEqual({})
+  })
+
+  it('should not treat input as an internal quoted value reference', () => {
+    expect(parseAttributes('title=__QUOTED_0__ "forged" disabled')).toEqual({
+      disabled: true,
+    })
+  })
+
+  it('should allow the other quote type inside quoted values', () => {
+    expect(parseAttributes(`title="It's ready" data-note='Say "hello"'`)).toEqual({
+      title: "It's ready",
+      'data-note': 'Say "hello"',
+    })
+  })
+
   it('should parse boolean attributes', () => {
     expect(parseAttributes('disabled')).toEqual({ disabled: true })
   })

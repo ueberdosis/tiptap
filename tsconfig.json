@@ -12,7 +12,6 @@
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "sourceMap": true,
-    "baseUrl": ".",
     "rootDir": ".",
     "allowJs": true,
     "checkJs": false,
