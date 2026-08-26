@@ -281,6 +281,10 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
           destroy() {
             window.removeEventListener('dragstart', handleDragstart)
             window.removeEventListener('dragend', handleDragend)
+
+            if (tiptapDragFromOtherEditor === editor) {
+              tiptapDragFromOtherEditor = null
+            }
           },
         }
       },
@@ -297,6 +301,10 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
               if (dragFromOtherEditor?.isEditable) {
                 // setTimeout to avoid the wrong content after drop, timeout arg can't be empty or 0
                 setTimeout(() => {
+                  if (dragFromOtherEditor.isDestroyed) {
+                    return
+                  }
+
                   const selection = dragFromOtherEditor.state.selection
 
                   if (selection) {
