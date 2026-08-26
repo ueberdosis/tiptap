@@ -104,8 +104,10 @@ function findSpecifier(source, start, requiresCall) {
   return getSpecifierEdit(source, index)
 }
 
-function findImportedSpecifier(source, start) {
-  for (let index = start; index < source.length; index += 1) {
+function findImportedSpecifier(source, start, limit = source.length) {
+  const end = limit === -1 ? source.length : limit
+
+  for (let index = start; index < end; index += 1) {
     if (source.startsWith('//', index)) {
       const lineEnd = source.indexOf('\n', index + 2)
       index = lineEnd === -1 ? source.length : lineEnd
@@ -176,7 +178,7 @@ function replacePackageSpecifiers(source) {
       ? findSpecifier(source, end, source[skipTrivia(source, end)] === '(')
         ?? findImportedSpecifier(source, end)
       : identifier === 'export'
-        ? findImportedSpecifier(source, end)
+        ? findImportedSpecifier(source, end, source.indexOf('\n', end))
         : identifier === 'require'
           ? findSpecifier(source, end, true)
           : null

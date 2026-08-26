@@ -32,3 +32,17 @@ const legacyPackage = '@tiptap/vue-2'
 
   assert.equal(transformVueSource(source), expected)
 })
+
+test('does not scan past local exports', () => {
+  const source = `<script setup>
+export { Local }
+import { EditorContent } from '@tiptap/vue-3'
+</script>`
+
+  const expected = `<script setup>
+export { Local }
+import { EditorContent } from '@tiptap/vue'
+</script>`
+
+  assert.equal(transformVueSource(source), expected)
+})
