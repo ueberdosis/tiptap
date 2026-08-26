@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.30.5
+
+### Patch Changes
+
+- d0d499b: Fix a denial-of-service risk where crafted block or inline Markdown attributes could consume excessive CPU and block the browser or server event loop.
+  - @tiptap/pm@3.30.5
+
 ## 3.30.4
 
 ### Patch Changes

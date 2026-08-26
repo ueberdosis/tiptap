@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/extension-drag-handle-react",
-  "version": "3.30.4",
+  "version": "3.30.5",
   "description": "drag handle extension for tiptap with react",
   "keywords": [
     "tiptap",
