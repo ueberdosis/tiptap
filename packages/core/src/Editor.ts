@@ -1,5 +1,5 @@
 /* oslint-disableno-empty-object-type */
-import type { MarkType, Node as ProseMirrorNode, NodeType, Schema } from '@tiptap/pm/model'
+import type { MarkType, Node as PMNode, NodeType, Schema } from '@tiptap/pm/model'
 import type { Plugin, PluginKey, Transaction } from '@tiptap/pm/state'
 import { EditorState } from '@tiptap/pm/state'
 import { type DirectEditorProps, EditorView } from '@tiptap/pm/view'
@@ -514,8 +514,8 @@ export class Editor extends EventEmitter<EditorEvents> {
   /**
    * Creates the initial document.
    */
-  private createDoc(): ProseMirrorNode {
-    let doc: ProseMirrorNode
+  private createDoc(): PMNode {
+    let doc: PMNode
 
     try {
       doc = createDocument(this.options.content, this.schema, this.options.parseOptions, {

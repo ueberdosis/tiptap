@@ -5,7 +5,7 @@ import Document from '@tiptap/extension-document'
 import ListItem from '@tiptap/extension-list-item'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { Node } from '@tiptap/pm/model'
+import { Node as PMNode } from '@tiptap/pm/model'
 import { describe, expect, it } from 'vite-plus/test'
 
 const schema = getSchemaByResolvedExtensions([
@@ -20,7 +20,7 @@ const schema = getSchemaByResolvedExtensions([
 /**
  * Resolves the position right before the first occurrence of `target` text.
  */
-const resolveBefore = (doc: Node, target: string) => {
+const resolveBefore = (doc: PMNode, target: string) => {
   let pos = -1
 
   doc.descendants((node, nodePos) => {
@@ -44,7 +44,7 @@ const resolveBefore = (doc: Node, target: string) => {
 
 describe('getPreviousBlockSibling', () => {
   it('returns the previous block-level sibling of a top-level paragraph', () => {
-    const doc = Node.fromJSON(schema, {
+    const doc = PMNode.fromJSON(schema, {
       type: 'doc',
       content: [
         {
@@ -66,7 +66,7 @@ describe('getPreviousBlockSibling', () => {
   })
 
   it('returns the previous sibling within the same parent', () => {
-    const doc = Node.fromJSON(schema, {
+    const doc = PMNode.fromJSON(schema, {
       type: 'doc',
       content: [
         {
@@ -86,7 +86,7 @@ describe('getPreviousBlockSibling', () => {
   })
 
   it('returns null when the cursor is in the first child of its block parent', () => {
-    const doc = Node.fromJSON(schema, {
+    const doc = PMNode.fromJSON(schema, {
       type: 'doc',
       content: [{ type: 'paragraph', content: [{ type: 'text', text: 'A' }] }],
     })
@@ -95,7 +95,7 @@ describe('getPreviousBlockSibling', () => {
   })
 
   it('returns null at the top of the document', () => {
-    const doc = Node.fromJSON(schema, {
+    const doc = PMNode.fromJSON(schema, {
       type: 'doc',
       content: [
         { type: 'paragraph', content: [{ type: 'text', text: 'A' }] },

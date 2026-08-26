@@ -1,4 +1,4 @@
-import type { Node, ResolvedPos } from '@tiptap/pm/model'
+import type { Node as PMNode, ResolvedPos } from '@tiptap/pm/model'
 import type { EditorView } from '@tiptap/pm/view'
 import { describe, expect, it, vi } from 'vite-plus/test'
 
@@ -14,7 +14,7 @@ function createMockContext(overrides: Partial<RuleContext> = {}): RuleContext {
     type: { name: 'paragraph' },
     isInline: false,
     isText: false,
-  } as unknown as Node
+  } as unknown as PMNode
 
   const mockView = {
     nodeDOM: vi.fn(() => null),
@@ -125,7 +125,7 @@ describe('calculateScore', () => {
         type: { name: 'heading' },
         isInline: false,
         isText: false,
-      } as unknown as Node
+      } as unknown as PMNode
 
       const context = createMockContext({
         node: mockNode,

@@ -1,4 +1,4 @@
-import type { Node as ProseMirrorNode, ResolvedPos } from '@tiptap/pm/model'
+import type { Node as PMNode, ResolvedPos } from '@tiptap/pm/model'
 import { Selection } from '@tiptap/pm/state'
 import type { Mapping } from '@tiptap/pm/transform'
 
@@ -54,7 +54,7 @@ export class NodeRangeSelection extends Selection {
     )
   }
 
-  map(doc: ProseMirrorNode, mapping: Mapping): NodeRangeSelection {
+  map(doc: PMNode, mapping: Mapping): NodeRangeSelection {
     const $anchor = doc.resolve(mapping.map(this.anchor))
     const $head = doc.resolve(mapping.map(this.head))
 
@@ -113,14 +113,14 @@ export class NodeRangeSelection extends Selection {
   }
 
   static fromJSON(
-    doc: ProseMirrorNode,
+    doc: PMNode,
     json: { anchor: number; head: number; depth?: number },
   ): NodeRangeSelection {
     return new NodeRangeSelection(doc.resolve(json.anchor), doc.resolve(json.head), json.depth)
   }
 
   static create(
-    doc: ProseMirrorNode,
+    doc: PMNode,
     anchor: number,
     head: number,
     depth?: number,

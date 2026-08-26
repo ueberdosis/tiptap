@@ -1,4 +1,4 @@
-import type { Node, ResolvedPos } from '@tiptap/pm/model'
+import type { Node as PMNode, ResolvedPos } from '@tiptap/pm/model'
 import type { EditorView } from '@tiptap/pm/view'
 import { describe, expect, it, vi } from 'vite-plus/test'
 
@@ -24,7 +24,7 @@ function createDefaultOptions(
 /**
  * Creates a mock Node for testing.
  */
-function createMockNode(overrides: Partial<Record<string, unknown>> = {}): Node {
+function createMockNode(overrides: Partial<Record<string, unknown>> = {}): PMNode {
   return {
     type: { name: 'paragraph' },
     isAtom: false,
@@ -34,7 +34,7 @@ function createMockNode(overrides: Partial<Record<string, unknown>> = {}): Node 
     firstChild: null,
     childCount: 0,
     ...overrides,
-  } as unknown as Node
+  } as unknown as PMNode
 }
 
 describe('findBestDragTarget', () => {

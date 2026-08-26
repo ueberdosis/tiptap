@@ -5,7 +5,7 @@ import {
   dragHandlePluginDefaultKey,
   normalizeNestedOptions,
 } from '@tiptap/extension-drag-handle'
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import type { Plugin, PluginKey } from '@tiptap/pm/state'
 import type { Editor } from '@tiptap/vue-3'
 import type { PropType } from 'vue'
@@ -27,7 +27,7 @@ export type DragHandleProps = Omit<
   'element'
 > & {
   class?: string
-  onNodeChange?: (data: { node: Node | null; editor: Editor; pos: number }) => void
+  onNodeChange?: (data: { node: PMNode | null; editor: Editor; pos: number }) => void
   /**
    * Enable drag handles for nested content (list items, blockquotes, etc.).
    *

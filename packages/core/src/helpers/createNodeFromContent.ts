@@ -1,4 +1,4 @@
-import type { Node as ProseMirrorNode, ParseOptions } from '@tiptap/pm/model'
+import type { Node as PMNode, ParseOptions } from '@tiptap/pm/model'
 import { DOMParser, Fragment, Schema } from '@tiptap/pm/model'
 
 import type { Content } from '../types.js'
@@ -19,10 +19,10 @@ export type CreateNodeFromContentOptions = {
  * @returns The created Prosemirror node or fragment
  */
 export function createNodeFromContent(
-  content: Content | ProseMirrorNode | Fragment,
+  content: Content | PMNode | Fragment,
   schema: Schema,
   options?: CreateNodeFromContentOptions,
-): ProseMirrorNode | Fragment {
+): PMNode | Fragment {
   if (isProseMirrorContent(content)) {
     return content
   }

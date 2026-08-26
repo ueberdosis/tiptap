@@ -1,10 +1,10 @@
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 
 /**
  * Resolves a document position to the `[from, to)` range of its containing
  * top-level block node in absolute document positions.
  */
-export function resolveTopLevelRange(doc: Node, pos: number): { from: number; to: number } {
+export function resolveTopLevelRange(doc: PMNode, pos: number): { from: number; to: number } {
   const resolved = doc.resolve(pos)
 
   if (resolved.depth === 0) {
@@ -30,7 +30,7 @@ export function resolveTopLevelRange(doc: Node, pos: number): { from: number; to
  * `Node#nodesBetween` and `Node#forEach` offsets.
  */
 export function toContentRelativeRange(
-  doc: Node,
+  doc: PMNode,
   range: { from: number; to: number },
 ): { from: number; to: number } {
   return {
@@ -45,7 +45,7 @@ export function toContentRelativeRange(
  * Returned ranges are content-relative, matching `Node#forEach` offsets.
  */
 export function getTopLevelBlocksInRange(
-  doc: Node,
+  doc: PMNode,
   from: number,
   to: number,
 ): Array<{ from: number; to: number }> {

@@ -1,4 +1,4 @@
-import type { Node, ResolvedPos } from '@tiptap/pm/model'
+import type { Node as PMNode, ResolvedPos } from '@tiptap/pm/model'
 import type { EditorView } from '@tiptap/pm/view'
 import { describe, expect, it } from 'vite-plus/test'
 
@@ -19,7 +19,7 @@ function createMockContext(overrides: Partial<RuleContext> = {}): RuleContext {
     type: { name: 'paragraph' },
     isInline: false,
     isText: false,
-  } as unknown as Node
+  } as unknown as PMNode
 
   return {
     node: mockNode,
@@ -42,7 +42,7 @@ describe('listItemFirstChild', () => {
 
   describe('inside listItem', () => {
     it('should exclude first child of listItem', () => {
-      const parent = { type: { name: 'listItem' } } as unknown as Node
+      const parent = { type: { name: 'listItem' } } as unknown as PMNode
       const context = createMockContext({
         parent,
         isFirst: true,
@@ -55,7 +55,7 @@ describe('listItemFirstChild', () => {
     })
 
     it('should not exclude non-first child of listItem', () => {
-      const parent = { type: { name: 'listItem' } } as unknown as Node
+      const parent = { type: { name: 'listItem' } } as unknown as PMNode
       const context = createMockContext({
         parent,
         isFirst: false,
@@ -70,7 +70,7 @@ describe('listItemFirstChild', () => {
 
   describe('inside taskItem', () => {
     it('should exclude first child of taskItem', () => {
-      const parent = { type: { name: 'taskItem' } } as unknown as Node
+      const parent = { type: { name: 'taskItem' } } as unknown as PMNode
       const context = createMockContext({
         parent,
         isFirst: true,
@@ -83,7 +83,7 @@ describe('listItemFirstChild', () => {
     })
 
     it('should not exclude non-first child of taskItem', () => {
-      const parent = { type: { name: 'taskItem' } } as unknown as Node
+      const parent = { type: { name: 'taskItem' } } as unknown as PMNode
       const context = createMockContext({
         parent,
         isFirst: false,
@@ -98,7 +98,7 @@ describe('listItemFirstChild', () => {
 
   describe('outside list items', () => {
     it('should not exclude first child of other containers', () => {
-      const parent = { type: { name: 'blockquote' } } as unknown as Node
+      const parent = { type: { name: 'blockquote' } } as unknown as PMNode
       const context = createMockContext({
         parent,
         isFirst: true,
@@ -123,7 +123,7 @@ describe('listItemFirstChild', () => {
     })
 
     it('should not affect nodes in bulletList directly', () => {
-      const parent = { type: { name: 'bulletList' } } as unknown as Node
+      const parent = { type: { name: 'bulletList' } } as unknown as PMNode
       const context = createMockContext({
         parent,
         isFirst: true,
@@ -147,7 +147,7 @@ describe('inlineContent', () => {
       type: { name: 'text' },
       isInline: true,
       isText: false,
-    } as unknown as Node
+    } as unknown as PMNode
 
     const context = createMockContext({ node })
 
@@ -161,7 +161,7 @@ describe('inlineContent', () => {
       type: { name: 'text' },
       isInline: false,
       isText: true,
-    } as unknown as Node
+    } as unknown as PMNode
 
     const context = createMockContext({ node })
 
@@ -175,7 +175,7 @@ describe('inlineContent', () => {
       type: { name: 'paragraph' },
       isInline: false,
       isText: false,
-    } as unknown as Node
+    } as unknown as PMNode
 
     const context = createMockContext({ node })
 
@@ -189,7 +189,7 @@ describe('inlineContent', () => {
       type: { name: 'heading' },
       isInline: false,
       isText: false,
-    } as unknown as Node
+    } as unknown as PMNode
 
     const context = createMockContext({ node })
 
@@ -203,7 +203,7 @@ describe('inlineContent', () => {
       type: { name: 'listItem' },
       isInline: false,
       isText: false,
-    } as unknown as Node
+    } as unknown as PMNode
 
     const context = createMockContext({ node })
 
@@ -219,13 +219,13 @@ describe('listWrapperDeprioritize', () => {
   })
 
   it('should exclude nodes with listItem as first child', () => {
-    const firstChild = { type: { name: 'listItem' } } as unknown as Node
+    const firstChild = { type: { name: 'listItem' } } as unknown as PMNode
     const node = {
       type: { name: 'bulletList' },
       isInline: false,
       isText: false,
       firstChild,
-    } as unknown as Node
+    } as unknown as PMNode
 
     const context = createMockContext({ node })
 
@@ -235,13 +235,13 @@ describe('listWrapperDeprioritize', () => {
   })
 
   it('should exclude nodes with taskItem as first child', () => {
-    const firstChild = { type: { name: 'taskItem' } } as unknown as Node
+    const firstChild = { type: { name: 'taskItem' } } as unknown as PMNode
     const node = {
       type: { name: 'taskList' },
       isInline: false,
       isText: false,
       firstChild,
-    } as unknown as Node
+    } as unknown as PMNode
 
     const context = createMockContext({ node })
 
@@ -251,13 +251,13 @@ describe('listWrapperDeprioritize', () => {
   })
 
   it('should not affect nodes with other first children', () => {
-    const firstChild = { type: { name: 'paragraph' } } as unknown as Node
+    const firstChild = { type: { name: 'paragraph' } } as unknown as PMNode
     const node = {
       type: { name: 'blockquote' },
       isInline: false,
       isText: false,
       firstChild,
-    } as unknown as Node
+    } as unknown as PMNode
 
     const context = createMockContext({ node })
 
@@ -272,7 +272,7 @@ describe('listWrapperDeprioritize', () => {
       isInline: false,
       isText: false,
       firstChild: null,
-    } as unknown as Node
+    } as unknown as PMNode
 
     const context = createMockContext({ node })
 
@@ -292,7 +292,7 @@ describe('tableStructure', () => {
       type: { name: 'tableRow' },
       isInline: false,
       isText: false,
-    } as unknown as Node
+    } as unknown as PMNode
 
     const context = createMockContext({ node })
 
@@ -306,7 +306,7 @@ describe('tableStructure', () => {
       type: { name: 'tableCell' },
       isInline: false,
       isText: false,
-    } as unknown as Node
+    } as unknown as PMNode
 
     const context = createMockContext({ node })
 
@@ -320,7 +320,7 @@ describe('tableStructure', () => {
       type: { name: 'tableHeader' },
       isInline: false,
       isText: false,
-    } as unknown as Node
+    } as unknown as PMNode
 
     const context = createMockContext({ node })
 
@@ -334,7 +334,7 @@ describe('tableStructure', () => {
       type: { name: 'table' },
       isInline: false,
       isText: false,
-    } as unknown as Node
+    } as unknown as PMNode
 
     const context = createMockContext({ node })
 
@@ -346,12 +346,12 @@ describe('tableStructure', () => {
   it('should exclude content inside tableHeader', () => {
     const parent = {
       type: { name: 'tableHeader' },
-    } as unknown as Node
+    } as unknown as PMNode
     const node = {
       type: { name: 'paragraph' },
       isInline: false,
       isText: false,
-    } as unknown as Node
+    } as unknown as PMNode
 
     const context = createMockContext({ node, parent })
 
@@ -363,12 +363,12 @@ describe('tableStructure', () => {
   it('should not exclude content inside tableCell', () => {
     const parent = {
       type: { name: 'tableCell' },
-    } as unknown as Node
+    } as unknown as PMNode
     const node = {
       type: { name: 'paragraph' },
       isInline: false,
       isText: false,
-    } as unknown as Node
+    } as unknown as PMNode
 
     const context = createMockContext({ node, parent })
 
@@ -382,7 +382,7 @@ describe('tableStructure', () => {
       type: { name: 'paragraph' },
       isInline: false,
       isText: false,
-    } as unknown as Node
+    } as unknown as PMNode
 
     const context = createMockContext({ node })
 

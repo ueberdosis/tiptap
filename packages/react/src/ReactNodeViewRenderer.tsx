@@ -6,7 +6,7 @@ import type {
   NodeViewRendererProps,
 } from '@tiptap/core'
 import { getRenderedAttributes, isNodeViewSelected, NodeView } from '@tiptap/core'
-import type { Node, Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import type { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
 import type { ComponentType, NamedExoticComponent } from 'react'
 import { createElement, createRef, memo } from 'react'
@@ -25,10 +25,10 @@ export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
    */
   update:
     | ((props: {
-        oldNode: ProseMirrorNode
+        oldNode: PMNode
         oldDecorations: readonly Decoration[]
         oldInnerDecorations: DecorationSource
-        newNode: ProseMirrorNode
+        newNode: PMNode
         newDecorations: readonly Decoration[]
         innerDecorations: DecorationSource
         updateProps: () => void
@@ -49,10 +49,7 @@ export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
    */
   attrs?:
     | Record<string, string>
-    | ((props: {
-        node: ProseMirrorNode
-        HTMLAttributes: Record<string, any>
-      }) => Record<string, string>)
+    | ((props: { node: PMNode; HTMLAttributes: Record<string, any> }) => Record<string, string>)
 }
 
 export class ReactNodeView<
@@ -314,7 +311,7 @@ export class ReactNodeView<
    * To prevent unnecessary updates, the `update` option can be used.
    */
   update(
-    node: Node,
+    node: PMNode,
     decorations: readonly Decoration[],
     innerDecorations: DecorationSource,
   ): boolean {

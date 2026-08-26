@@ -1,4 +1,4 @@
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 
 interface TextSegment {
   isText: boolean
@@ -10,7 +10,7 @@ interface TextSegment {
 
 // Non-text inline nodes (hard break, mention, ...) contribute a placeholder
 // so matches never silently span across them.
-export function getTextSegments(textblock: Node, pos: number): TextSegment[] {
+export function getTextSegments(textblock: PMNode, pos: number): TextSegment[] {
   const segments: TextSegment[] = []
   let textOffset = 0
 

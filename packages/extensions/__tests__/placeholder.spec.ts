@@ -11,7 +11,7 @@ import {
   Placeholder,
   preparePlaceholderAttribute,
 } from '@tiptap/extensions'
-import { Node } from '@tiptap/pm/model'
+import { Node as PMNode } from '@tiptap/pm/model'
 import {
   getTopLevelBlocksInRange,
   toContentRelativeRange,
@@ -643,7 +643,7 @@ describe('extension-placeholder: incremental updates (slow path)', () => {
   })
 
   it('does not traverse the full document on incremental update', () => {
-    const nodesBetweenSpy = vi.spyOn(Node.prototype, 'nodesBetween')
+    const nodesBetweenSpy = vi.spyOn(PMNode.prototype, 'nodesBetween')
 
     editor = new Editor({
       extensions: [Document, Paragraph, Text, Placeholder.configure(slowPathConfig)],

@@ -3,7 +3,7 @@ import Document from '@tiptap/extension-document'
 import Mention from '@tiptap/extension-mention'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { Node } from '@tiptap/pm/model'
+import { Node as PMNode } from '@tiptap/pm/model'
 import { describe, expect, it } from 'vite-plus/test'
 
 describe(getTextContentFromNodes.name, () => {
@@ -15,7 +15,7 @@ describe(getTextContentFromNodes.name, () => {
       Mention.configure({ renderText: ({ node }) => `@${node.attrs.label ?? 'Unknown'}` }),
     ])
 
-    const doc = Node.fromJSON(schema, {
+    const doc = PMNode.fromJSON(schema, {
       type: 'doc',
       content: [
         {

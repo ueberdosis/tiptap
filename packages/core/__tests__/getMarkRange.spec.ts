@@ -4,7 +4,7 @@ import Highlight from '@tiptap/extension-highlight'
 import Link from '@tiptap/extension-link'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { Node } from '@tiptap/pm/model'
+import { Node as PMNode } from '@tiptap/pm/model'
 import { describe, expect, it } from 'vite-plus/test'
 
 describe('getMarkRange', () => {
@@ -34,7 +34,7 @@ describe('getMarkRange', () => {
   ])
 
   it('gets the correct range for a position inside the mark', () => {
-    const doc = Node.fromJSON(schema, document)
+    const doc = PMNode.fromJSON(schema, document)
     const $pos = doc.resolve(14)
     const range = getMarkRange($pos, schema.marks.link)
 
@@ -45,7 +45,7 @@ describe('getMarkRange', () => {
   })
 
   it('gets the correct range for a position at the start of the mark', () => {
-    const doc = Node.fromJSON(schema, document)
+    const doc = PMNode.fromJSON(schema, document)
     const $pos = doc.resolve(11)
     const range = getMarkRange($pos, schema.marks.link)
 
@@ -56,7 +56,7 @@ describe('getMarkRange', () => {
   })
 
   it('gets the correct range for a position at the end of the mark', () => {
-    const doc = Node.fromJSON(schema, document)
+    const doc = PMNode.fromJSON(schema, document)
     const $pos = doc.resolve(17)
     const range = getMarkRange($pos, schema.marks.link)
 
@@ -67,7 +67,7 @@ describe('getMarkRange', () => {
   })
 
   it('gets undefined if a mark is not found', () => {
-    const doc = Node.fromJSON(schema, document)
+    const doc = PMNode.fromJSON(schema, document)
     const $pos = doc.resolve(6)
     const range = getMarkRange($pos, schema.marks.link)
 
@@ -96,7 +96,7 @@ describe('getMarkRange', () => {
       ],
     }
 
-    const doc = Node.fromJSON(schema, testDocument)
+    const doc = PMNode.fromJSON(schema, testDocument)
     const $pos = doc.resolve(28)
     const range = getMarkRange($pos, schema.marks.link)
 
@@ -131,7 +131,7 @@ describe('getMarkRange', () => {
         },
       ],
     }
-    const doc = Node.fromJSON(schema, testDocument)
+    const doc = PMNode.fromJSON(schema, testDocument)
 
     const range = getMarkRange(doc.resolve(32), schema.marks.link)
 
@@ -172,7 +172,7 @@ describe('getMarkRange', () => {
       ],
     }
 
-    const doc = Node.fromJSON(schema, testDocument)
+    const doc = PMNode.fromJSON(schema, testDocument)
     const $pos = doc.resolve(27)
     const range = getMarkRange($pos, schema.marks.link, { href: 'https://tiptap.dev' })
 
@@ -224,7 +224,7 @@ describe('getMarkRange', () => {
       ],
     }
 
-    const doc = Node.fromJSON(schemaWithHighlight, testDocument)
+    const doc = PMNode.fromJSON(schemaWithHighlight, testDocument)
     const $pos = doc.resolve(5)
     const range = getMarkRange($pos, schemaWithHighlight.marks.link)
 
