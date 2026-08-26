@@ -283,7 +283,7 @@ export const Mention = Node.create<MentionOptions>({
     allowedAttributes: ['id', 'label', { name: 'mentionSuggestionChar', skipIfDefault: '@' }],
     parseAttributes: (attrString: string) => {
       const attrs: Record<string, any> = {}
-      const regex = /(\w+)=(?:"([^"]*)"|'([^']*)')/g
+      const regex = /(?:^|\s)(\w+)=(?:"([^"]*)"|'([^']*)')/g
       let match = regex.exec(attrString)
 
       while (match !== null) {

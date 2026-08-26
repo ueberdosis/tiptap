@@ -76,11 +76,10 @@ Scripts are cached by Vite Task (`run.cache.scripts` is enabled in `vite.config.
 
 ## Linting & formatting
 
-- oxlint runs with sensible defaults (no config file required).
-- oxfmt config is at **`.oxfmtrc.json`**.
+- Lint and format settings are in `vite.config.mts`.
 - Vite+ hooks (`vp staged`) run automatically on commits.
 
-Use `vp run lint` / `vp run format`, not the built-in `vp lint` / `vp format`. The built-ins scan every `vite.config.ts` in the repo (including the per-package pack configs) as their own config and fail to load them. The repo scripts call the standalone `oxlint` / `oxfmt` binaries directly, which avoid that.
+Use `vp run lint` / `vp run format`, or the equivalent `pnpm run` commands.
 
 Run manually:
 
