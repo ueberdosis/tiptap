@@ -3,7 +3,7 @@
 import { Editor } from '@tiptap/core'
 import { Collaboration } from '@tiptap/extension-collaboration'
 import StarterKit from '@tiptap/starter-kit'
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 import * as Y from 'yjs'
 
 import { AiInsertReveal } from '../src/streaming-reveal.js'

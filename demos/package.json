@@ -53,7 +53,6 @@
     "@vitejs/plugin-react": "6.0.5",
     "@vitejs/plugin-vue": "6.0.8",
     "autoprefixer": "^10.4.20",
-    "esbuild": "0.28.1",
     "iframe-resizer": "^4.4.5",
     "postcss": "^8.5.23",
     "postcss-import": "^15.1.0",
@@ -64,6 +63,7 @@
     "tailwindcss": "^3.4.17",
     "typescript": "^5.7.2",
     "uuid": "^14.0.0",
+    "vite": "catalog:",
     "vite-plus": "catalog:",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
