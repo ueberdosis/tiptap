@@ -532,7 +532,7 @@ importers:
         specifier: ^19.0.0
         version: 19.2.8(react@19.2.8)
 
-  packages/extension-drag-handle-vue-2:
+  packages/extension-drag-handle-vue:
     devDependencies:
       '@tiptap/extension-drag-handle':
         specifier: workspace:^
@@ -540,27 +540,9 @@ importers:
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
-      '@tiptap/vue-2':
+      '@tiptap/vue':
         specifier: workspace:^
-        version: link:../vue-2
-      vue:
-        specifier: ^2.0.0
-        version: 2.7.16
-      vue-ts-types:
-        specifier: 1.6.2
-        version: 1.6.2(vue@2.7.16)
-
-  packages/extension-drag-handle-vue-3:
-    devDependencies:
-      '@tiptap/extension-drag-handle':
-        specifier: workspace:^
-        version: link:../extension-drag-handle
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
-      '@tiptap/vue-3':
-        specifier: workspace:^
-        version: link:../vue-3
+        version: link:../vue
       vue:
         specifier: ^3.0.0
         version: 3.5.41(typescript@5.9.3)
@@ -1084,30 +1066,7 @@ importers:
         specifier: workspace:^
         version: link:../pm
 
-  packages/vue-2:
-    dependencies:
-      vue-ts-types:
-        specifier: 1.6.2
-        version: 1.6.2(vue@2.7.16)
-    devDependencies:
-      '@tiptap/core':
-        specifier: workspace:^
-        version: link:../core
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
-      vue:
-        specifier: ^2.7.16
-        version: 2.7.16
-    optionalDependencies:
-      '@tiptap/extension-bubble-menu':
-        specifier: workspace:^
-        version: link:../extension-bubble-menu
-      '@tiptap/extension-floating-menu':
-        specifier: workspace:^
-        version: link:../extension-floating-menu
-
-  packages/vue-3:
+  packages/vue:
     dependencies:
       '@floating-ui/dom':
         specifier: ^1.0.0
@@ -3017,9 +2976,6 @@ packages:
 
   '@vue/compiler-dom@3.5.41':
     resolution: {integrity: sha512-oKacVfNglLvGjnS6BXOlGL7EyG2h8X03pqXCjzotRZUaXGjbrTJUnVAQjrCqUnS+lyu31nwQjZY/d817GmCnfw==}
-
-  '@vue/compiler-sfc@2.7.16':
-    resolution: {integrity: sha512-KWhJ9k5nXuNtygPU7+t1rX6baZeqOYLEforUPjgNDBnLicfHCoi48H87Q8XyLZOrNNsmhuwKqtpDQWjEFe6Ekg==}
 
   '@vue/compiler-sfc@3.5.41':
     resolution: {integrity: sha512-XJhip7R2wy6vX3knCxdZN4KracFaZUef58s1KYewqluedHIJaPIVfXoYT7MF1F8nCvv6k8bWWxDC8opMkg1VTQ==}
@@ -5915,15 +5871,6 @@ packages:
     peerDependencies:
       vue: ^3.5.0
 
-  vue-ts-types@1.6.2:
-    resolution: {integrity: sha512-iOBe4oMoTeISs+Wxlt5E6q3W6lEX6UtkwWCPu6727IoweBE3O3Vp/2/BtO+Kf5pISQU7WpX71hXTeMGqHsmecA==}
-    peerDependencies:
-      vue: ^2.6 || ^3.2
-
-  vue@2.7.16:
-    resolution: {integrity: sha512-4gCtFXaAA3zYZdTp5s4Hl2sozuySsgz4jy1EnpBHNfpMa9dK1ZCG7viqBPCwXtmgc8nHqUsAu3G4gtmXkkY3Sw==}
-    deprecated: Vue 2 has reached EOL and is no longer actively maintained. See https://v2.vuejs.org/eol/ for more details.
-
   vue@3.5.41:
     resolution: {integrity: sha512-2laE0p+aK+/AOPG/XL/WepOs/GlK755LJ1XECi9kDUrz1FKNw8rb2Xzlw9JS1rqEV55nb0ttsKxVlTCcd+R5cg==}
     peerDependencies:
@@ -8281,14 +8228,6 @@ snapshots:
     dependencies:
       '@vue/compiler-core': 3.5.41
       '@vue/shared': 3.5.41
-
-  '@vue/compiler-sfc@2.7.16':
-    dependencies:
-      '@babel/parser': 7.29.8
-      postcss: 8.5.26
-      source-map: 0.6.1
-    optionalDependencies:
-      prettier: 2.8.8
 
   '@vue/compiler-sfc@3.5.41':
     dependencies:
@@ -11207,15 +11146,6 @@ snapshots:
     dependencies:
       '@vue/devtools-api': 6.6.4
       vue: 3.5.41(typescript@5.9.3)
-
-  vue-ts-types@1.6.2(vue@2.7.16):
-    dependencies:
-      vue: 2.7.16
-
-  vue@2.7.16:
-    dependencies:
-      '@vue/compiler-sfc': 2.7.16
-      csstype: 3.2.3
 
   vue@3.5.41(typescript@5.9.3):
     dependencies:

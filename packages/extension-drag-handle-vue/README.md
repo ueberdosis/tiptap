@@ -1,8 +1,8 @@
-# @tiptap/extension-drag-handle-vue3
+# @tiptap/extension-drag-handle-vue
 
-[![Version](https://img.shields.io/npm/v/@tiptap/extension-drag-handle-vue3.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-drag-handle-vue3)
-[![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-drag-handle-vue3.svg)](https://npmcharts.com/compare/tiptap?minimal=true)
-[![License](https://img.shields.io/npm/l/@tiptap/extension-drag-handle-vue3.svg)](https://www.npmjs.com/package/@tiptap/extension-drag-handle-vue3)
+[![Version](https://img.shields.io/npm/v/@tiptap/extension-drag-handle-vue.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-drag-handle-vue)
+[![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-drag-handle-vue.svg)](https://npmcharts.com/compare/tiptap?minimal=true)
+[![License](https://img.shields.io/npm/l/@tiptap/extension-drag-handle-vue.svg)](https://www.npmjs.com/package/@tiptap/extension-drag-handle-vue)
 [![Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub)](https://github.com/sponsors/ueberdosis)
 
 ## Introduction

@@ -44,8 +44,7 @@ const getPackageAliases = () => {
           name === 'extensions' ||
           name === 'extension-list' ||
           name === 'react' ||
-          name === 'vue-2' ||
-          name === 'vue-3'
+          name === 'vue'
         ) {
           fg.sync(`${path}/${name}/src/*`, { onlyDirectories: true }).forEach(subName => {
             const subPkgName = subName.replace(`${path}/${name}/src/`, '')

@@ -8,7 +8,7 @@
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { Editor, EditorContent, Node as NodeExtension, ResizableNodeView } from '@tiptap/vue-3'
+import { Editor, EditorContent, Node as NodeExtension, ResizableNodeView } from '@tiptap/vue'
 
 const ResizableNode = NodeExtension.create({
   name: 'resizableNode',

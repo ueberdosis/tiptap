@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import StarterKit from '@tiptap/starter-kit'
-import { EditorContent, useEditor } from '@tiptap/vue-3'
+import { EditorContent, useEditor } from '@tiptap/vue'
 import { ref } from 'vue'
 
 import VueComponent from './Extension.js'

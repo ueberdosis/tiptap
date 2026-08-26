@@ -1,4 +1,4 @@
-import type { Editor } from '@tiptap/vue-3'
+import type { Editor } from '@tiptap/vue'
 import type { FindAndReplaceStorage } from '@tiptap/extension-find-and-replace'
 import { computed, ref } from 'vue'
 
