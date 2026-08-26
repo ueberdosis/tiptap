@@ -46,16 +46,16 @@ Notes:
 
 ## NPM scripts
 
-Scripts defined at the repo root. Run them with `vp run <script>`:
+Scripts defined at the repo root. Run them with `vp run <script>` (or `pnpm run <script>`):
 
 - `vp run dev` - start the demos on port 3000
 - `vp run build` - build all packages via Vite+ (`vp run -r build`)
-- `vp check` - run format and lint checks
-- `vp check --fix` - fix format and lint issues
-- `vp fmt --check` - run the formatter check
-- `vp fmt` - format files
-- `vp lint` - run lint checks
-- `vp lint --fix` - fix lint issues
+- `vp run check` - run format check + lint
+- `vp run check:fix` - run format:fix + lint:fix
+- `vp run format` - run oxfmt formatter check
+- `vp run format:fix` - run oxfmt formatter
+- `vp run lint` - run oxlint checks
+- `vp run lint:fix` - run oxlint with auto-fix
 - `vp run lint:staged` - run Vite+ staged checks on staged files
 - `vp run test:e2e` - run Playwright e2e tests headlessly in Chromium
 - `vp run test:e2e:firefox` - same, in Firefox
@@ -79,15 +79,17 @@ Scripts are cached by Vite Task (`run.cache.scripts` is enabled in `vite.config.
 - Lint and format settings are in `vite.config.mts`.
 - Vite+ hooks (`vp staged`) run automatically on commits.
 
+Use `vp run lint` / `vp run format`, or the equivalent `pnpm run` commands.
+
 Run manually:
 
 ```bash
-vp lint
-vp lint --fix
-vp fmt --check
-vp fmt
-vp check
-vp check --fix
+vp run lint
+vp run lint:fix
+vp run format
+vp run format:fix
+vp run check
+vp run check:fix
 ```
 
 ---
@@ -132,7 +134,7 @@ vp run test:e2e:open:all      # UI mode, switch between browsers in the project 
 vp run test:e2e:report        # open the HTML report from the last run
 ```
 
-Playwright auto-starts the demo dev server (`vp -C demos run start:e2e` on port 4080) via `playwright.config.ts` — no separate terminal needed. Shared helpers live in `demos/test/helpers.ts`: `getEditor`, `setEditorContent`, `clickButton`. Use `demos/src/Commands/Cut/index.spec.ts` as a canonical template when adding new specs.
+Playwright auto-starts the demo dev server (`pnpm -C demos run start:e2e` on port 4080) via `playwright.config.ts` — no separate terminal needed. Shared helpers live in `demos/test/helpers.ts`: `getEditor`, `setEditorContent`, `clickButton`. Use `demos/src/Commands/Cut/index.spec.ts` as a canonical template when adding new specs.
 
 Browser setup:
 
@@ -175,7 +177,7 @@ export function toggleBold(editor: Editor): boolean {
 
 ## Versioning and releases with Changesets
 
-- Run `vp run changeset` to create a new changeset (choose packages + bump type).
+- Run `pnpm changeset` to create a new changeset (choose packages + bump type).
 - Run `vp run version` to update versions and changelogs.
 - Publishing happens automatically via the Publish CI workflow on configured branches. See `agents/VERSIONING.md` for details.
 
@@ -206,8 +208,8 @@ To make these instructions easier for automated agents and new contributors, the
 
 ### Environment
 
-- Required Node version: 24 or newer. Vite+ manages the runtime and delegates to the package manager in `package.json`.
-- Run `vp install` to install dependencies. If you see unexpected errors, run `vp run reset`.
+- Recommended Node version: >=18.x. Use a node version manager (nvm, fnm) or Corepack to pin a runtime.
+- Recommended package manager: pnpm (use the repo's lockfile). If you see unexpected errors, run `vp run reset`.
 
 ### Where to edit packages
 
@@ -237,7 +239,7 @@ If a single package is failing types, run a targeted build for that package (e.g
 ### PR checklist
 
 - All checks pass (lint/build/tests).
-- Changeset added for user-facing changes (`vp run changeset`).
+- Changeset added for user-facing changes (`pnpm changeset`).
 - Demo added/updated for UI-visible changes.
 - Short, clear PR description and changelog entry that explains why the change is needed.
 
@@ -253,3 +255,7 @@ If a single package is failing types, run a targeted build for that package (e.g
 
 - If CI fails with dependency or lockfile errors, run `vp run reset` locally and re-run the build.
 - For flaky Playwright tests, reproduce locally with `vp run test:e2e:open` (UI mode) or rerun with `--trace on` and inspect via `vp run test:e2e:report`.
+
+---
+
+These additions are intentionally short so they are easy to follow and scriptable by tools and agents. If you'd like, I can apply a slightly different tone or expand any section into more detail (for example, exact node/pnpm version pinning or demo naming patterns).

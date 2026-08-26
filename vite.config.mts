@@ -100,10 +100,7 @@ export default defineConfig({
 
     const fileList = filteredFiles.join(' ')
 
-    return [
-      `vp fmt ${fileList}`,
-      `vp lint --fix --quiet --no-error-on-unmatched-pattern ${fileList}`,
-    ]
+    return [`vp check --fix ${fileList}`]
   },
   resolve: {
     alias: [
