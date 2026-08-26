@@ -6,10 +6,10 @@
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "paths": {
-      "@tiptap/pm/*": ["./packages/pm/*/index.ts"],
-      "@tiptap/static-renderer/pm/*": ["./packages/static-renderer/src/pm/*"],
-      "@tiptap/static-renderer/json/*": ["./packages/static-renderer/src/json/*"],
-      "@tiptap/*": ["./packages/*/src/index.ts", "./packages-deprecated/*/src/index.ts"]
+      "@tiptap/pm/*": ["../packages/pm/*/index.ts"],
+      "@tiptap/static-renderer/pm/*": ["../packages/static-renderer/src/pm/*"],
+      "@tiptap/static-renderer/json/*": ["../packages/static-renderer/src/json/*"],
+      "@tiptap/*": ["../packages/*/src/index.ts", "../packages-deprecated/*/src/index.ts"]
     }
   },
   "include": [
