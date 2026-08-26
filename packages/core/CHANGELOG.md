@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.30.4
+
+### Patch Changes
+
+- 01d7af8: Prevent untrusted HTML attributes from changing an object's prototype when merged with `mergeAttributes`.
+  - @tiptap/pm@3.30.4
+
 ## 3.30.3
 
 ### Patch Changes
