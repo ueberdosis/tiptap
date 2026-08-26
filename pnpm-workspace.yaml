@@ -1,6 +1,5 @@
 packages:
   - 'packages/*'
-  - 'packages-deprecated/*'
   - 'demos'
 catalog:
   vite: npm:@voidzero-dev/vite-plus-core@0.3.0

@@ -299,90 +299,6 @@ importers:
         specifier: ^4.5.0
         version: 4.6.4(vue@3.5.41(typescript@5.9.3))
 
-  packages-deprecated/extension-character-count:
-    devDependencies:
-      '@tiptap/extensions':
-        specifier: workspace:^
-        version: link:../../packages/extensions
-
-  packages-deprecated/extension-dropcursor:
-    devDependencies:
-      '@tiptap/extensions':
-        specifier: workspace:^
-        version: link:../../packages/extensions
-
-  packages-deprecated/extension-focus:
-    devDependencies:
-      '@tiptap/extensions':
-        specifier: workspace:^
-        version: link:../../packages/extensions
-
-  packages-deprecated/extension-gapcursor:
-    devDependencies:
-      '@tiptap/extensions':
-        specifier: workspace:^
-        version: link:../../packages/extensions
-
-  packages-deprecated/extension-history:
-    devDependencies:
-      '@tiptap/extensions':
-        specifier: workspace:^
-        version: link:../../packages/extensions
-
-  packages-deprecated/extension-list-item:
-    devDependencies:
-      '@tiptap/extension-list':
-        specifier: workspace:^
-        version: link:../../packages/extension-list
-
-  packages-deprecated/extension-list-keymap:
-    devDependencies:
-      '@tiptap/extension-list':
-        specifier: workspace:^
-        version: link:../../packages/extension-list
-
-  packages-deprecated/extension-placeholder:
-    devDependencies:
-      '@tiptap/extensions':
-        specifier: workspace:^
-        version: link:../../packages/extensions
-
-  packages-deprecated/extension-table-cell:
-    devDependencies:
-      '@tiptap/extension-table':
-        specifier: workspace:^
-        version: link:../../packages/extension-table
-
-  packages-deprecated/extension-table-header:
-    devDependencies:
-      '@tiptap/extension-table':
-        specifier: workspace:^
-        version: link:../../packages/extension-table
-
-  packages-deprecated/extension-table-row:
-    devDependencies:
-      '@tiptap/extension-table':
-        specifier: workspace:^
-        version: link:../../packages/extension-table
-
-  packages-deprecated/extension-task-item:
-    devDependencies:
-      '@tiptap/extension-list':
-        specifier: workspace:^
-        version: link:../../packages/extension-list
-
-  packages-deprecated/extension-task-list:
-    devDependencies:
-      '@tiptap/extension-list':
-        specifier: workspace:^
-        version: link:../../packages/extension-list
-
-  packages-deprecated/server-ai-toolkit:
-    dependencies:
-      '@tiptap/ai-toolkit':
-        specifier: workspace:*
-        version: link:../../packages/ai-toolkit
-
   packages/ai-toolkit:
     dependencies:
       es-toolkit:
@@ -521,15 +437,6 @@ importers:
       '@tiptap/extension-table':
         specifier: workspace:^
         version: link:../extension-table
-      '@tiptap/extension-table-cell':
-        specifier: workspace:^
-        version: link:../../packages-deprecated/extension-table-cell
-      '@tiptap/extension-table-header':
-        specifier: workspace:^
-        version: link:../../packages-deprecated/extension-table-header
-      '@tiptap/extension-table-row':
-        specifier: workspace:^
-        version: link:../../packages-deprecated/extension-table-row
       '@tiptap/extension-text':
         specifier: workspace:^
         version: link:../extension-text
@@ -1092,12 +999,6 @@ importers:
       '@tiptap/extension-document':
         specifier: workspace:*
         version: link:../extension-document
-      '@tiptap/extension-dropcursor':
-        specifier: workspace:*
-        version: link:../../packages-deprecated/extension-dropcursor
-      '@tiptap/extension-gapcursor':
-        specifier: workspace:*
-        version: link:../../packages-deprecated/extension-gapcursor
       '@tiptap/extension-hard-break':
         specifier: workspace:*
         version: link:../extension-hard-break
@@ -1116,12 +1017,6 @@ importers:
       '@tiptap/extension-list':
         specifier: workspace:*
         version: link:../extension-list
-      '@tiptap/extension-list-item':
-        specifier: workspace:*
-        version: link:../../packages-deprecated/extension-list-item
-      '@tiptap/extension-list-keymap':
-        specifier: workspace:*
-        version: link:../../packages-deprecated/extension-list-keymap
       '@tiptap/extension-ordered-list':
         specifier: workspace:*
         version: link:../extension-ordered-list

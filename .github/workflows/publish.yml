@@ -61,7 +61,7 @@ jobs:
         run: vp run check:package-exports
 
       - name: Archive package dist artifacts
-        run: tar -cf package-dist-artifacts.tar packages/*/dist packages-deprecated/*/dist
+        run: tar -cf package-dist-artifacts.tar packages/*/dist
 
       - name: Upload package dist artifacts
         uses: actions/upload-artifact@v7
