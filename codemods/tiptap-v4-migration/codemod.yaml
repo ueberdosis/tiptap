@@ -1,10 +1,10 @@
-schema_version: "1.0"
+schema_version: '1.0'
 
-name: "@tiptap/codemod-v3-to-v4"
-version: "0.1.0"
-description: "Migrate Tiptap projects from v3 to v4"
-author: "Tiptap"
-license: "MIT"
+name: '@tiptap/codemod-v3-to-v4'
+version: '0.1.0'
+description: 'Migrate Tiptap projects from v3 to v4'
+author: 'Tiptap'
+license: 'MIT'
 
 workflows:
   - name: main
@@ -12,10 +12,10 @@ workflows:
     path: workflow.yaml
 
 targets:
-  languages: ["javascript", "typescript", "tsx", "json", "vue"]
+  languages: ['javascript', 'typescript', 'tsx', 'json', 'vue']
 
-keywords: ["migration", "tiptap", "v3-to-v4"]
+keywords: ['migration', 'tiptap', 'v3-to-v4']
 
 registry:
-  access: "public"
-  visibility: "public"
+  access: 'public'
+  visibility: 'public'

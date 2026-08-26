@@ -142,7 +142,7 @@ function findImportedSpecifier(source, start, limit = source.length) {
 function replacePackageSpecifiers(source) {
   const edits = []
 
-  for (let index = 0; index < source.length; ) {
+  for (let index = 0; index < source.length;) {
     if (source.startsWith('//', index)) {
       const lineEnd = source.indexOf('\n', index + 2)
       index = lineEnd === -1 ? source.length : lineEnd + 1
@@ -174,14 +174,15 @@ function replacePackageSpecifiers(source) {
       continue
     }
 
-    const edit = identifier === 'import'
-      ? findSpecifier(source, end, source[skipTrivia(source, end)] === '(')
-        ?? findImportedSpecifier(source, end)
-      : identifier === 'export'
-        ? findImportedSpecifier(source, end, source.indexOf('\n', end))
-        : identifier === 'require'
-          ? findSpecifier(source, end, true)
-          : null
+    const edit =
+      identifier === 'import'
+        ? (findSpecifier(source, end, source[skipTrivia(source, end)] === '(') ??
+          findImportedSpecifier(source, end))
+        : identifier === 'export'
+          ? findImportedSpecifier(source, end, source.indexOf('\n', end))
+          : identifier === 'require'
+            ? findSpecifier(source, end, true)
+            : null
 
     if (edit) {
       edits.push(edit)
@@ -190,16 +191,17 @@ function replacePackageSpecifiers(source) {
     index = end
   }
 
-  return edits.reduceRight((result, edit) => (
-    `${result.slice(0, edit.start)}${edit.text}${result.slice(edit.end)}`
-  ), source)
+  return edits.reduceRight(
+    (result, edit) => `${result.slice(0, edit.start)}${edit.text}${result.slice(edit.end)}`,
+    source,
+  )
 }
 
 /** Rewrites known Tiptap package specifiers inside Vue script blocks. */
 export function transformVueSource(source) {
-  return source.replace(scriptPattern, (script, content) => (
-    script.replace(content, replacePackageSpecifiers(content))
-  ))
+  return source.replace(scriptPattern, (script, content) =>
+    script.replace(content, replacePackageSpecifiers(content)),
+  )
 }
 
 async function findVueFiles(directory) {
