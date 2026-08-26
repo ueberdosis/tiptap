@@ -274,17 +274,21 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
           }
         }
 
+        const handleEditorDestroy = () => {
+          if (tiptapDragFromOtherEditor === editor) {
+            tiptapDragFromOtherEditor = null
+          }
+        }
+
         window.addEventListener('dragstart', handleDragstart)
         window.addEventListener('dragend', handleDragend)
+        editor.on('destroy', handleEditorDestroy)
 
         return {
           destroy() {
             window.removeEventListener('dragstart', handleDragstart)
             window.removeEventListener('dragend', handleDragend)
-
-            if (tiptapDragFromOtherEditor === editor) {
-              tiptapDragFromOtherEditor = null
-            }
+            editor.off('destroy', handleEditorDestroy)
           },
         }
       },

@@ -2,6 +2,7 @@ import { Editor, Mark, markPasteRule } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 
 const editorElClass = 'tiptap-cross-editor-drop-test'
@@ -68,6 +69,35 @@ describe('cross editor drop', () => {
 
     source.commands.setTextSelection({ from: 1, to: 8 })
     dragBetween(source, target)
+    vi.advanceTimersByTime(10)
+
+    expect(source.getHTML()).toBe('<p></p>')
+  })
+
+  it('does not queue a delete when the source editor was destroyed before the drop', () => {
+    vi.useFakeTimers()
+    source = createEditor()
+    target = createEditor()
+
+    source.view.dom.dispatchEvent(new Event('dragstart', { bubbles: true }))
+    source.destroy()
+
+    const queuedBeforeDrop = vi.getTimerCount()
+
+    target.view.dom.dispatchEvent(new Event('drop', { bubbles: true }))
+
+    expect(vi.getTimerCount()).toBe(queuedBeforeDrop)
+  })
+
+  it('keeps the queued delete when the source editor registers a plugin during the drag', () => {
+    vi.useFakeTimers()
+    source = createEditor()
+    target = createEditor()
+
+    source.commands.setTextSelection({ from: 1, to: 8 })
+    source.view.dom.dispatchEvent(new Event('dragstart', { bubbles: true }))
+    source.registerPlugin(new Plugin({ key: new PluginKey('noop') }))
+    target.view.dom.dispatchEvent(new Event('drop', { bubbles: true }))
     vi.advanceTimersByTime(10)
 
     expect(source.getHTML()).toBe('<p></p>')
