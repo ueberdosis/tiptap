@@ -1,7 +1,7 @@
 # @tiptap/extensions
 
 [![Version](https://img.shields.io/npm/v/@tiptap/extensions.svg?label=version)](https://www.npmjs.com/package/@tiptap/extensions)
-[![Downloads](https://img.shields.io/npm/dm/@tiptap/extensions.svg)](https://npmcharts.com/compare/tiptap?minimal=true)
+[![Downloads](https://img.shields.io/npm/dm/@tiptap/extensions.svg)](https://www.npmjs.com/package/@tiptap/extensions)
 [![License](https://img.shields.io/npm/l/@tiptap/extensions.svg)](https://www.npmjs.com/package/@tiptap/extensions)
 [![Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub)](https://github.com/sponsors/ueberdosis)
 
