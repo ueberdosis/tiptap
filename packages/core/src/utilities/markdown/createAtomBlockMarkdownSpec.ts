@@ -5,10 +5,8 @@ import type {
   MarkdownToken,
   MarkdownTokenizer,
 } from '../../types.js'
-import {
-  parseAttributes as defaultParseAttributes,
-  serializeAttributes as defaultSerializeAttributes,
-} from './attributeUtils.js'
+import { parseAttributes as defaultParseAttributes } from './parseAttributes.js'
+import { serializeAttributes as defaultSerializeAttributes } from './serializeAttributes.js'
 
 export interface AtomBlockMarkdownSpecOptions {
   /** The Tiptap node name this spec is for */

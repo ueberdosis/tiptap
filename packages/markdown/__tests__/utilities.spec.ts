@@ -6,6 +6,26 @@ import {
 } from '@tiptap/core'
 import { describe, expect, it } from 'vite-plus/test'
 
+function measure(run: () => unknown): number {
+  const startedAt = performance.now()
+  run()
+  return performance.now() - startedAt
+}
+
+function expectLinearTokenization(run: (attributes: string) => unknown, attackUnit: string) {
+  run('warmup="true"')
+  const sizes = [768, 1536]
+
+  sizes.forEach(size => {
+    const attack = attackUnit.repeat(size)
+    const control = '-'.repeat(attack.length)
+    const controlDuration = measure(() => run(control))
+    const attackDuration = measure(() => run(attack))
+
+    expect(attackDuration).toBeLessThan(controlDuration * 20 + 100)
+  })
+}
+
 describe('Markdown Utilities', () => {
   describe('createInlineMarkdownSpec', () => {
     it('should create a valid spec for self-closing inline nodes', () => {
@@ -100,6 +120,33 @@ describe('Markdown Utilities', () => {
       })
     })
 
+    it('should parse malformed shortcode attributes in linear time', () => {
+      const spec = createInlineMarkdownSpec({
+        nodeName: 'probe',
+        selfClosing: true,
+      })
+
+      expectLinearTokenization(
+        attributes => spec.markdownTokenizer.tokenize(`[probe ${attributes}]`, [], null as any),
+        '0000000000000000',
+      )
+    })
+
+    it('should only parse shortcode attributes at attribute boundaries', () => {
+      const spec = createInlineMarkdownSpec({
+        nodeName: 'probe',
+        selfClosing: true,
+      })
+
+      const token = spec.markdownTokenizer.tokenize(
+        '[probe prefix:id="ignored" label="kept"]',
+        [],
+        null as any,
+      )
+
+      expect(token).toMatchObject({ attributes: { label: 'kept' } })
+    })
+
     it('should render self-closing shortcodes correctly', () => {
       const spec = createInlineMarkdownSpec({
         nodeName: 'mention',
@@ -179,7 +226,7 @@ describe('Markdown Utilities', () => {
         allowedAttributes: ['id', 'label', { name: 'mentionSuggestionChar', skipIfDefault: '@' }],
         parseAttributes: (attrString: string) => {
           const attrs: Record<string, any> = {}
-          const regex = /(\w+)=(?:"([^"]*)"|'([^']*)')/g
+          const regex = /(?:^|\s)(\w+)=(?:"([^"]*)"|'([^']*)')/g
           let match = regex.exec(attrString)
 
           while (match !== null) {
@@ -305,6 +352,22 @@ describe('Markdown Utilities', () => {
       expect((token as any).tokens).toHaveLength(1)
     })
 
+    it('should parse malformed block attributes in linear time', () => {
+      const spec = createBlockMarkdownSpec({
+        nodeName: 'probe',
+      })
+      const lexer = {
+        blockTokens: () => [],
+        inlineTokens: () => [],
+      }
+
+      expectLinearTokenization(
+        attributes =>
+          spec.markdownTokenizer.tokenize(`:::probe {${attributes}}\ncontent\n:::`, [], lexer),
+        '__QUOTED_0',
+      )
+    })
+
     it('should render block syntax correctly', () => {
       const spec = createBlockMarkdownSpec({
         nodeName: 'callout',
@@ -376,6 +439,18 @@ describe('Markdown Utilities', () => {
           src: 'https://youtube.com/watch?v=test',
         },
       })
+    })
+
+    it('should parse malformed atom block attributes in linear time', () => {
+      const spec = createAtomBlockMarkdownSpec({
+        nodeName: 'probe',
+      })
+
+      expectLinearTokenization(
+        attributes =>
+          spec.markdownTokenizer.tokenize(`:::probe {${attributes}} :::\n`, [], null as any),
+        '__QUOTED_0',
+      )
     })
 
     it('should validate required attributes', () => {
