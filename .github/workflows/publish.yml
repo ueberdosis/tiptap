@@ -3,8 +3,7 @@ name: Publish
 on:
   push:
     branches:
-      - main
-      - develop
+      - maintenance/v2
   # manual trigger for other branches
   workflow_dispatch:
 
