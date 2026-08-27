@@ -12,9 +12,9 @@ metadata:
 This skill contains instructions for integrating the Tiptap rich text editor into an app and
 developing new features with it.
 
-This is not the Tiptap editor you know: it may have evolved and changed since the version you're familiar with. 
-Before you implement any feature with Tiptap, reference the Tiptap code and documentation to make sure you implement 
-it correctly. Make sure any decision you make is in accordance to the "Best Practices" section and is grounded in the 
+This is not the Tiptap editor you know: it may have evolved and changed since the version you're familiar with.
+Before you implement any feature with Tiptap, reference the Tiptap code and documentation to make sure you implement
+it correctly. Make sure any decision you make is in accordance to the "Best Practices" section and is grounded in the
 Tiptap documentation and source code. Do not guess or invent patterns, make sure the code you write matches the library
 source code and the documentation.
 
@@ -50,7 +50,7 @@ To move an existing integration off the deprecated products, see
 
 - For a new install, use the latest stable version. Resolve it with `npm view @tiptap/core version`.
 - The editor and extension packages published from the tiptap monorepo share one version line. Pin
-  every one of them to that same version. Mixing versions risks introducing bugs. 
+  every one of them to that same version. Mixing versions risks introducing bugs.
 - Some packages have their own version line. Resolve these from the registry, never from
   `@tiptap/core`: `@tiptap/ai-toolkit`, `@tiptap/y-tiptap`, `@tiptap-pro/*` (private registry),
   `@hocuspocus/*`.
