@@ -27,7 +27,7 @@ While a new major version is being developed, `main` can be a pre-release (`next
 `beta`) for months before it ships. Check the npm dist-tag (`latest`, `next`, `alpha`, ...), not
 the branch, to know what is currently stable.
 
-Older major versions live on `maintenance/v*` branches (e.g. `maintenance/v2`). These only
+Older major versions live on `maintenance/v*` branches (e.g. `maintenance/v3`). These only
 receive critical bug fixes and security patches, no new features.
 
 | Branch           | Purpose                                 | Publishes                                                                      |
