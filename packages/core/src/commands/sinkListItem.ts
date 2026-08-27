@@ -15,6 +15,7 @@ declare module '@tiptap/core' {
        * Sink the list item down into an inner list. When the previous item ends
        * with a list of another type, the item joins that list and takes its item type.
        * @param typeOrName The type or name of the node.
+       * @returns True when the item was sunk.
        * @example editor.commands.sinkListItem('listItem')
        */
       sinkListItem: (typeOrName: string | NodeType) => ReturnType

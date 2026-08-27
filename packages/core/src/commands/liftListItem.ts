@@ -15,6 +15,7 @@ declare module '@tiptap/core' {
        * Create a command to lift the list item around the selection up into a wrapping list.
        * When the wrapping list has another item type, the item takes that type.
        * @param typeOrName The type or name of the node.
+       * @returns True when the item was lifted.
        * @example editor.commands.liftListItem('listItem')
        */
       liftListItem: (typeOrName: string | NodeType) => ReturnType
