@@ -12,6 +12,7 @@
 - [ ] I have added a [changeset](https://github.com/changesets/changesets) if necessary.
 - [ ] I have added tests if possible.
 - [ ] I have made sure to test my changes myself.
+- [ ] This is a critical bug or security fix that also needs to land on the current stable release (see [Branching](../CONTRIBUTING.md#branching) in CONTRIBUTING.md).
 
 ### Responsibility
 

@@ -4,11 +4,12 @@ env:
   NODE_VERSION: 24
   VP_GIT_HOOKS: 0
 
+# this branch only releases from main
+# other versions are released from their respective maintenance/* branches
 on:
   push:
     branches:
       - main
-      - v2
 
 permissions:
   contents: read
@@ -49,7 +50,7 @@ jobs:
       - uses: ./.github/actions/setup-env
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'true'
+          cache: "true"
 
       - name: Install dependencies
         run: vp install --frozen-lockfile -- --strict-peer-dependencies
@@ -89,7 +90,7 @@ jobs:
       - uses: ./.github/actions/setup-env
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'true'
+          cache: "true"
 
       - name: Update npm for trusted publishing
         run: npm install -g npm@11.6.2
