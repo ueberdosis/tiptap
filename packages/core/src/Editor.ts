@@ -245,6 +245,10 @@ export class Editor extends EventEmitter<EditorEvents> {
    * An object of all registered commands.
    */
   public get commands(): SingleCommands {
+    if (!this.commandManager) {
+      return CommandManager.createFallbackCommands()
+    }
+
     return this.commandManager.commands
   }
 
@@ -797,6 +801,10 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Get the document as HTML.
    */
   public getHTML(): string {
+    if (!this.schema) {
+      return ''
+    }
+
     return getHTMLFromFragment(this.state.doc.content, this.schema)
   }
 
@@ -807,6 +815,10 @@ export class Editor extends EventEmitter<EditorEvents> {
     blockSeparator?: string
     textSerializers?: Record<string, TextSerializer>
   }): string {
+    if (!this.schema) {
+      return ''
+    }
+
     const { blockSeparator = '\n\n', textSerializers = {} } = options || {}
 
     return getText(this.state.doc, {
