@@ -53,7 +53,7 @@ jobs:
         uses: changesets/action@v1
         with:
           createGithubReleases: false
-          publish: npm run publish
+          publish: npm run publish --tag v2-latest
           version: npm run version
           title: ${{ github.ref_name == 'main' && 'Publish a new stable version'  || 'Publish a new pre-release version' }}
           commit: >-
