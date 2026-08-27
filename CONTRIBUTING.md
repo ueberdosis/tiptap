@@ -20,6 +20,65 @@ quality to benefit the project. Many developers have different skillsets, streng
 
 If you discover a security vulnerability, please refer to our [Security Policy](SECURITY.md) for reporting instructions.
 
+## Branching
+
+`main` is the default branch and always holds the newest code. That's not the same as "stable".
+While a new major version is being developed, `main` can be a pre-release (`next`, `alpha`,
+`beta`) for months before it ships. Check the npm dist-tag (`latest`, `next`, `alpha`, ...), not
+the branch, to know what is currently stable.
+
+Older major versions live on `maintenance/v*` branches (e.g. `maintenance/v2`). These only
+receive critical bug fixes and security patches, no new features.
+
+| Branch           | Purpose                                 | Publishes                                                                      |
+| ---------------- | --------------------------------------- | ------------------------------------------------------------------------------ |
+| `main`           | Active development, default branch      | `next` / `alpha` / `beta`, or `latest` once main is the current stable version |
+| `maintenance/v*` | Frozen stable line, critical fixes only | `latest` (while current) or `latest-v*` (once superseded)                      |
+
+Once a `maintenance/v*` branch is cut, it never merges back into `main`, and `main` never
+merges into it. Merging two branches with that much diverged history just produces huge
+conflicts. Individual fixes still travel between them, one commit at a time, by cherry-pick.
+
+### Where to open your pull request
+
+- Open your PR against `main`. That's the default target and where all new development happens.
+- Only target a `maintenance/v*` branch directly if your fix applies exclusively to that old
+  version and not to `main` (see "Change only relevant for a maintained version" below).
+
+### Does your fix need to reach the current stable release too?
+
+A fix merged into `main` during a pre-release cycle does not reach users on the current stable
+release by itself, because `main` and the maintenance branch never merge. If your fix addresses
+a critical bug or security issue that also affects the current stable release, it needs a
+second PR that cherry-picks your commit onto the relevant `maintenance/v*` branch.
+
+- Check the box in the pull request template if this applies to your change.
+- Open the backport PR yourself if you can. You know the fix best.
+- If you can't, a maintainer may do it as a last resort, but that's not guaranteed, so try first.
+
+### The three cases
+
+#### Default workflow
+
+Most changes. Lands on `main`, ships under whatever tag `main` is currently publishing, no
+backport needed.
+
+![Default branching workflow](.github/assets/branching-guide/general.png)
+
+#### Change only relevant for `main`
+
+A change that does not apply to any maintained stable version, for example a new-major-only
+feature. Lands on `main` only. `maintenance/v*` never sees it.
+
+![Change only relevant for main](.github/assets/branching-guide/main.png)
+
+#### Change only relevant for a maintained version
+
+A fix specific to an already-stable release. Open the PR directly against `maintenance/v*`.
+It never touches `main`.
+
+![Change only relevant for a maintained version](.github/assets/branching-guide/maintenance.png)
+
 ## Viability
 
 When requesting or submitting new features, first consider whether it might be useful to others. Open
@@ -42,6 +101,7 @@ Before submitting a pull request:
 
 - Check the codebase to ensure that your feature doesn't already exist.
 - Check the pull requests to ensure that another person hasn't already submitted the feature or fix.
+- Check which branch to target. See [Branching](#branching) above.
 
 Before committing:
 
@@ -85,7 +145,9 @@ Without this setup, the publish CI will fail when attempting to release a new pa
 
 ### Adding a new release branch
 
-When setting up a new release line (e.g., `v2`), you need to update two places:
+When work on a new major version starts on `main`, cut the current stable line into its own
+`maintenance/v*` branch (e.g., `maintenance/v2`) before the first breaking change merges. See
+[Branching](#branching) for the full model. Then update two places:
 
 1. **Workflow trigger** — Add the branch name to the `on.push.branches` list in `.github/workflows/publish.yml`.
 2. **Publish configuration** — Add a matching entry in `.github/publish-config.json` with the desired dist-tag and release messages.
@@ -96,7 +158,7 @@ Each entry in `.github/publish-config.json` takes four fields:
 
 | Field     | Description                                                                                |
 | --------- | ------------------------------------------------------------------------------------------ |
-| `distTag` | npm dist-tag passed to `pnpm changeset publish --tag`, e.g. `latest`, `next`, `v2-latest`. |
+| `distTag` | npm dist-tag passed to `pnpm changeset publish --tag`, e.g. `latest`, `next`, `latest-v2`. |
 | `label`   | Label used in the Slack release announcement, e.g. `stable` or `prerelease`.               |
 | `title`   | Title of the Changesets version PR created by CI.                                          |
 | `commit`  | Commit message of that version PR.                                                         |
