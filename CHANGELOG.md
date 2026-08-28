@@ -1,5 +1,579 @@
 # Releases
 
+## v3.30.6
+
+### @tiptap/core
+
+#### Patch Changes
+
+- afb3fcc: Nested lists exported to Markdown now keep their hierarchy when the file is read back by other Markdown tools.
+- @tiptap/pm@3.30.6
+
+### @tiptap/extension-list
+
+#### Patch Changes
+
+- afb3fcc: Nested lists exported to Markdown now keep their hierarchy when the file is read back by other Markdown tools.
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/extension-youtube
+
+#### Patch Changes
+
+- afb3fcc: Pasting a YouTube iframe without a `src` attribute no longer crashes the editor. The embed is kept without a source.
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- afb3fcc: Fix Markdown serialization of whitespace-only marked text.
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/react
+
+#### Patch Changes
+
+- afb3fcc: Reduce overhead in React node views on documents with many nodes.
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/extension-audio
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+
+### @tiptap/extension-blockquote
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/extension-bold
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+
+### @tiptap/extension-bubble-menu
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/extension-code
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+
+### @tiptap/extension-code-block
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/extension-code-block-lowlight
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+  - @tiptap/extension-code-block@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/extension-collaboration
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/extension-collaboration-caret
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/extension-details
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+  - @tiptap/extension-text-style@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/extension-document
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+
+### @tiptap/extension-drag-handle
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+  - @tiptap/extension-collaboration@3.30.6
+  - @tiptap/extension-node-range@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/extension-emoji
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+  - @tiptap/suggestion@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/extension-file-handler
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+  - @tiptap/extension-text-style@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/extension-find-and-replace
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/extension-floating-menu
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/extension-hard-break
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+
+### @tiptap/extension-heading
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+
+### @tiptap/extension-highlight
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+
+### @tiptap/extension-horizontal-rule
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/extension-image
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+
+### @tiptap/extension-invisible-characters
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+  - @tiptap/extension-text-style@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/extension-italic
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+
+### @tiptap/extension-link
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/extension-mathematics
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/extension-mention
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+  - @tiptap/suggestion@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/extension-node-range
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/extension-paragraph
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+
+### @tiptap/extension-ruby-text
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/extension-strike
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+
+### @tiptap/extension-subscript
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/extension-superscript
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/extension-table
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/extension-table-of-contents
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/extension-text
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+
+### @tiptap/extension-text-align
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+
+### @tiptap/extension-text-style
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+
+### @tiptap/extension-twitch
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+
+### @tiptap/extension-typography
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+
+### @tiptap/extension-underline
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+
+### @tiptap/extension-unique-id
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/extensions
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/html
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/starter-kit
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+  - @tiptap/extension-list@3.30.6
+  - @tiptap/extension-blockquote@3.30.6
+  - @tiptap/extension-bold@3.30.6
+  - @tiptap/extension-code@3.30.6
+  - @tiptap/extension-code-block@3.30.6
+  - @tiptap/extension-document@3.30.6
+  - @tiptap/extension-hard-break@3.30.6
+  - @tiptap/extension-heading@3.30.6
+  - @tiptap/extension-horizontal-rule@3.30.6
+  - @tiptap/extension-italic@3.30.6
+  - @tiptap/extension-link@3.30.6
+  - @tiptap/extension-paragraph@3.30.6
+  - @tiptap/extension-strike@3.30.6
+  - @tiptap/extension-text@3.30.6
+  - @tiptap/extension-underline@3.30.6
+  - @tiptap/extensions@3.30.6
+  - @tiptap/extension-list-item@3.30.6
+  - @tiptap/extension-list-keymap@3.30.6
+  - @tiptap/extension-bullet-list@3.30.6
+  - @tiptap/extension-ordered-list@3.30.6
+  - @tiptap/extension-dropcursor@3.30.6
+  - @tiptap/extension-gapcursor@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/static-renderer
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/suggestion
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/vue-2
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/vue-3
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/core@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/extension-list-item
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/extension-list@3.30.6
+
+### @tiptap/extension-list-keymap
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/extension-list@3.30.6
+
+### @tiptap/extension-task-item
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/extension-list@3.30.6
+
+### @tiptap/extension-task-list
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/extension-list@3.30.6
+
+### @tiptap/extension-bullet-list
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/extension-list@3.30.6
+
+### @tiptap/extension-ordered-list
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/extension-list@3.30.6
+
+### @tiptap/extension-drag-handle-react
+
+#### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/react@3.30.6
+  - @tiptap/extension-drag-handle@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/extension-drag-handle-vue-2
+
+#### Patch Changes
+
+- @tiptap/extension-drag-handle@3.30.6
+  - @tiptap/vue-2@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/extension-drag-handle-vue-3
+
+#### Patch Changes
+
+- @tiptap/extension-drag-handle@3.30.6
+  - @tiptap/vue-3@3.30.6
+  - @tiptap/pm@3.30.6
+
+### @tiptap/extension-table-cell
+
+#### Patch Changes
+
+- @tiptap/extension-table@3.30.6
+
+### @tiptap/extension-table-header
+
+#### Patch Changes
+
+- @tiptap/extension-table@3.30.6
+
+### @tiptap/extension-table-row
+
+#### Patch Changes
+
+- @tiptap/extension-table@3.30.6
+
+### @tiptap/extension-color
+
+#### Patch Changes
+
+- @tiptap/extension-text-style@3.30.6
+
+### @tiptap/extension-font-family
+
+#### Patch Changes
+
+- @tiptap/extension-text-style@3.30.6
+
+### @tiptap/extension-character-count
+
+#### Patch Changes
+
+- @tiptap/extensions@3.30.6
+
+### @tiptap/extension-dropcursor
+
+#### Patch Changes
+
+- @tiptap/extensions@3.30.6
+
+### @tiptap/extension-focus
+
+#### Patch Changes
+
+- @tiptap/extensions@3.30.6
+
+### @tiptap/extension-gapcursor
+
+#### Patch Changes
+
+- @tiptap/extensions@3.30.6
+
+### @tiptap/extension-history
+
+#### Patch Changes
+
+- @tiptap/extensions@3.30.6
+
+### @tiptap/extension-placeholder
+
+#### Patch Changes
+
+- @tiptap/extensions@3.30.6
+
 ## v3.30.5
 
 ### @tiptap/core

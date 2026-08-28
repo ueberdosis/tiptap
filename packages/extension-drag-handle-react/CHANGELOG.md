@@ -1,5 +1,14 @@
 # @tiptap/extension-drag-handle-react
 
+## 3.30.6
+
+### Patch Changes
+
+- Updated dependencies [afb3fcc]
+  - @tiptap/react@3.30.6
+  - @tiptap/extension-drag-handle@3.30.6
+  - @tiptap/pm@3.30.6
+
 ## 3.30.5
 
 ### Patch Changes

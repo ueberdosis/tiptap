@@ -1,5 +1,14 @@
 # @tiptap/markdown
 
+## 3.30.6
+
+### Patch Changes
+
+- 855843d: Fix Markdown serialization of whitespace-only marked text.
+- Updated dependencies [9f844ab]
+  - @tiptap/core@3.30.6
+  - @tiptap/pm@3.30.6
+
 ## 3.30.5
 
 ### Patch Changes
