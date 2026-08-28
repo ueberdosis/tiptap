@@ -3,7 +3,7 @@ import { BulletList, ListItem, OrderedList } from '@tiptap/extension-list'
 import { Paragraph } from '@tiptap/extension-paragraph'
 import { Text } from '@tiptap/extension-text'
 import { MarkdownManager } from '@tiptap/markdown'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 
 const manager = (indentation?: { style?: 'space' | 'tab'; size?: number }) =>
   new MarkdownManager({
