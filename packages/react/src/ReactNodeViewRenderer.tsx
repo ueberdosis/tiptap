@@ -13,6 +13,7 @@ import { createElement, createRef, memo } from 'react'
 
 import { captureDOMSelection } from './captureDOMSelection.js'
 import type { EditorWithContentComponent } from './Editor.js'
+import { getReactNodeViewSelectionManager } from './ReactNodeViewSelectionManager.js'
 import { ReactRenderer } from './ReactRenderer.js'
 import type { ReactNodeViewProps } from './types.js'
 import type { ReactNodeViewContextProps } from './useReactNodeView.js'
@@ -67,11 +68,6 @@ export class ReactNodeView<
    * The element that holds the rich-text content of the node.
    */
   contentDOMElement!: HTMLElement | null
-
-  /**
-   * The requestAnimationFrame ID used for selection updates.
-   */
-  selectionRafId: number | null = null
 
   /**
    * The last known position of this node view, used to detect position-only
@@ -224,8 +220,6 @@ export class ReactNodeView<
 
     const { className = '' } = this.options
 
-    this.handleSelectionUpdate = this.handleSelectionUpdate.bind(this)
-
     this.renderer = new ReactRenderer(ReactNodeViewProvider, {
       editor: this.editor,
       props: mountProps,
@@ -233,7 +227,7 @@ export class ReactNodeView<
       className: `node-${this.node.type.name} ${className}`.trim(),
     })
 
-    this.editor.on('selectionUpdate', this.handleSelectionUpdate)
+    getReactNodeViewSelectionManager(this.editor).register(this)
     this.updateElementAttributes()
     this.currentPos = this.getPos()
   }
@@ -266,44 +260,37 @@ export class ReactNodeView<
   }
 
   /**
-   * On editor selection update, check if the node is selected.
-   * If it is, call `selectNode`, otherwise call `deselectNode`.
+   * Checks whether this node view is currently selected and updates its
+   * selected state if needed. Called by the shared
+   * `ReactNodeViewSelectionManager` on editor selection updates.
    */
-  handleSelectionUpdate() {
-    if (this.selectionRafId) {
-      cancelAnimationFrame(this.selectionRafId)
-      this.selectionRafId = null
+  checkSelection() {
+    // getPos() is undefined while the node view is mid-update, so fall back to the last known position.
+    const pos = this.getPos() ?? this.currentPos
+    if (typeof pos !== 'number') {
+      return
     }
 
-    this.selectionRafId = requestAnimationFrame(() => {
-      this.selectionRafId = null
-      // getPos() is undefined while the node view is mid-update, so fall back to the last known position.
-      const pos = this.getPos() ?? this.currentPos
-      if (typeof pos !== 'number') {
+    const isSelected = isNodeViewSelected({
+      selection: this.editor.state.selection,
+      pos,
+      nodeSize: this.node.nodeSize,
+      selectedOnTextSelection: this.options.selectedOnTextSelection,
+    })
+
+    if (isSelected) {
+      if (this.renderer.props.selected) {
         return
       }
 
-      const isSelected = isNodeViewSelected({
-        selection: this.editor.state.selection,
-        pos,
-        nodeSize: this.node.nodeSize,
-        selectedOnTextSelection: this.options.selectedOnTextSelection,
-      })
-
-      if (isSelected) {
-        if (this.renderer.props.selected) {
-          return
-        }
-
-        this.selectNode()
-      } else {
-        if (!this.renderer.props.selected) {
-          return
-        }
-
-        this.deselectNode()
+      this.selectNode()
+    } else {
+      if (!this.renderer.props.selected) {
+        return
       }
-    })
+
+      this.deselectNode()
+    }
   }
 
   /**
@@ -418,18 +405,13 @@ export class ReactNodeView<
    */
   destroy() {
     this.renderer.destroy()
-    this.editor.off('selectionUpdate', this.handleSelectionUpdate)
+    getReactNodeViewSelectionManager(this.editor).unregister(this)
 
     if (this.options.trackNodeViewPosition) {
       this.editor.off('update', this.handlePositionUpdate)
     }
 
     this.contentDOMElement = null
-
-    if (this.selectionRafId) {
-      cancelAnimationFrame(this.selectionRafId)
-      this.selectionRafId = null
-    }
   }
 
   /**
