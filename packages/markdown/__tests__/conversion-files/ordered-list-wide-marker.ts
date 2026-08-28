@@ -1,9 +1,11 @@
-export const name = 'Ordered List with Nested Bullet List'
+export const name = 'Ordered List with a Wide Marker'
 
+// `10. ` is four characters, so the nested list has to start at column four to
+// stay a child of it.
 export const expectedInput = `
-1. one
-   - inner
-2. two
+10. ten
+    1. inner
+11. eleven
 `.trim()
 
 export const expectedOutput = {
@@ -11,16 +13,17 @@ export const expectedOutput = {
   content: [
     {
       type: 'orderedList',
+      attrs: { start: 10 },
       content: [
         {
           type: 'listItem',
           content: [
             {
               type: 'paragraph',
-              content: [{ type: 'text', text: 'one' }],
+              content: [{ type: 'text', text: 'ten' }],
             },
             {
-              type: 'bulletList',
+              type: 'orderedList',
               content: [
                 {
                   type: 'listItem',
@@ -40,7 +43,7 @@ export const expectedOutput = {
           content: [
             {
               type: 'paragraph',
-              content: [{ type: 'text', text: 'two' }],
+              content: [{ type: 'text', text: 'eleven' }],
             },
           ],
         },
