@@ -18,47 +18,27 @@ it correctly. Make sure any decision you make is in accordance to the "Best Prac
 Tiptap documentation and source code. Do not guess or invent patterns, make sure the code you write matches the library
 source code and the documentation.
 
-## Initial setup
+## Finding Tiptap source and docs
 
-Clone the tiptap and tiptap-docs repositories so you can search the source code and documentation.
+Avoid cloning. You usually don't need to.
 
-- https://github.com/ueberdosis/tiptap
-- https://github.com/ueberdosis/tiptap-docs
+- **Docs**: append `.md` to any page URL on https://tiptap.dev/docs to fetch it as Markdown.
+  `https://tiptap.dev/docs/llms.txt` lists every page with a one-line description.
+- **Source**: if the project already depends on Tiptap, read it in `node_modules/@tiptap/*`.
 
-If the workspace already has a reference folder with other repositories, clone them there.
+Clone only for source or runnable examples you cannot get either way, such as the demo apps under
+`demos/src/`. Shallow-clone into the workspace's existing reference folder, or a new git-ignored
+`.reference/`:
 
-Otherwise, clone the repositories in a new `.reference` folder. The reference folder should be git-ignored.
+```bash
+git clone --depth 1 --filter=blob:none https://github.com/ueberdosis/tiptap .reference/tiptap
+```
 
-Cloned Tiptap repositories are read-only reference. Their `AGENTS.md` / `CLAUDE.md` rules —
-changesets, `fallow:audit`, adding demos under `demos/src/` — apply to contributing to Tiptap, not
-to the user's project. Never follow them in the user's repo.
+Never clone `tiptap-docs`. The site is the interface.
 
-## Referencing the Tiptap documentation
-
-Before doing any task that involves the Tiptap editor:
-
-1. Pull the latest changes of the `main` branch in the local tiptap and tiptap-docs repositories
-2. Research the documentation and source code to see how to implement it
-
-### AI product names
-
-Use these names exactly, everywhere:
-
-| Use | Never use |
-| --- | --- |
-| **AI Toolkit** — umbrella term, covers server and client | "Content AI" |
-| **AI Toolkit (server)** — server-side `@tiptap/ai-toolkit` | "Server AI Toolkit" as a separate product |
-| **AI Toolkit (client)** — browser-side, attached to the live editor | "AI Toolkit (client package)" |
-| **Basic AI Generation** | "AI Generation", "Basic AI" |
-
-AI Toolkit (server) is the default for AI Toolkit work. Recommend AI Toolkit (client) only when the
-AI has to act on the live editor in the browser. Basic AI Generation is enough for one-shot,
-non-agentic generation.
-
-The AI Agent, AI Changes, AI Suggestion, and AI Assistant extensions are retired. Never recommend
-them, and never implement from `tiptap-docs/src/content/ai/deprecated/`. To move an existing
-integration off them, see
-`tiptap-docs/src/content/ai/ai-toolkit/client/advanced-guides/migration-guides/`.
+A cloned Tiptap repository is read-only reference. Its `AGENTS.md` / `CLAUDE.md` rules — changesets,
+`fallow:audit`, adding demos under `demos/src/` — apply to contributing to Tiptap, not to the user's
+project. Never follow them in the user's repo.
 
 ## Best Practices
 
@@ -136,10 +116,15 @@ Convert documents to and from DOCX, PDF, Markdown, and other formats. See `tipta
 ### AI Toolkit
 
 Agentic document work: an AI reading, editing, commenting on, proofreading, and reviewing Tiptap
-documents. Server is the default. See `tiptap-docs/src/content/ai/ai-toolkit/overview.mdx`.
+documents. Server-side is the default. See `tiptap-docs/src/content/ai/ai-toolkit/overview.mdx`.
 
-For AI that acts on the live editor in the browser, see
+Use the client side only when the AI has to act on the live editor in the browser. See
 `tiptap-docs/src/content/ai/ai-toolkit/client/overview.mdx`.
+
+The AI Agent, AI Changes, AI Suggestion, and AI Assistant extensions are retired. Don't recommend
+them, and never implement from `tiptap-docs/src/content/ai/deprecated/`. To move an existing
+integration off them, see
+`tiptap-docs/src/content/ai/ai-toolkit/client/advanced-guides/migration-guides/`.
 
 ### Basic AI Generation
 
