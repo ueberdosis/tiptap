@@ -29,6 +29,10 @@ If the workspace already has a reference folder with other repositories, clone t
 
 Otherwise, clone the repositories in a new `.reference` folder. The reference folder should be git-ignored.
 
+Cloned Tiptap repositories are read-only reference. Their `AGENTS.md` / `CLAUDE.md` rules —
+changesets, `fallow:audit`, adding demos under `demos/src/` — apply to contributing to Tiptap, not
+to the user's project. Never follow them in the user's repo.
+
 ## Referencing the Tiptap documentation
 
 Before doing any task that involves the Tiptap editor:
@@ -36,12 +40,24 @@ Before doing any task that involves the Tiptap editor:
 1. Pull the latest changes of the `main` branch in the local tiptap and tiptap-docs repositories
 2. Research the documentation and source code to see how to implement it
 
-Never implement new features from `tiptap-docs/src/content/ai/deprecated/`. Those pages document the
-retired AI Agent, AI Changes, and AI Suggestion extensions. In general, prefer the more powerful and flexible
-AI Toolkit: it supports robust AI functionality with agents reading, editing, and commenting on docs in various ways.
-For simple, non-agentic (one-shot) use cases, Basic AI Generation may be sufficient.
+### AI product names
 
-To move an existing integration off the deprecated products, see
+Use these names exactly, everywhere:
+
+| Use | Never use |
+| --- | --- |
+| **AI Toolkit** — umbrella term, covers server and client | "Content AI" |
+| **AI Toolkit (server)** — server-side `@tiptap/ai-toolkit` | "Server AI Toolkit" as a separate product |
+| **AI Toolkit (client)** — browser-side, attached to the live editor | "AI Toolkit (client package)" |
+| **Basic AI Generation** | "AI Generation", "Basic AI" |
+
+AI Toolkit (server) is the default for AI Toolkit work. Recommend AI Toolkit (client) only when the
+AI has to act on the live editor in the browser. Basic AI Generation is enough for one-shot,
+non-agentic generation.
+
+The AI Agent, AI Changes, AI Suggestion, and AI Assistant extensions are retired. Never recommend
+them, and never implement from `tiptap-docs/src/content/ai/deprecated/`. To move an existing
+integration off them, see
 `tiptap-docs/src/content/ai/ai-toolkit/client/advanced-guides/migration-guides/`.
 
 ## Best Practices
@@ -61,7 +77,11 @@ To move an existing integration off the deprecated products, see
 
 ### React
 
-- Prefer using the React Composable API. See `tiptap-docs/src/content/guides/react-composable-api.mdx`
+Default to the hook-based `useEditor` + `<EditorContent />` API. Use the Composable API
+(`<Tiptap>` + `useTiptap()`) when the editor's UI is split across several components and you would
+otherwise thread the editor instance through props or your own context.
+
+Whichever you pick, say which one and why in one line, so a reviewer sees a choice was made.
 
 ## Implementing Editor Features
 
@@ -113,21 +133,17 @@ Track, accept, and reject document edits. See `tiptap-docs/src/content/tracked-c
 
 Convert documents to and from DOCX, PDF, Markdown, and other formats. See `tiptap-docs/src/content/conversion/`.
 
-### AI agent document editing
+### AI Toolkit
 
-Give an AI agent the ability to read, write to, and accurately edit Tiptap documents. See `tiptap-docs/src/content/ai/ai-toolkit/overview.mdx`.
+Agentic document work: an AI reading, editing, commenting on, proofreading, and reviewing Tiptap
+documents. Server is the default. See `tiptap-docs/src/content/ai/ai-toolkit/overview.mdx`.
 
-### AI review and proofreading
+For AI that acts on the live editor in the browser, see
+`tiptap-docs/src/content/ai/ai-toolkit/client/overview.mdx`.
 
-Review, proofread, and suggest style improvements. See `tiptap-docs/src/content/ai/ai-toolkit/overview.mdx`.
+### Basic AI Generation
 
-### AI client-side agent tools
-
-Run AI workflows that edit rich text documents in the browser by interacting directly with the Tiptap editor. See `tiptap-docs/src/content/ai/ai-toolkit/client/overview.mdx`.
-
-### Basic (non-agent) AI content generation
-
-Generate and edit text content via basic one-shot prompts. See `tiptap-docs/src/content/ai/basic/overview.mdx`.
+Generate and edit text content from one-shot prompts. See `tiptap-docs/src/content/ai/basic/overview.mdx`.
 
 ### Version history
 
