@@ -48,7 +48,6 @@ import type {
 import { createStyleTag } from './utilities/createStyleTag.js'
 import { isDev } from './utilities/isDev.js'
 import { isFunction } from './utilities/isFunction.js'
-import { VisualSelectionStore } from './VisualSelectionStore.js'
 
 export * as extensions from './extensions/index.js'
 
@@ -826,21 +825,6 @@ export class Editor extends EventEmitter<EditorEvents> {
     return isNodeEmpty(this.state.doc)
   }
 
-  private _visualSelection: VisualSelectionStore | null = null
-
-  /**
-   * A store for marking a node as selected without dispatching a transaction.
-   *
-   * @returns The shared `VisualSelectionStore` for this editor.
-   */
-  public get visualSelection(): VisualSelectionStore {
-    if (!this._visualSelection) {
-      this._visualSelection = new VisualSelectionStore(this)
-    }
-
-    return this._visualSelection
-  }
-
   /**
    * Destroy the editor.
    */
@@ -854,9 +838,6 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.emit('destroy')
     this.unmount()
     this.removeAllListeners()
-
-    this._visualSelection?.destroy()
-    this._visualSelection = null
 
     this.extensionManager.destroy()
     this.extensionManager = null as any
