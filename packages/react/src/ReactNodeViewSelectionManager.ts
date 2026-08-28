@@ -33,14 +33,14 @@ class ReactNodeViewSelectionManager {
 
     this.editor.off('selectionUpdate', this.handleSelectionUpdate)
 
-    if (this.rafId) {
+    if (this.rafId !== null) {
       cancelAnimationFrame(this.rafId)
       this.rafId = null
     }
   }
 
   private handleSelectionUpdate = () => {
-    if (this.rafId) {
+    if (this.rafId !== null) {
       cancelAnimationFrame(this.rafId)
     }
 
