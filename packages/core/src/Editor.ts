@@ -828,7 +828,11 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   private _visualSelection: VisualSelectionStore | null = null
 
-  /** Marks a node as selected without dispatching a transaction. */
+  /**
+   * A store for marking a node as selected without dispatching a transaction.
+   *
+   * @returns The shared `VisualSelectionStore` for this editor.
+   */
   public get visualSelection(): VisualSelectionStore {
     if (!this._visualSelection) {
       this._visualSelection = new VisualSelectionStore(this)

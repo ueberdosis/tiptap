@@ -6,20 +6,37 @@ import type { ReactNodeView } from './ReactNodeViewRenderer.js'
  * One selection listener per editor, instead of one per node view.
  */
 class ReactNodeViewSelectionManager {
+  private editor: Editor
+
   private views = new Set<ReactNodeView<any>>()
 
   private rafId: number | null = null
 
   constructor(editor: Editor) {
-    editor.on('selectionUpdate', this.handleSelectionUpdate)
+    this.editor = editor
   }
 
   register(view: ReactNodeView<any>) {
+    if (this.views.size === 0) {
+      this.editor.on('selectionUpdate', this.handleSelectionUpdate)
+    }
+
     this.views.add(view)
   }
 
   unregister(view: ReactNodeView<any>) {
     this.views.delete(view)
+
+    if (this.views.size > 0) {
+      return
+    }
+
+    this.editor.off('selectionUpdate', this.handleSelectionUpdate)
+
+    if (this.rafId) {
+      cancelAnimationFrame(this.rafId)
+      this.rafId = null
+    }
   }
 
   private handleSelectionUpdate = () => {
@@ -38,7 +55,6 @@ class ReactNodeViewSelectionManager {
 
 const managers = new WeakMap<Editor, ReactNodeViewSelectionManager>()
 
-/** Reuses one manager per editor. */
 export function getReactNodeViewSelectionManager(editor: Editor): ReactNodeViewSelectionManager {
   let manager = managers.get(editor)
 

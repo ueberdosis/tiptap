@@ -259,11 +259,7 @@ export class ReactNodeView<
     return this.contentDOMElement
   }
 
-  /**
-   * Checks whether this node view is currently selected and updates its
-   * selected state if needed. Called by the shared
-   * `ReactNodeViewSelectionManager` on editor selection updates.
-   */
+  // Called by the shared ReactNodeViewSelectionManager on selection updates.
   checkSelection() {
     // getPos() is undefined while the node view is mid-update, so fall back to the last known position.
     const pos = this.getPos() ?? this.currentPos

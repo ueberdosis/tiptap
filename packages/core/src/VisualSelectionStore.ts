@@ -44,6 +44,10 @@ export class VisualSelectionStore {
 
   /**
    * The current visual selection, or `null` if nothing is visually selected.
+   * Returns the same object reference until the selection changes, so it's
+   * safe to use as a `useSyncExternalStore` snapshot.
+   *
+   * @returns The current visual selection.
    */
   getSnapshot = (): VisualSelectionSnapshot | null => {
     return this.snapshot
@@ -51,6 +55,8 @@ export class VisualSelectionStore {
 
   /**
    * Marks the node at `pos` as visually selected.
+   *
+   * @param pos The absolute position of the node to select.
    */
   set(pos: number): void {
     const node = nodeAt(this.editor.state.doc, pos)
@@ -74,6 +80,9 @@ export class VisualSelectionStore {
 
   /**
    * Subscribes to visual selection changes. Compatible with `useSyncExternalStore`.
+   *
+   * @param callback Called after the visual selection changes.
+   * @returns A function that unsubscribes the callback.
    */
   subscribe = (callback: () => void): (() => void) => {
     this.subscribers.add(callback)
@@ -98,7 +107,7 @@ export class VisualSelectionStore {
       return
     }
 
-    this.snapshot = snapshot
+    this.snapshot = snapshot && Object.freeze(snapshot)
     this.subscribers.forEach(callback => callback())
   }
 
