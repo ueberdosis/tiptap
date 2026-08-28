@@ -3,7 +3,18 @@ export const YOUTUBE_REGEX =
 export const YOUTUBE_REGEX_GLOBAL =
   /^((?:https?:)?\/\/)?((?:www|m|music)\.)?((?:youtube\.com|youtu\.be|youtube-nocookie\.com))(\/(?:[\w-]+\?v=|embed\/|v\/)?)([\w-]+)(\S+)?$/g
 
-export const isValidYoutubeUrl = (url: string) => {
+/**
+ * Checks whether a url is a youtube url that the extension can embed.
+ *
+ * The `src` attribute of a youtube node is declared with `default: null`, so a node
+ * parsed from an iframe without a `src` attribute legitimately carries no url. Guard
+ * against that here instead of letting the caller dereference it.
+ */
+export const isValidYoutubeUrl = (url: string | null | undefined) => {
+  if (!url) {
+    return null
+  }
+
   return url.match(YOUTUBE_REGEX)
 }
 
