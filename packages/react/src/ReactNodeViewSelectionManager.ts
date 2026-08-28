@@ -1,6 +1,8 @@
 import type { Editor } from '@tiptap/core'
 
-import type { ReactNodeView } from './ReactNodeViewRenderer.js'
+interface SelectableNodeView {
+  checkSelection(): void
+}
 
 /**
  * One selection listener per editor, instead of one per node view.
@@ -8,7 +10,7 @@ import type { ReactNodeView } from './ReactNodeViewRenderer.js'
 class ReactNodeViewSelectionManager {
   private editor: Editor
 
-  private views = new Set<ReactNodeView<any>>()
+  private views = new Set<SelectableNodeView>()
 
   private rafId: number | null = null
 
@@ -16,7 +18,7 @@ class ReactNodeViewSelectionManager {
     this.editor = editor
   }
 
-  register(view: ReactNodeView<any>) {
+  register(view: SelectableNodeView) {
     if (this.views.size === 0) {
       this.editor.on('selectionUpdate', this.handleSelectionUpdate)
     }
@@ -24,7 +26,7 @@ class ReactNodeViewSelectionManager {
     this.views.add(view)
   }
 
-  unregister(view: ReactNodeView<any>) {
+  unregister(view: SelectableNodeView) {
     this.views.delete(view)
 
     if (this.views.size > 0) {
