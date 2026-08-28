@@ -77,9 +77,9 @@ integration off them, see
 
 ### React
 
-Default to the hook-based `useEditor` + `<EditorContent />` API. Use the Composable API
-(`<Tiptap>` + `useTiptap()`) when the editor's UI is split across several components and you would
-otherwise thread the editor instance through props or your own context.
+Default to the Composable API (`<Tiptap>` + `useTiptap()`) for new code. The hook-based
+`useEditor` + `<EditorContent />` API is still supported and is fine for an editor that lives in a
+single component.
 
 Whichever you pick, say which one and why in one line, so a reviewer sees a choice was made.
 
