@@ -67,19 +67,8 @@ declare module '@tiptap/core' {
 }
 
 /**
- * Finds the `$$latex$$` sequence that the inline math input rule should replace.
- *
- * This is a function finder rather than a regex literal because the rule has to
- * reject a sequence preceded by a third `$`, and there is no way to express that
- * in a regex without a lookbehind. A lookbehind inside a regex *literal* fails at
- * parse time on WebKit older than Safari 16.4, which takes down the whole chunk
- * rather than just this rule.
- *
- * Rewriting the lookbehind as a consuming group such as `(^|[^$])` is not
- * equivalent: the preceding character becomes part of the match, and the input
- * rule range is derived from the match length, so that character gets replaced
- * along with the math. A function finder can look at the preceding character
- * without consuming it.
+ * A negative lookbehind would crash old WebKit, and a consuming group like `(^|[^$])`
+ * would get replaced along with the math, so reject the preceding `$` in code instead.
  */
 const findInlineMath = (text: string): InputRuleMatch | null => {
   const pattern = /\$\$([^$\n]+?)\$\$(?!\$)/g
@@ -87,13 +76,11 @@ const findInlineMath = (text: string): InputRuleMatch | null => {
   let match = pattern.exec(text)
 
   while (match !== null) {
-    // Stands in for a negative lookbehind rejecting a preceding `$`.
     if (match.index === 0 || text[match.index - 1] !== '$') {
       return { index: match.index, text: match[0], data: { latex: match[1] } }
     }
 
-    // Resume from the character after the rejected match rather than from its end:
-    // a valid match can begin inside a rejected one, at its trailing `$$`.
+    // A valid match can start inside a rejected one, at its trailing `$$`.
     pattern.lastIndex = match.index + 1
     match = pattern.exec(text)
   }

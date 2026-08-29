@@ -78,10 +78,7 @@ describe('InlineMath', () => {
     expect(handled).toBeFalsy()
   })
 
-  /**
-   * Types a single `$` at the end of `initialText` and returns whether an input
-   * rule handled it, mirroring how the rule fires during real typing.
-   */
+  // Types a trailing `$` and returns whether an input rule handled it.
   const typeTrailingDollar = (initialText: string) => {
     editor = new Editor({
       extensions: [Document, Paragraph, Text, InlineMath],
@@ -129,8 +126,7 @@ describe('InlineMath', () => {
   })
 
   it('skips a rejected match and still matches the one that follows it', () => {
-    // `$$a$$` is rejected because it is preceded by a third `$`, but a valid match
-    // starts at that sequence's trailing `$$` and runs to the end of the text.
+    // The first `$$a$$` is rejected, but a valid match starts at its trailing `$$`.
     typeTrailingDollar('$$$a$$b$')
 
     expect(editor.getJSON().content).toEqual([
