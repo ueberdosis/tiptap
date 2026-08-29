@@ -41,6 +41,12 @@ export function updateColumns(
           colgroup.appendChild(colElement)
         } else {
           if ((nextDOM as HTMLTableColElement).style.width !== cssWidth) {
+            if (!hasWidth) {
+              // clear a stale inline width left by a previous resize,
+              // e.g. when an undo reverts colwidth back to null
+              ;(nextDOM as HTMLTableColElement).style.removeProperty('width')
+            }
+
             const [propertyKey, propertyValue] = getColStyleDeclaration(cellMinWidth, hasWidth)
 
             ;(nextDOM as HTMLTableColElement).style.setProperty(propertyKey, propertyValue)

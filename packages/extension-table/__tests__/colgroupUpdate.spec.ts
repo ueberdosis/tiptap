@@ -3,6 +3,7 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import { Table, TableCell, TableHeader, TableRow } from '@tiptap/extension-table'
 import Text from '@tiptap/extension-text'
+import { UndoRedo } from '@tiptap/extensions'
 import { afterEach, describe, expect, it } from 'vite-plus/test'
 
 describe('colgroup updates after column commands', () => {
@@ -191,6 +192,60 @@ describe('colgroup updates after column commands', () => {
       // remaining widths must be the original 200 and 300, not 100/200 (which would
       // indicate widths got reassigned to the wrong columns after the deletion)
       expect(widthsOf()).toEqual(['200px', '300px'])
+    })
+
+    it('clears the stale inline width on <col> when a resize is undone', async () => {
+      const undoEditor = new Editor({
+        element: createEditorEl(),
+        extensions: [
+          Document,
+          Text,
+          Paragraph,
+          UndoRedo,
+          TableCell,
+          TableHeader,
+          TableRow,
+          Table.configure({ resizable: true }),
+        ],
+      })
+
+      try {
+        undoEditor.commands.insertTable({ rows: 2, cols: 2, withHeaderRow: false })
+
+        const firstCol = () =>
+          undoEditor.view.dom.querySelectorAll<HTMLTableColElement>('colgroup > col')[0]
+
+        // no width stored initially
+        expect(firstCol().style.width).toBe('')
+
+        // A resize lands in its own history group only after the newGroupDelay
+        // (500ms by default) has elapsed since the insert
+        await new Promise(resolve => setTimeout(resolve, 600))
+
+        // Simulate the transaction updateColumnWidth dispatches on mouseup:
+        // setNodeMarkup on the first cell (pos 2 in a doc that starts with the table)
+        const cell = undoEditor.state.doc.nodeAt(2)
+
+        expect(cell).not.toBeNull()
+
+        const tr = undoEditor.state.tr.setNodeMarkup(2, undefined, {
+          ...cell!.attrs,
+          colwidth: [150],
+        })
+
+        undoEditor.view.dispatch(tr)
+
+        expect(firstCol().style.width).toBe('150px')
+
+        undoEditor.commands.undo()
+
+        // the document state reverted…
+        expect(undoEditor.state.doc.nodeAt(2)!.attrs.colwidth).toBeNull()
+        // …and the <col> must not keep forcing the dragged width
+        expect(firstCol().style.width).toBe('')
+      } finally {
+        undoEditor.destroy()
+      }
     })
   })
 })
