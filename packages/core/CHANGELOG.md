@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.30.6
+
+### Patch Changes
+
+- 9f844ab: Nested lists exported to Markdown now keep their hierarchy when the file is read back by other Markdown tools.
+  - @tiptap/pm@3.30.6
+
 ## 3.30.5
 
 ### Patch Changes

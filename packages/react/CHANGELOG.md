@@ -1,5 +1,14 @@
 # Change Log
 
+## 3.30.6
+
+### Patch Changes
+
+- afb3fcc: Reduce overhead in React node views on documents with many nodes.
+- Updated dependencies [9f844ab]
+  - @tiptap/core@3.30.6
+  - @tiptap/pm@3.30.6
+
 ## 3.30.5
 
 ### Patch Changes
