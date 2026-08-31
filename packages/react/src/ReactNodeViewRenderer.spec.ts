@@ -18,6 +18,7 @@ const renderedPositions: Array<number | undefined> = []
 const renderErrors: unknown[] = []
 const bumpHandles = new Map<string, () => void>()
 const explodingIds = new Set<string>()
+const selectionStateRenderCounts = new Map<string, number>()
 
 // Optional hook run inside the click handler before the replace commands.
 let beforeReplace: (() => void) | undefined
@@ -25,6 +26,9 @@ let beforeReplace: (() => void) | undefined
 const ContainerComponent = (props: ReactNodeViewProps) => {
   const [, setTick] = useState(0)
   const id = props.node.attrs.id as string
+  const renderKey = `${props.node.type.name}:${props.node.textContent}`
+
+  selectionStateRenderCounts.set(renderKey, (selectionStateRenderCounts.get(renderKey) ?? 0) + 1)
 
   useEffect(() => {
     bumpHandles.set(id, () => setTick(tick => tick + 1))
@@ -74,7 +78,10 @@ const ContainerComponent = (props: ReactNodeViewProps) => {
 
   return React.createElement(
     NodeViewWrapper,
-    null,
+    {
+      'data-node-view-selected': String(props.selected),
+      'data-selection-inside': String(props.selectionInside),
+    },
     React.createElement('button', {
       type: 'button',
       'data-testid': `replace-${id}`,
@@ -84,8 +91,19 @@ const ContainerComponent = (props: ReactNodeViewProps) => {
   )
 }
 
-const ItemComponent = () => {
-  return React.createElement(NodeViewWrapper, null, React.createElement(NodeViewContent))
+const ItemComponent = (props: ReactNodeViewProps) => {
+  const renderKey = `${props.node.type.name}:${props.node.textContent}`
+
+  selectionStateRenderCounts.set(renderKey, (selectionStateRenderCounts.get(renderKey) ?? 0) + 1)
+
+  return React.createElement(
+    NodeViewWrapper,
+    {
+      'data-node-view-selected': String(props.selected),
+      'data-selection-inside': String(props.selectionInside),
+    },
+    React.createElement(NodeViewContent),
+  )
 }
 
 const WidgetComponent = () => {
@@ -144,6 +162,18 @@ const Item = Node.create({
   },
 })
 
+const ContainerWithTextSelection = Container.extend({
+  addNodeView() {
+    return ReactNodeViewRenderer(ContainerComponent, { selectedOnTextSelection: true })
+  },
+})
+
+const ItemWithTextSelection = Item.extend({
+  addNodeView() {
+    return ReactNodeViewRenderer(ItemComponent, { selectedOnTextSelection: true })
+  },
+})
+
 const Widget = Node.create({
   name: 'widget',
   group: 'block',
@@ -162,9 +192,15 @@ const Widget = Node.create({
   },
 })
 
-const createEditorWithContainers = () => {
+const createEditorWithContainers = ({ selectedOnTextSelection = false } = {}) => {
   return new Editor({
-    extensions: [Document, Paragraph, Text, Container, Item],
+    extensions: [
+      Document,
+      Paragraph,
+      Text,
+      selectedOnTextSelection ? ContainerWithTextSelection : Container,
+      selectedOnTextSelection ? ItemWithTextSelection : Item,
+    ],
     content:
       '<div data-type="container" id="a"><div data-type="item"><p>first</p></div></div>' +
       '<div data-type="container" id="b"><div data-type="item"><p>second</p></div></div>',
@@ -211,6 +247,7 @@ describe('ReactNodeViewRenderer', () => {
     renderErrors.length = 0
     bumpHandles.clear()
     explodingIds.clear()
+    selectionStateRenderCounts.clear()
     beforeReplace = undefined
     document.body.innerHTML = ''
   })
@@ -252,6 +289,100 @@ describe('ReactNodeViewRenderer', () => {
     expect(container.querySelector('[data-node-view-wrapper]')).not.toBeNull()
     expect(renderedPositions.length).toBeGreaterThan(0)
     expect(renderedPositions).toContain(0)
+
+    editor.destroy()
+  })
+
+  it('only selects the node view targeted by ProseMirror', async () => {
+    const editor = createEditorWithContainers()
+    const { container } = render(React.createElement(EditorContent, { editor }))
+
+    await flushMicrotasks()
+
+    editor.commands.setNodeSelection(0)
+
+    await flushAnimationFrame()
+
+    const selectedStates = Array.from(
+      container.querySelectorAll('[data-node-view-selected]'),
+      element => element.getAttribute('data-node-view-selected'),
+    )
+
+    expect(selectedStates).toEqual(['true', 'false', 'false', 'false'])
+
+    editor.destroy()
+  })
+
+  it('marks only node views containing the text selection as selectionInside', async () => {
+    const editor = createEditorWithContainers()
+    const { container } = render(React.createElement(EditorContent, { editor }))
+
+    await flushMicrotasks()
+
+    editor.commands.setTextSelection(3)
+
+    await flushMicrotasks()
+
+    const selectionInsideStates = Array.from(
+      container.querySelectorAll('[data-selection-inside]'),
+      element => element.getAttribute('data-selection-inside'),
+    )
+
+    expect(selectionInsideStates).toEqual(['true', 'true', 'false', 'false'])
+
+    const renderCounts = new Map(selectionStateRenderCounts)
+
+    editor.commands.setTextSelection(4)
+
+    await flushMicrotasks()
+
+    expect(selectionStateRenderCounts).toEqual(renderCounts)
+
+    editor.destroy()
+  })
+
+  it('keeps selectedOnTextSelection without rerendering an unchanged node view path', async () => {
+    const editor = createEditorWithContainers({ selectedOnTextSelection: true })
+    const { container } = render(React.createElement(EditorContent, { editor }))
+
+    await flushMicrotasks()
+
+    editor.commands.selectAll()
+
+    await flushMicrotasks()
+
+    const initialRenderCounts = new Map(selectionStateRenderCounts)
+
+    editor.commands.setTextSelection(3)
+
+    await flushMicrotasks()
+
+    const selectedStates = Array.from(
+      container.querySelectorAll('[data-node-view-selected]'),
+      element => element.getAttribute('data-node-view-selected'),
+    )
+
+    expect(selectedStates).toEqual(['true', 'true', 'false', 'false'])
+    expect(selectionStateRenderCounts.get('container:first')).toBe(
+      initialRenderCounts.get('container:first')! + 1,
+    )
+    expect(selectionStateRenderCounts.get('item:first')).toBe(
+      initialRenderCounts.get('item:first')! + 1,
+    )
+    expect(selectionStateRenderCounts.get('container:second')).toBe(
+      initialRenderCounts.get('container:second'),
+    )
+    expect(selectionStateRenderCounts.get('item:second')).toBe(
+      initialRenderCounts.get('item:second'),
+    )
+
+    const renderCounts = new Map(selectionStateRenderCounts)
+
+    editor.commands.setTextSelection(4)
+
+    await flushMicrotasks()
+
+    expect(selectionStateRenderCounts).toEqual(renderCounts)
 
     editor.destroy()
   })
