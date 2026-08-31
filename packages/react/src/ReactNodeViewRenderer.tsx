@@ -367,7 +367,7 @@ export class ReactNodeView<
   deselectNode() {
     this.nodeSelected = false
     this.updateSelectedState(
-      this.options.selectedOnTextSelection === true && this.renderer.props.selectionInside,
+      this.options.selectedOnTextSelection === true && this.renderer.props.selectionInside === true,
     )
   }
 
