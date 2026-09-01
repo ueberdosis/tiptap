@@ -387,6 +387,28 @@ describe('ReactNodeViewRenderer', () => {
     editor.destroy()
   })
 
+  it('keeps a node selected when its NodeSelection moves to an internal text selection', async () => {
+    const editor = createEditorWithContainers({ selectedOnTextSelection: true })
+    const { container } = render(React.createElement(EditorContent, { editor }))
+
+    await flushMicrotasks()
+
+    editor.commands.setNodeSelection(0)
+    await flushMicrotasks()
+
+    const renderCount = selectionStateRenderCounts.get('container:first')!
+
+    editor.commands.setTextSelection(3)
+    await flushMicrotasks()
+
+    const selectedState = container.querySelector('[data-node-view-selected]')!
+
+    expect(selectedState.getAttribute('data-node-view-selected')).toBe('true')
+    expect(selectionStateRenderCounts.get('container:first')).toBe(renderCount + 1)
+
+    editor.destroy()
+  })
+
   it('keeps new React paragraph content connected while its portal is queued', async () => {
     const editor = createEditorWithReactParagraph()
     const { container } = render(React.createElement(EditorContent, { editor }))
