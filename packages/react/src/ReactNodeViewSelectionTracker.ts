@@ -2,12 +2,14 @@ import { isTextSelection } from '@tiptap/core'
 import type { Editor, EditorEvents } from '@tiptap/core'
 import type { Node as PMNode, ResolvedPos } from '@tiptap/pm/model'
 
+/** A React node view that can be tracked for selection changes. */
 interface TrackedNodeView {
   node: PMNode
   getPos(): number | undefined
   setSelectionInside(selectionInside: boolean): void
 }
 
+/** A shared ancestor of the current text selection. */
 interface SelectionAncestor {
   node: PMNode
   position: number
