@@ -1,6 +1,6 @@
 import type { Editor } from '@tiptap/core'
 
-import { getTextSelectionAncestorPositions } from './getTextSelectionAncestorPositions.js'
+import { getTextSelectionAncestorPositions } from './lib/utils/getTextSelectionAncestorPositions.js'
 
 /** A React node view that receives `selectionInside` updates. */
 interface TrackedNodeView {

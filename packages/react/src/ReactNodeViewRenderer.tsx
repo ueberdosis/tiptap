@@ -13,7 +13,7 @@ import { createElement, createRef, memo } from 'react'
 
 import { captureDOMSelection } from './captureDOMSelection.js'
 import type { EditorWithContentComponent } from './Editor.js'
-import { getTextSelectionAncestorPositions } from './getTextSelectionAncestorPositions.js'
+import { getTextSelectionAncestorPositions } from './lib/utils/getTextSelectionAncestorPositions.js'
 import { getReactNodeViewSelectionTracker } from './ReactNodeViewSelectionTracker.js'
 import { ReactRenderer } from './ReactRenderer.js'
 import type { ReactNodeViewProps } from './types.js'
