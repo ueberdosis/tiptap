@@ -13,6 +13,7 @@ import { createElement, createRef, memo } from 'react'
 
 import { captureDOMSelection } from './captureDOMSelection.js'
 import type { EditorWithContentComponent } from './Editor.js'
+import { getTextSelectionAncestorPositions } from './getTextSelectionAncestorPositions.js'
 import { getReactNodeViewSelectionTracker } from './ReactNodeViewSelectionTracker.js'
 import { ReactRenderer } from './ReactRenderer.js'
 import type { ReactNodeViewProps } from './types.js'
@@ -366,12 +367,9 @@ export class ReactNodeView<
    */
   deselectNode() {
     this.nodeSelected = false
-
-    if (this.options.selectedOnTextSelection === true) {
-      return
-    }
-
-    this.updateSelectedState(false)
+    this.updateSelectedState(
+      this.options.selectedOnTextSelection === true && this.isTextSelectionInside(),
+    )
   }
 
   setSelectionInside(selectionInside: boolean) {
@@ -385,6 +383,15 @@ export class ReactNodeView<
   private updateSelectedState(selected: boolean) {
     this.renderer.updateProps({ selected })
     this.renderer.element.classList.toggle('ProseMirror-selectednode', selected)
+  }
+
+  private isTextSelectionInside() {
+    const pos = this.getPos()
+
+    return (
+      typeof pos === 'number' &&
+      getTextSelectionAncestorPositions(this.editor.state.selection).includes(pos)
+    )
   }
 
   /**

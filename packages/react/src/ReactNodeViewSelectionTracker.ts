@@ -1,72 +1,19 @@
-import { isTextSelection } from '@tiptap/core'
-import type { Editor, EditorEvents } from '@tiptap/core'
-import type { Node as PMNode, ResolvedPos } from '@tiptap/pm/model'
+import type { Editor } from '@tiptap/core'
 
-/** A React node view that can be tracked for selection changes. */
+import { getTextSelectionAncestorPositions } from './getTextSelectionAncestorPositions.js'
+
+/** A React node view that receives `selectionInside` updates. */
 interface TrackedNodeView {
-  node: PMNode
-  getPos(): number | undefined
+  dom: HTMLElement
   setSelectionInside(selectionInside: boolean): void
-}
-
-/** A shared ancestor of the current text selection. */
-interface SelectionAncestor {
-  node: PMNode
-  position: number
-}
-
-function isSameAncestor($from: ResolvedPos, $to: ResolvedPos, depth: number): boolean {
-  return $from.node(depth) === $to.node(depth) && $from.before(depth) === $to.before(depth)
-}
-
-function getSelectionAncestors(editor: Editor): SelectionAncestor[] {
-  const { selection } = editor.state
-
-  if (!isTextSelection(selection)) {
-    return []
-  }
-
-  const { $from, $to } = selection
-  const ancestors: SelectionAncestor[] = []
-  const maxDepth = Math.min($from.depth, $to.depth)
-
-  for (let depth = 1; depth <= maxDepth; depth += 1) {
-    const node = $from.node(depth)
-    const position = $from.before(depth)
-
-    if (!isSameAncestor($from, $to, depth)) {
-      break
-    }
-
-    ancestors.push({ node, position })
-  }
-
-  return ancestors
-}
-
-function findView(
-  views: Set<TrackedNodeView> | undefined,
-  position: number,
-): TrackedNodeView | undefined {
-  if (!views) {
-    return undefined
-  }
-
-  if (views.size === 1) {
-    const [view] = views
-
-    return view
-  }
-
-  return Array.from(views).find(view => view.getPos() === position)
 }
 
 class ReactNodeViewSelectionTracker {
   private editor: Editor
 
-  private views = new Set<TrackedNodeView>()
+  private views = new WeakMap<Node, TrackedNodeView>()
 
-  private viewsByNode = new Map<PMNode, Set<TrackedNodeView>>()
+  private viewCount = 0
 
   private insideViews = new Set<TrackedNodeView>()
 
@@ -77,43 +24,22 @@ class ReactNodeViewSelectionTracker {
   }
 
   register(view: TrackedNodeView) {
-    if (this.views.size === 0) {
+    if (this.viewCount === 0) {
       this.editor.on('transaction', this.handleTransaction)
     }
 
-    this.views.add(view)
-    this.addNode(view.node, view)
+    this.views.set(view.dom, view)
+    this.viewCount += 1
     this.scheduleSync()
   }
 
   unregister(view: TrackedNodeView) {
-    this.views.delete(view)
+    this.views.delete(view.dom)
+    this.viewCount -= 1
     this.insideViews.delete(view)
-    this.removeNode(view.node, view)
 
-    if (this.views.size === 0) {
+    if (this.viewCount === 0) {
       this.editor.off('transaction', this.handleTransaction)
-    }
-  }
-
-  private addNode(node: PMNode, view: TrackedNodeView) {
-    const views = this.viewsByNode.get(node) ?? new Set<TrackedNodeView>()
-
-    views.add(view)
-    this.viewsByNode.set(node, views)
-  }
-
-  private removeNode(node: PMNode, view: TrackedNodeView) {
-    const views = this.viewsByNode.get(node)
-
-    if (!views) {
-      return
-    }
-
-    views.delete(view)
-
-    if (views.size === 0) {
-      this.viewsByNode.delete(node)
     }
   }
 
@@ -130,23 +56,13 @@ class ReactNodeViewSelectionTracker {
     })
   }
 
-  private handleTransaction = ({ transaction }: EditorEvents['transaction']) => {
-    if (transaction.docChanged) {
-      this.rebuildNodeIndex()
-    }
-
-    this.scheduleSync()
-  }
-
-  private rebuildNodeIndex() {
-    this.viewsByNode.clear()
-
-    for (const view of this.views) {
-      this.addNode(view.node, view)
-    }
-  }
+  private handleTransaction = () => this.scheduleSync()
 
   private sync() {
+    if (this.viewCount === 0 || this.editor.isDestroyed) {
+      return
+    }
+
     const nextInsideViews = this.findInsideViews()
 
     this.updateViews(this.insideViews, nextInsideViews, false)
@@ -170,8 +86,9 @@ class ReactNodeViewSelectionTracker {
   private findInsideViews(): Set<TrackedNodeView> {
     const insideViews = new Set<TrackedNodeView>()
 
-    for (const { node, position } of getSelectionAncestors(this.editor)) {
-      const view = findView(this.viewsByNode.get(node), position)
+    for (const position of getTextSelectionAncestorPositions(this.editor.state.selection)) {
+      const dom = this.editor.view.nodeDOM(position)
+      const view = dom ? this.views.get(dom) : undefined
 
       if (view) {
         insideViews.add(view)
