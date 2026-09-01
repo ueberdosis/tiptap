@@ -18,6 +18,7 @@ const renderedPositions: Array<number | undefined> = []
 const renderErrors: unknown[] = []
 const bumpHandles = new Map<string, () => void>()
 const explodingIds = new Set<string>()
+const selectionStateRenderCounts = new Map<string, number>()
 
 // Optional hook run inside the click handler before the replace commands.
 let beforeReplace: (() => void) | undefined
@@ -25,6 +26,9 @@ let beforeReplace: (() => void) | undefined
 const ContainerComponent = (props: ReactNodeViewProps) => {
   const [, setTick] = useState(0)
   const id = props.node.attrs.id as string
+  const renderKey = `${props.node.type.name}:${props.node.textContent}`
+
+  selectionStateRenderCounts.set(renderKey, (selectionStateRenderCounts.get(renderKey) ?? 0) + 1)
 
   useEffect(() => {
     bumpHandles.set(id, () => setTick(tick => tick + 1))
@@ -74,7 +78,10 @@ const ContainerComponent = (props: ReactNodeViewProps) => {
 
   return React.createElement(
     NodeViewWrapper,
-    null,
+    {
+      'data-node-view-selected': String(props.selected),
+      'data-selection-inside': String(props.selectionInside),
+    },
     React.createElement('button', {
       type: 'button',
       'data-testid': `replace-${id}`,
@@ -84,8 +91,19 @@ const ContainerComponent = (props: ReactNodeViewProps) => {
   )
 }
 
-const ItemComponent = () => {
-  return React.createElement(NodeViewWrapper, null, React.createElement(NodeViewContent))
+const ItemComponent = (props: ReactNodeViewProps) => {
+  const renderKey = `${props.node.type.name}:${props.node.textContent}`
+
+  selectionStateRenderCounts.set(renderKey, (selectionStateRenderCounts.get(renderKey) ?? 0) + 1)
+
+  return React.createElement(
+    NodeViewWrapper,
+    {
+      'data-node-view-selected': String(props.selected),
+      'data-selection-inside': String(props.selectionInside),
+    },
+    React.createElement(NodeViewContent),
+  )
 }
 
 const WidgetComponent = () => {
@@ -144,6 +162,18 @@ const Item = Node.create({
   },
 })
 
+const ContainerWithTextSelection = Container.extend({
+  addNodeView() {
+    return ReactNodeViewRenderer(ContainerComponent, { selectedOnTextSelection: true })
+  },
+})
+
+const ItemWithTextSelection = Item.extend({
+  addNodeView() {
+    return ReactNodeViewRenderer(ItemComponent, { selectedOnTextSelection: true })
+  },
+})
+
 const Widget = Node.create({
   name: 'widget',
   group: 'block',
@@ -162,9 +192,15 @@ const Widget = Node.create({
   },
 })
 
-const createEditorWithContainers = () => {
+const createEditorWithContainers = ({ selectedOnTextSelection = false } = {}) => {
   return new Editor({
-    extensions: [Document, Paragraph, Text, Container, Item],
+    extensions: [
+      Document,
+      Paragraph,
+      Text,
+      selectedOnTextSelection ? ContainerWithTextSelection : Container,
+      selectedOnTextSelection ? ItemWithTextSelection : Item,
+    ],
     content:
       '<div data-type="container" id="a"><div data-type="item"><p>first</p></div></div>' +
       '<div data-type="container" id="b"><div data-type="item"><p>second</p></div></div>',
@@ -191,6 +227,14 @@ const flushMicrotasks = async () => {
   })
 }
 
+const renderEditor = async (editor: Editor) => {
+  const result = render(React.createElement(EditorContent, { editor }))
+
+  await flushMicrotasks()
+
+  return result
+}
+
 const flushAnimationFrame = async () => {
   await act(async () => {
     await new Promise<void>(resolve => {
@@ -205,12 +249,19 @@ const clickReplace = (id: string) => {
     .dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }))
 }
 
+const getSelectedStates = (container: HTMLElement) => {
+  return Array.from(container.querySelectorAll('[data-node-view-selected]'), element =>
+    element.getAttribute('data-node-view-selected'),
+  )
+}
+
 describe('ReactNodeViewRenderer', () => {
   afterEach(() => {
     renderedPositions.length = 0
     renderErrors.length = 0
     bumpHandles.clear()
     explodingIds.clear()
+    selectionStateRenderCounts.clear()
     beforeReplace = undefined
     document.body.innerHTML = ''
   })
@@ -245,9 +296,7 @@ describe('ReactNodeViewRenderer', () => {
 
   it('renders nested node views and resolves getPos during render', async () => {
     const editor = createEditorWithContainers()
-    const { container } = render(React.createElement(EditorContent, { editor }))
-
-    await flushMicrotasks()
+    const { container } = await renderEditor(editor)
 
     expect(container.querySelector('[data-node-view-wrapper]')).not.toBeNull()
     expect(renderedPositions.length).toBeGreaterThan(0)
@@ -256,11 +305,124 @@ describe('ReactNodeViewRenderer', () => {
     editor.destroy()
   })
 
-  it('keeps new React paragraph content connected while its portal is queued', async () => {
-    const editor = createEditorWithReactParagraph()
-    const { container } = render(React.createElement(EditorContent, { editor }))
+  it('only selects the node view targeted by ProseMirror', async () => {
+    const editor = createEditorWithContainers()
+    const { container } = await renderEditor(editor)
+
+    editor.commands.setNodeSelection(0)
+
+    await flushAnimationFrame()
+
+    expect(getSelectedStates(container)).toEqual(['true', 'false', 'false', 'false'])
+
+    editor.destroy()
+  })
+
+  it('marks only node views containing the text selection as selectionInside', async () => {
+    const editor = createEditorWithContainers()
+    const { container } = await renderEditor(editor)
+
+    editor.commands.setTextSelection(3)
 
     await flushMicrotasks()
+
+    const selectionInsideStates = Array.from(
+      container.querySelectorAll('[data-selection-inside]'),
+      element => element.getAttribute('data-selection-inside'),
+    )
+
+    expect(selectionInsideStates).toEqual(['true', 'true', 'false', 'false'])
+
+    const renderCounts = new Map(selectionStateRenderCounts)
+
+    editor.commands.setTextSelection(4)
+
+    await flushMicrotasks()
+
+    expect(selectionStateRenderCounts).toEqual(renderCounts)
+
+    editor.destroy()
+  })
+
+  it('keeps selectedOnTextSelection without rerendering an unchanged node view path', async () => {
+    const editor = createEditorWithContainers({ selectedOnTextSelection: true })
+    const { container } = await renderEditor(editor)
+
+    editor.commands.selectAll()
+
+    await flushMicrotasks()
+
+    const initialRenderCounts = new Map(selectionStateRenderCounts)
+
+    editor.commands.setTextSelection(3)
+
+    await flushMicrotasks()
+
+    expect(getSelectedStates(container)).toEqual(['true', 'true', 'false', 'false'])
+    expect(selectionStateRenderCounts.get('container:first')).toBe(
+      initialRenderCounts.get('container:first')! + 1,
+    )
+    expect(selectionStateRenderCounts.get('item:first')).toBe(
+      initialRenderCounts.get('item:first')! + 1,
+    )
+    expect(selectionStateRenderCounts.get('container:second')).toBe(
+      initialRenderCounts.get('container:second'),
+    )
+    expect(selectionStateRenderCounts.get('item:second')).toBe(
+      initialRenderCounts.get('item:second'),
+    )
+
+    const renderCounts = new Map(selectionStateRenderCounts)
+
+    editor.commands.setTextSelection(4)
+
+    await flushMicrotasks()
+
+    expect(selectionStateRenderCounts).toEqual(renderCounts)
+
+    editor.destroy()
+  })
+
+  it('keeps a node selected when its NodeSelection moves to an internal text selection', async () => {
+    const editor = createEditorWithContainers({ selectedOnTextSelection: true })
+    const { container } = await renderEditor(editor)
+
+    editor.commands.setNodeSelection(0)
+    await flushMicrotasks()
+
+    const renderCount = selectionStateRenderCounts.get('container:first')!
+
+    editor.commands.setTextSelection(3)
+    await flushMicrotasks()
+
+    const selectedState = container.querySelector('[data-node-view-selected]')!
+
+    expect(selectedState.getAttribute('data-node-view-selected')).toBe('true')
+    expect(selectionStateRenderCounts.get('container:first')).toBe(renderCount + 1)
+
+    editor.destroy()
+  })
+
+  it('deselects a node when its NodeSelection moves to an external text selection', async () => {
+    const editor = createEditorWithContainers({ selectedOnTextSelection: true })
+    const { container } = await renderEditor(editor)
+
+    editor.commands.setNodeSelection(0)
+    await flushMicrotasks()
+
+    const secondContainerPosition = editor.state.doc.firstChild!.nodeSize
+
+    editor.commands.setTextSelection(secondContainerPosition + 3)
+    await flushMicrotasks()
+
+    expect(getSelectedStates(container)).toEqual(['false', 'false', 'true', 'true'])
+
+    editor.destroy()
+  })
+
+  it('keeps new React paragraph content connected while its portal is queued', async () => {
+    const editor = createEditorWithReactParagraph()
+    const { container } = await renderEditor(editor)
 
     editor.commands.setTextSelection(6)
     editor.commands.splitBlock()
@@ -288,9 +450,7 @@ describe('ReactNodeViewRenderer', () => {
 
   it('resolves getPos to undefined while the view desc is detached mid-update', async () => {
     const editor = createEditorWithContainers()
-    const { container } = render(React.createElement(EditorContent, { editor }))
-
-    await flushMicrotasks()
+    const { container } = await renderEditor(editor)
 
     // Recreate the state ProseMirror's view tree goes through while it
     // updates: the desc has a parent but is not in parent.children yet.
@@ -317,9 +477,7 @@ describe('ReactNodeViewRenderer', () => {
 
   it('does not select the node view when the selection covers its former position', async () => {
     const editor = createEditorWithWidget()
-    const { container } = render(React.createElement(EditorContent, { editor }))
-
-    await flushMicrotasks()
+    const { container } = await renderEditor(editor)
 
     // The widget starts at position 5 and moves to 8 when text is typed above it.
     editor.commands.insertContentAt(4, 'def')
@@ -336,9 +494,7 @@ describe('ReactNodeViewRenderer', () => {
 
   it('selects the node view when it is selected at its new position', async () => {
     const editor = createEditorWithWidget()
-    const { container } = render(React.createElement(EditorContent, { editor }))
-
-    await flushMicrotasks()
+    const { container } = await renderEditor(editor)
 
     editor.commands.insertContentAt(4, 'def')
     editor.commands.setNodeSelection(8)
@@ -354,9 +510,7 @@ describe('ReactNodeViewRenderer', () => {
 
   it('does not crash when node views are created while React has pending updates', async () => {
     const editor = createEditorWithContainers()
-    const { container } = render(React.createElement(EditorContent, { editor }))
-
-    await flushMicrotasks()
+    const { container } = await renderEditor(editor)
 
     expect(() => clickReplace('b')).not.toThrow()
 
@@ -377,10 +531,7 @@ describe('ReactNodeViewRenderer', () => {
 
   it('keeps the editor intact when a component throws during the synchronous flush', async () => {
     const editor = createEditorWithContainers()
-
-    render(React.createElement(EditorContent, { editor }))
-
-    await flushMicrotasks()
+    await renderEditor(editor)
 
     // Make container "a" throw on its next render and give it a pending
     // update, so the new node view's flushSync renders it mid-transaction.
