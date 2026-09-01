@@ -298,3 +298,34 @@ describe('escapeTableCellPipes — pipe escaping inside code spans', () => {
     expect(escapeTableCellPipes('| `|\\||` |')).toBe('| `\\|\\|\\|` |')
   })
 })
+
+describe('table markdown — pipe escaping when serializing cells', () => {
+  const manager = new MarkdownManager({
+    extensions: [Document, Paragraph, Text, Code, TableKit],
+  })
+
+  it('escapes a bare pipe in cell text', () => {
+    const markdown = '| Col | Value |\n| --- | --- |\n| a | uses \\| pipe |'
+    const serialized = manager.serialize(manager.parse(markdown))
+
+    expect(serialized).toContain('uses \\| pipe')
+  })
+
+  it('round trips a cell with an escaped pipe', () => {
+    const markdown = '| Col | Value |\n| --- | --- |\n| a | uses \\| pipe |'
+    const pass1 = manager.serialize(manager.parse(markdown))
+    const pass2 = manager.serialize(manager.parse(pass1))
+
+    expect(pass2).toBe(pass1)
+
+    const cell = manager.parse(pass1).content?.[0]?.content?.[1]?.content?.[1]
+    expect(cell?.content?.[0]?.content?.[0]?.text).toBe('uses | pipe')
+  })
+
+  it('escapes pipes inside a code span in a cell', () => {
+    const markdown = '| H |\n| - |\n| `a || b` |'
+    const serialized = manager.serialize(manager.parse(markdown))
+
+    expect(serialized).toContain('`a \\|\\| b`')
+  })
+})
