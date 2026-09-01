@@ -1,5 +1,5 @@
 import type { PasteRuleMatch } from '@tiptap/core'
-import { Mark, markPasteRule, mergeAttributes } from '@tiptap/core'
+import { getMarksBetween, Mark, markPasteRule, mergeAttributes, PasteRule } from '@tiptap/core'
 import type { Plugin } from '@tiptap/pm/state'
 import { find, registerCustomProtocol, reset } from 'linkifyjs'
 
@@ -496,14 +496,30 @@ export const Link = Mark.create<LinkOptions>({
       ]
     }
 
+    const plainUrlPasteRule = markPasteRule({
+      find: findPlainUrls,
+      type: this.type,
+      getAttributes: match => {
+        return {
+          href: match.data?.href,
+        }
+      },
+    })
+
     return [
-      markPasteRule({
-        find: findPlainUrls,
-        type: this.type,
-        getAttributes: match => {
-          return {
-            href: match.data?.href,
+      new PasteRule({
+        find: plainUrlPasteRule.find,
+        handler: props => {
+          // Keep links pasted as HTML intact: don't relink a domain inside their text.
+          if (
+            getMarksBetween(props.range.from, props.range.to, props.state.doc).some(
+              item => item.mark.type === this.type,
+            )
+          ) {
+            return
           }
+
+          return plainUrlPasteRule.handler(props)
         },
       }),
     ]

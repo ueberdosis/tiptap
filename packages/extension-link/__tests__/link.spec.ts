@@ -233,6 +233,26 @@ describe('extension-link', () => {
     })
   })
 
+  it('does not split a pasted link whose text contains a domain name', () => {
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [Document, Text, Paragraph, Link],
+      content: '<p></p>',
+    })
+
+    editor.commands.setTextSelection(1)
+    editor.view.pasteHTML('<a href="https://example.com/article">Read more at nytimes.com</a>')
+
+    const anchorCount = (editor.getHTML().match(/<a\s/g) || []).length
+
+    expect(anchorCount).toBe(1)
+    expect(editor.getHTML()).toContain('href="https://example.com/article"')
+    expect(editor.getHTML()).not.toContain('href="http://nytimes.com"')
+
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
+
   describe('isAllowedUri', () => {
     it('allows whitelisted protocols', () => {
       expect(isAllowedUri('https://example.com')).toBeTruthy()
