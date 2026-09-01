@@ -1,5 +1,16 @@
 # Change Log
 
+## 3.31.0
+
+### Minor Changes
+
+- 4372d81: Align `selected` with ProseMirror node selections by default, expose text selections through `selectionInside`, and keep `selectedOnTextSelection` compatible.
+
+### Patch Changes
+
+- @tiptap/core@3.31.0
+- @tiptap/pm@3.31.0
+
 ## 3.30.6
 
 ### Patch Changes
