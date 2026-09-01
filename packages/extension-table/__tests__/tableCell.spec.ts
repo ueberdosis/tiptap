@@ -153,4 +153,41 @@ describe('extension table cell', () => {
     editor?.destroy()
     getEditorEl()?.remove()
   })
+
+  it('should not serialize the default colspan and rowspan', () => {
+    const content = '<table><tbody><tr><th>Name</th><td>Cyndi Lauper</td></tr></tbody></table>'
+
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [Document, Text, Paragraph, TableCell, TableHeader, TableRow, Table],
+      content,
+    })
+
+    expect(editor.getHTML()).toContain('<th><p>Name</p></th>')
+    expect(editor.getHTML()).toContain('<td><p>Cyndi Lauper</p></td>')
+
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
+
+  it('should keep colspan and rowspan when a cell actually spans', () => {
+    const content =
+      '<table><tbody><tr><td colspan="2">Wide</td><td rowspan="2">Tall</td></tr><tr><td>a</td><td>b</td></tr></tbody></table>'
+
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [Document, Text, Paragraph, TableCell, TableHeader, TableRow, Table],
+      content,
+    })
+
+    const html = editor.getHTML()
+
+    expect(html).toContain('<td colspan="2"><p>Wide</p></td>')
+    expect(html).toContain('<td rowspan="2"><p>Tall</p></td>')
+    expect(html).not.toContain('colspan="1"')
+    expect(html).not.toContain('rowspan="1"')
+
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
 })
