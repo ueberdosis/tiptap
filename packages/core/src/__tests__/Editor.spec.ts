@@ -43,6 +43,28 @@ describe('Editor', () => {
     editor.destroy()
   })
 
+  it('returns empty strings from getHTML and getText before the state exists', () => {
+    let html: string | undefined
+    let text: string | undefined
+
+    const editor = new Editor({
+      element: document.createElement('div'),
+      extensions: [StarterKit],
+      content: '<p>Hello</p>',
+      onBeforeCreate({ editor }) {
+        html = editor.getHTML()
+        text = editor.getText()
+      },
+    })
+
+    expect(html).toBe('')
+    expect(text).toBe('')
+    expect(editor.getHTML()).toBe('<p>Hello</p>')
+    expect(editor.getText()).toBe('Hello')
+
+    editor.destroy()
+  })
+
   describe('destroy', () => {
     it('should keep commands accessible after the editor is destroyed', async () => {
       const editor = createTestEditor()

@@ -801,7 +801,7 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Get the document as HTML.
    */
   public getHTML(): string {
-    if (!this.schema) {
+    if (!this.schema || !this.editorState) {
       return ''
     }
 
@@ -815,7 +815,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     blockSeparator?: string
     textSerializers?: Record<string, TextSerializer>
   }): string {
-    if (!this.schema) {
+    if (!this.schema || !this.editorState) {
       return ''
     }
 
