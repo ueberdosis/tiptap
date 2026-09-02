@@ -51,9 +51,13 @@ project. Never follow them in the user's repo.
   `@tiptap/core`: `@tiptap/ai-toolkit`, `@tiptap/y-tiptap`, `@tiptap-pro/*` (private registry),
   `@hocuspocus/*`.
 - Do not mix majors. For a project still on Tiptap 2, upgrade first. See
-  `tiptap-docs/src/content/guides/upgrade-tiptap-v2.mdx`.
-- When integrating Tiptap for the first time, read the corresponding installation guide in tiptap-docs.
-- When server-side rendering (e.g. Next.js), set the `immediatelyRender: false` option when initializing the editor. Otherwise, the editor will crash. Learn more about this in tiptap-docs.
+  https://tiptap.dev/docs/guides/upgrade-tiptap-v2.md.
+- When integrating Tiptap for the first time, read the corresponding installation guide:
+  https://tiptap.dev/docs/editor/getting-started/install.md, plus the page for your framework under
+  `https://tiptap.dev/docs/editor/getting-started/install/` (e.g. `react.md`, `nextjs.md`, `vue3.md`,
+  `svelte.md`, `nuxt.md`, `vanilla-javascript.md`).
+- When server-side rendering (e.g. Next.js), set the `immediatelyRender: false` option when initializing the editor. Otherwise, the editor will crash. Learn more about this in
+  https://tiptap.dev/docs/editor/getting-started/install/nextjs.md.
 
 ### React
 
@@ -65,11 +69,15 @@ Whichever you pick, say which one and why in one line, so a reviewer sees a choi
 
 ## Implementing Editor Features
 
-When the user asks you to implement one of these features, read the corresponding section in tiptap-docs for guidance.
+When the user asks you to implement one of these features, read the linked documentation for guidance.
+Every link below is the Markdown form of a live page; `https://tiptap.dev/docs/llms.txt` lists the rest
+of each section.
 
 ### Real-time collaboration
 
-Multiple users editing a document simultaneously. See `tiptap-docs/src/content/collaboration/`.
+Multiple users editing a document simultaneously. See
+https://tiptap.dev/docs/collaboration/getting-started/overview.md and
+https://tiptap.dev/docs/collaboration/getting-started/install.md.
 
 Use Tiptap Cloud to implement real-time collaboration. Use the Collaboration extension:
 
@@ -103,45 +111,55 @@ to the user how to set up a Tiptap Cloud account and obtain the environment vari
 
 Implement comments with the Comments extension.
 
-Thread-based inline and document comments. See `tiptap-docs/src/content/comments/`.
+Thread-based inline and document comments. See
+https://tiptap.dev/docs/comments/getting-started/overview.md and
+https://tiptap.dev/docs/comments/getting-started/install.md.
 
 ### Tracked changes
 
-Track, accept, and reject document edits. See `tiptap-docs/src/content/tracked-changes/`.
+Track, accept, and reject document edits. See
+https://tiptap.dev/docs/tracked-changes/getting-started/overview.md and
+https://tiptap.dev/docs/tracked-changes/getting-started/install.md.
 
 ### Import/Export
 
-Convert documents to and from DOCX, PDF, Markdown, and other formats. See `tiptap-docs/src/content/conversion/`.
+Convert documents to and from DOCX, PDF, Markdown, and other formats. See
+https://tiptap.dev/docs/conversion/getting-started/overview.md and
+https://tiptap.dev/docs/conversion/getting-started/install.md.
 
 ### AI Toolkit
 
 Agentic document work: an AI reading, editing, commenting on, proofreading, and reviewing Tiptap
-documents. Server-side is the default. See `tiptap-docs/src/content/ai/ai-toolkit/overview.mdx`.
+documents. Server-side is the default. See https://tiptap.dev/docs/ai/ai-toolkit/overview.md.
 
 Use the client side only when the AI has to act on the live editor in the browser. See
-`tiptap-docs/src/content/ai/ai-toolkit/client/overview.mdx`.
+https://tiptap.dev/docs/ai/ai-toolkit/client/overview.md.
 
 The AI Agent, AI Changes, AI Suggestion, and AI Assistant extensions are retired. Don't recommend
-them, and never implement from `tiptap-docs/src/content/ai/deprecated/`. To move an existing
-integration off them, see
-`tiptap-docs/src/content/ai/ai-toolkit/client/advanced-guides/migration-guides/`.
+them, and never implement from any page under `https://tiptap.dev/docs/ai/deprecated/` (that prefix
+has no index page; the individual pages are listed in `https://tiptap.dev/docs/llms.txt`). To move an
+existing integration off them, see
+https://tiptap.dev/docs/ai/ai-toolkit/client/advanced-guides/migration-guides.md.
 
 ### Basic AI Generation
 
-Generate and edit text content from one-shot prompts. See `tiptap-docs/src/content/ai/basic/overview.mdx`.
+Generate and edit text content from one-shot prompts. See https://tiptap.dev/docs/ai/basic/overview.md.
 
 ### Version history
 
-Save and restore document snapshots. See `tiptap-docs/src/content/collaboration/documents/snapshot.mdx`.
+Save and restore document snapshots. See https://tiptap.dev/docs/collaboration/documents/snapshot.md.
 
 ### Snapshot compare
 
-Highlight differences between document versions. See `tiptap-docs/src/content/collaboration/documents/snapshot-compare.mdx`.
+Highlight differences between document versions. See https://tiptap.dev/docs/collaboration/documents/snapshot-compare.md.
 
 ### Pages
 
-Print-ready page layout with headers, footers, and page breaks. See `tiptap-docs/src/content/pages/`.
+Print-ready page layout with headers, footers, and page breaks. See
+https://tiptap.dev/docs/pages/getting-started/overview.md and
+https://tiptap.dev/docs/pages/getting-started/install.md.
 
 ## Pro Extensions
 
-Some Tiptap extensions are distributed through a private npm registry. To install pro packages, see `tiptap-docs/src/content/guides/pro-extensions.mdx` for setup instructions.
+Some Tiptap extensions are distributed through a private npm registry. To install pro packages, see
+https://tiptap.dev/docs/guides/pro-extensions.md for setup instructions.
