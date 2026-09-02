@@ -1,5 +1,35 @@
 # Change Log
 
+## 3.31.1
+
+### Patch Changes
+
+- Updated dependencies [cd32a2f]
+  - @tiptap/core@3.31.1
+  - @tiptap/extension-blockquote@3.31.1
+  - @tiptap/extension-bold@3.31.1
+  - @tiptap/extension-code@3.31.1
+  - @tiptap/extension-code-block@3.31.1
+  - @tiptap/extension-document@3.31.1
+  - @tiptap/extension-hard-break@3.31.1
+  - @tiptap/extension-heading@3.31.1
+  - @tiptap/extension-horizontal-rule@3.31.1
+  - @tiptap/extension-italic@3.31.1
+  - @tiptap/extension-link@3.31.1
+  - @tiptap/extension-list@3.31.1
+  - @tiptap/extension-paragraph@3.31.1
+  - @tiptap/extension-strike@3.31.1
+  - @tiptap/extension-text@3.31.1
+  - @tiptap/extension-underline@3.31.1
+  - @tiptap/extensions@3.31.1
+  - @tiptap/extension-list-item@3.31.1
+  - @tiptap/extension-list-keymap@3.31.1
+  - @tiptap/extension-bullet-list@3.31.1
+  - @tiptap/extension-ordered-list@3.31.1
+  - @tiptap/extension-dropcursor@3.31.1
+  - @tiptap/extension-gapcursor@3.31.1
+  - @tiptap/pm@3.31.1
+
 ## 3.31.0
 
 ### Patch Changes
