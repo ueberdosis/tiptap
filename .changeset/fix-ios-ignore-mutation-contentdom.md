@@ -2,4 +2,4 @@
 "@tiptap/core": patch
 ---
 
-Ignore iOS/Android chrome mutations outside contentDOM
+Fix freezes in framework-based node views on iOS and Android
