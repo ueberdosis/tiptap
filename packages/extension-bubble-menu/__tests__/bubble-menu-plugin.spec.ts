@@ -287,3 +287,92 @@ describe('BubbleMenuView cross-contamination', () => {
     editor.destroy()
   })
 })
+
+describe('BubbleMenuView IME composition', () => {
+  it('hides the menu once the composition ends', async () => {
+    const editor = createEditor('<p></p>')
+    const shouldShow = vi.fn(() => true)
+    const onHide = vi.fn()
+
+    // shouldShow is true, so the constructor positions the menu right away.
+    computePositionMock.mockResolvedValue({
+      x: 0,
+      y: 0,
+      strategy: 'absolute',
+      placement: 'top',
+      middlewareData: {},
+    })
+
+    const view = createBubbleMenuView(editor, {
+      shouldShow,
+      updateDelay: 0,
+      options: { onHide },
+    })
+
+    view.show()
+
+    const oldState = editor.state
+
+    // Text is inserted while composing is still true.
+    editor.view.dispatch(editor.state.tr.insertText('가'))
+    const composing = vi.spyOn(editor.view, 'composing', 'get').mockReturnValue(true)
+
+    shouldShow.mockClear()
+    view.update(editor.view, oldState)
+    expect(shouldShow).not.toHaveBeenCalled()
+    expect(onHide).not.toHaveBeenCalled()
+
+    // The composition flush brings no further change, so only compositionend can trigger it.
+    shouldShow.mockReturnValue(false)
+    composing.mockReturnValue(false)
+    editor.view.dom.dispatchEvent(new Event('compositionend'))
+    await new Promise(resolve => {
+      setTimeout(resolve)
+    })
+
+    expect(shouldShow).toHaveBeenCalled()
+    expect(onHide).toHaveBeenCalled()
+
+    composing.mockRestore()
+    computePositionMock.mockReset()
+    view.destroy()
+    editor.destroy()
+  })
+
+  it('removes the compositionend listener on destroy', async () => {
+    const editor = createEditor('<p></p>')
+    const shouldShow = vi.fn(() => false)
+    const view = createBubbleMenuView(editor, { shouldShow, updateDelay: 0 })
+
+    view.destroy()
+    shouldShow.mockClear()
+
+    editor.view.dom.dispatchEvent(new Event('compositionend'))
+    await new Promise(resolve => {
+      setTimeout(resolve)
+    })
+
+    expect(shouldShow).not.toHaveBeenCalled()
+
+    editor.destroy()
+  })
+
+  it('cancels a pending update when the view is destroyed while the editor lives on', async () => {
+    const editor = createEditor('<p></p>')
+    const shouldShow = vi.fn(() => false)
+    const view = createBubbleMenuView(editor, { shouldShow, updateDelay: 0 })
+
+    editor.view.dom.dispatchEvent(new Event('compositionend'))
+    shouldShow.mockClear()
+    view.destroy()
+
+    await new Promise(resolve => {
+      setTimeout(resolve)
+    })
+
+    expect(editor.isDestroyed).toBe(false)
+    expect(shouldShow).not.toHaveBeenCalled()
+
+    editor.destroy()
+  })
+})
