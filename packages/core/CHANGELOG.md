@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.31.2
+
+### Patch Changes
+
+- Updated dependencies [c56b4c9]
+  - @tiptap/pm@3.31.2
+
 ## 3.31.1
 
 ### Patch Changes

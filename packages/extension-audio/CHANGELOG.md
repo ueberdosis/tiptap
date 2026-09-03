@@ -1,5 +1,11 @@
 # @tiptap/extension-audio
 
+## 3.31.2
+
+### Patch Changes
+
+- @tiptap/core@3.31.2
+
 ## 3.31.1
 
 ### Patch Changes
