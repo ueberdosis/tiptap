@@ -127,7 +127,7 @@ Then run `pnpm fallow` for complexity and dead code, `pnpm fallow:health` for re
 
 ## Tests
 
-- Unit: Vitest, running on happy-dom. Place file-specific tests next to the file they cover and name them `<file-name>.spec.ts`. Put package-wide tests and test utilities in `packages/**/__tests__/`.
+- Unit: Vitest, running on happy-dom. Place file-specific tests next to the file they cover and name them `<basename>.spec.ts` (for example, `getAttributes.ts` uses `getAttributes.spec.ts`). Put package-wide tests and test utilities in `packages/**/__tests__/`.
 - E2E: Playwright, next to the demo it drives as `demos/src/**/index.spec.ts`. Playwright starts the demo server itself on port 4080, no separate terminal. Helpers live in `demos/test/helpers.ts`. Copy `demos/src/Commands/Cut/index.spec.ts` as a template.
 
 ## Demos
