@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.31.1
+
+### Patch Changes
+
+- cd32a2f: Fix freezes in framework-based node views on iOS and Android
+  - @tiptap/pm@3.31.1
+
 ## 3.31.0
 
 ### Patch Changes
