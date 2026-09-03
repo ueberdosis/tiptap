@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.31.2
+
+### Patch Changes
+
+- c56b4c9: Bump `prosemirror-view` to `^1.42.3`, which fixes an XSS vulnerability where pasting crafted HTML could run arbitrary JavaScript (GHSA-c8x8-7fp4-3x9w).
+
 ## 3.31.1
 
 ## 3.31.0
