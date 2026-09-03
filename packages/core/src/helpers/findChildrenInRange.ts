@@ -1,4 +1,4 @@
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 
 import type { NodeWithPos, Predicate, Range } from '../types.js'
 
@@ -10,7 +10,7 @@ import type { NodeWithPos, Predicate, Range } from '../types.js'
  * @returns An array of nodes with their positions
  */
 export function findChildrenInRange(
-  node: ProseMirrorNode,
+  node: PMNode,
   range: Range,
   predicate: Predicate,
 ): NodeWithPos[] {

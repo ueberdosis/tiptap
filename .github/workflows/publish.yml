@@ -2,13 +2,14 @@ name: Publish
 
 env:
   NODE_VERSION: 24
-  PNPM_VERSION: 11.2.2
+  VP_GIT_HOOKS: 0
 
+# this branch only releases from main
+# other versions are released from their respective maintenance/* branches
 on:
   push:
     branches:
       - main
-      - v2
 
 permissions:
   contents: read
@@ -49,11 +50,10 @@ jobs:
       - uses: ./.github/actions/setup-env
         with:
           node-version: ${{ env.NODE_VERSION }}
-          pnpm-version: ${{ env.PNPM_VERSION }}
           cache: 'true'
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile --strict-peer-dependencies
+        run: vp install --frozen-lockfile -- --strict-peer-dependencies
 
       - name: Run build
         run: vp run build && vp run build:demos
@@ -62,7 +62,7 @@ jobs:
         run: vp run check:package-exports
 
       - name: Archive package dist artifacts
-        run: tar -cf package-dist-artifacts.tar packages/*/dist packages-deprecated/*/dist
+        run: tar -cf package-dist-artifacts.tar packages/*/dist
 
       - name: Upload package dist artifacts
         uses: actions/upload-artifact@v7
@@ -90,14 +90,13 @@ jobs:
       - uses: ./.github/actions/setup-env
         with:
           node-version: ${{ env.NODE_VERSION }}
-          pnpm-version: ${{ env.PNPM_VERSION }}
           cache: 'true'
 
       - name: Update npm for trusted publishing
         run: npm install -g npm@11.6.2
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile --strict-peer-dependencies
+        run: vp install --frozen-lockfile -- --strict-peer-dependencies
 
       - name: Download package dist artifacts
         uses: actions/download-artifact@v8

@@ -3,14 +3,14 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { Editor } from '@tiptap/core'
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import { Transform } from '@tiptap/pm/transform'
 import { describe, expect, it } from 'vite-plus/test'
 
 import { getChangedRanges } from '../getChangedRanges.js'
 
 /** "<p>hello world</p>" 0=doc, 1=<p>, 2..12="hello world", 13=</p>. */
-function createDoc(): Node {
+function createDoc(): PMNode {
   const editor = new Editor({
     extensions: [Document, Paragraph, Text, Bold],
     content: '<p>hello world</p>',

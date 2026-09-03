@@ -1,23 +1,23 @@
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import type { DecorationSet } from '@tiptap/pm/view'
 
 import { createDecorationWidget } from './utils/create-decoration-widget.js'
 
 export interface InvisibleNodeOptions {
   content?: string
-  position?: (node: Node, pos: number) => number
-  predicate: (value: Node) => boolean
+  position?: (node: PMNode, pos: number) => number
+  predicate: (value: PMNode) => boolean
   priority?: number
   type: string
 }
 
 /** Default position for nodes is always at the end of the node */
-const defaultPosition = (node: Node, pos: number) => pos + node.nodeSize - 1
+const defaultPosition = (node: PMNode, pos: number) => pos + node.nodeSize - 1
 
 export class InvisibleNode {
-  predicate: (value: Node) => boolean
+  predicate: (value: PMNode) => boolean
 
-  position: (node: Node, pos: number) => number
+  position: (node: PMNode, pos: number) => number
 
   content?: string
 
@@ -33,7 +33,7 @@ export class InvisibleNode {
     this.priority = options.priority || 100
   }
 
-  createDecoration(from: number, to: number, doc: Node, decorations: DecorationSet) {
+  createDecoration(from: number, to: number, doc: PMNode, decorations: DecorationSet) {
     let newDecorations = decorations
 
     doc.nodesBetween(from, to, (node, pos) => {
@@ -53,7 +53,7 @@ export class InvisibleNode {
     return newDecorations
   }
 
-  test(value: Node) {
+  test(value: PMNode) {
     return this.predicate(value)
   }
 }

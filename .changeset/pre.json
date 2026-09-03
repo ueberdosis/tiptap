@@ -3,20 +3,6 @@
   "tag": "next",
   "initialVersions": {
     "tiptap-demos": "3.0.3",
-    "@tiptap/extension-character-count": "3.30.3",
-    "@tiptap/extension-dropcursor": "3.30.3",
-    "@tiptap/extension-focus": "3.30.3",
-    "@tiptap/extension-gapcursor": "3.30.3",
-    "@tiptap/extension-history": "3.30.3",
-    "@tiptap/extension-list-item": "3.30.3",
-    "@tiptap/extension-list-keymap": "3.30.3",
-    "@tiptap/extension-placeholder": "3.30.3",
-    "@tiptap/extension-table-cell": "3.30.3",
-    "@tiptap/extension-table-header": "3.30.3",
-    "@tiptap/extension-table-row": "3.30.3",
-    "@tiptap/extension-task-item": "3.30.3",
-    "@tiptap/extension-task-list": "3.30.3",
-    "@tiptap/server-ai-toolkit": "0.4.0",
     "@tiptap/ai-toolkit": "0.4.0",
     "@tiptap/core": "3.30.3",
     "@tiptap/extension-audio": "3.30.3",
@@ -34,8 +20,7 @@
     "@tiptap/extension-document": "3.30.3",
     "@tiptap/extension-drag-handle": "3.30.3",
     "@tiptap/extension-drag-handle-react": "3.30.3",
-    "@tiptap/extension-drag-handle-vue-2": "3.30.3",
-    "@tiptap/extension-drag-handle-vue-3": "3.30.3",
+    "@tiptap/extension-drag-handle-vue": "3.30.3",
     "@tiptap/extension-emoji": "3.30.3",
     "@tiptap/extension-file-handler": "3.30.3",
     "@tiptap/extension-find-and-replace": "3.30.3",
@@ -77,8 +62,7 @@
     "@tiptap/starter-kit": "3.30.3",
     "@tiptap/static-renderer": "3.30.3",
     "@tiptap/suggestion": "3.30.3",
-    "@tiptap/vue-2": "3.30.3",
-    "@tiptap/vue-3": "3.30.3"
+    "@tiptap/vue": "3.30.3"
   },
   "changesets": []
 }

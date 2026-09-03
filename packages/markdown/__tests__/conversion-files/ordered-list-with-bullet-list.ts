@@ -2,7 +2,7 @@ export const name = 'Ordered List with Nested Bullet List'
 
 export const expectedInput = `
 1. one
-  - inner
+   - inner
 2. two
 `.trim()
 

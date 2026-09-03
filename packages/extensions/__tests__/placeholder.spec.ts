@@ -1,17 +1,15 @@
 import { Editor, getChangedRanges } from '@tiptap/core'
 import BulletList from '@tiptap/extension-bullet-list'
 import Document from '@tiptap/extension-document'
-import ListItem from '@tiptap/extension-list-item'
+import { ListItem, TaskItem, TaskList } from '@tiptap/extension-list'
 import Paragraph from '@tiptap/extension-paragraph'
-import TaskItem from '@tiptap/extension-task-item'
-import TaskList from '@tiptap/extension-task-list'
 import Text from '@tiptap/extension-text'
 import {
   type PlaceholderOptions,
   Placeholder,
   preparePlaceholderAttribute,
 } from '@tiptap/extensions'
-import { Node } from '@tiptap/pm/model'
+import { Node as PMNode } from '@tiptap/pm/model'
 import {
   getTopLevelBlocksInRange,
   toContentRelativeRange,
@@ -643,7 +641,7 @@ describe('extension-placeholder: incremental updates (slow path)', () => {
   })
 
   it('does not traverse the full document on incremental update', () => {
-    const nodesBetweenSpy = vi.spyOn(Node.prototype, 'nodesBetween')
+    const nodesBetweenSpy = vi.spyOn(PMNode.prototype, 'nodesBetween')
 
     editor = new Editor({
       extensions: [Document, Paragraph, Text, Placeholder.configure(slowPathConfig)],

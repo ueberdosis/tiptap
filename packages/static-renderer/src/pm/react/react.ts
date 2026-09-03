@@ -1,6 +1,6 @@
 /* oslint-disable no-plusplus,no-explicit-any */
 import type { DOMOutputSpecArray, Extensions, JSONContent } from '@tiptap/core'
-import type { DOMOutputSpec, Mark, Node } from '@tiptap/pm/model'
+import type { DOMOutputSpec, Mark, Node as PMNode } from '@tiptap/pm/model'
 import React from 'react'
 
 import { renderJSONContentToReactElement } from '../../json/react/react.js'
@@ -172,10 +172,10 @@ export function renderToReactElement({
   staticEditorOptions,
   options,
 }: {
-  content: Node | JSONContent
+  content: PMNode | JSONContent
   extensions: Extensions
   staticEditorOptions?: StaticEditorOptions
-  options?: Partial<TiptapStaticRendererOptions<React.ReactNode, Mark, Node>>
+  options?: Partial<TiptapStaticRendererOptions<React.ReactNode, Mark, PMNode>>
 }): React.ReactNode {
   return renderToElement<React.ReactNode>({
     renderer: renderJSONContentToReactElement,

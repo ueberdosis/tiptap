@@ -1,4 +1,4 @@
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import { DecorationSet } from '@tiptap/pm/view'
 
 import type { SearchResult } from '../search/search.js'
@@ -6,7 +6,7 @@ import type { SearchResult } from '../search/search.js'
 import { createDecoration } from './createDecoration.js'
 
 export function createDecorations(
-  doc: Node,
+  doc: PMNode,
   results: SearchResult[],
   currentIndex: number | null,
 ): DecorationSet {

@@ -1,4 +1,4 @@
-import type { Fragment, Node as ProseMirrorNode, ParseOptions, Schema } from '@tiptap/pm/model'
+import type { Fragment, Node as PMNode, ParseOptions, Schema } from '@tiptap/pm/model'
 
 import type { Content } from '../types.js'
 import { createNodeFromContent } from './createNodeFromContent.js'
@@ -11,14 +11,14 @@ import { createNodeFromContent } from './createNodeFromContent.js'
  * @returns The created Prosemirror document node
  */
 export function createDocument(
-  content: Content | ProseMirrorNode | Fragment,
+  content: Content | PMNode | Fragment,
   schema: Schema,
   parseOptions: ParseOptions = {},
   options: { errorOnInvalidContent?: boolean } = {},
-): ProseMirrorNode {
+): PMNode {
   return createNodeFromContent(content, schema, {
     slice: false,
     parseOptions,
     errorOnInvalidContent: options.errorOnInvalidContent,
-  }) as ProseMirrorNode
+  }) as PMNode
 }

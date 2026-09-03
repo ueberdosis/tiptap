@@ -1,4 +1,4 @@
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import { Fragment } from '@tiptap/pm/model'
 import type { EditorState, TextSelection } from '@tiptap/pm/state'
 import { Plugin } from '@tiptap/pm/state'
@@ -220,7 +220,7 @@ export function inputRulesPlugin(props: { editor: Editor; rules: InputRule[] }):
           | undefined
           | {
               from: number
-              text: string | ProseMirrorNode | Fragment
+              text: string | PMNode | Fragment
             }
         const isSimulatedInput = !!simulatedInputMeta
 

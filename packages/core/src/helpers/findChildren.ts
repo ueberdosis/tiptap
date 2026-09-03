@@ -1,4 +1,4 @@
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 
 import type { NodeWithPos, Predicate } from '../types.js'
 
@@ -8,7 +8,7 @@ import type { NodeWithPos, Predicate } from '../types.js'
  * @param predicate The predicate to match
  * @returns An array of nodes with their positions
  */
-export function findChildren(node: ProseMirrorNode, predicate: Predicate): NodeWithPos[] {
+export function findChildren(node: PMNode, predicate: Predicate): NodeWithPos[] {
   const nodesWithPos: NodeWithPos[] = []
 
   node.descendants((child, pos) => {

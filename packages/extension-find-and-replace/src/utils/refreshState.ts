@@ -1,4 +1,4 @@
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import type { Mapping } from '@tiptap/pm/transform'
 
 import type { FindAndReplaceMeta, FindAndReplacePluginState } from '../plugin/plugin-state.js'
@@ -10,7 +10,7 @@ import { resolveCurrentIndex } from './resolveCurrentIndex.js'
 export function refreshState(
   previousState: FindAndReplacePluginState,
   state: FindAndReplacePluginState,
-  doc: Node,
+  doc: PMNode,
   meta: FindAndReplaceMeta | undefined,
   docChanged: boolean,
   mapping: Mapping | undefined,

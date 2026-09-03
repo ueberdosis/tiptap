@@ -5,14 +5,16 @@ import type {
   NodeViewRendererOptions,
   NodeViewRendererProps,
 } from '@tiptap/core'
-import { getRenderedAttributes, isNodeViewSelected, NodeView } from '@tiptap/core'
-import type { Node, Node as ProseMirrorNode } from '@tiptap/pm/model'
+import { getRenderedAttributes, NodeView } from '@tiptap/core'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import type { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
 import type { ComponentType, NamedExoticComponent } from 'react'
 import { createElement, createRef, memo } from 'react'
 
 import { captureDOMSelection } from './captureDOMSelection.js'
 import type { EditorWithContentComponent } from './Editor.js'
+import { getTextSelectionAncestorPositions } from './lib/utils/getTextSelectionAncestorPositions.js'
+import { getReactNodeViewSelectionTracker } from './ReactNodeViewSelectionTracker.js'
 import { ReactRenderer } from './ReactRenderer.js'
 import type { ReactNodeViewProps } from './types.js'
 import type { ReactNodeViewContextProps } from './useReactNodeView.js'
@@ -20,15 +22,19 @@ import { ReactNodeViewContext } from './useReactNodeView.js'
 
 export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
   /**
+   * @deprecated Read `selectionInside` from the node view props instead.
+   */
+  selectedOnTextSelection?: boolean
+  /**
    * This function is called when the node view is updated.
    * It allows you to compare the old node with the new node and decide if the component should update.
    */
   update:
     | ((props: {
-        oldNode: ProseMirrorNode
+        oldNode: PMNode
         oldDecorations: readonly Decoration[]
         oldInnerDecorations: DecorationSource
-        newNode: ProseMirrorNode
+        newNode: PMNode
         newDecorations: readonly Decoration[]
         innerDecorations: DecorationSource
         updateProps: () => void
@@ -49,10 +55,7 @@ export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
    */
   attrs?:
     | Record<string, string>
-    | ((props: {
-        node: ProseMirrorNode
-        HTMLAttributes: Record<string, any>
-      }) => Record<string, string>)
+    | ((props: { node: PMNode; HTMLAttributes: Record<string, any> }) => Record<string, string>)
 }
 
 export class ReactNodeView<
@@ -72,15 +75,12 @@ export class ReactNodeView<
   contentDOMElement!: HTMLElement | null
 
   /**
-   * The requestAnimationFrame ID used for selection updates.
-   */
-  selectionRafId: number | null = null
-
-  /**
    * The last known position of this node view, used to detect position-only
    * changes that don't produce a new node object reference.
    */
   private currentPos: number | undefined
+
+  private nodeSelected = false
 
   /**
    * Fires on editor updates when trackNodeViewPosition is enabled.
@@ -169,6 +169,7 @@ export class ReactNodeView<
       innerDecorations: this.innerDecorations,
       view: this.view,
       selected: false,
+      selectionInside: false,
       extension: this.extensionWithSyncedStorage,
       HTMLAttributes: this.HTMLAttributes,
       getPos: () => this.getPos(),
@@ -227,8 +228,6 @@ export class ReactNodeView<
 
     const { className = '' } = this.options
 
-    this.handleSelectionUpdate = this.handleSelectionUpdate.bind(this)
-
     this.renderer = new ReactRenderer(ReactNodeViewProvider, {
       editor: this.editor,
       props: mountProps,
@@ -236,7 +235,7 @@ export class ReactNodeView<
       className: `node-${this.node.type.name} ${className}`.trim(),
     })
 
-    this.editor.on('selectionUpdate', this.handleSelectionUpdate)
+    getReactNodeViewSelectionTracker(this.editor).register(this)
     this.updateElementAttributes()
     this.currentPos = this.getPos()
   }
@@ -269,52 +268,11 @@ export class ReactNodeView<
   }
 
   /**
-   * On editor selection update, check if the node is selected.
-   * If it is, call `selectNode`, otherwise call `deselectNode`.
-   */
-  handleSelectionUpdate() {
-    if (this.selectionRafId) {
-      cancelAnimationFrame(this.selectionRafId)
-      this.selectionRafId = null
-    }
-
-    this.selectionRafId = requestAnimationFrame(() => {
-      this.selectionRafId = null
-      // getPos() is undefined while the node view is mid-update, so fall back to the last known position.
-      const pos = this.getPos() ?? this.currentPos
-      if (typeof pos !== 'number') {
-        return
-      }
-
-      const isSelected = isNodeViewSelected({
-        selection: this.editor.state.selection,
-        pos,
-        nodeSize: this.node.nodeSize,
-        selectedOnTextSelection: this.options.selectedOnTextSelection,
-      })
-
-      if (isSelected) {
-        if (this.renderer.props.selected) {
-          return
-        }
-
-        this.selectNode()
-      } else {
-        if (!this.renderer.props.selected) {
-          return
-        }
-
-        this.deselectNode()
-      }
-    })
-  }
-
-  /**
    * On update, update the React component.
    * To prevent unnecessary updates, the `update` option can be used.
    */
   update(
-    node: Node,
+    node: PMNode,
     decorations: readonly Decoration[],
     innerDecorations: DecorationSource,
   ): boolean {
@@ -399,10 +357,8 @@ export class ReactNodeView<
    * Add the `selected` prop and the `ProseMirror-selectednode` class.
    */
   selectNode() {
-    this.renderer.updateProps({
-      selected: true,
-    })
-    this.renderer.element.classList.add('ProseMirror-selectednode')
+    this.nodeSelected = true
+    this.updateSelectedState(true)
   }
 
   /**
@@ -410,10 +366,32 @@ export class ReactNodeView<
    * Remove the `selected` prop and the `ProseMirror-selectednode` class.
    */
   deselectNode() {
-    this.renderer.updateProps({
-      selected: false,
-    })
-    this.renderer.element.classList.remove('ProseMirror-selectednode')
+    this.nodeSelected = false
+    this.updateSelectedState(
+      this.options.selectedOnTextSelection === true && this.isTextSelectionInside(),
+    )
+  }
+
+  setSelectionInside(selectionInside: boolean) {
+    const selected =
+      this.nodeSelected || (this.options.selectedOnTextSelection === true && selectionInside)
+
+    this.renderer.updateProps({ selectionInside, selected })
+    this.renderer.element.classList.toggle('ProseMirror-selectednode', selected)
+  }
+
+  private updateSelectedState(selected: boolean) {
+    this.renderer.updateProps({ selected })
+    this.renderer.element.classList.toggle('ProseMirror-selectednode', selected)
+  }
+
+  private isTextSelectionInside() {
+    const pos = this.getPos()
+
+    return (
+      typeof pos === 'number' &&
+      getTextSelectionAncestorPositions(this.editor.state.selection).includes(pos)
+    )
   }
 
   /**
@@ -421,18 +399,13 @@ export class ReactNodeView<
    */
   destroy() {
     this.renderer.destroy()
-    this.editor.off('selectionUpdate', this.handleSelectionUpdate)
+    getReactNodeViewSelectionTracker(this.editor).unregister(this)
 
     if (this.options.trackNodeViewPosition) {
       this.editor.off('update', this.handlePositionUpdate)
     }
 
     this.contentDOMElement = null
-
-    if (this.selectionRafId) {
-      cancelAnimationFrame(this.selectionRafId)
-      this.selectionRafId = null
-    }
   }
 
   /**

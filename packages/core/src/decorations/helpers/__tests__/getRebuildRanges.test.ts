@@ -2,7 +2,7 @@ import { Editor } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import type { Transaction } from '@tiptap/pm/state'
 import { AttrStep } from '@tiptap/pm/transform'
 import { describe, expect, it } from 'vite-plus/test'
@@ -20,7 +20,7 @@ function createEditor(content: string) {
 }
 
 /** Asserts the resolution is incremental and returns its ranges. */
-function rebuiltRanges(tr: Transaction, doc: Node): Range[] {
+function rebuiltRanges(tr: Transaction, doc: PMNode): Range[] {
   const resolution = getRebuildRanges(tr, doc)
 
   expect(resolution.type).toBe('ranges')
