@@ -171,6 +171,8 @@ export class BubbleMenuView implements PluginView {
 
   private resizeDebounceTimer: number | undefined
 
+  private compositionEndTimer: number | undefined
+
   private isVisible = false
 
   private scrollTarget: HTMLElement | Window = window
@@ -408,6 +410,7 @@ export class BubbleMenuView implements PluginView {
     this.editor.on('transaction', this.transactionHandler)
     window.addEventListener('resize', this.resizeHandler)
     this.scrollTarget.addEventListener('scroll', this.resizeHandler)
+    this.view.dom.addEventListener('compositionend', this.compositionEndHandler)
 
     this.update(view, view.state)
 
@@ -423,6 +426,19 @@ export class BubbleMenuView implements PluginView {
 
   dragstartHandler = () => {
     this.hide()
+  }
+
+  compositionEndHandler = () => {
+    // Re-check after IME input — updates are skipped while composing.
+    clearTimeout(this.compositionEndTimer)
+
+    this.compositionEndTimer = window.setTimeout(() => {
+      if (this.editor.isDestroyed) {
+        return
+      }
+
+      this.update(this.view)
+    })
   }
 
   /**
@@ -694,6 +710,8 @@ export class BubbleMenuView implements PluginView {
     this.editor.off('focus', this.focusHandler)
     this.editor.off('blur', this.blurHandler)
     this.editor.off('transaction', this.transactionHandler)
+    this.view.dom.removeEventListener('compositionend', this.compositionEndHandler)
+    clearTimeout(this.compositionEndTimer)
 
     if (this.floatingUIOptions.onDestroy) {
       this.floatingUIOptions.onDestroy()
