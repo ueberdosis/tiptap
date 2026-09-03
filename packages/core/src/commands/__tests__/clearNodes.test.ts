@@ -1,11 +1,11 @@
 import { Editor } from '@tiptap/core'
 import BulletList from '@tiptap/extension-bullet-list'
 import Document from '@tiptap/extension-document'
-import ListItem from '@tiptap/extension-list-item'
+import { ListItem } from '@tiptap/extension-list'
 import OrderedList from '@tiptap/extension-ordered-list'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vite-plus/test'
 
 let editor: Editor | null = null
 
