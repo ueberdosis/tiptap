@@ -64,7 +64,7 @@ Scripts defined at the repo root. Run them with `vp run <script>` (or `pnpm run 
 - `vp run test:e2e:open:firefox` - UI mode, Firefox tests
 - `vp run test:e2e:open:all` - UI mode, both browsers selectable
 - `vp run test:e2e:report` - open the HTML report from the last run
-- `vp run test:unit` - run Vitest unit tests in `packages/**/__tests__/`
+- `vp run test:unit` - run Vitest unit tests
 - `vp run test` - build then run all tests
 - `vp run serve` - build and serve the demos on port 3000
 - `vp run publish` - build and publish with Changesets
@@ -118,7 +118,7 @@ When adding a demo, keep it small and self-contained, with imports from publishe
 
 Two layers:
 
-- **Unit tests** with Vitest in `packages/**/__tests__/` (happy-dom). These test `@tiptap/core` and individual extensions in isolation.
+- **Unit tests** with Vitest (happy-dom). Place file-specific tests next to the file they cover and name them `<basename>.spec.ts` (for example, `getAttributes.ts` uses `getAttributes.spec.ts`). Put package-wide tests and test utilities in `packages/**/__tests__/`.
 - **E2E tests** with Playwright, colocated next to their demos as `demos/src/**/index.spec.ts`. They drive the real Vite-served demo pages in Chromium.
 
 Run them:
