@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.27.3
+
+### Patch Changes
+
+- fa6abcc: Prevent untrusted HTML attributes from changing an object's prototype when merged with `mergeAttributes`.
+
 ## 2.27.2
 
 ### Patch Changes

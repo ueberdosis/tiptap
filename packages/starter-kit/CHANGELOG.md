@@ -1,5 +1,33 @@
 # Change Log
 
+## 2.27.3
+
+### Patch Changes
+
+- Updated dependencies [fa6abcc]
+- Updated dependencies [fa6abcc]
+  - @tiptap/pm@2.27.3
+  - @tiptap/core@2.27.3
+  - @tiptap/extension-blockquote@2.27.3
+  - @tiptap/extension-bold@2.27.3
+  - @tiptap/extension-bullet-list@2.27.3
+  - @tiptap/extension-code@2.27.3
+  - @tiptap/extension-code-block@2.27.3
+  - @tiptap/extension-document@2.27.3
+  - @tiptap/extension-dropcursor@2.27.3
+  - @tiptap/extension-gapcursor@2.27.3
+  - @tiptap/extension-hard-break@2.27.3
+  - @tiptap/extension-heading@2.27.3
+  - @tiptap/extension-history@2.27.3
+  - @tiptap/extension-horizontal-rule@2.27.3
+  - @tiptap/extension-italic@2.27.3
+  - @tiptap/extension-list-item@2.27.3
+  - @tiptap/extension-ordered-list@2.27.3
+  - @tiptap/extension-paragraph@2.27.3
+  - @tiptap/extension-strike@2.27.3
+  - @tiptap/extension-text@2.27.3
+  - @tiptap/extension-text-style@2.27.3
+
 ## 2.27.2
 
 ### Patch Changes
