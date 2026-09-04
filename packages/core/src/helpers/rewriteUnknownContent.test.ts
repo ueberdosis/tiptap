@@ -1,7 +1,7 @@
 import { Schema } from '@tiptap/pm/model'
 import { describe, expect, it } from 'vite-plus/test'
 
-import { rewriteUnknownContent } from '../helpers/rewriteUnknownContent.js'
+import { rewriteUnknownContent } from './rewriteUnknownContent.js'
 
 const schema = new Schema({
   nodes: {

@@ -1,8 +1,9 @@
-import { Editor } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
+
+import { Editor } from '../Editor.js'
 
 describe('warnOnDuplicatedProseMirrorModel', () => {
   let editor: Editor

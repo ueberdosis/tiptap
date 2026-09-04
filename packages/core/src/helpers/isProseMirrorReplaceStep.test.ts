@@ -2,7 +2,7 @@ import { ReplaceAroundStep, ReplaceStep } from '@tiptap/pm/transform'
 import { Slice } from '@tiptap/pm/model'
 import { describe, expect, it } from 'vite-plus/test'
 
-import { isProseMirrorReplaceStep } from '../isProseMirrorReplaceStep.js'
+import { isProseMirrorReplaceStep } from './isProseMirrorReplaceStep.js'
 
 describe('isProseMirrorReplaceStep', () => {
   it('returns true for a ReplaceStep', () => {

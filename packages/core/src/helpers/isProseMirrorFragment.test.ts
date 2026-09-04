@@ -1,7 +1,7 @@
 import { Fragment } from '@tiptap/pm/model'
 import { describe, expect, it } from 'vite-plus/test'
 
-import { isProseMirrorFragment } from '../isProseMirrorFragment.js'
+import { isProseMirrorFragment } from './isProseMirrorFragment.js'
 
 describe('isProseMirrorFragment', () => {
   it('returns true for a fragment', () => {

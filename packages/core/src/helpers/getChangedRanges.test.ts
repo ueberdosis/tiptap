@@ -7,7 +7,7 @@ import type { Node as PMNode } from '@tiptap/pm/model'
 import { Transform } from '@tiptap/pm/transform'
 import { describe, expect, it } from 'vite-plus/test'
 
-import { getChangedRanges } from '../getChangedRanges.js'
+import { getChangedRanges } from './getChangedRanges.js'
 
 /** "<p>hello world</p>" 0=doc, 1=<p>, 2..12="hello world", 13=</p>. */
 function createDoc(): PMNode {

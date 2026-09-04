@@ -1,9 +1,11 @@
-import { getSchema, isNodeEmpty } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Image from '@tiptap/extension-image'
 import Mention from '@tiptap/extension-mention'
 import StarterKit from '@tiptap/starter-kit'
 import { describe, expect, it } from 'vite-plus/test'
+
+import { getSchema } from './getSchema.js'
+import { isNodeEmpty } from './isNodeEmpty.js'
 
 const schema = getSchema([StarterKit, Mention])
 const modifiedSchema = getSchema([

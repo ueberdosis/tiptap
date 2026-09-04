@@ -1,4 +1,3 @@
-import { getPreviousBlockSibling, getSchemaByResolvedExtensions } from '@tiptap/core'
 import Blockquote from '@tiptap/extension-blockquote'
 import BulletList from '@tiptap/extension-bullet-list'
 import Document from '@tiptap/extension-document'
@@ -7,6 +6,9 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { Node as PMNode } from '@tiptap/pm/model'
 import { describe, expect, it } from 'vite-plus/test'
+
+import { getPreviousBlockSibling } from './getPreviousBlockSibling.js'
+import { getSchemaByResolvedExtensions } from './getSchemaByResolvedExtensions.js'
 
 const schema = getSchemaByResolvedExtensions([
   Document,

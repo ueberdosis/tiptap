@@ -1,7 +1,7 @@
 import { Slice } from '@tiptap/pm/model'
 import { describe, expect, it } from 'vite-plus/test'
 
-import { isProseMirrorSlice } from '../isProseMirrorSlice.js'
+import { isProseMirrorSlice } from './isProseMirrorSlice.js'
 
 describe('isProseMirrorSlice', () => {
   it('returns true for a slice', () => {

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vite-plus/test'
 
-import { isProseMirrorStepResult } from '../isProseMirrorStepResult.js'
+import { isProseMirrorStepResult } from './isProseMirrorStepResult.js'
 
 describe('isProseMirrorStepResult', () => {
   it('returns true for a success and a failure result', () => {

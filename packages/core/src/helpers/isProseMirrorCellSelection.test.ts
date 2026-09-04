@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vite-plus/test'
 
-import { isProseMirrorCellSelection } from '../isProseMirrorCellSelection.js'
+import { isProseMirrorCellSelection } from './isProseMirrorCellSelection.js'
 
 describe('isProseMirrorCellSelection', () => {
   it('returns true for a value with the cell-iteration API', () => {

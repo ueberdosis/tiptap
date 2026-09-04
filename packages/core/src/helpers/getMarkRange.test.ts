@@ -1,4 +1,3 @@
-import { getMarkRange, getSchemaByResolvedExtensions } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Highlight from '@tiptap/extension-highlight'
 import Link from '@tiptap/extension-link'
@@ -6,6 +5,9 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { Node as PMNode } from '@tiptap/pm/model'
 import { describe, expect, it } from 'vite-plus/test'
+
+import { getMarkRange } from './getMarkRange.js'
+import { getSchemaByResolvedExtensions } from './getSchemaByResolvedExtensions.js'
 
 describe('getMarkRange', () => {
   const document = {

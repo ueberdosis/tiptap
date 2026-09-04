@@ -2,7 +2,7 @@ import type { Mark } from '@tiptap/pm/model'
 import { AddNodeMarkStep, RemoveNodeMarkStep } from '@tiptap/pm/transform'
 import { describe, expect, it } from 'vite-plus/test'
 
-import { isProseMirrorRemoveNodeMarkStep } from '../isProseMirrorRemoveNodeMarkStep.js'
+import { isProseMirrorRemoveNodeMarkStep } from './isProseMirrorRemoveNodeMarkStep.js'
 
 const mark = { toJSON: () => ({ type: 'bold', attrs: {} }) } as unknown as Mark
 

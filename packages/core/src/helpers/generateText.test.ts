@@ -1,9 +1,11 @@
-import type { NodeConfig } from '@tiptap/core'
-import { generateText, Node } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { describe, expect, it } from 'vite-plus/test'
+
+import type { NodeConfig } from '../Node.js'
+import { Node } from '../Node.js'
+import { generateText } from './generateText.js'
 
 describe(generateText.name, () => {
   it('generates Text from JSON without an editor instance', () => {

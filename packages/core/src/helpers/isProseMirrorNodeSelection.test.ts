@@ -5,7 +5,7 @@ import Text from '@tiptap/extension-text'
 import { NodeSelection, TextSelection } from '@tiptap/pm/state'
 import { describe, expect, it } from 'vite-plus/test'
 
-import { isProseMirrorNodeSelection } from '../isProseMirrorNodeSelection.js'
+import { isProseMirrorNodeSelection } from './isProseMirrorNodeSelection.js'
 
 function createDoc() {
   const editor = new Editor({

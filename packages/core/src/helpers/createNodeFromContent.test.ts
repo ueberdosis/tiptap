@@ -1,8 +1,10 @@
-import { createNodeFromContent, getSchemaByResolvedExtensions } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { describe, expect, it } from 'vite-plus/test'
+
+import { createNodeFromContent } from './createNodeFromContent.js'
+import { getSchemaByResolvedExtensions } from './getSchemaByResolvedExtensions.js'
 
 describe('createNodeFromContent', () => {
   it('creates a fragment from a schema and HTML content', () => {
