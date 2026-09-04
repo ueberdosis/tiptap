@@ -65,113 +65,125 @@ export default () => {
 
   return (
     <>
-      <div className="control-group">
-        <Control>
-          <label htmlFor="src">Audio source</label>
-          <input
-            id="src"
-            type="text"
-            value={src}
-            onChange={event => setSrc(event.target.value)}
-            placeholder="https://.../audio.mp3"
-          />
-        </Control>
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '0.75rem',
+          alignItems: 'center',
+          padding: '1.5rem',
+        }}
+      >
+        <input
+          type="text"
+          style={{ flexGrow: 1 }}
+          value={src}
+          onChange={event => setSrc(event.target.value)}
+          placeholder="https://.../audio.mp3"
+          aria-label="Audio source"
+        />
 
-        <Control>
-          <label htmlFor="preload">Preload</label>
-          <select
-            id="preload"
-            value={preload ?? ''}
-            onChange={event => setPreload(event.target.value)}
-          >
-            <option value="metadata">metadata</option>
-            <option value="auto">auto</option>
-            <option value="none">none</option>
-            <option value="">(empty)</option>
-          </select>
-        </Control>
+        <button type="button" className="primary" onClick={insertAudio} disabled={!editor}>
+          Insert audio
+        </button>
 
-        <Control>
-          <label htmlFor="controlsList">controlslist</label>
-          <input
-            id="controlsList"
-            type="text"
-            value={controlsList}
-            onChange={event => setControlsList(event.target.value)}
-            placeholder="nodownload noplaybackrate"
-          />
-        </Control>
-
-        <Control>
-          <label htmlFor="crossorigin">crossorigin</label>
-          <select
-            id="crossorigin"
-            value={crossorigin}
-            onChange={event => setCrossorigin(event.target.value)}
-          >
-            <option value="">(unset)</option>
-            <option value="anonymous">anonymous</option>
-            <option value="use-credentials">use-credentials</option>
-          </select>
-        </Control>
+        <button type="button" popoverTarget="audio-options">
+          Additional Options
+        </button>
       </div>
 
-      <div className="control-group toggles">
-        <Control>
-          <label>
-            <input
-              type="checkbox"
-              checked={controls}
-              onChange={event => setControls(event.target.checked)}
-            />
-            Show controls
-          </label>
-        </Control>
-        <Control>
-          <label>
-            <input
-              type="checkbox"
-              checked={autoplay}
-              onChange={event => setAutoplay(event.target.checked)}
-            />
-            Autoplay
-          </label>
-        </Control>
-        <Control>
-          <label>
-            <input
-              type="checkbox"
-              checked={loop}
-              onChange={event => setLoop(event.target.checked)}
-            />
-            Loop
-          </label>
-        </Control>
-        <Control>
-          <label>
-            <input
-              type="checkbox"
-              checked={muted}
-              onChange={event => setMuted(event.target.checked)}
-            />
-            Muted
-          </label>
-        </Control>
-        <Control>
-          <label>
-            <input
-              type="checkbox"
-              checked={disableRemotePlayback}
-              onChange={event => setDisableRemotePlayback(event.target.checked)}
-            />
-            Disable remote playback
-          </label>
-        </Control>
-      </div>
+      <div id="audio-options" popover="auto" className="additional-options-popover">
+        <div className="control-group additional-options-group">
+          <Control>
+            <label htmlFor="preload">Preload</label>
+            <select
+              id="preload"
+              value={preload ?? ''}
+              onChange={event => setPreload(event.target.value)}
+            >
+              <option value="metadata">metadata</option>
+              <option value="auto">auto</option>
+              <option value="none">none</option>
+              <option value="">(empty)</option>
+            </select>
+          </Control>
 
-      <button className="insert" onClick={insertAudio} disabled={!editor}>
-        Insert audio
-      </button>
+          <Control>
+            <label htmlFor="controlsList">controlslist</label>
+            <input
+              id="controlsList"
+              type="text"
+              value={controlsList}
+              onChange={event => setControlsList(event.target.value)}
+              placeholder="nodownload noplaybackrate"
+            />
+          </Control>
+
+          <Control>
+            <label htmlFor="crossorigin">crossorigin</label>
+            <select
+              id="crossorigin"
+              value={crossorigin}
+              onChange={event => setCrossorigin(event.target.value)}
+            >
+              <option value="">(unset)</option>
+              <option value="anonymous">anonymous</option>
+              <option value="use-credentials">use-credentials</option>
+            </select>
+          </Control>
+
+          <Control>
+            <label>
+              <input
+                type="checkbox"
+                checked={controls}
+                onChange={event => setControls(event.target.checked)}
+              />
+              Show controls
+            </label>
+          </Control>
+          <Control>
+            <label>
+              <input
+                type="checkbox"
+                checked={autoplay}
+                onChange={event => setAutoplay(event.target.checked)}
+              />
+              Autoplay
+            </label>
+          </Control>
+          <Control>
+            <label>
+              <input
+                type="checkbox"
+                checked={loop}
+                onChange={event => setLoop(event.target.checked)}
+              />
+              Loop
+            </label>
+          </Control>
+          <Control>
+            <label>
+              <input
+                type="checkbox"
+                checked={muted}
+                onChange={event => setMuted(event.target.checked)}
+              />
+              Muted
+            </label>
+          </Control>
+          <Control>
+            <label>
+              <input
+                type="checkbox"
+                checked={disableRemotePlayback}
+                onChange={event => setDisableRemotePlayback(event.target.checked)}
+              />
+              Disable remote playback
+            </label>
+          </Control>
+        </div>
+      </div>
 
       <EditorContent editor={editor} />
     </>
