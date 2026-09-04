@@ -7,10 +7,10 @@ import type { Transaction } from '@tiptap/pm/state'
 import { AttrStep } from '@tiptap/pm/transform'
 import { describe, expect, it } from 'vite-plus/test'
 
-import { getRebuildRanges } from '../getRebuildRanges.js'
-import { isAttrStep } from '../isAttrStep.js'
+import { getRebuildRanges } from './getRebuildRanges.js'
+import { isAttrStep } from './isAttrStep.js'
 
-import type { Range } from '../../../types.js'
+import type { Range } from '../../types.js'
 
 function createEditor(content: string) {
   return new Editor({

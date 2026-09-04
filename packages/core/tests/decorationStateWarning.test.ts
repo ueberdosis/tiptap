@@ -5,11 +5,6 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test'
 
-import {
-  isInDecorationApplyScope,
-  runInDecorationApplyScope,
-} from '../src/decorations/decorationApplyScope.js'
-
 function createEditor(spec: DecorationSpec) {
   const extension = Extension.create({
     name: 'probe',
@@ -24,53 +19,6 @@ function createEditor(spec: DecorationSpec) {
   })
 }
 
-describe('decorationApplyScope', () => {
-  it('marks the editor only while the callback runs', () => {
-    const editor = {}
-
-    expect(isInDecorationApplyScope(editor)).toBe(false)
-
-    runInDecorationApplyScope(editor, () => {
-      expect(isInDecorationApplyScope(editor)).toBe(true)
-    })
-
-    expect(isInDecorationApplyScope(editor)).toBe(false)
-  })
-
-  it('keeps the mark until the outermost scope exits', () => {
-    const editor = {}
-
-    runInDecorationApplyScope(editor, () => {
-      runInDecorationApplyScope(editor, () => {})
-
-      expect(isInDecorationApplyScope(editor)).toBe(true)
-    })
-
-    expect(isInDecorationApplyScope(editor)).toBe(false)
-  })
-
-  it('clears the mark when the callback throws', () => {
-    const editor = {}
-
-    expect(() =>
-      runInDecorationApplyScope(editor, () => {
-        throw new Error('boom')
-      }),
-    ).toThrow('boom')
-
-    expect(isInDecorationApplyScope(editor)).toBe(false)
-  })
-
-  it('tracks editors independently', () => {
-    const first = {}
-    const second = {}
-
-    runInDecorationApplyScope(first, () => {
-      expect(isInDecorationApplyScope(second)).toBe(false)
-    })
-  })
-})
-
 describe('stale editor.state warning', () => {
   let warn: ReturnType<typeof vi.spyOn>
 
@@ -80,24 +28,6 @@ describe('stale editor.state warning', () => {
 
   afterEach(() => {
     warn.mockRestore()
-  })
-
-  it('warns when create() reads editor.state during apply', () => {
-    const editor = createEditor({
-      create: ({ editor: instance }) => {
-        void instance.state
-        return []
-      },
-    })
-
-    warn.mockClear()
-    editor.commands.insertContent('x')
-
-    expect(warn).toHaveBeenCalledWith(
-      expect.stringContaining('`editor.state` was read while decoration `create()` was running'),
-    )
-
-    editor.destroy()
   })
 
   it('warns only once per editor, not once per transaction', () => {

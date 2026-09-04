@@ -4,7 +4,7 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { afterEach, describe, expect, it } from 'vite-plus/test'
 
-import { createWidgetDecoration } from '../src/decorations/createWidgetDecoration.js'
+import { createWidgetDecoration } from './createWidgetDecoration.js'
 
 const CACHE_KEY = Symbol('testWidgetCache')
 

@@ -13,7 +13,7 @@ import { Plugin, PluginKey } from '@tiptap/pm/state'
 import type { EditorState } from '@tiptap/pm/state'
 import { describe, expect, it, vi } from 'vite-plus/test'
 
-import * as mergeModule from '../helpers/mergeDecorationSets.js'
+import * as mergeModule from './helpers/mergeDecorationSets.js'
 
 /** changedRanges extension that highlights `term` with inline decorations. */
 function highlightExtension(name: string, term: string) {
