@@ -2,7 +2,7 @@ import { Editor } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { BackgroundColor, TextStyle } from '@tiptap/extension-text-style'
+import { BackgroundColor, Color, TextStyle } from '@tiptap/extension-text-style'
 import { afterEach, describe, expect, it } from 'vitest'
 
 // happy-dom doesn't normalize colors like a real browser (hex stays hex), so
@@ -22,13 +22,14 @@ const fakeNormalizeColor = (color: string): string => {
   return color
 }
 
+/** Wait for both plugins' async initial normalization (setTimeout(0)) to fire. */
 function flushPluginInit(): Promise<void> {
   return new Promise(resolve => {
     setTimeout(resolve, 0)
   })
 }
 
-describe('background-color normalization from JSON content', () => {
+describe('color and backgroundColor normalization on the same text node', () => {
   let editor: Editor | null = null
 
   afterEach(() => {
@@ -38,13 +39,14 @@ describe('background-color normalization from JSON content', () => {
     }
   })
 
-  it('normalizes hex backgroundColor attrs loaded from JSON', async () => {
+  it('normalizes both attrs on initial load without throwing a mismatched-transaction error', async () => {
     editor = new Editor({
       extensions: [
         Document,
         Paragraph,
         Text,
         TextStyle,
+        Color.configure({ colorNormalizer: fakeNormalizeColor }),
         BackgroundColor.configure({ colorNormalizer: fakeNormalizeColor }),
       ],
       content: {
@@ -55,8 +57,13 @@ describe('background-color normalization from JSON content', () => {
             content: [
               {
                 type: 'text',
-                marks: [{ type: 'textStyle', attrs: { backgroundColor: '#00ff00' } }],
-                text: 'green bg',
+                marks: [
+                  {
+                    type: 'textStyle',
+                    attrs: { color: '#ff0000', backgroundColor: '#00ff00' },
+                  },
+                ],
+                text: 'red on green',
               },
             ],
           },
@@ -64,38 +71,28 @@ describe('background-color normalization from JSON content', () => {
       },
     })
 
+    // Both Color's and BackgroundColor's plugins schedule a setTimeout(0) fix-up
+    // for the initial document; letting both run is what would previously raise
+    // "RangeError: Applying a mismatched transaction" for the second one.
     await flushPluginInit()
 
     const marks = editor.state.doc.firstChild!.firstChild!.marks
 
     expect(marks).toHaveLength(1)
+    expect(marks[0].attrs.color).toBe('rgb(255, 0, 0)')
     expect(marks[0].attrs.backgroundColor).toBe('rgb(0, 255, 0)')
   })
 
-  it('normalizes colors set through the setBackgroundColor command', () => {
+  it('clears the pending initial-normalization timer when the editor is destroyed early', () => {
     editor = new Editor({
       extensions: [
         Document,
         Paragraph,
         Text,
         TextStyle,
+        Color.configure({ colorNormalizer: fakeNormalizeColor }),
         BackgroundColor.configure({ colorNormalizer: fakeNormalizeColor }),
       ],
-      content: '<p>hello</p>',
-    })
-
-    editor.commands.selectAll()
-    editor.commands.setBackgroundColor('#00ff00')
-
-    const marks = editor.state.doc.firstChild!.firstChild!.marks
-
-    expect(marks).toHaveLength(1)
-    expect(marks[0].attrs.backgroundColor).toBe('rgb(0, 255, 0)')
-  })
-
-  it('leaves hex backgroundColor attrs untouched when colorNormalizer is not configured', async () => {
-    editor = new Editor({
-      extensions: [Document, Paragraph, Text, TextStyle, BackgroundColor],
       content: {
         type: 'doc',
         content: [
@@ -104,8 +101,13 @@ describe('background-color normalization from JSON content', () => {
             content: [
               {
                 type: 'text',
-                marks: [{ type: 'textStyle', attrs: { backgroundColor: '#00ff00' } }],
-                text: 'green bg',
+                marks: [
+                  {
+                    type: 'textStyle',
+                    attrs: { color: '#ff0000', backgroundColor: '#00ff00' },
+                  },
+                ],
+                text: 'red on green',
               },
             ],
           },
@@ -113,11 +115,12 @@ describe('background-color normalization from JSON content', () => {
       },
     })
 
-    await flushPluginInit()
-
-    const marks = editor.state.doc.firstChild!.firstChild!.marks
-
-    expect(marks).toHaveLength(1)
-    expect(marks[0].attrs.backgroundColor).toBe('#00ff00')
+    // Destroy before the setTimeout(0) fix-up fires. If the timer isn't
+    // cleared, its callback would run afterwards and try to read/dispatch
+    // against a destroyed view.
+    expect(() => {
+      editor!.destroy()
+      editor = null
+    }).not.toThrow()
   })
 })

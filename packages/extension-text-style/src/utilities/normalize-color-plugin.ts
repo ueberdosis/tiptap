@@ -2,11 +2,9 @@ import type { EditorState, Transaction } from '@tiptap/pm/state'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import type { EditorView } from '@tiptap/pm/view'
 
-import { normalizeColor } from './normalize-color.js'
-
 /**
  * Creates a ProseMirror plugin that normalizes color attributes on textStyle
- * marks.
+ * marks using the given `normalize` function.
  *
  * - **Initial content** (JSON / HTML): normalized via the plugin's `view()`
  *   hook when the editor view is first created.
@@ -16,7 +14,10 @@ import { normalizeColor } from './normalize-color.js'
  *
  * Both paths hide their fixing transactions from the undo history.
  */
-export function createColorNormalizationPlugin(attrName: 'color' | 'backgroundColor'): Plugin {
+export function createColorNormalizationPlugin(
+  attrName: 'color' | 'backgroundColor',
+  normalize: (color: string) => string,
+): Plugin {
   const key = new PluginKey(`colorNormalization_${attrName}`)
 
   function normalizeRange(state: EditorState, from: number, to: number): Transaction | null {
@@ -40,7 +41,7 @@ export function createColorNormalizationPlugin(attrName: 'color' | 'backgroundCo
         return
       }
 
-      const normalized = normalizeColor(value)
+      const normalized = normalize(value)
 
       if (normalized === value) {
         return
@@ -48,7 +49,11 @@ export function createColorNormalizationPlugin(attrName: 'color' | 'backgroundCo
 
       hasChanges = true
       tr.removeMark(pos, pos + node.nodeSize, mark)
-      tr.addMark(pos, pos + node.nodeSize, mark.type.create({ ...mark.attrs, [attrName]: normalized }))
+      tr.addMark(
+        pos,
+        pos + node.nodeSize,
+        mark.type.create({ ...mark.attrs, [attrName]: normalized }),
+      )
     })
 
     if (!hasChanges) {
@@ -65,14 +70,29 @@ export function createColorNormalizationPlugin(attrName: 'color' | 'backgroundCo
 
     // Normalize colors in the initial document when the view is created.
     view(editorView: EditorView) {
-      const fixTr = normalizeRange(editorView.state, 0, editorView.state.doc.content.size)
+      // Dispatch asynchronously to avoid re-entrancy during view creation.
+      // Read `state` inside the timeout (not at `view()` time) so the fixing
+      // transaction is built against whatever state is current when it
+      // actually runs, not a possibly-stale snapshot from view creation.
+      // This also matters when multiple normalization plugins (e.g. `color`
+      // and `backgroundColor`) each schedule their own timer: by the time the
+      // second one fires, the first has already dispatched, so re-reading
+      // state here avoids building a transaction against a state that's no
+      // longer current.
+      const timer = setTimeout(() => {
+        const { state } = editorView
+        const fixTr = normalizeRange(state, 0, state.doc.content.size)
 
-      if (fixTr) {
-        // Dispatch asynchronously to avoid re-entrancy during view creation.
-        setTimeout(() => editorView.dispatch(fixTr), 0)
+        if (fixTr) {
+          editorView.dispatch(fixTr)
+        }
+      }, 0)
+
+      return {
+        destroy() {
+          clearTimeout(timer)
+        },
       }
-
-      return {}
     },
 
     appendTransaction(transactions, oldState, newState) {

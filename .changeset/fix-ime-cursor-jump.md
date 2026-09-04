@@ -1,5 +1,5 @@
 ---
-'@tiptap/extension-text-style': patch
+'@tiptap/extension-text-style': minor
 ---
 
-fix: prevent cursor jump during IME composition in colored text
+Add opt-in color normalization to prevent cursor jumps during IME composition.

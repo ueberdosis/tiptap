@@ -2,7 +2,6 @@ import '../text-style/index.js'
 
 import { Extension, getStyleProperty } from '@tiptap/core'
 
-import { normalizeColor } from '../utilities/normalize-color.js'
 import { createColorNormalizationPlugin } from '../utilities/normalize-color-plugin.js'
 
 export type ColorOptions = {
@@ -12,6 +11,19 @@ export type ColorOptions = {
    * @example ['heading', 'paragraph']
    */
   types: string[]
+
+  /**
+   * An optional callback used to normalize color values to a canonical form
+   * (e.g. hex to `rgb(...)`), so parsed and rendered colors stay consistent.
+   * This can prevent the cursor from jumping during IME composition when a
+   * color is re-parsed into a different string representation.
+   *
+   * Pass the built-in `normalizeColor` helper to normalize using the
+   * browser's own CSS parser, or provide a custom function.
+   * @default null
+   * @example colorNormalizer: normalizeColor
+   */
+  colorNormalizer: ((color: string) => string) | null
 }
 
 declare module '@tiptap/core' {
@@ -50,6 +62,7 @@ export const Color = Extension.create<ColorOptions>({
   addOptions() {
     return {
       types: ['textStyle'],
+      colorNormalizer: null,
     }
   },
 
@@ -70,15 +83,21 @@ export const Color = Extension.create<ColorOptions>({
                 return null
               }
 
-              return normalizeColor(color.replace(/['"]+/g, ''))
+              const value = color.replace(/['"]+/g, '')
+
+              return this.options.colorNormalizer ? this.options.colorNormalizer(value) : value
             },
             renderHTML: attributes => {
               if (!attributes.color) {
                 return {}
               }
 
+              const value = this.options.colorNormalizer
+                ? this.options.colorNormalizer(attributes.color)
+                : attributes.color
+
               return {
-                style: `color: ${normalizeColor(attributes.color)}`,
+                style: `color: ${value}`,
               }
             },
           },
@@ -88,7 +107,11 @@ export const Color = Extension.create<ColorOptions>({
   },
 
   addProseMirrorPlugins() {
-    return [createColorNormalizationPlugin('color')]
+    if (!this.options.colorNormalizer) {
+      return []
+    }
+
+    return [createColorNormalizationPlugin('color', this.options.colorNormalizer)]
   },
 
   addCommands() {
@@ -96,9 +119,9 @@ export const Color = Extension.create<ColorOptions>({
       setColor:
         color =>
         ({ chain }) => {
-          return chain()
-            .setMark('textStyle', { color: normalizeColor(color) })
-            .run()
+          const value = this.options.colorNormalizer ? this.options.colorNormalizer(color) : color
+
+          return chain().setMark('textStyle', { color: value }).run()
         },
       unsetColor:
         () =>
