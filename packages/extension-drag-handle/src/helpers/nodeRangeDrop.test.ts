@@ -10,7 +10,7 @@ import {
   createDroppedNodeRangeSelection,
   getActiveDragRange,
   mapPendingRestoreAnchor,
-} from '../src/helpers/nodeRangeDrop.js'
+} from './nodeRangeDrop.js'
 
 describe('nodeRangeDrop helpers', () => {
   let editor: Editor | null = null

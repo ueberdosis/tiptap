@@ -7,7 +7,7 @@ import { ySyncPluginKey } from '@tiptap/y-tiptap'
 import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 import * as Y from 'yjs'
 
-import Collaboration from '../src/index.js'
+import Collaboration from '@tiptap/extension-collaboration'
 
 describe('filterInvalidContent', () => {
   let editor: Editor | null = null

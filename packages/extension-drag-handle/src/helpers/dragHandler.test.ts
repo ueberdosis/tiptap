@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vite-plus/test'
 
-import { getDragImageOffset, shouldResetMargin } from '../src/helpers/dragHandler.js'
+import { getDragImageOffset, shouldResetMargin } from './dragHandler.js'
 
 describe('getDragImageOffset', () => {
   it('anchors ltr previews to the left edge', () => {

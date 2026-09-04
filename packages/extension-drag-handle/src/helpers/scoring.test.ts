@@ -2,9 +2,9 @@ import type { Node as PMNode, ResolvedPos } from '@tiptap/pm/model'
 import type { EditorView } from '@tiptap/pm/view'
 import { describe, expect, it, vi } from 'vite-plus/test'
 
-import { BASE_SCORE, calculateScore } from '../src/helpers/scoring.js'
-import type { EdgeDetectionConfig } from '../src/types/options.js'
-import type { DragHandleRule, RuleContext } from '../src/types/rules.js'
+import { BASE_SCORE, calculateScore } from './scoring.js'
+import type { EdgeDetectionConfig } from '../types/options.js'
+import type { DragHandleRule, RuleContext } from '../types/rules.js'
 
 /**
  * Creates a mock RuleContext for testing.

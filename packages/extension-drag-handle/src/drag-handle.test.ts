@@ -4,7 +4,7 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { afterEach, beforeEach, describe, expect, it } from 'vite-plus/test'
 
-import { DragHandle } from '../src/drag-handle.js'
+import { DragHandle } from './drag-handle.js'
 
 describe('DragHandle', () => {
   let editor: Editor

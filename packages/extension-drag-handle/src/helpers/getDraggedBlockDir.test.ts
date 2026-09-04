@@ -1,7 +1,7 @@
 import type { EditorView } from '@tiptap/pm/view'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test'
 
-import { getDraggedBlockDir, getDraggedBlockElement } from '../src/helpers/getDraggedBlockDir.js'
+import { getDraggedBlockDir, getDraggedBlockElement } from './getDraggedBlockDir.js'
 
 function createMockView(overrides: Partial<EditorView> = {}): EditorView {
   const editorDom = document.createElement('div')

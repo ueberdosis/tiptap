@@ -1,10 +1,6 @@
 import { describe, expect, it } from 'vite-plus/test'
 
-import {
-  calculateEdgeDeduction,
-  isNearEdge,
-  normalizeEdgeDetection,
-} from '../src/helpers/edgeDetection.js'
+import { calculateEdgeDeduction, isNearEdge, normalizeEdgeDetection } from './edgeDetection.js'
 
 describe('normalizeEdgeDetection', () => {
   describe('presets', () => {

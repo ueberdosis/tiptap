@@ -5,8 +5,8 @@ import Text from '@tiptap/extension-text'
 import { PluginKey } from '@tiptap/pm/state'
 import { describe, expect, it, vi } from 'vite-plus/test'
 
-import { FloatingMenu } from '../src/floating-menu.js'
-import { FloatingMenuView } from '../src/floating-menu-plugin.js'
+import { FloatingMenu } from './floating-menu.js'
+import { FloatingMenuView } from './floating-menu-plugin.js'
 
 function createEditor(content = '<p>Hello world</p>') {
   return new Editor({

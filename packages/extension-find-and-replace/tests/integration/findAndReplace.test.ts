@@ -11,7 +11,7 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test'
 
-import { normalizeCurrentIndex } from '../src/utils/normalizeCurrentIndex.js'
+import { normalizeCurrentIndex } from '../../src/utils/normalizeCurrentIndex.js'
 
 describe('FindAndReplace', () => {
   let editor: Editor

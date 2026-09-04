@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vite-plus/test'
 
-import { normalizeNestedOptions } from '../src/helpers/normalizeOptions.js'
-import type { DragHandleRule } from '../src/types/rules.js'
+import { normalizeNestedOptions } from './normalizeOptions.js'
+import type { DragHandleRule } from '../types/rules.js'
 
 describe('normalizeNestedOptions', () => {
   describe('disabled states', () => {

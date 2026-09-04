@@ -1,7 +1,28 @@
 import { Editor } from '@tiptap/core'
-import Emoji, { gitHubEmojis } from '@tiptap/extension-emoji'
 import StarterKit from '@tiptap/starter-kit'
 import { afterEach, beforeEach, describe, expect, it } from 'vite-plus/test'
+
+import { gitHubEmojis } from './data.js'
+import { Emoji, inputRegex, pasteRegex } from './emoji.js'
+
+describe('emoji extension', () => {
+  it('inputRegex matches typical shortcode', () => {
+    expect(':smile:').toMatch(inputRegex)
+  })
+
+  it('pasteRegex matches standalone shortcode', () => {
+    expect(':smile:').toMatch(pasteRegex)
+  })
+
+  it('pasteRegex does NOT match shortcode inside url-like text', () => {
+    // This should NOT match because the shortcode is part of a URL path
+    expect('https://example.com/:x:/sub/').not.toMatch(pasteRegex)
+  })
+
+  it('pasteRegex matches when preceded by space', () => {
+    expect(' test :smile: ').toMatch(pasteRegex)
+  })
+})
 
 describe('Emoji.setEmoji command', () => {
   let editor: Editor

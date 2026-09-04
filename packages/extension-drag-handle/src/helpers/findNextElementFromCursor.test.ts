@@ -1,10 +1,7 @@
 import type { EditorView } from '@tiptap/pm/view'
 import { describe, expect, it } from 'vite-plus/test'
 
-import {
-  edgeBlockRect,
-  findClosestTopLevelBlock,
-} from '../src/helpers/findNextElementFromCursor.js'
+import { edgeBlockRect, findClosestTopLevelBlock } from './findNextElementFromCursor.js'
 
 /**
  * Builds a DOMRect-like object for tests, since jsdom does not run layout and

@@ -2,8 +2,8 @@ import type { Node as PMNode, ResolvedPos } from '@tiptap/pm/model'
 import type { EditorView } from '@tiptap/pm/view'
 import { describe, expect, it, vi } from 'vite-plus/test'
 
-import { findBestDragTarget } from '../src/helpers/findBestDragTarget.js'
-import type { NormalizedNestedOptions } from '../src/types/options.js'
+import { findBestDragTarget } from './findBestDragTarget.js'
+import type { NormalizedNestedOptions } from '../types/options.js'
 
 /**
  * Creates default normalized options for testing.

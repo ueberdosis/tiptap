@@ -4,7 +4,7 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { afterEach, beforeEach, describe, expect, it } from 'vite-plus/test'
 
-import { Details, DetailsContent, DetailsSummary } from '../src/index.js'
+import { Details, DetailsContent, DetailsSummary } from '@tiptap/extension-details'
 
 describe('Details commands', () => {
   let editor: Editor

@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 
-import { cloneElement } from '../src/helpers/cloneElement.js'
+import { cloneElement } from './cloneElement.js'
 
 describe('cloneElement', () => {
   afterEach(() => {

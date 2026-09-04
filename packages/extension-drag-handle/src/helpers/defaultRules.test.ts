@@ -8,8 +8,8 @@ import {
   listItemFirstChild,
   listWrapperDeprioritize,
   tableStructure,
-} from '../src/helpers/defaultRules.js'
-import type { RuleContext } from '../src/types/rules.js'
+} from './defaultRules.js'
+import type { RuleContext } from '../types/rules.js'
 
 /**
  * Creates a mock RuleContext for testing.
