@@ -77,6 +77,13 @@ describe('Editor', () => {
 })
 
 describe('editorProps', () => {
+  const editors: Editor[] = []
+
+  afterEach(() => {
+    editors.forEach(editor => editor.destroy())
+    editors.length = 0
+  })
+
   it('editorProps can be set while constructing Editor', () => {
     function transformPastedHTML(html: string) {
       return html
@@ -86,6 +93,7 @@ describe('editorProps', () => {
       extensions: [Document, Paragraph, Text],
       editorProps: { transformPastedHTML },
     })
+    editors.push(editor)
 
     expect(transformPastedHTML).toBe(editor.view.props.transformPastedHTML)
   })
@@ -98,6 +106,7 @@ describe('editorProps', () => {
     const editor = new Editor({
       extensions: [Document, Paragraph, Text],
     })
+    editors.push(editor)
 
     editor.setOptions({ editorProps: { transformPastedHTML } })
 
