@@ -4,7 +4,7 @@ import { Paragraph } from '@tiptap/extension-paragraph'
 import { Text } from '@tiptap/extension-text'
 import { afterEach, describe, expect, it } from 'vite-plus/test'
 
-import { CodeBlock } from '../src/code-block.js'
+import { CodeBlock } from './code-block.js'
 
 const pressArrowUp = (editor: Editor) => {
   editor.view.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowUp', code: 'ArrowUp' }))

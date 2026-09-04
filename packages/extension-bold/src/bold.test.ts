@@ -3,7 +3,7 @@ import {
   starPasteRegex,
   underscoreInputRegex,
   underscorePasteRegex,
-} from '@tiptap/extension-bold'
+} from './bold.js'
 import { describe, expect, it } from 'vite-plus/test'
 
 describe('bold regex test', () => {

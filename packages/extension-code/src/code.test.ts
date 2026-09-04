@@ -1,4 +1,4 @@
-import { inputRegex, inputRegexMatch, pasteRegex, pasteRegexMatch } from '@tiptap/extension-code'
+import { inputRegex, inputRegexMatch, pasteRegex, pasteRegexMatch } from './code.js'
 import { describe, expect, it } from 'vite-plus/test'
 
 describe('code inputRegexMatch', () => {

@@ -5,7 +5,7 @@ import Text from '@tiptap/extension-text'
 import { PluginKey } from '@tiptap/pm/state'
 import { describe, expect, it, vi } from 'vite-plus/test'
 
-import { BubbleMenuView } from '../src/bubble-menu-plugin.js'
+import { BubbleMenuView } from './bubble-menu-plugin.js'
 
 const { computePositionMock } = vi.hoisted(() => ({
   computePositionMock: vi.fn(),

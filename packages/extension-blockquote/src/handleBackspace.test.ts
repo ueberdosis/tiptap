@@ -6,8 +6,8 @@ import Text from '@tiptap/extension-text'
 import { GapCursor } from '@tiptap/pm/gapcursor'
 import { afterEach, beforeEach, describe, expect, it } from 'vite-plus/test'
 
-import { handleBackspace } from '../src/handleBackspace.js'
-import { Blockquote } from '../src/index.js'
+import { handleBackspace } from './handleBackspace.js'
+import { Blockquote } from './blockquote.js'
 
 describe('Blockquote handleBackspace', () => {
   let editor: Editor

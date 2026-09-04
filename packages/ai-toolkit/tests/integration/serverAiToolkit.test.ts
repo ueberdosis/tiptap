@@ -4,7 +4,7 @@ import { Editor, Extension } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
 import { describe, expect, it } from 'vite-plus/test'
 
-import { ServerAiToolkit } from './index.js'
+import { ServerAiToolkit } from '@tiptap/ai-toolkit'
 
 /**
  * Options for creating a test editor.

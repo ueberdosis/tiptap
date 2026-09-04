@@ -1,5 +1,5 @@
 import { Editor } from '@tiptap/core'
-import { CodeBlockLowlight } from '@tiptap/extension-code-block-lowlight'
+import { CodeBlockLowlight } from './code-block-lowlight.js'
 import { Document } from '@tiptap/extension-document'
 import { Paragraph } from '@tiptap/extension-paragraph'
 import { Text } from '@tiptap/extension-text'

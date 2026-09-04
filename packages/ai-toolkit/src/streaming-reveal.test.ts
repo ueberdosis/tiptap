@@ -6,7 +6,7 @@ import StarterKit from '@tiptap/starter-kit'
 import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 import * as Y from 'yjs'
 
-import { AiInsertReveal } from '../src/streaming-reveal.js'
+import { AiInsertReveal } from './streaming-reveal.js'
 
 const AI_CLIENT_ID = 111111
 const HUMAN_CLIENT_ID = 222222
