@@ -28,7 +28,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20]
+        node-version: [24]
 
     steps:
       - uses: actions/checkout@v4.1.4
@@ -73,7 +73,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20]
+        node-version: [24]
         test-spec:
           - { name: "Integration", spec: "./tests/cypress/integration/**/*.spec.{js,ts}" }
           #- { name: "Demos/Commands", spec: "./demos/src/Commands/**/*.spec.{js,ts}" }
@@ -138,7 +138,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20]
+        node-version: [24]
 
     steps:
       - uses: actions/checkout@v4.1.4

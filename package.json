@@ -1,6 +1,9 @@
 {
   "private": true,
   "packageManager": "npm@10.9.1",
+  "engines": {
+    "node": ">=24.0.0"
+  },
   "workspaces": [
     "demos",
     "shared/*",
