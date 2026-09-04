@@ -55,9 +55,9 @@ jobs:
           createGithubReleases: false
           publish: npm run publish --tag v2-latest
           version: npm run version
-          title: ${{ github.ref_name == 'main' && 'Publish a new stable version'  || 'Publish a new pre-release version' }}
+          title: ${{ github.ref_name == 'maintenance/v2' && 'Publish a new stable version'  || 'Publish a new pre-release version' }}
           commit: >-
-            ${{ github.ref_name == 'main' && 'chore(release): publish a new release version'  || 'chore(release): publish a new pre-release version' }}
+            ${{ github.ref_name == 'maintenance/v2' && 'chore(release): publish a new release version'  || 'chore(release): publish a new pre-release version' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
