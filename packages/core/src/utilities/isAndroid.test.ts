@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 
-import { isAndroid } from '../utilities/isAndroid.js'
+import { isAndroid } from './isAndroid.js'
 
 function mockNavigator(platform: string, userAgent: string) {
   vi.stubGlobal('navigator', { platform, userAgent })

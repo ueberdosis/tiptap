@@ -1,5 +1,6 @@
-import { attrsEqual } from '@tiptap/core'
 import { describe, expect, it } from 'vite-plus/test'
+
+import { attrsEqual } from './attrsEqual.js'
 
 describe('attrsEqual', () => {
   it('returns true for identical objects with same key order', () => {

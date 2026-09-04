@@ -1,6 +1,7 @@
-import { mergeAttributes } from '@tiptap/core'
 import { DOMSerializer, Schema } from '@tiptap/pm/model'
 import { describe, expect, it } from 'vite-plus/test'
+
+import { mergeAttributes } from './mergeAttributes.js'
 
 describe('mergeAttributes', () => {
   it('should merge two objects', () => {

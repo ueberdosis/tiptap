@@ -1,5 +1,6 @@
-import { renderNestedMarkdownContent } from '@tiptap/core'
 import { describe, expect, it } from 'vite-plus/test'
+
+import { renderNestedMarkdownContent } from './renderNestedMarkdownContent.js'
 
 const node = {
   type: 'listItem',

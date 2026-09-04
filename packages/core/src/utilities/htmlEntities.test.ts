@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vite-plus/test'
 
-import { decodeHtmlEntities, encodeHtmlEntities } from '../utilities/htmlEntities.js'
+import { decodeHtmlEntities, encodeHtmlEntities } from './htmlEntities.js'
 
 describe('decodeHtmlEntities', () => {
   it('decodes &lt; to <', () => {

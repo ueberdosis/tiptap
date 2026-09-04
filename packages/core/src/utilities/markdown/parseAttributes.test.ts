@@ -1,5 +1,6 @@
-import { parseAttributes } from '@tiptap/core'
 import { describe, expect, it } from 'vite-plus/test'
+
+import { parseAttributes } from './parseAttributes.js'
 
 describe('parseAttributes', () => {
   it('should return an empty object for empty input', () => {

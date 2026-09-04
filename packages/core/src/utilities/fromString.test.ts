@@ -1,5 +1,6 @@
-import { fromString } from '@tiptap/core'
 import { describe, expect, it } from 'vite-plus/test'
+
+import { fromString } from './fromString.js'
 
 describe('fromString', () => {
   it('should return a string', () => {
