@@ -2,6 +2,8 @@ import '../text-style/index.js'
 
 import { Extension, getStyleProperty } from '@tiptap/core'
 
+import { createColorNormalizationPlugin } from '../utilities/normalize-color-plugin.js'
+
 export type BackgroundColorOptions = {
   /**
    * The types where the color can be applied
@@ -9,6 +11,19 @@ export type BackgroundColorOptions = {
    * @example ['heading', 'paragraph']
    */
   types: string[]
+
+  /**
+   * An optional callback used to normalize color values to a canonical form
+   * (e.g. hex to `rgb(...)`), so parsed and rendered colors stay consistent.
+   * This can prevent the cursor from jumping during IME composition when a
+   * color is re-parsed into a different string representation.
+   *
+   * Pass the built-in `normalizeColor` helper to normalize using the
+   * browser's own CSS parser, or provide a custom function.
+   * @default null
+   * @example colorNormalizer: normalizeColor
+   */
+  colorNormalizer: ((color: string) => string) | null
 }
 
 declare module '@tiptap/core' {
@@ -47,6 +62,7 @@ export const BackgroundColor = Extension.create<BackgroundColorOptions>({
   addOptions() {
     return {
       types: ['textStyle'],
+      colorNormalizer: null,
     }
   },
 
@@ -61,17 +77,28 @@ export const BackgroundColor = Extension.create<BackgroundColorOptions>({
               // Prefer the raw inline `style` attribute so we preserve the
               // original format (e.g. `#rrggbb`) instead of the canonicalized
               // `rgb(...)` value returned by `element.style.backgroundColor`.
-              const value =
+              const color =
                 getStyleProperty(element, 'background-color') ?? element.style.backgroundColor
-              return value?.replace(/['"]+/g, '')
+
+              if (!color) {
+                return null
+              }
+
+              const value = color.replace(/['"]+/g, '')
+
+              return this.options.colorNormalizer ? this.options.colorNormalizer(value) : value
             },
             renderHTML: attributes => {
               if (!attributes.backgroundColor) {
                 return {}
               }
 
+              const value = this.options.colorNormalizer
+                ? this.options.colorNormalizer(attributes.backgroundColor)
+                : attributes.backgroundColor
+
               return {
-                style: `background-color: ${attributes.backgroundColor}`,
+                style: `background-color: ${value}`,
               }
             },
           },
@@ -80,12 +107,24 @@ export const BackgroundColor = Extension.create<BackgroundColorOptions>({
     ]
   },
 
+  addProseMirrorPlugins() {
+    if (!this.options.colorNormalizer) {
+      return []
+    }
+
+    return [createColorNormalizationPlugin('backgroundColor', this.options.colorNormalizer)]
+  },
+
   addCommands() {
     return {
       setBackgroundColor:
         backgroundColor =>
         ({ chain }) => {
-          return chain().setMark('textStyle', { backgroundColor }).run()
+          const value = this.options.colorNormalizer
+            ? this.options.colorNormalizer(backgroundColor)
+            : backgroundColor
+
+          return chain().setMark('textStyle', { backgroundColor: value }).run()
         },
       unsetBackgroundColor:
         () =>
