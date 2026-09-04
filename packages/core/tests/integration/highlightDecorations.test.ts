@@ -1,13 +1,12 @@
-import { Editor, Node } from '@tiptap/core'
+import { DECORATION_MANAGER_PLUGIN_KEY, Editor, Node } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import type { Decoration } from '@tiptap/pm/view'
 import { describe, expect, it } from 'vite-plus/test'
 
-import { DECORATION_MANAGER_PLUGIN_KEY } from '../src/decorations/constants.js'
-import { HighlightDecorations as ReactHighlightDecorations } from '../../../demos/src/Examples/Decorations/React/highlight-decorations.js'
-import { HighlightDecorations as VueHighlightDecorations } from '../../../demos/src/Examples/Decorations/Vue/highlight-decorations.js'
+import { HighlightDecorations as ReactHighlightDecorations } from '../../../../demos/src/Examples/Decorations/React/highlight-decorations.js'
+import { HighlightDecorations as VueHighlightDecorations } from '../../../../demos/src/Examples/Decorations/Vue/highlight-decorations.js'
 
 const Heading = Node.create({
   name: 'heading',
