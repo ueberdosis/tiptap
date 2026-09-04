@@ -30,9 +30,9 @@ the branch, to know what is currently stable.
 Older major versions live on `release/v*` branches (e.g. `release/v3`). These only
 receive critical bug fixes and security patches, no new features.
 
-| Branch           | Purpose                                 | Publishes                                                                      |
-| ---------------- | --------------------------------------- | ------------------------------------------------------------------------------ |
-| `main`           | Active development, default branch      | `next` / `alpha` / `beta`, or `latest` once main is the current stable version |
+| Branch       | Purpose                                 | Publishes                                                                      |
+| ------------ | --------------------------------------- | ------------------------------------------------------------------------------ |
+| `main`       | Active development, default branch      | `next` / `alpha` / `beta`, or `latest` once main is the current stable version |
 | `release/v*` | Frozen stable line, critical fixes only | `latest` (while current) or `latest-v*` (once superseded)                      |
 
 Once a `release/v*` branch is cut, it never merges back into `main`, and `main` never
