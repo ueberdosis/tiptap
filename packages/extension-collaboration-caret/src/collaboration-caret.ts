@@ -2,6 +2,7 @@ import { Extension } from '@tiptap/core'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import type { DecorationAttrs } from '@tiptap/pm/view'
 import { defaultSelectionBuilder, yCursorPlugin } from '@tiptap/y-tiptap'
+import { isValidColor } from './lib/isValidColor.js'
 
 type CollaborationCaretStorage = {
   users: { clientId: number; [key: string]: any }[]
@@ -28,11 +29,11 @@ export interface CollaborationCaretOptions {
    * render: user => {
    *  const cursor = document.createElement('span')
    *  cursor.classList.add('collaboration-carets__caret')
-   *  cursor.setAttribute('style', `border-color: ${user.color}`)
+   *  cursor.style.borderColor = user.color
    *
    *  const label = document.createElement('div')
    *  label.classList.add('collaboration-carets__label')
-   *  label.setAttribute('style', `background-color: ${user.color}`)
+   *  label.style.backgroundColor = user.color
    *  label.insertBefore(document.createTextNode(user.name), null)
    *
    *  cursor.insertBefore(label, null)
@@ -49,7 +50,6 @@ export interface CollaborationCaretOptions {
    * return {
    *  nodeName: 'span',
    *  class: 'collaboration-carets__selection',
-   *  style: `background-color: ${user.color}`,
    *  'data-user': user.name,
    * }
    */
@@ -99,6 +99,11 @@ const awarenessStatesToArray = (states: Map<number, Record<string, any> | null |
 
 const defaultOnUpdate = () => null
 
+const sanitizeUserColor = (user: Record<string, any>) => ({
+  ...user,
+  color: isValidColor(user.color) ? user.color : 'transparent',
+})
+
 /**
  * This extension allows you to add collaboration carets to your editor.
  * @see https://tiptap.dev/api/extensions/collaboration-caret
@@ -120,20 +125,27 @@ export const CollaborationCaret = Extension.create<
       },
       render: user => {
         const cursor = document.createElement('span')
+        const { color } = sanitizeUserColor(user)
 
         cursor.classList.add('collaboration-carets__caret')
-        cursor.setAttribute('style', `border-color: ${user.color}`)
+        cursor.style.borderColor = color
 
         const label = document.createElement('div')
 
         label.classList.add('collaboration-carets__label')
-        label.setAttribute('style', `background-color: ${user.color}`)
+        label.style.backgroundColor = color
         label.insertBefore(document.createTextNode(user.name), null)
         cursor.insertBefore(label, null)
 
         return cursor
       },
-      selectionRender: defaultSelectionBuilder,
+      selectionRender: user => {
+        if (!isValidColor(user.color)) {
+          return {}
+        }
+
+        return defaultSelectionBuilder(user)
+      },
       onUpdate: defaultOnUpdate,
     }
   },
@@ -204,8 +216,9 @@ export const CollaborationCaret = Extension.create<
     return [
       awarenessListenerPlugin,
       yCursorPlugin(provider.awareness, {
-        cursorBuilder: this.options.render,
-        selectionBuilder: this.options.selectionRender,
+        cursorBuilder: currentUser => this.options.render(sanitizeUserColor(currentUser)),
+        selectionBuilder: currentUser =>
+          this.options.selectionRender(sanitizeUserColor(currentUser)),
       }),
     ]
   },
