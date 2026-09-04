@@ -3,7 +3,7 @@ import { collectOrderedListItems, ORDERED_LIST_ITEM_REGEX } from './utils.js'
 
 const ORDERED_LIST_SCAN_WINDOW = 64
 
-// Splits at most `max` lines. A shorter result means `source` ended.
+// Fewer than `max` lines means `source` ended.
 function takeLines(source: string, max: number): string[] {
   const lines: string[] = []
   let start = 0

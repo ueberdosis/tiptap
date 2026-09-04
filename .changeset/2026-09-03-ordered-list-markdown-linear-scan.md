@@ -2,4 +2,4 @@
 '@tiptap/extension-list': patch
 ---
 
-Parsing Markdown is no longer super-linear in document size. The ordered list tokenizer read the whole remaining document at every block, so a 578KB file took about 19s and now takes about 160ms.
+Parsing large Markdown documents that contain ordered lists is much faster. A 578KB document went from about 19s to about 160ms.

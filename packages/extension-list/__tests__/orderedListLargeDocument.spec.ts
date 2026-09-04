@@ -67,7 +67,7 @@ describe('ordered lists in large documents', () => {
     markdownManager.parse(markdown)
     const duration = performance.now() - startedAt
 
-    // Quadratic scanning took ~19s for this document.
-    expect(duration).toBeLessThan(5000)
+    // Quadratic scanning took ~37s here; ~250ms now. Loose enough for CI.
+    expect(duration).toBeLessThan(2000)
   }, 60000)
 })
