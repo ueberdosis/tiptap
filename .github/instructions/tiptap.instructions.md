@@ -118,7 +118,7 @@ When adding a demo, keep it small and self-contained, with imports from publishe
 
 Two layers:
 
-- **Unit tests** with Vitest (happy-dom). Place file-specific tests next to the file they cover and name them `<basename>.spec.ts` (for example, `getAttributes.ts` uses `getAttributes.spec.ts`). Put package-wide tests and test utilities in `packages/**/__tests__/`.
+- **Unit tests** with Vitest (happy-dom). Place file-specific tests next to the file they cover and name them `<basename>.spec.ts` (for example, `getAttributes.ts` uses `getAttributes.spec.ts`). Each package keeps a `tests/` folder next to `src/` for package-wide test support. Put reusable package test utilities in `tests/utils/`, scenario or reproduction data in `tests/fixtures/`, and file-based fixtures in `tests/fixtures/files/`. Add shared package setup in `tests/setup/` only when multiple specs need it. Keep one-off mocks and helpers next to the spec that uses them.
 - **E2E tests** with Playwright, colocated next to their demos as `demos/src/**/index.spec.ts`. They drive the real Vite-served demo pages in Chromium.
 
 Run them:
