@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.31.3
+
+### Patch Changes
+
+- 3653ac2: Fixed a bug which allowed potentially unsafe color values being sent by other clients. Those unsafe colors received from collaboration users are now ignored.
+  - @tiptap/core@3.31.3
+  - @tiptap/pm@3.31.3
+
 ## 3.31.2
 
 ### Patch Changes
