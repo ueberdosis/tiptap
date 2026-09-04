@@ -166,6 +166,11 @@ textarea {
   box-shadow: var(--shadow);
   max-height: 18rem;
   overflow-y: auto;
+  scrollbar-color: var(--gray-4) transparent;
+}
+
+[popover]::-webkit-scrollbar-thumb {
+  background-color: var(--gray-4);
 }
 
 /* Details */
