@@ -31,6 +31,8 @@ const NON_SELF_CLOSING_TAGS = new Set([
   'span',
   'a',
   'button',
+  'audio',
+  'video',
 ])
 
 /**
