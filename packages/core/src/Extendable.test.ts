@@ -1,10 +1,11 @@
-import { Editor, Extension, getExtensionField, Mark, Node } from '@tiptap/core'
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
 import { describe, expect, it } from 'vite-plus/test'
 
-declare module '@tiptap/core' {
+import { Extension } from './Extension.js'
+import { Mark } from './Mark.js'
+import { Node } from './Node.js'
+import { getExtensionField } from './helpers/getExtensionField.js'
+
+declare module './Extension.js' {
   // Extension does not have a addAttributes defined, but we just want to test it anyway
   interface ExtensionConfig {
     // @ts-ignore - this is a dynamic key
@@ -422,7 +423,6 @@ describe('extend extensions', () => {
     })
   })
 })
-
 describe('parent/child cleanup on destroy', () => {
   it('should not leak child reference when configure() is called on a singleton', () => {
     const singleton = Extension.create({
@@ -437,101 +437,328 @@ describe('parent/child cleanup on destroy', () => {
     expect(singleton.child).toBeNull()
     expect(configuredExtension.parent).toBeNull()
   })
+})
 
-  it('should break parent/child chain when editor is destroyed (extend path)', () => {
-    const singleton = Extension.create({
-      name: 'testExtension',
-      addOptions() {
-        return { foo: 'bar' }
-      },
+describe('extension options', () => {
+  ;[Extension, Node, Mark].forEach(Extendable => {
+    describe(Extendable.create().type, () => {
+      it('should set options', () => {
+        const extension = Extendable.create({
+          addOptions() {
+            return {
+              foo: 1,
+              bar: 1,
+            }
+          },
+        })
+
+        expect(extension.options).toEqual({
+          foo: 1,
+          bar: 1,
+        })
+      })
+
+      it('should pass through', () => {
+        const extension = Extendable.create({
+          addOptions() {
+            return {
+              foo: 1,
+              bar: 1,
+            }
+          },
+        })
+          .extend()
+          .configure()
+
+        expect(extension.options).toEqual({
+          foo: 1,
+          bar: 1,
+        })
+      })
+
+      it('should be configurable', () => {
+        const extension = Extendable.create({
+          addOptions() {
+            return {
+              foo: 1,
+              bar: 1,
+            }
+          },
+        }).configure({
+          bar: 2,
+        })
+
+        expect(extension.options).toEqual({
+          foo: 1,
+          bar: 2,
+        })
+      })
+
+      it('should be extendable', () => {
+        const extension = Extendable.create({
+          addOptions() {
+            return {
+              foo: 1,
+              bar: 1,
+            }
+          },
+        })
+
+        const newExtension = extension.extend({
+          addOptions() {
+            return {
+              ...this.parent?.(),
+              baz: 1,
+            }
+          },
+        })
+
+        expect(newExtension.options).toEqual({
+          foo: 1,
+          bar: 1,
+          baz: 1,
+        })
+      })
+
+      it('should be extendable multiple times', () => {
+        const extension = Extendable.create({
+          addOptions() {
+            return {
+              foo: 1,
+              bar: 1,
+            }
+          },
+        }).extend({
+          addOptions() {
+            return {
+              ...this.parent?.(),
+              baz: 1,
+            }
+          },
+        })
+
+        const newExtension = extension.extend({
+          addOptions() {
+            return {
+              ...this.parent?.(),
+              bax: 1,
+            }
+          },
+        })
+
+        expect(newExtension.options).toEqual({
+          foo: 1,
+          bar: 1,
+          baz: 1,
+          bax: 1,
+        })
+      })
+
+      it('should be overwritable', () => {
+        const extension = Extendable.create({
+          addOptions() {
+            return {
+              foo: 1,
+              bar: 1,
+            }
+          },
+        }).extend({
+          addOptions() {
+            return {
+              baz: 1,
+            }
+          },
+        })
+
+        expect(extension.options).toEqual({
+          baz: 1,
+        })
+      })
+
+      it('should configure nested objects', () => {
+        const extension = Extendable.create<{
+          foo: number[]
+          HTMLAttributes: Record<string, any>
+        }>({
+          addOptions() {
+            return {
+              foo: [1, 2, 3],
+              HTMLAttributes: {
+                class: 'foo',
+              },
+            }
+          },
+        }).configure({
+          foo: [1],
+          HTMLAttributes: {
+            id: 'bar',
+          },
+        })
+
+        expect(extension.options).toEqual({
+          foo: [1],
+          HTMLAttributes: {
+            class: 'foo',
+            id: 'bar',
+          },
+        })
+      })
+
+      it('should configure retaining existing config', () => {
+        const extension = Extendable.create({
+          name: 'parent',
+          addOptions() {
+            return {
+              foo: 1,
+              bar: 1,
+            }
+          },
+        })
+
+        const newExtension = extension.configure()
+
+        expect(newExtension.config.name).toBe('parent')
+      })
+
+      it('should create its own instance on configure', () => {
+        const extension = Extendable.create({
+          addOptions() {
+            return {
+              foo: 1,
+              bar: 2,
+            }
+          },
+        })
+
+        const extension1 = extension.configure({
+          foo: 2,
+          bar: 4,
+        })
+
+        const extension2 = extension.configure({
+          foo: 3,
+        })
+
+        expect(extension1.options).toEqual({
+          foo: 2,
+          bar: 4,
+        })
+
+        expect(extension2.options).toEqual({
+          foo: 3,
+          bar: 2,
+        })
+      })
     })
-
-    const childExtension = singleton.extend({
-      addOptions() {
-        return { ...this.parent?.(), foo: 'baz' }
-      },
-    })
-
-    expect(singleton.child).toBe(childExtension)
-    expect(childExtension.parent).toBe(singleton)
-
-    const editor = new Editor({
-      element: null,
-      extensions: [Document, Paragraph, Text, childExtension],
-    })
-
-    editor.destroy()
-
-    expect(singleton.child).toBeNull()
   })
+})
 
-  it('should clear forward parent.child links on all extensions after editor.destroy()', () => {
-    const singletonA = Extension.create({
-      name: 'extA',
-      addOptions() {
-        return { value: 'a' }
-      },
+describe('extension storage', () => {
+  ;[Extension, Node, Mark].forEach(Extendable => {
+    describe(Extendable.create().type, () => {
+      it('should be an empty object if not defined', () => {
+        const extension = Extendable.create({})
+
+        expect(extension.storage).toEqual({})
+      })
+
+      it('should be be the return of `addStorage` if defined', () => {
+        const extension = Extendable.create({
+          addStorage() {
+            return { a: 1 }
+          },
+        })
+
+        expect(extension.storage).toEqual({ a: 1 })
+      })
+
+      it('should be able to be extended', () => {
+        const extension = Extendable.create({
+          addStorage() {
+            return { a: 1 }
+          },
+        }).extend()
+
+        expect(extension.storage).toEqual({ a: 1 })
+      })
+
+      it('should be able to be configured', () => {
+        const extension = Extendable.create({
+          addStorage() {
+            return { a: 1 }
+          },
+        }).configure({
+          anything: 'else',
+        })
+
+        expect(extension.storage).toEqual({ a: 1 })
+      })
+
+      it('should be able to be extended and configured', () => {
+        const extension = Extendable.create({
+          addStorage() {
+            return { a: 1 }
+          },
+        })
+          .extend()
+          .configure({
+            anything: 'else',
+          })
+
+        expect(extension.storage).toEqual({ a: 1 })
+      })
+
+      it('should be overwrite parents addStorage', () => {
+        const extension = Extendable.create({
+          addStorage() {
+            expect(false, 'This should not be called').toBe(true)
+            return { a: 1 }
+          },
+        }).extend({
+          addStorage() {
+            return { b: 1 }
+          },
+        })
+
+        expect(extension.storage).toEqual({ b: 1 })
+      })
+
+      it('grandchild should overwrite grandparent & parents addStorage', () => {
+        const extension = Extendable.create({
+          addStorage() {
+            expect(false, 'This should not be called').toBe(true)
+            return { a: 1 }
+          },
+        })
+          .extend({
+            addStorage() {
+              expect(false, 'This should not be called').toBe(true)
+              return { b: 1 }
+            },
+          })
+          .extend({
+            addStorage() {
+              return { c: 1 }
+            },
+          })
+
+        expect(extension.storage).toEqual({ c: 1 })
+      })
+
+      it('should return a new object on each access', () => {
+        const extension = Extendable.create({
+          addStorage() {
+            return { a: 1 }
+          },
+        })
+
+        const storage1 = extension.storage
+        const storage2 = extension.storage
+
+        expect(storage1).toEqual({ a: 1 })
+        expect(storage2).toEqual({ a: 1 })
+        expect(storage1).not.toBe(storage2)
+      })
     })
-    const singletonB = Extension.create({
-      name: 'extB',
-      addOptions() {
-        return { value: 'b' }
-      },
-    })
-
-    const configuredA = singletonA.configure({ value: 'a-configured' })
-    const childB = singletonB.extend({ name: 'extB-child' })
-
-    const editor = new Editor({
-      element: null,
-      extensions: [Document, Paragraph, Text, configuredA, childB],
-    })
-
-    const { extensions } = editor.extensionManager
-
-    editor.destroy()
-
-    extensions.forEach(ext => {
-      if (ext.parent?.child === ext) {
-        // This should never be true after destroy — the forward link is always broken
-        expect(ext.parent.child).toBeNull()
-      }
-    })
-  })
-
-  it('should break all ancestor child links in a multi-level extend chain after editor.destroy()', () => {
-    const root = Extension.create({
-      name: 'root',
-      addOptions() {
-        return { level: 0 }
-      },
-    })
-
-    const child = root.extend({
-      addOptions() {
-        return { ...this.parent?.(), level: 1 }
-      },
-    })
-
-    const grandchild = child.extend({
-      addOptions() {
-        return { ...this.parent?.(), level: 2 }
-      },
-    })
-
-    expect(root.child).toBe(child)
-    expect(child.child).toBe(grandchild)
-    expect(grandchild.parent).toBe(child)
-    expect(child.parent).toBe(root)
-
-    const editor = new Editor({
-      element: null,
-      extensions: [Document, Paragraph, Text, grandchild],
-    })
-
-    editor.destroy()
-
-    expect(root.child).toBeNull()
-    expect(child.child).toBeNull()
   })
 })

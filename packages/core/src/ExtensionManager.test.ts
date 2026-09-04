@@ -1,8 +1,180 @@
-import { Editor, Extension } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { describe, expect, it } from 'vite-plus/test'
+import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
+
+import { Editor } from './Editor.js'
+import { Extension } from './Extension.js'
+
+describe('dispatchTransaction', () => {
+  it('should call dispatchTransaction from an extension', () => {
+    const dispatchTransaction = vi.fn(({ transaction, next }) => next(transaction))
+    const CustomExtension = Extension.create({
+      name: 'custom',
+      dispatchTransaction,
+    })
+
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, CustomExtension],
+    })
+
+    editor.commands.insertContent('foo')
+
+    expect(dispatchTransaction).toHaveBeenCalled()
+
+    editor.destroy()
+  })
+
+  it('should call multiple dispatchTransaction hooks in priority order', () => {
+    const order: string[] = []
+    const Extension1 = Extension.create({
+      name: 'extension1',
+      priority: 10,
+      dispatchTransaction({ transaction, next }) {
+        order.push('extension1')
+        next(transaction)
+      },
+    })
+    const Extension2 = Extension.create({
+      name: 'extension2',
+      priority: 20,
+      dispatchTransaction({ transaction, next }) {
+        order.push('extension2')
+        next(transaction)
+      },
+    })
+
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, Extension1, Extension2],
+    })
+
+    editor.commands.insertContent('foo')
+
+    expect(order).toEqual(['extension2', 'extension1'])
+
+    editor.destroy()
+  })
+
+  it('should block transaction if next is not called', () => {
+    const Extension1 = Extension.create({
+      name: 'extension1',
+      dispatchTransaction() {
+        // do nothing
+      },
+    })
+
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, Extension1],
+    })
+
+    editor.commands.insertContent('foo')
+
+    expect(editor.getText()).toBe('')
+
+    editor.destroy()
+  })
+
+  it('should allow user-provided dispatchTransaction as base', () => {
+    const userDispatch = vi.fn(_tr => {
+      // In a real scenario, the user would update the view state here.
+      // For this test, we just want to see if it's called.
+    })
+
+    const Extension1 = Extension.create({
+      name: 'extension1',
+      dispatchTransaction({ transaction, next }) {
+        next(transaction)
+      },
+    })
+
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, Extension1],
+      editorProps: {
+        dispatchTransaction: userDispatch,
+      } as any,
+    })
+
+    editor.commands.insertContent('foo')
+
+    expect(userDispatch).toHaveBeenCalled()
+
+    editor.destroy()
+  })
+
+  it('should bypass extensions if enableExtensionDispatchTransaction is false', () => {
+    const dispatchTransaction = vi.fn(({ transaction, next }) => next(transaction))
+    const CustomExtension = Extension.create({
+      name: 'custom',
+      dispatchTransaction,
+    })
+
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, CustomExtension],
+      enableExtensionDispatchTransaction: false,
+    })
+
+    editor.commands.insertContent('foo')
+
+    expect(dispatchTransaction).not.toHaveBeenCalled()
+
+    editor.destroy()
+  })
+})
+
+describe('pluginOrder', () => {
+  let editor: Editor
+
+  afterEach(() => {
+    editor?.destroy()
+  })
+
+  it('runs keyboard shortcuts in correct priority order', () => {
+    const order: number[] = []
+
+    editor = new Editor({
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Extension.create({
+          priority: 1000,
+          addKeyboardShortcuts() {
+            return {
+              a: () => {
+                order.push(1)
+                return false
+              },
+            }
+          },
+        }),
+        Extension.create({
+          addKeyboardShortcuts() {
+            return {
+              a: () => {
+                order.push(3)
+                return false
+              },
+            }
+          },
+        }),
+        Extension.create({
+          addKeyboardShortcuts() {
+            return {
+              a: () => {
+                order.push(2)
+                return false
+              },
+            }
+          },
+        }),
+      ],
+    })
+
+    editor.view.dom.dispatchEvent(new KeyboardEvent('keydown', { key: 'a' }))
+
+    expect(order).toEqual([1, 2, 3])
+  })
+})
 
 describe('transformPastedHTML', () => {
   describe('priority ordering', () => {
@@ -577,5 +749,104 @@ describe('transformPastedHTML', () => {
 
       editor.destroy()
     })
+  })
+})
+
+describe('parent/child cleanup on destroy', () => {
+  it('should break parent/child chain when editor is destroyed (extend path)', () => {
+    const singleton = Extension.create({
+      name: 'testExtension',
+      addOptions() {
+        return { foo: 'bar' }
+      },
+    })
+
+    const childExtension = singleton.extend({
+      addOptions() {
+        return { ...this.parent?.(), foo: 'baz' }
+      },
+    })
+
+    expect(singleton.child).toBe(childExtension)
+    expect(childExtension.parent).toBe(singleton)
+
+    const editor = new Editor({
+      element: null,
+      extensions: [Document, Paragraph, Text, childExtension],
+    })
+
+    editor.destroy()
+
+    expect(singleton.child).toBeNull()
+  })
+
+  it('should clear forward parent.child links on all extensions after editor.destroy()', () => {
+    const singletonA = Extension.create({
+      name: 'extA',
+      addOptions() {
+        return { value: 'a' }
+      },
+    })
+    const singletonB = Extension.create({
+      name: 'extB',
+      addOptions() {
+        return { value: 'b' }
+      },
+    })
+
+    const configuredA = singletonA.configure({ value: 'a-configured' })
+    const childB = singletonB.extend({ name: 'extB-child' })
+
+    const editor = new Editor({
+      element: null,
+      extensions: [Document, Paragraph, Text, configuredA, childB],
+    })
+
+    const { extensions } = editor.extensionManager
+
+    editor.destroy()
+
+    extensions.forEach(ext => {
+      if (ext.parent?.child === ext) {
+        // This should never be true after destroy — the forward link is always broken
+        expect(ext.parent.child).toBeNull()
+      }
+    })
+  })
+
+  it('should break all ancestor child links in a multi-level extend chain after editor.destroy()', () => {
+    const root = Extension.create({
+      name: 'root',
+      addOptions() {
+        return { level: 0 }
+      },
+    })
+
+    const child = root.extend({
+      addOptions() {
+        return { ...this.parent?.(), level: 1 }
+      },
+    })
+
+    const grandchild = child.extend({
+      addOptions() {
+        return { ...this.parent?.(), level: 2 }
+      },
+    })
+
+    expect(root.child).toBe(child)
+    expect(child.child).toBe(grandchild)
+    expect(grandchild.parent).toBe(child)
+    expect(child.parent).toBe(root)
+
+    const editor = new Editor({
+      element: null,
+      extensions: [Document, Paragraph, Text, grandchild],
+    })
+
+    editor.destroy()
+
+    expect(root.child).toBeNull()
+    expect(child.child).toBeNull()
   })
 })

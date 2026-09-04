@@ -1,4 +1,3 @@
-import { Editor } from '@tiptap/core'
 import Bold from '@tiptap/extension-bold'
 import Code from '@tiptap/extension-code'
 import CodeBlock from '@tiptap/extension-code-block'
@@ -7,6 +6,8 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { UndoRedo } from '@tiptap/extensions'
 import { afterEach, describe, expect, it } from 'vite-plus/test'
+
+import { Editor } from './Editor.js'
 
 describe('can', () => {
   let editor: Editor

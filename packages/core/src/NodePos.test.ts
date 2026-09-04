@@ -1,4 +1,3 @@
-import { Editor, Node } from '@tiptap/core'
 import Blockquote from '@tiptap/extension-blockquote'
 import BulletList from '@tiptap/extension-bullet-list'
 import Document from '@tiptap/extension-document'
@@ -10,6 +9,9 @@ import Paragraph from '@tiptap/extension-paragraph'
 import { Table, TableCell, TableHeader, TableRow } from '@tiptap/extension-table'
 import Text from '@tiptap/extension-text'
 import { afterEach, describe, expect, it } from 'vite-plus/test'
+
+import { Editor } from './Editor.js'
+import { Node } from './Node.js'
 
 // Simple inline node for testing (similar to mention)
 const CustomInlineNode = Node.create({

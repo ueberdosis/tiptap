@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vite-plus/test'
 
-import { Fragment, h, jsx, jsxs } from '../src/jsx-runtime.js'
+import { Fragment, h, jsx, jsxs } from './jsx-runtime.js'
 
 describe('JSX Runtime', () => {
   describe('basic functionality', () => {

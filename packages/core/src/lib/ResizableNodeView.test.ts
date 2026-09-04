@@ -1,8 +1,11 @@
-import { Editor, Node, ResizableNodeView } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { afterEach, describe, expect, it } from 'vite-plus/test'
+
+import { Editor } from '../Editor.js'
+import { Node } from '../Node.js'
+import { ResizableNodeView } from './ResizableNodeView.js'
 
 const InlineImage = Node.create({
   name: 'inlineImage',
