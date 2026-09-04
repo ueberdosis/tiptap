@@ -217,19 +217,6 @@ export default {
   font-weight: 500;
 }
 
-.tiptap {
-  background-color: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 0.75rem;
-  padding: 1rem;
-  min-height: 12rem;
-  width: 100%;
-}
-
-.tiptap p {
-  margin: 0.5rem 0;
-}
-
 .tiptap audio {
   width: 100%;
   max-width: 64rem;
