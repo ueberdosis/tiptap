@@ -1,5 +1,16 @@
 # Change Log
 
+## 4.0.0-next.0
+
+### Patch Changes
+
+- 548216e: Nested lists exported to Markdown now keep their hierarchy when the file is read back by other Markdown tools.
+- 8aea2ef: Fix a denial-of-service risk where crafted block or inline Markdown attributes could consume excessive CPU and block the browser or server event loop.
+- fd086c5: Fix freezes in framework-based node views on iOS and Android
+- 32c048d: Prevent untrusted HTML attributes from changing an object's prototype when merged with `mergeAttributes`.
+- Updated dependencies [c4488ba]
+  - @tiptap/pm@4.0.0-next.0
+
 ## 3.30.3
 
 ### Patch Changes

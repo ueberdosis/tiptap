@@ -62,7 +62,22 @@
     "@tiptap/starter-kit": "3.30.3",
     "@tiptap/static-renderer": "3.30.3",
     "@tiptap/suggestion": "3.30.3",
-    "@tiptap/vue": "3.30.3"
+    "@tiptap/vue": "3.30.3",
+    "@tiptap/codemod-v3-to-v4": "0.1.0"
   },
-  "changesets": []
+  "changesets": [
+    "2026-08-20-ordered-list-markdown-indent",
+    "2026-08-23-youtube-missing-src",
+    "2026-08-25-remove-deprecated-packages",
+    "2026-08-26-fix-markdown-whitespace-only-marked-text",
+    "2026-08-26-markdown-attribute-redos",
+    "2026-08-26-validate-collaboration-caret-colors",
+    "2026-08-28-react-shared-node-view-selection",
+    "2026-08-31-bump-prosemirror-view",
+    "2026-08-31-react-nodeview-selection-state",
+    "2026-09-04-react-editor-namespace-ts2694",
+    "fix-ios-ignore-mutation-contentdom",
+    "fix-merge-attributes-prototype",
+    "remove-vue-2"
+  ]
 }
