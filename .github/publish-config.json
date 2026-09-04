@@ -1,6 +1,6 @@
 {
   "branches": {
-    "maintenance/v3": {
+    "release/v3": {
       "distTag": "latest",
       "label": "stable",
       "title": "Release new stable release",

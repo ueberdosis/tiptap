@@ -8,7 +8,7 @@
   ],
   "linked": [],
   "access": "public",
-  "baseBranch": "maintenance/v3",
+  "baseBranch": "release/v3",
   "updateInternalDependencies": "patch",
   "ignore": [],
   "___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH": {

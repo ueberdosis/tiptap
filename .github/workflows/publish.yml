@@ -7,7 +7,7 @@ env:
 on:
   push:
     branches:
-      - maintenance/v3
+      - release/v3
 
 permissions:
   contents: read
@@ -48,7 +48,7 @@ jobs:
       - uses: ./.github/actions/setup-env
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'true'
+          cache: "true"
 
       - name: Install dependencies
         run: vp install --frozen-lockfile -- --strict-peer-dependencies
@@ -88,7 +88,7 @@ jobs:
       - uses: ./.github/actions/setup-env
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'true'
+          cache: "true"
 
       - name: Update npm for trusted publishing
         run: npm install -g npm@11.6.2
