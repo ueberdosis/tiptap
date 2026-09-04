@@ -50,12 +50,12 @@ Prefer simple, readable code over clever code. Use early returns. Avoid deep nes
 
 ```ts
 // good
-items.map((item, index) => createNode(item, index))
-decorations.filter(decoration => decoration.visible)
+items.map((item, index) => createNode(item, index));
+decorations.filter((decoration) => decoration.visible);
 
 // bad
-items.map((i, idx) => createNode(i, idx))
-decorations.filter(d => d.visible)
+items.map((i, idx) => createNode(i, idx));
+decorations.filter((d) => d.visible);
 ```
 
 ### Comments
@@ -127,7 +127,12 @@ Then run `pnpm fallow` for complexity and dead code, `pnpm fallow:health` for re
 
 ## Tests
 
-- Unit: Vitest, running on happy-dom. Place file-specific tests next to the file they cover and name them `<file-name>.spec.ts`. Put package-wide tests and test utilities in `packages/**/__tests__/`.
+- Unit: Vitest, running on happy-dom. Place file-specific tests next to the file they cover and name them `<basename>.test.ts` (for example, `getAttributes.ts` uses `getAttributes.test.ts`).
+- Every package keeps a `tests/` folder next to `src/` for package-wide tests and support. Put integration tests that exercise multiple source files or runtime wiring in `tests/integration/`.
+- Put reusable package test utilities in `tests/utils/`. Put shared package test setup in `tests/setup/` only when multiple tests use it.
+- Fixtures are passive inputs loaded by tests, not executable tests. Put scenario or reproduction data in `tests/fixtures/`.
+- Put file-based fixtures in `tests/fixtures/files/`. Use a more specific subfolder when the fixture type needs it, such as `tests/fixtures/markdown/`.
+- Keep one-off mocks and helpers next to the test that uses them.
 - E2E: Playwright, next to the demo it drives as `demos/src/**/index.spec.ts`. Playwright starts the demo server itself on port 4080, no separate terminal. Helpers live in `demos/test/helpers.ts`. Copy `demos/src/Commands/Cut/index.spec.ts` as a template.
 
 ## Demos
@@ -143,7 +148,7 @@ Run `pnpm changeset`, or write the file yourself as `.changeset/YYYY-MM-DD-short
 
 ```markdown
 ---
-'@tiptap/core': patch
+"@tiptap/core": patch
 ---
 
 One short sentence on what changed for the user.
