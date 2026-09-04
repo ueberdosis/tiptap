@@ -110,11 +110,13 @@ Before committing:
 
 ## Testing
 
-- Place file-specific unit tests next to the file they cover and name them `<basename>.spec.ts`.
-- Keep a `tests/` folder next to `src/` in each package for package-wide test support.
-- Put shared test utilities in `tests/utils/` and scenario or reproduction data in `tests/fixtures/`.
+- Place file-specific unit tests next to the file they cover and name them `<basename>.test.ts`.
+- Keep a `tests/` folder next to `src/` in each package for package-wide tests and support.
+- Put integration tests that exercise multiple source files or runtime wiring in `tests/integration/`.
+- Put shared test utilities in `tests/utils/`.
+- Fixtures are passive inputs loaded by tests, not executable tests. Put scenario or reproduction data in `tests/fixtures/`.
 - Put file-based fixtures in `tests/fixtures/files/`, with more specific subfolders when needed.
-- Put shared package test setup in `tests/setup/`. Keep one-off mocks and helpers next to the spec that uses them.
+- Put shared package test setup in `tests/setup/`. Keep one-off mocks and helpers next to the test that uses them.
 
 ## Create a new demo
 
