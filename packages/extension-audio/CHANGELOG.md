@@ -1,5 +1,15 @@
 # @tiptap/extension-audio
 
+## 4.0.0-next.0
+
+### Patch Changes
+
+- Updated dependencies [548216e]
+- Updated dependencies [8aea2ef]
+- Updated dependencies [fd086c5]
+- Updated dependencies [32c048d]
+  - @tiptap/core@4.0.0-next.0
+
 ## 3.30.3
 
 ### Patch Changes

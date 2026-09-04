@@ -1,5 +1,41 @@
 # Change Log
 
+## 4.0.0-next.0
+
+### Major Changes
+
+- 1d20516: StarterKit no longer installs the deprecated `@tiptap/extension-dropcursor`, `@tiptap/extension-gapcursor`, `@tiptap/extension-list-item`, and `@tiptap/extension-list-keymap` packages. We will not publish further updates to these packages. StarterKit still includes their extensions, so you do not need to change your configuration.
+
+  If you import these extensions directly, switch to the new packages: `Dropcursor` and `Gapcursor` from `@tiptap/extensions`, and `ListItem` and `ListKeymap` from `@tiptap/extension-list`.
+
+### Patch Changes
+
+- Updated dependencies [548216e]
+- Updated dependencies [8aea2ef]
+- Updated dependencies [c4488ba]
+- Updated dependencies [fd086c5]
+- Updated dependencies [32c048d]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/extension-list@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+  - @tiptap/extension-blockquote@4.0.0-next.0
+  - @tiptap/extension-bold@4.0.0-next.0
+  - @tiptap/extension-code@4.0.0-next.0
+  - @tiptap/extension-code-block@4.0.0-next.0
+  - @tiptap/extension-document@4.0.0-next.0
+  - @tiptap/extension-hard-break@4.0.0-next.0
+  - @tiptap/extension-heading@4.0.0-next.0
+  - @tiptap/extension-horizontal-rule@4.0.0-next.0
+  - @tiptap/extension-italic@4.0.0-next.0
+  - @tiptap/extension-link@4.0.0-next.0
+  - @tiptap/extension-paragraph@4.0.0-next.0
+  - @tiptap/extension-strike@4.0.0-next.0
+  - @tiptap/extension-text@4.0.0-next.0
+  - @tiptap/extension-underline@4.0.0-next.0
+  - @tiptap/extensions@4.0.0-next.0
+  - @tiptap/extension-bullet-list@4.0.0-next.0
+  - @tiptap/extension-ordered-list@4.0.0-next.0
+
 ## 3.30.3
 
 ### Patch Changes

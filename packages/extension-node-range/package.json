@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/extension-node-range",
-  "version": "3.30.3",
+  "version": "4.0.0-next.0",
   "description": "node range extension for tiptap",
   "keywords": [
     "tiptap",
