@@ -1,8 +1,9 @@
-import { Editor } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { describe, expect, it } from 'vite-plus/test'
+
+import { Editor } from '../Editor.js'
 
 describe('tabindex extension', () => {
   it('should set tabindex="0" on editable editor by default', () => {

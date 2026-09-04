@@ -1,7 +1,8 @@
-import { Editor } from '@tiptap/core'
 import Mention from '@tiptap/extension-mention'
 import StarterKit from '@tiptap/starter-kit'
 import { afterEach, beforeEach, describe, expect, it } from 'vite-plus/test'
+
+import { Editor } from '../Editor.js'
 
 describe('setContent command', () => {
   let editor: Editor

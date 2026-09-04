@@ -1,9 +1,10 @@
-import { Editor } from '@tiptap/core'
 import Bold from '@tiptap/extension-bold'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { afterEach, describe, expect, it } from 'vite-plus/test'
+
+import { Editor } from '../Editor.js'
 
 describe('insertContentAt', () => {
   let editor: Editor

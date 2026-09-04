@@ -1,10 +1,11 @@
-import { Editor } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Highlight from '@tiptap/extension-highlight'
 import Link from '@tiptap/extension-link'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { describe, expect, it } from 'vite-plus/test'
+
+import { Editor } from '../Editor.js'
 
 describe('extendMarkRange', () => {
   it('should extend full mark', () => {

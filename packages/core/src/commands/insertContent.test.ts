@@ -1,4 +1,3 @@
-import { Editor } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Image from '@tiptap/extension-image'
 import Link from '@tiptap/extension-link'
@@ -7,6 +6,8 @@ import Text from '@tiptap/extension-text'
 import { Color, TextStyle } from '@tiptap/extension-text-style'
 import StarterKit from '@tiptap/starter-kit'
 import { afterEach, beforeEach, describe, expect, it } from 'vite-plus/test'
+
+import { Editor } from '../Editor.js'
 
 describe('insertContent', () => {
   let editor: Editor
