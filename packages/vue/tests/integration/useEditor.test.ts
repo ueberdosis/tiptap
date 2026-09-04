@@ -4,7 +4,7 @@ import Text from '@tiptap/extension-text'
 import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 import { createApp, defineComponent, h, nextTick } from 'vue'
 
-import { EditorContent, useEditor } from '../src/index.js'
+import { EditorContent, useEditor } from '../../src/index.js'
 
 describe('useEditor', () => {
   const mountedElements: HTMLElement[] = []

@@ -6,8 +6,8 @@ import { UndoRedo } from '@tiptap/extensions'
 import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 import { defineComponent, h } from 'vue'
 
-import { Editor } from '../src/Editor.js'
-import { VueWidgetRenderer } from '../src/VueWidgetRenderer.js'
+import { Editor } from './Editor.js'
+import { VueWidgetRenderer } from './VueWidgetRenderer.js'
 
 let renderCount = 0
 let unmountCount = 0

@@ -5,7 +5,7 @@ import Text from '@tiptap/extension-text'
 import { afterEach, beforeEach, describe, expect, it } from 'vite-plus/test'
 import { defineComponent } from 'vue'
 
-import { VueRenderer } from '../src/VueRenderer.js'
+import { VueRenderer } from './VueRenderer.js'
 
 describe('VueRenderer', () => {
   let editor: Editor | null = null

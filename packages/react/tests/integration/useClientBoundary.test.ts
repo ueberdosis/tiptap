@@ -8,7 +8,7 @@ import { describe, expect, it } from 'vite-plus/test'
 
 // The package boundary must stay a client module so it can be imported from
 // React Server Components without evaluating the class components inside.
-const entries = ['./index.ts', './menus/index.ts']
+const entries = ['../../src/index.ts', '../../src/menus/index.ts']
 
 describe('use client boundary', () => {
   it.each(entries)('%s starts with the "use client" directive', entry => {

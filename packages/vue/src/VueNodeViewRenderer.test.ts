@@ -5,14 +5,14 @@ import Text from '@tiptap/extension-text'
 import { afterEach, beforeEach, describe, expect, it } from 'vite-plus/test'
 import { defineComponent } from 'vue'
 
-import { NodeViewContent } from '../src/NodeViewContent.js'
-import { NodeViewWrapper } from '../src/NodeViewWrapper.js'
+import { Editor as VueEditor } from './Editor.js'
+import { NodeViewContent } from './NodeViewContent.js'
+import { NodeViewWrapper } from './NodeViewWrapper.js'
 import {
   nodeViewProps,
   VueNodeViewRenderer,
   type VueNodeViewRendererOptions,
-} from '../src/VueNodeViewRenderer.js'
-import { Editor as VueEditor } from '../src/Editor.js'
+} from './VueNodeViewRenderer.js'
 
 const ComponentWithoutContent = defineComponent({
   name: 'WithoutContent',

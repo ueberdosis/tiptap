@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vite-plus/test'
 import { defineComponent, h } from 'vue'
 
-import { undeclaredWidgetProps } from '../src/utils/undeclaredWidgetProps.js'
+import { undeclaredWidgetProps } from './undeclaredWidgetProps.js'
 
 const render = () => h('span')
 
