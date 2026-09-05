@@ -1,4 +1,4 @@
-import { extensions as coreExtensions } from '@tiptap/core'
+import { extensions as coreExtensions, Node as CoreNode } from '@tiptap/core'
 import Bold from '@tiptap/extension-bold'
 import CodeBlock from '@tiptap/extension-code-block'
 import Document from '@tiptap/extension-document'
@@ -358,5 +358,39 @@ describe('static render json to string (with prosemirror)', () => {
 
     expect(html).toMatch(/\bid="[^"]+"/)
     expect(html).toMatch(/data-toc-id="[^"]+"/)
+  })
+})
+
+describe('namespaced DOMOutputSpec', () => {
+  // ProseMirror encodes a namespaced spec as `"<namespace> <localName>"`.
+  const Diagram = CoreNode.create({
+    name: 'diagram',
+    group: 'block',
+    content: 'text*',
+    renderHTML: () => ['http://www.w3.org/2000/svg svg', { width: '100' }, 0],
+  })
+
+  it('keeps the xmlns attribute out of the closing tag', () => {
+    const html = renderToHTMLString({
+      content: {
+        type: 'doc',
+        content: [{ type: 'diagram', content: [{ type: 'text', text: 'hi' }] }],
+      },
+      extensions: [Document, Paragraph, Text, Diagram],
+    })
+
+    // The namespace belongs on the opening tag only.
+    expect(html).toContain('<svg xmlns="http://www.w3.org/2000/svg"')
+    expect(html).toMatch(/<\/svg>$/)
+  })
+
+  it('still resolves non-self-closing tags by their local name', () => {
+    // `div` is in NON_SELF_CLOSING_TAGS, so the namespaced spec must not self-close.
+    const html = domOutputSpecToHTMLString([
+      'http://www.w3.org/1999/xhtml div',
+      { class: 'wrapper' },
+    ])()
+
+    expect(html).toContain('></div')
   })
 })
