@@ -254,6 +254,12 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
     return tr
   }
 
+  editor.on('destroy', () => {
+    if (tiptapDragFromOtherEditor === editor) {
+      tiptapDragFromOtherEditor = null
+    }
+  })
+
   const plugins = rules.map(rule => {
     return new Plugin({
       // we register a global drag handler to track the current drag source element
@@ -274,21 +280,13 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
           }
         }
 
-        const handleEditorDestroy = () => {
-          if (tiptapDragFromOtherEditor === editor) {
-            tiptapDragFromOtherEditor = null
-          }
-        }
-
         window.addEventListener('dragstart', handleDragstart)
         window.addEventListener('dragend', handleDragend)
-        editor.on('destroy', handleEditorDestroy)
 
         return {
           destroy() {
             window.removeEventListener('dragstart', handleDragstart)
             window.removeEventListener('dragend', handleDragend)
-            editor.off('destroy', handleEditorDestroy)
           },
         }
       },

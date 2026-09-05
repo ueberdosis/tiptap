@@ -102,4 +102,20 @@ describe('cross editor drop', () => {
 
     expect(source.getHTML()).toBe('<p></p>')
   })
+
+  it('does not queue a delete when the source editor is unmounted then destroyed', () => {
+    vi.useFakeTimers()
+    source = createEditor()
+    target = createEditor()
+
+    source.view.dom.dispatchEvent(new Event('dragstart', { bubbles: true }))
+    source.unmount()
+    source.destroy()
+
+    const queuedBeforeDrop = vi.getTimerCount()
+
+    target.view.dom.dispatchEvent(new Event('drop', { bubbles: true }))
+
+    expect(vi.getTimerCount()).toBe(queuedBeforeDrop)
+  })
 })
