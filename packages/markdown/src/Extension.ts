@@ -75,7 +75,8 @@ export type MarkdownExtensionOptions = {
 
   /**
    * Use a custom version of `marked` for markdown parsing and serialization.
-   * If not provided, the default `marked` instance will be used.
+   * Defaults to a private `Marked` instance, so configuration applied to the
+   * global `marked` export is only picked up when it is passed here.
    */
   marked?: MarkdownMarkedInstance
 
