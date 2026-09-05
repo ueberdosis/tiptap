@@ -1,4 +1,4 @@
-import { Editor } from '@tiptap/core'
+import { Editor } from '../Editor.js'
 import BulletList from '@tiptap/extension-bullet-list'
 import Document from '@tiptap/extension-document'
 import { ListItem } from '@tiptap/extension-list'
