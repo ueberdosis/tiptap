@@ -27,22 +27,22 @@ While a new major version is being developed, `main` can be a pre-release (`next
 `beta`) for months before it ships. Check the npm dist-tag (`latest`, `next`, `alpha`, ...), not
 the branch, to know what is currently stable.
 
-Older major versions live on `maintenance/v*` branches (e.g. `maintenance/v3`). These only
+Older major versions live on `release/v*` branches (e.g. `release/v3`). These only
 receive critical bug fixes and security patches, no new features.
 
-| Branch           | Purpose                                 | Publishes                                                                      |
-| ---------------- | --------------------------------------- | ------------------------------------------------------------------------------ |
-| `main`           | Active development, default branch      | `next` / `alpha` / `beta`, or `latest` once main is the current stable version |
-| `maintenance/v*` | Frozen stable line, critical fixes only | `latest` (while current) or `latest-v*` (once superseded)                      |
+| Branch       | Purpose                                 | Publishes                                                                      |
+| ------------ | --------------------------------------- | ------------------------------------------------------------------------------ |
+| `main`       | Active development, default branch      | `next` / `alpha` / `beta`, or `latest` once main is the current stable version |
+| `release/v*` | Frozen stable line, critical fixes only | `latest` (while current) or `latest-v*` (once superseded)                      |
 
-Once a `maintenance/v*` branch is cut, it never merges back into `main`, and `main` never
+Once a `release/v*` branch is cut, it never merges back into `main`, and `main` never
 merges into it. Merging two branches with that much diverged history just produces huge
 conflicts. Individual fixes still travel between them, one commit at a time, by cherry-pick.
 
 ### Where to open your pull request
 
 - Open your PR against `main`. That's the default target and where all new development happens.
-- Only target a `maintenance/v*` branch directly if your fix applies exclusively to that old
+- Only target a `release/v*` branch directly if your fix applies exclusively to that old
   version and not to `main` (see "Change only relevant for a maintained version" below).
 
 ### Does your fix need to reach the current stable release too?
@@ -50,7 +50,7 @@ conflicts. Individual fixes still travel between them, one commit at a time, by 
 A fix merged into `main` during a pre-release cycle does not reach users on the current stable
 release by itself, because `main` and the maintenance branch never merge. If your fix addresses
 a critical bug or security issue that also affects the current stable release, it needs a
-second PR that cherry-picks your commit onto the relevant `maintenance/v*` branch.
+second PR that cherry-picks your commit onto the relevant `release/v*` branch.
 
 - Check the box in the pull request template if this applies to your change.
 - Open the backport PR yourself if you can. You know the fix best.
@@ -68,13 +68,13 @@ backport needed.
 #### Change only relevant for `main`
 
 A change that does not apply to any maintained stable version, for example a new-major-only
-feature. Lands on `main` only. `maintenance/v*` never sees it.
+feature. Lands on `main` only. `release/v*` never sees it.
 
 ![Change only relevant for main](.github/assets/branching-guide/main.png)
 
 #### Change only relevant for a maintained version
 
-A fix specific to an already-stable release. Open the PR directly against `maintenance/v*`.
+A fix specific to an already-stable release. Open the PR directly against `release/v*`.
 It never touches `main`.
 
 ![Change only relevant for a maintained version](.github/assets/branching-guide/maintenance.png)
@@ -107,6 +107,16 @@ Before committing:
 
 - Make sure to run the tests and linter before committing your changes.
 - If you are making changes to one of the packages, make sure to **always** include a [changeset](https://github.com/changesets/changesets) in your PR describing **what changed** with a **description** of the change. Those are responsible for changelog creation
+
+## Testing
+
+- Place file-specific unit tests next to the file they cover and name them `<basename>.test.ts`.
+- Keep a `tests/` folder next to `src/` in each package for package-wide tests and support.
+- Put integration tests that exercise multiple source files or runtime wiring in `tests/integration/`.
+- Put shared test utilities in `tests/utils/`.
+- Fixtures are passive inputs loaded by tests, not executable tests. Put scenario or reproduction data in `tests/fixtures/`.
+- Put file-based fixtures in `tests/fixtures/files/`, with more specific subfolders when needed.
+- Put shared package test setup in `tests/setup/`. Keep one-off mocks and helpers next to the test that uses them.
 
 ## Create a new demo
 
@@ -146,7 +156,7 @@ Without this setup, the publish CI will fail when attempting to release a new pa
 ### Adding a new release branch
 
 When work on a new major version starts on `main`, cut the current stable line into its own
-`maintenance/v*` branch (e.g., `maintenance/v2`) before the first breaking change merges. See
+`release/v*` branch (e.g., `release/v2`) before the first breaking change merges. See
 [Branching](#branching) for the full model. Then update two places:
 
 1. **Workflow trigger** — Add the branch name to the `on.push.branches` list in `.github/workflows/publish.yml`.
