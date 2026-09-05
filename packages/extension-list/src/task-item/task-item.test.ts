@@ -901,4 +901,97 @@ describe('TaskItem', () => {
     expect(from).toBe(1)
     expect(to).toBe(14)
   })
+
+  describe('splitListItem', () => {
+    function createTaskEditor(checked: boolean, text: string) {
+      return new Editor({
+        extensions: [Document, Paragraph, Text, TaskList, TaskItem],
+        content: {
+          type: 'doc',
+          content: [
+            {
+              type: 'taskList',
+              content: [
+                {
+                  type: 'taskItem',
+                  attrs: { checked },
+                  content: [{ type: 'paragraph', content: [{ type: 'text', text }] }],
+                },
+              ],
+            },
+          ],
+        },
+      })
+    }
+
+    /** `[checked, text]` for every task item in the first (and only) task list. */
+    function readTaskItems(instance: Editor) {
+      return (instance.getJSON().content?.[0].content ?? []).map(item => [
+        item.attrs?.checked,
+        item.content?.[0].content?.[0]?.text ?? '',
+      ])
+    }
+
+    it('leaves the checked state on the half that keeps the text when splitting at the start', () => {
+      editor = createTaskEditor(true, 'Task')
+      // Offset 0 of the paragraph inside the first task item.
+      editor.commands.setTextSelection(3)
+
+      expect(editor.commands.splitListItem('taskItem')).toBe(true)
+      expect(readTaskItems(editor)).toEqual([
+        [false, ''],
+        [true, 'Task'],
+      ])
+    })
+
+    it('resets the checked state on the trailing half when splitting mid-text', () => {
+      editor = createTaskEditor(true, 'Task')
+      editor.commands.setTextSelection(5)
+
+      expect(editor.commands.splitListItem('taskItem')).toBe(true)
+      expect(readTaskItems(editor)).toEqual([
+        [true, 'Ta'],
+        [false, 'sk'],
+      ])
+    })
+
+    it('resets the checked state on the trailing half when splitting at the end', () => {
+      editor = createTaskEditor(true, 'Task')
+      editor.commands.setTextSelection(7)
+
+      expect(editor.commands.splitListItem('taskItem')).toBe(true)
+      expect(readTaskItems(editor)).toEqual([
+        [true, 'Task'],
+        [false, ''],
+      ])
+    })
+
+    it('splits a plain list item at the start without moving its content', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, BulletList, ListItem],
+        content: {
+          type: 'doc',
+          content: [
+            {
+              type: 'bulletList',
+              content: [
+                {
+                  type: 'listItem',
+                  content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Item' }] }],
+                },
+              ],
+            },
+          ],
+        },
+      })
+      editor.commands.setTextSelection(3)
+
+      expect(editor.commands.splitListItem('listItem')).toBe(true)
+      expect(
+        (editor.getJSON().content?.[0].content ?? []).map(
+          item => item.content?.[0].content?.[0]?.text ?? '',
+        ),
+      ).toEqual(['', 'Item'])
+    })
+  })
 })
