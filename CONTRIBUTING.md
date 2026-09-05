@@ -108,6 +108,16 @@ Before committing:
 - Make sure to run the tests and linter before committing your changes.
 - If you are making changes to one of the packages, make sure to **always** include a [changeset](https://github.com/changesets/changesets) in your PR describing **what changed** with a **description** of the change. Those are responsible for changelog creation
 
+## Testing
+
+- Place file-specific unit tests next to the file they cover and name them `<basename>.test.ts`.
+- Keep a `tests/` folder next to `src/` in each package for package-wide tests and support.
+- Put integration tests that exercise multiple source files or runtime wiring in `tests/integration/`.
+- Put shared test utilities in `tests/utils/`.
+- Fixtures are passive inputs loaded by tests, not executable tests. Put scenario or reproduction data in `tests/fixtures/`.
+- Put file-based fixtures in `tests/fixtures/files/`, with more specific subfolders when needed.
+- Put shared package test setup in `tests/setup/`. Keep one-off mocks and helpers next to the test that uses them.
+
 ## Create a new demo
 
 To make it easier to add new demos to the demos app we provide a small helper script via `pnpm run make:demo` that scaffolds a new demo directory from our default template.
