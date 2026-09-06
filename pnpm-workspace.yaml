@@ -14,6 +14,7 @@ minimumReleaseAgeExclude:
 overrides:
   '@rollup/pluginutils>picomatch': '2.3.2'
   'prosemirror-model': '^1.25.11'
+  'prosemirror-view': '^1.42.3'
   '@octokit/action>undici': '6.24.1'
   'anymatch>picomatch': '2.3.2'
   'glob': '^10.5.0'

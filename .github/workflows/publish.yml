@@ -5,7 +5,7 @@ env:
   VP_GIT_HOOKS: 0
 
 # this branch only releases from main
-# other versions are released from their respective maintenance/* branches
+# other versions are released from their respective release/* branches
 on:
   push:
     branches:

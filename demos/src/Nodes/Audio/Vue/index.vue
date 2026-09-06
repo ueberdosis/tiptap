@@ -1,76 +1,83 @@
 <template>
-  <div class="control-group">
-    <div class="control">
-      <label for="src">Audio source</label>
-      <input id="src" v-model="src" type="text" placeholder="https://.../audio.mp3" />
-    </div>
+  <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; padding: 1.5rem">
+    <input
+      v-model="src"
+      type="text"
+      style="flex-grow: 1"
+      placeholder="https://.../audio.mp3"
+      aria-label="Audio source"
+    />
 
-    <div class="control">
-      <label for="preload">Preload</label>
-      <select id="preload" v-model="preload">
-        <option value="metadata">metadata</option>
-        <option value="auto">auto</option>
-        <option value="none">none</option>
-        <option value="">(empty)</option>
-      </select>
-    </div>
+    <button class="primary" type="button" @click="insertAudio" :disabled="!editor">
+      Insert audio
+    </button>
 
-    <div class="control">
-      <label for="controlsList">controlslist</label>
-      <input
-        id="controlsList"
-        v-model="controlsList"
-        type="text"
-        placeholder="nodownload noplaybackrate"
-      />
-    </div>
-
-    <div class="control">
-      <label for="crossorigin">crossorigin</label>
-      <select id="crossorigin" v-model="crossorigin">
-        <option value="">(unset)</option>
-        <option value="anonymous">anonymous</option>
-        <option value="use-credentials">use-credentials</option>
-      </select>
-    </div>
+    <button type="button" popovertarget="audio-options">Additional Options</button>
   </div>
 
-  <div class="control-group toggles">
-    <div class="control">
-      <label>
-        <input v-model="controls" type="checkbox" />
-        Show controls
-      </label>
-    </div>
-    <div class="control">
-      <label>
-        <input v-model="autoplay" type="checkbox" />
-        Autoplay
-      </label>
-    </div>
-    <div class="control">
-      <label>
-        <input v-model="loop" type="checkbox" />
-        Loop
-      </label>
-    </div>
-    <div class="control">
-      <label>
-        <input v-model="muted" type="checkbox" />
-        Muted
-      </label>
-    </div>
-    <div class="control">
-      <label>
-        <input v-model="disableRemotePlayback" type="checkbox" />
-        Disable remote playback
-      </label>
+  <div id="audio-options" popover="auto" class="additional-options-popover">
+    <div class="control-group additional-options-group">
+      <div class="control">
+        <label for="preload">Preload</label>
+        <select id="preload" v-model="preload">
+          <option value="metadata">metadata</option>
+          <option value="auto">auto</option>
+          <option value="none">none</option>
+          <option value="">(empty)</option>
+        </select>
+      </div>
+
+      <div class="control">
+        <label for="controlsList">controlslist</label>
+        <input
+          id="controlsList"
+          v-model="controlsList"
+          type="text"
+          placeholder="nodownload noplaybackrate"
+        />
+      </div>
+
+      <div class="control">
+        <label for="crossorigin">crossorigin</label>
+        <select id="crossorigin" v-model="crossorigin">
+          <option value="">(unset)</option>
+          <option value="anonymous">anonymous</option>
+          <option value="use-credentials">use-credentials</option>
+        </select>
+      </div>
+
+      <div class="control">
+        <label>
+          <input v-model="controls" type="checkbox" />
+          Show controls
+        </label>
+      </div>
+      <div class="control">
+        <label>
+          <input v-model="autoplay" type="checkbox" />
+          Autoplay
+        </label>
+      </div>
+      <div class="control">
+        <label>
+          <input v-model="loop" type="checkbox" />
+          Loop
+        </label>
+      </div>
+      <div class="control">
+        <label>
+          <input v-model="muted" type="checkbox" />
+          Muted
+        </label>
+      </div>
+      <div class="control">
+        <label>
+          <input v-model="disableRemotePlayback" type="checkbox" />
+          Disable remote playback
+        </label>
+      </div>
     </div>
   </div>
-
-  <button class="insert" type="button" @click="insertAudio" :disabled="!editor">
-    Insert audio
-  </button>
 
   <editor-content :editor="editor" />
 </template>
@@ -189,50 +196,25 @@ export default {
   font-weight: 600;
 }
 
-.control-group.toggles {
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+.additional-options-popover {
+  border: 0;
+  border-radius: 0.75rem;
+  inset: auto;
+  margin: 0.5rem 0 0;
+  max-width: calc(100vw - 3rem);
+  padding: 0;
+  position-area: bottom span-left;
 }
 
-.control-group.toggles .control {
-  align-self: center;
+.additional-options-group {
+  margin: 0;
 }
 
-.control-group.toggles label {
+.additional-options-group .control label {
   display: flex;
   align-items: center;
   gap: 0.35rem;
   font-weight: 500;
-}
-
-.insert {
-  background: #111827;
-  border: 1px solid #111827;
-  color: #fff;
-  border-radius: 0.75rem;
-  padding: 0.65rem 1rem;
-  font-weight: 600;
-  width: min(100%, 64rem);
-  margin-bottom: 1rem;
-  cursor: pointer;
-  display: block;
-}
-
-.insert:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.tiptap {
-  background-color: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 0.75rem;
-  padding: 1rem;
-  min-height: 12rem;
-  width: 100%;
-}
-
-.tiptap p {
-  margin: 0.5rem 0;
 }
 
 .tiptap audio {
