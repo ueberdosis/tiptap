@@ -1,6 +1,6 @@
 import '../text-style/index.js'
 
-import { Extension, getStyleProperty } from '@tiptap/core'
+import { Extension, getStyleProperty, isValidCSSStyleValue } from '@tiptap/core'
 
 export type BackgroundColorOptions = {
   /**
@@ -66,7 +66,7 @@ export const BackgroundColor = Extension.create<BackgroundColorOptions>({
               return value?.replace(/['"]+/g, '')
             },
             renderHTML: attributes => {
-              if (!attributes.backgroundColor) {
+              if (!isValidCSSStyleValue(attributes.backgroundColor)) {
                 return {}
               }
 
