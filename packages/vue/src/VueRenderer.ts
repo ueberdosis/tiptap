@@ -80,6 +80,14 @@ export class VueRenderer {
     let vNode: ExtendedVNode = h(this.component as DefineComponent, this.props)
 
     if (this.editor.appContext) {
+      // Known gap: if this renderer is created before `editor.appContext` is ever set (e.g. an
+      // Editor constructed with a direct `element` option, never mounted through <EditorContent>),
+      // this branch never runs and `vNode.appContext` is left unset — Vue then falls back to its own
+      // internal `emptyAppContext` singleton for every such call, so those node views' useId() calls
+      // can still collide with each other. Deriving a safe fallback context without one from
+      // `editor.appContext` to copy would mean depending on Vue internals with no public API
+      // equivalent (e.g. `createApp().mount()`'s private `_context`), which isn't done here.
+      //
       // A shallow copy, same as EditorContent.ts already does for `provides` — this must not mutate
       // `this.editor.appContext.config` in place, since that's the real app's shared config object
       // (every node view of this editor shares the same `this.editor.appContext`).
