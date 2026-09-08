@@ -1,5 +1,6 @@
 ---
 '@tiptap/core': patch
+'@tiptap/extension-collaboration-caret': patch
 '@tiptap/extension-highlight': patch
 '@tiptap/extension-table': patch
 '@tiptap/extension-text-align': patch
