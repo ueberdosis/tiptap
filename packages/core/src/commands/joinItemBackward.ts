@@ -1,6 +1,7 @@
 import { joinPoint } from '@tiptap/pm/transform'
 
 import type { RawCommands } from '../types.js'
+import { canJoinItemsAt } from './canJoinItemsAt.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -21,6 +22,10 @@ export const joinItemBackward: RawCommands['joinItemBackward'] =
       const point = joinPoint(state.doc, state.selection.$from.pos, -1)
 
       if (point === null || point === undefined) {
+        return false
+      }
+
+      if (!canJoinItemsAt(state.doc, point)) {
         return false
       }
 
