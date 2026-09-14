@@ -86,7 +86,12 @@ function unlinkTrailingWhitespace(tr: Transaction, doc: Node, range: Range, type
   }
 
   tr.removeMark(whitespaceFrom, range.to, type)
-  tr.removeStoredMark(type)
+
+  // Stored marks are global. Only clear them when the cursor sits at the
+  // trailing whitespace, otherwise an unrelated selection loses its link.
+  if (tr.selection.empty && tr.selection.from === range.to) {
+    tr.removeStoredMark(type)
+  }
 }
 
 /**
