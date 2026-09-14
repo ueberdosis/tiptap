@@ -1,8 +1,10 @@
 import { act, cleanup, render } from '@testing-library/react'
 import { Editor } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
+import HardBreak from '@tiptap/extension-hard-break'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
+import { Plugin } from '@tiptap/pm/state'
 import React from 'react'
 import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 
@@ -33,7 +35,7 @@ describe('React node view portal mutations after Enter', () => {
     ['iOS', 'iPhone', 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X)'],
     ['Android', 'Linux armv8l', 'Mozilla/5.0 (Linux; Android 14) Chrome/140.0.0.0'],
     ['desktop', 'Linux x86_64', 'Mozilla/5.0 (X11; Linux x86_64) Chrome/140.0.0.0'],
-  ])('ignores portal mounting and contentDOM moves on %s', async (_, platform, userAgent) => {
+  ])('ignores portal mounting and contentDOM moves on %s', async (device, platform, userAgent) => {
     vi.stubGlobal('navigator', { platform, userAgent })
 
     const mutations: Array<{ mutation: MutationRecord; ignored: boolean }> = []
@@ -64,7 +66,7 @@ describe('React node view portal mutations after Enter', () => {
     })
 
     editor = new Editor({
-      extensions: [Document, ReactParagraph, Text],
+      extensions: [Document, ReactParagraph, Text, HardBreak],
       content: '<p>Hello</p>',
     })
     const currentEditor = editor
@@ -73,12 +75,33 @@ describe('React node view portal mutations after Enter', () => {
       render(React.createElement(EditorContent, { editor: currentEditor }))
     })
 
-    currentEditor.isFocused = true
+    const nextBeforeInput = vi.fn(() => false)
+
+    currentEditor.registerPlugin(
+      new Plugin({
+        props: { handleDOMEvents: { beforeinput: nextBeforeInput } },
+      }),
+    )
     mutations.length = 0
 
     await act(async () => {
       currentEditor.commands.setTextSelection(6)
-      expect(currentEditor.commands.keyboardShortcut('Enter')).toBe(true)
+      currentEditor.view.focus()
+
+      if (device === 'desktop') {
+        expect(currentEditor.commands.keyboardShortcut('Enter')).toBe(true)
+        return
+      }
+
+      const event = new InputEvent('beforeinput', {
+        inputType: 'insertParagraph',
+        bubbles: true,
+        cancelable: true,
+      })
+
+      currentEditor.view.dom.dispatchEvent(event)
+      expect(event.defaultPrevented).toBe(true)
+      expect(nextBeforeInput).not.toHaveBeenCalled()
     })
     await new Promise(resolve => setTimeout(resolve, 20))
 
@@ -96,5 +119,27 @@ describe('React node view portal mutations after Enter', () => {
       { type: 'paragraph' },
     ])
     expect(currentEditor.state.selection.from).toBe(8)
+
+    if (device === 'desktop') {
+      return
+    }
+
+    await act(async () => {
+      const event = new InputEvent('beforeinput', {
+        inputType: 'insertLineBreak',
+        bubbles: true,
+        cancelable: true,
+      })
+
+      currentEditor.view.dom.dispatchEvent(event)
+      expect(event.defaultPrevented).toBe(true)
+      expect(nextBeforeInput).not.toHaveBeenCalled()
+    })
+
+    expect(currentEditor.getJSON().content).toEqual([
+      { type: 'paragraph', content: [{ type: 'text', text: 'Hello' }] },
+      { type: 'paragraph', content: [{ type: 'hardBreak' }] },
+    ])
+    expect(currentEditor.state.selection.from).toBe(9)
   })
 })
