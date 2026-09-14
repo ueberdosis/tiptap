@@ -46,47 +46,47 @@ export function domOutputSpecToHTMLString(
   }
   if (typeof content === 'object' && 'length' in content) {
     const [_tag, attrs, children, ...rest] = content as DOMOutputSpecArray
-    let tag = _tag
-    const parts = tag.split(' ')
-
-    if (parts.length > 1) {
-      tag = `${parts[1]} xmlns="${parts[0]}"`
-    }
+    // ProseMirror encodes a namespaced spec as `"<namespace> <localName>"`.
+    // Only the opening tag carries the `xmlns` attribute: the closing tag and the
+    // `NON_SELF_CLOSING_TAGS` lookup below both need the bare local name.
+    const parts = _tag.split(' ')
+    const tag = parts.length > 1 ? parts[1] : _tag
+    const openTag = parts.length > 1 ? `${parts[1]} xmlns="${parts[0]}"` : _tag
 
     if (attrs === undefined) {
-      return () => `<${tag}/>`
+      return () => `<${openTag}/>`
     }
     if (attrs === 0) {
-      return child => `<${tag}>${serializeChildrenToHTMLString(child)}</${tag}>`
+      return child => `<${openTag}>${serializeChildrenToHTMLString(child)}</${tag}>`
     }
     if (typeof attrs === 'object') {
       if (Array.isArray(attrs)) {
         if (children === undefined) {
           return child =>
-            `<${tag}>${domOutputSpecToHTMLString(attrs as DOMOutputSpecArray)(child)}</${tag}>`
+            `<${openTag}>${domOutputSpecToHTMLString(attrs as DOMOutputSpecArray)(child)}</${tag}>`
         }
         if (children === 0) {
           return child =>
-            `<${tag}>${domOutputSpecToHTMLString(attrs as DOMOutputSpecArray)(child)}</${tag}>`
+            `<${openTag}>${domOutputSpecToHTMLString(attrs as DOMOutputSpecArray)(child)}</${tag}>`
         }
         return child =>
-          `<${tag}>${domOutputSpecToHTMLString(attrs as DOMOutputSpecArray)(child)}${[children]
+          `<${openTag}>${domOutputSpecToHTMLString(attrs as DOMOutputSpecArray)(child)}${[children]
             .concat(rest)
             .map(a => domOutputSpecToHTMLString(a)(child))}</${tag}>`
       }
       if (children === undefined) {
         if (NON_SELF_CLOSING_TAGS.has(tag)) {
-          return () => `<${tag}${serializeAttrsToHTMLString(attrs)}></${tag}>`
+          return () => `<${openTag}${serializeAttrsToHTMLString(attrs)}></${tag}>`
         }
-        return () => `<${tag}${serializeAttrsToHTMLString(attrs)}/>`
+        return () => `<${openTag}${serializeAttrsToHTMLString(attrs)}/>`
       }
       if (children === 0) {
         return child =>
-          `<${tag}${serializeAttrsToHTMLString(attrs)}>${serializeChildrenToHTMLString(child)}</${tag}>`
+          `<${openTag}${serializeAttrsToHTMLString(attrs)}>${serializeChildrenToHTMLString(child)}</${tag}>`
       }
 
       return child =>
-        `<${tag}${serializeAttrsToHTMLString(attrs)}>${[children]
+        `<${openTag}${serializeAttrsToHTMLString(attrs)}>${[children]
           .concat(rest)
           .map(a => domOutputSpecToHTMLString(a)(child))
           .join('')}</${tag}>`
