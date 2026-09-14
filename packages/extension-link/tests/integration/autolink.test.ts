@@ -81,9 +81,7 @@ describe('extension-link autolink', () => {
 
     // Insert whitespace at the end of the first paragraph, away from the selection
     const firstParagraphEnd = 'https://example.com'.length + 1
-    editor!.view.dispatch(
-      editor!.state.tr.insertText(' ', firstParagraphEnd, firstParagraphEnd),
-    )
+    editor!.view.dispatch(editor!.state.tr.insertText(' ', firstParagraphEnd, firstParagraphEnd))
 
     // Stored marks must stay null so the cursor keeps inheriting the link
     // from its surroundings, not the explicit empty set left by removeStoredMark.
