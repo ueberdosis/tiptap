@@ -1,5 +1,18 @@
 # Change Log
 
+## 4.0.0-next.0
+
+### Patch Changes
+
+- f80cecf: Fixed a bug which allowed potentially unsafe color values being sent by other clients. Those unsafe colors received from collaboration users are now ignored.
+- Updated dependencies [548216e]
+- Updated dependencies [8aea2ef]
+- Updated dependencies [c4488ba]
+- Updated dependencies [fd086c5]
+- Updated dependencies [32c048d]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+
 ## 3.30.3
 
 ### Patch Changes
