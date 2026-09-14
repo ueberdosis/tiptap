@@ -128,6 +128,16 @@ test.describe(`${demoPath}/${demoName}`, () => {
         )
       })
 
+      test('does not extend a pasted URL when typing after a space', async ({ page }) => {
+        const editor = await getEditor(page)
+        await editor.evaluate((el: any) => el.editor.commands.clearContent())
+        await editor.click()
+        await paste(editor, 'https://example.com')
+        await page.keyboard.type(' hello')
+        await expect(page.locator('.tiptap a')).toHaveText('https://example.com')
+        await expect(page.locator('.tiptap')).toContainText('https://example.com hello')
+      })
+
       test('converts typed Markdown link syntax into a link', async ({ page }) => {
         const editor = await getEditor(page)
         await editor.evaluate((el: any) => el.editor.commands.clearContent())
