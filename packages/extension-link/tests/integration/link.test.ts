@@ -485,4 +485,22 @@ describe('extension-link', () => {
       getEditorEl()?.remove()
     })
   })
+
+  it('preserves href when pasting an HTML link whose label looks like a filename', () => {
+    const href = 'https://github.com/ueberdosis/tiptap/blob/develop/LICENSE.md'
+
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [Document, Text, Paragraph, Link],
+      content: '<p></p>',
+    })
+
+    editor.view.pasteHTML(`<p><a href="${href}">LICENSE.md</a></p>`, 'LICENSE.md')
+
+    expect(editor.getHTML()).toContain(`href="${href}"`)
+    expect(editor.getHTML()).not.toContain('href="http://LICENSE.md"')
+
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
 })

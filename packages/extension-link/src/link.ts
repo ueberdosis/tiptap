@@ -7,6 +7,7 @@ import { autolink } from './helpers/autolink.js'
 import { clickHandler } from './helpers/clickHandler.js'
 import { markdownLinkInputRule, markdownLinkPasteRule } from './helpers/markdownLink.js'
 import { pasteHandler } from './helpers/pasteHandler.js'
+import { preserveExistingAbsoluteLinkHref } from './helpers/preserveExistingAbsoluteLinkHref.js'
 import { UNICODE_WHITESPACE_REGEX_GLOBAL } from './helpers/whitespace.js'
 
 export interface LinkProtocolOptions {
@@ -448,7 +449,7 @@ export const Link = Mark.create<LinkOptions>({
   },
 
   addPasteRules() {
-    const findPlainUrls = (text: string): PasteRuleMatch[] => {
+    const findPlainUrls = (text: string, event?: ClipboardEvent | null): PasteRuleMatch[] => {
       const foundLinks: PasteRuleMatch[] = []
 
       if (text) {
@@ -483,32 +484,37 @@ export const Link = Mark.create<LinkOptions>({
 
     if (this.options.markdownLinks) {
       return [
-        markdownLinkPasteRule({
-          type: this.type,
-          isAllowedHref: href =>
-            this.options.isAllowedUri(href, {
-              defaultValidate: url => !!isAllowedUri(url, this.options.protocols),
-              protocols: this.options.protocols,
-              defaultProtocol: this.options.defaultProtocol,
-            }),
-          findPlainUrls,
-        }),
+        preserveExistingAbsoluteLinkHref(
+          markdownLinkPasteRule({
+            type: this.type,
+            isAllowedHref: href =>
+              this.options.isAllowedUri(href, {
+                defaultValidate: url => !!isAllowedUri(url, this.options.protocols),
+                protocols: this.options.protocols,
+                defaultProtocol: this.options.defaultProtocol,
+              }),
+            findPlainUrls,
+          }),
+          this.type,
+        ),
       ]
     }
 
     return [
-      markPasteRule({
-        find: findPlainUrls,
-        type: this.type,
-        getAttributes: match => {
-          return {
-            href: match.data?.href,
-          }
-        },
-      }),
+      preserveExistingAbsoluteLinkHref(
+        markPasteRule({
+          find: findPlainUrls,
+          type: this.type,
+          getAttributes: match => {
+            return {
+              href: match.data?.href,
+            }
+          },
+        }),
+        this.type,
+      ),
     ]
   },
-
   addProseMirrorPlugins() {
     const plugins: Plugin[] = []
     const { protocols, defaultProtocol } = this.options

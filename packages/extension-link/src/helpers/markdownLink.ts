@@ -32,7 +32,7 @@ export interface MarkdownLinkPasteRuleConfig extends MarkdownLinkRuleConfig {
    * Finds plain URLs to link in the same pass. Matches overlapping a
    * converted Markdown link are dropped so its href is kept.
    */
-  findPlainUrls?: (text: string) => PasteRuleMatch[]
+  findPlainUrls?: (text: string, event?: ClipboardEvent | null) => PasteRuleMatch[]
 }
 
 function isEscaped(text: string, index: number): boolean {
@@ -170,7 +170,7 @@ export function markdownLinkInputRule(config: MarkdownLinkRuleConfig): InputRule
  */
 export function markdownLinkPasteRule(config: MarkdownLinkPasteRuleConfig): PasteRule {
   const rule = markPasteRule({
-    find: text => {
+    find: (text, event) => {
       const markdownMatches: PasteRuleMatch[] = []
 
       for (const match of text.matchAll(MARKDOWN_LINK_PASTE_REGEX)) {
@@ -179,7 +179,7 @@ export function markdownLinkPasteRule(config: MarkdownLinkPasteRuleConfig): Past
         }
       }
 
-      const plainUrlMatches = (config.findPlainUrls?.(text) ?? []).filter(
+      const plainUrlMatches = (config.findPlainUrls?.(text, event) ?? []).filter(
         urlMatch => !markdownMatches.some(markdownMatch => matchesOverlap(markdownMatch, urlMatch)),
       )
 
