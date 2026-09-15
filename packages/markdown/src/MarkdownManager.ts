@@ -21,7 +21,14 @@ import {
   marksEqual,
   sortExtensions,
 } from '@tiptap/core'
-import { type Lexer, type Token, type TokenizerExtension, type TokenizerThis, marked } from 'marked'
+import {
+  type Lexer,
+  type Token,
+  type TokenizerExtension,
+  type TokenizerThis,
+  Marked,
+  marked,
+} from 'marked'
 
 import {
   closeMarksBeforeNode,
@@ -35,8 +42,13 @@ import {
 } from './utils.js'
 import { htmlContainsUnrecognizedTag } from './utils/htmlTagDetection.js'
 
+/**
+ * A `marked` instance the manager can drive: either the `marked` singleton or a `new Marked()`.
+ */
+export type MarkdownMarkedInstance = typeof marked | Marked
+
 export class MarkdownManager {
-  private markedInstance: typeof marked
+  private markedInstance: MarkdownMarkedInstance
   private activeParseLexer: Lexer | null = null
   private registry: Map<string, MarkdownExtensionSpec[]>
   private nodeTypeRegistry: Map<string, MarkdownExtensionSpec[]>
@@ -70,12 +82,14 @@ export class MarkdownManager {
    * @param options.extensions An array of Tiptap extensions to register for markdown parsing and rendering.
    */
   constructor(options?: {
-    marked?: typeof marked
+    marked?: MarkdownMarkedInstance
     markedOptions?: Parameters<typeof marked.setOptions>[0]
     indentation?: { style?: 'space' | 'tab'; size?: number }
     extensions: AnyExtension[]
   }) {
-    this.markedInstance = options?.marked ?? marked
+    // Own the instance by default: `marked.use()` registrations are permanent, so
+    // sharing the singleton leaks every editor's tokenizers into every other one.
+    this.markedInstance = options?.marked ?? new Marked()
     this.indentStyle = options?.indentation?.style ?? 'space'
     this.indentSize = options?.indentation?.size ?? 2
     this.baseExtensions = options?.extensions || []
@@ -99,7 +113,7 @@ export class MarkdownManager {
   }
 
   /** Returns the underlying marked instance. */
-  get instance(): typeof marked {
+  get instance(): MarkdownMarkedInstance {
     return this.markedInstance
   }
 
