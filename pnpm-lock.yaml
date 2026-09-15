@@ -965,10 +965,10 @@ importers:
         version: 19.2.8(react@19.2.8)
     optionalDependencies:
       '@tiptap/extension-bubble-menu':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-bubble-menu
       '@tiptap/extension-floating-menu':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-floating-menu
 
   packages/starter-kit:
@@ -1084,10 +1084,10 @@ importers:
         version: 3.5.41(typescript@5.9.3)
     optionalDependencies:
       '@tiptap/extension-bubble-menu':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-bubble-menu
       '@tiptap/extension-floating-menu':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-floating-menu
 
 packages:
