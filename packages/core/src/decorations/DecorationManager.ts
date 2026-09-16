@@ -1,4 +1,4 @@
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import type { EditorState, Transaction } from '@tiptap/pm/state'
 import { Plugin } from '@tiptap/pm/state'
 import type { EditorView } from '@tiptap/pm/view'
@@ -394,7 +394,7 @@ export class DecorationManager {
    * @returns The merged decoration set.
    */
   private buildMergedSet(
-    doc: Node,
+    doc: PMNode,
     decorationSetsByExtension: Record<string, DecorationSet>,
   ): DecorationSet {
     const names = Object.keys(decorationSetsByExtension)

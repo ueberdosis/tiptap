@@ -1,5 +1,5 @@
 import type { Mapping } from '@tiptap/pm/transform'
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import { DecorationSet } from '@tiptap/pm/view'
 
 type RemovedDecorationSpec = { key?: unknown } | undefined
@@ -16,7 +16,7 @@ type RemovedDecorationSpec = { key?: unknown } | undefined
 export function mapDecorationSet(
   set: DecorationSet,
   mapping: Mapping,
-  doc: Node,
+  doc: PMNode,
   widgetKeys: Set<string>,
 ): DecorationSet {
   return set.map(mapping, doc, {

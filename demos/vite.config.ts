@@ -11,12 +11,14 @@ const getPackageDependencies = () => {
   const paths: Array<{ find: string; replacement: any }> = []
 
   function collectPackageInformation(path: string) {
-    fg.sync(`../${path}/*`, { onlyDirectories: true })
-      .map(name => name.replace(`../${path}/`, ''))
+    const packagesPath = resolve(import.meta.dirname, '..', path)
+
+    fg.sync(`${packagesPath}/*`, { onlyDirectories: true })
+      .map(name => basename(name))
       .forEach(name => {
         if (name === 'pm') {
-          fg.sync(`../${path}/${name}/*`, { onlyDirectories: true }).forEach(subName => {
-            const subPkgName = subName.replace(`../${path}/${name}/`, '')
+          fg.sync(`${packagesPath}/${name}/*`, { onlyDirectories: true }).forEach(subName => {
+            const subPkgName = basename(subName)
 
             if (subPkgName === 'dist' || subPkgName === 'node_modules') {
               return
@@ -24,7 +26,7 @@ const getPackageDependencies = () => {
 
             paths.push({
               find: `@tiptap/${name}/${subPkgName}`,
-              replacement: resolve(`../${path}/${name}/${subPkgName}/index.ts`),
+              replacement: resolve(packagesPath, name, subPkgName, 'index.ts'),
             })
           })
         } else if (
@@ -33,48 +35,46 @@ const getPackageDependencies = () => {
           name === 'extensions' ||
           name === 'extension-list' ||
           name === 'react' ||
-          name === 'vue-2' ||
-          name === 'vue-3'
+          name === 'vue'
         ) {
-          fg.sync(`../${path}/${name}/src/*`, { onlyDirectories: true }).forEach(subName => {
-            const subPkgName = subName.replace(`../${path}/${name}/src/`, '')
+          fg.sync(`${packagesPath}/${name}/src/*`, { onlyDirectories: true }).forEach(subName => {
+            const subPkgName = basename(subName)
 
             paths.push({
               find: `@tiptap/${name}/${subPkgName}`,
-              replacement: resolve(`../${path}/${name}/src/${subPkgName}/index.ts`),
+              replacement: resolve(packagesPath, name, 'src', subPkgName, 'index.ts'),
             })
           })
           paths.push({
             find: `@tiptap/${name}`,
-            replacement: resolve(`../${path}/${name}/src/index.ts`),
+            replacement: resolve(packagesPath, name, 'src/index.ts'),
           })
         } else {
           paths.push({
             find: `@tiptap/${name}`,
-            replacement: resolve(`../${path}/${name}/src/index.ts`),
+            replacement: resolve(packagesPath, name, 'src/index.ts'),
           })
         }
       })
   }
 
   collectPackageInformation('packages')
-  collectPackageInformation('packages-deprecated')
 
   // Handle the JSX runtime alias
   paths.unshift({
     find: '@tiptap/core/jsx-runtime',
-    replacement: resolve('../packages/core/src/jsx-runtime.ts'),
+    replacement: resolve(import.meta.dirname, '../packages/core/src/jsx-runtime.ts'),
   })
   paths.unshift({
     find: '@tiptap/core/jsx-dev-runtime',
-    replacement: resolve('../packages/core/src/jsx-runtime.ts'),
+    replacement: resolve(import.meta.dirname, '../packages/core/src/jsx-runtime.ts'),
   })
 
   return paths
 }
 
 const dedupeDeps = fs
-  .readFileSync('./dedupeDeps.txt')
+  .readFileSync(resolve(import.meta.dirname, 'dedupeDeps.txt'))
   .toString()
   .replace(/\r\n/g, '\n')
   .split('\n')
@@ -91,6 +91,8 @@ export default defineConfig({
   build: {
     rolldownOptions: {
       input: fg.sync('./**/index.html', {
+        absolute: true,
+        cwd: import.meta.dirname,
         ignore: ['dist', 'node_modules'],
       }),
     },
@@ -103,8 +105,6 @@ export default defineConfig({
   plugins: [
     // checker({ typescript: { tsconfigPath: './tsconfig.base.json' } }),
     // checker({ typescript: { tsconfigPath: './tsconfig.react.json' } }),
-    // checker({ typescript: { tsconfigPath: './tsconfig.vue-2.json' } }),
-    // checker({ typescript: { tsconfigPath: './tsconfig.vue-3.json' } }),
     // @ts-ignore
     vue(),
     // @ts-ignore

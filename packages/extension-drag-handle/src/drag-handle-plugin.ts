@@ -1,7 +1,7 @@
 import { type ComputePositionConfig, type VirtualElement, computePosition } from '@floating-ui/dom'
 import { type Editor, isFirefox } from '@tiptap/core'
 import { isChangeOrigin } from '@tiptap/extension-collaboration'
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import { type EditorState, type Transaction, Plugin, PluginKey } from '@tiptap/pm/state'
 import type { EditorView } from '@tiptap/pm/view'
 import {
@@ -73,7 +73,7 @@ export interface DragHandlePluginProps {
   pluginKey?: PluginKey | string
   editor: Editor
   element: HTMLElement
-  onNodeChange?: (data: { editor: Editor; node: Node | null; pos: number }) => void
+  onNodeChange?: (data: { editor: Editor; node: PMNode | null; pos: number }) => void
   onElementDragStart?: (e: DragEvent) => void
   onElementDragEnd?: (e: DragEvent) => void
   computePositionConfig?: ComputePositionConfig
@@ -98,7 +98,7 @@ export const DragHandlePlugin = ({
 }: DragHandlePluginProps) => {
   const wrapper = document.createElement('div')
   let locked = false
-  let currentNode: Node | null = null
+  let currentNode: PMNode | null = null
   let currentNodePos = -1
   // biome-ignore lint/suspicious/noExplicitAny: See above - relative positions in y-prosemirror are not typed
   let currentNodeRelPos: any

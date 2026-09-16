@@ -1,13 +1,13 @@
 import type { Editor } from '@tiptap/core'
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 
 export type GetTableOfContentLevelFunction = (
-  headline: { node: Node; pos: number },
+  headline: { node: PMNode; pos: number },
   previousItems: TableOfContentDataItem[],
 ) => number
 
 export type GetTableOfContentIndexFunction = (
-  headline: { node: Node; pos: number },
+  headline: { node: PMNode; pos: number },
   previousItems: TableOfContentDataItem[],
   currentLevel?: number,
 ) => number
@@ -38,7 +38,7 @@ export type TableOfContentDataItem = {
   isScrolledOver: boolean
   itemIndex: number
   level: number
-  node: Node
+  node: PMNode
   originalLevel: number
   pos: number
   textContent: string

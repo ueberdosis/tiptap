@@ -44,8 +44,7 @@ const getPackageAliases = () => {
           name === 'extensions' ||
           name === 'extension-list' ||
           name === 'react' ||
-          name === 'vue-2' ||
-          name === 'vue-3'
+          name === 'vue'
         ) {
           fg.sync(`${path}/${name}/src/*`, { onlyDirectories: true }).forEach(subName => {
             const subPkgName = subName.replace(`${path}/${name}/src/`, '')
@@ -62,12 +61,23 @@ const getPackageAliases = () => {
   }
 
   collectPackageInformation('./packages')
-  collectPackageInformation('./packages-deprecated')
 
   return aliases
 }
 
 export default defineConfig({
+  fmt: {
+    ignorePatterns: ['CHANGELOG.md'],
+    semi: false,
+    singleQuote: true,
+    arrowParens: 'avoid',
+  },
+  lint: {
+    jsPlugins: [{ name: 'vite-plus', specifier: 'vite-plus/oxlint-plugin' }],
+    rules: { 'vite-plus/prefer-vite-plus-imports': 'error' },
+    // Enable after the existing workspace type errors are resolved.
+    // options: { typeAware: true, typeCheck: true },
+  },
   run: {
     // Cache package.json scripts (build, lint, test, ...). Persistent
     // scripts like `dev` never exit, so they are never cached.
@@ -88,7 +98,7 @@ export default defineConfig({
 
     const fileList = filteredFiles.join(' ')
 
-    return [`oxfmt ${fileList}`, `oxlint --fix --quiet --no-error-on-unmatched-pattern ${fileList}`]
+    return [`vp check --fix ${fileList}`]
   },
   resolve: {
     alias: [
@@ -106,8 +116,10 @@ export default defineConfig({
       })),
     ],
   },
-  esbuild: {
-    jsx: 'automatic',
-    jsxImportSource: 'react',
+  oxc: {
+    jsx: {
+      runtime: 'automatic',
+      importSource: 'react',
+    },
   },
 })

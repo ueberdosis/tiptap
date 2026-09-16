@@ -1,4 +1,4 @@
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import { DecorationSet } from '@tiptap/pm/view'
 
 /**
@@ -8,7 +8,7 @@ import { DecorationSet } from '@tiptap/pm/view'
  * @returns The merged decoration set.
  */
 export function mergeDecorationSets(
-  doc: Node,
+  doc: PMNode,
   decorationSetsByExtension: Record<string, DecorationSet>,
 ): DecorationSet {
   const allDecorations = Object.values(decorationSetsByExtension).flatMap(set => set.find())

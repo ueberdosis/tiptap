@@ -64,7 +64,7 @@ Scripts defined at the repo root. Run them with `vp run <script>` (or `pnpm run 
 - `vp run test:e2e:open:firefox` - UI mode, Firefox tests
 - `vp run test:e2e:open:all` - UI mode, both browsers selectable
 - `vp run test:e2e:report` - open the HTML report from the last run
-- `vp run test:unit` - run Vitest unit tests in `packages/**/__tests__/`
+- `vp run test:unit` - run Vitest unit tests
 - `vp run test` - build then run all tests
 - `vp run serve` - build and serve the demos on port 3000
 - `vp run publish` - build and publish with Changesets
@@ -76,11 +76,10 @@ Scripts are cached by Vite Task (`run.cache.scripts` is enabled in `vite.config.
 
 ## Linting & formatting
 
-- oxlint runs with sensible defaults (no config file required).
-- oxfmt config is at **`.oxfmtrc.json`**.
+- Lint and format settings are in `vite.config.mts`.
 - Vite+ hooks (`vp staged`) run automatically on commits.
 
-Use `vp run lint` / `vp run format`, not the built-in `vp lint` / `vp format`. The built-ins scan every `vite.config.ts` in the repo (including the per-package pack configs) as their own config and fail to load them. The repo scripts call the standalone `oxlint` / `oxfmt` binaries directly, which avoid that.
+Use `vp run lint` / `vp run format`, or the equivalent `pnpm run` commands.
 
 Run manually:
 
@@ -119,7 +118,7 @@ When adding a demo, keep it small and self-contained, with imports from publishe
 
 Two layers:
 
-- **Unit tests** with Vitest in `packages/**/__tests__/` (happy-dom). These test `@tiptap/core` and individual extensions in isolation.
+- **Unit tests** with Vitest (happy-dom). Place file-specific tests next to the file they cover and name them `<basename>.spec.ts` (for example, `getAttributes.ts` uses `getAttributes.spec.ts`). Each package keeps a `tests/` folder next to `src/` for package-wide test support. Put reusable package test utilities in `tests/utils/`, scenario or reproduction data in `tests/fixtures/`, and file-based fixtures in `tests/fixtures/files/`. Add shared package setup in `tests/setup/` only when multiple specs need it. Keep one-off mocks and helpers next to the spec that uses them.
 - **E2E tests** with Playwright, colocated next to their demos as `demos/src/**/index.spec.ts`. They drive the real Vite-served demo pages in Chromium.
 
 Run them:
@@ -214,7 +213,7 @@ To make these instructions easier for automated agents and new contributors, the
 
 ### Where to edit packages
 
-Packages live under `packages/*`. Public entry points are typically `packages/<name>/src/index.ts` and are referenced by the package's `package.json` (`main`/`module`/`exports`). Prefer editing `src/` files and keep package diffs focused. For framework bindings check `packages/react/` and `packages/vue-2/` or `packages/vue-3/`.
+Packages live under `packages/*`. Public entry points are typically `packages/<name>/src/index.ts` and are referenced by the package's `package.json` (`main`/`module`/`exports`). Prefer editing `src/` files and keep package diffs focused. For framework bindings check `packages/react/` or `packages/vue/`.
 
 ### Demos auto-discovery rules
 

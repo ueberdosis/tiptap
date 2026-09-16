@@ -19,32 +19,29 @@ function collectTargets(value, targets = []) {
   return targets
 }
 
-for (const dir of ['packages', 'packages-deprecated']) {
-  const base = join(root, dir)
-  if (!existsSync(base)) continue
+const packagesRoot = join(root, 'packages')
 
-  for (const entry of readdirSync(base, { withFileTypes: true })) {
-    if (!entry.isDirectory()) continue
+for (const entry of readdirSync(packagesRoot, { withFileTypes: true })) {
+  if (!entry.isDirectory()) continue
 
-    const packageRoot = join(base, entry.name)
-    const manifestPath = join(packageRoot, 'package.json')
-    if (!existsSync(manifestPath)) continue
+  const packageRoot = join(packagesRoot, entry.name)
+  const manifestPath = join(packageRoot, 'package.json')
+  if (!existsSync(manifestPath)) continue
 
-    const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'))
-    total += 1
+  const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'))
+  total += 1
 
-    const targets = fields.flatMap(field =>
-      typeof manifest[field] === 'string' ? [manifest[field]] : [],
-    )
-    targets.push(...collectTargets(manifest.exports))
+  const targets = fields.flatMap(field =>
+    typeof manifest[field] === 'string' ? [manifest[field]] : [],
+  )
+  targets.push(...collectTargets(manifest.exports))
 
-    for (const target of new Set(targets)) {
-      if (target === './package.json') continue
+  for (const target of new Set(targets)) {
+    if (target === './package.json') continue
 
-      // Remove leading './' from target path and join with package root
-      const targetPath = join(packageRoot, target.replace(/^\.\//, ''))
-      if (!existsSync(targetPath)) errors.push(`${manifest.name}: ${target}`)
-    }
+    // Remove leading './' from target path and join with package root
+    const targetPath = join(packageRoot, target.replace(/^\.\//, ''))
+    if (!existsSync(targetPath)) errors.push(`${manifest.name}: ${target}`)
   }
 }
 

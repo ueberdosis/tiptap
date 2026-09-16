@@ -1,4 +1,4 @@
-import type { Fragment, Node, ResolvedPos } from '@tiptap/pm/model'
+import type { Fragment, Node as PMNode, ResolvedPos } from '@tiptap/pm/model'
 
 import type { Editor } from './Editor.js'
 import type { Content, Range } from './types.js'
@@ -14,16 +14,16 @@ export class NodePos {
     return this.node.type.name
   }
 
-  constructor(pos: ResolvedPos, editor: Editor, isBlock = false, node: Node | null = null) {
+  constructor(pos: ResolvedPos, editor: Editor, isBlock = false, node: PMNode | null = null) {
     this.isBlock = isBlock
     this.resolvedPos = pos
     this.editor = editor
     this.currentNode = node
   }
 
-  private currentNode: Node | null = null
+  private currentNode: PMNode | null = null
 
-  get node(): Node {
+  get node(): PMNode {
     return this.currentNode || this.resolvedPos.node()
   }
 

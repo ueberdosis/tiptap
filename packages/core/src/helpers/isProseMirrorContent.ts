@@ -1,4 +1,4 @@
-import type { Fragment, Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Fragment, Node as PMNode } from '@tiptap/pm/model'
 
 /**
  * Checks whether a value is already a ProseMirror node or fragment. Looks for the
@@ -9,6 +9,6 @@ import type { Fragment, Node as ProseMirrorNode } from '@tiptap/pm/model'
  * isProseMirrorContent(editor.state.doc)
  * ```
  */
-export function isProseMirrorContent(value: unknown): value is ProseMirrorNode | Fragment {
-  return typeof (value as ProseMirrorNode | Fragment | undefined)?.nodesBetween === 'function'
+export function isProseMirrorContent(value: unknown): value is PMNode | Fragment {
+  return typeof (value as PMNode | Fragment | undefined)?.nodesBetween === 'function'
 }

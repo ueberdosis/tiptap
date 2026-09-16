@@ -1,4 +1,4 @@
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import { Plugin } from '@tiptap/pm/state'
 
 import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core'
@@ -334,7 +334,7 @@ export const OrderedList = Node.create<OrderedListOptions>({
   },
 
   addInputRules() {
-    const joinPredicate = (match: RegExpMatchArray, node: ProseMirrorNode) => {
+    const joinPredicate = (match: RegExpMatchArray, node: PMNode) => {
       // Only join if the existing list has a default type
       // (not a typed list like "a" or "i" which should stay separate)
       const hasDefaultType = !node.attrs.type || node.attrs.type === '1'

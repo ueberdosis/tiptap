@@ -1,5 +1,5 @@
 import type { Editor } from '@tiptap/core'
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import { Decoration } from '@tiptap/pm/view'
 
 import type { PlaceholderOptions } from '../types.js'
@@ -20,7 +20,7 @@ import type { PlaceholderOptions } from '../types.js'
 export function createPlaceholderDecoration(options: {
   editor: Editor
   pos: number
-  node: Node
+  node: PMNode
   isEmptyDoc: boolean
   hasAnchor: boolean
   dataAttribute: string

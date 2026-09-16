@@ -62,19 +62,19 @@ decorations.filter(d => d.visible)
 
 Comments are a last resort. Prefer code that explains itself through clear names, structure, and small functions.
 
-* Default to **no comment**.
-* Comment only when the **reason for a decision is not apparent from the code**.
-* Keep comments **short, local, and intent-focused**.
-* Prefer a short one-line fragment or sentence.
-* Never restate what the code does.
-* Never narrate control flow.
-* Never explain surrounding architecture, history, edge cases, or implementation details unless they are essential to understanding the decision.
-* Never use comments as a substitute for clearer code, naming, or structure.
-* Do not write prose paragraphs, mini-documentation, or essay-style explanations in implementation code.
-* Do not add examples, scenarios, or parenthetical explanations to comments.
-* Do not use multi-line comments just because an explanation can be written. If it cannot be expressed concisely, reconsider whether the comment belongs in the code at all.
-* Existing verbose comments are not a style precedent. Do not imitate them.
-* When modifying code, remove comments that merely describe code made obvious by the change.
+- Default to **no comment**.
+- Comment only when the **reason for a decision is not apparent from the code**.
+- Keep comments **short, local, and intent-focused**.
+- Prefer a short one-line fragment or sentence.
+- Never restate what the code does.
+- Never narrate control flow.
+- Never explain surrounding architecture, history, edge cases, or implementation details unless they are essential to understanding the decision.
+- Never use comments as a substitute for clearer code, naming, or structure.
+- Do not write prose paragraphs, mini-documentation, or essay-style explanations in implementation code.
+- Do not add examples, scenarios, or parenthetical explanations to comments.
+- Do not use multi-line comments just because an explanation can be written. If it cannot be expressed concisely, reconsider whether the comment belongs in the code at all.
+- Existing verbose comments are not a style precedent. Do not imitate them.
+- When modifying code, remove comments that merely describe code made obvious by the change.
 
 Prefer:
 
@@ -127,7 +127,12 @@ Then run `pnpm fallow` for complexity and dead code, `pnpm fallow:health` for re
 
 ## Tests
 
-- Unit: Vitest, in `packages/**/__tests__/`, running on happy-dom.
+- Unit: Vitest, running on happy-dom. Place file-specific tests next to the file they cover and name them `<basename>.test.ts` (for example, `getAttributes.ts` uses `getAttributes.test.ts`).
+- Every package keeps a `tests/` folder next to `src/` for package-wide tests and support. Put integration tests that exercise multiple source files or runtime wiring in `tests/integration/`.
+- Put reusable package test utilities in `tests/utils/`. Put shared package test setup in `tests/setup/` only when multiple tests use it.
+- Fixtures are passive inputs loaded by tests, not executable tests. Put scenario or reproduction data in `tests/fixtures/`.
+- Put file-based fixtures in `tests/fixtures/files/`. Use a more specific subfolder when the fixture type needs it, such as `tests/fixtures/markdown/`.
+- Keep one-off mocks and helpers next to the test that uses them.
 - E2E: Playwright, next to the demo it drives as `demos/src/**/index.spec.ts`. Playwright starts the demo server itself on port 4080, no separate terminal. Helpers live in `demos/test/helpers.ts`. Copy `demos/src/Commands/Cut/index.spec.ts` as a template.
 
 ## Demos

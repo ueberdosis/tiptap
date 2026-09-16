@@ -1,4 +1,4 @@
-import type { Node as ProseMirrorNode, ParseOptions } from '@tiptap/pm/model'
+import type { Node as PMNode, ParseOptions } from '@tiptap/pm/model'
 import { Fragment } from '@tiptap/pm/model'
 
 import { createNodeFromContent } from '../helpers/createNodeFromContent.js'
@@ -50,7 +50,7 @@ declare module '@tiptap/core' {
         /**
          * The ProseMirror content to insert.
          */
-        value: Content | ProseMirrorNode | Fragment,
+        value: Content | PMNode | Fragment,
 
         /**
          * Optional options
@@ -73,7 +73,7 @@ export const insertContentAt: RawCommands['insertContentAt'] =
         ...options,
       }
 
-      let content: Fragment | ProseMirrorNode
+      let content: Fragment | PMNode
 
       const emitContentError = (error: Error) => {
         editor.emit('contentError', {
@@ -130,7 +130,7 @@ export const insertContentAt: RawCommands['insertContentAt'] =
 
       let isOnlyTextContent = true
       let isOnlyBlockContent = true
-      const nodes: readonly ProseMirrorNode[] = isFragment(content) ? content.content : [content]
+      const nodes: readonly PMNode[] = isFragment(content) ? content.content : [content]
 
       nodes.forEach(node => {
         // check if added node is valid

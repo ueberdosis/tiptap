@@ -1,4 +1,4 @@
-import type { Node as ProseMirrorNode, Fragment, ResolvedPos } from '@tiptap/pm/model'
+import type { Node as PMNode, Fragment, ResolvedPos } from '@tiptap/pm/model'
 
 import { createNodeFromContent } from '../helpers/createNodeFromContent.js'
 import { defaultBlockAt } from '../helpers/defaultBlockAt.js'
@@ -23,7 +23,7 @@ export interface InsertDefaultBlockOptions {
    * Content to insert into the block.
    * Accepts string (plain text or HTML), ProseMirror node, or Fragment.
    */
-  content?: Content | ProseMirrorNode | Fragment
+  content?: Content | PMNode | Fragment
 
   /**
    * Whether to update the selection after inserting the content.
@@ -72,7 +72,7 @@ export const insertDefaultBlock: RawCommands['insertDefaultBlock'] =
       ? Object.fromEntries(Object.entries(attrs).filter(([key]) => validAttrKeys.includes(key)))
       : {}
 
-    let node: ProseMirrorNode | null | undefined
+    let node: PMNode | null | undefined
 
     if (content) {
       const parsed = createNodeFromContent(content, editor.schema)

@@ -1,9 +1,9 @@
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import type { Mapping } from '@tiptap/pm/transform'
 
 import type { TextblockRange } from './types.js'
 
-export function getChangedTextblocks(doc: Node, mapping: Mapping): TextblockRange[] {
+export function getChangedTextblocks(doc: PMNode, mapping: Mapping): TextblockRange[] {
   const textblocks = new Map<number, TextblockRange>()
 
   mapping.maps.forEach((stepMap, index) => {

@@ -6,7 +6,7 @@ import {
   renderNestedMarkdownContent,
   wrappingInputRule,
 } from '@tiptap/core'
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 
 import { createBranchingListDeleteKeymap } from '../helpers/createBranchingListDeleteKeymap.js'
 
@@ -17,7 +17,7 @@ export interface TaskItemOptions {
    * @param checked The new checked state
    * @returns boolean
    */
-  onReadOnlyChecked?: (node: ProseMirrorNode, checked: boolean) => boolean
+  onReadOnlyChecked?: (node: PMNode, checked: boolean) => boolean
 
   /**
    * Controls whether the task items can be nested or not.
@@ -65,7 +65,7 @@ export interface TaskItemOptions {
      * })
      * ```
      */
-    checkboxLabel?: (node: ProseMirrorNode, checked: boolean) => string
+    checkboxLabel?: (node: PMNode, checked: boolean) => string
   }
 }
 
@@ -80,7 +80,7 @@ export const inputRegex = /^\s*(\[([( |x])?\])\s$/
 const visuallyHiddenStyle =
   'position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0'
 
-const getCheckboxLabel = (node: ProseMirrorNode, checked: boolean, a11y: TaskItemOptions['a11y']) =>
+const getCheckboxLabel = (node: PMNode, checked: boolean, a11y: TaskItemOptions['a11y']) =>
   a11y?.checkboxLabel?.(node, checked) ||
   `Task item checkbox for ${node.textContent || 'empty task item'}`
 
@@ -222,7 +222,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
 
       checkboxStyler.style.cssText = visuallyHiddenStyle
 
-      const updateA11Y = (currentNode: ProseMirrorNode) => {
+      const updateA11Y = (currentNode: PMNode) => {
         const label = getCheckboxLabel(currentNode, currentNode.attrs.checked, this.options.a11y)
 
         checkbox.setAttribute('aria-label', label)

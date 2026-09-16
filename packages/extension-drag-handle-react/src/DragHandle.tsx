@@ -6,7 +6,7 @@ import {
   dragHandlePluginDefaultKey,
   normalizeNestedOptions,
 } from '@tiptap/extension-drag-handle'
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import type { Editor } from '@tiptap/react'
 import { type ReactNode, useEffect, useMemo, useRef } from 'react'
 import { createPortal } from 'react-dom'
@@ -18,7 +18,7 @@ export type DragHandleProps = Omit<
   'element' | 'nestedOptions'
 > & {
   className?: string
-  onNodeChange?: (data: { node: Node | null; editor: Editor; pos: number }) => void
+  onNodeChange?: (data: { node: PMNode | null; editor: Editor; pos: number }) => void
   children: ReactNode
 
   /**

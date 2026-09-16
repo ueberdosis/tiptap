@@ -1,6 +1,6 @@
 /* oslint-disableno-explicit-any */
 import type { DOMOutputSpecArray, Extensions, JSONContent } from '@tiptap/core'
-import type { DOMOutputSpec, Mark, Node } from '@tiptap/pm/model'
+import type { DOMOutputSpec, Mark, Node as PMNode } from '@tiptap/pm/model'
 
 import {
   escapeHTML,
@@ -124,10 +124,10 @@ export function renderToHTMLString({
   staticEditorOptions,
   options,
 }: {
-  content: Node | JSONContent
+  content: PMNode | JSONContent
   extensions: Extensions
   staticEditorOptions?: StaticEditorOptions
-  options?: Partial<TiptapStaticRendererOptions<string, Mark, Node>>
+  options?: Partial<TiptapStaticRendererOptions<string, Mark, PMNode>>
 }): string {
   return renderToElement<string>({
     renderer: renderJSONContentToString,

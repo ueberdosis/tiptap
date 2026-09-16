@@ -1,4 +1,4 @@
-import type { Fragment, Node as ProseMirrorNode, ParseOptions } from '@tiptap/pm/model'
+import type { Fragment, Node as PMNode, ParseOptions } from '@tiptap/pm/model'
 
 import { createDocument } from '../helpers/createDocument.js'
 import { isFragment } from '../helpers/isFragment.js'
@@ -37,7 +37,7 @@ declare module '@tiptap/core' {
         /**
          * The new content.
          */
-        content: Content | Fragment | ProseMirrorNode,
+        content: Content | Fragment | PMNode,
 
         /**
          * Options for `setContent`.

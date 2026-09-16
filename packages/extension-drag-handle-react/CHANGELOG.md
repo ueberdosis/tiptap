@@ -1,5 +1,14 @@
 # @tiptap/extension-drag-handle-react
 
+## 3.30.3
+
+### Patch Changes
+
+- Updated dependencies [1cb7ad3]
+  - @tiptap/react@3.30.3
+  - @tiptap/extension-drag-handle@3.30.3
+  - @tiptap/pm@3.30.3
+
 ## 3.30.2
 
 ### Patch Changes

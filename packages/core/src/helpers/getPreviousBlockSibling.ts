@@ -1,4 +1,4 @@
-import type { Node, ResolvedPos } from '@tiptap/pm/model'
+import type { Node as PMNode, ResolvedPos } from '@tiptap/pm/model'
 
 /**
  * Returns the block-level sibling immediately before the cursor's textblock
@@ -25,7 +25,7 @@ import type { Node, ResolvedPos } from '@tiptap/pm/model'
  * getPreviousBlockSibling($from) // null
  * ```
  */
-export const getPreviousBlockSibling = ($pos: ResolvedPos): Node | null => {
+export const getPreviousBlockSibling = ($pos: ResolvedPos): PMNode | null => {
   const parentDepth = $pos.depth - 1
   if (parentDepth < 0) return null
 
