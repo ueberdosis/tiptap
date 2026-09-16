@@ -96,14 +96,18 @@ export function createAtomBlockMarkdownSpec(options: AtomBlockMarkdownSpecOption
       name: nodeName,
       level: 'block' as const,
       start(src: string) {
-        const regex = new RegExp(`^:::${blockName}(?:\\s|$)`, 'm')
+        // Allow up to 3 leading spaces, matching how CommonMark treats indentation
+        // before block constructs (4+ spaces is an indented code block)
+        const regex = new RegExp(`^ {0,3}:::${blockName}(?:\\s|$)`, 'm')
         const index = src.match(regex)?.index
         return index !== undefined ? index : -1
       },
       tokenize(src, _tokens, _lexer) {
         // Use non-global regex to match from the start of the string
         // Include optional newline to ensure we consume the entire line
-        const regex = new RegExp(`^:::${blockName}(?:\\s+\\{([^}]*)\\})?\\s*:::(?:\\n|$)`)
+        // Allow up to 3 leading spaces (captured so they stay part of `raw`
+        // and the lexer advances past everything that was consumed)
+        const regex = new RegExp(`^( {0,3}):::${blockName}(?:\\s+\\{([^}]*)\\})?\\s*:::(?:\\n|$)`)
         const match = src.match(regex)
 
         if (!match) {
@@ -111,7 +115,7 @@ export function createAtomBlockMarkdownSpec(options: AtomBlockMarkdownSpecOption
         }
 
         // Parse attributes if present
-        const attrString = match[1] || ''
+        const attrString = match[2] || ''
         const attributes = parseAttributes(attrString)
 
         // Validate required attributes

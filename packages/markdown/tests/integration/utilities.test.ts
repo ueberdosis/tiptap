@@ -453,6 +453,49 @@ describe('Markdown Utilities', () => {
       )
     })
 
+    it('should detect a directive indented up to 3 spaces', () => {
+      const spec = createAtomBlockMarkdownSpec({
+        nodeName: 'youtube',
+      })
+
+      const start = spec.markdownTokenizer.start as (src: string) => number
+      expect(start('  :::youtube {src="test"} :::')).toBe(0)
+      expect(start('text\n   :::youtube {src="test"} :::')).toBe(5)
+    })
+
+    it('should tokenize a directive indented up to 3 spaces and keep the indent in raw', () => {
+      const spec = createAtomBlockMarkdownSpec({
+        nodeName: 'youtube',
+      })
+
+      const token = spec.markdownTokenizer.tokenize(
+        '  :::youtube {src="https://youtube.com/watch?v=test"} :::\n',
+        [],
+        null as any,
+      )
+      expect(token).toMatchObject({
+        type: 'youtube',
+        // `raw` must include the indentation so the lexer advances past it
+        raw: '  :::youtube {src="https://youtube.com/watch?v=test"} :::\n',
+        attributes: {
+          src: 'https://youtube.com/watch?v=test',
+        },
+      })
+    })
+
+    it('should not tokenize a directive indented 4 or more spaces', () => {
+      const spec = createAtomBlockMarkdownSpec({
+        nodeName: 'youtube',
+      })
+
+      const token = spec.markdownTokenizer.tokenize(
+        '    :::youtube {src="test"} :::\n',
+        [],
+        null as any,
+      )
+      expect(token).toBe(undefined)
+    })
+
     it('should validate required attributes', () => {
       const spec = createAtomBlockMarkdownSpec({
         nodeName: 'youtube',
