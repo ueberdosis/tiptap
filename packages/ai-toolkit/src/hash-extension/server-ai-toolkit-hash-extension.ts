@@ -29,7 +29,7 @@ function hasAiToolkitExtension(extensionNames: string[]): boolean {
  */
 function isInlineNode(extension: AnyExtension): boolean {
   try {
-    // `inline` can be a function, and it runs here without the editor core passes
+    // Assumes `inline()` does not use the editor, which is unavailable here.
     return (
       callOrReturn(
         getExtensionField<NodeConfig['inline']>(extension, 'inline', {
