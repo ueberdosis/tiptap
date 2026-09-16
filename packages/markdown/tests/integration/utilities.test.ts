@@ -528,7 +528,6 @@ describe('Markdown Utilities', () => {
         attrs: { src },
       })
 
-      // Serialization normalizes the directive back to column 0 with `src` intact
       expect(markdownManager.serialize(doc)).toBe(`hello\n\n:::youtube {src="${src}"} :::`)
     })
 
