@@ -105,9 +105,8 @@ export function createAtomBlockMarkdownSpec(options: AtomBlockMarkdownSpecOption
       tokenize(src, _tokens, _lexer) {
         // Use non-global regex to match from the start of the string
         // Include optional newline to ensure we consume the entire line
-        // Allow up to 3 leading spaces (captured so they stay part of `raw`
-        // and the lexer advances past everything that was consumed)
-        const regex = new RegExp(`^( {0,3}):::${blockName}(?:\\s+\\{([^}]*)\\})?\\s*:::(?:\\n|$)`)
+        // Allow up to 3 leading spaces; match[0] keeps them in `raw`
+        const regex = new RegExp(`^ {0,3}:::${blockName}(?:\\s+\\{([^}]*)\\})?\\s*:::(?:\\n|$)`)
         const match = src.match(regex)
 
         if (!match) {
@@ -115,7 +114,7 @@ export function createAtomBlockMarkdownSpec(options: AtomBlockMarkdownSpecOption
         }
 
         // Parse attributes if present
-        const attrString = match[2] || ''
+        const attrString = match[1] || ''
         const attributes = parseAttributes(attrString)
 
         // Validate required attributes
