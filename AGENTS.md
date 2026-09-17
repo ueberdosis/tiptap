@@ -50,12 +50,12 @@ Prefer simple, readable code over clever code. Use early returns. Avoid deep nes
 
 ```ts
 // good
-items.map((item, index) => createNode(item, index));
-decorations.filter((decoration) => decoration.visible);
+items.map((item, index) => createNode(item, index))
+decorations.filter(decoration => decoration.visible)
 
 // bad
-items.map((i, idx) => createNode(i, idx));
-decorations.filter((d) => d.visible);
+items.map((i, idx) => createNode(i, idx))
+decorations.filter(d => d.visible)
 ```
 
 ### Comments
@@ -148,7 +148,7 @@ Run `pnpm changeset`, or write the file yourself as `.changeset/YYYY-MM-DD-short
 
 ```markdown
 ---
-"@tiptap/core": patch
+'@tiptap/core': patch
 ---
 
 One short sentence on what changed for the user.
