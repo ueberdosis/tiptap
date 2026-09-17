@@ -1,4 +1,4 @@
-import type { NodeWithPos } from '@tiptap/core'
+import type { NodeWithPos, Range } from '@tiptap/core'
 import {
   combineTransactionSteps,
   findChildrenInRange,
@@ -77,6 +77,8 @@ export function autolink(options: AutolinkOptions): Plugin {
       const { tr } = newState
       const transform = combineTransactionSteps(oldState.doc, [...transactions])
       if (!transactions.some(isHistoryTransaction)) {
+        const insertedRanges: Range[] = []
+
         transform.steps.forEach((step, index) => {
           if (!(step instanceof ReplaceStep) || !step.slice.size) {
             return
@@ -87,9 +89,13 @@ export function autolink(options: AutolinkOptions): Plugin {
           const to = mapping.map(step.from + step.slice.size, -1)
 
           if (from < to) {
-            unlinkTrailingWhitespace(tr, { from, to }, options.type)
+            insertedRanges.push({ from, to })
           }
         })
+
+        // Unlink later spaces before checking whether earlier spaces end a link.
+        insertedRanges.sort((left, right) => right.to - left.to)
+        insertedRanges.forEach(range => unlinkTrailingWhitespace(tr, range, options.type))
       }
 
       const changes = getChangedRanges(transform)

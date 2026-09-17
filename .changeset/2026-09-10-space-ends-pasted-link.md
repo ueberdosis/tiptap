@@ -2,4 +2,4 @@
 '@tiptap/extension-link': patch
 ---
 
-Typing a space after a link no longer extends the link. Formatting changes and undo/redo preserve existing linked whitespace.
+Typing spaces after a link no longer extends the link, including multiple spaces inserted in one transaction. Formatting changes and undo/redo preserve existing linked whitespace.

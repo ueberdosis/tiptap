@@ -141,6 +141,33 @@ describe('extension-link autolink', () => {
     ])
   })
 
+  it.each(['append', 'prepend'])('unlinks adjacent spaces inserted with %s steps', order => {
+    const editor = createEditor('<p><a href="https://example.com">example</a></p>')
+    editor.commands.setTextSelection(8)
+
+    const tr = editor.state.tr.insertText(' ')
+
+    if (order === 'append') {
+      tr.insertText(' ')
+    } else {
+      tr.insertText(' ', 8)
+    }
+
+    editor.view.dispatch(tr)
+
+    expect(paragraphContent()).toEqual([
+      {
+        type: 'text',
+        text: 'example',
+        marks: [expect.objectContaining({ type: 'link' })],
+      },
+      { type: 'text', text: '  ' },
+    ])
+
+    type('hello')
+    expect(paragraphContent()[1]).toEqual({ type: 'text', text: '  hello' })
+  })
+
   it('preserves explicit stored marks for an unrelated cursor', () => {
     const editor = createEditor('<p><a href="https://example.com">example</a></p><p>other</p>')
     editor.commands.setTextSelection(editor.state.doc.content.size - 1)
