@@ -6,6 +6,28 @@
  * for lists, task lists, and other indented block types.
  */
 
+/**
+ * Whether a (leading-whitespace-trimmed) line begins a new markdown block —
+ * a list item (bullet, ordered, or task), blockquote, fenced code block, ATX
+ * heading, or thematic break. Such a line is not a lazy paragraph continuation
+ * and must not be merged into a preceding paragraph.
+ */
+function isBlockStart(trimmedLine: string): boolean {
+  return (
+    // oxlint-disable-next-line prefer-string-starts-ends-with
+    /^[-+*](\s|$)/.test(trimmedLine) || // bullet / task-item marker
+    // oxlint-disable-next-line prefer-string-starts-ends-with
+    /^\d+[.)](\s|$)/.test(trimmedLine) || // ordered list marker
+    // oxlint-disable-next-line prefer-string-starts-ends-with
+    /^>/.test(trimmedLine) || // blockquote
+    // oxlint-disable-next-line prefer-string-starts-ends-with
+    /^(```|~~~)/.test(trimmedLine) || // fenced code block
+    // oxlint-disable-next-line prefer-string-starts-ends-with
+    /^#{1,6}(\s|$)/.test(trimmedLine) || // ATX heading
+    /^(-{3,}|\*{3,}|_{3,})$/.test(trimmedLine) // thematic break
+  )
+}
+
 export interface ParsedBlock {
   type: string
   raw: string
@@ -160,12 +182,51 @@ export function parseIndentedBlocks(
 
     // Parse nested content if present
     let nestedTokens: any[] | undefined
-    const nestedContent = itemContent.slice(1)
+    let nestedContent = itemContent.slice(1)
+
+    // Peel off leading lazy paragraph-continuation lines into the item's main
+    // content. A soft-wrapped line that directly follows the item's text — no
+    // blank line separating it, and not itself the start of a new block — is a
+    // continuation of the item's paragraph in CommonMark, not new nested
+    // content. Authors (and LLMs) commonly align such wrapped lines under the
+    // marker's *text* column (e.g. six columns for `- [ ] `). Previously these
+    // were treated as nested content, dedented by a fixed amount that left >= 4
+    // residual spaces, and parsed by `marked` as an indented code block — which
+    // cannot interrupt a paragraph, so the line was silently dropped. Merging
+    // them into `mainContent` (which is tokenized inline by the caller) yields a
+    // single paragraph, matching CommonMark renderers.
+    let continuationCount = 0
+    for (const nestedLine of nestedContent) {
+      const trimmed = nestedLine.trim()
+      if (trimmed === '' || isBlockStart(trimmed)) {
+        break
+      }
+      continuationCount += 1
+    }
+
+    if (continuationCount > 0) {
+      const continuationText = nestedContent
+        .slice(0, continuationCount)
+        .map(nestedLine => nestedLine.trim())
+        .join(' ')
+      itemData.mainContent = `${itemData.mainContent} ${continuationText}`.trimEnd()
+      nestedContent = nestedContent.slice(continuationCount)
+    }
 
     if (nestedContent.length > 0) {
-      // Remove the base indentation from nested content
+      // Dedent by the smallest leading indentation shared by the non-blank
+      // nested lines rather than a fixed `indentLevel + baseIndentSize`, so a
+      // genuinely-nested block indented past `indentLevel + baseIndentSize` is
+      // not left with residual leading whitespace (which `marked` would parse
+      // as an indented code block). Deeper content keeps its relative
+      // indentation.
+      const nonBlankIndents = nestedContent
+        .filter(nestedLine => nestedLine.trim() !== '')
+        .map(nestedLine => nestedLine.length - nestedLine.trimStart().length)
+      const dedentAmount =
+        nonBlankIndents.length > 0 ? Math.min(...nonBlankIndents) : indentLevel + baseIndentSize
       const dedentedNested = nestedContent
-        .map(nestedLine => nestedLine.slice(indentLevel + baseIndentSize)) // Remove base indent + 2 spaces
+        .map(nestedLine => nestedLine.slice(dedentAmount))
         .join('\n')
 
       if (dedentedNested.trim()) {
