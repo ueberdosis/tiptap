@@ -1,21 +1,19 @@
-import type { NodeWithPos, Range } from '@tiptap/core'
+import type { NodeWithPos } from '@tiptap/core'
 import {
   combineTransactionSteps,
   findChildrenInRange,
   getChangedRanges,
   getMarksBetween,
 } from '@tiptap/core'
-import type { MarkType, Node } from '@tiptap/pm/model'
-import type { Transaction } from '@tiptap/pm/state'
+import { isHistoryTransaction } from '@tiptap/pm/history'
+import type { MarkType } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
+import { ReplaceStep } from '@tiptap/pm/transform'
 import type { MultiToken } from 'linkifyjs'
 import { tokenize } from 'linkifyjs'
 
-import {
-  UNICODE_WHITESPACE_REGEX,
-  UNICODE_WHITESPACE_REGEX_END,
-  UNICODE_WHITESPACE_REGEX_TRAILING,
-} from './whitespace.js'
+import { unlinkTrailingWhitespace } from './unlinkTrailingWhitespace.js'
+import { UNICODE_WHITESPACE_REGEX, UNICODE_WHITESPACE_REGEX_END } from './whitespace.js'
 
 /**
  * Check if the provided tokens form a valid link structure, which can either be a single link token
@@ -44,54 +42,6 @@ type AutolinkOptions = {
   defaultProtocol: string
   validate: (url: string) => boolean
   shouldAutoLink: (url: string) => boolean
-}
-
-/**
- * The link mark is inclusive while autolink is enabled, so whitespace typed
- * after a link inherits the mark. Whitespace ends a link, so remove the mark
- * from the trailing whitespace again.
- */
-function unlinkTrailingWhitespace(tr: Transaction, doc: Node, range: Range, type: MarkType) {
-  const rangeEnd = doc.resolve(range.to)
-
-  // Positions only map onto the text when the range ends inside a text node
-  if (!rangeEnd.nodeBefore?.isText) {
-    return
-  }
-
-  // Non-whitespace leaf placeholder keeps positions aligned with the text
-  const insertedText = doc.textBetween(range.from, range.to, '\uFFFC', '\uFFFC')
-  const trailingWhitespace = insertedText.match(UNICODE_WHITESPACE_REGEX_TRAILING)?.[0]
-
-  if (!trailingWhitespace) {
-    return
-  }
-
-  const whitespaceFrom = range.to - trailingWhitespace.length
-  const linkMarks = getMarksBetween(whitespaceFrom, range.to, doc).filter(
-    item => item.mark.type === type,
-  )
-
-  if (!linkMarks.length) {
-    return
-  }
-
-  // Keep the mark when the link continues after the whitespace, for example
-  // when typing a space inside a multi-word link text
-  const { nodeAfter } = rangeEnd
-  const linkContinues = !!nodeAfter && linkMarks.some(item => item.mark.isInSet(nodeAfter.marks))
-
-  if (linkContinues) {
-    return
-  }
-
-  tr.removeMark(whitespaceFrom, range.to, type)
-
-  // Stored marks are global. Only clear them when the cursor sits at the
-  // trailing whitespace, otherwise an unrelated selection loses its link.
-  if (tr.selection.empty && tr.selection.from === range.to) {
-    tr.removeStoredMark(type)
-  }
 }
 
 /**
@@ -126,6 +76,22 @@ export function autolink(options: AutolinkOptions): Plugin {
 
       const { tr } = newState
       const transform = combineTransactionSteps(oldState.doc, [...transactions])
+      if (!transactions.some(isHistoryTransaction)) {
+        transform.steps.forEach((step, index) => {
+          if (!(step instanceof ReplaceStep) || !step.slice.size) {
+            return
+          }
+
+          const mapping = transform.mapping.slice(index + 1)
+          const from = mapping.map(step.from, 1)
+          const to = mapping.map(step.from + step.slice.size, -1)
+
+          if (from < to) {
+            unlinkTrailingWhitespace(tr, { from, to }, options.type)
+          }
+        })
+      }
+
       const changes = getChangedRanges(transform)
 
       changes.forEach(({ newRange }) => {
@@ -153,8 +119,6 @@ export function autolink(options: AutolinkOptions): Plugin {
           if (!UNICODE_WHITESPACE_REGEX_END.test(endText)) {
             return
           }
-
-          unlinkTrailingWhitespace(tr, newState.doc, newRange, options.type)
 
           textBlock = nodesInChangedRanges[0]
           textBeforeWhitespace = newState.doc.textBetween(
