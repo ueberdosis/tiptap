@@ -124,14 +124,26 @@ export const splitListItem: RawCommands['splitListItem'] =
       ...overrideAttrs,
     }
 
+    // `Transform.split` only ever applies `types` to the node created *after* the split, so
+    // attributes that should not survive a split (`keepOnSplit: false`) normally land on the
+    // trailing item, which is the newly created one. When the cursor sits at the very start
+    // of the item, that is inverted: the empty new item is the *leading* one and the trailing
+    // item is the original content. Detect that case and swap the two sets of attributes.
+    const splitsAtStartOfItem = $from.parentOffset === 0 && $from.index(-1) === 0
+    const itemStart = $from.before(-1)
+
     tr.delete($from.pos, $to.pos)
+
+    // The trailing item keeps the attributes of the item being split when it is the half that
+    // carries the content over; the reset is applied to the leading item after the split.
+    const trailingTypeAttributes = splitsAtStartOfItem ? grandParent.attrs : newTypeAttributes
 
     const types = nextType
       ? [
-          { type, attrs: newTypeAttributes },
+          { type, attrs: trailingTypeAttributes },
           { type: nextType, attrs: newNextTypeAttributes },
         ]
-      : [{ type, attrs: newTypeAttributes }]
+      : [{ type, attrs: trailingTypeAttributes }]
 
     if (!canSplit(tr.doc, $from.pos, 2)) {
       return false
@@ -143,6 +155,10 @@ export const splitListItem: RawCommands['splitListItem'] =
       const marks = storedMarks || (selection.$to.parentOffset && selection.$from.marks())
 
       tr.split($from.pos, 2, types).scrollIntoView()
+
+      if (splitsAtStartOfItem) {
+        tr.setNodeMarkup(itemStart, undefined, newTypeAttributes)
+      }
 
       if (!marks || !dispatch) {
         return true
