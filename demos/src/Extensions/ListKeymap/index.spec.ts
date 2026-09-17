@@ -168,6 +168,58 @@ test.describe(`${demoPath}/${demoName}`, () => {
         const html = await editor.evaluate((el: any) => el.editor.getHTML())
         expect(html).toBe('<ul><li><p>A</p></li></ul>')
       })
+
+      test('tab in a list item after a task sublist joins it as a task item', async ({ page }) => {
+        const editor = await getEditor(page)
+        await placeCaretBefore(
+          editor,
+          '<ul><li><p>A</p><ul data-type="taskList"><li data-type="taskItem" data-checked="false"><p>T</p></li></ul></li><li><p>B</p></li></ul>',
+          'B',
+        )
+        await editor.press('Tab')
+        const json = await editor.evaluate((el: any) => el.editor.getJSON())
+        const items = json.content[0].content
+        expect(items).toHaveLength(1)
+        const sublist = items[0].content[1]
+        expect(sublist.type).toBe('taskList')
+        expect(sublist.content.map((item: any) => item.type)).toEqual(['taskItem', 'taskItem'])
+        expect(sublist.content[1].content[0].content[0].text).toBe('B')
+      })
+
+      test('tab in a bullet item after an ordered sublist joins the ordered sublist', async ({
+        page,
+      }) => {
+        const editor = await getEditor(page)
+        await placeCaretBefore(
+          editor,
+          '<ul><li><p>A</p><ol><li><p>one</p></li></ol></li><li><p>B</p></li></ul>',
+          'B',
+        )
+        await editor.press('Tab')
+        const html = await editor.evaluate((el: any) => el.editor.getHTML())
+        expect(html).toBe('<ul><li><p>A</p><ol><li><p>one</p></li><li><p>B</p></li></ol></li></ul>')
+      })
+
+      test('shift+tab in a nested task item lifts it into the bullet list as a list item', async ({
+        page,
+      }) => {
+        const editor = await getEditor(page)
+        await placeCaretBefore(
+          editor,
+          '<ul><li><p>A</p><ul data-type="taskList"><li data-type="taskItem" data-checked="false"><p>T</p></li><li data-type="taskItem" data-checked="true"><p>U</p></li></ul></li></ul>',
+          'T',
+        )
+        await editor.press('Shift+Tab')
+        const json = await editor.evaluate((el: any) => el.editor.getJSON())
+        const items = json.content[0].content
+        expect(items.map((item: any) => item.type)).toEqual(['listItem', 'listItem'])
+        expect(items[0].content).toHaveLength(1)
+        expect(items[1].content[0].content[0].text).toBe('T')
+        const sublist = items[1].content[1]
+        expect(sublist.type).toBe('taskList')
+        expect(sublist.content[0].attrs.checked).toBe(true)
+        expect(sublist.content[0].content[0].content[0].text).toBe('U')
+      })
     })
   })
 })
