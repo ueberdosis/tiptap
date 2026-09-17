@@ -1,10 +1,18 @@
 import { Editor, type EditorOptions } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
+import HardBreak from '@tiptap/extension-hard-break'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 
 import { handleMobileEnter } from './handleMobileEnter.js'
+
+vi.hoisted(() => {
+  Object.defineProperty(navigator, 'userAgent', {
+    configurable: true,
+    value: 'Mozilla/5.0 (Linux; Android 14) Chrome/140.0.0.0',
+  })
+})
 
 describe('handleMobileEnter', () => {
   let editor: Editor
@@ -29,6 +37,7 @@ describe('handleMobileEnter', () => {
           },
         }),
         Text,
+        HardBreak,
       ],
       content: '<p>Hello</p>',
       ...options,
@@ -58,6 +67,57 @@ describe('handleMobileEnter', () => {
     document.body.replaceChildren()
     vi.restoreAllMocks()
     vi.unstubAllGlobals()
+  })
+
+  function queueSelectionChange(contentDOM: HTMLElement) {
+    const view = editor.view as typeof editor.view & {
+      domObserver: { flush: () => void; onSelectionChange: () => void }
+    }
+
+    view.domObserver.flush()
+    // Keep happy-dom's synchronous selectionchange pending until beforeinput.
+    document.removeEventListener('selectionchange', view.domObserver.onSelectionChange)
+    document.getSelection()!.collapse(contentDOM.firstChild!, 3)
+    view.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', keyCode: 13 }))
+  }
+
+  it.each([
+    ['insertParagraph', '<p>Hel</p><p>lo</p>', 6],
+    ['insertLineBreak', '<p>Hel<br>lo</p>', 5],
+  ])('handles %s once at the pending DOM caret', (inputType, html, position) => {
+    const contentDOM = createEditor()
+
+    queueSelectionChange(contentDOM)
+
+    expect(editor.state.selection.from).toBe(6)
+    expect(beforeInput({ inputType }).defaultPrevented).toBe(true)
+    expect(editor.getHTML()).toBe(html)
+    expect(editor.state.selection.from).toBe(position)
+  })
+
+  it('calls custom Enter handlers once with the updated selection', () => {
+    const handleKeyDown = vi.fn(view => {
+      expect(view.state.selection.from).toBe(4)
+      return true
+    })
+    const contentDOM = createEditor({ editorProps: { handleKeyDown } })
+
+    queueSelectionChange(contentDOM)
+
+    expect(beforeInput().defaultPrevented).toBe(true)
+    expect(handleKeyDown).toHaveBeenCalledTimes(1)
+  })
+
+  it('preserves native Enter detection when no handler accepts it', () => {
+    const contentDOM = createEditor({ enableCoreExtensions: { keymap: false } })
+    const view = editor.view as typeof editor.view & { input: { lastKeyCode: number | null } }
+
+    queueSelectionChange(contentDOM)
+
+    expect(beforeInput().defaultPrevented).toBe(false)
+    expect(view.input.lastKeyCode).toBe(13)
+    expect(editor.state.selection.from).toBe(4)
+    expect(editor.getHTML()).toBe('<p>Hello</p>')
   })
 
   it('commits pending DOM text and selection before splitting', () => {

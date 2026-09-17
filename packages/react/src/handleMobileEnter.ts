@@ -3,7 +3,7 @@ import type { EditorView } from '@tiptap/pm/view'
 
 type MobileEditorView = EditorView & {
   domObserver: { forceFlush: () => void; flush: () => void }
-  input: { lastIOSEnter: number; lastIOSEnterFallbackTimeout: number }
+  input: { lastKeyCode: number | null; lastIOSEnter: number; lastIOSEnterFallbackTimeout: number }
 }
 
 export function handleMobileEnter(editor: Editor, event: InputEvent): void {
@@ -29,6 +29,13 @@ export function handleMobileEnter(editor: Editor, event: InputEvent): void {
     return
   }
 
+  const lastKeyCode = view.input.lastKeyCode
+
+  // Prevent the Android selection flush from handling Enter at the old caret.
+  if (lastKeyCode === 13) {
+    view.input.lastKeyCode = null
+  }
+
   // Commit pending text before the Enter handler reads the selection.
   view.domObserver.forceFlush()
   view.domObserver.flush()
@@ -47,5 +54,7 @@ export function handleMobileEnter(editor: Editor, event: InputEvent): void {
     // Prevent the iOS fallback from handling this Enter a second time.
     view.input.lastIOSEnter = 0
     clearTimeout(view.input.lastIOSEnterFallbackTimeout)
+  } else if (lastKeyCode === 13) {
+    view.input.lastKeyCode = lastKeyCode
   }
 }
