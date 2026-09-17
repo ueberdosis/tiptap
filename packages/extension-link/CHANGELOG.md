@@ -1,5 +1,14 @@
 # Change Log
 
+## 3.31.4
+
+### Patch Changes
+
+- bf3f94d: Typing spaces after a link no longer extends the link, including multiple spaces inserted in one transaction. Formatting changes and undo/redo preserve existing linked whitespace.
+- Updated dependencies [7c089f2]
+  - @tiptap/core@3.31.4
+  - @tiptap/pm@3.31.4
+
 ## 3.31.3
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # Change Log
 
+## 3.31.4
+
+### Patch Changes
+
+- 807658a: Fix Enter and Shift-Enter inside React node views on iOS and Android.
+- Updated dependencies [7c089f2]
+  - @tiptap/core@3.31.4
+  - @tiptap/pm@3.31.4
+
 ## 3.31.3
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.31.4
+
+### Patch Changes
+
+- 7c089f2: Atom block directives (`:::name {…} :::`) indented by up to 3 spaces are now tokenized, matching CommonMark indentation rules for block constructs.
+  - @tiptap/pm@3.31.4
+
 ## 3.31.3
 
 ### Patch Changes
