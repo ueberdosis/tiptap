@@ -25,12 +25,12 @@ export default () => {
           },
         },
         inlineOptions: {
-          onClick: node => {
+          onClick: (node, pos) => {
             const newCalculation = prompt('Enter new calculation:', node.attrs.latex)
             if (newCalculation) {
               editor
                 .chain()
-                .setNodeSelection(node.pos)
+                .setNodeSelection(pos)
                 .updateInlineMath({ latex: newCalculation })
                 .focus()
                 .run()
