@@ -1,5 +1,19 @@
 # @tiptap/ai-toolkit
 
+## 0.4.1-next.0
+
+### Patch Changes
+
+- 416749b: The Server AI Toolkit no longer adds `_hash` to inline nodes, including inline Image, Audio, YouTube and Twitch nodes.
+- Updated dependencies [548216e]
+- Updated dependencies [8aea2ef]
+- Updated dependencies [c4488ba]
+- Updated dependencies [5c7200d]
+- Updated dependencies [fd086c5]
+- Updated dependencies [32c048d]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+
 ## 0.4.0
 
 ### Minor Changes
