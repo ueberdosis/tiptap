@@ -13,7 +13,7 @@ export default () => {
     <p>
       This is still the text editor you’re used to, but enriched with node views.
     </p>
-    <react-component>This is editable. You can create a new component by pressing Mod+Enter.</react-component>
+    <react-component>This is editable. Press Enter to split the content, Shift+Enter for a line break, or Mod+Enter for a new component.</react-component>
     <p>
       Did you see that? That’s a React component. We are really living in the future.
     </p>

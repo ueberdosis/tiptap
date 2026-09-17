@@ -9,7 +9,7 @@ test.describe('GuideNodeViews/ReactComponentContent/React', () => {
 
   test('renders the initial NodeView content', async ({ page }) => {
     await expect(page.locator('.tiptap .react-component .content')).toHaveText(
-      'This is editable. You can create a new component by pressing Mod+Enter.',
+      'This is editable. Press Enter to split the content, Shift+Enter for a line break, or Mod+Enter for a new component.',
     )
   })
 })
