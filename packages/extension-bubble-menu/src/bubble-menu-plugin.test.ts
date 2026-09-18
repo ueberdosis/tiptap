@@ -357,6 +357,31 @@ describe('BubbleMenuView IME composition', () => {
     editor.destroy()
   })
 
+  it('cancels the debounced update when the view is destroyed', async () => {
+    const editor = createEditor('<p>Hello world</p>')
+    // A non-empty selection sends update() down the debounced path instead of running inline.
+    editor.commands.setTextSelection({ from: 1, to: 6 })
+
+    const shouldShow = vi.fn(() => false)
+    const view = createBubbleMenuView(editor, { shouldShow, updateDelay: 20 })
+
+    editor.view.dom.dispatchEvent(new Event('compositionend'))
+    await new Promise(resolve => {
+      setTimeout(resolve)
+    })
+
+    shouldShow.mockClear()
+    view.destroy()
+
+    await new Promise(resolve => {
+      setTimeout(resolve, 40)
+    })
+
+    expect(shouldShow).not.toHaveBeenCalled()
+
+    editor.destroy()
+  })
+
   it('cancels a pending update when the view is destroyed while the editor lives on', async () => {
     const editor = createEditor('<p></p>')
     const shouldShow = vi.fn(() => false)

@@ -712,6 +712,7 @@ export class BubbleMenuView implements PluginView {
     this.editor.off('transaction', this.transactionHandler)
     this.view.dom.removeEventListener('compositionend', this.compositionEndHandler)
     clearTimeout(this.compositionEndTimer)
+    clearTimeout(this.updateDebounceTimer)
 
     if (this.floatingUIOptions.onDestroy) {
       this.floatingUIOptions.onDestroy()
