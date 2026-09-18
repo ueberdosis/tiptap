@@ -104,7 +104,7 @@ export class MarkView<
     }
 
     if (
-      this.contentDOM.contains(mutation.target) &&
+      this.dom.contains(mutation.target) &&
       mutation.type === 'childList' &&
       (isiOS() || isAndroid()) &&
       this.editor.isFocused

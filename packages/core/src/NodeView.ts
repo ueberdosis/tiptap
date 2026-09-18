@@ -294,7 +294,7 @@ export class NodeView<
     // see: https://github.com/ueberdosis/tiptap/issues/1214
     // see: https://github.com/ueberdosis/tiptap/issues/2534
     if (
-      this.contentDOM.contains(mutation.target) &&
+      this.dom.contains(mutation.target) &&
       mutation.type === 'childList' &&
       (isiOS() || isAndroid()) &&
       this.editor.isFocused
