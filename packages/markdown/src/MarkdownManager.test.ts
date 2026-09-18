@@ -876,4 +876,123 @@ Some text with [@ id="user" label="User"].
       expect(rendered).toContain('Level 2')
     })
   })
+
+  describe('configured extension context for markdown hooks', () => {
+    const createParagraphWithUrlHooks = () =>
+      Node.create({
+        name: 'paragraph',
+        group: 'block',
+        content: 'inline*',
+
+        addOptions() {
+          return {
+            repairUrl: (url: string) => url,
+            serializeMarkdownUrl: (url: string) => url,
+          }
+        },
+
+        parseMarkdown(token, helpers) {
+          return helpers.createNode(
+            this.name,
+            { url: this.options.repairUrl(token.text || '') },
+            helpers.parseInline(token.tokens || []),
+          )
+        },
+
+        renderMarkdown(node) {
+          return this.options.serializeMarkdownUrl(node.attrs?.url)
+        },
+      })
+
+    const configuredParagraph = createParagraphWithUrlHooks().configure({
+      repairUrl: (url: string) => `https://example.com/${url}`,
+      serializeMarkdownUrl: (url: string) => `<${url}>`,
+    })
+
+    const createManager = (paragraph: AnyExtension) =>
+      new MarkdownManager({
+        extensions: [paragraph, Text],
+      })
+
+    it('exposes configured options and name while parsing and serializing', () => {
+      const manager = createManager(configuredParagraph)
+      const parsed = manager.parse('asset.png')
+
+      expect(parsed).toEqual({
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            attrs: { url: 'https://example.com/asset.png' },
+            content: [{ type: 'text', text: 'asset.png' }],
+          },
+        ],
+      })
+
+      expect(
+        manager.serialize({
+          type: 'paragraph',
+          attrs: { url: 'https://example.com/asset.png' },
+          content: [{ type: 'text', text: 'asset.png' }],
+        }),
+      ).toBe('<https://example.com/asset.png>')
+    })
+
+    it('keeps independent configured instances isolated', () => {
+      const first = createParagraphWithUrlHooks().configure({
+        repairUrl: (url: string) => `https://first.example/${url}`,
+        serializeMarkdownUrl: (url: string) => `<first:${url}>`,
+      })
+      const second = createParagraphWithUrlHooks().configure({
+        repairUrl: (url: string) => `https://second.example/${url}`,
+        serializeMarkdownUrl: (url: string) => `<second:${url}>`,
+      })
+
+      expect(createManager(first).parse('asset.png').content![0].attrs).toEqual({
+        url: 'https://first.example/asset.png',
+      })
+      expect(createManager(second).parse('asset.png').content![0].attrs).toEqual({
+        url: 'https://second.example/asset.png',
+      })
+    })
+
+    it('merges chained configure() calls into markdown hooks', () => {
+      const paragraph = createParagraphWithUrlHooks()
+        .configure({
+          repairUrl: (url: string) => `https://first.example/${url}`,
+        })
+        .configure({
+          serializeMarkdownUrl: (url: string) => `<${url}>`,
+          repairUrl: (url: string) => `https://chained.example/${url}`,
+        })
+
+      const manager = createManager(paragraph)
+      const parsed = manager.parse('asset.png')
+
+      expect(parsed.content![0].attrs).toEqual({ url: 'https://chained.example/asset.png' })
+      expect(manager.serialize(parsed.content![0])).toBe('<https://chained.example/asset.png>')
+    })
+
+    it('lets markdown hooks call their parent with the configured context', () => {
+      const paragraph = createParagraphWithUrlHooks()
+        .extend({
+          parseMarkdown(token, helpers) {
+            return this.parent?.(token, helpers)
+          },
+          renderMarkdown(node, helpers, ctx) {
+            return this.parent?.(node, helpers, ctx) ?? ''
+          },
+        })
+        .configure({
+          repairUrl: (url: string) => `https://example.com/${url}`,
+          serializeMarkdownUrl: (url: string) => `<${url}>`,
+        })
+
+      const manager = createManager(paragraph)
+      const parsed = manager.parse('asset.png')
+
+      expect(parsed.content![0].attrs).toEqual({ url: 'https://example.com/asset.png' })
+      expect(manager.serialize(parsed.content![0])).toBe('<https://example.com/asset.png>')
+    })
+  })
 })
