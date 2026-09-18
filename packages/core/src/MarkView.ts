@@ -107,7 +107,8 @@ export class MarkView<
       this.dom.contains(mutation.target) &&
       mutation.type === 'childList' &&
       (isiOS() || isAndroid()) &&
-      this.editor.isFocused
+      this.editor.isFocused &&
+      this.contentDOM.hasAttribute('data-node-view-wrapper') === false
     ) {
       const changedNodes = [
         ...Array.from(mutation.addedNodes),
