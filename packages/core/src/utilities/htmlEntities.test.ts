@@ -19,6 +19,30 @@ describe('decodeHtmlEntities', () => {
     expect(decodeHtmlEntities('&amp;lt;')).toBe('&lt;')
   })
 
+  it('decodes decimal numeric entities like &#39;', () => {
+    expect(decodeHtmlEntities('it&#39;s')).toBe("it's")
+  })
+
+  it('decodes hex numeric entities like &#x27;', () => {
+    expect(decodeHtmlEntities('&#x27;')).toBe("'")
+  })
+
+  it('decodes decimal numeric entities for non-ASCII characters like &#8212;', () => {
+    expect(decodeHtmlEntities('&#8212;')).toBe('—')
+  })
+
+  it('handles doubly-encoded numeric entities like &amp;#39;', () => {
+    expect(decodeHtmlEntities('&amp;#39;')).toBe('&#39;')
+  })
+
+  it('leaves out-of-range decimal numeric entities untouched', () => {
+    expect(decodeHtmlEntities('&#999999999;')).toBe('&#999999999;')
+  })
+
+  it('leaves out-of-range hex numeric entities untouched', () => {
+    expect(decodeHtmlEntities('&#xFFFFFFFF;')).toBe('&#xFFFFFFFF;')
+  })
+
   it('returns plain text unchanged', () => {
     expect(decodeHtmlEntities('hello world')).toBe('hello world')
   })

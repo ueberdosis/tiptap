@@ -9,7 +9,14 @@ export function decodeHtmlEntities(text: string): string {
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"')
+    .replace(/&#(\d+);/g, (match, dec) => decodeCodePoint(match, Number(dec)))
+    .replace(/&#x([0-9a-f]+);/gi, (match, hex) => decodeCodePoint(match, parseInt(hex, 16)))
     .replace(/&amp;/g, '&')
+}
+
+// Leave out-of-range numeric entities untouched instead of throwing.
+function decodeCodePoint(match: string, codePoint: number): string {
+  return codePoint <= 0x10ffff ? String.fromCodePoint(codePoint) : match
 }
 
 /**
