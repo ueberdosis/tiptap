@@ -96,6 +96,62 @@ describe('Paragraph Markdown Rendering', () => {
         '# Markdown Test\n\nClick "Parse Markdown" to load content from the left panel.\n\n',
       )
     })
+
+    it('should emit &nbsp; when an empty paragraph is between two bullet lists and preserve them on roundtrip', () => {
+      const doc = {
+        type: 'doc',
+        content: [
+          {
+            type: 'bulletList',
+            content: [
+              {
+                type: 'listItem',
+                content: [{ type: 'paragraph', content: [{ type: 'text', text: 'list 1' }] }],
+              },
+              {
+                type: 'listItem',
+                content: [{ type: 'paragraph', content: [{ type: 'text', text: 'list 2' }] }],
+              },
+            ],
+          },
+          { type: 'paragraph', content: [] },
+          {
+            type: 'bulletList',
+            content: [
+              {
+                type: 'listItem',
+                content: [{ type: 'paragraph', content: [{ type: 'text', text: 'list 3' }] }],
+              },
+              {
+                type: 'listItem',
+                content: [{ type: 'paragraph', content: [{ type: 'text', text: 'list 4' }] }],
+              },
+            ],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.serialize(doc)
+      expect(markdown).toBe('- list 1\n- list 2\n\n&nbsp;\n\n- list 3\n- list 4')
+
+      const parsed = markdownManager.parse(markdown)
+      expect(parsed.content).toHaveLength(3)
+      expect(parsed.content![0].type).toBe('bulletList')
+      expect(parsed.content![1].type).toBe('paragraph')
+      expect(parsed.content![2].type).toBe('bulletList')
+    })
+
+    it('should not add phantom empty paragraphs inside list items when parsing loose lists with blank lines', () => {
+      const input = '- list 1\n- list 2\n\n\n\n- list 3\n- list 4'
+      const parsed = markdownManager.parse(input)
+      const list = parsed.content![0]
+      expect(list.type).toBe('bulletList')
+      // All list items should only have 1 paragraph content, no phantom empty paragraph
+      for (const item of list.content!) {
+        expect(item.content).toHaveLength(1)
+        expect(item.content![0].type).toBe('paragraph')
+      }
+    })
   })
 
   describe('empty paragraphs inside nested nodes', () => {
