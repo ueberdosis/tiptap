@@ -1,4 +1,11 @@
-import { getStyleProperty, Mark, markInputRule, markPasteRule, mergeAttributes } from '@tiptap/core'
+import {
+  getStyleProperty,
+  isValidCSSStyleValue,
+  Mark,
+  markInputRule,
+  markPasteRule,
+  mergeAttributes,
+} from '@tiptap/core'
 
 export interface HighlightOptions {
   /**
@@ -81,7 +88,7 @@ export const Highlight = Mark.create<HighlightOptions>({
           getStyleProperty(element, 'background-color') ||
           element.style.backgroundColor,
         renderHTML: attributes => {
-          if (!attributes.color) {
+          if (!isValidCSSStyleValue(attributes.color)) {
             return {}
           }
 

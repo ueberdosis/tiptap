@@ -1,8 +1,7 @@
-import { Extension } from '@tiptap/core'
+import { Extension, isValidCSSStyleValue } from '@tiptap/core'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import type { DecorationAttrs } from '@tiptap/pm/view'
 import { defaultSelectionBuilder, yCursorPlugin } from '@tiptap/y-tiptap'
-import { isValidColor } from './lib/isValidColor.js'
 
 type CollaborationCaretStorage = {
   users: { clientId: number; [key: string]: any }[]
@@ -99,9 +98,13 @@ const awarenessStatesToArray = (states: Map<number, Record<string, any> | null |
 
 const defaultOnUpdate = () => null
 
+const isValidUserColor = (color: unknown): color is string => {
+  return isValidCSSStyleValue(color) && /^#[0-9a-fA-F]{6}$/.test(color)
+}
+
 const sanitizeUserColor = (user: Record<string, any>) => ({
   ...user,
-  color: isValidColor(user.color) ? user.color : 'transparent',
+  color: isValidUserColor(user.color) ? user.color : 'transparent',
 })
 
 /**
@@ -140,7 +143,7 @@ export const CollaborationCaret = Extension.create<
         return cursor
       },
       selectionRender: user => {
-        if (!isValidColor(user.color)) {
+        if (!isValidUserColor(user.color)) {
           return {}
         }
 
