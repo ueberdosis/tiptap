@@ -43,6 +43,18 @@ describe('decodeHtmlEntities', () => {
     expect(decodeHtmlEntities('&#xFFFFFFFF;')).toBe('&#xFFFFFFFF;')
   })
 
+  it('does not re-scan replaced output for a second round of decoding', () => {
+    expect(decodeHtmlEntities('&#38;#x27;')).toBe('&#x27;')
+  })
+
+  it('does not turn a decoded &amp; into a second-pass &lt; decode', () => {
+    expect(decodeHtmlEntities('&#38;lt;')).toBe('&lt;')
+  })
+
+  it('does not turn a decoded &amp; into a second-pass &amp; decode', () => {
+    expect(decodeHtmlEntities('&#38;amp;')).toBe('&amp;')
+  })
+
   it('returns plain text unchanged', () => {
     expect(decodeHtmlEntities('hello world')).toBe('hello world')
   })

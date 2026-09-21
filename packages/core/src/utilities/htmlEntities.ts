@@ -1,17 +1,23 @@
+const NAMED_ENTITIES: Record<string, string> = { lt: '<', gt: '>', quot: '"', amp: '&' }
+
 /**
  * Decode common HTML entities in text content so they display as literal
- * characters inside the editor.  The decode order matters: `&amp;` must be
- * decoded **last** so that doubly-encoded sequences like `&amp;lt;` first
- * survive the `&lt;` pass and then correctly become `&lt;` (not `<`).
+ * characters inside the editor. Runs as a single pass so a decoded entity
+ * (e.g. `&#38;` → `&`) is never re-scanned and decoded again.
  */
 export function decodeHtmlEntities(text: string): string {
-  return text
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/&#(\d+);/g, (match, dec) => decodeCodePoint(match, Number(dec)))
-    .replace(/&#x([0-9a-f]+);/gi, (match, hex) => decodeCodePoint(match, parseInt(hex, 16)))
-    .replace(/&amp;/g, '&')
+  return text.replace(
+    /&(?:#(\d+)|#[xX]([0-9a-fA-F]+)|(lt|gt|quot|amp));/g,
+    (match, dec, hex, name) => {
+      if (dec !== undefined) {
+        return decodeCodePoint(match, Number(dec))
+      }
+      if (hex !== undefined) {
+        return decodeCodePoint(match, parseInt(hex, 16))
+      }
+      return NAMED_ENTITIES[name]
+    },
+  )
 }
 
 // Leave out-of-range numeric entities untouched instead of throwing.
