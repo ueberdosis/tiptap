@@ -1,5 +1,5 @@
 import type { Editor } from '@tiptap/core'
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import type { EditorView } from '@tiptap/pm/view'
 
 import type { NormalizedNestedOptions } from '../types/options.js'
@@ -150,7 +150,7 @@ export const findElementNextToCoords = (
   options: FindElementNextToCoords,
 ): {
   resultElement: HTMLElement | null
-  resultNode: Node | null
+  resultNode: PMNode | null
   pos: number | null
 } => {
   const { x, y, editor, nestedOptions } = options

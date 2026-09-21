@@ -201,7 +201,7 @@ export function createWidgetDecoration<TRenderer extends WidgetRenderer>(
     marks,
     stopEvent,
     ignoreSelection,
-    destroy: (rendererElement: globalThis.Node) => {
+    destroy: (rendererElement: Node) => {
       // Keep the renderer if the widget is still live (being reassigned, not removed).
       // Only correct because ProseMirror sets `view.state` before dropping widget descs.
       if (liveWidgetKeys(editor).has(key)) {

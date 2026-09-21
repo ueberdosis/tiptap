@@ -10,23 +10,29 @@ Published packages live in `packages/*`. `demos/` is a Vite app used as playgrou
 - Add a changeset for user-facing changes. Public API breaks need a major bump and migration notes.
 - Add or update a demo and tests for user-visible behavior. Prefer unit tests over e2e when deterministic.
 - Fix fallow findings your change introduced. Don't suppress them.
+- Comments should be clear, concise and use plain, simple english.
+  - Rather use a oneliner
+  - Try to always be intent-focused
+  - stay local with comments
+  - scannable, no long or complex wording
+  - assume the reader doesn't know what you're talking about
 
 ## Before opening a PR
 
 ```bash
-pnpm lint
-pnpm build
-pnpm test:unit
-pnpm test:e2e
-pnpm fallow:audit   # verdict must be pass or warn, never fail
+vp run lint
+vp run build
+vp run test:unit
+vp run test:e2e
+vp run fallow:audit   # verdict must be pass or warn, never fail
 ```
 
-Single package failing types: `pnpm -w -F @tiptap/core build`.
-Dependency or lockfile errors: `pnpm reset`, then rebuild.
+Single package failing types: `vp run -F @tiptap/core build`.
+Dependency or lockfile errors: `vp run reset`, then rebuild.
 
 ## Code style
 
-oxlint lints, oxfmt formats. Husky and lint-staged run both on commit.
+oxlint lints, oxfmt formats. Vite+ hooks (`vp staged`) run both on commit.
 
 Prefer simple, readable code over clever code. Use early returns. Avoid deep nesting, nested ternaries, and abstractions you don't need yet. Keep functions focused. Apply DRY and SOLID pragmatically, not blindly.
 
@@ -54,10 +60,60 @@ decorations.filter(d => d.visible)
 
 ### Comments
 
-- Comment only when the reason is not visible in the code. Never restate what the lines below already say.
-- Two lines max. Only genuinely complex or hard to follow code earns more.
-- Say why, not what: `// We keep the old value because the transaction may be reverted.`
-- JSDoc on public APIs with `@param`, `@returns` and a runnable example. Those examples generate our API docs.
+Comments are a last resort. Prefer code that explains itself through clear names, structure, and small functions.
+
+- Default to **no comment**.
+- Comment only when the **reason for a decision is not apparent from the code**.
+- Keep comments **short, local, and intent-focused**.
+- Prefer a short one-line fragment or sentence.
+- Never restate what the code does.
+- Never narrate control flow.
+- Never explain surrounding architecture, history, edge cases, or implementation details unless they are essential to understanding the decision.
+- Never use comments as a substitute for clearer code, naming, or structure.
+- Do not write prose paragraphs, mini-documentation, or essay-style explanations in implementation code.
+- Do not add examples, scenarios, or parenthetical explanations to comments.
+- Do not use multi-line comments just because an explanation can be written. If it cannot be expressed concisely, reconsider whether the comment belongs in the code at all.
+- Existing verbose comments are not a style precedent. Do not imitate them.
+- When modifying code, remove comments that merely describe code made obvious by the change.
+
+Prefer:
+
+```ts
+// Skip empty text nodes
+// Preserve the original selection
+// Stop after the first match
+// Avoid dispatching during composition
+// Keep inactive editors measurable
+// Prevent collisions with imported IDs
+```
+
+Avoid:
+
+```ts
+// While composition is running, the update handler exits early because the
+// view is still composing. The final update may also contain no document or
+// selection changes, which means the menu would otherwise never update.
+```
+
+```ts
+/**
+ * Page content width used for the off-screen host. This is necessary because
+ * inactive editors need to remain measurable for ResizeObserver to detect
+ * changes while no overlay is currently open.
+ */
+```
+
+```ts
+/**
+ * Generates a unique endnote ID. Imported documents use numeric DOCX IDs,
+ * while client-created endnotes use this prefix to ensure that IDs cannot
+ * collide with imported endnotes or footnotes.
+ */
+```
+
+If a short comment loses useful detail, that detail usually belongs in the code structure, a test, commit/PR description, or documentation instead.
+
+JSDoc is exempt **only when it documents a public API**. Public API JSDoc should still be concise and include `@param`, `@returns`, and a runnable example where appropriate.
 
 ### Writing
 
@@ -71,7 +127,12 @@ Then run `pnpm fallow` for complexity and dead code, `pnpm fallow:health` for re
 
 ## Tests
 
-- Unit: Vitest, in `packages/**/__tests__/`, running on happy-dom.
+- Unit: Vitest, running on happy-dom. Place file-specific tests next to the file they cover and name them `<basename>.test.ts` (for example, `getAttributes.ts` uses `getAttributes.test.ts`).
+- Every package keeps a `tests/` folder next to `src/` for package-wide tests and support. Put integration tests that exercise multiple source files or runtime wiring in `tests/integration/`.
+- Put reusable package test utilities in `tests/utils/`. Put shared package test setup in `tests/setup/` only when multiple tests use it.
+- Fixtures are passive inputs loaded by tests, not executable tests. Put scenario or reproduction data in `tests/fixtures/`.
+- Put file-based fixtures in `tests/fixtures/files/`. Use a more specific subfolder when the fixture type needs it, such as `tests/fixtures/markdown/`.
+- Keep one-off mocks and helpers next to the test that uses them.
 - E2E: Playwright, next to the demo it drives as `demos/src/**/index.spec.ts`. Playwright starts the demo server itself on port 4080, no separate terminal. Helpers live in `demos/test/helpers.ts`. Copy `demos/src/Commands/Cut/index.spec.ts` as a template.
 
 ## Demos

@@ -1,4 +1,4 @@
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import { DecorationSet } from '@tiptap/pm/view'
 
 import type { Decoration } from '../Decoration.js'
@@ -12,7 +12,7 @@ import { decorationsToPMDecorations } from './decorationsToPMDecorations.js'
  * @returns The built decoration set and the widget keys.
  */
 export function buildDecorationSet(
-  doc: Node,
+  doc: PMNode,
   decorations: Decoration[],
   extensionName?: string,
 ): { set: DecorationSet; widgetKeys: Set<string> } {

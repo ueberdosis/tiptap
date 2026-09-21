@@ -1,4 +1,4 @@
-import type { Fragment, Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Fragment, Node as PMNode } from '@tiptap/pm/model'
 
 /**
  * Checks whether a node or fragment is a fragment. Looks for a missing `type` field,
@@ -9,6 +9,6 @@ import type { Fragment, Node as ProseMirrorNode } from '@tiptap/pm/model'
  * isFragment(editor.state.doc.content)
  * ```
  */
-export function isFragment(nodeOrFragment: ProseMirrorNode | Fragment): nodeOrFragment is Fragment {
+export function isFragment(nodeOrFragment: PMNode | Fragment): nodeOrFragment is Fragment {
   return !('type' in nodeOrFragment)
 }

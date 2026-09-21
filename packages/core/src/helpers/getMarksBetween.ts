@@ -1,9 +1,9 @@
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 
 import type { MarkRange } from '../types.js'
 import { getMarkRange } from './getMarkRange.js'
 
-export function getMarksBetween(from: number, to: number, doc: ProseMirrorNode): MarkRange[] {
+export function getMarksBetween(from: number, to: number, doc: PMNode): MarkRange[] {
   const marks: MarkRange[] = []
 
   // get all inclusive marks on empty selection

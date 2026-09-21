@@ -10,7 +10,7 @@
 <script>
 import Emoji, { gitHubEmojis } from '@tiptap/extension-emoji'
 import StarterKit from '@tiptap/starter-kit'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 import { defineComponent } from 'vue'
 
 import suggestion from './suggestion.js'

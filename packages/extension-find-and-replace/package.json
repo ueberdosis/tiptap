@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/extension-find-and-replace",
-  "version": "3.30.0",
+  "version": "3.30.3",
   "description": "find and replace extension for tiptap",
   "keywords": [
     "tiptap",
@@ -39,7 +39,7 @@
     }
   },
   "scripts": {
-    "build": "tsup"
+    "build": "vp pack"
   },
   "dependencies": {
     "re2js": "^2.8.6"

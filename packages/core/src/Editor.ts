@@ -1,5 +1,5 @@
 /* oslint-disableno-empty-object-type */
-import type { MarkType, Node as ProseMirrorNode, NodeType, Schema } from '@tiptap/pm/model'
+import type { MarkType, Node as PMNode, NodeType, Schema } from '@tiptap/pm/model'
 import type { Plugin, PluginKey, Transaction } from '@tiptap/pm/state'
 import { EditorState } from '@tiptap/pm/state'
 import { type DirectEditorProps, EditorView } from '@tiptap/pm/view'
@@ -252,6 +252,10 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Create a command chain to call multiple commands at once.
    */
   public chain(): ChainedCommands {
+    if (!this.commandManager) {
+      return CommandManager.createFakeChain()
+    }
+
     return this.commandManager.chain()
   }
 
@@ -259,6 +263,10 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Check if a command or a command chain can be executed. Without executing it.
    */
   public can(): CanCommands {
+    if (!this.commandManager) {
+      return CommandManager.createFallbackCan()
+    }
+
     return this.commandManager.can()
   }
 
@@ -506,8 +514,8 @@ export class Editor extends EventEmitter<EditorEvents> {
   /**
    * Creates the initial document.
    */
-  private createDoc(): ProseMirrorNode {
-    let doc: ProseMirrorNode
+  private createDoc(): PMNode {
+    let doc: PMNode
 
     try {
       doc = createDocument(this.options.content, this.schema, this.options.parseOptions, {
@@ -828,15 +836,13 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.destroyed = true
 
     this.emit('destroy')
-
     this.unmount()
-
     this.removeAllListeners()
 
     this.extensionManager.destroy()
     this.extensionManager = null as any
     this.schema = null as any
-    this.commandManager = null as any
+    this.commandManager = null as unknown as CommandManager
     this.extensionStorage = {} as Storage
   }
 

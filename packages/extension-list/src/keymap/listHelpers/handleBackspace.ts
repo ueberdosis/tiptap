@@ -1,6 +1,6 @@
 import type { Editor } from '@tiptap/core'
 import { isAtStartOfNode, isNodeActive } from '@tiptap/core'
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 
 import { hasListBefore } from './hasListBefore.js'
 
@@ -24,7 +24,7 @@ export const handleBackspace = (editor: Editor, name: string, parentListTypes: s
 
     const $listPos = editor.state.doc.resolve($anchor.before() - 1)
 
-    const listDescendants: Array<{ node: Node; pos: number }> = []
+    const listDescendants: Array<{ node: PMNode; pos: number }> = []
 
     $listPos.node().descendants((node, pos) => {
       if (node.type.name === name) {

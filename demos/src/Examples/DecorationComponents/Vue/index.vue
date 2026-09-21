@@ -10,7 +10,7 @@ import '../styles.scss'
 import { Extension } from '@tiptap/core'
 import UniqueID from '@tiptap/extension-unique-id'
 import StarterKit from '@tiptap/starter-kit'
-import { Editor, EditorContent, VueWidgetRenderer } from '@tiptap/vue-3'
+import { Editor, EditorContent, VueWidgetRenderer } from '@tiptap/vue'
 
 import Counter from './Counter.vue'
 

@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/html",
-  "version": "3.30.0",
+  "version": "3.30.3",
   "description": "utility package to render tiptap JSON as HTML",
   "keywords": [
     "tiptap",
@@ -51,7 +51,7 @@
     }
   },
   "scripts": {
-    "build": "tsup"
+    "build": "vp pack"
   },
   "devDependencies": {
     "@tiptap/core": "workspace:^",

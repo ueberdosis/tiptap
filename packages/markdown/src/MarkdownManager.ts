@@ -1281,11 +1281,27 @@ export class MarkdownManager {
 
       if (node.type === 'text') {
         let textContent = this.encodeTextForMarkdown(node.text || '', node, parentNode)
-        const currentMarks = new Map((node.marks || []).map(mark => [mark.type, mark]))
+        let currentMarks = new Map((node.marks || []).map(mark => [mark.type, mark]))
 
         // Find marks that need to be closed and opened
-        const marksToOpen = this.getMarksToOpenForSerialization(activeMarks, currentMarks, nextNode)
-        const marksToClose = findMarksToClose(currentMarks, nextNode)
+        let marksToOpen = this.getMarksToOpenForSerialization(activeMarks, currentMarks, nextNode)
+        let marksToClose = findMarksToClose(currentMarks, nextNode)
+
+        // Whitespace-only text has nothing to wrap; drop marks that open and close here
+        const isWhitespaceOnly = textContent.length > 0 && textContent.trim().length === 0
+        if (isWhitespaceOnly && currentMarks.size > 0) {
+          const transientMarks = new Set(
+            marksToClose.filter(markType => !activeMarks.has(markType)),
+          )
+
+          if (transientMarks.size > 0) {
+            currentMarks = new Map(
+              Array.from(currentMarks).filter(([markType]) => !transientMarks.has(markType)),
+            )
+            marksToOpen = this.getMarksToOpenForSerialization(activeMarks, currentMarks, nextNode)
+            marksToClose = findMarksToClose(currentMarks, nextNode)
+          }
+        }
 
         // When marks simultaneously close (old) AND open (new) at this boundary, the naive
         // approach of appending old-close and prepending new-open produces interleaved

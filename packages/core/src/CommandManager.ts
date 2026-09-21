@@ -103,6 +103,34 @@ export class CommandManager {
     return chain
   }
 
+  /**
+   * Creates a chain that safely returns `false` when run.
+   * @returns A non-dispatching command chain.
+   * @example
+   * const chain = CommandManager.createFakeChain()
+   * chain.focus().run() // false
+   */
+  public static createFakeChain(): ChainedCommands {
+    const chain = new Proxy(
+      {},
+      {
+        get: (_target, property) => {
+          if (property === 'then') {
+            return undefined
+          }
+
+          if (property === 'run') {
+            return () => false
+          }
+
+          return () => chain
+        },
+      },
+    ) as ChainedCommands
+
+    return chain
+  }
+
   public createCan(startTr?: Transaction): CanCommands {
     const { rawCommands, state } = this
     const dispatch = false
@@ -118,6 +146,37 @@ export class CommandManager {
       ...formattedCommands,
       chain: () => this.createChain(tr, dispatch),
     } as CanCommands
+  }
+
+  /**
+   * Creates capability checks that safely return `false`.
+   * @returns A non-dispatching capability checker.
+   * @example
+   * const can = CommandManager.createFallbackCan()
+   * can.focus() // false
+   */
+  public static createFallbackCan(): CanCommands {
+    const chain = CommandManager.createFakeChain()
+    const can = new Proxy(
+      {
+        chain: () => chain,
+      },
+      {
+        get: (target, property) => {
+          if (property === 'then') {
+            return undefined
+          }
+
+          if (property === 'chain') {
+            return target.chain
+          }
+
+          return () => false
+        },
+      },
+    ) as CanCommands
+
+    return can
   }
 
   public buildProps(tr: Transaction, shouldDispatch = true): CommandProps {

@@ -1,5 +1,31 @@
 # Change Log
 
+## 3.30.3
+
+### Patch Changes
+
+- Updated dependencies [965a880]
+  - @tiptap/core@3.30.3
+  - @tiptap/pm@3.30.3
+
+## 3.30.2
+
+### Patch Changes
+
+- Updated dependencies [3dffed5]
+- Updated dependencies [214a140]
+  - @tiptap/core@3.30.2
+  - @tiptap/pm@3.30.2
+
+## 3.30.1
+
+### Patch Changes
+
+- 3c929ad: Fixed table markdown pipe escaping so the extension loads on older Safari and iOS versions (WebKit before Safari 16.4).
+- Updated dependencies [abc8828]
+  - @tiptap/core@3.30.1
+  - @tiptap/pm@3.30.1
+
 ## 3.30.0
 
 ### Patch Changes

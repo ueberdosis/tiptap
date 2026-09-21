@@ -1,4 +1,4 @@
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import { Fragment } from '@tiptap/pm/model'
 import type { EditorState } from '@tiptap/pm/state'
 import { Plugin } from '@tiptap/pm/state'
@@ -331,7 +331,7 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
         // if PasteRule is triggered by insertContent()
         const simulatedPasteMeta = transaction.getMeta('applyPasteRules') as
           | undefined
-          | { from: number; text: string | ProseMirrorNode | Fragment }
+          | { from: number; text: string | PMNode | Fragment }
         const isSimulatedPaste = !!simulatedPasteMeta
 
         if (!isPaste && !isDrop && !isSimulatedPaste) {

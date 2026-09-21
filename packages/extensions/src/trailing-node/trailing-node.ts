@@ -1,5 +1,5 @@
 import { Extension } from '@tiptap/core'
-import type { Node, NodeType } from '@tiptap/pm/model'
+import type { Node as PMNode, NodeType } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 export const skipTrailingNodeMeta = 'skipTrailingNode'
@@ -9,7 +9,7 @@ function nodeEqualsType({
   node,
 }: {
   types: NodeType | NodeType[]
-  node: Node | null | undefined
+  node: PMNode | null | undefined
 }) {
   return (node && Array.isArray(types) && types.includes(node.type)) || node?.type === types
 }

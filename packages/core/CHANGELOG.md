@@ -1,5 +1,27 @@
 # Change Log
 
+## 3.30.3
+
+### Patch Changes
+
+- 965a880: Fix JSX runtime to properly render nested sibling elements by spreading children arrays into DOMOutputSpec
+  - @tiptap/pm@3.30.3
+
+## 3.30.2
+
+### Patch Changes
+
+- 3dffed5: Keep mixed JSX children as separate siblings in DOM output.
+- 214a140: Fixed a bug where `editor.chain` and `editor.can` can not be accessed on editor initialization
+  - @tiptap/pm@3.30.2
+
+## 3.30.1
+
+### Patch Changes
+
+- abc8828: Added new ProseMirror helpers that check whether a value is a specific ProseMirror type.
+  - @tiptap/pm@3.30.1
+
 ## 3.30.0
 
 ### Minor Changes
