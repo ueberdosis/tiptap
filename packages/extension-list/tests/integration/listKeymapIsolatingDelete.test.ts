@@ -83,7 +83,7 @@ describe('ListKeymap Delete across isolating frames (#8321)', () => {
     editor?.destroy()
   })
 
-  it('joins the following paragraph in the same frame and leaves the next frame alone', () => {
+  it('moves the following paragraph into the list, then joins it without changing the next frame', () => {
     editor = new Editor({
       extensions: [Page, Paragraph, Text, Frame, OrderedList, ListItem, ListKeymap],
       content: isolatingFramesContent,
@@ -93,16 +93,30 @@ describe('ListKeymap Delete across isolating frames (#8321)', () => {
 
     expect(dispatchDelete(editor)).toBe(true)
 
-    const frames = editor.getJSON().content
-    const first = JSON.stringify(frames?.[0])
-    const second = JSON.stringify(frames?.[1])
+    const firstFrameAfterDelete = editor.state.doc.child(0)
+    const listAfterDelete = firstFrameAfterDelete.child(0)
 
-    expect(frames).toHaveLength(2)
-    expect(first).toContain('hello')
-    expect(first).toContain('world')
-    expect(first).not.toContain('whoops')
-    expect(second).toContain('whoops')
-    expect(second).not.toContain('world')
+    expect(firstFrameAfterDelete.childCount).toBe(1)
+    expect(listAfterDelete.type.name).toBe('orderedList')
+    expect(listAfterDelete.childCount).toBe(2)
+    expect(listAfterDelete.child(0).textContent).toBe('hello')
+    expect(listAfterDelete.child(1).textContent).toBe('world')
+    expect(editor.state.doc.childCount).toBe(2)
+    expect(editor.state.doc.child(1).textContent).toBe('whoops')
+
+    expect(dispatchDelete(editor)).toBe(true)
+
+    const doc = editor.state.doc
+    const firstFrame = doc.child(0)
+    const orderedList = firstFrame.child(0)
+
+    expect(doc.childCount).toBe(2)
+    expect(firstFrame.childCount).toBe(1)
+    expect(orderedList.type.name).toBe('orderedList')
+    expect(orderedList.childCount).toBe(1)
+    expect(orderedList.child(0).type.name).toBe('listItem')
+    expect(orderedList.child(0).textContent).toBe('helloworld')
+    expect(doc.child(1).textContent).toBe('whoops')
   })
 
   it('still joins two list items inside the same isolating frame', () => {
