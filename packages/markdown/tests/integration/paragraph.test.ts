@@ -313,11 +313,51 @@ describe('Paragraph Markdown Rendering', () => {
       const parsed = markdownManager.parse(markdown)
       const listItem = parsed.content![0].content![0]
 
-      expect(markdown).toBe('- First\n\n  \n\n  &nbsp;\n\n  Second')
+      expect(markdown).toBe('- First\n\n  &nbsp;\n\n  &nbsp;\n\n  Second')
       expect(listItem.type).toBe('listItem')
       expect(listItem.content).toHaveLength(4)
       expect(listItem.content![1].content).toEqual([])
       expect(listItem.content![2].content).toEqual([])
+    })
+
+    it('should preserve intentional empty paragraphs inside a list item on roundtrip', () => {
+      const doc = {
+        type: 'doc',
+        content: [
+          {
+            type: 'bulletList',
+            content: [
+              {
+                type: 'listItem',
+                content: [
+                  { type: 'paragraph', content: [{ type: 'text', text: 'First' }] },
+                  { type: 'paragraph', content: [] },
+                ],
+              },
+              {
+                type: 'listItem',
+                content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Second' }] }],
+              },
+            ],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.serialize(doc)
+      expect(markdown).toBe('- First\n\n  &nbsp;\n- Second')
+
+      const parsed = markdownManager.parse(markdown)
+      expect(parsed.content![0].type).toBe('bulletList')
+      const firstItem = parsed.content![0].content![0]
+      expect(firstItem.type).toBe('listItem')
+      expect(firstItem.content).toHaveLength(2)
+      expect(firstItem.content![0].content![0].text).toBe('First')
+      expect(firstItem.content![1].content).toEqual([])
+
+      const secondItem = parsed.content![0].content![1]
+      expect(secondItem.type).toBe('listItem')
+      expect(secondItem.content).toHaveLength(1)
+      expect(secondItem.content![0].content![0].text).toBe('Second')
     })
   })
 })

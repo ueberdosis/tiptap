@@ -123,9 +123,18 @@ export const Paragraph = Node.create<ParagraphOptions>({
 
       const isAdjacentToList =
         ctx?.parentType !== 'listItem' &&
+        ctx?.parentType !== 'taskItem' &&
         (isList(ctx?.previousNode?.type) || isList(ctx?.nextNode?.type))
 
-      return previousNodeIsEmptyParagraph || isAdjacentToList ? EMPTY_PARAGRAPH_MARKDOWN : ''
+      // Emit &nbsp; for intentional empty paragraphs inside list items (i.e. not an empty list item)
+      // so marked parses them as explicit paragraph tokens rather than gap whitespace tokens that get stripped.
+      const isIntentionalInListItem =
+        (ctx?.parentType === 'listItem' || ctx?.parentType === 'taskItem') &&
+        (Boolean(ctx?.previousNode) || Boolean(ctx?.nextNode))
+
+      return previousNodeIsEmptyParagraph || isAdjacentToList || isIntentionalInListItem
+        ? EMPTY_PARAGRAPH_MARKDOWN
+        : ''
     }
 
     return h.renderChildren(content)
