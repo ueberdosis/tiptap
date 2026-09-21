@@ -1,7 +1,7 @@
 import { Blockquote } from '@tiptap/extension-blockquote'
 import { Document } from '@tiptap/extension-document'
 import { Heading } from '@tiptap/extension-heading'
-import { BulletList, ListItem, OrderedList } from '@tiptap/extension-list'
+import { BulletList, ListItem, OrderedList, TaskItem, TaskList } from '@tiptap/extension-list'
 import { Paragraph } from '@tiptap/extension-paragraph'
 import { Text } from '@tiptap/extension-text'
 import { MarkdownManager } from '@tiptap/markdown'
@@ -21,6 +21,8 @@ describe('Paragraph Markdown Rendering', () => {
         BulletList,
         OrderedList,
         ListItem,
+        TaskList,
+        TaskItem,
       ],
     })
   })
@@ -358,6 +360,197 @@ describe('Paragraph Markdown Rendering', () => {
       expect(secondItem.type).toBe('listItem')
       expect(secondItem.content).toHaveLength(1)
       expect(secondItem.content![0].content![0].text).toBe('Second')
+    })
+
+    it('should preserve intentional empty paragraphs inside an ordered list item on roundtrip', () => {
+      const doc = {
+        type: 'doc',
+        content: [
+          {
+            type: 'orderedList',
+            content: [
+              {
+                type: 'listItem',
+                content: [
+                  { type: 'paragraph', content: [{ type: 'text', text: 'Step 1' }] },
+                  { type: 'paragraph', content: [] },
+                ],
+              },
+              {
+                type: 'listItem',
+                content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Step 2' }] }],
+              },
+            ],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.serialize(doc)
+      expect(markdown).toBe('1. Step 1\n\n   &nbsp;\n2. Step 2')
+
+      const parsed = markdownManager.parse(markdown)
+      expect(parsed.content![0].type).toBe('orderedList')
+      const firstItem = parsed.content![0].content![0]
+      expect(firstItem.type).toBe('listItem')
+      expect(firstItem.content).toHaveLength(2)
+      expect(firstItem.content![0].content![0].text).toBe('Step 1')
+      expect(firstItem.content![1].content).toEqual([])
+
+      const secondItem = parsed.content![0].content![1]
+      expect(secondItem.type).toBe('listItem')
+      expect(secondItem.content).toHaveLength(1)
+      expect(secondItem.content![0].content![0].text).toBe('Step 2')
+    })
+
+    it('should preserve an empty paragraph between two ordered lists on roundtrip', () => {
+      const doc = {
+        type: 'doc',
+        content: [
+          {
+            type: 'orderedList',
+            content: [
+              {
+                type: 'listItem',
+                content: [{ type: 'paragraph', content: [{ type: 'text', text: 'List 1 item' }] }],
+              },
+            ],
+          },
+          { type: 'paragraph', content: [] },
+          {
+            type: 'orderedList',
+            content: [
+              {
+                type: 'listItem',
+                content: [{ type: 'paragraph', content: [{ type: 'text', text: 'List 2 item' }] }],
+              },
+            ],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.serialize(doc)
+      expect(markdown).toBe('1. List 1 item\n\n&nbsp;\n\n1. List 2 item')
+
+      const parsed = markdownManager.parse(markdown)
+      expect(parsed.content).toHaveLength(3)
+      expect(parsed.content![0].type).toBe('orderedList')
+      expect(parsed.content![1].type).toBe('paragraph')
+      expect(parsed.content![2].type).toBe('orderedList')
+    })
+
+    it('should preserve an empty paragraph between a bullet list and an ordered list on roundtrip', () => {
+      const doc = {
+        type: 'doc',
+        content: [
+          {
+            type: 'bulletList',
+            content: [
+              {
+                type: 'listItem',
+                content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Bullet item' }] }],
+              },
+            ],
+          },
+          { type: 'paragraph', content: [] },
+          {
+            type: 'orderedList',
+            content: [
+              {
+                type: 'listItem',
+                content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Ordered item' }] }],
+              },
+            ],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.serialize(doc)
+      expect(markdown).toBe('- Bullet item\n\n&nbsp;\n\n1. Ordered item')
+
+      const parsed = markdownManager.parse(markdown)
+      expect(parsed.content).toHaveLength(3)
+      expect(parsed.content![0].type).toBe('bulletList')
+      expect(parsed.content![1].type).toBe('paragraph')
+      expect(parsed.content![2].type).toBe('orderedList')
+    })
+
+    it('should preserve an intentional empty paragraph before a nested list on roundtrip', () => {
+      const doc = {
+        type: 'doc',
+        content: [
+          {
+            type: 'bulletList',
+            content: [
+              {
+                type: 'listItem',
+                content: [
+                  { type: 'paragraph', content: [{ type: 'text', text: 'Parent' }] },
+                  { type: 'paragraph', content: [] },
+                  {
+                    type: 'bulletList',
+                    content: [
+                      {
+                        type: 'listItem',
+                        content: [
+                          { type: 'paragraph', content: [{ type: 'text', text: 'Child' }] },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.serialize(doc)
+      expect(markdown).toBe('- Parent\n\n  &nbsp;\n  - Child')
+
+      const parsed = markdownManager.parse(markdown)
+      const parentItem = parsed.content![0].content![0]
+      expect(parentItem.type).toBe('listItem')
+      expect(parentItem.content).toHaveLength(3)
+      expect(parentItem.content![0].content![0].text).toBe('Parent')
+      expect(parentItem.content![1].content).toEqual([])
+      expect(parentItem.content![2].type).toBe('bulletList')
+    })
+
+    it('should preserve an empty paragraph between a task list and a bullet list on roundtrip', () => {
+      const doc = {
+        type: 'doc',
+        content: [
+          {
+            type: 'taskList',
+            content: [
+              {
+                type: 'taskItem',
+                attrs: { checked: false },
+                content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Task 1' }] }],
+              },
+            ],
+          },
+          { type: 'paragraph', content: [] },
+          {
+            type: 'bulletList',
+            content: [
+              {
+                type: 'listItem',
+                content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Bullet 1' }] }],
+              },
+            ],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.serialize(doc)
+      expect(markdown).toBe('- [ ] Task 1\n\n&nbsp;\n\n- Bullet 1')
+
+      const parsed = markdownManager.parse(markdown)
+      expect(parsed.content).toHaveLength(3)
+      expect(parsed.content![0].type).toBe('taskList')
+      expect(parsed.content![1].type).toBe('paragraph')
+      expect(parsed.content![2].type).toBe('bulletList')
     })
   })
 })
