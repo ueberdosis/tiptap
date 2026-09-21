@@ -85,6 +85,14 @@ function collapseWhitespace(s: string) {
   return (s || '').replaceAll(DEFAULT_CELL_LINE_SEPARATOR, ' ').replace(/\s+/g, ' ').trim()
 }
 
+function replaceCellLineSeparator(value: string, cellLineSeparator?: string) {
+  if (!cellLineSeparator) {
+    return value
+  }
+
+  return value.split(cellLineSeparator).join('\n')
+}
+
 export function renderTableToMarkdown(
   node: JSONContent,
   h: MarkdownRendererHelpers,
@@ -106,17 +114,17 @@ export function renderTableToMarkdown(
 
         if (cellNode.content && Array.isArray(cellNode.content) && cellNode.content.length > 1) {
           const parts = cellNode.content.map(child =>
-            h.renderChildren(child as unknown as JSONContent),
+            replaceCellLineSeparator(
+              h.renderChildren(child as unknown as JSONContent),
+              options.cellLineSeparator,
+            ),
           )
           raw = parts.join('\n')
         } else {
-          raw = cellNode.content
-            ? h.renderChildren(cellNode.content as unknown as JSONContent[])
-            : ''
-        }
-
-        if (options.cellLineSeparator) {
-          raw = raw.split(options.cellLineSeparator).join('\n')
+          raw = replaceCellLineSeparator(
+            cellNode.content ? h.renderChildren(cellNode.content as unknown as JSONContent[]) : '',
+            options.cellLineSeparator,
+          )
         }
 
         // Cells have to stay on a single line, so line breaks become <br> tags.

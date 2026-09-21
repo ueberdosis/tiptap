@@ -97,4 +97,27 @@ describe('renderTableToMarkdown', () => {
     expect(markdown).not.toContain('\u001F')
     expect(markdown).toContain('line one<br>line two')
   })
+
+  it('preserves an empty paragraph when cellLineSeparator is two newlines', () => {
+    const markdown = renderTableToMarkdown(
+      {
+        type: 'table',
+        content: [
+          {
+            type: 'tableRow',
+            content: [
+              {
+                type: 'tableCell',
+                content: [paragraph('one'), { type: 'paragraph', content: [] }, paragraph('two')],
+              },
+            ],
+          },
+        ],
+      },
+      markdownHelpers,
+      { cellLineSeparator: '\n\n' },
+    )
+
+    expect(markdown).toContain('one<br><br>two')
+  })
 })
