@@ -304,13 +304,34 @@ export interface ExtendableConfig<
 
   /**
    * The parse function used by the markdown parser to convert markdown tokens to ProseMirror nodes.
+   *
+   * Bound to the configured extension instance, so `this.name`, `this.options`
+   * and `this.storage` are available even when parsing without an Editor.
    */
-  parseMarkdown?: (token: MarkdownToken, helpers: MarkdownParseHelpers) => MarkdownParseResult
+  parseMarkdown?: (
+    this: {
+      name: string
+      options: Options
+      storage: Storage
+      parent: ParentConfig<Config>['parseMarkdown']
+    },
+    token: MarkdownToken,
+    helpers: MarkdownParseHelpers,
+  ) => MarkdownParseResult
 
   /**
    * The serializer function used by the markdown serializer to convert ProseMirror nodes to markdown tokens.
+   *
+   * Bound to the configured extension instance, so `this.name`, `this.options`
+   * and `this.storage` are available even when serializing without an Editor.
    */
   renderMarkdown?: (
+    this: {
+      name: string
+      options: Options
+      storage: Storage
+      parent: ParentConfig<Config>['renderMarkdown']
+    },
     node: JSONContent,
     helpers: MarkdownRendererHelpers,
     ctx: RenderContext,
