@@ -132,6 +132,11 @@ export class MarkdownManager {
     const isCode = callOrReturn(getExtensionField(extension, 'code'))
 
     const name = extension.name
+    const extensionContext = {
+      name,
+      options: extension.options,
+      storage: extension.storage,
+    }
 
     if (isCode) {
       this.codeTypes.add(name)
@@ -144,20 +149,21 @@ export class MarkdownManager {
       (getExtensionField(
         extension,
         'markdownTokenName',
+        extensionContext,
       ) as ExtendableConfig['markdownTokenName']) || name
-    const parseMarkdown = getExtensionField(extension, 'parseMarkdown') as
+    const parseMarkdown = getExtensionField(extension, 'parseMarkdown', extensionContext) as
       | ExtendableConfig['parseMarkdown']
       | undefined
-    const renderMarkdown = getExtensionField(extension, 'renderMarkdown') as
+    const renderMarkdown = getExtensionField(extension, 'renderMarkdown', extensionContext) as
       | ExtendableConfig['renderMarkdown']
       | undefined
-    const tokenizer = getExtensionField(extension, 'markdownTokenizer') as
+    const tokenizer = getExtensionField(extension, 'markdownTokenizer', extensionContext) as
       | ExtendableConfig['markdownTokenizer']
       | undefined
 
     // Read the `markdown` object from the extension config. This allows
     // extensions to provide `markdown: { name?, parseName?, renderName?, parse?, render?, match? }`.
-    const markdownCfg = (getExtensionField(extension, 'markdownOptions') ??
+    const markdownCfg = (getExtensionField(extension, 'markdownOptions', extensionContext) ??
       null) as ExtendableConfig['markdownOptions']
     const isIndenting = markdownCfg?.indentsContent ?? false
     const htmlReopen = markdownCfg?.htmlReopen
