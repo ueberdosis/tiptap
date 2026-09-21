@@ -1,4 +1,4 @@
-import type { Attribute } from '@tiptap/core'
+import { type Attribute, isValidCSSStyleValue } from '@tiptap/core'
 
 /**
  * Supported table cell alignment values
@@ -36,7 +36,7 @@ export function normalizeTableCellAlign(value: unknown): TableCellAlign | null {
  * @param element - The table cell/header DOM element
  * @returns A valid TableCellAlign value or null
  */
-export function parseAlign(element: HTMLElement): TableCellAlign | null {
+function parseAlign(element: HTMLElement): TableCellAlign | null {
   const styleAlign = (element.style.textAlign || '').trim().toLowerCase()
   const attrAlign = (element.getAttribute('align') || '').trim().toLowerCase()
   const align = styleAlign || attrAlign
@@ -65,13 +65,15 @@ export function createAlignAttribute(): Attribute {
   return {
     default: null,
     parseHTML: (element: HTMLElement) => parseAlign(element),
-    renderHTML: (attributes: { align?: TableCellAlign | null }) => {
-      if (!attributes.align) {
+    renderHTML: (attributes: { align?: unknown }) => {
+      const align = normalizeTableCellAlign(attributes.align)
+
+      if (!isValidCSSStyleValue(align)) {
         return {}
       }
 
       return {
-        style: `text-align: ${attributes.align}`,
+        style: `text-align: ${align}`,
       }
     },
   }
