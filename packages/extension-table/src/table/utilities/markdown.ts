@@ -82,7 +82,15 @@ export function preprocessTablePipes(src: string): string {
 }
 
 function collapseWhitespace(s: string) {
-  return (s || '').replace(/\s+/g, ' ').trim()
+  return (s || '').replaceAll(DEFAULT_CELL_LINE_SEPARATOR, ' ').replace(/\s+/g, ' ').trim()
+}
+
+function replaceCellLineSeparator(value: string, cellLineSeparator?: string) {
+  if (!cellLineSeparator) {
+    return value
+  }
+
+  return value.split(cellLineSeparator).join('\n')
 }
 
 export function renderTableToMarkdown(
@@ -90,8 +98,6 @@ export function renderTableToMarkdown(
   h: MarkdownRendererHelpers,
   options: { cellLineSeparator?: string } = {},
 ) {
-  const cellSep = options.cellLineSeparator ?? DEFAULT_CELL_LINE_SEPARATOR
-
   if (!node || !node.content || node.content.length === 0) {
     return ''
   }
@@ -107,25 +113,23 @@ export function renderTableToMarkdown(
         let raw = ''
 
         if (cellNode.content && Array.isArray(cellNode.content) && cellNode.content.length > 1) {
-          // Render each direct child separately and join with separator so we can split again later
           const parts = cellNode.content.map(child =>
-            h.renderChildren(child as unknown as JSONContent),
+            replaceCellLineSeparator(
+              h.renderChildren(child as unknown as JSONContent),
+              options.cellLineSeparator,
+            ),
           )
-          raw = parts.join(cellSep)
+          raw = parts.join('\n')
         } else {
-          raw = cellNode.content
-            ? h.renderChildren(cellNode.content as unknown as JSONContent[])
-            : ''
+          raw = replaceCellLineSeparator(
+            cellNode.content ? h.renderChildren(cellNode.content as unknown as JSONContent[]) : '',
+            options.cellLineSeparator,
+          )
         }
 
         // Cells have to stay on a single line, so line breaks become <br> tags.
         // The parser already turns <br> back into hard breaks, so this round trips.
-        const text = collapseWhitespace(
-          raw
-            .split(cellSep)
-            .join('\n')
-            .replace(/[ \t]*\r?\n[ \t]*/g, '<br>'),
-        )
+        const text = collapseWhitespace(raw.replace(/[ \t]*\r?\n[ \t]*/g, '<br>'))
         const isHeader = cellNode.type === 'tableHeader'
         const align = normalizeTableCellAlignFromAttributes(cellNode.attrs)
 
