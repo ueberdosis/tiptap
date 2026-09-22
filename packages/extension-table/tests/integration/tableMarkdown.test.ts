@@ -248,17 +248,20 @@ describe('table markdown line breaks', () => {
     expect(serialized).toContain('foo<br>bar')
   })
 
-  it('joins multiple paragraphs in a cell with <br>', () => {
+  it('joins multiple paragraphs in a cell with <br> and does not emit U+001F', () => {
     const doc = tableDoc([
       cell([
-        { type: 'paragraph', content: [{ type: 'text', text: 'one' }] },
-        { type: 'paragraph', content: [{ type: 'text', text: 'two' }] },
+        { type: 'paragraph', content: [{ type: 'text', text: 'line one' }] },
+        { type: 'paragraph', content: [{ type: 'text', text: 'line two' }] },
       ]),
+      cell([{ type: 'paragraph', content: [{ type: 'text', text: 'B' }] }]),
     ])
 
     const serialized = markdownManager.serialize(doc)
 
-    expect(serialized).toContain('one<br>two')
+    expect(serialized).toContain('line one<br>line two')
+    expect(serialized).toContain('| B')
+    expect(serialized.includes(String.fromCharCode(31))).toBe(false)
     expect(serialized).not.toContain('\u001F')
   })
 
