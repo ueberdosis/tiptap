@@ -538,6 +538,20 @@ describe('Markdown Conversion Tests', () => {
       expect(serialized).toBe('foo &amp;lt; bar')
     })
 
+    it('should decode decimal numeric entities like &#39; when parsing', () => {
+      const markdown = 'it&#39;s a test'
+      const json = markdownManager.parse(markdown)
+
+      expect(json.content[0].content[0].text).toBe("it's a test")
+    })
+
+    it('should decode hex numeric entities like &#x27; when parsing', () => {
+      const markdown = 'it&#x27;s a test'
+      const json = markdownManager.parse(markdown)
+
+      expect(json.content[0].content[0].text).toBe("it's a test")
+    })
+
     it('should preserve &nbsp; empty paragraph behavior', () => {
       const markdown = 'Line1\n\n&nbsp;\n\nLine2'
       const json = markdownManager.parse(markdown)
