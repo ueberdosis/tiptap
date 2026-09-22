@@ -85,6 +85,16 @@ const getCheckboxLabel = (node: PMNode, checked: boolean, a11y: TaskItemOptions[
   `Task item checkbox for ${node.textContent || 'empty task item'}`
 
 /**
+ * Markdown marker for empty paragraphs to preserve blank lines.
+ */
+const EMPTY_PARAGRAPH_MARKDOWN = '&nbsp;'
+
+/**
+ * Unicode character for non-breaking space (U+00A0).
+ */
+const NBSP_CHAR = '\u00A0'
+
+/**
  * This extension allows you to create task items.
  * @see https://www.tiptap.dev/api/nodes/task-item
  */
@@ -160,11 +170,30 @@ export const TaskItem = Node.create<TaskItemOptions>({
 
     // First, add the main paragraph content
     if (token.tokens && token.tokens.length > 0) {
-      // If we have tokens, create a paragraph with the inline content
-      content.push(h.createNode('paragraph', {}, h.parseInline(token.tokens)))
+      const inlineContent = h.parseInline(token.tokens)
+      const hasExplicitEmptyParagraphMarker =
+        token.tokens.length === 1 &&
+        (token.tokens[0].raw === EMPTY_PARAGRAPH_MARKDOWN ||
+          token.tokens[0].text === EMPTY_PARAGRAPH_MARKDOWN ||
+          token.tokens[0].raw === NBSP_CHAR ||
+          token.tokens[0].text === NBSP_CHAR)
+
+      const isEmptyMarker =
+        hasExplicitEmptyParagraphMarker &&
+        inlineContent.length === 1 &&
+        inlineContent[0].type === 'text' &&
+        (inlineContent[0].text === EMPTY_PARAGRAPH_MARKDOWN || inlineContent[0].text === NBSP_CHAR)
+
+      content.push(h.createNode('paragraph', {}, isEmptyMarker ? [] : inlineContent))
     } else if (token.text) {
-      // If we have raw text, create a paragraph with text node
-      content.push(h.createNode('paragraph', {}, [h.createNode('text', { text: token.text })]))
+      const isEmptyMarker = token.text === EMPTY_PARAGRAPH_MARKDOWN || token.text === NBSP_CHAR
+      content.push(
+        h.createNode(
+          'paragraph',
+          {},
+          isEmptyMarker ? [] : [h.createNode('text', { text: token.text })],
+        ),
+      )
     } else {
       // Fallback: empty paragraph
       content.push(h.createNode('paragraph', {}, []))

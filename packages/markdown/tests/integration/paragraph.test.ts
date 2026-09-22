@@ -552,5 +552,37 @@ describe('Paragraph Markdown Rendering', () => {
       expect(parsed.content![1].type).toBe('paragraph')
       expect(parsed.content![2].type).toBe('bulletList')
     })
+
+    it('should preserve an empty first paragraph in a task item on roundtrip', () => {
+      const doc = {
+        type: 'doc',
+        content: [
+          {
+            type: 'taskList',
+            content: [
+              {
+                type: 'taskItem',
+                attrs: { checked: false },
+                content: [
+                  { type: 'paragraph', content: [] },
+                  { type: 'paragraph', content: [{ type: 'text', text: 'Second' }] },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.serialize(doc)
+      expect(markdown).toBe('- [ ] &nbsp;\n\n  Second')
+
+      const parsed = markdownManager.parse(markdown)
+      expect(parsed.content![0].type).toBe('taskList')
+      const taskItem = parsed.content![0].content![0]
+      expect(taskItem.type).toBe('taskItem')
+      expect(taskItem.content).toHaveLength(2)
+      expect(taskItem.content![0].content).toEqual([])
+      expect(taskItem.content![1].content![0].text).toBe('Second')
+    })
   })
 })
