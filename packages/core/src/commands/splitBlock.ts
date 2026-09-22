@@ -99,12 +99,27 @@ export const splitBlock: RawCommands['splitBlock'] =
     }
 
     if (dispatch) {
-      if (can) {
-        if (selection instanceof TextSelection) {
-          tr.deleteSelection()
-        }
+      if (selection instanceof TextSelection) {
+        tr.deleteSelection()
+      }
 
-        tr.split(tr.mapping.map($from.pos), 1, types)
+      // Re-check canSplit after deletion: deleteSelection may merge or remove nodes,
+      // making the pre-deletion position invalid for split. This restores the v2.5.0
+      // ordering where both checks operated on the same document state.
+      const mappedPos = tr.mapping.map($from.pos)
+      let canAfterDelete = canSplit(tr.doc, mappedPos, 1, types)
+
+      if (
+        !types &&
+        !canAfterDelete &&
+        canSplit(tr.doc, mappedPos, 1, deflt ? [{ type: deflt }] : undefined)
+      ) {
+        canAfterDelete = true
+        types = deflt ? [{ type: deflt, attrs: newAttributes }] : undefined
+      }
+
+      if (canAfterDelete) {
+        tr.split(mappedPos, 1, types)
 
         if (deflt && !atEnd && !$from.parentOffset && $from.parent.type !== deflt) {
           const first = tr.mapping.map($from.before())
