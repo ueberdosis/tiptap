@@ -33,6 +33,7 @@ import {
   reopenMarksAfterNode,
   wrapInMarkdownBlock,
 } from './utils.js'
+import { collectMarkSpanTexts } from './utils/collectMarkSpanTexts.js'
 import { htmlContainsUnrecognizedTag } from './utils/htmlTagDetection.js'
 
 export class MarkdownManager {
@@ -1277,6 +1278,8 @@ export class MarkdownManager {
     const activeMarks: Map<string, any> = new Map()
     const reopenWithHtmlOnNextOpen = new Set<string>()
     const markOpeningModes = new Map<string, 'markdown' | 'html'>()
+    // Delimiters can depend on the whole mark run, not just one text node
+    const markSpanTexts = collectMarkSpanTexts(nodes)
     nodes.forEach((node, i) => {
       // Lookahead to the next node to determine if marks need to be closed
       const nextNode = i < nodes.length - 1 ? nodes[i + 1] : null
@@ -1350,6 +1353,7 @@ export class MarkdownManager {
                 markType,
                 mark,
                 markOpeningModes.get(markType),
+                markSpanTexts[i]?.get(markType),
               )
               if (closeMarkdown) {
                 textContent += closeMarkdown
@@ -1378,7 +1382,12 @@ export class MarkdownManager {
         // so new marks correctly see them as active context.
         marksToOpen.forEach(({ type, mark }) => {
           const openingMode = reopenWithHtmlOnNextOpen.has(type) ? 'html' : 'markdown'
-          const openMarkdown = this.getMarkOpening(type, mark, openingMode)
+          const openMarkdown = this.getMarkOpening(
+            type,
+            mark,
+            openingMode,
+            markSpanTexts[i]?.get(type),
+          )
           if (openMarkdown) {
             textContent = openMarkdown + textContent
           }
@@ -1445,7 +1454,12 @@ export class MarkdownManager {
 
         marksToCloseAtEnd.forEach(markType => {
           const mark = activeMarks.get(markType) ?? currentMarks.get(markType)
-          const closeMarkdown = this.getMarkClosing(markType, mark, markOpeningModes.get(markType))
+          const closeMarkdown = this.getMarkClosing(
+            markType,
+            mark,
+            markOpeningModes.get(markType),
+            markSpanTexts[i]?.get(markType),
+          )
           if (closeMarkdown) {
             textContent += closeMarkdown
           }
@@ -1472,8 +1486,14 @@ export class MarkdownManager {
         })
 
         // Close all marks before the node
+        // The run ends on the previous node and restarts on the next one
         const beforeMarkdown = closeMarksBeforeNode(activeMarks, (markType, mark) => {
-          return this.getMarkClosing(markType, mark, markOpeningModes.get(markType))
+          return this.getMarkClosing(
+            markType,
+            mark,
+            markOpeningModes.get(markType),
+            markSpanTexts[i - 1]?.get(markType),
+          )
         })
         markOpeningModes.clear()
 
@@ -1488,7 +1508,12 @@ export class MarkdownManager {
             : reopenMarksAfterNode(marksToReopen, activeMarks, (markType, mark) => {
                 const openingMode = openingModesToReopen.get(markType) ?? 'markdown'
                 markOpeningModes.set(markType, openingMode)
-                return this.getMarkOpening(markType, mark, openingMode)
+                return this.getMarkOpening(
+                  markType,
+                  mark,
+                  openingMode,
+                  markSpanTexts[i + 1]?.get(markType),
+                )
               })
 
         result.push(beforeMarkdown + nodeContent + afterMarkdown)
@@ -1505,6 +1530,7 @@ export class MarkdownManager {
     markType: string,
     mark: any,
     openingMode: 'markdown' | 'html' = 'markdown',
+    markText?: string,
   ): string {
     if (openingMode === 'html') {
       return this.getHtmlReopenTags(markType)?.open || ''
@@ -1535,7 +1561,7 @@ export class MarkdownManager {
           indent: (content: string) => content,
           wrapInBlock: (prefix: string, content: string) => prefix + content,
         },
-        { index: 0, level: 0, parentType: 'text', meta: {} },
+        { index: 0, level: 0, parentType: 'text', meta: { markText } },
       )
 
       // Extract the opening part (everything before placeholder)
@@ -1553,6 +1579,7 @@ export class MarkdownManager {
     markType: string,
     mark: any,
     openingMode: 'markdown' | 'html' = 'markdown',
+    markText?: string,
   ): string {
     if (openingMode === 'html') {
       return this.getHtmlReopenTags(markType)?.close || ''
@@ -1582,7 +1609,7 @@ export class MarkdownManager {
           indent: (content: string) => content,
           wrapInBlock: (prefix: string, content: string) => prefix + content,
         },
-        { index: 0, level: 0, parentType: 'text', meta: {} },
+        { index: 0, level: 0, parentType: 'text', meta: { markText } },
       )
 
       // Extract the closing part (everything after placeholder)
