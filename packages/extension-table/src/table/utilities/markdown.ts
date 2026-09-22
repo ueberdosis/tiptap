@@ -93,6 +93,11 @@ function replaceCellLineSeparator(value: string, cellLineSeparator?: string) {
   return value.split(cellLineSeparator).join('\n')
 }
 
+function escapePipesInCellText(text: string) {
+  // Keep already escaped pipes as they are
+  return text.replace(/\\.|\|/g, match => (match === '|' ? '\\|' : match))
+}
+
 export function renderTableToMarkdown(
   node: JSONContent,
   h: MarkdownRendererHelpers,
@@ -129,7 +134,8 @@ export function renderTableToMarkdown(
 
         // Cells have to stay on a single line, so line breaks become <br> tags.
         // The parser already turns <br> back into hard breaks, so this round trips.
-        const text = collapseWhitespace(raw.replace(/[ \t]*\r?\n[ \t]*/g, '<br>'))
+        const singleLine = collapseWhitespace(raw.replace(/[ \t]*\r?\n[ \t]*/g, '<br>'))
+        const text = escapePipesInCellText(singleLine)
         const isHeader = cellNode.type === 'tableHeader'
         const align = normalizeTableCellAlignFromAttributes(cellNode.attrs)
 
