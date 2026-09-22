@@ -3,12 +3,8 @@ import { Plugin } from '@tiptap/pm/state'
 
 import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core'
 
-import {
-  buildNestedStructure,
-  collectOrderedListItems,
-  parseListItems,
-  parsePlainTextOrderedListPaste,
-} from './utils.js'
+import { collectOrderedListItemsFromSource } from './collectOrderedListItemsFromSource.js'
+import { buildNestedStructure, parseListItems, parsePlainTextOrderedListPaste } from './utils.js'
 
 const ListItemName = 'listItem'
 const TextStyleName = 'textStyle'
@@ -236,8 +232,7 @@ export const OrderedList = Node.create<OrderedListOptions>({
     // `tokenize`, which would re-introduce the mid-line split.
     start: () => -1,
     tokenize: (src: string, _tokens, lexer) => {
-      const lines = src.split('\n')
-      const [listItems, consumed] = collectOrderedListItems(lines)
+      const [listItems, consumed, lines] = collectOrderedListItemsFromSource(src)
 
       if (listItems.length === 0) {
         return undefined
