@@ -41,13 +41,14 @@ test.describe(`${demoPath}/${demoName}`, () => {
       })
 
       test('adds a counter with the next index for a new paragraph', async ({ page }) => {
+        const editor = await getEditor(page)
         const counters = page.locator('.decoration-counter')
 
         await expect(counters).toHaveCount(2)
 
         await focusEditorEnd(page)
-        await page.keyboard.press('Enter')
-        await page.keyboard.type('A third paragraph.')
+        await editor.press('Enter')
+        await editor.type('A third paragraph.')
 
         await expect(counters).toHaveCount(3)
         await expect(counters).toHaveText(['¶ 1 · 👍 0', '¶ 2 · 👍 0', '¶ 3 · 👍 0'])

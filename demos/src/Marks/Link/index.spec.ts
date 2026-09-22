@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test'
+import type { Locator, Page } from '@playwright/test'
 
 import { getEditor, setEditorContent } from '../../../test/helpers.js'
 
@@ -6,17 +7,9 @@ const demoName = 'Link'
 const frameworkPaths = ['React', 'Vue']
 const demoPath = '/src/Marks'
 
-async function paste(
-  editor: ReturnType<typeof getEditor> extends Promise<infer T> ? T : never,
-  payload: string,
-) {
-  await editor.evaluate((el: HTMLElement, text: string) => {
-    const dt = new DataTransfer()
-    dt.setData('text/plain', text)
-    el.dispatchEvent(
-      new ClipboardEvent('paste', { clipboardData: dt, bubbles: true, cancelable: true }),
-    )
-  }, payload)
+async function paste(page: Page, editor: Locator, payload: string) {
+  await page.evaluate(text => navigator.clipboard.writeText(text), payload)
+  await editor.press('ControlOrMeta+V')
 }
 
 test.describe(`${demoPath}/${demoName}`, () => {
@@ -24,7 +17,10 @@ test.describe(`${demoPath}/${demoName}`, () => {
     const fullDemoPath = `${demoPath}/${demoName}/${frameworkPath}/`
 
     test.describe(`${frameworkPath}`, () => {
-      test.beforeEach(async ({ page }) => {
+      test.beforeEach(async ({ page, browserName }) => {
+        if (browserName === 'chromium') {
+          await page.context().grantPermissions(['clipboard-read', 'clipboard-write'])
+        }
         await page.addInitScript(() => {
           ;(window as any).prompt = () => 'https://tiptap.dev'
         })
@@ -113,7 +109,7 @@ test.describe(`${demoPath}/${demoName}`, () => {
         const editor = await getEditor(page)
         await editor.evaluate((el: any) => el.editor.commands.clearContent())
         await editor.click()
-        await paste(editor, 'some text https://example1.com around an url')
+        await paste(page, editor, 'some text https://example1.com around an url')
         await expect(page.locator('.tiptap a')).toHaveAttribute('href', 'https://example1.com')
       })
 
@@ -121,7 +117,7 @@ test.describe(`${demoPath}/${demoName}`, () => {
         const editor = await getEditor(page)
         await editor.evaluate((el: any) => el.editor.commands.clearContent())
         await editor.click()
-        await paste(editor, 'https://example.com?paramA=nice&paramB=cool')
+        await paste(page, editor, 'https://example.com?paramA=nice&paramB=cool')
         await expect(page.locator('.tiptap a')).toHaveAttribute(
           'href',
           'https://example.com?paramA=nice&paramB=cool',
@@ -132,7 +128,7 @@ test.describe(`${demoPath}/${demoName}`, () => {
         const editor = await getEditor(page)
         await editor.evaluate((el: any) => el.editor.commands.clearContent())
         await editor.click()
-        await paste(editor, 'https://example.com')
+        await paste(page, editor, 'https://example.com')
         await page.keyboard.type(' hello')
         await expect(page.locator('.tiptap a')).toHaveText('https://example.com')
         await expect(page.locator('.tiptap')).toContainText('https://example.com hello')
@@ -162,7 +158,7 @@ test.describe(`${demoPath}/${demoName}`, () => {
         const editor = await getEditor(page)
         await editor.evaluate((el: any) => el.editor.commands.clearContent())
         await editor.click()
-        await paste(editor, 'Check out [Tiptap](https://example.com) today')
+        await paste(page, editor, 'Check out [Tiptap](https://example.com) today')
         await expect(page.locator('.tiptap a')).toContainText('Tiptap')
         await expect(page.locator('.tiptap a')).toHaveAttribute('href', 'https://example.com')
         await expect(page.locator('.tiptap')).toContainText('Check out Tiptap today')

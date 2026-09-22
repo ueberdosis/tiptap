@@ -59,15 +59,18 @@ test.describe(`${demoPath}/${demoName}`, () => {
 
           await editor.click()
           await editor.type('https://tiptap.dev ')
-          await editor.press('Home')
+          await editor.evaluate((el: any) => el.editor.commands.setTextSelection(2))
 
           await expect(page.locator('.tiptap')).toHaveText('https://tiptap.dev ')
 
           await page.locator('[data-testid=unsetLink]').click()
           await expect(page.locator('.tiptap a')).toHaveCount(0)
 
-          await editor.press('End')
-          await editor.type('http://www.example.com/ ')
+          await editor.focus()
+          await editor.evaluate((el: any) =>
+            el.editor.commands.setTextSelection(el.editor.state.doc.content.size - 1),
+          )
+          await page.keyboard.type('http://www.example.com/ ')
 
           await expect(page.locator('.tiptap a')).toHaveCount(1)
           await expect(page.locator('.tiptap a').first()).toHaveAttribute(
@@ -81,14 +84,17 @@ test.describe(`${demoPath}/${demoName}`, () => {
 
           await editor.click()
           await editor.type('https://tiptap.dev ')
-          await editor.press('Home')
+          await editor.evaluate((el: any) => el.editor.commands.setTextSelection(2))
           await expect(page.locator('.tiptap')).toHaveText('https://tiptap.dev ')
 
           await page.locator('[data-testid=unsetLink]').click()
           await expect(page.locator('.tiptap a')).toHaveCount(0)
 
-          await editor.press('End')
-          await editor.type(
+          await editor.focus()
+          await editor.evaluate((el: any) =>
+            el.editor.commands.setTextSelection(el.editor.state.doc.content.size - 1),
+          )
+          await page.keyboard.type(
             'typing other text should prevent the link from relinking when hitting enter',
           )
           await editor.press('Enter')
@@ -101,18 +107,17 @@ test.describe(`${demoPath}/${demoName}`, () => {
 
           await editor.click()
           await editor.type('https://tiptap.dev ')
-          await editor.press('Home')
+          await editor.evaluate((el: any) => el.editor.commands.setTextSelection(2))
           await expect(page.locator('.tiptap')).toHaveText('https://tiptap.dev ')
 
           await page.locator('[data-testid=unsetLink]').click()
           await expect(page.locator('.tiptap a')).toHaveCount(0)
 
-          await editor.press('Home')
-          await Array.from({ length: 'https://'.length }).reduce<Promise<void>>(
-            previousPromise => previousPromise.then(() => editor.press('ArrowRight')),
-            Promise.resolve(),
+          await editor.focus()
+          await editor.evaluate((el: any) =>
+            el.editor.commands.setTextSelection('https://'.length + 1),
           )
-          await editor.type('blah')
+          await page.keyboard.type('blah')
 
           await expect(page.locator('.tiptap')).toHaveText('https://blahtiptap.dev ')
           await expect(page.locator('.tiptap a')).toHaveCount(0)

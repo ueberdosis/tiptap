@@ -45,9 +45,9 @@ test.describe(`${demoPath}/${demoName}`, () => {
         await expect(page.locator('.tiptap h1')).toBeVisible()
 
         const editor = await getEditor(page)
-        await editor.click()
+        await editor.focus()
         await editor.evaluate((el: any) => el.editor.commands.selectAll())
-        await editor.press(process.platform === 'darwin' ? 'Meta+Alt+0' : 'Control+Alt+0')
+        await page.keyboard.press(process.platform === 'darwin' ? 'Meta+Alt+0' : 'Control+Alt+0')
 
         await expect(page.locator('.tiptap p').first()).toContainText('Example Text')
       })

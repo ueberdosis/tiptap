@@ -89,7 +89,9 @@ test.describe(`${demoPath}/${demoName}`, () => {
           await page.locator('.tiptap').type('@')
           await expect(page.locator('.dropdown-menu')).toBeVisible()
 
-          await page.locator('.tiptap').press('Home')
+          await page
+            .locator('.tiptap')
+            .evaluate((el: any) => el.editor.commands.setTextSelection(1))
           await expect(page.locator('.dropdown-menu')).toHaveCount(0)
         })
 
@@ -223,7 +225,9 @@ test.describe(`${demoPath}/${demoName}`, () => {
           await page.locator('.tiptap').type('#')
           await expect(page.locator('.dropdown-menu')).toBeVisible()
 
-          await page.locator('.tiptap').press('Home')
+          await page
+            .locator('.tiptap')
+            .evaluate((el: any) => el.editor.commands.setTextSelection(1))
           await expect(page.locator('.dropdown-menu')).toHaveCount(0)
         })
 
@@ -316,7 +320,9 @@ test.describe(`${demoPath}/${demoName}`, () => {
           await expect(page.locator('.dropdown-menu')).toBeVisible()
           await expect(page.locator('.dropdown-menu button').first()).toContainText('Lea Thompson')
 
-          await page.locator('.tiptap').press('Home')
+          await page
+            .locator('.tiptap')
+            .evaluate((el: any) => el.editor.commands.setTextSelection(1))
           await expect(page.locator('.dropdown-menu')).toHaveCount(0)
 
           await clearEditor(page)

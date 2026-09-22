@@ -49,7 +49,7 @@ test.describe(`${demoPath}/${demoName}`, () => {
         const editor = await getEditor(page)
 
         await focusEditorEnd(page)
-        await page.keyboard.type(' Tiptap rocks.')
+        await editor.type(' Tiptap rocks.')
 
         await expect(editor.locator('.decoration-highlight')).toHaveCount(3)
         await expect(editor.locator('.decoration-marker')).toHaveCount(3)
@@ -61,8 +61,8 @@ test.describe(`${demoPath}/${demoName}`, () => {
         const editor = await getEditor(page)
 
         await focusEditorEnd(page)
-        await page.keyboard.press('Enter')
-        await page.keyboard.type('## Fresh heading')
+        await editor.press('Enter')
+        await editor.type('## Fresh heading')
 
         await expect(editor.locator('h2')).toHaveCount(3)
         await expect(editor.locator('h2.decoration-heading')).toHaveCount(3)

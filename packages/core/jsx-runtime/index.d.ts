@@ -1,1 +1,1 @@
-export type * from '../src/jsx-runtime.ts'
+export * from '../dist/jsx-runtime/jsx-runtime.js'

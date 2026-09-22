@@ -44,10 +44,7 @@ test.describe(`${demoPath}/${demoName}`, () => {
 
         const editor = await getEditor(page)
 
-        await editor.click()
-        await page.keyboard.press('Home')
-        await page.keyboard.press('Shift+ArrowRight')
-        await page.keyboard.press('Shift+ArrowRight')
+        await editor.evaluate((el: any) => el.editor.commands.setTextSelection({ from: 1, to: 3 }))
 
         await expect
           .poll(() =>

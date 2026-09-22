@@ -36,16 +36,11 @@ test.describe(`${demoPath}/${demoName}`, () => {
         )
         const editor = await getEditor(page)
 
-        // Place cursor right after the emoji (before "hello")
-        await editor.click()
-        await page.keyboard.press('Home')
-        await page.keyboard.press('ArrowRight')
+        await editor.evaluate((el: any) => el.editor.commands.setTextSelection(2))
 
-        // Now press ArrowLeft — cursor should move before the emoji (position 0)
-        await page.keyboard.press('ArrowLeft')
+        await editor.press('ArrowLeft')
 
-        // Type a character to verify cursor is at position 0 (before emoji)
-        await page.keyboard.type('X')
+        await editor.type('X')
 
         // The "X" should appear before the emoji
         const html = await editor.evaluate((el: any) => el.editor.getHTML())
@@ -60,17 +55,11 @@ test.describe(`${demoPath}/${demoName}`, () => {
         )
         const editor = await getEditor(page)
 
-        // Place cursor at start and move right past "hi" to be just before the emoji
-        await editor.click()
-        await page.keyboard.press('Home')
-        await page.keyboard.press('ArrowRight')
-        await page.keyboard.press('ArrowRight')
+        await editor.evaluate((el: any) => el.editor.commands.setTextSelection(3))
 
-        // Now press ArrowRight — cursor should skip over the emoji
-        await page.keyboard.press('ArrowRight')
+        await editor.press('ArrowRight')
 
-        // Type a character to verify cursor is after the emoji (before "there")
-        await page.keyboard.type('Y')
+        await editor.type('Y')
 
         const html = await editor.evaluate((el: any) => el.editor.getHTML())
         expect(html).toMatch(/data-type="emoji".*Y.*there/)
