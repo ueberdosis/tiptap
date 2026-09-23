@@ -1207,10 +1207,10 @@ importers:
         version: 2.7.16
     optionalDependencies:
       '@tiptap/extension-bubble-menu':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-bubble-menu
       '@tiptap/extension-floating-menu':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-floating-menu
 
   packages/vue-3:
