@@ -65,7 +65,8 @@
   },
   "devDependencies": {
     "@tiptap/pm": "workspace:^",
-    "prosemirror-model": "^1.25.11"
+    "prosemirror-model": "^1.25.11",
+    "vite-plus": "catalog:"
   },
   "peerDependencies": {
     "@tiptap/pm": "workspace:*"
