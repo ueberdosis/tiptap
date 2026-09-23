@@ -1,5 +1,4 @@
-import type { EditorState } from '@tiptap/pm/state'
-import { NodeSelection, TextSelection } from '@tiptap/pm/state'
+import { EditorState, NodeSelection, TextSelection } from '@tiptap/pm/state'
 import { canSplit } from '@tiptap/pm/transform'
 
 import { defaultBlockAt } from '../helpers/defaultBlockAt.js'
@@ -80,13 +79,21 @@ export const splitBlock: RawCommands['splitBlock'] =
           ]
         : undefined
 
-    let can = canSplit(tr.doc, tr.mapping.map($from.pos), 1, types)
+    // Deleting the selection can restructure the document, so the split has to
+    // be validated against the document as it will look after the deletion.
+    // Simulate the deletion on a scratch transaction instead of mutating `tr`:
+    // the shared transaction is dispatched even when a command returns `false`,
+    // so it must stay untouched until the split is known to be possible.
+    const willDeleteSelection = selection instanceof TextSelection && !selection.empty
+    const deletedTr = willDeleteSelection
+      ? EditorState.create({ doc: tr.doc, selection }).tr.deleteSelection()
+      : null
+    const splitDoc = deletedTr ? deletedTr.doc : tr.doc
+    const splitPos = deletedTr ? deletedTr.mapping.map($from.pos) : $from.pos
 
-    if (
-      !types &&
-      !can &&
-      canSplit(tr.doc, tr.mapping.map($from.pos), 1, deflt ? [{ type: deflt }] : undefined)
-    ) {
+    let can = canSplit(splitDoc, splitPos, 1, types)
+
+    if (!types && !can && canSplit(splitDoc, splitPos, 1, deflt ? [{ type: deflt }] : undefined)) {
       can = true
       types = deflt
         ? [
@@ -100,18 +107,20 @@ export const splitBlock: RawCommands['splitBlock'] =
 
     if (dispatch) {
       if (can) {
+        const mapFrom = tr.steps.length
+
         if (selection instanceof TextSelection) {
           tr.deleteSelection()
         }
 
-        tr.split(tr.mapping.map($from.pos), 1, types)
+        tr.split(tr.mapping.slice(mapFrom).map($from.pos), 1, types)
 
         if (deflt && !atEnd && !$from.parentOffset && $from.parent.type !== deflt) {
-          const first = tr.mapping.map($from.before())
+          const first = tr.mapping.slice(mapFrom).map($from.before())
           const $first = tr.doc.resolve(first)
 
           if ($from.node(-1).canReplaceWith($first.index(), $first.index() + 1, deflt)) {
-            tr.setNodeMarkup(tr.mapping.map($from.before()), deflt)
+            tr.setNodeMarkup(tr.mapping.slice(mapFrom).map($from.before()), deflt)
           }
         }
       }
