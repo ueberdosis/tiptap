@@ -150,6 +150,29 @@ describe('extension table cell', () => {
     getEditorEl()?.remove()
   })
 
+  it('should not render configured spans for a cell with default spans', () => {
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [
+        Document,
+        Text,
+        Paragraph,
+        TableCell.configure({ HTMLAttributes: { colspan: 2, rowspan: 2 } }),
+        TableHeader,
+        TableRow,
+        Table,
+      ],
+      content: '<table><tr><td>Cell</td></tr></table>',
+    })
+
+    expect(editor.getHTML()).toContain('<td><p>Cell</p></td>')
+    expect(editor.view.dom.querySelector('td')?.hasAttribute('colspan')).toBe(false)
+    expect(editor.view.dom.querySelector('td')?.hasAttribute('rowspan')).toBe(false)
+
+    editor.destroy()
+    getEditorEl()?.remove()
+  })
+
   it('should keep colspan and rowspan when a cell actually spans', () => {
     const content = '<table><tbody><tr><td colspan="2" rowspan="3">Cell</td></tr></tbody></table>'
 

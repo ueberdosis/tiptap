@@ -5,7 +5,7 @@ import { mergeAttributes, Node } from '@tiptap/core'
 import { createAlignAttribute } from '../utils/parseAlign.js'
 import { parseColwidth } from '../utils/parseColwidth.js'
 import { fillEmptyCellContent, isEmptyCellElement } from '../utils/fillEmptyCellContent.js'
-import { renderSpanAttribute } from '../utils/renderSpanAttribute.js'
+import { omitDefaultSpanAttribute } from '../utils/omitDefaultSpanAttribute.js'
 
 export interface TableCellOptions {
   /**
@@ -64,17 +64,11 @@ export const TableCell = Node.create<TableCellOptions>({
   },
 
   renderHTML({ HTMLAttributes }) {
-    const { colspan, rowspan, ...attributes } = HTMLAttributes
+    const attributes = mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)
 
-    return [
-      'td',
-      mergeAttributes(
-        this.options.HTMLAttributes,
-        attributes,
-        renderSpanAttribute('colspan', colspan),
-        renderSpanAttribute('rowspan', rowspan),
-      ),
-      0,
-    ]
+    omitDefaultSpanAttribute(attributes, HTMLAttributes, 'colspan')
+    omitDefaultSpanAttribute(attributes, HTMLAttributes, 'rowspan')
+
+    return ['td', attributes, 0]
   },
 })
