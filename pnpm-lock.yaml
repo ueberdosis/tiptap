@@ -974,10 +974,10 @@ importers:
         version: 0.3.0(@types/node@22.20.1)(@voidzero-dev/vite-plus-core@0.3.0(@types/node@22.20.1)(jiti@2.6.1)(sass-embedded@1.100.0)(sass@1.100.0)(terser@5.50.0)(typescript@5.9.3))(happy-dom@20.11.2)(jiti@2.6.1)(sass-embedded@1.100.0)(sass@1.100.0)(svelte@5.56.8)(terser@5.50.0)(typescript@5.9.3)
     optionalDependencies:
       '@tiptap/extension-bubble-menu':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-bubble-menu
       '@tiptap/extension-floating-menu':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-floating-menu
 
   packages/starter-kit:
@@ -1093,10 +1093,10 @@ importers:
         version: 3.5.41(typescript@5.9.3)
     optionalDependencies:
       '@tiptap/extension-bubble-menu':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-bubble-menu
       '@tiptap/extension-floating-menu':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../extension-floating-menu
 
 packages:
