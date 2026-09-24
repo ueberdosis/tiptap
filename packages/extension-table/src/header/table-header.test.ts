@@ -130,4 +130,64 @@ describe('extension table header', () => {
     editor?.destroy()
     getEditorEl()?.remove()
   })
+
+  it('should not serialize the default colspan and rowspan', () => {
+    const content = '<table><tbody><tr><th>Cell</th></tr></tbody></table>'
+
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [Document, Text, Paragraph, TableCell, TableHeader, TableRow, Table],
+      content,
+    })
+
+    const html = editor.getHTML()
+
+    expect(html).toContain('<th><p>Cell</p></th>')
+    expect(html).not.toContain('colspan="1"')
+    expect(html).not.toContain('rowspan="1"')
+
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
+
+  it('should not render configured spans for a header with default spans', () => {
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [
+        Document,
+        Text,
+        Paragraph,
+        TableCell,
+        TableHeader.configure({ HTMLAttributes: { colspan: 2, rowspan: 2 } }),
+        TableRow,
+        Table,
+      ],
+      content: '<table><tr><th>Cell</th></tr></table>',
+    })
+
+    expect(editor.getHTML()).toContain('<th><p>Cell</p></th>')
+    expect(editor.view.dom.querySelector('th')?.hasAttribute('colspan')).toBe(false)
+    expect(editor.view.dom.querySelector('th')?.hasAttribute('rowspan')).toBe(false)
+
+    editor.destroy()
+    getEditorEl()?.remove()
+  })
+
+  it('should keep colspan and rowspan when a header actually spans', () => {
+    const content = '<table><tbody><tr><th colspan="2" rowspan="3">Cell</th></tr></tbody></table>'
+
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [Document, Text, Paragraph, TableCell, TableHeader, TableRow, Table],
+      content,
+    })
+
+    const html = editor.getHTML()
+
+    expect(html).toContain('colspan="2"')
+    expect(html).toContain('rowspan="3"')
+
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
 })
