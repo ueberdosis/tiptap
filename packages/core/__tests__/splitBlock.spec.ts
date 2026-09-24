@@ -2,7 +2,7 @@ import { Editor, Node } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { describe, expect, it } from 'vite-plus/test'
+import { afterEach, describe, expect, it } from 'vite-plus/test'
 
 const Callout = Node.create({
   name: 'callout',
@@ -21,11 +21,20 @@ const Callout = Node.create({
   },
 })
 
-const createEditor = (content: string) =>
-  new Editor({
+let editor: Editor
+
+const createEditor = (content: string) => {
+  editor = new Editor({
     extensions: [Document, Paragraph, Text, Callout],
     content,
   })
+
+  return editor
+}
+
+afterEach(() => {
+  editor.destroy()
+})
 
 describe('splitBlock', () => {
   it('splits a paragraph at the cursor', () => {
