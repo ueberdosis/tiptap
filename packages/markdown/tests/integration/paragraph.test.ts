@@ -1,4 +1,5 @@
 import { Blockquote } from '@tiptap/extension-blockquote'
+import { Code } from '@tiptap/extension-code'
 import { Document } from '@tiptap/extension-document'
 import { Heading } from '@tiptap/extension-heading'
 import { BulletList, ListItem, OrderedList, TaskItem, TaskList } from '@tiptap/extension-list'
@@ -16,6 +17,7 @@ describe('Paragraph Markdown Rendering', () => {
         Document,
         Paragraph,
         Text,
+        Code,
         Heading,
         Blockquote,
         BulletList,
@@ -583,6 +585,63 @@ describe('Paragraph Markdown Rendering', () => {
       expect(taskItem.content).toHaveLength(2)
       expect(taskItem.content![0].content).toEqual([])
       expect(taskItem.content![1].content![0].text).toBe('Second')
+    })
+
+    it('should preserve inline code containing &nbsp; inside a task item', () => {
+      const parsed = markdownManager.parse('- [ ] `&nbsp;`')
+      expect(parsed.content![0].type).toBe('taskList')
+      const taskItem = parsed.content![0].content![0]
+      expect(taskItem.type).toBe('taskItem')
+      expect(taskItem.content![0].content).toEqual([
+        {
+          type: 'text',
+          text: '&nbsp;',
+          marks: [{ type: 'code' }],
+        },
+      ])
+    })
+
+    it('should preserve an empty paragraph between two populated paragraphs in an ordered list item across repeated roundtrips', () => {
+      const doc = {
+        type: 'doc',
+        content: [
+          {
+            type: 'orderedList',
+            content: [
+              {
+                type: 'listItem',
+                content: [
+                  { type: 'paragraph', content: [{ type: 'text', text: 'first' }] },
+                  { type: 'paragraph', content: [] },
+                  { type: 'paragraph', content: [{ type: 'text', text: 'second' }] },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+
+      // First round trip
+      const markdown1 = markdownManager.serialize(doc)
+      expect(markdown1).toBe('1. first\n\n   &nbsp;\n\n   second')
+
+      const parsed1 = markdownManager.parse(markdown1)
+      const item1 = parsed1.content![0].content![0]
+      expect(item1.content).toHaveLength(3)
+      expect(item1.content![0].content![0].text).toBe('first')
+      expect(item1.content![1].content).toEqual([])
+      expect(item1.content![2].content![0].text).toBe('second')
+
+      // Second round trip
+      const markdown2 = markdownManager.serialize(parsed1)
+      expect(markdown2).toBe('1. first\n\n   &nbsp;\n\n   second')
+
+      const parsed2 = markdownManager.parse(markdown2)
+      const item2 = parsed2.content![0].content![0]
+      expect(item2.content).toHaveLength(3)
+      expect(item2.content![0].content![0].text).toBe('first')
+      expect(item2.content![1].content).toEqual([])
+      expect(item2.content![2].content![0].text).toBe('second')
     })
   })
 })

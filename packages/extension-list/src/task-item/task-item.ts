@@ -173,6 +173,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
       const inlineContent = h.parseInline(token.tokens)
       const hasExplicitEmptyParagraphMarker =
         token.tokens.length === 1 &&
+        token.tokens[0].type === 'text' &&
         (token.tokens[0].raw === EMPTY_PARAGRAPH_MARKDOWN ||
           token.tokens[0].text === EMPTY_PARAGRAPH_MARKDOWN ||
           token.tokens[0].raw === NBSP_CHAR ||
@@ -182,6 +183,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
         hasExplicitEmptyParagraphMarker &&
         inlineContent.length === 1 &&
         inlineContent[0].type === 'text' &&
+        (!inlineContent[0].marks || inlineContent[0].marks.length === 0) &&
         (inlineContent[0].text === EMPTY_PARAGRAPH_MARKDOWN || inlineContent[0].text === NBSP_CHAR)
 
       content.push(h.createNode('paragraph', {}, isEmptyMarker ? [] : inlineContent))
