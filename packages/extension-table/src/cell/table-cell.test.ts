@@ -131,6 +131,66 @@ describe('extension table cell', () => {
     getEditorEl()?.remove()
   })
 
+  it('should not serialize the default colspan and rowspan', () => {
+    const content = '<table><tbody><tr><td>Cell</td></tr></tbody></table>'
+
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [Document, Text, Paragraph, TableCell, TableHeader, TableRow, Table],
+      content,
+    })
+
+    const html = editor.getHTML()
+
+    expect(html).toContain('<td><p>Cell</p></td>')
+    expect(html).not.toContain('colspan="1"')
+    expect(html).not.toContain('rowspan="1"')
+
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
+
+  it('should not render configured spans for a cell with default spans', () => {
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [
+        Document,
+        Text,
+        Paragraph,
+        TableCell.configure({ HTMLAttributes: { colspan: 2, rowspan: 2 } }),
+        TableHeader,
+        TableRow,
+        Table,
+      ],
+      content: '<table><tr><td>Cell</td></tr></table>',
+    })
+
+    expect(editor.getHTML()).toContain('<td><p>Cell</p></td>')
+    expect(editor.view.dom.querySelector('td')?.hasAttribute('colspan')).toBe(false)
+    expect(editor.view.dom.querySelector('td')?.hasAttribute('rowspan')).toBe(false)
+
+    editor.destroy()
+    getEditorEl()?.remove()
+  })
+
+  it('should keep colspan and rowspan when a cell actually spans', () => {
+    const content = '<table><tbody><tr><td colspan="2" rowspan="3">Cell</td></tr></tbody></table>'
+
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [Document, Text, Paragraph, TableCell, TableHeader, TableRow, Table],
+      content,
+    })
+
+    const html = editor.getHTML()
+
+    expect(html).toContain('colspan="2"')
+    expect(html).toContain('rowspan="3"')
+
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
+
   it('should prefer the colwidth attribute over the colgroup col width', () => {
     const content =
       '<table><colgroup><col width="64" /><col /></colgroup><tbody><tr><td colwidth="200">hello</td><td>world</td></tr></tbody></table>'
