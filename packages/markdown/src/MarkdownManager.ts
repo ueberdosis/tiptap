@@ -34,6 +34,9 @@ import {
 import { collectMarkSpanTexts } from './utils/collectMarkSpanTexts.js'
 import { htmlContainsUnrecognizedTag } from './utils/htmlTagDetection.js'
 
+// Neither whitespace nor punctuation, as CommonMark defines them for emphasis
+const isWordCharacter = (character = '') => /^[^\s\p{P}\p{S}]$/u.test(character)
+
 export class MarkdownManager {
   private markedInstance: typeof marked
   private activeParseLexer: Lexer | null = null
@@ -1481,6 +1484,15 @@ export class MarkdownManager {
                   .map((mark: any) => [mark.type, mark]),
               )
 
+        const nodeContent = this.renderNodeToMarkdown(node, parentNode, i, level)
+        this.dropMarksWithoutValidDelimiters(
+          currentMarks,
+          activeMarks,
+          nextNode,
+          nodeContent,
+          result[result.length - 1]?.slice(-1),
+        )
+
         // A mark can only stay open if every mark opened before it stays open too
         const activeMarkTypes = Array.from(activeMarks.keys())
         const firstClosingIndex = activeMarkTypes.findIndex(markType => {
@@ -1513,7 +1525,6 @@ export class MarkdownManager {
           reopenWithHtmlOnNextOpen.delete(type)
         })
 
-        const nodeContent = this.renderNodeToMarkdown(node, parentNode, i, level)
         const afterMarkdown = this.closeMarks(
           findMarksToCloseAtEnd(activeMarks, currentMarks, nextNode, this.markSetsEqual.bind(this)),
           activeMarks,
@@ -1598,6 +1609,39 @@ export class MarkdownManager {
         return closing
       })
       .join('')
+  }
+
+  /**
+   * Drop emphasis marks from a non-text node when their delimiter would sit
+   * between a word and the node's punctuation, where it cannot parse.
+   */
+  private dropMarksWithoutValidDelimiters(
+    currentMarks: Map<string, any>,
+    activeMarks: Map<string, any>,
+    nextNode: JSONContent | null,
+    nodeContent: string,
+    previousCharacter?: string,
+  ) {
+    const nextCharacter = nextNode?.text?.[0]
+    const cannotOpen = isWordCharacter(previousCharacter) && !isWordCharacter(nodeContent[0])
+    const cannotClose =
+      isWordCharacter(nextCharacter) && !isWordCharacter(nodeContent[nodeContent.length - 1])
+
+    if (!cannotOpen && !cannotClose) {
+      return
+    }
+
+    const nextMarkTypes = new Set((nextNode?.marks || []).map(mark => mark.type))
+
+    currentMarks.forEach((mark, markType) => {
+      const opensHere = !activeMarks.has(markType)
+      const closesHere = !nextMarkTypes.has(markType)
+      const isEmphasis = /^[*_~]+$/.test(this.getMarkOpening(markType, mark))
+
+      if (isEmphasis && ((cannotOpen && opensHere) || (cannotClose && closesHere))) {
+        currentMarks.delete(markType)
+      }
+    })
   }
 
   /**

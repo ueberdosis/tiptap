@@ -108,6 +108,21 @@ describe('Marks on inline atom nodes', () => {
     )
   })
 
+  it.each([
+    [
+      paragraph([
+        { type: 'text', text: 'aaa' },
+        atomNode([{ type: 'bold' }]),
+        { type: 'text', text: 'bbb', marks: [{ type: 'bold' }] },
+      ]),
+      `aaa${atom}**bbb**`,
+    ],
+    [paragraph([atomNode([{ type: 'bold' }]), { type: 'text', text: 'bbb' }]), `${atom}bbb`],
+  ])('drops a mark from an atom when its delimiter would touch a word', (json, markdown) => {
+    expect(markdownManager.serialize(json)).toBe(markdown)
+    expect(markdownManager.serialize(markdownManager.parse(markdown))).toBe(markdown)
+  })
+
   it('wraps two adjacent atoms in a single mark pair', () => {
     const markdown = markdownManager.serialize(
       paragraph([atomNode([{ type: 'bold' }]), atomNode([{ type: 'bold' }])]),
