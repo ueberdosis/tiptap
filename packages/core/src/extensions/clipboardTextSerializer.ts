@@ -38,7 +38,7 @@ export const ClipboardTextSerializer = Extension.create<ClipboardTextSerializerO
             // min(from)/max(to) would pull in unselected cells between them.
             // Sort by document position so reverse selections (e.g. dragging
             // upward) still emit text in document order.
-            const sortedRanges = [...selection.ranges].sort((a, b) => a.$from.pos - b.$from.pos)
+            const sortedRanges = selection.ranges.toSorted((a, b) => a.$from.pos - b.$from.pos)
 
             return sortedRanges
               .map(({ $from, $to }) =>

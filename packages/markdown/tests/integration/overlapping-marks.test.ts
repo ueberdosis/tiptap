@@ -29,7 +29,7 @@ const normalizeMarks = (node: any): any => {
   return {
     ...node,
     marks: node.marks
-      ? [...node.marks].sort((a: any, b: any) => a.type.localeCompare(b.type))
+      ? node.marks.toSorted((a: any, b: any) => a.type.localeCompare(b.type))
       : node.marks,
     content: node.content ? node.content.map(normalizeMarks) : node.content,
   }

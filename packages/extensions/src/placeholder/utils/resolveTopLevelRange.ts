@@ -75,7 +75,7 @@ export function mergeRanges(
     return []
   }
 
-  const sorted = [...ranges].sort((a, b) => a.from - b.from)
+  const sorted = ranges.toSorted((a, b) => a.from - b.from)
   const merged: Array<{ from: number; to: number }> = [{ ...sorted[0] }]
 
   for (let i = 1; i < sorted.length; i += 1) {
