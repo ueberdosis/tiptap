@@ -257,6 +257,10 @@ describe('static render json to string (with prosemirror)', () => {
     )
   })
 
+  it('renders an audio spec without attributes with a closing tag', () => {
+    expect(domOutputSpecToHTMLString(['audio'])()).toBe('<audio></audio>')
+  })
+
   const headingDoc = {
     type: 'doc',
     content: [
