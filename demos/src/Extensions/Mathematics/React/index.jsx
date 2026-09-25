@@ -156,6 +156,7 @@ export default () => {
           <button onClick={onRemoveBlockMath}>Remove block math</button>
         </div>
       </div>
+      <p>Type x$$a$$ in the editor to create inline math after a letter.</p>
       <EditorContent editor={editor} />
     </>
   )
