@@ -1425,9 +1425,9 @@ export class MarkdownManager {
           // was opened last (innermost) must close first. activeMarks preserves
           // insertion order, so a higher indexOf means opened later = inner.
           const activeMarkKeys = Array.from(activeMarks.keys())
-          const activeMarksClosingHereLifo = activeMarksClosingHere
-            .slice()
-            .sort((a, b) => activeMarkKeys.indexOf(b) - activeMarkKeys.indexOf(a))
+          const activeMarksClosingHereLifo = activeMarksClosingHere.toSorted(
+            (a, b) => activeMarkKeys.indexOf(b) - activeMarkKeys.indexOf(a),
+          )
 
           marksToCloseAtEnd = [
             ...marksToOpen.map(m => m.type), // inner (opened here) — close first
