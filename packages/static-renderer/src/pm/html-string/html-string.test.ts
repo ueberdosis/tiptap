@@ -1,4 +1,5 @@
 import { extensions as coreExtensions } from '@tiptap/core'
+import Audio from '@tiptap/extension-audio'
 import Bold from '@tiptap/extension-bold'
 import CodeBlock from '@tiptap/extension-code-block'
 import Document from '@tiptap/extension-document'
@@ -234,6 +235,26 @@ describe('static render json to string (with prosemirror)', () => {
 
     expect(html).to.include('data-youtube-video')
     expect(html).to.include('<p>text after youtube</p>')
+  })
+
+  it('renders audio nodes with a closing tag so the next audio is not nested inside', () => {
+    const json = {
+      type: 'doc',
+      content: [
+        { type: 'audio', attrs: { src: 'https://example.com/first.mp3' } },
+        { type: 'audio', attrs: { src: 'https://example.com/second.mp3' } },
+      ],
+    }
+
+    const html = renderToHTMLString({
+      content: json,
+      extensions: [Document, Paragraph, Text, Audio],
+    })
+
+    expect(html).toBe(
+      '<audio controls="true" preload="metadata" src="https://example.com/first.mp3"></audio>' +
+        '<audio controls="true" preload="metadata" src="https://example.com/second.mp3"></audio>',
+    )
   })
 
   const headingDoc = {
