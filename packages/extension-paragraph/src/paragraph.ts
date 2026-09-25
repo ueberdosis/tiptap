@@ -115,7 +115,26 @@ export const Paragraph = Node.create<ParagraphOptions>({
       const previousNodeIsEmptyParagraph =
         ctx?.previousNode?.type === 'paragraph' && previousContent.length === 0
 
-      return previousNodeIsEmptyParagraph ? EMPTY_PARAGRAPH_MARKDOWN : ''
+      // Also emit &nbsp; when the empty paragraph is adjacent to a list at the doc level,
+      // ensuring CommonMark parsers recognize an intervening block and don't collapse
+      // consecutive lists into a single list.
+      const isList = (type?: string | null) =>
+        type === 'bulletList' || type === 'orderedList' || type === 'taskList'
+
+      const isAdjacentToList =
+        ctx?.parentType !== 'listItem' &&
+        ctx?.parentType !== 'taskItem' &&
+        (isList(ctx?.previousNode?.type) || isList(ctx?.nextNode?.type))
+
+      // Emit &nbsp; for intentional empty paragraphs inside list items (i.e. not an empty list item)
+      // so marked parses them as explicit paragraph tokens rather than gap whitespace tokens that get stripped.
+      const isIntentionalInListItem =
+        (ctx?.parentType === 'listItem' || ctx?.parentType === 'taskItem') &&
+        (Boolean(ctx?.previousNode) || Boolean(ctx?.nextNode))
+
+      return previousNodeIsEmptyParagraph || isAdjacentToList || isIntentionalInListItem
+        ? EMPTY_PARAGRAPH_MARKDOWN
+        : ''
     }
 
     return h.renderChildren(content)

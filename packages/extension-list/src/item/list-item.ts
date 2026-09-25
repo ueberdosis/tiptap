@@ -96,6 +96,12 @@ export const ListItem = Node.create<ListItemOptions>({
     let content: any[] = []
 
     if (token.tokens && token.tokens.length > 0) {
+      // Strip trailing space tokens that marked attaches for blank lines between list items
+      let tokensToParse = token.tokens
+      while (tokensToParse.length > 0 && tokensToParse[tokensToParse.length - 1].type === 'space') {
+        tokensToParse = tokensToParse.slice(0, -1)
+      }
+
       if (isSameLineOrderedListToken(token)) {
         return {
           type: 'listItem',
@@ -109,14 +115,14 @@ export const ListItem = Node.create<ListItemOptions>({
       }
 
       // Check if we have paragraph tokens (complex list items)
-      const hasParagraphTokens = token.tokens.some(t => t.type === 'paragraph')
+      const hasParagraphTokens = tokensToParse.some(t => t.type === 'paragraph')
 
       if (hasParagraphTokens) {
         // If we have paragraph tokens, parse them as block elements
-        content = parseBlockChildren(token.tokens)
+        content = parseBlockChildren(tokensToParse)
       } else {
         // Check if the first token is a text token with nested inline tokens
-        const firstToken = token.tokens[0]
+        const firstToken = tokensToParse[0]
 
         if (
           firstToken &&
@@ -137,14 +143,14 @@ export const ListItem = Node.create<ListItemOptions>({
 
           // If there are additional tokens after the first text token (like nested lists),
           // parse them as block elements and add them
-          if (token.tokens.length > 1) {
-            const remainingTokens = token.tokens.slice(1)
+          if (tokensToParse.length > 1) {
+            const remainingTokens = tokensToParse.slice(1)
             const additionalContent = parseBlockChildren(remainingTokens)
             content.push(...additionalContent)
           }
         } else {
           // Fallback: parse all tokens as block elements
-          content = parseBlockChildren(token.tokens)
+          content = parseBlockChildren(tokensToParse)
         }
       }
     }
