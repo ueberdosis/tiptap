@@ -70,6 +70,7 @@ export default () => {
         </div>
       </div>
 
+      <p>Place the cursor before the text of the checked task, then press Enter.</p>
       <EditorContent editor={editor} />
     </>
   )

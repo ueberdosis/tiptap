@@ -124,14 +124,19 @@ export const splitListItem: RawCommands['splitListItem'] =
       ...overrideAttrs,
     }
 
+    const splitsAtStartOfItem = $from.parentOffset === 0 && $from.index(-1) === 0
+    const itemStart = $from.before(-1)
+
     tr.delete($from.pos, $to.pos)
+
+    const trailingTypeAttributes = splitsAtStartOfItem ? grandParent.attrs : newTypeAttributes
 
     const types = nextType
       ? [
-          { type, attrs: newTypeAttributes },
+          { type, attrs: trailingTypeAttributes },
           { type: nextType, attrs: newNextTypeAttributes },
         ]
-      : [{ type, attrs: newTypeAttributes }]
+      : [{ type, attrs: trailingTypeAttributes }]
 
     if (!canSplit(tr.doc, $from.pos, 2)) {
       return false
@@ -143,6 +148,10 @@ export const splitListItem: RawCommands['splitListItem'] =
       const marks = storedMarks || (selection.$to.parentOffset && selection.$from.marks())
 
       tr.split($from.pos, 2, types).scrollIntoView()
+
+      if (splitsAtStartOfItem) {
+        tr.setNodeMarkup(itemStart, undefined, newTypeAttributes)
+      }
 
       if (!marks || !dispatch) {
         return true
