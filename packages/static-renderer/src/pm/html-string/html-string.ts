@@ -59,7 +59,8 @@ function renderNestedSpec(
   return child =>
     `<${tag}>${renderAttributes(child)}${[children]
       .concat(rest)
-      .map(spec => domOutputSpecToHTMLString(spec)(child))}</${tag}>`
+      .map(spec => domOutputSpecToHTMLString(spec)(child))
+      .join('')}</${tag}>`
 }
 
 function renderAttributedTag(

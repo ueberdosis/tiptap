@@ -3,8 +3,10 @@ import Bold from '@tiptap/extension-bold'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { renderToHTMLString } from '@tiptap/static-renderer'
+import { domOutputSpecToHTMLString, renderToHTMLString } from '@tiptap/static-renderer'
 import React, { useMemo } from 'react'
+
+const nestedOutput = domOutputSpecToHTMLString(['div', ['span', 0], ['em', 0], ['strong', 0]])('x')
 
 const json = {
   type: 'doc',
@@ -56,7 +58,11 @@ export default () => {
 
   return (
     <pre>
-      <code>{output}</code>
+      <code>
+        {output}
+        {'\n'}
+        {nestedOutput}
+      </code>
     </pre>
   )
 }
