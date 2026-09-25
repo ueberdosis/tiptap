@@ -105,7 +105,7 @@ export class ExtensionManager {
     // so it feels more natural to run plugins at the end of an array first.
     // That’s why we have to reverse the `extensions` array and sort again
     // based on the `priority` option.
-    const extensions = sortExtensions([...this.extensions].reverse())
+    const extensions = sortExtensions(this.extensions.toReversed())
 
     const allPlugins = extensions.flatMap(extension => {
       const context = {
@@ -331,7 +331,7 @@ export class ExtensionManager {
    */
   dispatchTransaction(baseDispatch: (tr: Transaction) => void): (tr: Transaction) => void {
     const { editor } = this
-    const extensions = sortExtensions([...this.extensions].reverse())
+    const extensions = sortExtensions(this.extensions.toReversed())
 
     return extensions.reduceRight((next, extension) => {
       const context = {

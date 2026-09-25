@@ -1340,29 +1340,26 @@ export class MarkdownManager {
         if (!hasCrossedBoundary) {
           // Normal path: close marks that are ending here (no new marks opening simultaneously).
           // Reverse so the last-opened mark closes first (LIFO), preserving valid nesting.
-          marksToClose
-            .slice()
-            .reverse()
-            .forEach(markType => {
-              if (!activeMarks.has(markType)) {
-                return
-              }
+          marksToClose.toReversed().forEach(markType => {
+            if (!activeMarks.has(markType)) {
+              return
+            }
 
-              const mark = currentMarks.get(markType)
-              const closeMarkdown = this.getMarkClosing(
-                markType,
-                mark,
-                markOpeningModes.get(markType),
-                markSpanTexts[i]?.get(markType),
-              )
-              if (closeMarkdown) {
-                textContent += closeMarkdown
-              }
-              if (activeMarks.has(markType)) {
-                activeMarks.delete(markType)
-                markOpeningModes.delete(markType)
-              }
-            })
+            const mark = currentMarks.get(markType)
+            const closeMarkdown = this.getMarkClosing(
+              markType,
+              mark,
+              markOpeningModes.get(markType),
+              markSpanTexts[i]?.get(markType),
+            )
+            if (closeMarkdown) {
+              textContent += closeMarkdown
+            }
+            if (activeMarks.has(markType)) {
+              activeMarks.delete(markType)
+              markOpeningModes.delete(markType)
+            }
+          })
         }
 
         // Open new marks (should be at the beginning)
@@ -1396,12 +1393,9 @@ export class MarkdownManager {
         })
 
         if (!hasCrossedBoundary) {
-          marksToOpen
-            .slice()
-            .reverse()
-            .forEach(({ type, mark }) => {
-              activeMarks.set(type, mark)
-            })
+          marksToOpen.toReversed().forEach(({ type, mark }) => {
+            activeMarks.set(type, mark)
+          })
         }
 
         // Add leading whitespace before the mark opening
