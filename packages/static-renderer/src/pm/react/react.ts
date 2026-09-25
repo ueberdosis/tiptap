@@ -121,9 +121,9 @@ export function domOutputSpecToReactElement(
             tag,
             mapAttrsToHTMLAttributes(undefined, key.toString()),
             domOutputSpecToReactElement(attrs as DOMOutputSpecArray)(child),
-            [children]
-              .concat(rest)
-              .map(outputSpec => domOutputSpecToReactElement(outputSpec, key++)(child)),
+            [children, ...rest].map(outputSpec =>
+              domOutputSpecToReactElement(outputSpec, key++)(child),
+            ),
           )
       }
       if (children === undefined) {
@@ -138,9 +138,9 @@ export function domOutputSpecToReactElement(
         React.createElement(
           tag,
           mapAttrsToHTMLAttributes(attrs, key.toString()),
-          [children]
-            .concat(rest)
-            .map(outputSpec => domOutputSpecToReactElement(outputSpec, key++)(child)),
+          [children, ...rest].map(outputSpec =>
+            domOutputSpecToReactElement(outputSpec, key++)(child),
+          ),
         )
     }
   }

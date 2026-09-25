@@ -251,7 +251,7 @@ export class NodePos {
         return
       }
 
-      nodes = nodes.concat(childPos.querySelectorAll(selector, attributes, firstItemOnly))
+      nodes = [...nodes, ...childPos.querySelectorAll(selector, attributes, firstItemOnly)]
     })
 
     return nodes

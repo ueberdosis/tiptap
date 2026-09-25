@@ -75,9 +75,10 @@ export function domOutputSpecToHTMLString(
             `<${tag}>${domOutputSpecToHTMLString(attrs as DOMOutputSpecArray)(child)}</${tag}>`
         }
         return child =>
-          `<${tag}>${domOutputSpecToHTMLString(attrs as DOMOutputSpecArray)(child)}${[children]
-            .concat(rest)
-            .map(a => domOutputSpecToHTMLString(a)(child))}</${tag}>`
+          `<${tag}>${domOutputSpecToHTMLString(attrs as DOMOutputSpecArray)(child)}${[
+            children,
+            ...rest,
+          ].map(a => domOutputSpecToHTMLString(a)(child))}</${tag}>`
       }
       if (children === undefined) {
         if (NON_SELF_CLOSING_TAGS.has(tag)) {
@@ -91,8 +92,7 @@ export function domOutputSpecToHTMLString(
       }
 
       return child =>
-        `<${tag}${serializeAttrsToHTMLString(attrs)}>${[children]
-          .concat(rest)
+        `<${tag}${serializeAttrsToHTMLString(attrs)}>${[children, ...rest]
           .map(a => domOutputSpecToHTMLString(a)(child))
           .join('')}</${tag}>`
     }
