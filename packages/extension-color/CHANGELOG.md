@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.31.4
+
+### Patch Changes
+
+- Updated dependencies [4d56526]
+  - @tiptap/extension-text-style@3.31.4
+
 ## 3.31.3
 
 ### Patch Changes
