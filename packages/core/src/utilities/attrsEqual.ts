@@ -21,7 +21,5 @@ export function attrsEqual(
     return false
   }
 
-  return keysA.every(
-    key => Object.prototype.hasOwnProperty.call(b, key) && Object.is(a[key], b[key]),
-  )
+  return keysA.every(key => Object.hasOwn(b, key) && Object.is(a[key], b[key]))
 }
