@@ -24,17 +24,18 @@ import {
 import { type Lexer, type Token, type TokenizerExtension, type TokenizerThis, marked } from 'marked'
 
 import {
-  closeMarksBeforeNode,
   extractAbsorbedBlankLines,
   findMarksToClose,
   findMarksToCloseAtEnd,
   findMarksToOpen,
   isTaskItem,
-  reopenMarksAfterNode,
   wrapInMarkdownBlock,
 } from './utils.js'
 import { collectMarkSpanTexts } from './utils/collectMarkSpanTexts.js'
 import { htmlContainsUnrecognizedTag } from './utils/htmlTagDetection.js'
+
+// Neither whitespace nor punctuation, as CommonMark defines them for emphasis
+const isWordCharacter = (character = '') => /^[^\s\p{P}\p{S}]$/u.test(character)
 
 export class MarkdownManager {
   private markedInstance: typeof marked
@@ -850,20 +851,19 @@ export class MarkdownManager {
    */
   private applyMarkToContent(markType: string, content: JSONContent[], attrs?: any): JSONContent[] {
     return content.map(node => {
-      if (node.type === 'text') {
-        // Add the mark to existing marks or create new marks array
-        const existingMarks = node.marks || []
-        const newMark = attrs ? { type: markType, attrs } : { type: markType }
+      if (node.content) {
         return {
           ...node,
-          marks: [...existingMarks, newMark],
+          content: this.applyMarkToContent(markType, node.content, attrs),
         }
       }
 
-      // For non-text nodes, recursively apply to content
+      // Leaf nodes carry the mark themselves
+      const existingMarks = node.marks || []
+      const newMark = attrs ? { type: markType, attrs } : { type: markType }
       return {
         ...node,
-        content: node.content ? this.applyMarkToContent(markType, node.content, attrs) : undefined,
+        marks: [...existingMarks, newMark],
       }
     })
   } /**
@@ -1473,48 +1473,63 @@ export class MarkdownManager {
 
         result.push(textContent)
       } else {
-        // For non-text nodes, close all active marks before rendering, then reopen after
-        // Only reopen marks that the node itself carries — marks don't skip over inline atoms.
-        const nodeMarkTypes = new Set((node.marks || []).map((mark: { type: string }) => mark.type))
-        const marksToReopen = new Map<string, { type: string; attrs?: Record<string, any> }>()
-        const openingModesToReopen = new Map<string, 'markdown' | 'html'>()
-        activeMarks.forEach((mark, type) => {
-          if (nodeMarkTypes.has(type)) {
-            marksToReopen.set(type, mark)
-            openingModesToReopen.set(type, markOpeningModes.get(type) ?? 'markdown')
-          }
-        })
-
-        // Close all marks before the node
-        // The run ends on the previous node and restarts on the next one
-        const beforeMarkdown = closeMarksBeforeNode(activeMarks, (markType, mark) => {
-          return this.getMarkClosing(
-            markType,
-            mark,
-            markOpeningModes.get(markType),
-            markSpanTexts[i - 1]?.get(markType),
-          )
-        })
-        markOpeningModes.clear()
-
-        // Render the node
-        const nodeContent = this.renderNodeToMarkdown(node, parentNode, i, level)
-
-        // Reopen marks after the node, but NOT after a hard break
-        // Hard breaks should terminate marks (they create a line break where marks don't continue)
-        const afterMarkdown =
+        // Hard breaks end the line, and a code span renders its content literally,
+        // so neither lets a mark continue across this node
+        const currentMarks =
           node.type === 'hardBreak'
-            ? ''
-            : reopenMarksAfterNode(marksToReopen, activeMarks, (markType, mark) => {
-                const openingMode = openingModesToReopen.get(markType) ?? 'markdown'
-                markOpeningModes.set(markType, openingMode)
-                return this.getMarkOpening(
-                  markType,
-                  mark,
-                  openingMode,
-                  markSpanTexts[i + 1]?.get(markType),
-                )
-              })
+            ? new Map<string, any>()
+            : new Map(
+                (node.marks || [])
+                  .filter((mark: any) => !this.codeTypes.has(mark.type))
+                  .map((mark: any) => [mark.type, mark]),
+              )
+
+        const nodeContent = this.renderNodeToMarkdown(node, parentNode, i, level)
+        this.dropMarksWithoutValidDelimiters(
+          currentMarks,
+          activeMarks,
+          nextNode,
+          nodeContent,
+          result[result.length - 1]?.slice(-1),
+        )
+
+        // A mark can only stay open if every mark opened before it stays open too
+        const activeMarkTypes = Array.from(activeMarks.keys())
+        const firstClosingIndex = activeMarkTypes.findIndex(markType => {
+          const currentMark = currentMarks.get(markType)
+          return !currentMark || !attrsEqual(currentMark.attrs, activeMarks.get(markType).attrs)
+        })
+
+        const marksToClose =
+          firstClosingIndex === -1 ? [] : activeMarkTypes.slice(firstClosingIndex).reverse()
+
+        let beforeMarkdown = this.closeMarks(
+          marksToClose,
+          activeMarks,
+          markOpeningModes,
+          markSpanTexts[i - 1],
+        )
+
+        // The shared order is inner first because the text branch prepends its openings
+        const marksToOpen = this.getMarksToOpenForSerialization(
+          activeMarks,
+          currentMarks,
+          nextNode,
+        ).reverse()
+
+        marksToOpen.forEach(({ type, mark }) => {
+          const openingMode = reopenWithHtmlOnNextOpen.has(type) ? 'html' : 'markdown'
+          beforeMarkdown += this.getMarkOpening(type, mark, openingMode)
+          activeMarks.set(type, mark)
+          markOpeningModes.set(type, openingMode)
+          reopenWithHtmlOnNextOpen.delete(type)
+        })
+
+        const afterMarkdown = this.closeMarks(
+          findMarksToCloseAtEnd(activeMarks, currentMarks, nextNode, this.markSetsEqual.bind(this)),
+          activeMarks,
+          markOpeningModes,
+        )
 
         result.push(beforeMarkdown + nodeContent + afterMarkdown)
       }
@@ -1570,6 +1585,63 @@ export class MarkdownManager {
     } catch (err) {
       throw new Error(`Failed to get mark opening for ${markType}: ${err}`)
     }
+  }
+
+  /**
+   * Close the given marks in order and stop tracking them as active.
+   */
+  private closeMarks(
+    markTypes: string[],
+    activeMarks: Map<string, any>,
+    markOpeningModes: Map<string, 'markdown' | 'html'>,
+    markSpanTexts?: Map<string, string>,
+  ): string {
+    return markTypes
+      .map(markType => {
+        const closing = this.getMarkClosing(
+          markType,
+          activeMarks.get(markType),
+          markOpeningModes.get(markType),
+          markSpanTexts?.get(markType),
+        )
+        activeMarks.delete(markType)
+        markOpeningModes.delete(markType)
+        return closing
+      })
+      .join('')
+  }
+
+  /**
+   * Drop emphasis marks from a non-text node when their delimiter would sit
+   * between a word and the node's punctuation, where it cannot parse.
+   */
+  private dropMarksWithoutValidDelimiters(
+    currentMarks: Map<string, any>,
+    activeMarks: Map<string, any>,
+    nextNode: JSONContent | null,
+    nodeContent: string,
+    previousCharacter?: string,
+  ) {
+    const nextCharacter = nextNode?.text?.[0]
+    const cannotOpen = isWordCharacter(previousCharacter) && !isWordCharacter(nodeContent[0])
+    const cannotClose =
+      isWordCharacter(nextCharacter) && !isWordCharacter(nodeContent[nodeContent.length - 1])
+
+    if (!cannotOpen && !cannotClose) {
+      return
+    }
+
+    const nextMarkTypes = new Set((nextNode?.marks || []).map(mark => mark.type))
+
+    currentMarks.forEach((mark, markType) => {
+      const opensHere = !activeMarks.has(markType)
+      const closesHere = !nextMarkTypes.has(markType)
+      const isEmphasis = /^[*_~]+$/.test(this.getMarkOpening(markType, mark))
+
+      if (isEmphasis && ((cannotOpen && opensHere) || (cannotClose && closesHere))) {
+        currentMarks.delete(markType)
+      }
+    })
   }
 
   /**
