@@ -179,7 +179,7 @@ export class NodePos {
   get lastChild(): NodePos | null {
     const children = this.children
 
-    return children[children.length - 1] || null
+    return children.at(-1) || null
   }
 
   closest(selector: string, attributes: { [key: string]: any } = {}): NodePos | null {

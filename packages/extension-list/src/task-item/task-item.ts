@@ -351,7 +351,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
         find: inputRegex,
         type: this.type,
         getAttributes: match => ({
-          checked: match[match.length - 1] === 'x',
+          checked: match.at(-1) === 'x',
         }),
       }),
     ]
