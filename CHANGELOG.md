@@ -1,5 +1,1300 @@
 # Releases
 
+## v4.0.0-next.0
+
+### @tiptap/core
+
+#### Patch Changes
+
+- aef3880: Nested lists exported to Markdown now keep their hierarchy when the file is read back by other Markdown tools.
+- aef3880: Fix a `TypeError` thrown when the source editor is destroyed right after dragging content into another editor.
+- aef3880: Fix a denial-of-service risk where crafted block or inline Markdown attributes could consume excessive CPU and block the browser or server event loop.
+- aef3880: `splitBlock` no longer throws `TransformError: Inserted content deeper than insertion position` when the selection spans block boundaries (for example from the start of one paragraph into another block, or across an isolating node). The command now returns `false` when the split is not possible.
+- aef3880: Large transactions (for example a big paste with Link autolink enabled) are processed faster.
+- aef3880: Prevent extra CSS declarations from being rendered from editor content.
+- aef3880: Atom block directives (`:::name {…} :::`) indented by up to 3 spaces are now tokenized, matching CommonMark indentation rules for block constructs.
+- aef3880: Numeric HTML entities (`&#39;`, `&#x27;`) are now decoded when parsing markdown, instead of showing up as literal text in the editor.
+- aef3880: Fix freezes in framework-based node views on iOS and Android
+- aef3880: Bind `parseMarkdown` and `renderMarkdown` to the configured extension so hooks can read `this.options` and `this.name` without an Editor.
+- aef3880: Prevent untrusted HTML attributes from changing an object's prototype when merged with `mergeAttributes`.
+- aef3880: Pressing Enter before the text of a checked task item now leaves the new empty item unchecked and the item with the text checked. Attributes declared with `keepOnSplit: false` now reset on the new item, not on the one that keeps the text.
+- aef3880: Stop joinItemForward and joinItemBackward from joining across isolating nodes.
+- aef3880: Node views without a `contentDOM` no longer ignore selection mutations, so ProseMirror moves the caret back to a valid position when the browser places it inside the node view.
+- Updated dependencies [aef3880]
+  - @tiptap/pm@4.0.0-next.0
+
+### @tiptap/extension-list
+
+#### Patch Changes
+
+- aef3880: Nested lists exported to Markdown now keep their hierarchy when the file is read back by other Markdown tools.
+- aef3880: Parsing large Markdown documents that contain ordered lists is much faster. A 578KB document went from about 19s to about 160ms.
+- aef3880: Courtesy titles such as "Ms." and "Dr." are no longer parsed as ordered-list markers. Numbered, lettered, and roman lists are unchanged.
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+
+### @tiptap/ai-toolkit
+
+#### Patch Changes
+
+- aef3880: The Server AI Toolkit no longer adds `_hash` to inline nodes, including inline Image, Audio, YouTube and Twitch nodes.
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+
+### @tiptap/extension-mathematics
+
+#### Patch Changes
+
+- aef3880: The mathematics extension no longer crashes the editor in older WebKit browsers and WKWebView.
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+
+### @tiptap/extension-youtube
+
+#### Patch Changes
+
+- aef3880: Pasting a YouTube iframe without a `src` attribute no longer crashes the editor. The embed is kept without a source.
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+
+### @tiptap/starter-kit
+
+#### Major Changes
+
+- aef3880: StarterKit no longer installs the deprecated `@tiptap/extension-dropcursor`, `@tiptap/extension-gapcursor`, `@tiptap/extension-list-item`, and `@tiptap/extension-list-keymap` packages. We will not publish further updates to these packages. StarterKit still includes their extensions, so you do not need to change your configuration.
+  
+  If you import these extensions directly, switch to the new packages: `Dropcursor` and `Gapcursor` from `@tiptap/extensions`, and `ListItem` and `ListKeymap` from `@tiptap/extension-list`.
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/extension-list@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+  - @tiptap/extension-code@4.0.0-next.0
+  - @tiptap/extension-link@4.0.0-next.0
+  - @tiptap/extension-blockquote@4.0.0-next.0
+  - @tiptap/extension-bold@4.0.0-next.0
+  - @tiptap/extension-code-block@4.0.0-next.0
+  - @tiptap/extension-document@4.0.0-next.0
+  - @tiptap/extension-hard-break@4.0.0-next.0
+  - @tiptap/extension-heading@4.0.0-next.0
+  - @tiptap/extension-horizontal-rule@4.0.0-next.0
+  - @tiptap/extension-italic@4.0.0-next.0
+  - @tiptap/extension-paragraph@4.0.0-next.0
+  - @tiptap/extension-strike@4.0.0-next.0
+  - @tiptap/extension-text@4.0.0-next.0
+  - @tiptap/extension-underline@4.0.0-next.0
+  - @tiptap/extensions@4.0.0-next.0
+  - @tiptap/extension-bullet-list@4.0.0-next.0
+  - @tiptap/extension-ordered-list@4.0.0-next.0
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- aef3880: Fix Markdown serialization of whitespace-only marked text.
+- aef3880: Fix Markdown serialization of inline code containing backticks
+- aef3880: Bind `parseMarkdown` and `renderMarkdown` to the configured extension so hooks can read `this.options` and `this.name` without an Editor.
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+
+### @tiptap/extension-mention
+
+#### Patch Changes
+
+- aef3880: Fix a denial-of-service risk where crafted block or inline Markdown attributes could consume excessive CPU and block the browser or server event loop.
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+  - @tiptap/suggestion@4.0.0-next.0
+
+### @tiptap/extension-collaboration-caret
+
+#### Patch Changes
+
+- aef3880: Fixed a bug which allowed potentially unsafe color values being sent by other clients. Those unsafe colors received from collaboration users are now ignored.
+- aef3880: Prevent extra CSS declarations from being rendered from editor content.
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+
+### @tiptap/react
+
+#### Minor Changes
+
+- aef3880: Align `selected` with ProseMirror node selections by default, expose text selections through `selectionInside`, and keep `selectedOnTextSelection` compatible.
+
+#### Patch Changes
+
+- aef3880: Reduce overhead in React node views on documents with many nodes.
+- aef3880: Fix a TypeScript error (TS2694) in the shipped type declarations when `skipLibCheck` is turned off.
+- aef3880: Fix Enter and Shift-Enter inside React node views on iOS and Android.
+- aef3880: `@tiptap/react` and `@tiptap/vue` now pin their optional `@tiptap/extension-bubble-menu` and `@tiptap/extension-floating-menu` dependencies to the exact version they were released with, so installing a specific version gives you that version's menu extensions instead of the newest ones.
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+
+### @tiptap/pm
+
+#### Patch Changes
+
+- aef3880: Bump `prosemirror-view` to `^1.42.3`, which fixes an XSS vulnerability where pasting crafted HTML could run arbitrary JavaScript (GHSA-c8x8-7fp4-3x9w).
+
+### @tiptap/extension-code
+
+#### Patch Changes
+
+- aef3880: Fix Markdown serialization of inline code containing backticks
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+
+### @tiptap/extension-table
+
+#### Patch Changes
+
+- aef3880: Table cells exported to Markdown now escape literal pipe characters, so the cell content survives when the output is read back.
+- aef3880: Multi-block table cells no longer leak a U+001F control character into Markdown.
+- aef3880: Right-clicking a cell inside a multi-cell table selection no longer collapses that selection.
+- aef3880: Prevent extra CSS declarations from being rendered from editor content.
+- aef3880: Table cells and headers no longer render the default `colspan="1"` and `rowspan="1"` attributes. Cells that actually span still render them, matching how prosemirror-tables serializes spans.
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+
+### @tiptap/extension-highlight
+
+#### Patch Changes
+
+- aef3880: Prevent extra CSS declarations from being rendered from editor content.
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+
+### @tiptap/extension-text-align
+
+#### Patch Changes
+
+- aef3880: Prevent extra CSS declarations from being rendered from editor content.
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+
+### @tiptap/extension-text-style
+
+#### Patch Changes
+
+- aef3880: Prevent extra CSS declarations from being rendered from editor content.
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+
+### @tiptap/extension-link
+
+#### Patch Changes
+
+- aef3880: Typing spaces after a link no longer extends the link, including multiple spaces inserted in one transaction. Formatting changes and undo/redo preserve existing linked whitespace.
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+
+### @tiptap/static-renderer
+
+#### Patch Changes
+
+- aef3880: Render `<audio>` and `<video>` with a closing tag instead of self-closing them, so browsers no longer nest the following content inside the first audio element.
+- aef3880: Rendering a node whose `renderHTML` returns several nested child elements no longer adds stray commas between them in the HTML string output.
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+
+### @tiptap/vue
+
+#### Major Changes
+
+- aef3880: Vue 2 support is removed. `@tiptap/vue-3` is now `@tiptap/vue`, and `@tiptap/extension-drag-handle-vue-3` is now `@tiptap/extension-drag-handle-vue`.
+  
+  Update imports and dependencies:
+  
+  ```diff
+  - import { EditorContent } from '@tiptap/vue-3'
+  + import { EditorContent } from '@tiptap/vue'
+  
+  - import DragHandle from '@tiptap/extension-drag-handle-vue-3'
+  + import DragHandle from '@tiptap/extension-drag-handle-vue'
+  ```
+  
+  Vue 2 users must migrate to Vue 3 before using the new packages. The planned Codemod Registry package `@tiptap/codemod-v3-to-v4` updates package imports and dependencies.
+
+#### Patch Changes
+
+- aef3880: `@tiptap/react` and `@tiptap/vue` now pin their optional `@tiptap/extension-bubble-menu` and `@tiptap/extension-floating-menu` dependencies to the exact version they were released with, so installing a specific version gives you that version's menu extensions instead of the newest ones.
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+
+### @tiptap/extension-drag-handle-vue
+
+#### Major Changes
+
+- aef3880: Vue 2 support is removed. `@tiptap/vue-3` is now `@tiptap/vue`, and `@tiptap/extension-drag-handle-vue-3` is now `@tiptap/extension-drag-handle-vue`.
+  
+  Update imports and dependencies:
+  
+  ```diff
+  - import { EditorContent } from '@tiptap/vue-3'
+  + import { EditorContent } from '@tiptap/vue'
+  
+  - import DragHandle from '@tiptap/extension-drag-handle-vue-3'
+  + import DragHandle from '@tiptap/extension-drag-handle-vue'
+  ```
+  
+  Vue 2 users must migrate to Vue 3 before using the new packages. The planned Codemod Registry package `@tiptap/codemod-v3-to-v4` updates package imports and dependencies.
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/pm@4.0.0-next.0
+  - @tiptap/vue@4.0.0-next.0
+  - @tiptap/extension-drag-handle@4.0.0-next.0
+
+### @tiptap/extension-audio
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+
+### @tiptap/extension-blockquote
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+
+### @tiptap/extension-bold
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+
+### @tiptap/extension-bubble-menu
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+
+### @tiptap/extension-code-block
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+
+### @tiptap/extension-code-block-lowlight
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+  - @tiptap/extension-code-block@4.0.0-next.0
+
+### @tiptap/extension-collaboration
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+
+### @tiptap/extension-details
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+  - @tiptap/extension-text-style@4.0.0-next.0
+
+### @tiptap/extension-document
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+
+### @tiptap/extension-drag-handle
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+  - @tiptap/extension-collaboration@4.0.0-next.0
+  - @tiptap/extension-node-range@4.0.0-next.0
+
+### @tiptap/extension-emoji
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+  - @tiptap/suggestion@4.0.0-next.0
+
+### @tiptap/extension-file-handler
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+  - @tiptap/extension-text-style@4.0.0-next.0
+
+### @tiptap/extension-find-and-replace
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+
+### @tiptap/extension-floating-menu
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+
+### @tiptap/extension-hard-break
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+
+### @tiptap/extension-heading
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+
+### @tiptap/extension-horizontal-rule
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+
+### @tiptap/extension-image
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+
+### @tiptap/extension-invisible-characters
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+  - @tiptap/extension-text-style@4.0.0-next.0
+
+### @tiptap/extension-italic
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+
+### @tiptap/extension-node-range
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+
+### @tiptap/extension-paragraph
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+
+### @tiptap/extension-ruby-text
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+
+### @tiptap/extension-strike
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+
+### @tiptap/extension-subscript
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+
+### @tiptap/extension-superscript
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+
+### @tiptap/extension-table-of-contents
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+
+### @tiptap/extension-text
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+
+### @tiptap/extension-twitch
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+
+### @tiptap/extension-typography
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+
+### @tiptap/extension-underline
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+
+### @tiptap/extension-unique-id
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+
+### @tiptap/extensions
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+
+### @tiptap/html
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+
+### @tiptap/suggestion
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+
+### @tiptap/extension-bullet-list
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/extension-list@4.0.0-next.0
+
+### @tiptap/extension-ordered-list
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/extension-list@4.0.0-next.0
+
+### @tiptap/extension-drag-handle-react
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+- Updated dependencies [aef3880]
+  - @tiptap/react@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+  - @tiptap/extension-drag-handle@4.0.0-next.0
+
+### @tiptap/extension-color
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+  - @tiptap/extension-text-style@4.0.0-next.0
+
+### @tiptap/extension-font-family
+
+#### Patch Changes
+
+- Updated dependencies [aef3880]
+  - @tiptap/extension-text-style@4.0.0-next.0
+
 ## v3.30.3
 
 ### @tiptap/extension-text-style

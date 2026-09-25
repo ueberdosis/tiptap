@@ -1,5 +1,35 @@
 # Change Log
 
+## 4.0.0-next.0
+
+### Minor Changes
+
+- 92c6d73: Align `selected` with ProseMirror node selections by default, expose text selections through `selectionInside`, and keep `selectedOnTextSelection` compatible.
+
+### Patch Changes
+
+- d02646b: Reduce overhead in React node views on documents with many nodes.
+- 69c2130: Fix a TypeScript error (TS2694) in the shipped type declarations when `skipLibCheck` is turned off.
+- 0859b12: Fix Enter and Shift-Enter inside React node views on iOS and Android.
+- de130d9: `@tiptap/react` and `@tiptap/vue` now pin their optional `@tiptap/extension-bubble-menu` and `@tiptap/extension-floating-menu` dependencies to the exact version they were released with, so installing a specific version gives you that version's menu extensions instead of the newest ones.
+- Updated dependencies [548216e]
+- Updated dependencies [93e3727]
+- Updated dependencies [8aea2ef]
+- Updated dependencies [c4488ba]
+- Updated dependencies [2fab93e]
+- Updated dependencies [3451d10]
+- Updated dependencies [17ec9ff]
+- Updated dependencies [5c7200d]
+- Updated dependencies [a90921e]
+- Updated dependencies [fd086c5]
+- Updated dependencies [6520e58]
+- Updated dependencies [32c048d]
+- Updated dependencies [73da270]
+- Updated dependencies [3f111e9]
+- Updated dependencies [ec29df8]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+
 ## 3.30.3
 
 ### Patch Changes

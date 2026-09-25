@@ -1,5 +1,30 @@
 # Change Log
 
+## 4.0.0-next.0
+
+### Patch Changes
+
+- 548216e: Nested lists exported to Markdown now keep their hierarchy when the file is read back by other Markdown tools.
+- 504260b: Parsing large Markdown documents that contain ordered lists is much faster. A 578KB document went from about 19s to about 160ms.
+- 8b37c2c: Courtesy titles such as "Ms." and "Dr." are no longer parsed as ordered-list markers. Numbered, lettered, and roman lists are unchanged.
+- Updated dependencies [548216e]
+- Updated dependencies [93e3727]
+- Updated dependencies [8aea2ef]
+- Updated dependencies [c4488ba]
+- Updated dependencies [2fab93e]
+- Updated dependencies [3451d10]
+- Updated dependencies [17ec9ff]
+- Updated dependencies [5c7200d]
+- Updated dependencies [a90921e]
+- Updated dependencies [fd086c5]
+- Updated dependencies [6520e58]
+- Updated dependencies [32c048d]
+- Updated dependencies [73da270]
+- Updated dependencies [3f111e9]
+- Updated dependencies [ec29df8]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+
 ## 3.30.3
 
 ### Patch Changes
