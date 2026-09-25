@@ -31,6 +31,8 @@ const NON_SELF_CLOSING_TAGS = new Set([
   'span',
   'a',
   'button',
+  'audio',
+  'video',
 ])
 
 /**
@@ -54,6 +56,9 @@ export function domOutputSpecToHTMLString(
     }
 
     if (attrs === undefined) {
+      if (NON_SELF_CLOSING_TAGS.has(tag)) {
+        return () => `<${tag}></${tag}>`
+      }
       return () => `<${tag}/>`
     }
     if (attrs === 0) {
