@@ -555,10 +555,10 @@ describe('extension-image', () => {
   })
 
   describe('markdown', () => {
-    it('keeps an image whose title contains double quotes after a round trip', () => {
+    it('keeps an image whose title contains quotes and a backslash after a round trip', () => {
       editor = new Editor({
         extensions: [Document, Paragraph, Text, Image, Markdown],
-        content: '![logo](https://tiptap.dev/logo.png "the \\"new\\" logo")',
+        content: '![logo](https://tiptap.dev/logo.png "the \\"new\\" logo \\\\*")',
         contentType: 'markdown',
       })
 
@@ -570,7 +570,7 @@ describe('extension-image', () => {
           attrs: expect.objectContaining({
             src: 'https://tiptap.dev/logo.png',
             alt: 'logo',
-            title: 'the "new" logo',
+            title: 'the "new" logo \\*',
           }),
         },
       ])

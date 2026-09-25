@@ -8,8 +8,8 @@ import { describe, expect, it } from 'vite-plus/test'
 describe('link title in markdown', () => {
   const markdownManager = new MarkdownManager({ extensions: [Document, Paragraph, Text, Link] })
 
-  it('keeps a link whose title contains double quotes after a round trip', () => {
-    const doc = markdownManager.parse('[docs](https://tiptap.dev "the \\"new\\" docs")')
+  it('keeps a link whose title contains quotes and a backslash after a round trip', () => {
+    const doc = markdownManager.parse('[docs](https://tiptap.dev "the \\"new\\" docs \\\\*")')
     const reparsed = markdownManager.parse(markdownManager.serialize(doc))
 
     expect(reparsed.content).toEqual([
@@ -20,7 +20,7 @@ describe('link title in markdown', () => {
             type: 'text',
             text: 'docs',
             marks: [
-              { type: 'link', attrs: { href: 'https://tiptap.dev', title: 'the "new" docs' } },
+              { type: 'link', attrs: { href: 'https://tiptap.dev', title: 'the "new" docs \\*' } },
             ],
           },
         ],
