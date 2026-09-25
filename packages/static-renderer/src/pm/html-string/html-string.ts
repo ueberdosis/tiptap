@@ -31,7 +31,68 @@ const NON_SELF_CLOSING_TAGS = new Set([
   'span',
   'a',
   'button',
+  'audio',
+  'video',
 ])
+
+function renderEmptyTag(tag: string, attrs?: Record<string, unknown>): () => string {
+  const attributes = serializeAttrsToHTMLString(attrs)
+
+  if (NON_SELF_CLOSING_TAGS.has(tag)) {
+    return () => `<${tag}${attributes}></${tag}>`
+  }
+
+  return () => `<${tag}${attributes}/>`
+}
+
+function renderNestedSpec(
+  tag: string,
+  content: DOMOutputSpecArray,
+): (child?: string | string[]) => string {
+  const [, attrs, children, ...rest] = content
+  const renderAttributes = domOutputSpecToHTMLString(attrs as DOMOutputSpecArray)
+
+  if (children === undefined || children === 0) {
+    return child => `<${tag}>${renderAttributes(child)}</${tag}>`
+  }
+
+  return child =>
+    `<${tag}>${renderAttributes(child)}${[children]
+      .concat(rest)
+      .map(spec => domOutputSpecToHTMLString(spec)(child))}</${tag}>`
+}
+
+function renderAttributedTag(
+  tag: string,
+  content: DOMOutputSpecArray,
+): (child?: string | string[]) => string {
+  const [, rawAttrs, children, ...rest] = content
+  const attrs = rawAttrs as Record<string, unknown>
+
+  if (children === undefined) {
+    return renderEmptyTag(tag, attrs)
+  }
+  if (children === 0) {
+    return child =>
+      `<${tag}${serializeAttrsToHTMLString(attrs)}>${serializeChildrenToHTMLString(child)}</${tag}>`
+  }
+
+  return child =>
+    `<${tag}${serializeAttrsToHTMLString(attrs)}>${[children]
+      .concat(rest)
+      .map(spec => domOutputSpecToHTMLString(spec)(child))
+      .join('')}</${tag}>`
+}
+
+function normalizeTag(tag: string): string {
+  const parts = tag.split(' ')
+
+  if (parts.length > 1) {
+    return `${parts[1]} xmlns="${parts[0]}"`
+  }
+
+  return tag
+}
 
 /**
  * Take a DOMOutputSpec and return a function that can render it to a string
@@ -45,51 +106,20 @@ export function domOutputSpecToHTMLString(
     return () => escapeHTML(content)
   }
   if (typeof content === 'object' && 'length' in content) {
-    const [_tag, attrs, children, ...rest] = content as DOMOutputSpecArray
-    let tag = _tag
-    const parts = tag.split(' ')
-
-    if (parts.length > 1) {
-      tag = `${parts[1]} xmlns="${parts[0]}"`
-    }
+    const [_tag, attrs] = content as DOMOutputSpecArray
+    const tag = normalizeTag(_tag)
 
     if (attrs === undefined) {
-      return () => `<${tag}/>`
+      return renderEmptyTag(tag)
     }
     if (attrs === 0) {
       return child => `<${tag}>${serializeChildrenToHTMLString(child)}</${tag}>`
     }
     if (typeof attrs === 'object') {
       if (Array.isArray(attrs)) {
-        if (children === undefined) {
-          return child =>
-            `<${tag}>${domOutputSpecToHTMLString(attrs as DOMOutputSpecArray)(child)}</${tag}>`
-        }
-        if (children === 0) {
-          return child =>
-            `<${tag}>${domOutputSpecToHTMLString(attrs as DOMOutputSpecArray)(child)}</${tag}>`
-        }
-        return child =>
-          `<${tag}>${domOutputSpecToHTMLString(attrs as DOMOutputSpecArray)(child)}${[children]
-            .concat(rest)
-            .map(a => domOutputSpecToHTMLString(a)(child))}</${tag}>`
+        return renderNestedSpec(tag, content as DOMOutputSpecArray)
       }
-      if (children === undefined) {
-        if (NON_SELF_CLOSING_TAGS.has(tag)) {
-          return () => `<${tag}${serializeAttrsToHTMLString(attrs)}></${tag}>`
-        }
-        return () => `<${tag}${serializeAttrsToHTMLString(attrs)}/>`
-      }
-      if (children === 0) {
-        return child =>
-          `<${tag}${serializeAttrsToHTMLString(attrs)}>${serializeChildrenToHTMLString(child)}</${tag}>`
-      }
-
-      return child =>
-        `<${tag}${serializeAttrsToHTMLString(attrs)}>${[children]
-          .concat(rest)
-          .map(a => domOutputSpecToHTMLString(a)(child))
-          .join('')}</${tag}>`
+      return renderAttributedTag(tag, content as DOMOutputSpecArray)
     }
   }
 

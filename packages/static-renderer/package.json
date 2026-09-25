@@ -84,11 +84,13 @@
   },
   "devDependencies": {
     "@tiptap/core": "workspace:^",
+    "@tiptap/extension-audio": "workspace:^",
     "@tiptap/pm": "workspace:^",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "vite-plus": "catalog:"
   },
   "peerDependencies": {
     "@tiptap/core": "workspace:*",

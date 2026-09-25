@@ -1,3 +1,4 @@
+import Audio from '@tiptap/extension-audio'
 import Bold from '@tiptap/extension-bold'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
@@ -26,6 +27,8 @@ const json = {
         },
       ],
     },
+    { type: 'audio', attrs: { src: 'https://example.com/first.mp3' } },
+    { type: 'audio', attrs: { src: 'https://example.com/second.mp3' } },
   ],
 }
 
@@ -45,6 +48,7 @@ export default () => {
         Paragraph,
         Text,
         Bold,
+        Audio,
         // other extensions …
       ],
     })
