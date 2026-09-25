@@ -1,5 +1,32 @@
 # Change Log
 
+## 4.0.0-next.0
+
+### Patch Changes
+
+- 6048bda: Table cells exported to Markdown now escape literal pipe characters, so the cell content survives when the output is read back.
+- cd7d7ab: Multi-block table cells no longer leak a U+001F control character into Markdown.
+- 3b6e387: Right-clicking a cell inside a multi-cell table selection no longer collapses that selection.
+- 17ec9ff: Prevent extra CSS declarations from being rendered from editor content.
+- 6c9c204: Table cells and headers no longer render the default `colspan="1"` and `rowspan="1"` attributes. Cells that actually span still render them, matching how prosemirror-tables serializes spans.
+- Updated dependencies [548216e]
+- Updated dependencies [93e3727]
+- Updated dependencies [8aea2ef]
+- Updated dependencies [c4488ba]
+- Updated dependencies [2fab93e]
+- Updated dependencies [3451d10]
+- Updated dependencies [17ec9ff]
+- Updated dependencies [5c7200d]
+- Updated dependencies [a90921e]
+- Updated dependencies [fd086c5]
+- Updated dependencies [6520e58]
+- Updated dependencies [32c048d]
+- Updated dependencies [73da270]
+- Updated dependencies [3f111e9]
+- Updated dependencies [ec29df8]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+
 ## 3.30.3
 
 ### Patch Changes

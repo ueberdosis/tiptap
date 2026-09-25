@@ -1,5 +1,55 @@
 # Change Log
 
+## 4.0.0-next.0
+
+### Major Changes
+
+- 1d20516: StarterKit no longer installs the deprecated `@tiptap/extension-dropcursor`, `@tiptap/extension-gapcursor`, `@tiptap/extension-list-item`, and `@tiptap/extension-list-keymap` packages. We will not publish further updates to these packages. StarterKit still includes their extensions, so you do not need to change your configuration.
+
+  If you import these extensions directly, switch to the new packages: `Dropcursor` and `Gapcursor` from `@tiptap/extensions`, and `ListItem` and `ListKeymap` from `@tiptap/extension-list`.
+
+### Patch Changes
+
+- Updated dependencies [548216e]
+- Updated dependencies [93e3727]
+- Updated dependencies [8aea2ef]
+- Updated dependencies [c4488ba]
+- Updated dependencies [2fab93e]
+- Updated dependencies [7c8ad87]
+- Updated dependencies [504260b]
+- Updated dependencies [3451d10]
+- Updated dependencies [17ec9ff]
+- Updated dependencies [d99e02f]
+- Updated dependencies [5c7200d]
+- Updated dependencies [a90921e]
+- Updated dependencies [8b37c2c]
+- Updated dependencies [fd086c5]
+- Updated dependencies [6520e58]
+- Updated dependencies [32c048d]
+- Updated dependencies [73da270]
+- Updated dependencies [3f111e9]
+- Updated dependencies [ec29df8]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/extension-list@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+  - @tiptap/extension-code@4.0.0-next.0
+  - @tiptap/extension-link@4.0.0-next.0
+  - @tiptap/extension-blockquote@4.0.0-next.0
+  - @tiptap/extension-bold@4.0.0-next.0
+  - @tiptap/extension-code-block@4.0.0-next.0
+  - @tiptap/extension-document@4.0.0-next.0
+  - @tiptap/extension-hard-break@4.0.0-next.0
+  - @tiptap/extension-heading@4.0.0-next.0
+  - @tiptap/extension-horizontal-rule@4.0.0-next.0
+  - @tiptap/extension-italic@4.0.0-next.0
+  - @tiptap/extension-paragraph@4.0.0-next.0
+  - @tiptap/extension-strike@4.0.0-next.0
+  - @tiptap/extension-text@4.0.0-next.0
+  - @tiptap/extension-underline@4.0.0-next.0
+  - @tiptap/extensions@4.0.0-next.0
+  - @tiptap/extension-bullet-list@4.0.0-next.0
+  - @tiptap/extension-ordered-list@4.0.0-next.0
+
 ## 3.30.3
 
 ### Patch Changes

@@ -1,5 +1,26 @@
 # Change Log
 
+## 4.0.0-next.0
+
+### Patch Changes
+
+- 548216e: Nested lists exported to Markdown now keep their hierarchy when the file is read back by other Markdown tools.
+- 93e3727: Fix a `TypeError` thrown when the source editor is destroyed right after dragging content into another editor.
+- 8aea2ef: Fix a denial-of-service risk where crafted block or inline Markdown attributes could consume excessive CPU and block the browser or server event loop.
+- 2fab93e: `splitBlock` no longer throws `TransformError: Inserted content deeper than insertion position` when the selection spans block boundaries (for example from the start of one paragraph into another block, or across an isolating node). The command now returns `false` when the split is not possible.
+- 3451d10: Large transactions (for example a big paste with Link autolink enabled) are processed faster.
+- 17ec9ff: Prevent extra CSS declarations from being rendered from editor content.
+- 5c7200d: Atom block directives (`:::name {…} :::`) indented by up to 3 spaces are now tokenized, matching CommonMark indentation rules for block constructs.
+- a90921e: Numeric HTML entities (`&#39;`, `&#x27;`) are now decoded when parsing markdown, instead of showing up as literal text in the editor.
+- fd086c5: Fix freezes in framework-based node views on iOS and Android
+- 6520e58: Bind `parseMarkdown` and `renderMarkdown` to the configured extension so hooks can read `this.options` and `this.name` without an Editor.
+- 32c048d: Prevent untrusted HTML attributes from changing an object's prototype when merged with `mergeAttributes`.
+- 73da270: Pressing Enter before the text of a checked task item now leaves the new empty item unchecked and the item with the text checked. Attributes declared with `keepOnSplit: false` now reset on the new item, not on the one that keeps the text.
+- 3f111e9: Stop joinItemForward and joinItemBackward from joining across isolating nodes.
+- ec29df8: Node views without a `contentDOM` no longer ignore selection mutations, so ProseMirror moves the caret back to a valid position when the browser places it inside the node view.
+- Updated dependencies [c4488ba]
+  - @tiptap/pm@4.0.0-next.0
+
 ## 3.30.3
 
 ### Patch Changes
