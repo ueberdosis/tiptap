@@ -553,4 +553,27 @@ describe('extension-image', () => {
       expect(container.style.visibility).toBe('')
     })
   })
+
+  describe('markdown', () => {
+    it('keeps an image whose title contains double quotes after a round trip', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, Image, Markdown],
+        content: '![logo](https://tiptap.dev/logo.png "the \\"new\\" logo")',
+        contentType: 'markdown',
+      })
+
+      editor.commands.setContent(editor.getMarkdown(), { contentType: 'markdown' })
+
+      expect(editor.getJSON().content).toEqual([
+        {
+          type: 'image',
+          attrs: expect.objectContaining({
+            src: 'https://tiptap.dev/logo.png',
+            alt: 'logo',
+            title: 'the "new" logo',
+          }),
+        },
+      ])
+    })
+  })
 })
