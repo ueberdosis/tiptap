@@ -49,7 +49,6 @@ export const TableOfContentsPlugin = ({
             tr.setNodeMarkup(pos, undefined, {
               ...node.attrs,
               'data-toc-id': id,
-              id,
             })
 
             modified = true
