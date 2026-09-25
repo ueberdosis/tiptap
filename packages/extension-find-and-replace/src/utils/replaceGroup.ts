@@ -8,7 +8,7 @@ function replaceSeparateResults(
   results: SearchResult[],
   replaceTerm: string,
 ): void {
-  for (const result of [...results].reverse()) {
+  for (const result of results.toReversed()) {
     tr.insertText(replaceTerm, result.from, result.to)
   }
 }

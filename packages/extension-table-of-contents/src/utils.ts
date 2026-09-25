@@ -25,8 +25,8 @@ export const getHeadlineLevel: GetTableOfContentLevelFunction = (headline, previ
   let level = 1
 
   const previousHeadline = previousItems.at(-1)
-  const highestHeadlineAbove = [...previousItems]
-    .reverse()
+  const highestHeadlineAbove = previousItems
+    .toReversed()
     .find(h => h.originalLevel <= headline.node.attrs.level)
 
   const highestLevelAbove = highestHeadlineAbove?.level || 1
