@@ -248,17 +248,20 @@ describe('table markdown line breaks', () => {
     expect(serialized).toContain('foo<br>bar')
   })
 
-  it('joins multiple paragraphs in a cell with <br>', () => {
+  it('joins multiple paragraphs in a cell with <br> and does not emit U+001F', () => {
     const doc = tableDoc([
       cell([
-        { type: 'paragraph', content: [{ type: 'text', text: 'one' }] },
-        { type: 'paragraph', content: [{ type: 'text', text: 'two' }] },
+        { type: 'paragraph', content: [{ type: 'text', text: 'line one' }] },
+        { type: 'paragraph', content: [{ type: 'text', text: 'line two' }] },
       ]),
+      cell([{ type: 'paragraph', content: [{ type: 'text', text: 'B' }] }]),
     ])
 
     const serialized = markdownManager.serialize(doc)
 
-    expect(serialized).toContain('one<br>two')
+    expect(serialized).toContain('line one<br>line two')
+    expect(serialized).toContain('| B')
+    expect(serialized.includes(String.fromCharCode(31))).toBe(false)
     expect(serialized).not.toContain('\u001F')
   })
 
@@ -271,5 +274,35 @@ describe('table markdown line breaks', () => {
 
     expect(serialized).toContain('| plain |')
     expect(serialized).not.toContain('<br>')
+  })
+})
+describe('table markdown — pipe escaping when serializing cells', () => {
+  const manager = new MarkdownManager({
+    extensions: [Document, Paragraph, Text, Code, TableKit],
+  })
+
+  const markdown = '| Col | Value |\n| --- | --- |\n| a | uses \\| pipe |'
+
+  it('escapes a bare pipe in cell text', () => {
+    const serialized = manager.serialize(manager.parse(markdown))
+
+    expect(serialized).toContain('uses \\| pipe')
+  })
+
+  it('round trips a cell with an escaped pipe', () => {
+    const serialized = manager.serialize(manager.parse(markdown))
+    const reparsed = manager.parse(serialized)
+
+    expect(manager.serialize(reparsed)).toBe(serialized)
+
+    const cell = reparsed.content?.[0]?.content?.[1]?.content?.[1]
+    expect(cell?.content?.[0]?.content?.[0]?.text).toBe('uses | pipe')
+  })
+
+  it('escapes pipes inside a code span in a cell', () => {
+    const codeSpanMarkdown = '| H |\n| - |\n| `a || b` |'
+    const serialized = manager.serialize(manager.parse(codeSpanMarkdown))
+
+    expect(serialized).toContain('`a \\|\\| b`')
   })
 })

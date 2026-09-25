@@ -39,6 +39,7 @@ import { createTable } from './utilities/createTable.js'
 import { deleteTableWhenAllCellsSelected } from './utilities/deleteTableWhenAllCellsSelected.js'
 import { keepCursorInTable } from './utilities/keepCursorInTable.js'
 import renderTableToMarkdown, { preprocessTablePipes } from './utilities/markdown.js'
+import { preserveCellSelectionOnContextMenu } from './utilities/preserveCellSelectionOnContextMenu.js'
 
 type MarkdownTableToken = {
   align?: Array<TableCellAlign | null>
@@ -611,6 +612,7 @@ export const Table = Node.create<TableOptions>({
       tableEditing({
         allowTableNodeSelection: this.options.allowTableNodeSelection,
       }),
+      preserveCellSelectionOnContextMenu(),
     ]
   },
 

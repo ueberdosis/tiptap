@@ -25,6 +25,12 @@ describe('default collaboration caret renderers', () => {
     expect(attributes.style).toBeUndefined()
   })
 
+  test.each(['#fff', 'red', 'rgb(255, 0, 0)'])('ignores an unsupported user color', color => {
+    const attributes = CollaborationCaret.options.selectionRender({ name: 'Bob', color })
+
+    expect(attributes.style).toBeUndefined()
+  })
+
   test('applies a six-digit hex color to a selection', () => {
     const attributes = CollaborationCaret.options.selectionRender({
       name: 'Bob',
