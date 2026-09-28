@@ -10,7 +10,7 @@ const isDev = process.env.NODE_ENV !== 'production'
 const isSSR = typeof window === 'undefined'
 const isNext = isSSR || Boolean(typeof window !== 'undefined' && (window as any).next)
 
-// React can delay the first commit, for example when revealing a Suspense boundary
+// Give React time for a delayed first commit
 const FIRST_MOUNT_TIMEOUT = 1000
 
 /**
@@ -285,7 +285,7 @@ class EditorInstanceManager {
 
   /**
    * Schedule the destruction of the editor instance.
-   * This will only destroy the editor if it was not mounted on the next tick.
+   * This will only destroy the editor if it was not mounted within `timeout` milliseconds.
    * This is to avoid destroying the editor instance when it's actually still mounted.
    */
   private scheduleDestroy(timeout = 1) {
