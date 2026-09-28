@@ -78,7 +78,9 @@ export function domOutputSpecToHTMLString(
           `<${tag}>${domOutputSpecToHTMLString(attrs as DOMOutputSpecArray)(child)}${[
             children,
             ...rest,
-          ].map(a => domOutputSpecToHTMLString(a)(child))}</${tag}>`
+          ]
+            .map(a => domOutputSpecToHTMLString(a)(child))
+            .join('')}</${tag}>`
       }
       if (children === undefined) {
         if (NON_SELF_CLOSING_TAGS.has(tag)) {
