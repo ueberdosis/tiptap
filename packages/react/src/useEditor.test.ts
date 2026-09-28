@@ -16,27 +16,29 @@ describe('useEditor', () => {
     // act() flushes effects right away, which hides the delayed commit
     ;(globalThis as any).IS_REACT_ACT_ENVIRONMENT = false
 
-    const firstEditor = await new Promise<Editor>(resolve => {
-      const Component = () => {
-        const editor = useEditor({ extensions: [Document, Paragraph, Text] })
+    try {
+      const firstEditor = await new Promise<Editor>(resolve => {
+        const Component = () => {
+          const editor = useEditor({ extensions: [Document, Paragraph, Text] })
 
-        useEffect(() => {
-          resolve(editor)
-        }, [editor])
+          useEffect(() => {
+            resolve(editor)
+          }, [editor])
 
-        return null
-      }
+          return null
+        }
 
-      const LazyComponent = lazy(() => Promise.resolve({ default: Component }))
+        const LazyComponent = lazy(() => Promise.resolve({ default: Component }))
 
-      root.render(
-        React.createElement(Suspense, { fallback: null }, React.createElement(LazyComponent)),
-      )
-    })
+        root.render(
+          React.createElement(Suspense, { fallback: null }, React.createElement(LazyComponent)),
+        )
+      })
 
-    expect(firstEditor.isDestroyed).toBe(false)
-
-    root.unmount()
-    ;(globalThis as any).IS_REACT_ACT_ENVIRONMENT = isActEnvironment
+      expect(firstEditor.isDestroyed).toBe(false)
+    } finally {
+      root.unmount()
+      ;(globalThis as any).IS_REACT_ACT_ENVIRONMENT = isActEnvironment
+    }
   })
 })
