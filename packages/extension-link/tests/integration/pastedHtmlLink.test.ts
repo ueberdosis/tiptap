@@ -1,5 +1,6 @@
 import { Editor } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
+import Bold from '@tiptap/extension-bold'
 import Link from '@tiptap/extension-link'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
@@ -93,6 +94,49 @@ describe('pasting HTML links', () => {
         )
 
         expect(getLinks(editor!)).toEqual([{ href: fileUrl, text: 'the LICENSE.md file' }])
+      })
+
+      it('keeps the href when an earlier attribute contains ">"', () => {
+        createEditor(linkOptions)
+
+        pasteHTML(
+          editor!,
+          '<a title="2 > 1" href="https://tiptap.dev/docs">LICENSE.md</a>',
+          'LICENSE.md',
+        )
+
+        expect(getLinks(editor!)).toEqual([{ href: 'https://tiptap.dev/docs', text: 'LICENSE.md' }])
+      })
+
+      it('keeps the href when the link text has inline formatting', () => {
+        createEditor(linkOptions, {
+          extensions: [Document, Text, Paragraph, Bold, Link.configure(linkOptions)],
+        })
+
+        pasteHTML(
+          editor!,
+          '<a href="https://tiptap.dev/docs"><strong>example.</strong>com</a>',
+          'example.com',
+        )
+
+        const links = getLinks(editor!)
+
+        expect(links.map(link => link.href)).toEqual(links.map(() => 'https://tiptap.dev/docs'))
+        expect(links.map(link => link.text).join('')).toBe('example.com')
+        expect(editor!.getHTML()).not.toContain('href="http://example.com"')
+      })
+
+      it('links a plain URL that is only partly inside a pasted link', () => {
+        createEditor(linkOptions)
+
+        // Only "example." is linked, so the URL "example.com" is not covered.
+        pasteHTML(
+          editor!,
+          '<p><a href="https://tiptap.dev/docs">example.</a>com</p>',
+          'example.com',
+        )
+
+        expect(editor!.getHTML()).toContain('href="http://example.com"')
       })
 
       it('still links plain URLs next to a pasted link', () => {
