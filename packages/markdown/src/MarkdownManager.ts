@@ -1520,6 +1520,23 @@ export class MarkdownManager {
       }
     })
 
+    // A literal "!" directly before a link would be reparsed as an image, so escape it
+    if (separator === '') {
+      let previous = -1
+      result.forEach((piece, i) => {
+        if (!piece) {
+          return
+        }
+        if (previous >= 0 && piece.startsWith('[')) {
+          const trailing = /(\\*)!$/.exec(result[previous])
+          if (trailing && trailing[1].length % 2 === 0) {
+            result[previous] = `${result[previous].slice(0, -1)}\\!`
+          }
+        }
+        previous = i
+      })
+    }
+
     return result.join(separator)
   }
 
