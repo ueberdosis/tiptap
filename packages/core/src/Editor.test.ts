@@ -114,6 +114,81 @@ describe('editorProps', () => {
   })
 })
 
+describe('editorProps.attributes', () => {
+  let editor: Editor
+
+  afterEach(() => {
+    editor.destroy()
+  })
+
+  it('adds role="textbox" when attributes are set while constructing Editor', () => {
+    editor = new Editor({
+      element: document.createElement('div'),
+      extensions: [StarterKit],
+      editorProps: { attributes: { class: 'my-editor' } },
+    })
+
+    expect(editor.view.dom.getAttribute('role')).toBe('textbox')
+    expect(editor.view.dom.classList.contains('my-editor')).toBe(true)
+  })
+
+  it('keeps role="textbox" when attributes are set through setOptions', () => {
+    editor = new Editor({
+      element: document.createElement('div'),
+      extensions: [StarterKit],
+      editorProps: { attributes: { class: 'my-editor' } },
+    })
+
+    editor.setOptions({ editorProps: { attributes: { class: 'my-editor is-updated' } } })
+
+    expect(editor.view.dom.getAttribute('role')).toBe('textbox')
+    expect(editor.view.dom.classList.contains('is-updated')).toBe(true)
+  })
+
+  it('keeps role="textbox" when setOptions is called with unrelated options', () => {
+    editor = new Editor({
+      element: document.createElement('div'),
+      extensions: [StarterKit],
+      editorProps: { attributes: { class: 'my-editor' } },
+    })
+
+    editor.setOptions({ editable: false })
+
+    expect(editor.view.dom.getAttribute('role')).toBe('textbox')
+    expect(editor.view.dom.classList.contains('my-editor')).toBe(true)
+  })
+
+  it('lets the user override the role', () => {
+    editor = new Editor({
+      element: document.createElement('div'),
+      extensions: [StarterKit],
+      editorProps: { attributes: { role: 'document' } },
+    })
+
+    expect(editor.view.dom.getAttribute('role')).toBe('document')
+
+    editor.setOptions({ editorProps: { attributes: { role: 'document', class: 'my-editor' } } })
+
+    expect(editor.view.dom.getAttribute('role')).toBe('document')
+  })
+
+  it('keeps role="textbox" when attributes are a function', () => {
+    editor = new Editor({
+      element: document.createElement('div'),
+      extensions: [StarterKit],
+      editorProps: { attributes: () => ({ class: 'my-editor' }) },
+    })
+
+    expect(editor.view.dom.getAttribute('role')).toBe('textbox')
+    expect(editor.view.dom.classList.contains('my-editor')).toBe(true)
+
+    editor.setOptions({ editorProps: { attributes: () => ({ class: 'is-updated' }) } })
+
+    expect(editor.view.dom.getAttribute('role')).toBe('textbox')
+    expect(editor.view.dom.classList.contains('is-updated')).toBe(true)
+  })
+})
+
 describe('editor.getHTML / editor.getJSON', () => {
   let editor: Editor
 
