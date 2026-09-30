@@ -269,8 +269,14 @@ export class NodeView<
    * @return `true` if it can safely be ignored.
    */
   ignoreMutation(mutation: ViewMutationRecord) {
-    if (!this.dom || !this.contentDOM) {
+    if (!this.dom) {
       return true
+    }
+
+    if (!this.contentDOM) {
+      // ProseMirror has to see selection changes inside a leaf node view, otherwise
+      // the browser caret can get stuck inside its non-editable DOM and typed text is lost
+      return mutation.type !== 'selection'
     }
 
     if (typeof this.options.ignoreMutation === 'function') {

@@ -1,3 +1,4 @@
+import type { ViewMutationRecord } from '@tiptap/pm/view'
 import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 
 import { createViewMutationTestContext } from '../tests/utils/createViewMutationTestContext.js'
@@ -100,5 +101,57 @@ describe('NodeView ignoreMutation on iOS', () => {
     contentDOM.append(edited)
 
     expect(nodeView.ignoreMutation(childListMutation(contentDOM, [edited]))).toBe(false)
+  })
+})
+
+function createLeafNodeView() {
+  const wrapper = document.createElement('span')
+
+  wrapper.contentEditable = 'false'
+  wrapper.append(document.createTextNode('@mention'))
+  document.body.append(wrapper)
+
+  class LeafNodeView extends NodeView<null> {
+    get dom() {
+      return wrapper
+    }
+  }
+
+  const nodeView = new LeafNodeView(null, {
+    editor: {},
+    extension: {},
+    node: { isLeaf: true, isAtom: true },
+    decorations: [],
+    innerDecorations: {},
+    view: {},
+    HTMLAttributes: {},
+    getPos: () => 0,
+  } as unknown as NodeViewRendererProps)
+
+  return { nodeView, wrapper }
+}
+
+describe('NodeView ignoreMutation without contentDOM', () => {
+  afterEach(() => {
+    document.body.replaceChildren()
+  })
+
+  it('lets ProseMirror handle selection changes inside the node view', () => {
+    const { nodeView, wrapper } = createLeafNodeView()
+    const mutation = { type: 'selection', target: wrapper } as unknown as ViewMutationRecord
+
+    expect(nodeView.ignoreMutation(mutation)).toBe(false)
+  })
+
+  it('still ignores DOM mutations inside the node view', () => {
+    const { nodeView, wrapper } = createLeafNodeView()
+    const mutation = {
+      type: 'childList',
+      target: wrapper,
+      addedNodes: [],
+      removedNodes: [],
+    } as unknown as ViewMutationRecord
+
+    expect(nodeView.ignoreMutation(mutation)).toBe(true)
   })
 })

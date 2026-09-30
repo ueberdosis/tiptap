@@ -1,4 +1,5 @@
 import { extensions as coreExtensions } from '@tiptap/core'
+import Audio from '@tiptap/extension-audio'
 import Bold from '@tiptap/extension-bold'
 import CodeBlock from '@tiptap/extension-code-block'
 import Document from '@tiptap/extension-document'
@@ -9,6 +10,7 @@ import { generateTocIds, TableOfContents } from '@tiptap/extension-table-of-cont
 import Text from '@tiptap/extension-text'
 import { generateUniqueIds, UniqueID } from '@tiptap/extension-unique-id'
 import Youtube from '@tiptap/extension-youtube'
+import type { DOMOutputSpec } from '@tiptap/pm/model'
 import { Mark, Node as PMNode } from '@tiptap/pm/model'
 import { describe, expect, it } from 'vite-plus/test'
 
@@ -234,6 +236,38 @@ describe('static render json to string (with prosemirror)', () => {
 
     expect(html).to.include('data-youtube-video')
     expect(html).to.include('<p>text after youtube</p>')
+  })
+
+  it('renders audio nodes with a closing tag so the next audio is not nested inside', () => {
+    const json = {
+      type: 'doc',
+      content: [
+        { type: 'audio', attrs: { src: 'https://example.com/first.mp3' } },
+        { type: 'audio', attrs: { src: 'https://example.com/second.mp3' } },
+      ],
+    }
+
+    const html = renderToHTMLString({
+      content: json,
+      extensions: [Document, Paragraph, Text, Audio],
+    })
+
+    expect(html).toBe(
+      '<audio controls="true" preload="metadata" src="https://example.com/first.mp3"></audio>' +
+        '<audio controls="true" preload="metadata" src="https://example.com/second.mp3"></audio>',
+    )
+  })
+
+  it('renders an audio spec without attributes with a closing tag', () => {
+    expect(domOutputSpecToHTMLString(['audio'])()).toBe('<audio></audio>')
+  })
+
+  it('renders multiple child specs without commas when the first child is an array', () => {
+    const spec: DOMOutputSpec = ['div', ['span', 0], ['em', 0], ['strong', 0]]
+
+    expect(domOutputSpecToHTMLString(spec)('x')).toBe(
+      '<div><span>x</span><em>x</em><strong>x</strong></div>',
+    )
   })
 
   const headingDoc = {

@@ -225,6 +225,15 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
     return [
       ySyncPluginInstance,
       yUndoPluginInstance,
+      new Plugin({
+        filterTransaction: (transaction, state) => {
+          if (transaction.getMeta('inputRule')) {
+            yUndoPluginKey.getState(state).undoManager.stopCapturing()
+          }
+
+          return true
+        },
+      }),
       // Only add the filterInvalidContent plugin if content checking is enabled
       this.editor.options.enableContentCheck &&
         new Plugin({
