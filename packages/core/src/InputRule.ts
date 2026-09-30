@@ -169,10 +169,10 @@ function applyRule(config: {
     if (!view.state.doc.eq(inputTransaction.doc)) {
       return true
     }
-
-    closeHistory(tr)
-    tr.setMeta('inputRule', true)
   }
+
+  closeHistory(tr)
+  tr.setMeta('inputRule', true)
 
   if (rule.undoable) {
     tr.setMeta(plugin, {
