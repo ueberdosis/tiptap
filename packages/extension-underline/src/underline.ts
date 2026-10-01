@@ -76,18 +76,41 @@ export const Underline = Mark.create<UnderlineOptions>({
       return src.toLowerCase().indexOf('<u>')
     },
     tokenize(src, _tokens, lexer) {
-      const match = /^<u>([\s\S]+?)<\/u>/i.exec(src)
-
-      if (!match) {
+      if (!/^<u>/i.test(src)) {
         return undefined
       }
 
-      return {
-        type: 'underline',
-        raw: match[0],
-        text: match[1],
-        tokens: lexer.inlineTokens(match[1]),
+      const delimiters = /\\[\s\S]|`+|<\/u>/gi
+      delimiters.lastIndex = 3
+
+      let match = delimiters.exec(src)
+
+      while (match) {
+        if (match[0].startsWith('`')) {
+          const codeSpan = /^(`+)([^`]|[^`][\s\S]*?[^`])\1(?!`)/.exec(src.slice(match.index))
+
+          if (codeSpan) {
+            delimiters.lastIndex = match.index + codeSpan[0].length
+          }
+        } else if (!match[0].startsWith('\\')) {
+          const text = src.slice(3, match.index)
+
+          if (!text) {
+            return undefined
+          }
+
+          return {
+            type: 'underline',
+            raw: src.slice(0, delimiters.lastIndex),
+            text,
+            tokens: lexer.inlineTokens(text),
+          }
+        }
+
+        match = delimiters.exec(src)
       }
+
+      return undefined
     },
   },
 
