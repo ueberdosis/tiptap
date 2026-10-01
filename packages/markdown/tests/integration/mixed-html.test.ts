@@ -13,6 +13,7 @@ import { beforeEach, describe, expect, it } from 'vite-plus/test'
 import { Editor } from '@tiptap/core'
 import { Bold } from '@tiptap/extension-bold'
 import { Underline } from '@tiptap/extension-underline'
+import { Code } from '@tiptap/extension-code'
 
 describe('MarkdownManager Mixed Markdown + HTML', () => {
   let manager: MarkdownManager
@@ -132,6 +133,27 @@ describe('MarkdownManager Mixed Markdown + HTML', () => {
 describe('Underline Markdown', () => {
   const extensions = [Document, Paragraph, Text, Bold, Underline]
   const manager = new MarkdownManager({ extensions })
+
+  it.each(['`</u>`', '``a ` </u> b``'])(
+    'preserves a literal closing underline tag inside %s',
+    codeSpan => {
+      const codeManager = new MarkdownManager({ extensions: [...extensions, Code] })
+      const markdown = `<u>before ${codeSpan} after</u>`
+      const doc = codeManager.parse(markdown)
+
+      expect(doc.content?.[0].content).toEqual([
+        { type: 'text', text: 'before ', marks: [{ type: 'underline' }] },
+        {
+          type: 'text',
+          text: codeSpan === '`</u>`' ? '</u>' : 'a ` </u> b',
+          marks: [{ type: 'code' }, { type: 'underline' }],
+        },
+        { type: 'text', text: ' after', marks: [{ type: 'underline' }] },
+      ])
+      expect(codeManager.serialize(doc)).toBe(markdown)
+      expect(codeManager.parse(codeManager.serialize(doc))).toEqual(doc)
+    },
+  )
 
   it('exports underline commands as inline HTML and imports them again', () => {
     const editor = new Editor({
