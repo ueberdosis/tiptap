@@ -37,25 +37,44 @@ export interface BlockParserConfig {
   customNestedParser?: (dedentedContent: string) => any[] | undefined
 }
 
+function dedentLine(line: string, indentSize: number) {
+  return line.replace(/^[ \t]*/, whitespace => {
+    const tabSize = 4
+    let columns = 0
+
+    for (const character of whitespace) {
+      columns += character === '\t' ? tabSize - (columns % tabSize) : 1
+    }
+
+    return ' '.repeat(Math.max(0, columns - indentSize))
+  })
+}
+
+function continuesParagraph(line: string, blockTokens: (src: string) => any[]) {
+  // "text" simulates an open paragraph and is never included in the result.
+  const source = `text\n${line}\n`
+  const token = blockTokens(source)[0]
+
+  return (token?.type === 'paragraph' || token?.type === 'text') && token.raw === source
+}
+
 /** Joins paragraph continuation lines and leaves nested blocks for separate parsing. */
 function parseContinuation(
   mainContent: string,
   nestedContent: string,
-  lexer: { blockTokens: (src: string) => any[] },
+  lexer: {
+    blockTokens: (src: string) => any[]
+    isParagraphContinuation?: (line: string) => boolean
+  },
 ) {
   const lines = nestedContent.split('\n')
+  const isContinuation =
+    lexer.isParagraphContinuation ?? (line => continuesParagraph(line, lexer.blockTokens))
   // Number of leading lines to merge into the opening paragraph.
   let continuationLength = 0
 
   for (const line of lines) {
-    if (!line.trim()) {
-      break
-    }
-
-    // Avoid parsing nested lists twice.
-    const combinedContent = `${mainContent}\n${line}\n`
-    const openingToken = lexer.blockTokens(combinedContent)[0]
-    if (openingToken?.type !== 'paragraph' || openingToken.raw !== combinedContent) {
+    if (!line.trim() || !isContinuation(line)) {
       break
     }
 
@@ -114,6 +133,7 @@ export function parseIndentedBlocks(
   lexer: {
     inlineTokens: (src: string) => any[]
     blockTokens: (src: string) => any[]
+    isParagraphContinuation?: (line: string) => boolean
   },
 ):
   | {
@@ -199,7 +219,9 @@ export function parseIndentedBlocks(
     if (nestedContent.length > 0) {
       const continuation = parseContinuation(
         mainContent,
-        nestedContent.map(nestedLine => nestedLine.slice(indentLevel + baseIndentSize)).join('\n'),
+        nestedContent
+          .map(nestedLine => dedentLine(nestedLine, indentLevel + baseIndentSize))
+          .join('\n'),
         lexer,
       )
       itemData.mainContent = continuation.mainContent

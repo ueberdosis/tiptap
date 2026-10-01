@@ -1,6 +1,6 @@
 import { CodeBlock } from '@tiptap/extension-code-block'
 import { Document } from '@tiptap/extension-document'
-import { BulletList, ListItem, TaskItem, TaskList } from '@tiptap/extension-list'
+import { BulletList, ListItem, OrderedList, TaskItem, TaskList } from '@tiptap/extension-list'
 import { Paragraph } from '@tiptap/extension-paragraph'
 import { Text } from '@tiptap/extension-text'
 import { describe, expect, it } from 'vite-plus/test'
@@ -16,6 +16,7 @@ describe('Task list continuation lines', () => {
       CodeBlock,
       BulletList,
       ListItem,
+      OrderedList,
       TaskList,
       TaskItem.configure({ nested: true }),
     ],
@@ -74,6 +75,79 @@ describe('Task list continuation lines', () => {
         },
       ],
     })
+  })
+
+  it.each(['# Release checklist', '1. Install'])(
+    'keeps opening task text in paragraph context: %s',
+    text => {
+      const markdown = [`- [ ] ${text}`, '      continued'].join('\n')
+
+      expect(manager.parse(markdown)).toEqual({
+        type: 'doc',
+        content: [
+          {
+            type: 'taskList',
+            content: [
+              {
+                type: 'taskItem',
+                attrs: { checked: false },
+                content: [
+                  { type: 'paragraph', content: [{ type: 'text', text: `${text}\ncontinued` }] },
+                ],
+              },
+            ],
+          },
+        ],
+      })
+    },
+  )
+
+  it('joins a task continuation inside a bullet list', () => {
+    const markdown = ['- Parent', '  - [ ] First', '        continued'].join('\n')
+
+    expect(manager.parse(markdown)).toEqual({
+      type: 'doc',
+      content: [
+        {
+          type: 'bulletList',
+          content: [
+            {
+              type: 'listItem',
+              content: [
+                { type: 'paragraph', content: [{ type: 'text', text: 'Parent' }] },
+                {
+                  type: 'taskList',
+                  content: [
+                    {
+                      type: 'taskItem',
+                      attrs: { checked: false },
+                      content: [
+                        {
+                          type: 'paragraph',
+                          content: [{ type: 'text', text: 'First\ncontinued' }],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    })
+  })
+
+  it.each([
+    ['- [ ] First line', '      continued'],
+    ['- [ ] Parent', '  - [x] Child', '        continued'],
+    ['- First line', '  continued'],
+    ['1. First line', 'continued'],
+  ])('keeps continuation lines inside list items after export and reimport: %j', (...lines) => {
+    const document = manager.parse(lines.join('\n'))
+    const exported = manager.serialize(document)
+
+    expect(manager.parse(exported)).toEqual(document)
   })
 
   it.each([
