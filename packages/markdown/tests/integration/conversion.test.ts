@@ -390,6 +390,51 @@ describe('Markdown Conversion Tests', () => {
     })
   })
 
+  describe('code blocks containing backticks', () => {
+    it('preserves a Markdown code block containing a fenced JavaScript example', () => {
+      const markdown = ['````markdown', '```js', 'console.log("Hello");', '```', '````'].join('\n')
+      const document = markdownManager.parse(markdown)
+
+      expect(document.content).toHaveLength(1)
+      expect(document.content?.[0]).toEqual({
+        type: 'codeBlock',
+        attrs: { language: 'markdown' },
+        content: [{ type: 'text', text: '```js\nconsole.log("Hello");\n```' }],
+      })
+
+      const serialized = markdownManager.serialize(document)
+
+      expect(markdownManager.parse(serialized)).toEqual(document)
+      expect(serialized).toBe(markdown)
+    })
+
+    it.each([
+      { text: '', fence: '```' },
+      { text: 'console.log("Hello");', fence: '```' },
+      { text: 'a ` b `` c', fence: '```' },
+      { text: '```', fence: '````' },
+      { text: '````', fence: '`````' },
+      { text: 'before\n  ```\nafter', fence: '````' },
+      { text: '```\n`````\n````', fence: '``````' },
+      { text: 'const value = "```";', fence: '````' },
+    ])('round-trips $text using $fence', ({ text, fence }) => {
+      const document = {
+        type: 'doc',
+        content: [
+          {
+            type: 'codeBlock',
+            attrs: { language: null },
+            content: text ? [{ type: 'text', text }] : [],
+          },
+        ],
+      }
+      const serialized = markdownManager.serialize(document)
+
+      expect(markdownManager.parse(serialized)).toEqual(document)
+      expect(serialized).toBe([fence, text, fence].join('\n'))
+    })
+  })
+
   describe('HTML character escaping', () => {
     it('should decode &lt; and &gt; entities to literal < and > when parsing', () => {
       const markdown = 'foo &lt;bar&gt; baz'

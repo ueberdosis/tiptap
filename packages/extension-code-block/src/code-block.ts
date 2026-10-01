@@ -179,17 +179,19 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
   },
 
   renderMarkdown: (node, h) => {
-    let output = ''
     const language = node.attrs?.language || ''
+    const content = node.content ? h.renderChildren(node.content) : ''
+    // Markdown code fences need at least three backticks.
+    let fenceLength = 3
 
-    if (!node.content) {
-      output = `\`\`\`${language}\n\n\`\`\``
-    } else {
-      const lines = [`\`\`\`${language}`, h.renderChildren(node.content), '```']
-      output = lines.join('\n')
+    // Match consecutive backticks and keep the outer fence longer so content cannot close it.
+    for (const run of content.match(/`+/g) || []) {
+      fenceLength = Math.max(fenceLength, run.length + 1)
     }
 
-    return output
+    const fence = '`'.repeat(fenceLength)
+
+    return [`${fence}${language}`, content, fence].join('\n')
   },
 
   addCommands() {

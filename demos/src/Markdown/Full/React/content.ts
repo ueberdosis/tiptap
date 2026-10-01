@@ -58,6 +58,14 @@ const editor = new Editor({
 })
 \`\`\`
 
+Code blocks can also contain Markdown fences:
+
+\`\`\`\`markdown
+\`\`\`javascript
+console.log("Hello");
+\`\`\`
+\`\`\`\`
+
 ### Details
 
 :::details
