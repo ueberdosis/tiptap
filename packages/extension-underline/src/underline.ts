@@ -66,30 +66,27 @@ export const Underline = Mark.create<UnderlineOptions>({
   },
 
   renderMarkdown(node, helpers) {
-    return `++${helpers.renderChildren(node)}++`
+    return `<u>${helpers.renderChildren(node)}</u>`
   },
 
   markdownTokenizer: {
     name: 'underline',
     level: 'inline',
     start(src) {
-      return src.indexOf('++')
+      return src.toLowerCase().indexOf('<u>')
     },
     tokenize(src, _tokens, lexer) {
-      const rule = /^(\+\+)([\s\S]+?)(\+\+)/
-      const match = rule.exec(src)
+      const match = /^<u>([\s\S]+?)<\/u>/i.exec(src)
 
       if (!match) {
         return undefined
       }
 
-      const innerContent = match[2].trim()
-
       return {
         type: 'underline',
         raw: match[0],
-        text: innerContent,
-        tokens: lexer.inlineTokens(innerContent),
+        text: match[1],
+        tokens: lexer.inlineTokens(match[1]),
       }
     },
   },
