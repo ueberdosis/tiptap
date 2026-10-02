@@ -51,7 +51,7 @@
   h6 {
     font-size: 1rem;
   }
-
+  
   /* Code and preformatted text styles */
   code {
     background-color: var(--purple-light);
@@ -98,6 +98,11 @@
   box-shadow: var(--shadow);
   display: flex;
   padding: 0.2rem;
+  position: fixed;
+  // z-index: 9999;
+  top: -50;
+  left: 50%;
+
 
   button {
     background-color: unset;
