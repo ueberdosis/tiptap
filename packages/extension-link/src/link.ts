@@ -370,7 +370,7 @@ export const Link = Mark.create<LinkOptions>({
 
   renderMarkdown: (node, h) => {
     const href = node.attrs?.href ?? ''
-    const title = node.attrs?.title ?? ''
+    const title = String(node.attrs?.title ?? '').replace(/["\\]/g, '\\$&')
     const text = h.renderChildren(node)
 
     return title ? `[${text}](${href} "${title}")` : `[${text}](${href})`
