@@ -295,7 +295,10 @@ export class Editor extends EventEmitter<EditorEvents> {
     }
 
     if (this.options.editorProps) {
-      this.view.setProps(this.options.editorProps)
+      this.view.setProps({
+        ...this.options.editorProps,
+        attributes: this.getEditorViewAttributes(),
+      })
     }
 
     this.view.updateState(this.state)
@@ -576,6 +579,27 @@ export class Editor extends EventEmitter<EditorEvents> {
   }
 
   /**
+   * Returns the attributes for the editor element.
+   * Merges the default `role="textbox"` with the attributes from `editorProps`,
+   * so the role is kept no matter when the props are applied.
+   */
+  private getEditorViewAttributes(): NonNullable<DirectEditorProps['attributes']> {
+    const attributes = this.options.editorProps?.attributes
+
+    if (isFunction(attributes)) {
+      return state => ({
+        role: 'textbox',
+        ...attributes(state),
+      })
+    }
+
+    return {
+      role: 'textbox',
+      ...attributes,
+    }
+  }
+
+  /**
    * Creates a ProseMirror view.
    */
   private createView(element: NonNullable<EditorOptions['element']>): void {
@@ -595,11 +619,7 @@ export class Editor extends EventEmitter<EditorEvents> {
 
     this.editorView = new EditorView(element, {
       ...editorProps,
-      attributes: {
-        // add `role="textbox"` to the editor element
-        role: 'textbox',
-        ...editorProps?.attributes,
-      },
+      attributes: this.getEditorViewAttributes(),
       dispatchTransaction: dispatch,
       transformPastedHTML,
       state: this.editorState,
