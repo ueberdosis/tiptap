@@ -37,6 +37,59 @@ export interface BlockParserConfig {
   customNestedParser?: (dedentedContent: string) => any[] | undefined
 }
 
+function dedentLine(line: string, indentSize: number) {
+  return line.replace(/^[ \t]*/, whitespace => {
+    const tabSize = 4
+    let columns = 0
+
+    for (const character of whitespace) {
+      columns += character === '\t' ? tabSize - (columns % tabSize) : 1
+    }
+
+    return ' '.repeat(Math.max(0, columns - indentSize))
+  })
+}
+
+function continuesParagraph(line: string, blockTokens: (src: string) => any[]) {
+  // "text" simulates an open paragraph and is never included in the result.
+  const source = `text\n${line}\n`
+  const token = blockTokens(source)[0]
+
+  return (token?.type === 'paragraph' || token?.type === 'text') && token.raw === source
+}
+
+/** Joins paragraph continuation lines and leaves nested blocks for separate parsing. */
+function parseContinuation(
+  mainContent: string,
+  nestedContent: string,
+  lexer: {
+    blockTokens: (src: string) => any[]
+    isParagraphContinuation?: (line: string) => boolean
+  },
+) {
+  const lines = nestedContent.split('\n')
+  const isContinuation =
+    lexer.isParagraphContinuation ?? (line => continuesParagraph(line, lexer.blockTokens))
+  // Number of leading lines to merge into the opening paragraph.
+  let continuationLength = 0
+
+  for (const line of lines) {
+    if (!line.trim() || !isContinuation(line)) {
+      break
+    }
+
+    continuationLength += 1
+  }
+
+  return {
+    mainContent: [
+      mainContent,
+      ...lines.slice(0, continuationLength).map(line => line.trimStart()),
+    ].join('\n'),
+    nestedContent: lines.slice(continuationLength).join('\n'),
+  }
+}
+
 /**
  * Parses markdown text into hierarchical indented blocks with proper nesting.
  *
@@ -80,6 +133,7 @@ export function parseIndentedBlocks(
   lexer: {
     inlineTokens: (src: string) => any[]
     blockTokens: (src: string) => any[]
+    isParagraphContinuation?: (line: string) => boolean
   },
 ):
   | {
@@ -163,10 +217,15 @@ export function parseIndentedBlocks(
     const nestedContent = itemContent.slice(1)
 
     if (nestedContent.length > 0) {
-      // Remove the base indentation from nested content
-      const dedentedNested = nestedContent
-        .map(nestedLine => nestedLine.slice(indentLevel + baseIndentSize)) // Remove base indent + 2 spaces
-        .join('\n')
+      const continuation = parseContinuation(
+        mainContent,
+        nestedContent
+          .map(nestedLine => dedentLine(nestedLine, indentLevel + baseIndentSize))
+          .join('\n'),
+        lexer,
+      )
+      itemData.mainContent = continuation.mainContent
+      const dedentedNested = continuation.nestedContent
 
       if (dedentedNested.trim()) {
         // Use custom nested parser if provided, otherwise fall back to default

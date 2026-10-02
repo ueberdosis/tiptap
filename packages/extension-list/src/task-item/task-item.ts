@@ -183,7 +183,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
     const checkedChar = node.attrs?.checked ? 'x' : ' '
     const prefix = `- [${checkedChar}] `
 
-    return renderNestedMarkdownContent(node, h, prefix)
+    return renderNestedMarkdownContent(node, h, prefix, undefined, { indentMainContent: true })
   },
 
   addExtensions() {
