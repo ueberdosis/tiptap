@@ -18,12 +18,12 @@ export { ORDERED_LIST_MARKER_PATTERN }
 /**
  * Matches an ordered list item line with optional leading whitespace.
  * Captures: (1) indentation spaces, (2) item marker (number, letter, or roman numeral),
- * (3) separator (. or )), (4) content after marker
+ * (3) separator (. or )), (4) whitespace after separator, (5) content after marker
  *
  * Examples: "1. Item", "  a) Nested item", "    I. Roman item", "iii. Another", "aa. Item 27"
  */
 export const ORDERED_LIST_ITEM_REGEX = new RegExp(
-  `^(\\s*)(${ORDERED_LIST_MARKER_PATTERN})([.)])\\s+(.*)$`,
+  `^(\\s*)(${ORDERED_LIST_MARKER_PATTERN})([.)])(\\s+)(.*)$`,
 )
 
 // Mixed-case titles match the pattern but are not list markers.
@@ -154,8 +154,10 @@ export function collectOrderedListItems(lines: string[]): [OrderedListItem[], nu
       break
     }
 
-    const [, indent, marker, _separator, content] = match
+    const [, indent, marker, separator, delimiterWhitespace, content] = match
     const indentLevel = indent.length
+    const contentIndent =
+      indentLevel + marker.length + separator.length + delimiterWhitespace.length
     const number = parseInt(marker, 10)
 
     const markerType = isNaN(number) ? detectMarkerType(marker) : undefined
@@ -187,7 +189,6 @@ export function collectOrderedListItems(lines: string[]): [OrderedListItem[], nu
         // Strip the indentation only up to the whitespace that is actually present,
         // so an under-indented line (e.g. a single leading space) keeps its first character.
         const leadingWhitespace = nextLine.length - nextLine.trimStart().length
-        const contentIndent = indentLevel + marker.length + 1
         itemLines.push(nextLine)
         itemContentLines.push(nextLine.slice(Math.min(leadingWhitespace, contentIndent)))
         nextLineIndex += 1
