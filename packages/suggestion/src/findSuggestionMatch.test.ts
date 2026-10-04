@@ -35,8 +35,8 @@ const mention = {
 }
 
 describe('findSuggestionMatch allowedPrefixes', () => {
-  it('matches after a space when a hyphen is also an allowed prefix', () => {
-    expect(findMatch('hi @bob', [' ', '-'])).toEqual(mention)
+  it('matches after a hyphen when a hyphen is an allowed prefix', () => {
+    expect(findMatch('hi-@bob', [' ', '-'])).toEqual(mention)
   })
 
   it('matches after a closing bracket when it is an allowed prefix', () => {
