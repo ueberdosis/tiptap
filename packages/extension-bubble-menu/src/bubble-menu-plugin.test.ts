@@ -3,7 +3,7 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { PluginKey } from '@tiptap/pm/state'
-import { describe, expect, it, vi } from 'vite-plus/test'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test'
 
 import { BubbleMenuView } from './bubble-menu-plugin.js'
 
@@ -284,6 +284,81 @@ describe('BubbleMenuView cross-contamination', () => {
 
     view1.destroy()
     view2.destroy()
+    editor.destroy()
+  })
+})
+
+describe('BubbleMenuView after destroy', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+
+    computePositionMock.mockResolvedValue({
+      x: 10,
+      y: 20,
+      strategy: 'absolute',
+      placement: 'top',
+      middlewareData: {},
+    })
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+    computePositionMock.mockReset();
+  })
+
+  it('should not show from a focus update that was pending when it was destroyed', () => {
+    const editor = createEditor()
+    const onShow = vi.fn()
+    let shouldShow = false
+    const view = createBubbleMenuView(editor, { shouldShow: () => shouldShow, options: { onShow } })
+
+    view.focusHandler()
+    shouldShow = true
+    view.destroy()
+    vi.runAllTimers()
+
+    expect(onShow).not.toHaveBeenCalled()
+    expect(view.element.style.visibility).not.toBe('visible')
+
+    editor.destroy()
+  })
+
+  it('should not show from a focus event that reaches it after it was destroyed', () => {
+    const editor = createEditor()
+    const onShow = vi.fn()
+    let shouldShow = false
+    const view = createBubbleMenuView(editor, { shouldShow: () => shouldShow, options: { onShow } })
+
+    shouldShow = true
+    view.destroy()
+    // An emit in progress still calls listeners that were removed during it
+    view.focusHandler()
+    vi.runAllTimers()
+
+    expect(onShow).not.toHaveBeenCalled()
+
+    editor.destroy()
+  })
+
+  it('should not show from a debounced update that was pending when it was destroyed', () => {
+    const editor = createEditor()
+    const onShow = vi.fn()
+    let shouldShow = false
+    const view = createBubbleMenuView(editor, {
+      updateDelay: 250,
+      shouldShow: () => shouldShow,
+      options: { onShow },
+    })
+
+    const oldState = editor.state
+    editor.commands.setTextSelection({ from: 1, to: 6 })
+    view.update(editor.view, oldState)
+    shouldShow = true
+    view.destroy()
+    vi.advanceTimersByTime(250)
+
+    expect(onShow).not.toHaveBeenCalled()
+
     editor.destroy()
   })
 })
