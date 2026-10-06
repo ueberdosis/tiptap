@@ -8,10 +8,16 @@
         >
           Toggle superscript
         </button>
-        <button @click="editor.chain().focus().setSuperscript().run()" :disabled="editor.isActive('superscript')">
+        <button
+          @click="editor.chain().focus().setSuperscript().run()"
+          :disabled="editor.isActive('superscript')"
+        >
           Set superscript
         </button>
-        <button @click="editor.chain().focus().unsetSuperscript().run()" :disabled="!editor.isActive('superscript')">
+        <button
+          @click="editor.chain().focus().unsetSuperscript().run()"
+          :disabled="!editor.isActive('superscript')"
+        >
           Unset superscript
         </button>
       </div>
@@ -25,7 +31,7 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Superscript from '@tiptap/extension-superscript'
 import Text from '@tiptap/extension-text'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 
 export default {
   components: {

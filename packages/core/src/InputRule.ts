@@ -1,14 +1,21 @@
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Node as PMNode, ResolvedPos } from '@tiptap/pm/model'
 import { Fragment } from '@tiptap/pm/model'
-import type { EditorState, TextSelection } from '@tiptap/pm/state'
-import { Plugin } from '@tiptap/pm/state'
+import { closeHistory } from '@tiptap/pm/history'
+import type { TextSelection } from '@tiptap/pm/state'
+import { EditorState, Plugin } from '@tiptap/pm/state'
 
 import { CommandManager } from './CommandManager.js'
 import type { Editor } from './Editor.js'
 import { createChainableState } from './helpers/createChainableState.js'
 import { getHTMLFromFragment } from './helpers/getHTMLFromFragment.js'
 import { getTextContentFromNodes } from './helpers/getTextContentFromNodes.js'
-import type { CanCommands, ChainedCommands, ExtendedRegExpMatchArray, Range, SingleCommands } from './types.js'
+import type {
+  CanCommands,
+  ChainedCommands,
+  ExtendedRegExpMatchArray,
+  Range,
+  SingleCommands,
+} from './types.js'
 import { isRegExp } from './utilities/isRegExp.js'
 
 export type InputRuleMatch = {
@@ -53,7 +60,10 @@ export class InputRule {
   }
 }
 
-const inputRuleMatcherHandler = (text: string, find: InputRuleFinder): ExtendedRegExpMatchArray | null => {
+const inputRuleMatcherHandler = (
+  text: string,
+  find: InputRuleFinder,
+): ExtendedRegExpMatchArray | null => {
   if (isRegExp(find)) {
     return find.exec(text)
   }
@@ -72,13 +82,129 @@ const inputRuleMatcherHandler = (text: string, find: InputRuleFinder): ExtendedR
 
   if (inputRuleMatch.replaceWith) {
     if (!inputRuleMatch.text.includes(inputRuleMatch.replaceWith)) {
-      console.warn('[tiptap warn]: "inputRuleMatch.replaceWith" must be part of "inputRuleMatch.text".')
+      console.warn(
+        '[tiptap warn]: "inputRuleMatch.replaceWith" must be part of "inputRuleMatch.text".',
+      )
     }
 
     result.push(inputRuleMatch.replaceWith)
   }
 
   return result
+}
+
+/**
+ * Prepares the typed text so the rule handler can inspect the resulting document.
+ */
+function createRuleTransaction(config: {
+  editor: Editor
+  from: number
+  to: number
+  text: string
+  insertText?: boolean
+}) {
+  const { editor, from, to, text, insertText } = config
+
+  if (!insertText) {
+    return { inputTransaction: null, tr: editor.view.state.tr }
+  }
+
+  const inputTransaction = editor.view.state.tr.insertText(text, from, to)
+  const inputState = EditorState.create({
+    doc: inputTransaction.doc,
+    selection: inputTransaction.selection,
+    storedMarks: inputTransaction.storedMarks,
+  })
+
+  return { inputTransaction, tr: inputState.tr }
+}
+
+/**
+ * Runs a matching rule and dispatches the typed text before its conversion.
+ */
+function applyRule(config: {
+  editor: Editor
+  from: number
+  to: number
+  text: string
+  rule: InputRule
+  match: ExtendedRegExpMatchArray
+  plugin: Plugin
+  insertText?: boolean
+}): boolean {
+  const { editor, from, to, text, rule, match, plugin, insertText } = config
+  const { view } = editor
+  const { inputTransaction, tr } = createRuleTransaction({ editor, from, to, text, insertText })
+  const inputEnd = inputTransaction ? from + text.length : to
+  const state = createChainableState({
+    state: view.state,
+    transaction: tr,
+  })
+  const range = {
+    from: from - (match[0].length - text.length),
+    to: inputEnd,
+  }
+
+  const { commands, chain, can } = new CommandManager({
+    editor,
+    state,
+  })
+
+  const handler = rule.handler({
+    state,
+    range,
+    match,
+    commands,
+    chain,
+    can,
+  })
+
+  if (handler === null || !tr.steps.length) {
+    return false
+  }
+
+  if (inputTransaction) {
+    view.dispatch(inputTransaction)
+
+    if (!view.state.doc.eq(inputTransaction.doc)) {
+      return true
+    }
+  }
+
+  closeHistory(tr)
+  tr.setMeta('inputRule', true)
+
+  if (rule.undoable) {
+    tr.setMeta(plugin, {
+      transform: tr,
+      from,
+      to: inputEnd,
+      text,
+    })
+  }
+
+  view.dispatch(tr)
+  return true
+}
+
+/**
+ * Checks that the part of a match already in the document has matching positions.
+ */
+function matchesDocument($from: ResolvedPos, match: ExtendedRegExpMatchArray, text: string) {
+  // Leaf nodes can have different text and document lengths.
+  const matchedDocLength = match[0].length - text.length
+
+  if (matchedDocLength <= 0) {
+    return true
+  }
+
+  const matchStartOffset = $from.parentOffset - matchedDocLength
+
+  return (
+    matchStartOffset >= 0 &&
+    $from.parent.textBetween(matchStartOffset, $from.parentOffset) ===
+      match[0].slice(0, matchedDocLength)
+  )
 }
 
 function run(config: {
@@ -88,8 +214,9 @@ function run(config: {
   text: string
   rules: InputRule[]
   plugin: Plugin
+  insertText?: boolean
 }): boolean {
-  const { editor, from, to, text, rules, plugin } = config
+  const { editor, from, to, text, rules, plugin, insertText } = config
   const { view } = editor
 
   if (view.composing) {
@@ -107,66 +234,21 @@ function run(config: {
     return false
   }
 
-  let matched = false
-
   const textBefore = getTextContentFromNodes($from) + text
 
-  rules.forEach(rule => {
-    if (matched) {
-      return
-    }
-
+  for (const rule of rules) {
     const match = inputRuleMatcherHandler(textBefore, rule.find)
 
-    if (!match) {
-      return
+    if (!match || !matchesDocument($from, match, text)) {
+      continue
     }
 
-    const tr = view.state.tr
-    const state = createChainableState({
-      state: view.state,
-      transaction: tr,
-    })
-    const range = {
-      from: from - (match[0].length - text.length),
-      to,
+    if (applyRule({ editor, from, to, text, rule, match, plugin, insertText })) {
+      return true
     }
+  }
 
-    const { commands, chain, can } = new CommandManager({
-      editor,
-      state,
-    })
-
-    const handler = rule.handler({
-      state,
-      range,
-      match,
-      commands,
-      chain,
-      can,
-    })
-
-    // stop if there are no changes
-    if (handler === null || !tr.steps.length) {
-      return
-    }
-
-    // store transform as meta data
-    // so we can undo input rules within the `undoInputRules` command
-    if (rule.undoable) {
-      tr.setMeta(plugin, {
-        transform: tr,
-        from,
-        to,
-        text,
-      })
-    }
-
-    view.dispatch(tr)
-    matched = true
-  })
-
-  return matched
+  return false
 }
 
 /**
@@ -193,7 +275,7 @@ export function inputRulesPlugin(props: { editor: Editor; rules: InputRule[] }):
           | undefined
           | {
               from: number
-              text: string | ProseMirrorNode | Fragment
+              text: string | PMNode | Fragment
             }
         const isSimulatedInput = !!simulatedInputMeta
 
@@ -234,6 +316,7 @@ export function inputRulesPlugin(props: { editor: Editor; rules: InputRule[] }):
           text,
           rules,
           plugin,
+          insertText: true,
         })
       },
 

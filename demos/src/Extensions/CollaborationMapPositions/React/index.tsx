@@ -5,7 +5,7 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { Placeholder } from '@tiptap/extensions'
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
 import { type MappablePosition, EditorContent, Extension, useEditor } from '@tiptap/react'
@@ -16,7 +16,7 @@ import * as Y from 'yjs'
  * Creates a ProseMirror DecorationSet from a list of decoration data.
  * @returns A ProseMirror DecorationSet
  */
-function createDecorations(data: MappablePosition[], doc: Node): DecorationSet {
+function createDecorations(data: MappablePosition[], doc: PMNode): DecorationSet {
   return DecorationSet.create(
     doc,
     data.map(({ position }) =>
@@ -69,7 +69,9 @@ const DecorationsExtension = Extension.create({
             }
 
             // If the transaction adds a decoration, add it to the decoration data.
-            const metadata = transaction.getMeta(DecorationsPluginKey) as MappablePosition | undefined
+            const metadata = transaction.getMeta(DecorationsPluginKey) as
+              | MappablePosition
+              | undefined
             if (metadata) {
               decorationData.push(metadata)
             }
@@ -92,7 +94,7 @@ const DecorationsExtension = Extension.create({
 
 const ydoc = new Y.Doc()
 
-// eslint-disable-next-line no-new
+// oxlint-disable-next-line no-new
 new WebrtcProvider('tiptap-collaboration-extension', ydoc)
 
 export default () => {
@@ -105,7 +107,8 @@ export default () => {
         document: ydoc,
       }),
       Placeholder.configure({
-        placeholder: 'Write something … It’ll be shared with everyone else looking at this example.',
+        placeholder:
+          'Write something … It’ll be shared with everyone else looking at this example.',
       }),
       DecorationsExtension,
     ],

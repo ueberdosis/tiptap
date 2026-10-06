@@ -1,0 +1,30 @@
+/* Basic editor styles */
+.tiptap {
+  :first-child {
+    margin-top: 0;
+  }
+
+  /* inline decoration */
+  .decoration-highlight {
+    background-color: var(--yellow);
+    border-radius: 0.2rem;
+    box-decoration-break: clone;
+    padding: 0.1rem 0;
+  }
+
+  /* widget decoration */
+  .decoration-marker {
+    color: var(--yellow-contrast);
+    font-size: 0.8em;
+    margin-right: 0.1rem;
+    vertical-align: super;
+  }
+
+  /* node decoration */
+  .decoration-heading {
+    background-color: var(--purple-light);
+    border-left: 3px solid var(--purple);
+    border-radius: 0.2rem;
+    padding-left: 0.4rem;
+  }
+}

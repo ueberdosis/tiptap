@@ -151,7 +151,16 @@ const CustomMark = Mark.create({
 export default () => {
   const [serializedContent, setSerializedContent] = useState('')
   const editor = useEditor({
-    extensions: [Markdown, StarterKit, Image, TableKit, CustomNode, CustomAtom, CustomInline, CustomMark],
+    extensions: [
+      Markdown,
+      StarterKit,
+      Image,
+      TableKit,
+      CustomNode,
+      CustomAtom,
+      CustomInline,
+      CustomMark,
+    ],
     content: `
       <p>In this demo, you can see how to define custom syntax for Markdown.</p>
       <div data-type="custom">

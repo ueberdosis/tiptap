@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-shadow */
+/* oslint-disableno-shadow */
 import type { MarkViewProps, MarkViewRenderer, MarkViewRendererOptions } from '@tiptap/core'
 import { MarkView } from '@tiptap/core'
 import React from 'react'
@@ -40,7 +40,10 @@ export interface ReactMarkViewRendererOptions extends MarkViewRendererOptions {
   attrs?: { [key: string]: string }
 }
 
-export class ReactMarkView extends MarkView<React.ComponentType<MarkViewProps>, ReactMarkViewRendererOptions> {
+export class ReactMarkView extends MarkView<
+  React.ComponentType<MarkViewProps>,
+  ReactMarkViewRendererOptions
+> {
   renderer: ReactRenderer
   contentDOMElement: HTMLElement
 
@@ -52,7 +55,10 @@ export class ReactMarkView extends MarkView<React.ComponentType<MarkViewProps>, 
     super(component, props, options)
 
     const { as = 'span', attrs, className = '' } = options || {}
-    const componentProps = { ...props, updateAttributes: this.updateAttributes.bind(this) } satisfies MarkViewProps
+    const componentProps = {
+      ...props,
+      updateAttributes: this.updateAttributes.bind(this),
+    } satisfies MarkViewProps
 
     this.contentDOMElement = document.createElement('span')
 
@@ -67,13 +73,15 @@ export class ReactMarkView extends MarkView<React.ComponentType<MarkViewProps>, 
 
     // For performance reasons, we memoize the provider component
     // And all of the things it requires are declared outside of the component, so it doesn't need to re-render
-    const ReactMarkViewProvider: React.FunctionComponent<MarkViewProps> = React.memo(componentProps => {
-      return (
-        <ReactMarkViewContext.Provider value={context}>
-          {React.createElement(component, componentProps)}
-        </ReactMarkViewContext.Provider>
-      )
-    })
+    const ReactMarkViewProvider: React.FunctionComponent<MarkViewProps> = React.memo(
+      componentProps => {
+        return (
+          <ReactMarkViewContext.Provider value={context}>
+            {React.createElement(component, componentProps)}
+          </ReactMarkViewContext.Provider>
+        )
+      },
+    )
 
     ReactMarkViewProvider.displayName = 'ReactMarkView'
 

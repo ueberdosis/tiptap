@@ -1,4 +1,4 @@
-import type { Fragment, Node as ProseMirrorNode, ParseOptions } from '@tiptap/pm/model'
+import type { Fragment, Node as PMNode, ParseOptions } from '@tiptap/pm/model'
 
 import type { Content, RawCommands } from '../types.js'
 
@@ -28,7 +28,7 @@ declare module '@tiptap/core' {
         /**
          * The ProseMirror content to insert.
          */
-        value: Content | ProseMirrorNode | Fragment,
+        value: Content | PMNode | Fragment,
 
         /**
          * Optional options
@@ -42,5 +42,9 @@ declare module '@tiptap/core' {
 export const insertContent: RawCommands['insertContent'] =
   (value, options) =>
   ({ tr, commands }) => {
-    return commands.insertContentAt({ from: tr.selection.from, to: tr.selection.to }, value, options)
+    return commands.insertContentAt(
+      { from: tr.selection.from, to: tr.selection.to },
+      value,
+      options,
+    )
   }

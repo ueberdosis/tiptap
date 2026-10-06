@@ -5,6 +5,7 @@ import { find, registerCustomProtocol, reset } from 'linkifyjs'
 
 import { autolink } from './helpers/autolink.js'
 import { clickHandler } from './helpers/clickHandler.js'
+import { markdownLinkInputRule, markdownLinkPasteRule } from './helpers/markdownLink.js'
 import { pasteHandler } from './helpers/pasteHandler.js'
 import { UNICODE_WHITESPACE_REGEX_GLOBAL } from './helpers/whitespace.js'
 
@@ -71,6 +72,14 @@ export interface LinkOptions {
    * @example false
    */
   linkOnPaste: boolean
+
+  /**
+   * If enabled, typing or pasting the Markdown link syntax, e.g. `[Tiptap](https://tiptap.dev)`
+   * or `[Tiptap](https://tiptap.dev "Rich text editor")`, converts it into a link.
+   * @default false
+   * @example true
+   */
+  markdownLinks: boolean
 
   /**
    * HTML attributes to add to the link element.
@@ -165,7 +174,18 @@ declare module '@tiptap/core' {
 }
 
 export function isAllowedUri(uri: string | undefined, protocols?: LinkOptions['protocols']) {
-  const allowedProtocols: string[] = ['http', 'https', 'ftp', 'ftps', 'mailto', 'tel', 'callto', 'sms', 'cid', 'xmpp']
+  const allowedProtocols: string[] = [
+    'http',
+    'https',
+    'ftp',
+    'ftps',
+    'mailto',
+    'tel',
+    'callto',
+    'sms',
+    'cid',
+    'xmpp',
+  ]
 
   if (protocols) {
     protocols.forEach(protocol => {
@@ -179,13 +199,16 @@ export function isAllowedUri(uri: string | undefined, protocols?: LinkOptions['p
 
   return (
     !uri ||
-    uri.replace(UNICODE_WHITESPACE_REGEX_GLOBAL, '').match(
-      new RegExp(
-        // eslint-disable-next-line no-useless-escape
-        `^(?:(?:${allowedProtocols.join('|')}):|[^a-z]|[a-z0-9+.\-]+(?:[^a-z+.\-:]|$))`,
-        'i',
-      ),
-    )
+    uri
+      .replace(UNICODE_WHITESPACE_REGEX_GLOBAL, '')
+      .match(
+        new RegExp(
+          `^(?:(?:${allowedProtocols
+            .map(protocol => protocol.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&'))
+            .join('|')}):|[^a-z]|[a-z0-9+.\\-]+(?:[^a-z+.\\-:]|$))`,
+          'i',
+        ),
+      )
   )
 }
 
@@ -207,7 +230,9 @@ export const Link = Mark.create<LinkOptions>({
     if (this.options.validate && !this.options.shouldAutoLink) {
       // Copy the validate function to the shouldAutoLink option
       this.options.shouldAutoLink = this.options.validate
-      console.warn('The `validate` option is deprecated. Rename to the `shouldAutoLink` option instead.')
+      console.warn(
+        'The `validate` option is deprecated. Rename to the `shouldAutoLink` option instead.',
+      )
     }
     this.options.protocols.forEach(protocol => {
       if (typeof protocol === 'string') {
@@ -231,6 +256,7 @@ export const Link = Mark.create<LinkOptions>({
       openOnClick: true,
       enableClickSelection: false,
       linkOnPaste: true,
+      markdownLinks: false, // TODO (major) - default to true on next major version
       autolink: true,
       protocols: [],
       defaultProtocol: 'http',
@@ -276,13 +302,16 @@ export const Link = Mark.create<LinkOptions>({
         },
       },
       target: {
-        default: this.options.HTMLAttributes.target,
+        // Coerce `undefined` to `null` because `undefined` is an invalid attribute value
+        default: this.options.HTMLAttributes.target ?? null,
       },
       rel: {
-        default: this.options.HTMLAttributes.rel,
+        // Coerce `undefined` to `null` because `undefined` is an invalid attribute value
+        default: this.options.HTMLAttributes.rel ?? null,
       },
       class: {
-        default: this.options.HTMLAttributes.class,
+        // Coerce `undefined` to `null` because `undefined` is an invalid attribute value
+        default: this.options.HTMLAttributes.class ?? null,
       },
       title: {
         default: null,
@@ -392,48 +421,84 @@ export const Link = Mark.create<LinkOptions>({
       unsetLink:
         () =>
         ({ chain }) => {
-          return chain().unsetMark(this.name, { extendEmptyMarkRange: true }).setMeta('preventAutolink', true).run()
+          return chain()
+            .unsetMark(this.name, { extendEmptyMarkRange: true })
+            .setMeta('preventAutolink', true)
+            .run()
         },
     }
   },
 
-  addPasteRules() {
+  addInputRules() {
+    if (!this.options.markdownLinks) {
+      return []
+    }
+
     return [
-      markPasteRule({
-        find: text => {
-          const foundLinks: PasteRuleMatch[] = []
+      markdownLinkInputRule({
+        type: this.type,
+        isAllowedHref: href =>
+          this.options.isAllowedUri(href, {
+            defaultValidate: url => !!isAllowedUri(url, this.options.protocols),
+            protocols: this.options.protocols,
+            defaultProtocol: this.options.defaultProtocol,
+          }),
+      }),
+    ]
+  },
 
-          if (text) {
-            const { protocols, defaultProtocol } = this.options
-            const links = find(text).filter(
-              item =>
-                item.isLink &&
-                this.options.isAllowedUri(item.value, {
-                  defaultValidate: href => !!isAllowedUri(href, protocols),
-                  protocols,
-                  defaultProtocol,
-                }),
-            )
+  addPasteRules() {
+    const findPlainUrls = (text: string): PasteRuleMatch[] => {
+      const foundLinks: PasteRuleMatch[] = []
 
-            if (links.length) {
-              links.forEach(link => {
-                if (!this.options.shouldAutoLink(link.value)) {
-                  return
-                }
+      if (text) {
+        const { protocols, defaultProtocol } = this.options
+        const links = find(text).filter(
+          item =>
+            item.isLink &&
+            this.options.isAllowedUri(item.value, {
+              defaultValidate: href => !!isAllowedUri(href, protocols),
+              protocols,
+              defaultProtocol,
+            }),
+        )
 
-                foundLinks.push({
-                  text: link.value,
-                  data: {
-                    href: link.href,
-                  },
-                  index: link.start,
-                })
-              })
-            }
+        links.forEach(link => {
+          if (!this.options.shouldAutoLink(link.value)) {
+            return
           }
 
-          return foundLinks
-        },
+          foundLinks.push({
+            text: link.value,
+            data: {
+              href: link.href,
+            },
+            index: link.start,
+          })
+        })
+      }
+
+      return foundLinks
+    }
+
+    if (this.options.markdownLinks) {
+      return [
+        markdownLinkPasteRule({
+          type: this.type,
+          isAllowedHref: href =>
+            this.options.isAllowedUri(href, {
+              defaultValidate: url => !!isAllowedUri(url, this.options.protocols),
+              protocols: this.options.protocols,
+              defaultProtocol: this.options.defaultProtocol,
+            }),
+          findPlainUrls,
+        }),
+      ]
+    }
+
+    return [
+      markPasteRule({
+        find: findPlainUrls,
         type: this.type,
         getAttributes: match => {
           return {
@@ -468,7 +533,8 @@ export const Link = Mark.create<LinkOptions>({
       clickHandler({
         type: this.type,
         editor: this.editor,
-        openOnClick: this.options.openOnClick === 'whenNotEditable' ? true : this.options.openOnClick,
+        openOnClick:
+          this.options.openOnClick === 'whenNotEditable' ? true : this.options.openOnClick,
         enableClickSelection: this.options.enableClickSelection,
       }),
     )

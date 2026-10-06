@@ -327,7 +327,12 @@ export class ResizableNodeView {
   onUpdate?: NodeView['update']
 
   /** Active resize handle directions */
-  directions: ResizableNodeViewDirection[] = ['bottom-left', 'bottom-right', 'top-left', 'top-right']
+  directions: ResizableNodeViewDirection[] = [
+    'bottom-left',
+    'bottom-right',
+    'top-left',
+    'top-right',
+  ]
 
   /** Minimum allowed dimensions */
   minSize: ResizableNodeDimensions = {
@@ -400,6 +405,7 @@ export class ResizableNodeView {
     this.node = options.node
     this.editor = options.editor
     this.element = options.element
+    this.element.draggable = false
     this.contentElement = options.contentElement
 
     this.getPos = options.getPos
@@ -493,7 +499,11 @@ export class ResizableNodeView {
    * @param innerDecorations - Inner decorations
    * @returns `false` if the node type has changed (requires full rebuild), otherwise the result of `onUpdate` or `true`
    */
-  update(node: PMNode, decorations: readonly Decoration[], innerDecorations: DecorationSource): boolean {
+  update(
+    node: PMNode,
+    decorations: readonly Decoration[],
+    innerDecorations: DecorationSource,
+  ): boolean {
     if (node.type !== this.node.type) {
       return false
     }
@@ -548,7 +558,7 @@ export class ResizableNodeView {
     const element = document.createElement('div')
     element.dataset.resizeContainer = ''
     element.dataset.node = this.node.type.name
-    element.style.display = 'flex'
+    element.style.display = this.node.type.isInline ? 'inline-flex' : 'flex'
 
     if (this.classNames.container) {
       element.className = this.classNames.container
@@ -675,7 +685,9 @@ export class ResizableNodeView {
       }
 
       handle.addEventListener('mousedown', event => this.handleResizeStart(event, direction))
-      handle.addEventListener('touchstart', event => this.handleResizeStart(event as unknown as MouseEvent, direction))
+      handle.addEventListener('touchstart', event =>
+        this.handleResizeStart(event as unknown as MouseEvent, direction),
+      )
 
       this.handleMap.set(direction, handle)
 
@@ -734,7 +746,10 @@ export class ResizableNodeView {
    * @param event - The mouse down event
    * @param direction - The direction of the handle being dragged
    */
-  private handleResizeStart(event: MouseEvent | TouchEvent, direction: ResizableNodeViewDirection): void {
+  private handleResizeStart(
+    event: MouseEvent | TouchEvent,
+    direction: ResizableNodeViewDirection,
+  ): void {
     event.preventDefault()
     event.stopPropagation()
 
@@ -962,7 +977,11 @@ export class ResizableNodeView {
    * @param preserveAspectRatio - Whether to maintain aspect ratio while constraining
    * @returns The constrained dimensions
    */
-  private applyConstraints(width: number, height: number, preserveAspectRatio: boolean): ResizableNodeDimensions {
+  private applyConstraints(
+    width: number,
+    height: number,
+    preserveAspectRatio: boolean,
+  ): ResizableNodeDimensions {
     if (!preserveAspectRatio) {
       // Independent constraints for each dimension
       let constrainedWidth = Math.max(this.minSize.width, width)

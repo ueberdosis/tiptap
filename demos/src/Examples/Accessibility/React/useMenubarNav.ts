@@ -27,12 +27,18 @@ export function useMenubarNav({
   /**
    * Callback when the user presses the escape key
    */
-  onEscape?: (event: KeyboardEvent, ctx: { editor: Editor; ref: React.RefObject<HTMLElement> }) => void
+  onEscape?: (
+    event: KeyboardEvent,
+    ctx: { editor: Editor; ref: React.RefObject<HTMLElement> },
+  ) => void
   /**
    * Callback when a keyboard event occurs
    * @note Call `event.preventDefault()` to prevent the default behavior
    */
-  onKeydown?: (event: KeyboardEvent, ctx: { editor: Editor; ref: React.RefObject<HTMLElement> }) => void
+  onKeydown?: (
+    event: KeyboardEvent,
+    ctx: { editor: Editor; ref: React.RefObject<HTMLElement> },
+  ) => void
 }) {
   const callbacks = useRef({
     onEscape,

@@ -1,10 +1,13 @@
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import { Selection, TextSelection } from '@tiptap/pm/state'
 
 import type { FocusPosition } from '../types.js'
 import { minMax } from '../utilities/minMax.js'
 
-export function resolveFocusPosition(doc: ProseMirrorNode, position: FocusPosition = null): Selection | null {
+export function resolveFocusPosition(
+  doc: PMNode,
+  position: FocusPosition = null,
+): Selection | null {
   if (!position) {
     return null
   }
@@ -24,8 +27,16 @@ export function resolveFocusPosition(doc: ProseMirrorNode, position: FocusPositi
   const maxPos = selectionAtEnd.to
 
   if (position === 'all') {
-    return TextSelection.create(doc, minMax(0, minPos, maxPos), minMax(doc.content.size, minPos, maxPos))
+    return TextSelection.create(
+      doc,
+      minMax(0, minPos, maxPos),
+      minMax(doc.content.size, minPos, maxPos),
+    )
   }
 
-  return TextSelection.create(doc, minMax(position, minPos, maxPos), minMax(position, minPos, maxPos))
+  return TextSelection.create(
+    doc,
+    minMax(position, minPos, maxPos),
+    minMax(position, minPos, maxPos),
+  )
 }

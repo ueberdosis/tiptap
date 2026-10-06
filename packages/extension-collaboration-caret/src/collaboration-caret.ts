@@ -1,4 +1,5 @@
-import { Extension } from '@tiptap/core'
+import { Extension, isValidCSSStyleValue } from '@tiptap/core'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
 import type { DecorationAttrs } from '@tiptap/pm/view'
 import { defaultSelectionBuilder, yCursorPlugin } from '@tiptap/y-tiptap'
 
@@ -27,11 +28,11 @@ export interface CollaborationCaretOptions {
    * render: user => {
    *  const cursor = document.createElement('span')
    *  cursor.classList.add('collaboration-carets__caret')
-   *  cursor.setAttribute('style', `border-color: ${user.color}`)
+   *  cursor.style.borderColor = user.color
    *
    *  const label = document.createElement('div')
    *  label.classList.add('collaboration-carets__label')
-   *  label.setAttribute('style', `background-color: ${user.color}`)
+   *  label.style.backgroundColor = user.color
    *  label.insertBefore(document.createTextNode(user.name), null)
    *
    *  cursor.insertBefore(label, null)
@@ -48,7 +49,6 @@ export interface CollaborationCaretOptions {
    * return {
    *  nodeName: 'span',
    *  class: 'collaboration-carets__selection',
-   *  style: `background-color: ${user.color}`,
    *  'data-user': user.name,
    * }
    */
@@ -82,22 +82,39 @@ declare module '@tiptap/core' {
   }
 }
 
-const awarenessStatesToArray = (states: Map<number, Record<string, any>>) => {
+const awarenessStatesToArray = (states: Map<number, Record<string, any> | null | undefined>) => {
   return Array.from(states.entries()).map(([key, value]) => {
+    if (value && value.user) {
+      return {
+        clientId: key,
+        ...value.user,
+      }
+    }
     return {
       clientId: key,
-      ...value.user,
     }
   })
 }
 
 const defaultOnUpdate = () => null
 
+const isValidUserColor = (color: unknown): color is string => {
+  return isValidCSSStyleValue(color) && /^#[0-9a-fA-F]{6}$/.test(color)
+}
+
+const sanitizeUserColor = (user: Record<string, any>) => ({
+  ...user,
+  color: isValidUserColor(user.color) ? user.color : 'transparent',
+})
+
 /**
  * This extension allows you to add collaboration carets to your editor.
  * @see https://tiptap.dev/api/extensions/collaboration-caret
  */
-export const CollaborationCaret = Extension.create<CollaborationCaretOptions, CollaborationCaretStorage>({
+export const CollaborationCaret = Extension.create<
+  CollaborationCaretOptions,
+  CollaborationCaretStorage
+>({
   name: 'collaborationCaret',
 
   priority: 999,
@@ -111,20 +128,27 @@ export const CollaborationCaret = Extension.create<CollaborationCaretOptions, Co
       },
       render: user => {
         const cursor = document.createElement('span')
+        const { color } = sanitizeUserColor(user)
 
         cursor.classList.add('collaboration-carets__caret')
-        cursor.setAttribute('style', `border-color: ${user.color}`)
+        cursor.style.borderColor = color
 
         const label = document.createElement('div')
 
         label.classList.add('collaboration-carets__label')
-        label.setAttribute('style', `background-color: ${user.color}`)
+        label.style.backgroundColor = color
         label.insertBefore(document.createTextNode(user.name), null)
         cursor.insertBefore(label, null)
 
         return cursor
       },
-      selectionRender: defaultSelectionBuilder,
+      selectionRender: user => {
+        if (!isValidUserColor(user.color)) {
+          return {}
+        }
+
+        return defaultSelectionBuilder(user)
+      },
       onUpdate: defaultOnUpdate,
     }
   },
@@ -165,24 +189,40 @@ export const CollaborationCaret = Extension.create<CollaborationCaretOptions, Co
   },
 
   addProseMirrorPlugins() {
+    const { provider } = this.options
+    const storage = this.storage
+    const user = this.options.user
+
+    // Owns the awareness 'update' subscription so it's torn down when the editor
+    // is destroyed. Without this, the listener would keep the editor reachable
+    // from a shared provider's awareness emitter and leak memory across editors.
+    const awarenessListenerPlugin = new Plugin({
+      key: new PluginKey('collaborationCaretAwarenessListener'),
+      view: () => {
+        const onAwarenessUpdate = () => {
+          storage.users = awarenessStatesToArray(provider.awareness.states)
+        }
+
+        provider.awareness.setLocalStateField('user', user)
+        storage.users = awarenessStatesToArray(provider.awareness.states)
+        provider.awareness.on('update', onAwarenessUpdate)
+
+        return {
+          destroy: () => {
+            provider.awareness.off('update', onAwarenessUpdate)
+            storage.users = []
+          },
+        }
+      },
+    })
+
     return [
-      yCursorPlugin(
-        (() => {
-          this.options.provider.awareness.setLocalStateField('user', this.options.user)
-
-          this.storage.users = awarenessStatesToArray(this.options.provider.awareness.states)
-
-          this.options.provider.awareness.on('update', () => {
-            this.storage.users = awarenessStatesToArray(this.options.provider.awareness.states)
-          })
-
-          return this.options.provider.awareness
-        })(),
-        {
-          cursorBuilder: this.options.render,
-          selectionBuilder: this.options.selectionRender,
-        },
-      ),
+      awarenessListenerPlugin,
+      yCursorPlugin(provider.awareness, {
+        cursorBuilder: currentUser => this.options.render(sanitizeUserColor(currentUser)),
+        selectionBuilder: currentUser =>
+          this.options.selectionRender(sanitizeUserColor(currentUser)),
+      }),
     ]
   },
 })

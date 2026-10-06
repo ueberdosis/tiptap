@@ -1,17 +1,34 @@
 {
   "name": "@tiptap/react",
+  "version": "3.30.3",
   "description": "React components for tiptap",
-  "version": "3.18.0",
-  "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
     "tiptap react components"
   ],
+  "homepage": "https://tiptap.dev",
+  "bugs": {
+    "url": "https://github.com/ueberdosis/tiptap/issues"
+  },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/react"
+  },
   "funding": {
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
+  "files": [
+    "src",
+    "dist"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "types": {
@@ -30,47 +47,34 @@
       "require": "./dist/menus/index.cjs"
     }
   },
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "type": "module",
-  "files": [
-    "src",
-    "dist"
-  ],
+  "scripts": {
+    "build": "vp pack"
+  },
   "dependencies": {
     "@types/use-sync-external-store": "^0.0.6",
     "fast-equals": "^5.3.3",
     "use-sync-external-store": "^1.4.0"
   },
   "devDependencies": {
+    "@testing-library/react": "16.2.0",
     "@tiptap/core": "workspace:^",
     "@tiptap/pm": "workspace:^",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
-  },
-  "optionalDependencies": {
-    "@tiptap/extension-bubble-menu": "workspace:^",
-    "@tiptap/extension-floating-menu": "workspace:^"
+    "react-dom": "^19.0.0",
+    "vite-plus": "catalog:"
   },
   "peerDependencies": {
-    "@tiptap/core": "workspace:^",
-    "@tiptap/pm": "workspace:^",
-    "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
-    "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0",
+    "@tiptap/core": "workspace:*",
+    "@tiptap/pm": "workspace:*",
     "@types/react": "^17.0.0 || ^18.0.0 || ^19.0.0",
-    "@types/react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0"
+    "@types/react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ueberdosis/tiptap",
-    "directory": "packages/react"
-  },
-  "sideEffects": false,
-  "scripts": {
-    "build": "tsup",
-    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
+  "optionalDependencies": {
+    "@tiptap/extension-bubble-menu": "workspace:*",
+    "@tiptap/extension-floating-menu": "workspace:*"
   }
 }

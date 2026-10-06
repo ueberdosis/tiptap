@@ -30,7 +30,9 @@ watch(searchValue, (newValue, oldValue) => {
       <li
         class="p-5 border-b-2 border-black"
         v-for="route in $router.options.routes.filter(route =>
-          searchValue === '' ? true : route.props.name.toLowerCase().includes(searchValue.toLowerCase()),
+          searchValue === ''
+            ? true
+            : route.props.name.toLowerCase().includes(searchValue.toLowerCase()),
         )"
         :key="route.path"
       >
@@ -84,7 +86,9 @@ export default {
 
   computed: {
     query() {
-      return Object.fromEntries(Object.entries(this.$route.query).map(([key, value]) => [key, this.fromString(value)]))
+      return Object.fromEntries(
+        Object.entries(this.$route.query).map(([key, value]) => [key, this.fromString(value)]),
+      )
     },
   },
 }

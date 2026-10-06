@@ -1,4 +1,4 @@
-import type { Mark, MarkType, Node, NodeType } from '@tiptap/pm/model'
+import type { Mark, MarkType, Node as PMNode, NodeType } from '@tiptap/pm/model'
 import type { SelectionRange } from '@tiptap/pm/state'
 
 import { getMarkType } from '../helpers/getMarkType.js'
@@ -60,12 +60,12 @@ export const updateAttributes: RawCommands['updateAttributes'] =
       const to = range.$to.pos
 
       let lastPos: number | undefined
-      let lastNode: Node | undefined
+      let lastNode: PMNode | undefined
       let trimmedFrom: number
       let trimmedTo: number
 
       if (tr.selection.empty) {
-        state.doc.nodesBetween(from, to, (node: Node, pos: number) => {
+        state.doc.nodesBetween(from, to, (node: PMNode, pos: number) => {
           if (nodeType && nodeType === node.type) {
             canUpdate = true
             trimmedFrom = Math.max(pos, from)
@@ -75,7 +75,7 @@ export const updateAttributes: RawCommands['updateAttributes'] =
           }
         })
       } else {
-        state.doc.nodesBetween(from, to, (node: Node, pos: number) => {
+        state.doc.nodesBetween(from, to, (node: PMNode, pos: number) => {
           if (pos < from && nodeType && nodeType === node.type) {
             canUpdate = true
             trimmedFrom = Math.max(pos, from)

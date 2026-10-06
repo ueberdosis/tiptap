@@ -1,10 +1,10 @@
-import type { Mark, Node } from '@tiptap/pm/model'
+import type { Mark, Node as PMNode } from '@tiptap/pm/model'
 
 import type { ExtensionAttribute } from '../types.js'
 import { mergeAttributes } from '../utilities/mergeAttributes.js'
 
 export function getRenderedAttributes(
-  nodeOrMark: Node | Mark,
+  nodeOrMark: PMNode | Mark,
   extensionAttributes: ExtensionAttribute[],
 ): Record<string, any> {
   return extensionAttributes

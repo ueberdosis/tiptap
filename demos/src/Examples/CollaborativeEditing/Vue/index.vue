@@ -29,7 +29,7 @@ import Highlight from '@tiptap/extension-highlight'
 import { TaskItem, TaskList } from '@tiptap/extension-list'
 import { CharacterCount } from '@tiptap/extensions'
 import StarterKit from '@tiptap/starter-kit'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 import * as Y from 'yjs'
 
 import { variables } from '../../../variables.js'
@@ -120,7 +120,15 @@ export default {
     },
 
     getRandomColor() {
-      return getRandomElement(['#958DF1', '#F98181', '#FBBC88', '#FAF594', '#70CFF8', '#94FADB', '#B9F18D'])
+      return getRandomElement([
+        '#958DF1',
+        '#F98181',
+        '#FBBC88',
+        '#FAF594',
+        '#70CFF8',
+        '#94FADB',
+        '#B9F18D',
+      ])
     },
 
     getRandomName() {

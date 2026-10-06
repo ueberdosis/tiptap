@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
+import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue'
 import * as d3 from 'd3'
 import { v4 as uuid } from 'uuid'
 
@@ -42,7 +42,15 @@ export default {
 
   data() {
     return {
-      color: getRandomElement(['#A975FF', '#FB5151', '#FD9170', '#FFCB6B', '#68CEF8', '#80CBC4', '#9DEF8F']),
+      color: getRandomElement([
+        '#A975FF',
+        '#FB5151',
+        '#FD9170',
+        '#FFCB6B',
+        '#68CEF8',
+        '#80CBC4',
+        '#9DEF8F',
+      ]),
       size: Math.ceil(Math.random() * Math.floor(10)),
       svg: null,
       path: null,

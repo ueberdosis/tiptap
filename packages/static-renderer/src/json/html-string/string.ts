@@ -1,26 +1,42 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import type { MarkType, NodeType } from '@tiptap/core'
-
-import type { TiptapStaticRendererOptions } from '../renderer.js'
+/* oslint-disableno-explicit-any */
+import type { JSONMarkType, JSONNodeType, TiptapStaticRendererOptions } from '../renderer.js'
 import { TiptapStaticRenderer } from '../renderer.js'
 
 export function renderJSONContentToString<
   /**
    * A mark type is either a JSON representation of a mark or a Prosemirror mark instance
    */
-  TMarkType extends { type: any } = MarkType,
+  TMarkType extends { type: any } = JSONMarkType,
   /**
    * A node type is either a JSON representation of a node or a Prosemirror node instance
    */
   TNodeType extends {
     content?: { forEach: (cb: (node: TNodeType) => void) => void }
     marks?: readonly TMarkType[]
-    type: string | { name: string }
-  } = NodeType,
+    type?: string | { name: string }
+  } = JSONNodeType<TMarkType>,
 >(options: TiptapStaticRendererOptions<string, TMarkType, TNodeType>) {
   return TiptapStaticRenderer(ctx => {
     return ctx.component(ctx.props as any)
   }, options)
+}
+
+/**
+ * Escape text for HTML text content.
+ * @param value The text to escape
+ * @returns The escaped text
+ */
+export function escapeHTML(value: string): string {
+  return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+}
+
+/**
+ * Escape values for quoted HTML attributes.
+ * @param value The attribute value to escape
+ * @returns The escaped attribute value
+ */
+export function escapeHTMLAttribute(value: string): string {
+  return escapeHTML(value).replace(/"/g, '&quot;')
 }
 
 /**
@@ -29,8 +45,11 @@ export function renderJSONContentToString<
  * @returns The serialized attributes as a string
  */
 export function serializeAttrsToHTMLString(attrs: Record<string, any> | undefined | null): string {
+  // Match ProseMirror's DOMSerializer.renderSpec, which omits null/undefined attribute
+  // values rather than stringifying them — otherwise we emit attrs like class="null".
   const output = Object.entries(attrs || {})
-    .map(([key, value]) => `${key.split(' ').at(-1)}=${JSON.stringify(value)}`)
+    .filter(([, value]) => value != null)
+    .map(([key, value]) => `${key.split(' ').at(-1)}="${escapeHTMLAttribute(String(value))}"`)
     .join(' ')
 
   return output ? ` ${output}` : ''

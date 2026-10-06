@@ -1,22 +1,30 @@
 import './styles.scss'
 
 import DragHandle from '@tiptap/extension-drag-handle-react'
-import { EditorContent, useEditor } from '@tiptap/react'
+import Image from '@tiptap/extension-image'
+import { TableKit } from '@tiptap/extension-table'
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-const NESTED_CONFIG = { edgeDetection: { threshold: -16 } }
+const NESTED_CONFIG_LTR = { edgeDetection: { threshold: -16, edges: ['left'] } }
+const NESTED_CONFIG_RTL = { edgeDetection: { threshold: -16, edges: ['right'] } }
 
 export default () => {
   const [nested, setNested] = useState(true)
+  const [rtl, setRtl] = useState(false)
 
   const editor = useEditor({
-    extensions: [StarterKit],
+    extensions: [StarterKit, Image.configure({ inline: false }), TableKit],
     content: `
       <h1>The Complete Guide to Modern Web Development</h1>
       <p>Web development has evolved significantly over the past decade. What once required multiple tools and complex setups can now be accomplished with modern frameworks and libraries that prioritize developer experience.</p>
 
-      <h2>Getting Started</h2>
+        <img src="https://unsplash.it/500/500" alt="Random Image" />
+
+        <p dir="rtl">تجربة سحب هذا النص توضح كيف يجب أن يلتصق شبح السحب بالمؤشر حتى داخل المحتوى من اليمين إلى اليسار.</p>
+
+        <h2>Getting Started</h2>
       <p>Before diving into the technical details, it's important to understand the foundational concepts that make modern web development possible.</p>
 
       <blockquote>
@@ -24,6 +32,28 @@ export default () => {
       </blockquote>
 
       <p>This philosophy guides much of modern development practices, emphasizing simplicity and maintainability over complexity.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Description</th>
+            <th>Example</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Component-Based Architecture</td>
+            <td>Breaks down the UI into reusable components.</td>
+            <td><code>&lt;MyComponent /&gt;</code></td>
+          </tr>
+          <tr>
+            <td>Virtual DOM</td>
+            <td>Improves performance by minimizing direct DOM manipulation.</td>
+            <td><code>&lt;VirtualDOMComponent /&gt;</code></td>
+          </tr>
+        </tbody>
+      </table>
 
       <hr>
 
@@ -75,6 +105,13 @@ export default () => {
     `,
   })
 
+  const isEditable = useEditorState({
+    editor,
+    selector: context => {
+      return context.editor.isEditable
+    },
+  })
+
   const toggleEditable = () => {
     editor.setEditable(!editor.isEditable)
     editor.view.dispatch(editor.view.state.tr)
@@ -84,13 +121,50 @@ export default () => {
     setNested(!nested)
   }
 
+  const toggleRtl = () => {
+    setRtl(!rtl)
+  }
+
+  let nestedConfig = false
+
+  if (nested) {
+    nestedConfig = rtl ? NESTED_CONFIG_RTL : NESTED_CONFIG_LTR
+  }
+
+  const computePositionConfig = { placement: rtl ? 'right-start' : 'left-start' }
+
+  useEffect(() => {
+    if (!editor) {
+      return
+    }
+
+    if (rtl) {
+      editor.view.dom.setAttribute('dir', 'rtl')
+    } else {
+      editor.view.dom.removeAttribute('dir')
+    }
+  }, [editor, rtl])
+
   return (
     <>
-      <div>
-        <button onClick={toggleEditable}>Toggle editable</button>
-        <button onClick={toggleNested}>Toggle nested</button>
+      <div className="control-group">
+        <div className="button-group">
+          <button className={isEditable ? 'is-active' : ''} onClick={toggleEditable}>
+            Toggle editable
+          </button>
+          <button className={nested ? 'is-active' : ''} onClick={toggleNested}>
+            Toggle nested drag handle
+          </button>
+          <button className={rtl ? 'is-active' : ''} onClick={toggleRtl}>
+            Toggle RTL editor
+          </button>
+        </div>
       </div>
-      <DragHandle editor={editor} nested={nested ? NESTED_CONFIG : false}>
+      <DragHandle
+        editor={editor}
+        nested={nestedConfig}
+        computePositionConfig={computePositionConfig}
+      >
         <div className="custom-drag-handle" />
       </DragHandle>
       <EditorContent editor={editor} />

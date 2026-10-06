@@ -21,8 +21,11 @@ const emojis: EmojiItem[] = data
       return item.unified === emoji.hexcode || item.non_qualified === emoji.hexcode
     })
     const hasFallbackImage = dataSourceEmoji?.has_img_apple
-    const name = [gitHubShortcodes[emoji.hexcode]].flat()[0] || [emojibaseShortcodes[emoji.hexcode]].flat()[0]
-    const shortcodes = emojibaseShortcodes[emoji.hexcode] ? [emojibaseShortcodes[emoji.hexcode]].flat() : []
+    const name =
+      [gitHubShortcodes[emoji.hexcode]].flat()[0] || [emojibaseShortcodes[emoji.hexcode]].flat()[0]
+    const shortcodes = emojibaseShortcodes[emoji.hexcode]
+      ? [emojibaseShortcodes[emoji.hexcode]].flat()
+      : []
     const emoticons = emoji.emoticon ? [emoji.emoticon].flat() : []
 
     return {

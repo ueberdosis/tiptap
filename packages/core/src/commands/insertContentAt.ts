@@ -1,7 +1,9 @@
-import type { Node as ProseMirrorNode, ParseOptions } from '@tiptap/pm/model'
+import type { Node as PMNode, ParseOptions } from '@tiptap/pm/model'
 import { Fragment } from '@tiptap/pm/model'
 
 import { createNodeFromContent } from '../helpers/createNodeFromContent.js'
+import { isFragment } from '../helpers/isFragment.js'
+import { isProseMirrorContent } from '../helpers/isProseMirrorContent.js'
 import { selectionToInsertionEnd } from '../helpers/selectionToInsertionEnd.js'
 import type { Content, Range, RawCommands } from '../types.js'
 
@@ -48,7 +50,7 @@ declare module '@tiptap/core' {
         /**
          * The ProseMirror content to insert.
          */
-        value: Content | ProseMirrorNode | Fragment,
+        value: Content | PMNode | Fragment,
 
         /**
          * Optional options
@@ -57,10 +59,6 @@ declare module '@tiptap/core' {
       ) => ReturnType
     }
   }
-}
-
-const isFragment = (nodeOrFragment: ProseMirrorNode | Fragment): nodeOrFragment is Fragment => {
-  return !('type' in nodeOrFragment)
 }
 
 export const insertContentAt: RawCommands['insertContentAt'] =
@@ -75,7 +73,7 @@ export const insertContentAt: RawCommands['insertContentAt'] =
         ...options,
       }
 
-      let content: Fragment | ProseMirrorNode
+      let content: Fragment | PMNode
 
       const emitContentError = (error: Error) => {
         editor.emit('contentError', {
@@ -100,7 +98,11 @@ export const insertContentAt: RawCommands['insertContentAt'] =
 
       // If `emitContentError` is enabled, we want to check the content for errors
       // but ignore them (do not remove the invalid content from the document)
-      if (!options.errorOnInvalidContent && !editor.options.enableContentCheck && editor.options.emitContentError) {
+      if (
+        !options.errorOnInvalidContent &&
+        !editor.options.enableContentCheck &&
+        editor.options.emitContentError
+      ) {
         try {
           createNodeFromContent(value, editor.schema, {
             parseOptions,
@@ -122,11 +124,13 @@ export const insertContentAt: RawCommands['insertContentAt'] =
       }
 
       let { from, to } =
-        typeof position === 'number' ? { from: position, to: position } : { from: position.from, to: position.to }
+        typeof position === 'number'
+          ? { from: position, to: position }
+          : { from: position.from, to: position.to }
 
       let isOnlyTextContent = true
       let isOnlyBlockContent = true
-      const nodes = isFragment(content) ? content : [content]
+      const nodes: readonly PMNode[] = isFragment(content) ? content.content : [content]
 
       nodes.forEach(node => {
         // check if added node is valid
@@ -160,17 +164,9 @@ export const insertContentAt: RawCommands['insertContentAt'] =
         // if value is string, we can use it directly
         // otherwise if it is an array, we have to join it
         if (Array.isArray(value)) {
-          newContent = value.map(v => v.text || '').join('')
-        } else if (value instanceof Fragment) {
-          let text = ''
-
-          value.forEach(node => {
-            if (node.text) {
-              text += node.text
-            }
-          })
-
-          newContent = text
+          newContent = value.map(item => item.text || '').join('')
+        } else if (isProseMirrorContent(value)) {
+          newContent = nodes.map(node => node.text ?? '').join('')
         } else if (typeof value === 'object' && !!value && !!value.text) {
           newContent = value.text
         } else {
@@ -179,7 +175,7 @@ export const insertContentAt: RawCommands['insertContentAt'] =
 
         tr.insertText(newContent, from, to)
       } else {
-        newContent = content
+        newContent = Fragment.from(nodes)
 
         const $from = tr.doc.resolve(from)
         const $fromNode = $from.node()
@@ -187,11 +183,11 @@ export const insertContentAt: RawCommands['insertContentAt'] =
         const isTextSelection = $fromNode.isText || $fromNode.isTextblock
         const hasContent = $fromNode.content.size > 0
 
-        if (fromSelectionAtStart && isTextSelection && hasContent) {
+        if (fromSelectionAtStart && isTextSelection && hasContent && isOnlyBlockContent) {
           from = Math.max(0, from - 1)
         }
 
-        tr.replaceWith(from, to, newContent)
+        tr.replaceWith(from, to, nodes)
       }
 
       // set cursor at end of inserted content

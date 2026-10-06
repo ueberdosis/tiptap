@@ -1,4 +1,4 @@
-import type { Mark as ProseMirrorMark, Node as ProseMirrorNode, ParseOptions, Slice } from '@tiptap/pm/model'
+import type { Mark as ProseMirrorMark, Node as PMNode, ParseOptions, Slice } from '@tiptap/pm/model'
 import type { EditorState, Transaction } from '@tiptap/pm/state'
 import type { Mappable, Transform } from '@tiptap/pm/transform'
 import type {
@@ -15,16 +15,10 @@ import type {
 
 import type { Editor } from './Editor.js'
 import type { Extendable } from './Extendable.js'
-import type {
-  Commands,
-  ExtensionConfig,
-  GetUpdatedPositionResult,
-  MappablePosition,
-  MarkConfig,
-  NodeConfig,
-} from './index.js'
-import type { Mark } from './Mark.js'
-import type { Node } from './Node.js'
+import type { ExtensionConfig } from './Extension.js'
+import type { GetUpdatedPositionResult, MappablePosition } from './helpers/MappablePosition.js'
+import type { Mark, MarkConfig } from './Mark.js'
+import type { Node, NodeConfig } from './Node.js'
 
 export type AnyConfig = ExtensionConfig | NodeConfig | MarkConfig
 export type AnyExtension = Extendable
@@ -38,12 +32,16 @@ export type ParentConfig<T> = Partial<{
 
 export type Primitive = null | undefined | string | number | boolean | symbol | bigint
 
-export type RemoveThis<T> = T extends (...args: any) => any ? (...args: Parameters<T>) => ReturnType<T> : T
+export type RemoveThis<T> = T extends (...args: any) => any
+  ? (...args: Parameters<T>) => ReturnType<T>
+  : T
 
 export type MaybeReturnType<T> = T extends (...args: any) => any ? ReturnType<T> : T
 
 export type MaybeThisParameterType<T> =
-  Exclude<T, Primitive> extends (...args: any) => any ? ThisParameterType<Exclude<T, Primitive>> : any
+  Exclude<T, Primitive> extends (...args: any) => any
+    ? ThisParameterType<Exclude<T, Primitive>>
+    : any
 
 export interface EditorEvents {
   mount: {
@@ -241,7 +239,7 @@ export interface EditorEvents {
          * The node which the deletion occurred in
          * @note This can be a parent node of the deleted content
          */
-        node: ProseMirrorNode
+        node: PMNode
         /**
          * The new start position of the node in the document (after the deletion)
          */
@@ -338,6 +336,15 @@ export interface EditorOptions {
   coreExtensionOptions?: {
     clipboardTextSerializer?: {
       blockSeparator?: string
+    }
+    /**
+     * Options for the `tabindex` core extension.
+     */
+    tabindex?: {
+      /**
+       * The value for the `tabindex` attribute on the editor element.
+       */
+      value?: string
     }
     delete?: {
       /**
@@ -587,7 +594,9 @@ export type NodeType<
 export type DocumentType<
   TDocAttributes extends Record<string, any> | undefined = Record<string, any>,
   TContentType extends NodeType[] = NodeType[],
-> = Omit<NodeType<'doc', TDocAttributes, never, TContentType>, 'marks' | 'content'> & { content: TContentType }
+> = Omit<NodeType<'doc', TDocAttributes, never, TContentType>, 'marks' | 'content'> & {
+  content: TContentType
+}
 
 /**
  * A node type is either a JSON representation of a text node or a Prosemirror text node instance
@@ -652,8 +661,18 @@ export type ExtensionAttribute = {
 export type GlobalAttributes = {
   /**
    * The node & mark types this attribute should be applied to.
+   * Can be a specific array of type names, or a shorthand string:
+   * - `'*'` applies to all nodes (excluding text) and all marks
+   * - `'nodes'` applies to all nodes (excluding the built-in text node)
+   * - `'marks'` applies to all marks
+   * - `string[]` applies to specific node/mark types by name
+   * @example
+   * types: '*'                                    // All nodes and marks
+   * types: 'nodes'                                // All nodes
+   * types: 'marks'                                // All marks
+   * types: ['heading', 'paragraph']               // Specific types
    */
-  types: string[]
+  types: string[] | 'nodes' | 'marks' | '*'
   /**
    * The attributes to add to the node or mark types.
    */
@@ -662,7 +681,11 @@ export type GlobalAttributes = {
 
 export type PickValue<T, K extends keyof T> = T[K]
 
-export type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (k: infer I) => void ? I : never
+export type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
+  k: infer I,
+) => void
+  ? I
+  : never
 
 export type Diff<T extends keyof any, U extends keyof any> = ({ [P in T]: P } & {
   [P in U]: never
@@ -709,6 +732,22 @@ export interface NodeViewRendererOptions {
   stopEvent: ((props: { event: Event }) => boolean) | null
   ignoreMutation: ((props: { mutation: ViewMutationRecord }) => boolean) | null
   contentDOMElementTag: string
+  /**
+   * When `true`, the `selected` prop also becomes `true` if a `TextSelection`
+   * is fully inside the node's range (e.g. the cursor is placed within the
+   * node's content), not only when there is a `NodeSelection` on the node.
+   * Defaults to `false` to preserve existing behavior.
+   */
+  selectedOnTextSelection?: boolean
+  /**
+   * When `true`, the component re-renders on every position shift so calls
+   * to `getPos()` stay current in render output.
+   * Without this option, `getPos()` is still always current for imperative
+   * use (click handlers, commands) — it only becomes stale when directly
+   * rendered in JSX or used in reactive template expressions.
+   * @default false
+   */
+  trackNodeViewPosition?: boolean
 }
 
 export interface NodeViewRendererProps {
@@ -752,7 +791,7 @@ export interface NodeViewRendererProps {
 
 export type NodeViewRenderer = (props: NodeViewRendererProps) => NodeView
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+// oxlint-disable-next-lineno-empty-object-type
 export interface MarkViewProps extends MarkViewRendererProps {}
 
 export interface MarkViewRendererProps {
@@ -822,7 +861,7 @@ export type Range = {
 }
 
 export type NodeRange = {
-  node: ProseMirrorNode
+  node: PMNode
   from: number
   to: number
 }
@@ -833,17 +872,17 @@ export type MarkRange = {
   to: number
 }
 
-export type Predicate = (node: ProseMirrorNode) => boolean
+export type Predicate = (node: PMNode) => boolean
 
 export type NodeWithPos = {
-  node: ProseMirrorNode
+  node: PMNode
   pos: number
 }
 
 export type TextSerializer = (props: {
-  node: ProseMirrorNode
+  node: PMNode
   pos: number
-  parent: ProseMirrorNode
+  parent: PMNode
   index: number
   range: Range
 }) => string
@@ -886,8 +925,12 @@ export type MarkdownHelpers = {
 export type MarkdownParseHelpers = {
   /** Parse an array of inline tokens into text nodes with marks */
   parseInline: (tokens: MarkdownToken[]) => JSONContent[]
+  /** Tokenize source text as inline markdown when supported by the markdown parser */
+  tokenizeInline?: (src: string) => MarkdownToken[]
   /** Parse an array of block-level tokens */
   parseChildren: (tokens: MarkdownToken[]) => JSONContent[]
+  /** Parse block-level tokens while preserving implicit empty paragraphs from blank lines */
+  parseBlockChildren?: (tokens: MarkdownToken[]) => JSONContent[]
   /** Create a text node with optional marks */
   createTextNode: (text: string, marks?: Array<{ type: string; attrs?: any }>) => JSONContent
   /** Create any node type with attributes and content */
@@ -928,13 +971,17 @@ export default MarkdownHelpers
  * - an array of JSON-like nodes
  * - or a `{ mark: string, content: JSONLike[] }` shape to apply a mark
  */
-export type MarkdownParseResult = JSONContent | JSONContent[] | { mark: string; content: JSONContent[]; attrs?: any }
+export type MarkdownParseResult =
+  | JSONContent
+  | JSONContent[]
+  | { mark: string; content: JSONContent[]; attrs?: any }
 
 export type RenderContext = {
   index: number
   level: number
   meta?: Record<string, any>
   parentType?: string | null
+  previousNode?: JSONContent | null
 }
 
 /** Extension contract for markdown parsing/serialization. */
@@ -946,6 +993,10 @@ export interface MarkdownExtensionSpec {
   parseMarkdown?: (token: MarkdownToken, helpers: MarkdownParseHelpers) => MarkdownParseResult
   renderMarkdown?: (node: any, helpers: MarkdownRendererHelpers, ctx: RenderContext) => string
   isIndenting?: boolean
+  htmlReopen?: {
+    open: string
+    close: string
+  }
   /** Custom tokenizer for marked.js to handle non-standard markdown syntax */
   tokenizer?: MarkdownTokenizer
 }
@@ -994,6 +1045,9 @@ export type MarkdownRendererHelpers = {
    */
   renderChildren: (nodes: JSONContent | JSONContent[], separator?: string) => string
 
+  /** Render a single child node with its sibling index preserved */
+  renderChild?: (node: JSONContent, index: number) => string
+
   /**
    * Render a text token to a markdown string
    * @param prefix The prefix to add before the content
@@ -1022,7 +1076,10 @@ export type Utils = {
    * const position = editor.utils.createMappablePosition(10)
    * const {position, mapResult} = editor.utils.getUpdatedPosition(position, transaction)
    */
-  getUpdatedPosition: (position: MappablePosition, transaction: Transaction) => GetUpdatedPositionResult
+  getUpdatedPosition: (
+    position: MappablePosition,
+    transaction: Transaction,
+  ) => GetUpdatedPositionResult
 
   /**
    * Creates a MappablePosition from a position number. A mappable position can be used to track the
@@ -1036,3 +1093,8 @@ export type Utils = {
    */
   createMappablePosition: (position: number) => MappablePosition
 }
+
+// oxlint-disable-next-line no-unused-vars
+export interface Commands<ReturnType = any> {}
+
+export interface Storage {}

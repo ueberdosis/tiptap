@@ -1,5 +1,243 @@
 # Change Log
 
+## 3.30.3
+
+### Patch Changes
+
+- Updated dependencies [4ae6ea0]
+  - @tiptap/extension-text-style@3.30.3
+
+## 3.30.2
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.30.2
+
+## 3.30.1
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.30.1
+
+## 3.30.0
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.30.0
+
+## 3.29.2
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.29.2
+
+## 3.29.1
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.29.1
+
+## 3.29.0
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.29.0
+
+## 3.28.0
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.28.0
+
+## 3.27.4
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.27.4
+
+## 3.27.3
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.27.3
+
+## 3.27.2
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.27.2
+
+## 3.27.1
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.27.1
+
+## 3.27.0
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.27.0
+
+## 3.26.1
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.26.1
+
+## 3.26.0
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.26.0
+
+## 3.25.0
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.25.0
+
+## 3.24.0
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.24.0
+
+## 3.23.6
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.23.6
+
+## 3.23.5
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.23.5
+
+## 3.23.4
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.23.4
+
+## 3.23.3
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.23.3
+
+## 3.23.2
+
+### Patch Changes
+
+- Updated dependencies [f98eaaf]
+  - @tiptap/extension-text-style@3.23.2
+
+## 3.23.1
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.23.1
+
+## 3.23.0
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.23.0
+
+## 3.22.5
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.22.5
+
+## 3.22.4
+
+### Patch Changes
+
+- 27ea931: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [27ea931]
+  - @tiptap/extension-text-style@3.22.4
+
+## 3.22.3
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.22.3
+
+## 3.22.2
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.22.2
+
+## 3.22.1
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.22.1
+
+## 3.22.0
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.22.0
+
+## 3.21.0
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.21.0
+
+## 3.20.6
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.20.6
+
+## 3.20.5
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.20.5
+
+## 3.20.4
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.20.4
+
+## 3.20.3
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.20.3
+
+## 3.20.2
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.20.2
+
+## 3.20.1
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.20.1
+
+## 3.20.0
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.20.0
+
+## 3.19.0
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.19.0
+
 ## 3.18.0
 
 ### Patch Changes

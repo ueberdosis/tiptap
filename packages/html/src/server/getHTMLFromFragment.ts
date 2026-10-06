@@ -1,4 +1,4 @@
-import type { Node, Schema } from '@tiptap/pm/model'
+import type { Node as PMNode, Schema } from '@tiptap/pm/model'
 import { DOMSerializer } from '@tiptap/pm/model'
 import { Window } from 'happy-dom'
 
@@ -15,11 +15,19 @@ import { Window } from 'happy-dom'
  * const html = getHTMLFromFragment(doc, schema)
  * ```
  */
-export function getHTMLFromFragment(doc: Node, schema: Schema, options?: { document?: Document }): string {
+export function getHTMLFromFragment(
+  doc: PMNode,
+  schema: Schema,
+  options?: { document?: Document },
+): string {
   if (options?.document) {
     const wrap = options.document.createElement('div')
 
-    DOMSerializer.fromSchema(schema).serializeFragment(doc.content, { document: options.document }, wrap)
+    DOMSerializer.fromSchema(schema).serializeFragment(
+      doc.content,
+      { document: options.document },
+      wrap,
+    )
     return wrap.innerHTML
   }
 
@@ -35,12 +43,17 @@ export function getHTMLFromFragment(doc: Node, schema: Schema, options?: { docum
   let result: string
 
   try {
-    const fragment = DOMSerializer.fromSchema(schema).serializeFragment(doc.content, {
-      document: localWindow.document as unknown as Document,
-    })
+    const wrap = localWindow.document.createElement('div')
 
-    const serializer = new localWindow.XMLSerializer()
-    result = serializer.serializeToString(fragment as any)
+    DOMSerializer.fromSchema(schema).serializeFragment(
+      doc.content,
+      {
+        document: localWindow.document as unknown as Document,
+      },
+      wrap,
+    )
+
+    result = wrap.innerHTML
   } finally {
     // clean up happy-dom to avoid memory leaks
     localWindow.happyDOM.abort()

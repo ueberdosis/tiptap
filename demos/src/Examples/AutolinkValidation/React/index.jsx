@@ -61,7 +61,11 @@ export default () => {
     <>
       <div className="control-group">
         <div className="button-group">
-          <button onClick={setLink} className={editorState.isLink ? 'is-active' : ''} data-testid="setLink">
+          <button
+            onClick={setLink}
+            className={editorState.isLink ? 'is-active' : ''}
+            data-testid="setLink"
+          >
             Set link
           </button>
           <button

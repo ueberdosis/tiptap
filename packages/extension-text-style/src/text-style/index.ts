@@ -74,7 +74,9 @@ const mergeNestedSpanStyles = (element: HTMLElement) => {
 
   childSpans.forEach(childSpan => {
     const childStyle = childSpan.getAttribute('style')
-    const closestParentSpanStyleOfChild = childSpan.parentElement?.closest('span')?.getAttribute('style')
+    const closestParentSpanStyleOfChild = childSpan.parentElement
+      ?.closest('span')
+      ?.getAttribute('style')
 
     childSpan.setAttribute('style', `${closestParentSpanStyleOfChild};${childStyle}`)
   })
@@ -142,9 +144,8 @@ export const TextStyle = Mark.create<TextStyleOptions>({
           // removes everything from all the nodes
           // within the selection range.
           tr.doc.nodesBetween(selection.from, selection.to, (node, pos) => {
-            // Check if it's a paragraph element, if so, skip this node as we apply
-            // the text style to inline text nodes only (span).
-            if (node.isTextblock) {
+            // Skip non-inline nodes, the text style only applies to spans
+            if (!node.isInline) {
               return true
             }
 

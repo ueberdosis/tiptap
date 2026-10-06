@@ -17,7 +17,10 @@ export const Delete = Extension.create({
       ) {
         return
       }
-      const nextTransaction = combineTransactionSteps(transaction.before, [transaction, ...appendedTransactions])
+      const nextTransaction = combineTransactionSteps(transaction.before, [
+        transaction,
+        ...appendedTransactions,
+      ])
       const changes = getChangedRanges(nextTransaction)
 
       changes.forEach(change => {
@@ -25,25 +28,29 @@ export const Delete = Extension.create({
           nextTransaction.mapping.mapResult(change.oldRange.from).deletedAfter &&
           nextTransaction.mapping.mapResult(change.oldRange.to).deletedBefore
         ) {
-          nextTransaction.before.nodesBetween(change.oldRange.from, change.oldRange.to, (node, from) => {
-            const to = from + node.nodeSize - 2
-            const isFullyWithinRange = change.oldRange.from <= from && to <= change.oldRange.to
+          nextTransaction.before.nodesBetween(
+            change.oldRange.from,
+            change.oldRange.to,
+            (node, from) => {
+              const to = from + node.nodeSize - 2
+              const isFullyWithinRange = change.oldRange.from <= from && to <= change.oldRange.to
 
-            this.editor.emit('delete', {
-              type: 'node',
-              node,
-              from,
-              to,
-              newFrom: nextTransaction.mapping.map(from),
-              newTo: nextTransaction.mapping.map(to),
-              deletedRange: change.oldRange,
-              newRange: change.newRange,
-              partial: !isFullyWithinRange,
-              editor: this.editor,
-              transaction,
-              combinedTransform: nextTransaction,
-            })
-          })
+              this.editor.emit('delete', {
+                type: 'node',
+                node,
+                from,
+                to,
+                newFrom: nextTransaction.mapping.map(from),
+                newTo: nextTransaction.mapping.map(to),
+                deletedRange: change.oldRange,
+                newRange: change.newRange,
+                partial: !isFullyWithinRange,
+                editor: this.editor,
+                transaction,
+                combinedTransform: nextTransaction,
+              })
+            },
+          )
         }
       })
 
@@ -55,8 +62,13 @@ export const Delete = Extension.create({
           const oldStart = mapping.invert().map(newStart, -1)
           const oldEnd = mapping.invert().map(newEnd)
 
-          const foundBeforeMark = nextTransaction.doc.nodeAt(newStart - 1)?.marks.some(mark => mark.eq(step.mark))
-          const foundAfterMark = nextTransaction.doc.nodeAt(newEnd)?.marks.some(mark => mark.eq(step.mark))
+          const foundBeforeMark =
+            newStart > 0
+              ? nextTransaction.doc.nodeAt(newStart - 1)?.marks.some(mark => mark.eq(step.mark))
+              : false
+          const foundAfterMark = nextTransaction.doc
+            .nodeAt(newEnd)
+            ?.marks.some(mark => mark.eq(step.mark))
 
           this.editor.emit('delete', {
             type: 'mark',

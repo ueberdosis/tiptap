@@ -8,10 +8,16 @@
         >
           Toggle italic
         </button>
-        <button @click="editor.chain().focus().setItalic().run()" :disabled="editor.isActive('italic')">
+        <button
+          @click="editor.chain().focus().setItalic().run()"
+          :disabled="editor.isActive('italic')"
+        >
           Set italic
         </button>
-        <button @click="editor.chain().focus().unsetItalic().run()" :disabled="!editor.isActive('italic')">
+        <button
+          @click="editor.chain().focus().unsetItalic().run()"
+          :disabled="!editor.isActive('italic')"
+        >
           Unset italic
         </button>
       </div>
@@ -25,7 +31,7 @@ import Document from '@tiptap/extension-document'
 import Italic from '@tiptap/extension-italic'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 
 export default {
   components: {

@@ -6,13 +6,15 @@
       <button data-test-id="count-button" @click="increase" class="primary">
         This button has been clicked {{ count }} times.
       </button>
-      <button data-test-id="update-attributes-button" @click="updateCountAttr">Update attributes</button>
+      <button data-test-id="update-attributes-button" @click="updateCountAttr">
+        Update attributes
+      </button>
     </label>
   </span>
 </template>
 
 <script>
-import { MarkViewContent, markViewProps } from '@tiptap/vue-3'
+import { MarkViewContent, markViewProps } from '@tiptap/vue'
 
 export default {
   components: {

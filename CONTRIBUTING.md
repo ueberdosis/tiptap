@@ -2,7 +2,7 @@
 
 Contributions are **welcome** and will be fully **credited**.
 
-Please read and understand the [contribution guide](https://www.tiptap.dev/overview/contributing/) before creating an issue or pull request.
+Please read and understand the [contribution guide](https://tiptap.dev/docs/resources/contributing) before creating an issue or pull request.
 
 ## Etiquette
 
@@ -20,6 +20,65 @@ quality to benefit the project. Many developers have different skillsets, streng
 
 If you discover a security vulnerability, please refer to our [Security Policy](SECURITY.md) for reporting instructions.
 
+## Branching
+
+`main` is the default branch and always holds the newest code. That's not the same as "stable".
+While a new major version is being developed, `main` can be a pre-release (`next`, `alpha`,
+`beta`) for months before it ships. Check the npm dist-tag (`latest`, `next`, `alpha`, ...), not
+the branch, to know what is currently stable.
+
+Older major versions live on `release/v*` branches (e.g. `release/v3`). These only
+receive critical bug fixes and security patches, no new features.
+
+| Branch       | Purpose                                 | Publishes                                                                      |
+| ------------ | --------------------------------------- | ------------------------------------------------------------------------------ |
+| `main`       | Active development, default branch      | `next` / `alpha` / `beta`, or `latest` once main is the current stable version |
+| `release/v*` | Frozen stable line, critical fixes only | `latest` (while current) or `latest-v*` (once superseded)                      |
+
+Once a `release/v*` branch is cut, it never merges back into `main`, and `main` never
+merges into it. Merging two branches with that much diverged history just produces huge
+conflicts. Individual fixes still travel between them, one commit at a time, by cherry-pick.
+
+### Where to open your pull request
+
+- Open your PR against `main`. That's the default target and where all new development happens.
+- Only target a `release/v*` branch directly if your fix applies exclusively to that old
+  version and not to `main` (see "Change only relevant for a maintained version" below).
+
+### Does your fix need to reach the current stable release too?
+
+A fix merged into `main` during a pre-release cycle does not reach users on the current stable
+release by itself, because `main` and the maintenance branch never merge. If your fix addresses
+a critical bug or security issue that also affects the current stable release, it needs a
+second PR that cherry-picks your commit onto the relevant `release/v*` branch.
+
+- Check the box in the pull request template if this applies to your change.
+- Open the backport PR yourself if you can. You know the fix best.
+- If you can't, a maintainer may do it as a last resort, but that's not guaranteed, so try first.
+
+### The three cases
+
+#### Default workflow
+
+Most changes. Lands on `main`, ships under whatever tag `main` is currently publishing, no
+backport needed.
+
+![Default branching workflow](.github/assets/branching-guide/general.png)
+
+#### Change only relevant for `main`
+
+A change that does not apply to any maintained stable version, for example a new-major-only
+feature. Lands on `main` only. `release/v*` never sees it.
+
+![Change only relevant for main](.github/assets/branching-guide/main.png)
+
+#### Change only relevant for a maintained version
+
+A fix specific to an already-stable release. Open the PR directly against `release/v*`.
+It never touches `main`.
+
+![Change only relevant for a maintained version](.github/assets/branching-guide/maintenance.png)
+
 ## Viability
 
 When requesting or submitting new features, first consider whether it might be useful to others. Open
@@ -33,7 +92,6 @@ Before filing an issue:
 - Attempt to replicate the problem, to ensure that it wasn't a coincidental incident. Create a CodeSandbox to reproduce the issue. Use one of these templates to get started:
   - [JavaScript template](https://codesandbox.io/s/tiptap-js-fv1lyo)
   - [React template](https://codesandbox.io/s/tiptap-react-qidlsv)
-  - [Vue 2 template](https://codesandbox.io/s/tiptap-vue-2-25nq3g)
   - [Vue 3 template](https://codesandbox.io/p/sandbox/tiptap-vue-3-ci7q9h)
 - Check to make sure your feature suggestion isn't already present within the project.
 - Check the pull requests tab to ensure that the bug doesn't have a fix in progress.
@@ -43,11 +101,22 @@ Before submitting a pull request:
 
 - Check the codebase to ensure that your feature doesn't already exist.
 - Check the pull requests to ensure that another person hasn't already submitted the feature or fix.
+- Check which branch to target. See [Branching](#branching) above.
 
 Before committing:
 
 - Make sure to run the tests and linter before committing your changes.
 - If you are making changes to one of the packages, make sure to **always** include a [changeset](https://github.com/changesets/changesets) in your PR describing **what changed** with a **description** of the change. Those are responsible for changelog creation
+
+## Testing
+
+- Place file-specific unit tests next to the file they cover and name them `<basename>.test.ts`.
+- Keep a `tests/` folder next to `src/` in each package for package-wide tests and support.
+- Put integration tests that exercise multiple source files or runtime wiring in `tests/integration/`.
+- Put shared test utilities in `tests/utils/`.
+- Fixtures are passive inputs loaded by tests, not executable tests. Put scenario or reproduction data in `tests/fixtures/`.
+- Put file-based fixtures in `tests/fixtures/files/`, with more specific subfolders when needed.
+- Put shared package test setup in `tests/setup/`. Keep one-off mocks and helpers next to the test that uses them.
 
 ## Create a new demo
 
@@ -84,6 +153,28 @@ When adding a new package to the repository that does not yet exist on NPM, addi
 
 Without this setup, the publish CI will fail when attempting to release a new package.
 
+### Adding a new release branch
+
+When work on a new major version starts on `main`, cut the current stable line into its own
+`release/v*` branch (e.g., `release/v2`) before the first breaking change merges. See
+[Branching](#branching) for the full model. Then update two places:
+
+1. **Workflow trigger** — Add the branch name to the `on.push.branches` list in `.github/workflows/publish.yml`.
+2. **Publish configuration** — Add a matching entry in `.github/publish-config.json` with the desired dist-tag and release messages.
+
+Both lists must stay in sync. A branch present in one but not the other will either never trigger the workflow or produce a harmless no-op.
+
+Each entry in `.github/publish-config.json` takes four fields:
+
+| Field     | Description                                                                                |
+| --------- | ------------------------------------------------------------------------------------------ |
+| `distTag` | npm dist-tag passed to `pnpm changeset publish --tag`, e.g. `latest`, `next`, `latest-v2`. |
+| `label`   | Label used in the Slack release announcement, e.g. `stable` or `prerelease`.               |
+| `title`   | Title of the Changesets version PR created by CI.                                          |
+| `commit`  | Commit message of that version PR.                                                         |
+
+The resolver job looks up the current branch by exact name. If it is missing, the workflow exits cleanly without building, publishing, or notifying. Make sure the dist-tag exists on npm (`npm dist-tag add <package>@<version> <tag>`) before the first release from a new branch.
+
 ## Requirements
 
 If the project maintainer has any additional requirements, you will find them listed here.
@@ -93,5 +184,11 @@ If the project maintainer has any additional requirements, you will find them li
 - **One pull request per feature** - If you want to do more than one thing, send multiple pull requests.
 
 - **Send coherent history** - Make sure each individual commit in your pull request is meaningful. If you had to make multiple intermediate commits while developing, please [squash them](https://www.git-scm.com/book/en/v2/Git-Tools-Rewriting-History#Changing-Multiple-Commit-Messages) before submitting.
+
+- **Disclose AI usage** — If you used AI tools (e.g., ChatGPT, Claude, GitHub Copilot) to generate any part of your contribution, you must clearly disclose this in your pull request description.
+
+- **Link your pull request to an issue** — Pull requests must be linked to an existing issue that has been assigned to you. Before opening a PR, ensure there is an issue describing the bug or feature you're addressing. Trivial fixes (e.g., typos, broken links) are exempt.
+
+- **Respond to feedback** — Maintainers may ask follow-up questions or request changes on your pull request. If you do not respond within 30 days, your PR may be closed. You are welcome to reopen it or submit a new PR once you're able to address the feedback.
 
 **Happy coding**!

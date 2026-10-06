@@ -114,6 +114,13 @@ export const Italic = Mark.create<ItalicOptions>({
     return helpers.applyMark('italic', helpers.parseInline(token.tokens || []))
   },
 
+  markdownOptions: {
+    htmlReopen: {
+      open: '<em>',
+      close: '</em>',
+    },
+  },
+
   renderMarkdown: (node, h) => {
     return `*${h.renderChildren(node)}*`
   },

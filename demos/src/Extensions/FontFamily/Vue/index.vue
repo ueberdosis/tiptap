@@ -10,7 +10,9 @@
         </button>
         <button
           @click="editor.chain().focus().setFontFamily('Comic Sans MS, Comic Sans').run()"
-          :class="{ 'is-active': editor.isActive('textStyle', { fontFamily: 'Comic Sans MS, Comic Sans' }) }"
+          :class="{
+            'is-active': editor.isActive('textStyle', { fontFamily: 'Comic Sans MS, Comic Sans' }),
+          }"
         >
           Comic Sans
         </button>
@@ -44,7 +46,7 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { FontFamily, TextStyle } from '@tiptap/extension-text-style'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 
 export default {
   components: {

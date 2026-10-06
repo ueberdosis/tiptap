@@ -185,7 +185,9 @@ export default () => {
   }, [editor])
 
   const findAllLandscapeImages = useCallback(() => {
-    const nodePosition = editor.$doc.querySelectorAll('image', { src: 'https://placehold.co/260x200' })
+    const nodePosition = editor.$doc.querySelectorAll('image', {
+      src: 'https://placehold.co/260x200',
+    })
 
     if (!nodePosition) {
       setFoundNodes(null)
@@ -196,7 +198,11 @@ export default () => {
   }, [editor])
 
   const findFirstLandscapeImageWithAllQuery = useCallback(() => {
-    const nodePosition = editor.$doc.querySelectorAll('image', { src: 'https://placehold.co/260x200' }, true)
+    const nodePosition = editor.$doc.querySelectorAll(
+      'image',
+      { src: 'https://placehold.co/260x200' },
+      true,
+    )
 
     if (!nodePosition) {
       setFoundNodes(null)
@@ -297,10 +303,16 @@ export default () => {
           <button data-testid="find-all-landscape-images" onClick={findAllLandscapeImages}>
             Find all landscape images
           </button>
-          <button data-testid="find-first-landscape-image-with-all-query" onClick={findFirstLandscapeImageWithAllQuery}>
+          <button
+            data-testid="find-first-landscape-image-with-all-query"
+            onClick={findFirstLandscapeImageWithAllQuery}
+          >
             Find first landscape image with all query
           </button>
-          <button data-testid="find-portrait-image-inside-blockquote" onClick={findPortraitImageInBlockquote}>
+          <button
+            data-testid="find-portrait-image-inside-blockquote"
+            onClick={findPortraitImageInBlockquote}
+          >
             Find portrait image in blockquote
           </button>
         </div>
@@ -311,7 +323,10 @@ export default () => {
           <button data-testid="find-last-node" onClick={findLastNode}>
             Find last node
           </button>
-          <button data-testid="find-last-node-of-first-bullet-list" onClick={findLastNodeOfFirstBulletList}>
+          <button
+            data-testid="find-last-node-of-first-bullet-list"
+            onClick={findLastNodeOfFirstBulletList}
+          >
             Find last node of first bullet list
           </button>
           <button data-testid="find-nonexistent-node" onClick={findNonexistentNode}>

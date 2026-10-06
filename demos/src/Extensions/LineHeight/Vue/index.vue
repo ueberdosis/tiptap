@@ -23,7 +23,10 @@
         >
           Line height 4.0
         </button>
-        <button @click="editor.chain().focus().unsetLineHeight().run()" data-test-id="unsetLineHeight">
+        <button
+          @click="editor.chain().focus().unsetLineHeight().run()"
+          data-test-id="unsetLineHeight"
+        >
           Unset line height
         </button>
       </div>
@@ -37,7 +40,7 @@ import './styles.scss'
 
 import { LineHeight, TextStyle } from '@tiptap/extension-text-style'
 import StarterKit from '@tiptap/starter-kit'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 
 export default {
   components: {

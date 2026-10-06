@@ -2,7 +2,10 @@
   <div v-if="editor">
     <bubble-menu :editor="editor">
       <div class="bubble-menu">
-        <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
+        <button
+          @click="editor.chain().focus().toggleBold().run()"
+          :class="{ 'is-active': editor.isActive('bold') }"
+        >
           Bold
         </button>
         <button
@@ -49,8 +52,8 @@
 
 <script>
 import StarterKit from '@tiptap/starter-kit'
-import { Editor, EditorContent } from '@tiptap/vue-3'
-import { BubbleMenu, FloatingMenu } from '@tiptap/vue-3/menus'
+import { Editor, EditorContent } from '@tiptap/vue'
+import { BubbleMenu, FloatingMenu } from '@tiptap/vue/menus'
 
 export default {
   components: {

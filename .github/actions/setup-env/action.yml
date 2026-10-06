@@ -1,0 +1,20 @@
+name: Setup Vite+ environment
+description: Install Vite+ and set up Node.js and dependency caching
+
+inputs:
+  node-version:
+    description: Node.js version
+    required: true
+  cache:
+    description: Whether to cache package manager data
+    default: 'false'
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - uses: voidzero-dev/setup-vp@v1.18.0
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: ${{ inputs.cache == 'true' && 'true' || 'false' }}
+        run-install: false

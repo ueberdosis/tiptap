@@ -1,5 +1,5 @@
 import { type Extensions, type JSONContent, getSchema } from '@tiptap/core'
-import { Node } from '@tiptap/pm/model'
+import { Node as PMNode } from '@tiptap/pm/model'
 
 import { getHTMLFromFragment } from './getHTMLFromFragment.js'
 
@@ -18,7 +18,8 @@ import { getHTMLFromFragment } from './getHTMLFromFragment.js'
  */
 export function generateHTML(doc: JSONContent, extensions: Extensions): string {
   // Use positive Node.js detection to allow for jsdom/happy-dom environments in tests
-  const isNode = typeof process !== 'undefined' && process.versions != null && process.versions.node != null
+  const isNode =
+    typeof process !== 'undefined' && process.versions != null && process.versions.node != null
 
   if (!isNode) {
     throw new Error(
@@ -27,7 +28,7 @@ export function generateHTML(doc: JSONContent, extensions: Extensions): string {
   }
 
   const schema = getSchema(extensions)
-  const contentNode = Node.fromJSON(schema, doc)
+  const contentNode = PMNode.fromJSON(schema, doc)
 
   return getHTMLFromFragment(contentNode, schema)
 }

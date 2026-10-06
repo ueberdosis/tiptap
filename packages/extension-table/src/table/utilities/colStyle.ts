@@ -1,4 +1,7 @@
-export function getColStyleDeclaration(minWidth: number, width: number | undefined): [string, string] {
+export function getColStyleDeclaration(
+  minWidth: number,
+  width: number | undefined,
+): [string, string] {
   if (width) {
     // apply the stored width unless it is below the configured minimum cell width
     return ['width', `${Math.max(width, minWidth)}px`]

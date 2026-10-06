@@ -18,7 +18,9 @@ export function splitName(name: string) {
   const parts = name.split('/')
 
   if (parts.length !== 3) {
-    throw Error('Demos must always be within exactly one category. Nested categories are not supported.')
+    throw Error(
+      'Demos must always be within exactly one category. Nested categories are not supported.',
+    )
   }
 
   return parts

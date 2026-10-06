@@ -1,4 +1,4 @@
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import type { DecorationSet } from '@tiptap/pm/view'
 
 import { createDecorationWidget } from './utils/create-decoration-widget.js'
@@ -27,13 +27,15 @@ export class InvisibleCharacter {
     this.priority = options.priority || 100
   }
 
-  createDecoration(from: number, to: number, doc: Node, decorations: DecorationSet) {
+  createDecoration(from: number, to: number, doc: PMNode, decorations: DecorationSet) {
     const textContent = textBetween(from, to, doc)
 
     return textContent.reduce((oldDecorations, currentPosition) => {
       return currentPosition.text.split('').reduce((innerDecorations, char, i) => {
         return this.test(char)
-          ? innerDecorations.add(doc, [createDecorationWidget(currentPosition.pos + i, this.type, this.content)])
+          ? innerDecorations.add(doc, [
+              createDecorationWidget(currentPosition.pos + i, this.type, this.content),
+            ])
           : innerDecorations
       }, oldDecorations)
     }, decorations)

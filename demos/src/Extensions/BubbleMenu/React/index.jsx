@@ -1,6 +1,12 @@
 import './styles.scss'
 
-import { EditorContent, findParentNode, posToDOMRect, useEditor, useEditorState } from '@tiptap/react'
+import {
+  EditorContent,
+  findParentNode,
+  posToDOMRect,
+  useEditor,
+  useEditorState,
+} from '@tiptap/react'
 import { BubbleMenu } from '@tiptap/react/menus'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useEffect } from 'react'
@@ -34,9 +40,9 @@ export default () => {
   const { isBold, isItalic, isStrikethrough } = useEditorState({
     editor,
     selector: ctx => ({
-      isBold: ctx.editor.isActive('bold'),
-      isItalic: ctx.editor.isActive('italic'),
-      isStrikethrough: ctx.editor.isActive('strike'),
+      isBold: ctx.editor.isActive('bold') ?? false,
+      isItalic: ctx.editor.isActive('italic') ?? false,
+      isStrikethrough: ctx.editor.isActive('strike') ?? false,
     }),
   })
 
@@ -94,7 +100,11 @@ export default () => {
                 node => node.type.name === 'bulletList' || node.type.name === 'orderedList',
               )(editor.state.selection)
               if (parentNode) {
-                const domRect = posToDOMRect(editor.view, parentNode.start, parentNode.start + parentNode.node.nodeSize)
+                const domRect = posToDOMRect(
+                  editor.view,
+                  parentNode.start,
+                  parentNode.start + parentNode.node.nodeSize,
+                )
                 return {
                   getBoundingClientRect: () => domRect,
                   getClientRects: () => [domRect],

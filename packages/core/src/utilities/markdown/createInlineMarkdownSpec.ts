@@ -5,29 +5,7 @@ import type {
   MarkdownToken,
   MarkdownTokenizer,
 } from '../../types.js'
-
-/**
- * Parse shortcode attributes like 'id="madonna" handle="john" name="John Doe"'
- * Requires all values to be quoted with either single or double quotes
- */
-function parseShortcodeAttributes(attrString: string): Record<string, any> {
-  if (!attrString.trim()) {
-    return {}
-  }
-
-  const attributes: Record<string, any> = {}
-  // Match key=value pairs, only accepting quoted values
-  const regex = /(\w+)=(?:"([^"]*)"|'([^']*)')/g
-  let match = regex.exec(attrString)
-
-  while (match !== null) {
-    const [, key, doubleQuoted, singleQuoted] = match
-    attributes[key] = doubleQuoted || singleQuoted
-    match = regex.exec(attrString)
-  }
-
-  return attributes
-}
+import { parseShortcodeAttributes } from './parseShortcodeAttributes.js'
 
 /**
  * Serialize attributes back to shortcode format
@@ -222,7 +200,9 @@ export function createInlineMarkdownSpec(options: InlineMarkdownSpecOptions): {
         // Use non-global regex to match from the start of the string
         const tokenPattern = selfClosing
           ? new RegExp(`^\\[${escapedShortcode}\\s*([^\\]]*)\\]`)
-          : new RegExp(`^\\[${escapedShortcode}\\s*([^\\]]*)\\]([\\s\\S]*?)\\[\\/${escapedShortcode}\\]`)
+          : new RegExp(
+              `^\\[${escapedShortcode}\\s*([^\\]]*)\\]([\\s\\S]*?)\\[\\/${escapedShortcode}\\]`,
+            )
 
         const match = src.match(tokenPattern)
 

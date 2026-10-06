@@ -44,7 +44,10 @@
         >
           Red (#ffa8a8)
         </button>
-        <button @click="editor.chain().focus().unsetHighlight().run()" :disabled="!editor.isActive('highlight')">
+        <button
+          @click="editor.chain().focus().unsetHighlight().run()"
+          :disabled="!editor.isActive('highlight')"
+        >
           Unset highlight
         </button>
       </div>
@@ -58,7 +61,7 @@ import Document from '@tiptap/extension-document'
 import Highlight from '@tiptap/extension-highlight'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 
 export default {
   components: {

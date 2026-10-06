@@ -18,7 +18,12 @@ import type { ItalicOptions } from '@tiptap/extension-italic'
 import { Italic } from '@tiptap/extension-italic'
 import type { LinkOptions } from '@tiptap/extension-link'
 import { Link } from '@tiptap/extension-link'
-import type { BulletListOptions, ListItemOptions, ListKeymapOptions, OrderedListOptions } from '@tiptap/extension-list'
+import type {
+  BulletListOptions,
+  ListItemOptions,
+  ListKeymapOptions,
+  OrderedListOptions,
+} from '@tiptap/extension-list'
 import { BulletList, ListItem, ListKeymap, OrderedList } from '@tiptap/extension-list'
 import type { ParagraphOptions } from '@tiptap/extension-paragraph'
 import { Paragraph } from '@tiptap/extension-paragraph'

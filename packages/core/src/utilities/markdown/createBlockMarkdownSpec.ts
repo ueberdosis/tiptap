@@ -6,10 +6,8 @@ import type {
   MarkdownToken,
   MarkdownTokenizer,
 } from '../../types.js'
-import {
-  parseAttributes as defaultParseAttributes,
-  serializeAttributes as defaultSerializeAttributes,
-} from './attributeUtils.js'
+import { parseAttributes as defaultParseAttributes } from './parseAttributes.js'
+import { serializeAttributes as defaultSerializeAttributes } from './serializeAttributes.js'
 
 export interface BlockMarkdownSpecOptions {
   /** The Tiptap node name this spec is for */
@@ -98,7 +96,10 @@ export function createBlockMarkdownSpec(options: BlockMarkdownSpecOptions): {
       if (getContent) {
         const contentResult = getContent(token)
         // If getContent returns a string, wrap it in a text node
-        nodeContent = typeof contentResult === 'string' ? [{ type: 'text', text: contentResult }] : contentResult
+        nodeContent =
+          typeof contentResult === 'string'
+            ? [{ type: 'text', text: contentResult }]
+            : contentResult
       } else if (content === 'block') {
         nodeContent = h.parseChildren(token.tokens || [])
       } else {
@@ -186,7 +187,10 @@ export function createBlockMarkdownSpec(options: BlockMarkdownSpecOptions): {
                   // Clean up empty trailing paragraphs
                   while (contentTokens.length > 0) {
                     const lastToken = contentTokens[contentTokens.length - 1]
-                    if (lastToken.type === 'paragraph' && (!lastToken.text || lastToken.text.trim() === '')) {
+                    if (
+                      lastToken.type === 'paragraph' &&
+                      (!lastToken.text || lastToken.text.trim() === '')
+                    ) {
                       contentTokens.pop()
                     } else {
                       break

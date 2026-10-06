@@ -8,7 +8,10 @@
         >
           Toggle code block
         </button>
-        <button @click="editor.chain().focus().setCodeBlock().run()" :disabled="editor.isActive('codeBlock')">
+        <button
+          @click="editor.chain().focus().setCodeBlock().run()"
+          :disabled="editor.isActive('codeBlock')"
+        >
           Set code block
         </button>
       </div>
@@ -23,7 +26,7 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 import css from 'highlight.js/lib/languages/css'
 import js from 'highlight.js/lib/languages/javascript'
 import ts from 'highlight.js/lib/languages/typescript'

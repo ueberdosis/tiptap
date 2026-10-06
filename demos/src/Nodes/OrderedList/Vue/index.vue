@@ -37,7 +37,7 @@ import Document from '@tiptap/extension-document'
 import { ListItem, OrderedList } from '@tiptap/extension-list'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 
 export default {
   components: {
@@ -62,6 +62,16 @@ export default {
         <ol start="5">
           <li>This item starts at 5</li>
           <li>And another one</li>
+        </ol>
+
+        <ol type="a">
+          <li>Lowercase alphabetical list</li>
+          <li>Second item</li>
+        </ol>
+
+        <ol type="I">
+          <li>Uppercase roman numerals</li>
+          <li>Second item</li>
         </ol>
       `,
     })

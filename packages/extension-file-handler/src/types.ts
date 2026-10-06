@@ -30,6 +30,19 @@ export type FileHandlePluginOptions = {
   onPaste?: (editor: Editor, files: File[], pasteContent?: string) => void
 
   /**
+   * When true, the paste event is fully consumed when files are present,
+   * even if HTML content exists in the clipboard. This prevents paste
+   * rules from other extensions from running on the same paste event
+   * and creating duplicate content.
+   *
+   * Set this to true when your onPaste callback handles file insertion
+   * and you want to prevent other extensions from processing the same paste.
+   *
+   * @default false
+   */
+  consumePasteEvent?: boolean
+
+  /**
    * The onDrop callback that is called when a file is dropped.
    * @param editor the editor instance
    * @param files the File array including File objects

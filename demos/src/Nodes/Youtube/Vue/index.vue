@@ -3,7 +3,14 @@
     <div class="control-group">
       <div class="button-group">
         <input id="width" type="number" v-model="width" placeholder="width" min="320" max="1024" />
-        <input id="height" type="number" v-model="height" placeholder="height" min="180" max="720" />
+        <input
+          id="height"
+          type="number"
+          v-model="height"
+          placeholder="height"
+          min="180"
+          max="720"
+        />
         <button id="add" @click="addVideo">Add YouTube video</button>
       </div>
     </div>
@@ -16,7 +23,7 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import Youtube from '@tiptap/extension-youtube'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 
 export default {
   components: {

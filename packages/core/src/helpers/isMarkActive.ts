@@ -33,6 +33,11 @@ export function isMarkActive(
     const to = $to.pos
 
     state.doc.nodesBetween(from, to, (node, pos) => {
+      // ignore selected text inside nodes whose schema disallows this mark type
+      if (type && node.inlineContent && !node.type.allowsMarkType(type)) {
+        return false
+      }
+
       if (!node.isText && !node.marks.length) {
         return
       }

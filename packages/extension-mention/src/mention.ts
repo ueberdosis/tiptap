@@ -1,7 +1,7 @@
 import type { Editor } from '@tiptap/core'
 import { createInlineMarkdownSpec, mergeAttributes, Node } from '@tiptap/core'
 import type { DOMOutputSpec } from '@tiptap/pm/model'
-import { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import { Node as PMNode } from '@tiptap/pm/model'
 import type { SuggestionOptions } from '@tiptap/suggestion'
 import { Suggestion } from '@tiptap/suggestion'
 
@@ -26,7 +26,10 @@ export interface MentionNodeAttrs {
   mentionSuggestionChar?: string
 }
 
-export interface MentionOptions<SuggestionItem = any, Attrs extends Record<string, any> = MentionNodeAttrs> {
+export interface MentionOptions<
+  SuggestionItem = any,
+  Attrs extends Record<string, any> = MentionNodeAttrs,
+> {
   /**
    * The HTML attributes for a mention node.
    * @default {}
@@ -43,7 +46,7 @@ export interface MentionOptions<SuggestionItem = any, Attrs extends Record<strin
    */
   renderLabel?: (props: {
     options: MentionOptions<SuggestionItem, Attrs>
-    node: ProseMirrorNode
+    node: PMNode
     suggestion: SuggestionOptions | null
   }) => string
 
@@ -55,7 +58,7 @@ export interface MentionOptions<SuggestionItem = any, Attrs extends Record<strin
    */
   renderText: (props: {
     options: MentionOptions<SuggestionItem, Attrs>
-    node: ProseMirrorNode
+    node: PMNode
     suggestion: SuggestionOptions | null
   }) => string
 
@@ -67,7 +70,7 @@ export interface MentionOptions<SuggestionItem = any, Attrs extends Record<strin
    */
   renderHTML: (props: {
     options: MentionOptions<SuggestionItem, Attrs>
-    node: ProseMirrorNode
+    node: PMNode
     suggestion: SuggestionOptions | null
   }) => DOMOutputSpec
 
@@ -111,15 +114,16 @@ interface GetSuggestionsOptions {
  * @returns the suggestions
  */
 function getSuggestions(options: GetSuggestionsOptions) {
-  return (options.options.suggestions.length ? options.options.suggestions : [options.options.suggestion]).map(
-    suggestion =>
-      getSuggestionOptions({
-        // @ts-ignore `editor` can be `undefined` when converting the document to HTML with the HTML utility
-        editor: options.editor,
-        overrideSuggestionOptions: suggestion,
-        extensionName: options.name,
-        char: suggestion.char,
-      }),
+  return (
+    options.options.suggestions.length ? options.options.suggestions : [options.options.suggestion]
+  ).map(suggestion =>
+    getSuggestionOptions({
+      // @ts-ignore `editor` can be `undefined` when converting the document to HTML with the HTML utility
+      editor: options.editor,
+      overrideSuggestionOptions: suggestion,
+      extensionName: options.name,
+      char: suggestion.char,
+    }),
   )
 }
 
@@ -263,7 +267,11 @@ export const Mention = Node.create<MentionOptions>({
     })
 
     if (typeof html === 'string') {
-      return ['span', mergeAttributes({ 'data-type': this.name }, this.options.HTMLAttributes, HTMLAttributes), html]
+      return [
+        'span',
+        mergeAttributes({ 'data-type': this.name }, this.options.HTMLAttributes, HTMLAttributes),
+        html,
+      ]
     }
     return html
   },
@@ -275,7 +283,7 @@ export const Mention = Node.create<MentionOptions>({
     allowedAttributes: ['id', 'label', { name: 'mentionSuggestionChar', skipIfDefault: '@' }],
     parseAttributes: (attrString: string) => {
       const attrs: Record<string, any> = {}
-      const regex = /(\w+)=(?:"([^"]*)"|'([^']*)')/g
+      const regex = /(?:^|\s)(\w+)=(?:"([^"]*)"|'([^']*)')/g
       let match = regex.exec(attrString)
 
       while (match !== null) {
@@ -325,7 +333,7 @@ export const Mention = Node.create<MentionOptions>({
           }
 
           // Store node and position for later use
-          let mentionNode = new ProseMirrorNode()
+          let mentionNode = new PMNode()
           let mentionPos = 0
 
           state.doc.nodesBetween(anchor - 1, anchor, (node, pos) => {
@@ -339,7 +347,9 @@ export const Mention = Node.create<MentionOptions>({
 
           if (isMention) {
             tr.insertText(
-              this.options.deleteTriggerWithBackspace ? '' : mentionNode.attrs.mentionSuggestionChar,
+              this.options.deleteTriggerWithBackspace
+                ? ''
+                : mentionNode.attrs.mentionSuggestionChar,
               mentionPos,
               mentionPos + mentionNode.nodeSize,
             )

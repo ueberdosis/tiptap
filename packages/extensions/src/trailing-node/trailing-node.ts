@@ -1,8 +1,16 @@
 import { Extension } from '@tiptap/core'
-import type { Node, NodeType } from '@tiptap/pm/model'
+import type { Node as PMNode, NodeType } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 
-function nodeEqualsType({ types, node }: { types: NodeType | NodeType[]; node: Node | null | undefined }) {
+export const skipTrailingNodeMeta = 'skipTrailingNode'
+
+function nodeEqualsType({
+  types,
+  node,
+}: {
+  types: NodeType | NodeType[]
+  node: PMNode | null | undefined
+}) {
   return (node && Array.isArray(types) && types.includes(node.type)) || node?.type === types
 }
 
@@ -44,7 +52,9 @@ export const TrailingNode = Extension.create<TrailingNodeOptions>({
   addProseMirrorPlugins() {
     const plugin = new PluginKey(this.name)
     const defaultNode =
-      this.options.node || this.editor.schema.topNodeType.contentMatch.defaultType?.name || 'paragraph'
+      this.options.node ||
+      this.editor.schema.topNodeType.contentMatch.defaultType?.name ||
+      'paragraph'
 
     const disabledNodes = Object.entries(this.editor.schema.nodes)
       .map(([, value]) => value)
@@ -53,11 +63,15 @@ export const TrailingNode = Extension.create<TrailingNodeOptions>({
     return [
       new Plugin({
         key: plugin,
-        appendTransaction: (_, __, state) => {
+        appendTransaction: (transactions, __, state) => {
           const { doc, tr, schema } = state
           const shouldInsertNodeAtEnd = plugin.getState(state)
           const endPosition = doc.content.size
           const type = schema.nodes[defaultNode]
+
+          if (transactions.some(transaction => transaction.getMeta(skipTrailingNodeMeta))) {
+            return
+          }
 
           if (!shouldInsertNodeAtEnd) {
             return

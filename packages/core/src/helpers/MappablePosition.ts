@@ -45,7 +45,10 @@ export interface GetUpdatedPositionResult {
  *
  * @returns The new mappable position and the map result.
  */
-export function getUpdatedPosition(position: MappablePosition, transaction: Transaction): GetUpdatedPositionResult {
+export function getUpdatedPosition(
+  position: MappablePosition,
+  transaction: Transaction,
+): GetUpdatedPositionResult {
   const mapResult = transaction.mapping.mapResult(position.position)
   return {
     position: new MappablePosition(mapResult.pos),

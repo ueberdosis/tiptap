@@ -1,34 +1,37 @@
 <template>
-  <div v-if="editor">
-    <button @click="editor.chain().focus().toggleHeading({ level: 1 }).run()">H1</button>
-    <button @click="editor.chain().focus().toggleHeading({ level: 2 }).run()">H2</button>
-    <button @click="editor.chain().focus().toggleBold().run()">Bold</button>
-    <button
-      @click="editor.chain().focus().toggleBulletList().run()"
-      :class="{ 'is-active': editor.isActive('bulletList') }"
-    >
-      Bullet list
-    </button>
-    <button @click="editor.chain().focus().lockDragHandle().run()">Lock drag handle</button>
-    <button @click="editor.chain().focus().unlockDragHandle().run()">Unlock drag handle</button>
-    <button @click="editor.chain().focus().toggleDragHandle().run()">Toggle drag handle</button>
-    <button @click="editor.setEditable(!editor.isEditable)">Toggle editable</button>
-    <button @click="nested = !nested">Toggle nested</button>
-    <drag-handle :editor="editor" :nested="nestedOptions">
-      <div class="custom-drag-handle" />
-    </drag-handle>
+  <div class="control-group" v-if="editor">
+    <div class="button-group">
+      <button :class="{ 'is-active': editable }" @click="editable = !editable">
+        Toggle editable
+      </button>
+      <button :class="{ 'is-active': nested }" @click="nested = !nested">
+        Toggle nested drag handle
+      </button>
+      <button :class="{ 'is-active': rtl }" @click="rtl = !rtl">Toggle RTL editor</button>
+    </div>
   </div>
 
+  <drag-handle
+    v-if="editor"
+    :editor="editor"
+    :nested="nestedOptions"
+    :compute-position-config="computePositionConfig"
+  >
+    <div class="custom-drag-handle" />
+  </drag-handle>
   <editor-content :editor="editor" />
 </template>
 
 <script>
-import { DragHandle } from '@tiptap/extension-drag-handle-vue-3'
+import { DragHandle } from '@tiptap/extension-drag-handle-vue'
+import Image from '@tiptap/extension-image'
 import NodeRange from '@tiptap/extension-node-range'
+import { TableKit } from '@tiptap/extension-table'
 import StarterKit from '@tiptap/starter-kit'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 
-const NESTED_CONFIG = { edgeDetection: { threshold: -16 } }
+const NESTED_CONFIG_LTR = { edgeDetection: { threshold: -16, edges: ['left'] } }
+const NESTED_CONFIG_RTL = { edgeDetection: { threshold: -16, edges: ['right'] } }
 
 export default {
   components: {
@@ -38,27 +41,65 @@ export default {
   data() {
     return {
       editor: null,
+      editable: true,
       nested: true,
+      rtl: false,
     }
   },
   computed: {
+    computePositionConfig() {
+      return {
+        placement: this.rtl ? 'right-start' : 'left-start',
+      }
+    },
     nestedOptions() {
-      return this.nested ? NESTED_CONFIG : false
+      if (!this.nested) {
+        return false
+      }
+
+      return this.rtl ? NESTED_CONFIG_RTL : NESTED_CONFIG_LTR
+    },
+  },
+  watch: {
+    editable(newValue) {
+      if (this.editor) {
+        this.editor.setEditable(newValue)
+      }
+    },
+    rtl(newValue) {
+      if (!this.editor) {
+        return
+      }
+
+      if (newValue) {
+        this.editor.view.dom.setAttribute('dir', 'rtl')
+      } else {
+        this.editor.view.dom.removeAttribute('dir')
+      }
     },
   },
   mounted() {
     this.editor = new Editor({
+      onUpdate({ editor }) {
+        this.editable = editor.isEditable
+      },
       extensions: [
         StarterKit,
+        Image.configure({ inline: false }),
         NodeRange.configure({
           // allow to select only on depth 0
           // depth: 0,
           key: null,
         }),
+        TableKit,
       ],
       content: `
         <h1>The Complete Guide to Modern Web Development</h1>
         <p>Web development has evolved significantly over the past decade. What once required multiple tools and complex setups can now be accomplished with modern frameworks and libraries that prioritize developer experience.</p>
+
+        <img src="https://unsplash.it/500/500" alt="Random Image" />
+
+        <p dir="rtl">تجربة سحب هذا النص توضح كيف يجب أن يلتصق شبح السحب بالمؤشر حتى داخل المحتوى من اليمين إلى اليسار.</p>
 
         <h2>Getting Started</h2>
         <p>Before diving into the technical details, it's important to understand the foundational concepts that make modern web development possible.</p>
@@ -68,6 +109,28 @@ export default {
         </blockquote>
 
         <p>This philosophy guides much of modern development practices, emphasizing simplicity and maintainability over complexity.</p>
+
+        <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Description</th>
+            <th>Example</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Component-Based Architecture</td>
+            <td>Breaks down the UI into reusable components.</td>
+            <td><code>&lt;MyComponent /&gt;</code></td>
+          </tr>
+          <tr>
+            <td>Virtual DOM</td>
+            <td>Improves performance by minimizing direct DOM manipulation.</td>
+            <td><code>&lt;VirtualDOMComponent /&gt;</code></td>
+          </tr>
+        </tbody>
+      </table>
 
         <hr>
 
@@ -118,6 +181,10 @@ export default {
         <p>By following these guidelines, you'll create applications that are easier to maintain, test, and extend over time.</p>
       `,
     })
+
+    if (this.rtl) {
+      this.editor.view.dom.setAttribute('dir', 'rtl')
+    }
   },
   beforeUnmount() {
     this.editor?.destroy()
@@ -138,7 +205,7 @@ export default {
   }
 
   > * {
-    margin-left: 3rem;
+    margin-inline-start: 3rem;
   }
 
   .ProseMirror-widget * {
@@ -147,7 +214,7 @@ export default {
 
   ul,
   ol {
-    padding: 0 1rem;
+    padding-inline: 1rem;
   }
 }
 

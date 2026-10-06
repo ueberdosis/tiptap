@@ -8,10 +8,16 @@
         >
           Toggle subscript
         </button>
-        <button @click="editor.chain().focus().setSubscript().run()" :disabled="editor.isActive('subscript')">
+        <button
+          @click="editor.chain().focus().setSubscript().run()"
+          :disabled="editor.isActive('subscript')"
+        >
           Set subscript
         </button>
-        <button @click="editor.chain().focus().unsetSubscript().run()" :disabled="!editor.isActive('subscript')">
+        <button
+          @click="editor.chain().focus().unsetSubscript().run()"
+          :disabled="!editor.isActive('subscript')"
+        >
           Unset subscript
         </button>
       </div>
@@ -25,7 +31,7 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Subscript from '@tiptap/extension-subscript'
 import Text from '@tiptap/extension-text'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 
 export default {
   components: {

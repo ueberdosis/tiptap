@@ -1,5 +1,374 @@
 # @tiptap/extension-drag-handle-react
 
+## 3.30.3
+
+### Patch Changes
+
+- Updated dependencies [1cb7ad3]
+  - @tiptap/react@3.30.3
+  - @tiptap/extension-drag-handle@3.30.3
+  - @tiptap/pm@3.30.3
+
+## 3.30.2
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.30.2
+- @tiptap/react@3.30.2
+- @tiptap/pm@3.30.2
+
+## 3.30.1
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.30.1
+- @tiptap/react@3.30.1
+- @tiptap/pm@3.30.1
+
+## 3.30.0
+
+### Patch Changes
+
+- 390d4db: Fixed the React `DragHandle` breaking drag-and-drop when `onNodeChange` is an inline callback, by no longer re-registering its plugin when a callback's identity changes.
+- Updated dependencies [31e176c]
+- Updated dependencies [58a8953]
+- Updated dependencies [3099eef]
+  - @tiptap/react@3.30.0
+  - @tiptap/pm@3.30.0
+  - @tiptap/extension-drag-handle@3.30.0
+
+## 3.29.2
+
+### Patch Changes
+
+- Updated dependencies [e914605]
+  - @tiptap/react@3.29.2
+  - @tiptap/extension-drag-handle@3.29.2
+  - @tiptap/pm@3.29.2
+
+## 3.29.1
+
+### Patch Changes
+
+- Updated dependencies [6d901e7]
+  - @tiptap/react@3.29.1
+  - @tiptap/extension-drag-handle@3.29.1
+  - @tiptap/pm@3.29.1
+
+## 3.29.0
+
+### Patch Changes
+
+- Updated dependencies [e150ee0]
+- Updated dependencies [6a26a03]
+  - @tiptap/pm@3.29.0
+  - @tiptap/react@3.29.0
+  - @tiptap/extension-drag-handle@3.29.0
+
+## 3.28.0
+
+### Patch Changes
+
+- Updated dependencies [8614730]
+- Updated dependencies [3c8da6a]
+- Updated dependencies [1ecf814]
+  - @tiptap/react@3.28.0
+  - @tiptap/extension-drag-handle@3.28.0
+  - @tiptap/pm@3.28.0
+
+## 3.27.4
+
+### Patch Changes
+
+- Updated dependencies [2c2720e]
+  - @tiptap/react@3.27.4
+  - @tiptap/extension-drag-handle@3.27.4
+  - @tiptap/pm@3.27.4
+
+## 3.27.3
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.27.3
+- @tiptap/react@3.27.3
+- @tiptap/pm@3.27.3
+
+## 3.27.2
+
+### Patch Changes
+
+- a9efd4d: Fix React 19 strict mode compatibility by using useRef instead of useState for the portal element. Changing the `className` prop now updates the element in place without re-registering the drag handle plugin.
+- Updated dependencies [ec41238]
+- Updated dependencies [82d9c81]
+- Updated dependencies [13dfad1]
+- Updated dependencies [ceebb31]
+  - @tiptap/extension-drag-handle@3.27.2
+  - @tiptap/react@3.27.2
+  - @tiptap/pm@3.27.2
+
+## 3.27.1
+
+### Patch Changes
+
+- Updated dependencies [ad17014]
+  - @tiptap/extension-drag-handle@3.27.1
+  - @tiptap/pm@3.27.1
+  - @tiptap/react@3.27.1
+
+## 3.27.0
+
+### Patch Changes
+
+- Updated dependencies [63b157c]
+  - @tiptap/extension-drag-handle@3.27.0
+  - @tiptap/react@3.27.0
+  - @tiptap/pm@3.27.0
+
+## 3.26.1
+
+### Patch Changes
+
+- Updated dependencies [a38c9c0]
+- Updated dependencies [a38c9c0]
+  - @tiptap/extension-drag-handle@3.26.1
+  - @tiptap/pm@3.26.1
+  - @tiptap/react@3.26.1
+
+## 3.26.0
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.26.0
+- @tiptap/pm@3.26.0
+- @tiptap/react@3.26.0
+
+## 3.25.0
+
+### Patch Changes
+
+- Updated dependencies [c1a2ce8]
+  - @tiptap/pm@3.25.0
+  - @tiptap/extension-drag-handle@3.25.0
+  - @tiptap/react@3.25.0
+
+## 3.24.0
+
+### Patch Changes
+
+- Updated dependencies [7c0499b]
+  - @tiptap/pm@3.24.0
+  - @tiptap/extension-drag-handle@3.24.0
+  - @tiptap/react@3.24.0
+
+## 3.23.6
+
+### Patch Changes
+
+- Updated dependencies [937ff2e]
+  - @tiptap/extension-drag-handle@3.23.6
+  - @tiptap/react@3.23.6
+  - @tiptap/pm@3.23.6
+
+## 3.23.5
+
+### Patch Changes
+
+- ec1afc3: Fix missing forwarding of getReferencedVirtualElement in DragHandle React component
+- Updated dependencies [b5f34fc]
+- Updated dependencies [95e138c]
+  - @tiptap/react@3.23.5
+  - @tiptap/extension-drag-handle@3.23.5
+  - @tiptap/pm@3.23.5
+
+## 3.23.4
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.23.4
+- @tiptap/pm@3.23.4
+- @tiptap/react@3.23.4
+
+## 3.23.3
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.23.3
+- @tiptap/pm@3.23.3
+- @tiptap/react@3.23.3
+
+## 3.23.2
+
+### Patch Changes
+
+- Updated dependencies [30e0b58]
+  - @tiptap/react@3.23.2
+  - @tiptap/extension-drag-handle@3.23.2
+  - @tiptap/pm@3.23.2
+
+## 3.23.1
+
+### Patch Changes
+
+- e2c909b: Fix `DragHandle` unmounts by rendering children into the plugin-managed drag handle element with a React portal.
+
+  This avoids React trying to remove a host node after the drag handle plugin has moved it into its own wrapper.
+
+  - @tiptap/extension-drag-handle@3.23.1
+  - @tiptap/pm@3.23.1
+  - @tiptap/react@3.23.1
+
+## 3.23.0
+
+### Patch Changes
+
+- Updated dependencies [1852c73]
+  - @tiptap/extension-drag-handle@3.23.0
+  - @tiptap/react@3.23.0
+  - @tiptap/pm@3.23.0
+
+## 3.22.5
+
+### Patch Changes
+
+- Updated dependencies [a375002]
+  - @tiptap/react@3.22.5
+  - @tiptap/extension-drag-handle@3.22.5
+  - @tiptap/pm@3.22.5
+
+## 3.22.4
+
+### Patch Changes
+
+- 27ea931: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [040da0d]
+- Updated dependencies [27ea931]
+- Updated dependencies [032f8f1]
+  - @tiptap/extension-drag-handle@3.22.4
+  - @tiptap/pm@3.22.4
+  - @tiptap/react@3.22.4
+
+## 3.22.3
+
+### Patch Changes
+
+- Updated dependencies [ac994c5]
+  - @tiptap/extension-drag-handle@3.22.3
+  - @tiptap/react@3.22.3
+  - @tiptap/pm@3.22.3
+
+## 3.22.2
+
+### Patch Changes
+
+- Updated dependencies [8ab8bee]
+  - @tiptap/react@3.22.2
+  - @tiptap/extension-drag-handle@3.22.2
+  - @tiptap/pm@3.22.2
+
+## 3.22.1
+
+### Patch Changes
+
+- Updated dependencies [942eb85]
+- Updated dependencies [ee03ac0]
+- Updated dependencies [6f3b9fc]
+  - @tiptap/extension-drag-handle@3.22.1
+  - @tiptap/react@3.22.1
+  - @tiptap/pm@3.22.1
+
+## 3.22.0
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.22.0
+- @tiptap/react@3.22.0
+- @tiptap/pm@3.22.0
+
+## 3.21.0
+
+### Patch Changes
+
+- Updated dependencies [0caf1f6]
+  - @tiptap/extension-drag-handle@3.21.0
+  - @tiptap/pm@3.21.0
+  - @tiptap/react@3.21.0
+
+## 3.20.6
+
+### Patch Changes
+
+- Updated dependencies [dc6a4e5]
+  - @tiptap/extension-drag-handle@3.20.6
+  - @tiptap/pm@3.20.6
+  - @tiptap/react@3.20.6
+
+## 3.20.5
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.20.5
+- @tiptap/pm@3.20.5
+- @tiptap/react@3.20.5
+
+## 3.20.4
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.20.4
+- @tiptap/react@3.20.4
+- @tiptap/pm@3.20.4
+
+## 3.20.3
+
+### Patch Changes
+
+- Updated dependencies [f4f6be2]
+- Updated dependencies [f4f6be2]
+  - @tiptap/react@3.20.3
+  - @tiptap/extension-drag-handle@3.20.3
+  - @tiptap/pm@3.20.3
+
+## 3.20.2
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.20.2
+- @tiptap/react@3.20.2
+- @tiptap/pm@3.20.2
+
+## 3.20.1
+
+### Patch Changes
+
+- Updated dependencies [c288676]
+  - @tiptap/extension-drag-handle@3.20.1
+  - @tiptap/react@3.20.1
+  - @tiptap/pm@3.20.1
+
+## 3.20.0
+
+### Patch Changes
+
+- Updated dependencies [536f452]
+- Updated dependencies [536f452]
+- Updated dependencies [253ca1c]
+- Updated dependencies [0f28d9c]
+- Updated dependencies [5e04a73]
+- Updated dependencies [0f28d9c]
+  - @tiptap/extension-drag-handle@3.20.0
+  - @tiptap/react@3.20.0
+  - @tiptap/pm@3.20.0
+
+## 3.19.0
+
+### Patch Changes
+
+- Updated dependencies [a1da626]
+- Updated dependencies [a1da626]
+  - @tiptap/react@3.19.0
+  - @tiptap/extension-drag-handle@3.19.0
+  - @tiptap/pm@3.19.0
+
 ## 3.18.0
 
 ### Patch Changes

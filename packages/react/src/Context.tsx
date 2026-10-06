@@ -51,7 +51,9 @@ export function EditorProvider({
     <EditorContext.Provider value={contextValue}>
       {slotBefore}
       <EditorConsumer>
-        {({ editor: currentEditor }) => <EditorContent editor={currentEditor} {...editorContainerProps} />}
+        {({ editor: currentEditor }) => (
+          <EditorContent editor={currentEditor} {...editorContainerProps} />
+        )}
       </EditorConsumer>
       {children}
       {slotAfter}

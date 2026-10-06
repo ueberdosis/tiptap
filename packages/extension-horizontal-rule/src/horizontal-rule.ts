@@ -104,7 +104,8 @@ export const HorizontalRule = Node.create<HorizontalRuleOptions>({
                   } else {
                     // add node after horizontal rule if it’s the end of the document
                     const nodeType =
-                      chainState.schema.nodes[this.options.nextNodeType] || $to.parent.type.contentMatch.defaultType
+                      chainState.schema.nodes[this.options.nextNodeType] ||
+                      $to.parent.type.contentMatch.defaultType
                     const node = nodeType?.create()
 
                     if (node) {

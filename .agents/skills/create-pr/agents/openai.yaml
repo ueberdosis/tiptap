@@ -1,0 +1,3 @@
+interface:
+  display_name: 'Create PR'
+  short_description: 'Create clear PRs using the current repository template'

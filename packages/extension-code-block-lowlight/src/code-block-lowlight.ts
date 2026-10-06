@@ -1,5 +1,5 @@
 import type { CodeBlockOptions } from '@tiptap/extension-code-block'
-import CodeBlock from '@tiptap/extension-code-block'
+import { CodeBlock } from '@tiptap/extension-code-block'
 
 import { LowlightPlugin } from './lowlight-plugin.js'
 
@@ -22,6 +22,7 @@ export const CodeBlockLowlight = CodeBlock.extend<CodeBlockLowlightOptions>({
       languageClassPrefix: 'language-',
       exitOnTripleEnter: true,
       exitOnArrowDown: true,
+      exitOnArrowUp: true,
       defaultLanguage: null,
       enableTabIndentation: false,
       tabSize: 4,

@@ -1,4 +1,8 @@
-import type { GetTableOfContentIndexFunction, GetTableOfContentLevelFunction, TableOfContentDataItem } from './types.js'
+import type {
+  GetTableOfContentIndexFunction,
+  GetTableOfContentLevelFunction,
+  TableOfContentDataItem,
+} from './types.js'
 
 export const getLastHeadingOnLevel = (
   headings: TableOfContentDataItem[],
@@ -21,7 +25,9 @@ export const getHeadlineLevel: GetTableOfContentLevelFunction = (headline, previ
   let level = 1
 
   const previousHeadline = previousItems.at(-1)
-  const highestHeadlineAbove = [...previousItems].reverse().find(h => h.originalLevel <= headline.node.attrs.level)
+  const highestHeadlineAbove = [...previousItems]
+    .reverse()
+    .find(h => h.originalLevel <= headline.node.attrs.level)
 
   const highestLevelAbove = highestHeadlineAbove?.level || 1
 
@@ -46,7 +52,11 @@ export const getLinearIndexes: GetTableOfContentIndexFunction = (_headline, prev
   return (previousHeadline?.itemIndex || 1) + 1
 }
 
-export const getHierarchicalIndexes: GetTableOfContentIndexFunction = (headline, previousHeadlines, currentLevel) => {
+export const getHierarchicalIndexes: GetTableOfContentIndexFunction = (
+  headline,
+  previousHeadlines,
+  currentLevel,
+) => {
   const level = currentLevel || headline.node.attrs.level || 1
   let itemIndex = 1
 

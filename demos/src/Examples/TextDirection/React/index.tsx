@@ -26,23 +26,40 @@ function MenuBar({
         >
           None
         </button>
-        <button onClick={() => setGlobalDirection('ltr')} className={globalDirection === 'ltr' ? 'is-active' : ''}>
+        <button
+          onClick={() => setGlobalDirection('ltr')}
+          className={globalDirection === 'ltr' ? 'is-active' : ''}
+        >
           LTR
         </button>
-        <button onClick={() => setGlobalDirection('rtl')} className={globalDirection === 'rtl' ? 'is-active' : ''}>
+        <button
+          onClick={() => setGlobalDirection('rtl')}
+          className={globalDirection === 'rtl' ? 'is-active' : ''}
+        >
           RTL
         </button>
-        <button onClick={() => setGlobalDirection('auto')} className={globalDirection === 'auto' ? 'is-active' : ''}>
+        <button
+          onClick={() => setGlobalDirection('auto')}
+          className={globalDirection === 'auto' ? 'is-active' : ''}
+        >
           Auto
         </button>
       </div>
 
       <div className="button-group">
         <strong>Set Direction on Selection:</strong>
-        <button onClick={() => editor.chain().focus().setTextDirection('ltr').run()}>Set LTR</button>
-        <button onClick={() => editor.chain().focus().setTextDirection('rtl').run()}>Set RTL</button>
-        <button onClick={() => editor.chain().focus().setTextDirection('auto').run()}>Set Auto</button>
-        <button onClick={() => editor.chain().focus().unsetTextDirection().run()}>Unset Direction</button>
+        <button onClick={() => editor.chain().focus().setTextDirection('ltr').run()}>
+          Set LTR
+        </button>
+        <button onClick={() => editor.chain().focus().setTextDirection('rtl').run()}>
+          Set RTL
+        </button>
+        <button onClick={() => editor.chain().focus().setTextDirection('auto').run()}>
+          Set Auto
+        </button>
+        <button onClick={() => editor.chain().focus().unsetTextDirection().run()}>
+          Unset Direction
+        </button>
       </div>
     </div>
   )
@@ -99,7 +116,11 @@ export default () => {
 
   return (
     <div>
-      <MenuBar editor={editor} globalDirection={globalDirection} setGlobalDirection={setGlobalDirection} />
+      <MenuBar
+        editor={editor}
+        globalDirection={globalDirection}
+        setGlobalDirection={setGlobalDirection}
+      />
       <EditorContent editor={editor} />
     </div>
   )

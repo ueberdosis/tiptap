@@ -86,7 +86,11 @@ export const Heading = Node.create<HeadingOptions>({
   parseMarkdown: (token, helpers) => {
     // Convert 'heading' token to heading node
     // marked provides 'depth' property (1-6) for heading level
-    return helpers.createNode('heading', { level: token.depth || 1 }, helpers.parseInline(token.tokens || []))
+    return helpers.createNode(
+      'heading',
+      { level: token.depth || 1 },
+      helpers.parseInline(token.tokens || []),
+    )
   },
 
   renderMarkdown: (node, h) => {
@@ -128,9 +132,7 @@ export const Heading = Node.create<HeadingOptions>({
     return this.options.levels.reduce(
       (items, level) => ({
         ...items,
-        ...{
-          [`Mod-Alt-${level}`]: () => this.editor.commands.toggleHeading({ level }),
-        },
+        [`Mod-Alt-${level}`]: () => this.editor.commands.toggleHeading({ level }),
       }),
       {},
     )

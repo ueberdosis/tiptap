@@ -137,6 +137,8 @@ export class FloatingMenuView {
 
   public preventHide = false
 
+  public pluginKey: PluginKey | string
+
   /**
    * The delay in milliseconds before the menu should be updated.
    * @default 250
@@ -175,7 +177,13 @@ export class FloatingMenuView {
       $anchor.parent.childCount === 0 &&
       !this.getTextContent($anchor.parent)
 
-    if (!view.hasFocus() || !empty || !isRootDepth || !isEmptyTextBlock || !this.editor.isEditable) {
+    if (
+      !view.hasFocus() ||
+      !empty ||
+      !isRootDepth ||
+      !isEmptyTextBlock ||
+      !this.editor.isEditable
+    ) {
       return false
     }
 
@@ -199,18 +207,32 @@ export class FloatingMenuView {
     const middlewares: Middleware[] = []
 
     if (this.floatingUIOptions.flip) {
-      middlewares.push(flip(typeof this.floatingUIOptions.flip !== 'boolean' ? this.floatingUIOptions.flip : undefined))
+      middlewares.push(
+        flip(
+          typeof this.floatingUIOptions.flip !== 'boolean'
+            ? this.floatingUIOptions.flip
+            : undefined,
+        ),
+      )
     }
 
     if (this.floatingUIOptions.shift) {
       middlewares.push(
-        shift(typeof this.floatingUIOptions.shift !== 'boolean' ? this.floatingUIOptions.shift : undefined),
+        shift(
+          typeof this.floatingUIOptions.shift !== 'boolean'
+            ? this.floatingUIOptions.shift
+            : undefined,
+        ),
       )
     }
 
     if (this.floatingUIOptions.offset) {
       middlewares.push(
-        offset(typeof this.floatingUIOptions.offset !== 'boolean' ? this.floatingUIOptions.offset : undefined),
+        offset(
+          typeof this.floatingUIOptions.offset !== 'boolean'
+            ? this.floatingUIOptions.offset
+            : undefined,
+        ),
       )
     }
 
@@ -219,24 +241,42 @@ export class FloatingMenuView {
     }
 
     if (this.floatingUIOptions.size) {
-      middlewares.push(size(typeof this.floatingUIOptions.size !== 'boolean' ? this.floatingUIOptions.size : undefined))
+      middlewares.push(
+        size(
+          typeof this.floatingUIOptions.size !== 'boolean'
+            ? this.floatingUIOptions.size
+            : undefined,
+        ),
+      )
     }
 
     if (this.floatingUIOptions.autoPlacement) {
       middlewares.push(
         autoPlacement(
-          typeof this.floatingUIOptions.autoPlacement !== 'boolean' ? this.floatingUIOptions.autoPlacement : undefined,
+          typeof this.floatingUIOptions.autoPlacement !== 'boolean'
+            ? this.floatingUIOptions.autoPlacement
+            : undefined,
         ),
       )
     }
 
     if (this.floatingUIOptions.hide) {
-      middlewares.push(hide(typeof this.floatingUIOptions.hide !== 'boolean' ? this.floatingUIOptions.hide : undefined))
+      middlewares.push(
+        hide(
+          typeof this.floatingUIOptions.hide !== 'boolean'
+            ? this.floatingUIOptions.hide
+            : undefined,
+        ),
+      )
     }
 
     if (this.floatingUIOptions.inline) {
       middlewares.push(
-        inline(typeof this.floatingUIOptions.inline !== 'boolean' ? this.floatingUIOptions.inline : undefined),
+        inline(
+          typeof this.floatingUIOptions.inline !== 'boolean'
+            ? this.floatingUIOptions.inline
+            : undefined,
+        ),
       )
     }
 
@@ -247,6 +287,7 @@ export class FloatingMenuView {
     editor,
     element,
     view,
+    pluginKey = 'floatingMenu',
     updateDelay = 250,
     resizeDelay = 60,
     options,
@@ -256,6 +297,7 @@ export class FloatingMenuView {
     this.editor = editor
     this.element = element
     this.view = view
+    this.pluginKey = pluginKey
     this.updateDelay = updateDelay
     this.resizeDelay = resizeDelay
     this.appendTo = appendTo
@@ -307,7 +349,12 @@ export class FloatingMenuView {
     return shouldShow
   }
 
-  updateHandler = (view: EditorView, selectionChanged: boolean, docChanged: boolean, oldState?: EditorState) => {
+  updateHandler = (
+    view: EditorView,
+    selectionChanged: boolean,
+    docChanged: boolean,
+    oldState?: EditorState,
+  ) => {
     const { composing } = view
 
     const isSame = !selectionChanged && !docChanged
@@ -358,18 +405,26 @@ export class FloatingMenuView {
   /**
    * Handles the transaction event to update the position of the floating menu.
    * This allows external code to trigger a position update via:
-   * `editor.view.dispatch(editor.state.tr.setMeta('floatingMenu', 'updatePosition'))`
+   * `editor.view.dispatch(editor.state.tr.setMeta(pluginKey, 'updatePosition'))`
+   * The `pluginKey` defaults to `floatingMenu`
    */
   transactionHandler = ({ transaction: tr }: { transaction: Transaction }) => {
-    const meta = tr.getMeta('floatingMenu')
+    const meta = tr.getMeta(this.pluginKey)
     if (meta === 'updatePosition') {
       this.updatePosition()
     } else if (meta && typeof meta === 'object' && meta.type === 'updateOptions') {
       this.updateOptions(meta.options)
+    } else if (meta === 'hide') {
+      this.hide()
+    } else if (meta === 'show') {
+      this.updatePosition()
+      this.show()
     }
   }
 
-  updateOptions(newProps: Partial<Omit<FloatingMenuPluginProps, 'editor' | 'element' | 'pluginKey'>>) {
+  updateOptions(
+    newProps: Partial<Omit<FloatingMenuPluginProps, 'editor' | 'element' | 'pluginKey'>>,
+  ) {
     if (newProps.updateDelay !== undefined) {
       this.updateDelay = newProps.updateDelay
     }
@@ -422,6 +477,10 @@ export class FloatingMenuView {
   }
 
   updatePosition() {
+    if (!this.view?.dom?.parentNode) {
+      return
+    }
+
     const { selection } = this.editor.state
 
     const domRect = posToDOMRect(this.view, selection.from, selection.to)
@@ -514,7 +573,8 @@ export class FloatingMenuView {
 
 export const FloatingMenuPlugin = (options: FloatingMenuPluginProps) => {
   return new Plugin({
-    key: typeof options.pluginKey === 'string' ? new PluginKey(options.pluginKey) : options.pluginKey,
+    key:
+      typeof options.pluginKey === 'string' ? new PluginKey(options.pluginKey) : options.pluginKey,
     view: view => new FloatingMenuView({ view, ...options }),
   })
 }

@@ -16,9 +16,14 @@ import { Window } from 'happy-dom'
  * const json = generateJSON(html, extensions)
  * console.log(json) // { type: 'doc', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Hello, world!' }] }] }
  */
-export function generateJSON(html: string, extensions: Extensions, options?: ParseOptions): Record<string, any> {
+export function generateJSON(
+  html: string,
+  extensions: Extensions,
+  options?: ParseOptions,
+): Record<string, any> {
   // Use positive Node.js detection to allow for jsdom/happy-dom environments in tests
-  const isNode = typeof process !== 'undefined' && process.versions != null && process.versions.node != null
+  const isNode =
+    typeof process !== 'undefined' && process.versions != null && process.versions.node != null
 
   if (!isNode) {
     throw new Error(

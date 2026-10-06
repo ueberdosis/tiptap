@@ -1,4 +1,11 @@
-import { Mark, markInputRule, markPasteRule, mergeAttributes } from '@tiptap/core'
+import {
+  getStyleProperty,
+  isValidCSSStyleValue,
+  Mark,
+  markInputRule,
+  markPasteRule,
+  mergeAttributes,
+} from '@tiptap/core'
 
 export interface HighlightOptions {
   /**
@@ -72,9 +79,16 @@ export const Highlight = Mark.create<HighlightOptions>({
     return {
       color: {
         default: null,
-        parseHTML: element => element.getAttribute('data-color') || element.style.backgroundColor,
+        // Prefer `data-color` (set by our own `renderHTML`) for lossless
+        // round-trips. Otherwise parse the raw inline `style` attribute so
+        // the original color format (e.g. `#rrggbb`) is preserved instead of
+        // the canonicalized `rgb(...)` value from `element.style.backgroundColor`.
+        parseHTML: element =>
+          element.getAttribute('data-color') ||
+          getStyleProperty(element, 'background-color') ||
+          element.style.backgroundColor,
         renderHTML: attributes => {
-          if (!attributes.color) {
+          if (!isValidCSSStyleValue(attributes.color)) {
             return {}
           }
 

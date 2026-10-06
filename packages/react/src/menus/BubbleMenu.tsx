@@ -1,17 +1,24 @@
 import { type BubbleMenuPluginProps, BubbleMenuPlugin } from '@tiptap/extension-bubble-menu'
+import type { PluginKey } from '@tiptap/pm/state'
 import { useCurrentEditor } from '@tiptap/react'
 import React, { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 
+import { getAutoPluginKey } from './getAutoPluginKey.js'
+import { useMenuElementProps } from './useMenuElementProps.js'
+
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
-export type BubbleMenuProps = Optional<Omit<Optional<BubbleMenuPluginProps, 'pluginKey'>, 'element'>, 'editor'> &
+export type BubbleMenuProps = Optional<
+  Omit<Optional<BubbleMenuPluginProps, 'pluginKey'>, 'element'>,
+  'editor'
+> &
   React.HTMLAttributes<HTMLDivElement>
 
 export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
   (
     {
-      pluginKey = 'bubbleMenu',
+      pluginKey,
       editor,
       updateDelay,
       resizeDelay,
@@ -25,6 +32,11 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
     ref,
   ) => {
     const menuEl = useRef(document.createElement('div'))
+    const resolvedPluginKey = useRef<PluginKey | string>(
+      getAutoPluginKey(pluginKey, 'bubbleMenu'),
+    ).current
+
+    useMenuElementProps(menuEl.current, restProps)
 
     if (typeof ref === 'function') {
       ref(menuEl.current)
@@ -45,7 +57,7 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
       updateDelay,
       resizeDelay,
       appendTo,
-      pluginKey,
+      pluginKey: resolvedPluginKey,
       shouldShow,
       getReferencedVirtualElement,
       options,
@@ -76,7 +88,9 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
       }
 
       if (!pluginEditor) {
-        console.warn('BubbleMenu component is not rendered inside of an editor component or does not have editor prop.')
+        console.warn(
+          'BubbleMenu component is not rendered inside of an editor component or does not have editor prop.',
+        )
         return
       }
 
@@ -124,7 +138,7 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
       }
 
       pluginEditor.view.dispatch(
-        pluginEditor.state.tr.setMeta('bubbleMenu', {
+        pluginEditor.state.tr.setMeta(resolvedPluginKey, {
           type: 'updateOptions',
           options: bubbleMenuPluginPropsRef.current,
         }),
@@ -138,8 +152,9 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
       options,
       appendTo,
       getReferencedVirtualElement,
+      resolvedPluginKey,
     ])
 
-    return createPortal(<div {...restProps}>{children}</div>, menuEl.current)
+    return createPortal(children, menuEl.current)
   },
 )

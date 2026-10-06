@@ -3,7 +3,14 @@
     <div class="control-group">
       <div class="button-group">
         <input id="width" type="number" v-model="width" placeholder="width" min="320" max="1024" />
-        <input id="height" type="number" v-model="height" placeholder="height" min="180" max="720" />
+        <input
+          id="height"
+          type="number"
+          v-model="height"
+          placeholder="height"
+          min="180"
+          max="720"
+        />
         <button id="add" @click="addVideo">Add Twitch video</button>
       </div>
     </div>
@@ -18,7 +25,7 @@ import { ListKit } from '@tiptap/extension-list'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import Twitch from '@tiptap/extension-twitch'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 
 export default {
   components: {

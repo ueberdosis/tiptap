@@ -38,10 +38,18 @@ export default () => {
     <>
       <div className="control-group">
         <div className="button-group">
-          <button onClick={() => editor.chain().focus().undo().run()} disabled={!canUndo} type="button">
+          <button
+            onClick={() => editor.chain().focus().undo().run()}
+            disabled={!canUndo}
+            type="button"
+          >
             Undo
           </button>
-          <button onClick={() => editor.chain().focus().redo().run()} disabled={!canRedo} type="button">
+          <button
+            onClick={() => editor.chain().focus().redo().run()}
+            disabled={!canRedo}
+            type="button"
+          >
             Redo
           </button>
         </div>

@@ -18,7 +18,11 @@ import type { EditorWithContentComponent } from './Editor.js'
  * @returns {boolean}
  */
 function isClassComponent(Component: any) {
-  return !!(typeof Component === 'function' && Component.prototype && Component.prototype.isReactComponent)
+  return !!(
+    typeof Component === 'function' &&
+    Component.prototype &&
+    Component.prototype.isReactComponent
+  )
 }
 
 /**
@@ -44,7 +48,8 @@ function isMemoComponent(Component: any) {
   return !!(
     typeof Component === 'object' &&
     Component.$$typeof &&
-    (Component.$$typeof.toString() === 'Symbol(react.memo)' || Component.$$typeof.description === 'react.memo')
+    (Component.$$typeof.toString() === 'Symbol(react.memo)' ||
+      Component.$$typeof.description === 'react.memo')
   )
 }
 
@@ -147,7 +152,7 @@ type ComponentType<R, P> =
 export class ReactRenderer<R = unknown, P extends Record<string, any> = object> {
   id: string
 
-  editor: Editor
+  editor: EditorWithContentComponent
 
   component: any
 
@@ -173,7 +178,7 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
   ) {
     this.id = Math.floor(Math.random() * 0xffffffff).toString()
     this.component = component
-    this.editor = editor as EditorWithContentComponent
+    this.editor = editor
     this.props = props as P
     this.element = document.createElement(as)
     this.element.classList.add('react-renderer')
@@ -182,10 +187,9 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
       this.element.classList.add(...className.split(' '))
     }
 
-    // If the editor is already initialized, we will need to
-    // synchronously render the component to ensure it renders
-    // together with Prosemirror's rendering.
-    if (this.editor.isInitialized) {
+    if (this.editor.isEditorContentInitialized) {
+      // If EditorContent is mounted, flush synchronously to maintain cursor positioning consistency.
+      // Subsequent renders can be async without affecting cursor behavior.
       flushSync(() => {
         this.render()
       })
@@ -237,9 +241,27 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
 
   /**
    * Re-renders the React component with new props.
+   * Skips the render if none of the supplied props actually changed,
+   * to avoid unnecessary portal re-creation.
    */
   updateProps(props: Record<string, any> = {}): void {
     if (this.destroyed) {
+      return
+    }
+
+    // Shallow comparison — skip if every supplied key already holds the same value.
+    let changed = false
+    const keys = Object.keys(props)
+
+    for (let i = 0; i < keys.length; i += 1) {
+      const key = keys[i]
+      if (props[key] !== this.props[key]) {
+        changed = true
+        break
+      }
+    }
+
+    if (!changed) {
       return
     }
 

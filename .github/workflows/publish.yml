@@ -1,102 +1,165 @@
 name: Publish
 
 env:
-  PNPM_VERSION: 9.15.4
+  NODE_VERSION: 24
+  VP_GIT_HOOKS: 0
 
+# this branch only releases from main
+# other versions are released from their respective release/* branches
 on:
   push:
     branches:
       - main
-      - release/*
-  # manual trigger for other branches
-  workflow_dispatch:
 
 permissions:
-  id-token: write
-  contents: write
-  pull-requests: write
+  contents: read
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref_name }}
   cancel-in-progress: true
 
 jobs:
-  release:
-    name: Release
+  resolve-config:
+    name: Resolve publish config
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [20]
-
+    timeout-minutes: 5
+    outputs:
+      configured: ${{ steps.resolve.outputs.configured }}
+      dist_tag: ${{ steps.resolve.outputs.dist_tag }}
+      label: ${{ steps.resolve.outputs.label }}
+      title: ${{ steps.resolve.outputs.title }}
+      commit: ${{ steps.resolve.outputs.commit }}
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v6
+      - name: Checkout repo
+        uses: actions/checkout@v7
+      - name: Validate publish config
+        run: node --test .github/scripts/__tests__/*.test.mjs
+      - name: Look up branch in publish config
+        id: resolve
+        run: node .github/scripts/resolve-publish-config.mjs "${{ github.ref_name }}" >> "$GITHUB_OUTPUT"
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: resolve-config
+    if: needs.resolve-config.outputs.configured == 'true'
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: ./.github/actions/setup-env
         with:
-          version: ${{ env.PNPM_VERSION }}
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'true'
 
-      - name: Setup Node ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+      - name: Install dependencies
+        run: vp install --frozen-lockfile -- --strict-peer-dependencies
+
+      - name: Run build
+        run: vp run build && vp run build:demos
+
+      - name: Check package exports
+        run: vp run check:package-exports
+
+      - name: Archive package dist artifacts
+        run: tar -cf package-dist-artifacts.tar packages/*/dist
+
+      - name: Upload package dist artifacts
+        uses: actions/upload-artifact@v7
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
+          name: package-dist-artifacts
+          if-no-files-found: error
+          path: package-dist-artifacts.tar
 
-      - name: Update npm for Trusted Publishing
+  release:
+    name: Bump Versions OR Release to Registry
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: [resolve-config, build]
+    permissions:
+      id-token: write
+      contents: write
+      pull-requests: write
+    outputs:
+      dist_tag: ${{ needs.resolve-config.outputs.dist_tag }}
+      label: ${{ needs.resolve-config.outputs.label }}
+      published: ${{ steps.changesets.outputs.published }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: ./.github/actions/setup-env
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'true'
+
+      - name: Update npm for trusted publishing
         run: npm install -g npm@11.6.2
 
-      - name: Load turbo cache
-        uses: actions/cache@v5.0.2
-        id: turbo-cache
+      - name: Install dependencies
+        run: vp install --frozen-lockfile -- --strict-peer-dependencies
+
+      - name: Download package dist artifacts
+        uses: actions/download-artifact@v8
         with:
-          path: |
-            .turbo
-            **/.eslintcache
-          key: ${{ runner.os }}-turbo-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-turbo-${{ github.sha }}
-            ${{ runner.os }}-turbo-
+          name: package-dist-artifacts
+          path: .
 
-      - name: Install Dependencies
-        run: pnpm install --strict-peer-dependencies
+      - name: Restore package dist artifacts
+        run: tar -xf package-dist-artifacts.tar
 
-      - name: Create Release PR or publish stable version to npm
+      - name: Verify package dist artifacts
+        run: bash ./scripts/check-package-dists.sh && vp run check:package-exports
+
+      - name: Run changesets release flow
         id: changesets
         uses: changesets/action@v1
         with:
           createGithubReleases: false
-          publish: pnpm run publish
-          version: pnpm run version
-          title: ${{ github.ref_name == 'main' && 'Publish a new stable version'  || 'Publish a new pre-release version' }}
-          commit: >-
-            ${{ github.ref_name == 'main' && 'chore(release): publish a new release version'  || 'chore(release): publish a new pre-release version' }}
+          version: vp run version
+          publish: vp exec changeset publish
+          title: ${{ needs.resolve-config.outputs.title }}
+          commit: ${{ needs.resolve-config.outputs.commit }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
           NPM_CONFIG_ACCESS: public
 
-      - name: Send release notification
-        if: steps.changesets.outputs.published == 'true'
-        id: slack
-        uses: slackapi/slack-github-action@v2.1.1
+  notify-slack:
+    name: Send notification to Slack
+    runs-on: ubuntu-latest
+    needs: release
+    if: needs.release.outputs.published == 'true'
+    timeout-minutes: 5
+    permissions: {}
+    steps:
+      - name: Send Slack notification
+        uses: slackapi/slack-github-action@v4.0.0
         with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: webhook-trigger
           payload: |
             {
-              "message": "[Tiptap Editor Release]: New Tiptap Editor version has been released to NPM."
+              "message": "[Tiptap Editor ${{ needs.release.outputs.label }}]: Published packages from branch ${{ github.ref_name }} with npm tag ${{ needs.release.outputs.dist_tag }}."
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
-      - name: Send failure notification
-        if: failure()
-        id: slack_failure
-        uses: slackapi/slack-github-action@v2.1.1
+  notify-slack-failure:
+    name: Send failure notification to Slack
+    runs-on: ubuntu-latest
+    needs: [resolve-config, release]
+    if: always() && (needs.resolve-config.result == 'failure' || needs.release.result == 'failure')
+    timeout-minutes: 5
+    permissions: {}
+    steps:
+      - name: Send Slack failure notification
+        uses: slackapi/slack-github-action@v4.0.0
         with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: webhook-trigger
           payload: |
             {
-              "message": "[Tiptap Editor Release]: There was an issue publishing a new version. You can find the logs here: https://github.com/ueberdosis/tiptap/actions/runs/${{ github.run_id }}"
+              "message": "[Tiptap Editor Release]: There was an issue publishing packages from branch ${{ github.ref_name }}. Logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

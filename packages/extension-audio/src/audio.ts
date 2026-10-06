@@ -247,7 +247,9 @@ export const Audio = Node.create<AudioOptions>({
     )
 
     const cleanedAttributes = Object.fromEntries(
-      Object.entries(mergedAttributes).filter(([, value]) => value !== null && value !== undefined && value !== false),
+      Object.entries(mergedAttributes).filter(
+        ([, value]) => value !== null && value !== undefined && value !== false,
+      ),
     )
 
     return ['audio', cleanedAttributes]

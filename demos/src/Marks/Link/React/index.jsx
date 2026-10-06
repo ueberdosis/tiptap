@@ -19,12 +19,15 @@ export default () => {
       Link.configure({
         openOnClick: false,
         autolink: true,
+        markdownLinks: true,
         defaultProtocol: 'https',
         protocols: ['http', 'https'],
         isAllowedUri: (url, ctx) => {
           try {
             // construct URL
-            const parsedUrl = url.includes(':') ? new URL(url) : new URL(`${ctx.defaultProtocol}://${url}`)
+            const parsedUrl = url.includes(':')
+              ? new URL(url)
+              : new URL(`${ctx.defaultProtocol}://${url}`)
 
             // use default validation
             if (!ctx.defaultValidate(parsedUrl.href)) {
@@ -128,7 +131,10 @@ export default () => {
           <button onClick={setLink} className={editorState.isLink ? 'is-active' : ''}>
             Set link
           </button>
-          <button onClick={() => editor.chain().focus().unsetLink().run()} disabled={!editorState.isLink}>
+          <button
+            onClick={() => editor.chain().focus().unsetLink().run()}
+            disabled={!editorState.isLink}
+          >
             Unset link
           </button>
         </div>

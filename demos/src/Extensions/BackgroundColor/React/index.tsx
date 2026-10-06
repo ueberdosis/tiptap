@@ -42,7 +42,9 @@ export default () => {
         <div className="button-group">
           <input
             type="color"
-            onInput={event => editor.chain().focus().setBackgroundColor(event.currentTarget.value).run()}
+            onInput={event =>
+              editor.chain().focus().setBackgroundColor(event.currentTarget.value).run()
+            }
             value={editorState.color}
             data-testid="setBackgroundColor"
           />

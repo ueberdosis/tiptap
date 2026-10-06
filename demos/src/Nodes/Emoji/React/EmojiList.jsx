@@ -53,8 +53,13 @@ export const EmojiList = forwardRef((props, ref) => {
   return (
     <div className="dropdown-menu">
       {props.items.map((item, index) => (
-        <button className={index === selectedIndex ? 'is-selected' : ''} key={index} onClick={() => selectItem(index)}>
-          {item.fallbackImage ? <img src={item.fallbackImage} align="absmiddle" /> : item.emoji}:{item.name}:
+        <button
+          className={index === selectedIndex ? 'is-selected' : ''}
+          key={index}
+          onClick={() => selectItem(index)}
+        >
+          {item.fallbackImage ? <img src={item.fallbackImage} align="absmiddle" /> : item.emoji}:
+          {item.name}:
         </button>
       ))}
     </div>

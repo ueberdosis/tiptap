@@ -8,7 +8,11 @@ export const ToCItem = ({ item, onItemClick }) => {
         '--level': item.level,
       }}
     >
-      <a href={`#${item.id}`} onClick={e => onItemClick(e, item.id)} data-item-index={item.itemIndex}>
+      <a
+        href={`#${item.id}`}
+        onClick={e => onItemClick(e, item.id)}
+        data-item-index={item.itemIndex}
+      >
         {item.textContent}
       </a>
     </div>
@@ -44,9 +48,9 @@ export const ToC = ({ items = [], editor }) => {
 
       editor.view.focus()
 
-      // eslint-disable-next-line
+      // oxlint-disable-next-line
       if (history.pushState) {
-        // eslint-disable-next-line
+        // oxlint-disable-next-line
         history.pushState(null, null, `#${id}`)
       }
 

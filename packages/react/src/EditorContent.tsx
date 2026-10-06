@@ -1,13 +1,19 @@
 import type { Editor } from '@tiptap/core'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
 import type { ForwardedRef, HTMLProps, LegacyRef, MutableRefObject } from 'react'
 import React, { forwardRef } from 'react'
 import ReactDOM from 'react-dom'
 import { useSyncExternalStore } from 'use-sync-external-store/shim/index.js'
 
 import type { ContentComponent, EditorWithContentComponent } from './Editor.js'
+import { handleMobileEnter } from './handleMobileEnter.js'
 import type { ReactRenderer } from './ReactRenderer.js'
 
-const mergeRefs = <T extends HTMLDivElement>(...refs: Array<MutableRefObject<T> | LegacyRef<T> | undefined>) => {
+const mobileEnterPluginKey = new PluginKey('reactMobileEnter')
+
+const mergeRefs = <T extends HTMLDivElement>(
+  ...refs: Array<MutableRefObject<T> | LegacyRef<T> | undefined>
+) => {
   return (node: T) => {
     refs.forEach(ref => {
       if (typeof ref === 'function') {
@@ -39,9 +45,23 @@ export interface EditorContentProps extends HTMLProps<HTMLDivElement> {
   innerRef?: ForwardedRef<HTMLDivElement | null>
 }
 
-function getInstance(): ContentComponent {
+export function createContentComponent(): ContentComponent {
   const subscribers = new Set<() => void>()
   let renderers: Record<string, React.ReactPortal> = {}
+  let isNotificationQueued = false
+
+  const notifySubscribers = () => {
+    if (isNotificationQueued || !subscribers.size) {
+      return
+    }
+
+    isNotificationQueued = true
+
+    queueMicrotask(() => {
+      isNotificationQueued = false
+      subscribers.forEach(subscriber => subscriber())
+    })
+  }
 
   return {
     /**
@@ -68,7 +88,7 @@ function getInstance(): ContentComponent {
         [id]: ReactDOM.createPortal(renderer.reactElement, renderer.element, id),
       }
 
-      subscribers.forEach(subscriber => subscriber())
+      notifySubscribers()
     },
     /**
      * Removes a NodeView Renderer from the editor.
@@ -78,7 +98,7 @@ function getInstance(): ContentComponent {
 
       delete nextRenderers[id]
       renderers = nextRenderers
-      subscribers.forEach(subscriber => subscriber())
+      notifySubscribers()
     },
   }
 }
@@ -89,18 +109,9 @@ export class PureEditorContent extends React.Component<
 > {
   editorContentRef: React.RefObject<any>
 
-  initialized: boolean
-
-  unsubscribeToContentComponent?: () => void
-
   constructor(props: EditorContentProps) {
     super(props)
     this.editorContentRef = React.createRef()
-    this.initialized = false
-
-    this.state = {
-      hasContentComponentInitialized: Boolean((props.editor as EditorWithContentComponent | null)?.contentComponent),
-    }
   }
 
   componentDidMount() {
@@ -127,31 +138,24 @@ export class PureEditorContent extends React.Component<
         element,
       })
 
-      editor.contentComponent = getInstance()
-
-      // Has the content component been initialized?
-      if (!this.state.hasContentComponentInitialized) {
-        // Subscribe to the content component
-        this.unsubscribeToContentComponent = editor.contentComponent.subscribe(() => {
-          this.setState(prevState => {
-            if (!prevState.hasContentComponentInitialized) {
-              return {
-                hasContentComponentInitialized: true,
-              }
-            }
-            return prevState
-          })
-
-          // Unsubscribe to previous content component
-          if (this.unsubscribeToContentComponent) {
-            this.unsubscribeToContentComponent()
-          }
-        })
-      }
+      editor.contentComponent = createContentComponent()
 
       editor.createNodeViews()
 
-      this.initialized = true
+      editor.registerPlugin(
+        new Plugin({
+          key: mobileEnterPluginKey,
+          props: {
+            handleDOMEvents: {
+              beforeinput: (_view, event) => handleMobileEnter(editor, event),
+            },
+          },
+        }),
+      )
+
+      editor.isEditorContentInitialized = true
+
+      this.forceUpdate()
     }
   }
 
@@ -162,16 +166,13 @@ export class PureEditorContent extends React.Component<
       return
     }
 
-    this.initialized = false
+    editor.isEditorContentInitialized = false
 
     if (!editor.isDestroyed) {
+      editor.unregisterPlugin(mobileEnterPluginKey)
       editor.view.setProps({
         nodeViews: {},
       })
-    }
-
-    if (this.unsubscribeToContentComponent) {
-      this.unsubscribeToContentComponent()
     }
 
     editor.contentComponent = null
@@ -214,7 +215,7 @@ const EditorContentWithKey = forwardRef<HTMLDivElement, EditorContentProps>(
   (props: Omit<EditorContentProps, 'innerRef'>, ref) => {
     const key = React.useMemo(() => {
       return Math.floor(Math.random() * 0xffffffff).toString()
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      // oxlint-disable-next-line react-hooks/exhaustive-deps
     }, [props.editor])
 
     // Can't use JSX here because it conflicts with the type definition of Vue's JSX, so use createElement

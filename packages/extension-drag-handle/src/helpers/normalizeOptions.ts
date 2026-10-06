@@ -17,7 +17,9 @@ import { normalizeEdgeDetection } from './edgeDetection.js'
  * normalizeNestedOptions({ rules: [myRule], edgeDetection: 'none' })
  * // Returns: { enabled: true, rules: [myRule], edgeDetection: { edges: [], ... } }
  */
-export function normalizeNestedOptions(input: boolean | NestedOptions | undefined): NormalizedNestedOptions {
+export function normalizeNestedOptions(
+  input: boolean | NestedOptions | undefined,
+): NormalizedNestedOptions {
   if (input === false || input === undefined) {
     return {
       enabled: false,

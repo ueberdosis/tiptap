@@ -1,4 +1,4 @@
-import type { Fragment, Node, ResolvedPos } from '@tiptap/pm/model'
+import type { Fragment, Node as PMNode, ResolvedPos } from '@tiptap/pm/model'
 
 import type { Editor } from './Editor.js'
 import type { Content, Range } from './types.js'
@@ -14,16 +14,16 @@ export class NodePos {
     return this.node.type.name
   }
 
-  constructor(pos: ResolvedPos, editor: Editor, isBlock = false, node: Node | null = null) {
+  constructor(pos: ResolvedPos, editor: Editor, isBlock = false, node: PMNode | null = null) {
     this.isBlock = isBlock
     this.resolvedPos = pos
     this.editor = editor
     this.currentNode = node
   }
 
-  private currentNode: Node | null = null
+  private currentNode: PMNode | null = null
 
-  get node(): Node {
+  get node(): PMNode {
     return this.currentNode || this.resolvedPos.node()
   }
 
@@ -51,7 +51,9 @@ export class NodePos {
 
     if (this.isBlock) {
       if (this.content.size === 0) {
-        console.error(`You can’t set content on a block node. Tried to set content on ${this.name} at ${this.pos}`)
+        console.error(
+          `You can’t set content on a block node. Tried to set content on ${this.name} at ${this.pos}`,
+        )
         return
       }
 
@@ -153,7 +155,12 @@ export class NodePos {
       }
 
       // Pass the node for both block and inline nodes to ensure correct node reference
-      const childNodePos = new NodePos($pos, this.editor, isBlock, isBlock || isInline ? node : null)
+      const childNodePos = new NodePos(
+        $pos,
+        this.editor,
+        isBlock,
+        isBlock || isInline ? node : null,
+      )
 
       if (isBlock) {
         childNodePos.actualDepth = this.depth + 1
@@ -172,7 +179,7 @@ export class NodePos {
   get lastChild(): NodePos | null {
     const children = this.children
 
-    return children[children.length - 1] || null
+    return children.at(-1) || null
   }
 
   closest(selector: string, attributes: { [key: string]: any } = {}): NodePos | null {
@@ -207,7 +214,11 @@ export class NodePos {
     return this.querySelectorAll(selector, attributes, true)[0] || null
   }
 
-  querySelectorAll(selector: string, attributes: { [key: string]: any } = {}, firstItemOnly = false): NodePos[] {
+  querySelectorAll(
+    selector: string,
+    attributes: { [key: string]: any } = {},
+    firstItemOnly = false,
+  ): NodePos[] {
     let nodes: NodePos[] = []
 
     if (!this.children || this.children.length === 0) {
@@ -226,7 +237,9 @@ export class NodePos {
       }
 
       if (childPos.node.type.name === selector) {
-        const doesAllAttributesMatch = attrKeys.every(key => attributes[key] === childPos.node.attrs[key])
+        const doesAllAttributesMatch = attrKeys.every(
+          key => attributes[key] === childPos.node.attrs[key],
+        )
 
         if (doesAllAttributesMatch) {
           nodes.push(childPos)
@@ -238,7 +251,7 @@ export class NodePos {
         return
       }
 
-      nodes = nodes.concat(childPos.querySelectorAll(selector, attributes, firstItemOnly))
+      nodes = [...nodes, ...childPos.querySelectorAll(selector, attributes, firstItemOnly)]
     })
 
     return nodes

@@ -32,7 +32,11 @@ export const mathMigrationRegex = /\$(?!\d+\$)(.+?)\$(?!\d)/g
  * editor.view.dispatch(updatedTr)
  * ```
  */
-export function createMathMigrateTransaction(editor: Editor, tr: Transaction, regex: RegExp = mathMigrationRegex) {
+export function createMathMigrateTransaction(
+  editor: Editor,
+  tr: Transaction,
+  regex: RegExp = mathMigrationRegex,
+) {
   // we traverse the document and replace all math nodes with the new math nodes
   tr.doc.descendants((node, pos) => {
     if (!node.isText || !node.text || !node.text.includes('$')) {

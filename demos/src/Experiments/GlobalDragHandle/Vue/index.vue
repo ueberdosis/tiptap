@@ -6,7 +6,7 @@
 
 <script>
 import StarterKit from '@tiptap/starter-kit'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 
 import DragHandle from './DragHandle.js'
 
@@ -35,7 +35,7 @@ export default {
         <pre>Code</pre>
       `,
       onUpdate: () => {
-        // eslint-disable-next-line
+        // oxlint-disable-next-line
         console.log(this.editor.getHTML())
       },
     })

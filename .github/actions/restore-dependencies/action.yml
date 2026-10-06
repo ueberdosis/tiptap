@@ -1,0 +1,9 @@
+name: Restore dependencies
+description: Install dependencies from the cached package manager data
+
+runs:
+  using: composite
+  steps:
+    - name: Restore dependencies
+      shell: bash
+      run: vp install --offline --frozen-lockfile -- --strict-peer-dependencies

@@ -1,5 +1,5 @@
 import type { Editor } from '@tiptap/core'
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import type { EditorView } from '@tiptap/pm/view'
 
 import type { NormalizedNestedOptions } from '../types/options.js'
@@ -14,16 +14,43 @@ export type FindElementNextToCoords = {
 }
 
 /**
- * Finds the draggable block element that is a direct child of view.dom
+ * ProseMirror attaches a `pmViewDesc` to every DOM node it manages. Element view
+ * descriptions for document nodes expose a `node`; widget decorations (such as
+ * the Pages page-chrome overlay, which renders as a zero-height first child of
+ * the editor) have a view description but no associated document node.
  */
-export function findClosestTopLevelBlock(element: Element, view: EditorView): HTMLElement | undefined {
+interface ElementWithViewDesc extends Element {
+  pmViewDesc?: { node?: unknown }
+}
+
+/**
+ * Finds the draggable block element that is a direct child of view.dom.
+ *
+ * Direct children that are widget decorations rather than document content are
+ * skipped — they are not draggable blocks, and treating them as such would
+ * align the drag handle to the decoration (e.g. the page header) instead of the
+ * actual first block on the page.
+ */
+export function findClosestTopLevelBlock(
+  element: Element,
+  view: EditorView,
+): HTMLElement | undefined {
   let current: Element | null = element
 
   while (current?.parentElement && current.parentElement !== view.dom) {
     current = current.parentElement
   }
 
-  return current?.parentElement === view.dom ? (current as HTMLElement) : undefined
+  if (current?.parentElement !== view.dom) {
+    return undefined
+  }
+
+  // Skip widget decorations (no associated document node).
+  if (!(current as ElementWithViewDesc).pmViewDesc?.node) {
+    return undefined
+  }
+
+  return current as HTMLElement
 }
 
 /**
@@ -41,28 +68,53 @@ function isValidRect(rect: DOMRect): boolean {
 }
 
 /**
+ * Returns the bounding rect of the first or last child of `container` that has
+ * a valid (non-zero) layout box.
+ *
+ * Some extensions insert zero-size widget decorations as the first/last child
+ * of the editor — for example the Pages extension anchors its page-chrome
+ * overlay in a zero-height `<div>` as the first child. Reading `firstElementChild`
+ * / `lastElementChild` directly would yield an invalid rect and abort clamping,
+ * so we skip over any edge children without a valid box.
+ */
+export function edgeBlockRect(container: Element, edge: 'first' | 'last'): DOMRect | null {
+  let current: Element | null =
+    edge === 'first' ? container.firstElementChild : container.lastElementChild
+
+  while (current) {
+    const rect = current.getBoundingClientRect()
+
+    if (isValidRect(rect)) {
+      return rect
+    }
+
+    current = edge === 'first' ? current.nextElementSibling : current.previousElementSibling
+  }
+
+  return null
+}
+
+/**
  * Clamps coordinates to content bounds with O(1) layout reads
  */
-function clampToContent(view: EditorView, x: number, y: number, inset = 5): { x: number; y: number } | null {
+function clampToContent(
+  view: EditorView,
+  x: number,
+  y: number,
+  inset = 5,
+): { x: number; y: number } | null {
   // Validate input coordinates are finite numbers
   if (!Number.isFinite(x) || !Number.isFinite(y)) {
     return null
   }
 
   const container = view.dom
-  const firstBlock = container.firstElementChild
-  const lastBlock = container.lastElementChild
 
-  if (!firstBlock || !lastBlock) {
-    return null
-  }
+  // Clamp Y between the first and last children that actually have a layout box.
+  const topRect = edgeBlockRect(container, 'first')
+  const botRect = edgeBlockRect(container, 'last')
 
-  // Clamp Y between first and last block
-  const topRect = firstBlock.getBoundingClientRect()
-  const botRect = lastBlock.getBoundingClientRect()
-
-  // Validate bounding rects have finite values
-  if (!isValidRect(topRect) || !isValidRect(botRect)) {
+  if (!topRect || !botRect) {
     return null
   }
 
@@ -98,7 +150,7 @@ export const findElementNextToCoords = (
   options: FindElementNextToCoords,
 ): {
   resultElement: HTMLElement | null
-  resultNode: Node | null
+  resultNode: PMNode | null
   pos: number | null
 } => {
   const { x, y, editor, nestedOptions } = options
@@ -146,6 +198,29 @@ export const findElementNextToCoords = (
   })
 
   if (!block) {
+    // elementsFromPoint may return nothing if the coordinates land outside an element
+    // (e.g., in margins, overlays, gaps, or indented nodes). posAtCoords uses the
+    // caret API, so it still resolves to the nearest text position.
+    const coords = view.posAtCoords({ left: clampedX, top: clampedY })
+
+    if (coords) {
+      const $pos = state.doc.resolve(coords.pos)
+      // Walk up to the top-level block
+      const depth = Math.min($pos.depth, 1)
+      const blockPos = depth > 0 ? $pos.before(depth) : $pos.pos
+      const blockNode = state.doc.nodeAt(blockPos)
+
+      if (blockNode) {
+        const dom = view.nodeDOM(blockPos)
+
+        return {
+          resultElement: dom instanceof HTMLElement ? dom : null,
+          resultNode: blockNode,
+          pos: blockPos,
+        }
+      }
+    }
+
     return { resultElement: null, resultNode: null, pos: null }
   }
 

@@ -18,9 +18,16 @@
       </label>
     </div>
 
-    <bubble-menu v-if="editor && showMenu" :editor="editor" :options="{ placement: 'bottom', offset: 8 }">
+    <bubble-menu
+      v-if="editor && showMenu"
+      :editor="editor"
+      :options="{ placement: 'bottom', offset: 8 }"
+    >
       <div class="bubble-menu">
-        <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
+        <button
+          @click="editor.chain().focus().toggleBold().run()"
+          :class="{ 'is-active': editor.isActive('bold') }"
+        >
           Bold
         </button>
         <button
@@ -57,8 +64,8 @@
 <script>
 import { findParentNode, posToDOMRect } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
-import { Editor, EditorContent } from '@tiptap/vue-3'
-import { BubbleMenu } from '@tiptap/vue-3/menus'
+import { Editor, EditorContent } from '@tiptap/vue'
+import { BubbleMenu } from '@tiptap/vue/menus'
 
 export default {
   components: {
@@ -101,11 +108,15 @@ export default {
   methods: {
     getListVirtualElement() {
       const editor = this.editor
-      const parentNode = findParentNode(node => node.type.name === 'bulletList' || node.type.name === 'orderedList')(
-        editor.state.selection,
-      )
+      const parentNode = findParentNode(
+        node => node.type.name === 'bulletList' || node.type.name === 'orderedList',
+      )(editor.state.selection)
       if (parentNode) {
-        const domRect = posToDOMRect(editor.view, parentNode.start, parentNode.start + parentNode.node.nodeSize)
+        const domRect = posToDOMRect(
+          editor.view,
+          parentNode.start,
+          parentNode.start + parentNode.node.nodeSize,
+        )
         return {
           getBoundingClientRect: () => domRect,
           getClientRects: () => [domRect],

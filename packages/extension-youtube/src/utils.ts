@@ -3,7 +3,18 @@ export const YOUTUBE_REGEX =
 export const YOUTUBE_REGEX_GLOBAL =
   /^((?:https?:)?\/\/)?((?:www|m|music)\.)?((?:youtube\.com|youtu\.be|youtube-nocookie\.com))(\/(?:[\w-]+\?v=|embed\/|v\/)?)([\w-]+)(\S+)?$/g
 
-export const isValidYoutubeUrl = (url: string) => {
+/**
+ * Checks whether a url is a youtube url that the extension can embed.
+ *
+ * The `src` attribute of a youtube node is declared with `default: null`, so a node
+ * parsed from an iframe without a `src` attribute legitimately carries no url. Guard
+ * against that here instead of letting the caller dereference it.
+ */
+export const isValidYoutubeUrl = (url: string | null | undefined) => {
+  if (!url) {
+    return null
+  }
+
   return url.match(YOUTUBE_REGEX)
 }
 
@@ -27,6 +38,11 @@ export interface GetEmbedUrlOptions {
   progressBarColor?: string
   startAt?: number
   rel?: number
+}
+
+export interface YoutubeEmbedAttributes {
+  src: string
+  start?: number
 }
 
 export const getYoutubeEmbedUrl = (nocookie?: boolean, isPlaylist?: boolean) => {
@@ -78,7 +94,7 @@ export const getEmbedUrlFromYoutubeUrl = (options: GetEmbedUrlOptions) => {
     return `${getYoutubeEmbedUrl(nocookie)}${id}`
   }
 
-  const videoIdRegex = /(?:(v|list)=|shorts\/)([-\w]+)/gm
+  const videoIdRegex = /(?:(v|list)=|\/(?:shorts|live)\/)([-\w]+)/gm
   const matches = videoIdRegex.exec(url)
 
   if (!matches || !matches[2]) {
@@ -162,4 +178,57 @@ export const getEmbedUrlFromYoutubeUrl = (options: GetEmbedUrlOptions) => {
   }
 
   return outputUrl
+}
+
+export const getAttributesFromYoutubeEmbedUrl = (url: string): YoutubeEmbedAttributes | null => {
+  let parsedUrl: URL
+
+  try {
+    parsedUrl = new URL(url)
+  } catch {
+    return null
+  }
+
+  const hostname = parsedUrl.hostname.replace(/^www\./, '')
+
+  if (hostname !== 'youtube.com' && hostname !== 'youtube-nocookie.com') {
+    return null
+  }
+
+  let src: string | null = null
+
+  if (parsedUrl.pathname === '/embed/videoseries') {
+    const list = parsedUrl.searchParams.get('list')
+
+    if (!list) {
+      return null
+    }
+
+    src = `https://www.youtube.com/playlist?list=${list}`
+  } else {
+    const matches = parsedUrl.pathname.match(/^\/embed\/([\w-]+)$/)
+
+    if (!matches?.[1]) {
+      return null
+    }
+
+    src = `https://www.youtube.com/watch?v=${matches[1]}`
+  }
+
+  if (!isValidYoutubeUrl(src)) {
+    return null
+  }
+
+  const attributes: YoutubeEmbedAttributes = { src }
+  const start = parsedUrl.searchParams.get('start')
+
+  if (start) {
+    const parsedStart = Number.parseInt(start, 10)
+
+    if (!Number.isNaN(parsedStart)) {
+      attributes.start = parsedStart
+    }
+  }
+
+  return attributes
 }

@@ -10,7 +10,10 @@ export type EditorStateSnapshot<TEditor extends Editor | null = Editor | null> =
   transactionNumber: number
 }
 
-export type UseEditorStateOptions<TSelectorResult, TEditor extends Editor | null = Editor | null> = {
+export type UseEditorStateOptions<
+  TSelectorResult,
+  TEditor extends Editor | null = Editor | null,
+> = {
   /**
    * The editor instance.
    */
@@ -92,7 +95,14 @@ class EditorStateManager<TEditor extends Editor | null = Editor | null> {
        * This is to support things like `editor.can().toggleBold()` in components that `useEditor`.
        * This could be more efficient, but it's a good trade-off for now.
        */
-      const fn = () => {
+      // Changes can emit both events, so notify only once
+      let lastTransaction: unknown
+      const fn = (props?: { transaction?: unknown }) => {
+        if (props?.transaction !== undefined && props.transaction === lastTransaction) {
+          return
+        }
+        lastTransaction = props?.transaction
+
         this.transactionNumber += 1
         this.subscribers.forEach(callback => callback())
       }
@@ -100,8 +110,10 @@ class EditorStateManager<TEditor extends Editor | null = Editor | null> {
       const currentEditor = this.editor
 
       currentEditor.on('transaction', fn)
+      currentEditor.on('update', fn)
       return () => {
         currentEditor.off('transaction', fn)
+        currentEditor.off('update', fn)
       }
     }
 
@@ -150,7 +162,9 @@ export function useEditorState<TSelectorResult>(
  * })
  */
 export function useEditorState<TSelectorResult>(
-  options: UseEditorStateOptions<TSelectorResult, Editor> | UseEditorStateOptions<TSelectorResult, Editor | null>,
+  options:
+    | UseEditorStateOptions<TSelectorResult, Editor>
+    | UseEditorStateOptions<TSelectorResult, Editor | null>,
 ): TSelectorResult | null {
   const [editorStateManager] = useState(() => new EditorStateManager(options.editor))
 

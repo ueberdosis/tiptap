@@ -43,7 +43,7 @@ export default () => {
             if (htmlContent) {
               // if there is htmlContent, stop manual insertion & let other extensions handle insertion via inputRule
               // you could extract the pasted file from this url string and upload it to a server for example
-              console.log(htmlContent) // eslint-disable-line no-console
+              console.log(htmlContent) // oxlint-disable-line no-console
               return false
             }
 

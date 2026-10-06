@@ -1,11 +1,8 @@
 import type { Editor } from '@tiptap/core'
 import { isAtStartOfNode, isNodeActive } from '@tiptap/core'
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 
-import { findListItemPos } from './findListItemPos.js'
 import { hasListBefore } from './hasListBefore.js'
-import { hasListItemBefore } from './hasListItemBefore.js'
-import { listItemHasSubList } from './listItemHasSubList.js'
 
 export const handleBackspace = (editor: Editor, name: string, parentListTypes: string[]) => {
   // this is required to still handle the undo handling
@@ -27,7 +24,7 @@ export const handleBackspace = (editor: Editor, name: string, parentListTypes: s
 
     const $listPos = editor.state.doc.resolve($anchor.before() - 1)
 
-    const listDescendants: Array<{ node: Node; pos: number }> = []
+    const listDescendants: Array<{ node: PMNode; pos: number }> = []
 
     $listPos.node().descendants((node, pos) => {
       if (node.type.name === name) {
@@ -62,24 +59,12 @@ export const handleBackspace = (editor: Editor, name: string, parentListTypes: s
     return false
   }
 
-  const listItemPos = findListItemPos(name, editor.state)
-
-  if (!listItemPos) {
+  // only intercept at the start of the list item's first child
+  const { $from } = editor.state.selection
+  const itemDepth = $from.depth - 1
+  if ($from.node(itemDepth).type !== editor.schema.nodes[name] || $from.index(itemDepth) !== 0) {
     return false
   }
 
-  const $prev = editor.state.doc.resolve(listItemPos.$pos.pos - 2)
-  const prevNode = $prev.node(listItemPos.depth)
-
-  const previousListItemHasSubList = listItemHasSubList(name, editor.state, prevNode)
-
-  // if the previous item is a list item and doesn't have a sublist, join the list items
-  if (hasListItemBefore(name, editor.state) && !previousListItemHasSubList) {
-    return editor.commands.joinItemBackward()
-  }
-
-  // otherwise in the end, a backspace should
-  // always just lift the list item if
-  // joining / merging is not possible
   return editor.chain().liftListItem(name).run()
 }

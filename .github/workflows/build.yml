@@ -1,10 +1,8 @@
-# Automate, customize, and execute your software development workflows right in your repository with GitHub Actions.
-# Documentation: https://docs.github.com/en/actions
-
-name: build
+name: Verify
 
 env:
-  PNPM_VERSION: 9.15.4
+  NODE_VERSION: 24
+  VP_GIT_HOOKS: 0
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -14,243 +12,156 @@ on:
   push:
     branches:
       - main
-      - develop
+      - next
       - release/*
-    tags:
-      - '*'
   pull_request:
     branches:
       - main
-      - develop
+      - next
+      - release/*
 
 jobs:
-  build:
+  install-node-dependencies:
+    name: Install node dependencies
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [20]
+    timeout-minutes: 15
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
+      - uses: ./.github/actions/setup-env
         with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4.1.0
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
-
-      - name: Load turbo cache
-        uses: actions/cache@v5.0.2
-        id: turbo-cache
-        with:
-          path: |
-            .turbo
-            **/.eslintcache
-          key: ${{ runner.os }}-turbo-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-turbo-${{ github.sha }}
-            ${{ runner.os }}-turbo-
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'true'
 
       - name: Install dependencies
-        id: install-dependencies
-        run: pnpm install
+        run: vp install --frozen-lockfile -- --strict-peer-dependencies
 
-      - name: Lint code
-        run: pnpm run lint
-
-      - name: Try to build the packages
-        id: build-packages
-        run: pnpm run build
-
-  unit-test:
+  build-packages:
+    name: Build packages
     runs-on: ubuntu-latest
-
-    needs: build
-
-    strategy:
-      matrix:
-        node-version: [20]
+    needs: install-node-dependencies
+    timeout-minutes: 20
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
+      - uses: ./.github/actions/setup-env
         with:
-          version: ${{ env.PNPM_VERSION }}
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'true'
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4.1.0
+      - uses: ./.github/actions/restore-dependencies
+
+      - name: Build packages
+        run: vp run build && vp run build:demos
+
+      - name: Check package exports
+        run: vp run check:package-exports
+
+  check-linting-formatting:
+    name: Check linting & formatting
+    runs-on: ubuntu-latest
+    needs: install-node-dependencies
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: ./.github/actions/setup-env
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'true'
 
-      - name: Load turbo cache
-        uses: actions/cache@v5.0.2
-        id: turbo-cache
+      - uses: ./.github/actions/restore-dependencies
+
+      - name: Run linting and formatting checks
+        run: vp check
+
+  run-unit-tests:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+    needs: install-node-dependencies
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: ./.github/actions/setup-env
         with:
-          path: |
-            .turbo
-            **/.eslintcache
-          key: ${{ runner.os }}-turbo-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-turbo-${{ github.sha }}
-            ${{ runner.os }}-turbo-
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'true'
 
-      - name: Install dependencies
-        id: install-dependencies
-        run: pnpm install
-
-      - name: Try to build the packages
-        id: build-packages
-        run: pnpm run build
+      - uses: ./.github/actions/restore-dependencies
 
       - name: Run unit tests
-        id: unit-tests
-        run: pnpm run test:unit
+        run: vp test
 
-  test:
+  run-e2e-tests:
+    name: Run e2e tests (shard ${{ matrix.shard }}/${{ matrix.total }})
     runs-on: ubuntu-latest
-
-    needs: [build, unit-test]
-
+    needs: build-packages
+    timeout-minutes: 30
     strategy:
+      fail-fast: false
       matrix:
-        node-version: [20]
-        test-spec:
-          - { name: 'Integration', spec: './tests/cypress/integration/**/*.spec.{js,ts}' }
-          - { name: 'Demos/Commands', spec: './demos/src/Commands/**/*.spec.{js,ts}' }
-          - { name: 'Demos/Examples', spec: './demos/src/Examples/**/*.spec.{js,ts}' }
-          - { name: 'Demos/Experiments', spec: './demos/src/Experiments/**/*.spec.{js,ts}' }
-          - { name: 'Demos/Extensions', spec: './demos/src/Extensions/**/*.spec.{js,ts}' }
-          - { name: 'Demos/GuideContent', spec: './demos/src/GuideContent/**/*.spec.{js,ts}' }
-          - { name: 'Demos/GuideGettingStarted', spec: './demos/src/GuideGettingStarted/**/*.spec.{js,ts}' }
-          #- { name: "Demos/GuideNodeViews", "./demos/src/GuideNodeViews/**/*.spec.{js,ts}" }
-          - { name: 'Demos/Marks', spec: './demos/src/Marks/**/*.spec.{js,ts}' }
-          - { name: 'Demos/Nodes', spec: './demos/src/Nodes/**/*.spec.{js,ts}' }
-          #- { name: "Demos/Overview", spec: "./demos/src/Overview/**/*.spec.{js,ts}" }
+        shard: [1, 2, 3, 4]
+        total: [4]
 
     steps:
-      - uses: actions/checkout@v6
-      - name: Load turbo cache
-        uses: actions/cache@v5.0.2
-        id: turbo-cache
-        with:
-          path: |
-            .turbo
-            **/.eslintcache
-          key: ${{ runner.os }}-turbo-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-turbo-${{ github.sha }}
-            ${{ runner.os }}-turbo-
-      - name: Load build cache
-        uses: actions/cache@v5.0.2
-        id: cache
-        with:
-          path: |
-            ./demos/node_modules/.vite
-            /home/runner/.cache/Cypress
-          key: ${{ runner.os }}-build-${{ matrix.test-spec.name }}-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ matrix.test-spec.name }}-${{ github.sha }}
-            ${{ runner.os }}-build-${{ matrix.test-spec.name }}-
+      - uses: actions/checkout@v7
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
+      - uses: ./.github/actions/setup-env
         with:
-          version: ${{ env.PNPM_VERSION }}
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'true'
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4.1.0
+      - uses: ./.github/actions/restore-dependencies
+
+      - uses: ./.github/actions/setup-playwright
+
+      - name: Run Playwright tests
+        run: vp exec playwright test --project=chromium --shard=${{ matrix.shard }}/${{ matrix.total }}
+
+      - name: Upload blob report
+        if: always()
+        uses: actions/upload-artifact@v7
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        id: install-dependencies
-        run: pnpm install --strict-peer-dependencies && pnpm exec cypress install
-
-      - name: Try to build the packages
-        id: build-packages
-        run: pnpm run build
-
-      - name: Test ${{ matrix.test-spec.name }}
-        id: cypress
-        uses: cypress-io/github-action@v6.10.2
-        with:
-          cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          start: pnpm run serve
-          wait-on: 'http://localhost:3000'
-          spec: ${{ matrix.test-spec.spec }}
-          project: ./tests
-          browser: chrome
-          quiet: true
-
-      - name: Export screenshots (on failure only)
-        uses: actions/upload-artifact@v4.6.2
-        if: failure()
-        with:
-          name: cypress-screenshots
-          path: tests/cypress/screenshots
+          name: e2e-blob-report-${{ matrix.shard }}
+          path: blob-report
           retention-days: 7
 
-      - name: Export screen recordings (on failure only)
-        uses: actions/upload-artifact@v4.6.2
-        if: failure()
-        with:
-          name: cypress-videos
-          path: tests/cypress/videos
-          retention-days: 7
-
-  release:
+  merge-e2e-reports:
+    name: Merge e2e reports
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [20]
-
-    needs: [test, unit-test]
+    needs: [install-node-dependencies, run-e2e-tests]
+    if: always() && needs.install-node-dependencies.result == 'success'
+    timeout-minutes: 10
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
+      - uses: ./.github/actions/setup-env
         with:
-          version: ${{ env.PNPM_VERSION }}
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'true'
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4.1.0
+      - uses: ./.github/actions/restore-dependencies
+
+      - name: Download blob reports
+        uses: actions/download-artifact@v8
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
+          path: all-blob-reports
+          pattern: e2e-blob-report-*
+          merge-multiple: true
 
-      - name: Load turbo cache
-        uses: actions/cache@v5.0.2
-        id: turbo-cache
+      - name: Merge into HTML report
+        if: ${{ hashFiles('all-blob-reports/**') != '' }}
+        run: vp exec playwright merge-reports --reporter html ./all-blob-reports
+
+      - name: Upload merged HTML report
+        uses: actions/upload-artifact@v7
         with:
-          path: |
-            .turbo
-            **/.eslintcache
-          key: ${{ runner.os }}-turbo-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-turbo-${{ github.sha }}
-            ${{ runner.os }}-turbo-
-
-      - name: Install dependencies
-        id: install-dependencies
-        run: pnpm install
-
-      - name: Try to build the packages
-        id: build-packages
-        run: pnpm run build
-
-      - name: Soft release
-        id: soft-release
-        run: pnpm exec pkg-pr-new publish './packages/*' './packages-deprecated/*' --compact
+          name: playwright-html-report
+          path: playwright-report
+          retention-days: 14

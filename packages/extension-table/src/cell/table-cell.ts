@@ -2,6 +2,11 @@ import '../types.js'
 
 import { mergeAttributes, Node } from '@tiptap/core'
 
+import { createAlignAttribute } from '../utils/parseAlign.js'
+import { parseColwidth } from '../utils/parseColwidth.js'
+import { fillEmptyCellContent, isEmptyCellElement } from '../utils/fillEmptyCellContent.js'
+import { omitDefaultSpanAttribute } from '../utils/omitDefaultSpanAttribute.js'
+
 export interface TableCellOptions {
   /**
    * The HTML attributes for a table cell node.
@@ -36,24 +41,9 @@ export const TableCell = Node.create<TableCellOptions>({
       },
       colwidth: {
         default: null,
-        parseHTML: element => {
-          const colwidth = element.getAttribute('colwidth')
-          const value = colwidth ? colwidth.split(',').map(width => parseInt(width, 10)) : null
-
-          // if there is no colwidth attribute on the cell, try to get it from the colgroup
-          if (!value) {
-            const cols = element.closest('table')?.querySelectorAll('colgroup > col')
-            const cellIndex = Array.from(element.parentElement?.children || []).indexOf(element)
-
-            if (cellIndex && cellIndex > -1 && cols && cols[cellIndex]) {
-              const colWidth = cols[cellIndex].getAttribute('width')
-              return colWidth ? [parseInt(colWidth, 10)] : null
-            }
-          }
-
-          return value
-        },
+        parseHTML: parseColwidth,
       },
+      align: createAlignAttribute(),
     }
   },
 
@@ -62,10 +52,23 @@ export const TableCell = Node.create<TableCellOptions>({
   isolating: true,
 
   parseHTML() {
-    return [{ tag: 'td' }]
+    return [
+      {
+        // Backfill empty cells; non-empty cells fall through to the rule below.
+        tag: 'td',
+        getAttrs: node => (isEmptyCellElement(node) ? {} : false),
+        getContent: (_node, schema) => fillEmptyCellContent(schema.nodes[this.name]),
+      },
+      { tag: 'td' },
+    ]
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['td', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
+    const attributes = mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)
+
+    omitDefaultSpanAttribute(attributes, HTMLAttributes, 'colspan')
+    omitDefaultSpanAttribute(attributes, HTMLAttributes, 'rowspan')
+
+    return ['td', attributes, 0]
   },
 })

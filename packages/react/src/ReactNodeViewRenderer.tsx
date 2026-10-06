@@ -6,12 +6,15 @@ import type {
   NodeViewRendererProps,
 } from '@tiptap/core'
 import { getRenderedAttributes, NodeView } from '@tiptap/core'
-import type { Node, Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import type { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
 import type { ComponentType, NamedExoticComponent } from 'react'
 import { createElement, createRef, memo } from 'react'
 
+import { captureDOMSelection } from './captureDOMSelection.js'
 import type { EditorWithContentComponent } from './Editor.js'
+import { getTextSelectionAncestorPositions } from './lib/utils/getTextSelectionAncestorPositions.js'
+import { getReactNodeViewSelectionTracker } from './ReactNodeViewSelectionTracker.js'
 import { ReactRenderer } from './ReactRenderer.js'
 import type { ReactNodeViewProps } from './types.js'
 import type { ReactNodeViewContextProps } from './useReactNodeView.js'
@@ -19,15 +22,19 @@ import { ReactNodeViewContext } from './useReactNodeView.js'
 
 export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
   /**
+   * @deprecated Read `selectionInside` from the node view props instead.
+   */
+  selectedOnTextSelection?: boolean
+  /**
    * This function is called when the node view is updated.
    * It allows you to compare the old node with the new node and decide if the component should update.
    */
   update:
     | ((props: {
-        oldNode: ProseMirrorNode
+        oldNode: PMNode
         oldDecorations: readonly Decoration[]
         oldInnerDecorations: DecorationSource
-        newNode: ProseMirrorNode
+        newNode: PMNode
         newDecorations: readonly Decoration[]
         innerDecorations: DecorationSource
         updateProps: () => void
@@ -48,7 +55,7 @@ export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
    */
   attrs?:
     | Record<string, string>
-    | ((props: { node: ProseMirrorNode; HTMLAttributes: Record<string, any> }) => Record<string, string>)
+    | ((props: { node: PMNode; HTMLAttributes: Record<string, any> }) => Record<string, string>)
 }
 
 export class ReactNodeView<
@@ -68,9 +75,29 @@ export class ReactNodeView<
   contentDOMElement!: HTMLElement | null
 
   /**
-   * The requestAnimationFrame ID used for selection updates.
+   * The last known position of this node view, used to detect position-only
+   * changes that don't produce a new node object reference.
    */
-  selectionRafId: number | null = null
+  private currentPos: number | undefined
+
+  private nodeSelected = false
+
+  /**
+   * Fires on editor updates when trackNodeViewPosition is enabled.
+   * Detects position shifts where update() is NOT called (e.g. typing above).
+   */
+  private handlePositionUpdate = () => {
+    const newPos = this.getPos()
+    if (typeof newPos !== 'number' || newPos === this.currentPos) {
+      return
+    }
+    this.currentPos = newPos
+    this.renderer.updateProps({ getPos: () => this.getPos() })
+
+    if (typeof this.options.attrs === 'function') {
+      this.updateElementAttributes()
+    }
+  }
 
   constructor(component: Component, props: NodeViewRendererProps, options?: Partial<Options>) {
     super(component, props, options)
@@ -92,11 +119,16 @@ export class ReactNodeView<
 
       const contentTarget = this.dom.querySelector('[data-node-view-content]')
 
-      if (!contentTarget) {
-        return
+      if (contentTarget) {
+        contentTarget.appendChild(this.contentDOMElement)
+      } else {
+        // ProseMirror maps the selection before the queued portal render.
+        this.dom.appendChild(this.contentDOMElement)
       }
+    }
 
-      contentTarget.appendChild(this.contentDOMElement)
+    if (this.options.trackNodeViewPosition) {
+      this.editor.on('update', this.handlePositionUpdate)
     }
   }
 
@@ -130,20 +162,23 @@ export class ReactNodeView<
    * Called on initialization.
    */
   mount() {
-    const props = {
+    const props: Record<string, any> = {
       editor: this.editor,
       node: this.node,
       decorations: this.decorations as DecorationWithType[],
       innerDecorations: this.innerDecorations,
       view: this.view,
       selected: false,
+      selectionInside: false,
       extension: this.extensionWithSyncedStorage,
       HTMLAttributes: this.HTMLAttributes,
       getPos: () => this.getPos(),
       updateAttributes: (attributes = {}) => this.updateAttributes(attributes),
       deleteNode: () => this.deleteNode(),
       ref: createRef<T>(),
-    } satisfies ReactNodeViewProps<T>
+    }
+
+    const mountProps = props as ReactNodeViewProps<T>
 
     if (!(this.component as any).displayName) {
       const capitalizeFirstChar = (string: string): string => {
@@ -160,20 +195,28 @@ export class ReactNodeView<
         if (element.hasAttribute('data-node-view-wrapper')) {
           element.removeAttribute('data-node-view-wrapper')
         }
+
+        // The caret can already be inside here. Moving would lose it.
+        const restoreSelection = captureDOMSelection(this.contentDOMElement)
+
         element.appendChild(this.contentDOMElement)
+
+        restoreSelection?.()
       }
     }
     const context = { onDragStart, nodeViewContentRef }
     const Component = this.component
     // For performance reasons, we memoize the provider component
     // And all of the things it requires are declared outside of the component, so it doesn't need to re-render
-    const ReactNodeViewProvider: NamedExoticComponent<ReactNodeViewProps<T>> = memo(componentProps => {
-      return (
-        <ReactNodeViewContext.Provider value={context}>
-          {createElement(Component, componentProps)}
-        </ReactNodeViewContext.Provider>
-      )
-    })
+    const ReactNodeViewProvider: NamedExoticComponent<ReactNodeViewProps<T>> = memo(
+      componentProps => {
+        return (
+          <ReactNodeViewContext.Provider value={context}>
+            {createElement(Component, componentProps)}
+          </ReactNodeViewContext.Provider>
+        )
+      },
+    )
 
     ReactNodeViewProvider.displayName = 'ReactNodeView'
 
@@ -185,17 +228,16 @@ export class ReactNodeView<
 
     const { className = '' } = this.options
 
-    this.handleSelectionUpdate = this.handleSelectionUpdate.bind(this)
-
     this.renderer = new ReactRenderer(ReactNodeViewProvider, {
       editor: this.editor,
-      props,
+      props: mountProps,
       as,
       className: `node-${this.node.type.name} ${className}`.trim(),
     })
 
-    this.editor.on('selectionUpdate', this.handleSelectionUpdate)
+    getReactNodeViewSelectionTracker(this.editor).register(this)
     this.updateElementAttributes()
+    this.currentPos = this.getPos()
   }
 
   /**
@@ -226,44 +268,14 @@ export class ReactNodeView<
   }
 
   /**
-   * On editor selection update, check if the node is selected.
-   * If it is, call `selectNode`, otherwise call `deselectNode`.
-   */
-  handleSelectionUpdate() {
-    if (this.selectionRafId) {
-      cancelAnimationFrame(this.selectionRafId)
-      this.selectionRafId = null
-    }
-
-    this.selectionRafId = requestAnimationFrame(() => {
-      this.selectionRafId = null
-      const { from, to } = this.editor.state.selection
-      const pos = this.getPos()
-      if (typeof pos !== 'number') {
-        return
-      }
-
-      if (from <= pos && to >= pos + this.node.nodeSize) {
-        if (this.renderer.props.selected) {
-          return
-        }
-
-        this.selectNode()
-      } else {
-        if (!this.renderer.props.selected) {
-          return
-        }
-
-        this.deselectNode()
-      }
-    })
-  }
-
-  /**
    * On update, update the React component.
    * To prevent unnecessary updates, the `update` option can be used.
    */
-  update(node: Node, decorations: readonly Decoration[], innerDecorations: DecorationSource): boolean {
+  update(
+    node: PMNode,
+    decorations: readonly Decoration[],
+    innerDecorations: DecorationSource,
+  ): boolean {
     const rerenderComponent = (props?: Record<string, any>) => {
       this.renderer.updateProps(props)
       if (typeof this.options.attrs === 'function') {
@@ -283,6 +295,7 @@ export class ReactNodeView<
       this.node = node
       this.decorations = decorations
       this.innerDecorations = innerDecorations
+      this.currentPos = this.getPos()
 
       return this.options.update({
         oldNode,
@@ -292,20 +305,50 @@ export class ReactNodeView<
         oldInnerDecorations,
         innerDecorations,
         updateProps: () =>
-          rerenderComponent({ node, decorations, innerDecorations, extension: this.extensionWithSyncedStorage }),
+          rerenderComponent({
+            node,
+            decorations,
+            innerDecorations,
+            extension: this.extensionWithSyncedStorage,
+          }),
       })
     }
 
-    if (node === this.node && this.decorations === decorations && this.innerDecorations === innerDecorations) {
+    const nodeChanged = node !== this.node
+
+    // Node reference unchanged — only decorations may have changed.
+    // ProseMirror renders decorations independently on the contentDOM,
+    // and the getPos closure (bound in mount()) calls through to
+    // ProseMirror's position function at call time, so it is always
+    // current. Update internal refs and skip the React re-render.
+    // Keep currentPos unchanged here so the editor update listener can
+    // still detect and publish a position shift for tracked node views.
+    if (!nodeChanged) {
+      this.node = node
+      this.decorations = decorations
+      this.innerDecorations = innerDecorations
       return true
     }
+
+    const newPos = this.getPos()
 
     this.node = node
     this.decorations = decorations
     this.innerDecorations = innerDecorations
+    this.currentPos = newPos
 
-    rerenderComponent({ node, decorations, innerDecorations, extension: this.extensionWithSyncedStorage })
+    const extraProps: Record<string, any> = {
+      node,
+      decorations,
+      innerDecorations,
+      extension: this.extensionWithSyncedStorage,
+    }
 
+    if (this.options.trackNodeViewPosition) {
+      extraProps.getPos = () => this.getPos()
+    }
+
+    rerenderComponent(extraProps)
     return true
   }
 
@@ -314,10 +357,8 @@ export class ReactNodeView<
    * Add the `selected` prop and the `ProseMirror-selectednode` class.
    */
   selectNode() {
-    this.renderer.updateProps({
-      selected: true,
-    })
-    this.renderer.element.classList.add('ProseMirror-selectednode')
+    this.nodeSelected = true
+    this.updateSelectedState(true)
   }
 
   /**
@@ -325,10 +366,32 @@ export class ReactNodeView<
    * Remove the `selected` prop and the `ProseMirror-selectednode` class.
    */
   deselectNode() {
-    this.renderer.updateProps({
-      selected: false,
-    })
-    this.renderer.element.classList.remove('ProseMirror-selectednode')
+    this.nodeSelected = false
+    this.updateSelectedState(
+      this.options.selectedOnTextSelection === true && this.isTextSelectionInside(),
+    )
+  }
+
+  setSelectionInside(selectionInside: boolean) {
+    const selected =
+      this.nodeSelected || (this.options.selectedOnTextSelection === true && selectionInside)
+
+    this.renderer.updateProps({ selectionInside, selected })
+    this.renderer.element.classList.toggle('ProseMirror-selectednode', selected)
+  }
+
+  private updateSelectedState(selected: boolean) {
+    this.renderer.updateProps({ selected })
+    this.renderer.element.classList.toggle('ProseMirror-selectednode', selected)
+  }
+
+  private isTextSelectionInside() {
+    const pos = this.getPos()
+
+    return (
+      typeof pos === 'number' &&
+      getTextSelectionAncestorPositions(this.editor.state.selection).includes(pos)
+    )
   }
 
   /**
@@ -336,13 +399,13 @@ export class ReactNodeView<
    */
   destroy() {
     this.renderer.destroy()
-    this.editor.off('selectionUpdate', this.handleSelectionUpdate)
-    this.contentDOMElement = null
+    getReactNodeViewSelectionTracker(this.editor).unregister(this)
 
-    if (this.selectionRafId) {
-      cancelAnimationFrame(this.selectionRafId)
-      this.selectionRafId = null
+    if (this.options.trackNodeViewPosition) {
+      this.editor.off('update', this.handlePositionUpdate)
     }
+
+    this.contentDOMElement = null
   }
 
   /**
@@ -377,9 +440,21 @@ export function ReactNodeViewRenderer<T = HTMLElement>(
   return props => {
     // try to get the parent component
     // this is important for vue devtools to show the component hierarchy correctly
-    // maybe it’s `undefined` because <editor-content> isn’t rendered yet
+    // maybe it's `undefined` because <editor-content> isn't rendered yet
     if (!(props.editor as EditorWithContentComponent).contentComponent) {
-      return {} as unknown as ProseMirrorNodeView
+      // Return a minimal valid NodeView with a placeholder DOM element
+      // to prevent ProseMirror from crashing when calling hasAttribute on undefined
+      const placeholder = document.createElement('span')
+      return {
+        dom: placeholder,
+        contentDOM: null,
+        update: () => false,
+        destroy: () => {},
+        selectNode: () => {},
+        deselectNode: () => {},
+        stopEvent: () => false,
+        ignoreMutation: () => true,
+      } as unknown as ProseMirrorNodeView
     }
 
     return new ReactNodeView<T>(component, props, options)

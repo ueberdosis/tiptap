@@ -48,7 +48,8 @@ function getDecorations({
     const languages = lowlight.listLanguages()
 
     const nodes =
-      language && (languages.includes(language) || registered(language) || lowlight.registered?.(language))
+      language &&
+      (languages.includes(language) || registered(language) || lowlight.registered?.(language))
         ? getHighlightNodes(lowlight.highlight(language, block.node.textContent))
         : getHighlightNodes(lowlight.highlightAuto(block.node.textContent))
 
@@ -70,7 +71,7 @@ function getDecorations({
   return DecorationSet.create(doc, decorations)
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+// oxlint-disable-next-lineno-unsafe-function-type
 function isFunction(param: any): param is Function {
   return typeof param === 'function'
 }
@@ -85,7 +86,9 @@ export function LowlightPlugin({
   defaultLanguage: string | null | undefined
 }) {
   if (!['highlight', 'highlightAuto', 'listLanguages'].every(api => isFunction(lowlight[api]))) {
-    throw Error('You should provide an instance of lowlight to use the code-block-lowlight extension')
+    throw Error(
+      'You should provide an instance of lowlight to use the code-block-lowlight extension',
+    )
   }
 
   const lowlightPlugin: Plugin<any> = new Plugin({

@@ -1,0 +1,145 @@
+/* Control group styles */
+.control-group {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background-color: var(--gray-1);
+  border-radius: 0.5rem;
+}
+
+.button-group {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+
+  button {
+    padding: 0.5rem 1rem;
+    background-color: var(--purple);
+    color: white;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: var(--purple-contrast);
+    }
+  }
+}
+
+/* Info panel styles */
+.info-panel {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: var(--gray-1);
+  border-radius: 0.5rem;
+  border-left: 3px solid var(--purple);
+
+  h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: var(--purple);
+  }
+}
+
+.log-entries {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.log-entry {
+  padding: 0.25rem 0;
+  font-size: 0.875rem;
+  font-family: 'JetBrainsMono', monospace;
+  color: var(--gray-5);
+
+  strong {
+    color: var(--purple);
+  }
+}
+
+/* Basic editor styles */
+.tiptap {
+  padding: 1rem;
+  border: 2px solid var(--gray-3);
+  border-radius: 0.5rem;
+  min-height: 300px;
+
+  :first-child {
+    margin-top: 0;
+  }
+
+  /* Code styles */
+  code {
+    background-color: var(--purple-light);
+    border-radius: 0.4rem;
+    color: var(--black);
+    font-size: 0.85rem;
+    padding: 0.25em 0.3em;
+  }
+
+  /* List styles */
+  ul,
+  ol {
+    padding: 0 1rem;
+    margin: 1.25rem 1rem 1.25rem 0.4rem;
+
+    li p {
+      margin-top: 0.25em;
+      margin-bottom: 0.25em;
+    }
+  }
+
+  /* Heading styles */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.1;
+    margin-top: 2.5rem;
+    text-wrap: pretty;
+  }
+
+  h1,
+  h2 {
+    margin-top: 3.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+  }
+
+  h4,
+  h5,
+  h6 {
+    font-size: 1rem;
+  }
+
+  /* Link styles */
+  a {
+    color: var(--purple);
+    cursor: pointer;
+
+    &:hover {
+      color: var(--purple-contrast);
+    }
+  }
+
+  /* Strong styles */
+  strong {
+    font-weight: 600;
+  }
+}

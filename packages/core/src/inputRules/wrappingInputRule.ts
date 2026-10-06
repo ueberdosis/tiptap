@@ -1,4 +1,4 @@
-import type { Node as ProseMirrorNode, NodeType } from '@tiptap/pm/model'
+import type { Node as PMNode, NodeType } from '@tiptap/pm/model'
 import { canJoin, findWrapping } from '@tiptap/pm/transform'
 
 import type { Editor } from '../Editor.js'
@@ -29,8 +29,12 @@ export function wrappingInputRule(config: {
   keepAttributes?: boolean
   editor?: Editor
   undoable?: boolean
-  getAttributes?: Record<string, any> | ((match: ExtendedRegExpMatchArray) => Record<string, any>) | false | null
-  joinPredicate?: (match: ExtendedRegExpMatchArray, node: ProseMirrorNode) => boolean
+  getAttributes?:
+    | Record<string, any>
+    | ((match: ExtendedRegExpMatchArray) => Record<string, any>)
+    | false
+    | null
+  joinPredicate?: (match: ExtendedRegExpMatchArray, node: PMNode) => boolean
 }) {
   return new InputRule({
     find: config.find,
@@ -61,7 +65,9 @@ export function wrappingInputRule(config: {
       if (config.keepAttributes) {
         /** If the nodeType is `bulletList` or `orderedList` set the `nodeType` as `listItem` */
         const nodeType =
-          config.type.name === 'bulletList' || config.type.name === 'orderedList' ? 'listItem' : 'taskList'
+          config.type.name === 'bulletList' || config.type.name === 'orderedList'
+            ? 'listItem'
+            : 'taskList'
 
         chain().updateAttributes(nodeType, attributes).run()
       }

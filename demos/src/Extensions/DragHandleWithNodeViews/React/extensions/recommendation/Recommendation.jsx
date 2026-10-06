@@ -58,7 +58,9 @@ export const Recommendation = Node.create({
   },
 
   addNodeView() {
-    return ReactNodeViewRenderer(RecommendationView)
+    return ReactNodeViewRenderer(RecommendationView, {
+      trackNodeViewPosition: true,
+    })
   },
 })
 

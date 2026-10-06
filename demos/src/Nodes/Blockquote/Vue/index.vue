@@ -8,10 +8,16 @@
         >
           Toggle blockquote
         </button>
-        <button @click="editor.chain().focus().setBlockquote().run()" :disabled="!editor.can().setBlockquote()">
+        <button
+          @click="editor.chain().focus().setBlockquote().run()"
+          :disabled="!editor.can().setBlockquote()"
+        >
           Set blockquote
         </button>
-        <button @click="editor.chain().focus().unsetBlockquote().run()" :disabled="!editor.can().unsetBlockquote()">
+        <button
+          @click="editor.chain().focus().unsetBlockquote().run()"
+          :disabled="!editor.can().unsetBlockquote()"
+        >
           Unset blockquote
         </button>
       </div>
@@ -25,7 +31,7 @@ import Blockquote from '@tiptap/extension-blockquote'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 
 export default {
   components: {

@@ -6,7 +6,9 @@ import {
   renderNestedMarkdownContent,
   wrappingInputRule,
 } from '@tiptap/core'
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
+
+import { createBranchingListDeleteKeymap } from '../helpers/createBranchingListDeleteKeymap.js'
 
 export interface TaskItemOptions {
   /**
@@ -15,7 +17,7 @@ export interface TaskItemOptions {
    * @param checked The new checked state
    * @returns boolean
    */
-  onReadOnlyChecked?: (node: ProseMirrorNode, checked: boolean) => boolean
+  onReadOnlyChecked?: (node: PMNode, checked: boolean) => boolean
 
   /**
    * Controls whether the task items can be nested or not.
@@ -48,7 +50,22 @@ export interface TaskItemOptions {
    * }
    */
   a11y?: {
-    checkboxLabel?: (node: ProseMirrorNode, checked: boolean) => string
+    /**
+     * The accessible label for the checkbox. Used as the aria-label on the input and as the
+     * (visually hidden) text of the wrapping label element.
+     * @param node The prosemirror node of the task item
+     * @param checked The new checked state
+     * @returns The accessible label for the checkbox
+     * @example
+     * ```js
+     * TaskItem.configure({
+     *   a11y: {
+     *     checkboxLabel: node => `Task item: ${node.textContent || 'empty task item'}`,
+     *   },
+     * })
+     * ```
+     */
+    checkboxLabel?: (node: PMNode, checked: boolean) => string
   }
 }
 
@@ -56,6 +73,16 @@ export interface TaskItemOptions {
  * Matches a task item to a - [ ] on input.
  */
 export const inputRegex = /^\s*(\[([( |x])?\])\s$/
+
+/**
+ * Hides the checkbox label visually while keeping it in the accessibility tree.
+ */
+const visuallyHiddenStyle =
+  'position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0'
+
+const getCheckboxLabel = (node: PMNode, checked: boolean, a11y: TaskItemOptions['a11y']) =>
+  a11y?.checkboxLabel?.(node, checked) ||
+  `Task item checkbox for ${node.textContent || 'empty task item'}`
 
 /**
  * This extension allows you to create task items.
@@ -101,6 +128,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
       {
         tag: `li[data-type="${this.name}"]`,
         priority: 51,
+        contentElement: element => element.querySelector('div') ?? element,
       },
     ]
   },
@@ -158,6 +186,14 @@ export const TaskItem = Node.create<TaskItemOptions>({
     return renderNestedMarkdownContent(node, h, prefix)
   },
 
+  addExtensions() {
+    if (!this.options.nested) {
+      return []
+    }
+
+    return [createBranchingListDeleteKeymap(this.name, [this.options.taskListTypeName])]
+  },
+
   addKeyboardShortcuts() {
     const shortcuts: {
       [key: string]: KeyboardShortcutCommand
@@ -184,10 +220,13 @@ export const TaskItem = Node.create<TaskItemOptions>({
       const checkbox = document.createElement('input')
       const content = document.createElement('div')
 
-      const updateA11Y = (currentNode: ProseMirrorNode) => {
-        checkbox.ariaLabel =
-          this.options.a11y?.checkboxLabel?.(currentNode, checkbox.checked) ||
-          `Task item checkbox for ${currentNode.textContent || 'empty task item'}`
+      checkboxStyler.style.cssText = visuallyHiddenStyle
+
+      const updateA11Y = (currentNode: PMNode) => {
+        const label = getCheckboxLabel(currentNode, currentNode.attrs.checked, this.options.a11y)
+
+        checkbox.setAttribute('aria-label', label)
+        checkboxStyler.textContent = label
       }
 
       updateA11Y(node)
@@ -312,7 +351,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
         find: inputRegex,
         type: this.type,
         getAttributes: match => ({
-          checked: match[match.length - 1] === 'x',
+          checked: match.at(-1) === 'x',
         }),
       }),
     ]

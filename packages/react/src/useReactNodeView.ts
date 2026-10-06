@@ -21,8 +21,18 @@ export const ReactNodeViewContext = createContext<ReactNodeViewContextProps>({
   },
 })
 
-export const ReactNodeViewContentProvider = ({ children, content }: { children: ReactNode; content: ReactNode }) => {
-  return createElement(ReactNodeViewContext.Provider, { value: { nodeViewContentChildren: content } }, children)
+export const ReactNodeViewContentProvider = ({
+  children,
+  content,
+}: {
+  children: ReactNode
+  content: ReactNode
+}) => {
+  return createElement(
+    ReactNodeViewContext.Provider,
+    { value: { nodeViewContentChildren: content } },
+    children,
+  )
 }
 
 export const useReactNodeView = () => useContext(ReactNodeViewContext)

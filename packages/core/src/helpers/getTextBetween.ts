@@ -1,4 +1,4 @@
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 
 import type { Range, TextSerializer } from '../types.js'
 
@@ -11,7 +11,7 @@ import type { Range, TextSerializer } from '../types.js'
  * @returns The text between the two positions
  */
 export function getTextBetween(
-  startNode: ProseMirrorNode,
+  startNode: PMNode,
   range: Range,
   options?: {
     blockSeparator?: string
@@ -44,7 +44,7 @@ export function getTextBetween(
     }
 
     if (node.isText) {
-      text += node?.text?.slice(Math.max(from, pos) - pos, to - pos) // eslint-disable-line
+      text += node?.text?.slice(Math.max(from, pos) - pos, to - pos) // oxlint-disable-line
     }
   })
 

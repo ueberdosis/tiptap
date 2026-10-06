@@ -2,11 +2,17 @@
   <div v-if="editor" class="container">
     <div class="control-group">
       <div class="button-group">
-        <button @click="editor.commands.showInvisibleCharacters()">Show invisible characters</button>
+        <button @click="editor.commands.showInvisibleCharacters()">
+          Show invisible characters
+        </button>
         <!-- Works as well -->
         <!-- <button @click="editor.commands.showInvisibleCharacters(false)">showInvisibleCharacters(false)</button> -->
-        <button @click="editor.commands.hideInvisibleCharacters()">Hide invisible characters</button>
-        <button @click="editor.commands.toggleInvisibleCharacters()">Toggle invisible characters</button>
+        <button @click="editor.commands.hideInvisibleCharacters()">
+          Hide invisible characters
+        </button>
+        <button @click="editor.commands.toggleInvisibleCharacters()">
+          Toggle invisible characters
+        </button>
       </div>
       <div>
         <input
@@ -29,7 +35,7 @@ import Heading from '@tiptap/extension-heading'
 import InvisibleCharacters from '@tiptap/extension-invisible-characters'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 
 export default {
   components: {

@@ -1,4 +1,4 @@
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 
 import type { JSONContent } from '../types.js'
 
@@ -7,7 +7,7 @@ interface DebugJSONContent extends JSONContent {
   to: number
 }
 
-export function getDebugJSON(node: ProseMirrorNode, startOffset = 0): DebugJSONContent {
+export function getDebugJSON(node: PMNode, startOffset = 0): DebugJSONContent {
   const isTopNode = node.type === node.type.schema.topNodeType
   const increment = isTopNode ? 0 : 1
   const from = startOffset

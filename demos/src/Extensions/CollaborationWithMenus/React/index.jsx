@@ -7,7 +7,7 @@ import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { Placeholder } from '@tiptap/extensions'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import { BubbleMenu, FloatingMenu } from '@tiptap/react/menus'
 import React from 'react'
 import { WebrtcProvider } from 'y-webrtc'
@@ -15,7 +15,7 @@ import * as Y from 'yjs'
 
 const ydoc = new Y.Doc()
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// oxlint-disable-next-line no-unused-vars
 const provider = new WebrtcProvider('tiptap-collaboration-extension', ydoc)
 
 export default () => {
@@ -30,9 +30,18 @@ export default () => {
         document: ydoc,
       }),
       Placeholder.configure({
-        placeholder: 'Write something … It’ll be shared with everyone else looking at this example.',
+        placeholder:
+          'Write something … It’ll be shared with everyone else looking at this example.',
       }),
     ],
+  })
+
+  const { isBold, isHeading1 } = useEditorState({
+    editor,
+    selector: ctx => ({
+      isBold: ctx.editor.isActive('bold') ?? false,
+      isHeading1: ctx.editor.isActive('heading', { level: 1 }) ?? false,
+    }),
   })
 
   return (
@@ -43,7 +52,7 @@ export default () => {
             <div className="bubble-menu">
               <button
                 onClick={() => editor.chain().focus().toggleBold().run()}
-                className={editor.isActive('bold') ? 'is-active' : ''}
+                className={isBold ? 'is-active' : ''}
               >
                 Bold
               </button>
@@ -53,7 +62,7 @@ export default () => {
             <div className="floating-menu">
               <button
                 onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-                className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
+                className={isHeading1 ? 'is-active' : ''}
               >
                 H1
               </button>

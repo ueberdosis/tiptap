@@ -8,6 +8,7 @@
   import { Editor } from "@tiptap/core";
   import { onMount } from "svelte";
 
+  // oxlint-disable-next-line
   let element;
   let editor;
 
@@ -51,6 +52,7 @@
           `,
       onTransaction: () => {
         // force re-render so `editor.isActive` works as expected
+        // oxlint-disable-next-line no-self-assign
         editor = editor;
       },
     });

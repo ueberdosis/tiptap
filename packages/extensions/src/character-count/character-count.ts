@@ -1,5 +1,5 @@
 import { Extension } from '@tiptap/core'
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 export interface CharacterCountOptions {
@@ -16,6 +16,13 @@ export interface CharacterCountOptions {
    * @example 'textSize'
    */
   mode: 'textSize' | 'nodeSize'
+  /**
+   * Sets whether the content will be automatically trimmed when programatically setting content over the limit.
+   * If set to false, the user will be able to trim the text manually.
+   * @default true
+   * @example false
+   */
+  autoTrim?: boolean
   /**
    * The text counter function to use. Defaults to a simple character count.
    * @default (text) => text.length
@@ -37,14 +44,14 @@ export interface CharacterCountStorage {
    * @param options.node The node to get the characters from. Defaults to the current document.
    * @param options.mode The mode by which the size is calculated. If set to `textSize`, the textContent of the document is used.
    */
-  characters: (options?: { node?: ProseMirrorNode; mode?: 'textSize' | 'nodeSize' }) => number
+  characters: (options?: { node?: PMNode; mode?: 'textSize' | 'nodeSize' }) => number
 
   /**
    * Get the number of words for the current document.
    * @param options The options for the character count. (optional)
    * @param options.node The node to get the words from. Defaults to the current document.
    */
-  words: (options?: { node?: ProseMirrorNode }) => number
+  words: (options?: { node?: PMNode }) => number
 }
 
 declare module '@tiptap/core' {
@@ -63,6 +70,7 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
   addOptions() {
     return {
       limit: null,
+      autoTrim: true,
       mode: 'textSize',
       textCounter: text => text.length,
       wordCounter: text => text.split(' ').filter(word => word !== '').length,
@@ -110,8 +118,9 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
           }
 
           const limit = this.options.limit
+          const autoTrim = this.options.autoTrim
 
-          if (limit === null || limit === undefined || limit === 0) {
+          if (limit === null || limit === undefined || limit === 0 || autoTrim === false) {
             initialEvaluationDone = true
             return
           }
@@ -127,7 +136,6 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
               `[CharacterCount] Initial content exceeded limit of ${limit} characters. Content was automatically trimmed.`,
             )
             const tr = newState.tr.deleteRange(from, to)
-
             initialEvaluationDone = true
             return tr
           }

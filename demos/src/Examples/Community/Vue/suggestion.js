@@ -1,11 +1,12 @@
 import { computePosition, flip, shift } from '@floating-ui/dom'
-import { posToDOMRect, VueRenderer } from '@tiptap/vue-3'
+import { posToDOMRect, VueRenderer } from '@tiptap/vue'
 
 import MentionList from './MentionList.vue'
 
 const updatePosition = (editor, element) => {
   const virtualElement = {
-    getBoundingClientRect: () => posToDOMRect(editor.view, editor.state.selection.from, editor.state.selection.to),
+    getBoundingClientRect: () =>
+      posToDOMRect(editor.view, editor.state.selection.from, editor.state.selection.to),
   }
 
   computePosition(virtualElement, element, {

@@ -3,7 +3,8 @@
  * Matches http/https URLs ending in: mp3, wav, ogg, oga, flac, m4a, aac, opus, weba, webm.
  * Supports optional query strings. Case-insensitive, single match.
  */
-export const AUDIO_URL_REGEX = /https?:\/\/[^\s]+?\.(?:mp3|wav|ogg|oga|flac|m4a|aac|opus|weba|webm)(?:\?[^\s]*)?/i
+export const AUDIO_URL_REGEX =
+  /https?:\/\/[^\s]+?\.(?:mp3|wav|ogg|oga|flac|m4a|aac|opus|weba|webm)(?:\?[^\s]*)?/i
 
 /**
  * Global variant of AUDIO_URL_REGEX for matching multiple audio URLs in a string.

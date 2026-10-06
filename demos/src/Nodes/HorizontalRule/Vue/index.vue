@@ -2,7 +2,9 @@
   <div v-if="editor" class="container">
     <div class="control-group">
       <div class="button-group">
-        <button @click="editor.chain().focus().setHorizontalRule().run()">Set horizontal rule</button>
+        <button @click="editor.chain().focus().setHorizontalRule().run()">
+          Set horizontal rule
+        </button>
       </div>
     </div>
     <editor-content :editor="editor" />
@@ -14,7 +16,7 @@ import Document from '@tiptap/extension-document'
 import HorizontalRule from '@tiptap/extension-horizontal-rule'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 
 export default {
   components: {

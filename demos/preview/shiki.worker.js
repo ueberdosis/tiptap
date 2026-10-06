@@ -15,7 +15,7 @@ async function init() {
   return highlighter
 }
 
-// eslint-disable-next-line
+// oxlint-disable-next-line
 self.addEventListener('message', async event => {
   init().then(async () => {
     const { code, language } = event.data
@@ -24,7 +24,7 @@ self.addEventListener('message', async event => {
 
     const html = highlighter.codeToHtml(code, { lang: language, theme: 'material-theme-darker' })
 
-    // eslint-disable-next-line
+    // oxlint-disable-next-line
     self.postMessage({ code, language, html })
   })
 })
