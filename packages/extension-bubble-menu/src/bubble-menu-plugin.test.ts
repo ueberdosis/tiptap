@@ -303,7 +303,7 @@ describe('BubbleMenuView after destroy', () => {
 
   afterEach(() => {
     vi.useRealTimers()
-    computePositionMock.mockReset();
+    computePositionMock.mockReset()
   })
 
   it('should not show from a focus update that was pending when it was destroyed', () => {
