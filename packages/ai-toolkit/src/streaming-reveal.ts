@@ -121,7 +121,7 @@ function mergeRuns(
 
   for (const range of ranges) {
     const delay = Math.round(range.age / REVEAL_AGE_STEP) * REVEAL_AGE_STEP
-    const last = merged[merged.length - 1]
+    const last = merged.at(-1)
 
     if (last !== undefined && last.delay === delay && last.to === range.from) {
       last.to = range.to
