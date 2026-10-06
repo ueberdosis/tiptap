@@ -1,4 +1,5 @@
-import type { NodeType } from '@tiptap/pm/model'
+import type { Node as ProseMirrorNode, NodeType } from '@tiptap/pm/model'
+import { Fragment } from '@tiptap/pm/model'
 import type { Transaction } from '@tiptap/pm/state'
 import { TextSelection } from '@tiptap/pm/state'
 import { canJoin } from '@tiptap/pm/transform'
@@ -6,7 +7,7 @@ import { canJoin } from '@tiptap/pm/transform'
 import { findParentNode } from '../helpers/findParentNode.js'
 import { getNodeType } from '../helpers/getNodeType.js'
 import { isList } from '../helpers/isList.js'
-import type { RawCommands } from '../types.js'
+import type { Extensions, RawCommands } from '../types.js'
 
 /**
  * Normalise a list type attribute for comparison.
@@ -56,6 +57,160 @@ const joinListBackwards = (tr: Transaction, listType: NodeType): boolean => {
   tr.join(list.pos)
 
   return true
+}
+
+/**
+ * Rebuild a list node from a different item family (e.g. a taskList whose
+ * items are taskItem nodes) into `listType` with `itemType` items,
+ * recursively converting nested lists inside its items as well.
+ *
+ * This is needed because `tr.setNodeMarkup` can only swap a node's own type;
+ * when the list families differ, the item nodes themselves are incompatible
+ * node types (taskItem vs listItem have different specs and attributes), so
+ * the whole subtree has to be recreated node by node.
+ *
+ * Returns `null` when the rebuilt content would not fit the target content
+ * models, so callers can leave the original node untouched instead of
+ * producing an invalid document. Family-specific item attributes with no
+ * equivalent on the target item type (e.g. taskItem's `checked`) are
+ * intentionally dropped — a bullet list has no checked state to carry them.
+ */
+function rebuildListNode(
+  node: ProseMirrorNode,
+  listType: NodeType,
+  itemType: NodeType,
+  extensions: Extensions,
+): ProseMirrorNode | null {
+  const newItems: ProseMirrorNode[] = []
+
+  for (let itemIndex = 0; itemIndex < node.childCount; itemIndex += 1) {
+    const item = node.child(itemIndex)
+    const newChildren: ProseMirrorNode[] = []
+
+    for (let childIndex = 0; childIndex < item.childCount; childIndex += 1) {
+      const child = item.child(childIndex)
+
+      if (isList(child.type.name, extensions) && child.type !== listType) {
+        newChildren.push(rebuildListNode(child, listType, itemType, extensions) ?? child)
+      } else {
+        newChildren.push(child)
+      }
+    }
+
+    const itemContent = Fragment.from(newChildren)
+
+    if (!itemType.validContent(itemContent)) {
+      return null
+    }
+
+    newItems.push(
+      itemType.create(item.type === itemType ? item.attrs : null, itemContent, item.marks),
+    )
+  }
+
+  const listContent = Fragment.from(newItems)
+
+  if (!listType.validContent(listContent)) {
+    return null
+  }
+
+  return listType.create(null, listContent)
+}
+
+/**
+ * `tr.setNodeMarkup` only changes the type of the single node at the given
+ * position. When a list contains nested sublists, only the outermost list
+ * node was being converted, leaving nested sublists on their original type
+ * and breaking the visual hierarchy. This walks the whole list subtree and
+ * converts every nested list node that is not already `listType`:
+ *
+ * - same item family (bulletList <-> orderedList): the existing items are
+ *   already valid inside the target list, so only the list wrapper's type
+ *   is swapped via `setNodeMarkup`, and the walk keeps descending.
+ * - different item family (taskList <-> bulletList/orderedList): the item
+ *   node types are incompatible, so the whole subtree is rebuilt in one go
+ *   via `rebuildListNode` and replaced; the walk skips its interior since
+ *   the rebuild already handled any deeper nesting.
+ *
+ * Every conversion here is size-preserving (setNodeMarkup never changes
+ * sizes; the rebuild keeps the exact node structure and only swaps wrapper
+ * types), so all positions collected against the unmutated doc stay valid
+ * for the whole pass.
+ */
+function convertNestedLists(
+  tr: Transaction,
+  listPos: number,
+  listType: NodeType,
+  itemType: NodeType,
+  extensions: Extensions,
+): void {
+  const listNode = tr.doc.nodeAt(listPos)
+
+  if (!listNode) {
+    return
+  }
+
+  const sameFamilyPositions: number[] = []
+  const crossFamilyNodes: { pos: number; node: ProseMirrorNode }[] = []
+
+  listNode.descendants((node, relativePos) => {
+    if (!isList(node.type.name, extensions) || node.type === listType) {
+      return true
+    }
+
+    const pos = listPos + 1 + relativePos
+
+    if (listType.validContent(node.content)) {
+      sameFamilyPositions.push(pos)
+      return true
+    }
+
+    crossFamilyNodes.push({ pos, node })
+    return false
+  })
+
+  for (const pos of sameFamilyPositions) {
+    tr.setNodeMarkup(pos, listType)
+  }
+
+  for (const { pos, node } of crossFamilyNodes) {
+    const rebuilt = rebuildListNode(node, listType, itemType, extensions)
+
+    if (rebuilt) {
+      tr.replaceWith(pos, pos + node.nodeSize, rebuilt)
+    }
+  }
+}
+
+/**
+ * Convert nested lists inside every `listType` list overlapping the current
+ * selection. Used after the `wrapInList` fallback path (taken for
+ * cross-family toggles like bulletList -> taskList, where the target list
+ * cannot hold the current items directly): `wrapInList` + `clearNodes`
+ * produce the correct top-level list, but any sublist nested inside the
+ * original items survives untouched on its old type.
+ */
+function convertNestedListsInSelection(
+  tr: Transaction,
+  listType: NodeType,
+  itemType: NodeType,
+  extensions: Extensions,
+): void {
+  const { from, to } = tr.selection
+  const listPositions: number[] = []
+
+  tr.doc.nodesBetween(from, to, (node, pos) => {
+    if (node.type === listType) {
+      listPositions.push(pos)
+      return false
+    }
+
+    return true
+  })
+
+  // All conversions are size-preserving, so positions collected up front
+  // remain valid across the whole loop.
+  listPositions.forEach(pos => convertNestedLists(tr, pos, listType, itemType, extensions))
 }
 
 const joinListForwards = (tr: Transaction, listType: NodeType): boolean => {
@@ -208,6 +363,7 @@ export const toggleList: RawCommands['toggleList'] =
         return chain()
           .command(() => {
             tr.setNodeMarkup(currentList.pos, listType)
+            convertNestedLists(tr, currentList.pos, listType, itemType, extensions)
 
             return true
           })
@@ -229,6 +385,11 @@ export const toggleList: RawCommands['toggleList'] =
             return commands.clearNodes()
           })
           .wrapInList(listType, attributes)
+          .command(() => {
+            convertNestedListsInSelection(tr, listType, itemType, extensions)
+
+            return true
+          })
           .command(() => joinListBackwards(tr, listType))
           .command(() => joinListForwards(tr, listType))
           .run()
@@ -251,6 +412,11 @@ export const toggleList: RawCommands['toggleList'] =
           return commands.clearNodes()
         })
         .wrapInList(listType, attributes)
+        .command(() => {
+          convertNestedListsInSelection(tr, listType, itemType, extensions)
+
+          return true
+        })
         .command(() => joinListBackwards(tr, listType))
         .command(() => joinListForwards(tr, listType))
         .run()
