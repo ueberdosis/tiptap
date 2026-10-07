@@ -12,6 +12,13 @@
     table-layout: fixed;
     width: 100%;
 
+    &[data-no-border] {
+      td,
+      th {
+        border: none;
+      }
+    }
+
     td,
     th {
       border: 1px solid var(--gray-3);
