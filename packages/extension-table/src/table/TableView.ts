@@ -124,7 +124,8 @@ export class TableView implements NodeView {
   }
 
   update(node: PMNode) {
-    if (node.type !== this.node.type) {
+    // Recreate the view to apply changed table attributes.
+    if (!node.sameMarkup(this.node)) {
       return false
     }
 
