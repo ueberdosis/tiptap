@@ -87,6 +87,12 @@
           Ordered list
         </button>
         <button
+          @click="editor.chain().focus().toggleTaskList().run()"
+          :class="{ 'is-active': editor.isActive('taskList') }"
+        >
+          Task list
+        </button>
+        <button
           @click="editor.chain().focus().toggleCodeBlock().run()"
           :class="{ 'is-active': editor.isActive('codeBlock') }"
         >
@@ -125,7 +131,7 @@
 </template>
 
 <script>
-import { ListItem } from '@tiptap/extension-list'
+import { ListItem, TaskItem, TaskList } from '@tiptap/extension-list'
 import { Color, TextStyle } from '@tiptap/extension-text-style'
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
@@ -147,6 +153,8 @@ export default {
         Color.configure({ types: [TextStyle.name, ListItem.name] }),
         TextStyle.configure({ types: [ListItem.name] }),
         StarterKit,
+        TaskItem.configure({ nested: true }),
+        TaskList,
       ],
       content: `
         <h2>
