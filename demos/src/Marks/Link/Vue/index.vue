@@ -21,7 +21,7 @@ import Document from '@tiptap/extension-document'
 import Link from '@tiptap/extension-link'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 
 export default {
   components: {
@@ -43,6 +43,7 @@ export default {
         Code,
         Link.configure({
           openOnClick: false,
+          markdownLinks: true,
           defaultProtocol: 'https',
         }),
       ],

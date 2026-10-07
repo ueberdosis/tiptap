@@ -1,6 +1,6 @@
 import type { ComputePositionConfig, VirtualElement } from '@floating-ui/dom'
 import { type Editor, Extension } from '@tiptap/core'
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 
 import { DragHandlePlugin } from './drag-handle-plugin.js'
 import { normalizeNestedOptions } from './helpers/normalizeOptions.js'
@@ -33,7 +33,7 @@ export interface DragHandleOptions {
   /**
    * Returns a node or null when a node is hovered over
    */
-  onNodeChange?: (options: { node: Node | null; editor: Editor }) => void
+  onNodeChange?: (options: { node: PMNode | null; editor: Editor }) => void
   /**
    * The callback function that will be called when drag start.
    */

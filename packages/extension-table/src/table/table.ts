@@ -4,11 +4,12 @@ import {
   type JSONContent,
   type MarkdownToken,
   callOrReturn,
+  findParentNodeClosestToPos,
   getExtensionField,
   mergeAttributes,
   Node,
 } from '@tiptap/core'
-import type { DOMOutputSpec, Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { DOMOutputSpec, Node as PMNode } from '@tiptap/pm/model'
 import { TextSelection } from '@tiptap/pm/state'
 import {
   addColumnAfter,
@@ -36,7 +37,9 @@ import { TableView } from './TableView.js'
 import { createColGroup } from './utilities/createColGroup.js'
 import { createTable } from './utilities/createTable.js'
 import { deleteTableWhenAllCellsSelected } from './utilities/deleteTableWhenAllCellsSelected.js'
+import { keepCursorInTable } from './utilities/keepCursorInTable.js'
 import renderTableToMarkdown, { preprocessTablePipes } from './utilities/markdown.js'
+import { preserveCellSelectionOnContextMenu } from './utilities/preserveCellSelectionOnContextMenu.js'
 
 type MarkdownTableToken = {
   align?: Array<TableCellAlign | null>
@@ -87,7 +90,7 @@ export interface TableOptions {
    */
   View:
     | (new (
-        node: ProseMirrorNode,
+        node: PMNode,
         cellMinWidth: number,
         view: EditorView,
         HTMLAttributes?: Record<string, any>,
@@ -445,7 +448,22 @@ export const Table = Node.create<TableOptions>({
       deleteColumn:
         () =>
         ({ state, dispatch }) => {
-          return deleteColumn(state, dispatch)
+          const table = findParentNodeClosestToPos(
+            state.selection.$from,
+            node => node.type.name === 'table',
+          )
+
+          return deleteColumn(
+            state,
+            dispatch &&
+              (tr => {
+                if (table) {
+                  keepCursorInTable(tr, table.pos)
+                }
+
+                dispatch(tr)
+              }),
+          )
         },
       addRowBefore:
         () =>
@@ -460,7 +478,22 @@ export const Table = Node.create<TableOptions>({
       deleteRow:
         () =>
         ({ state, dispatch }) => {
-          return deleteRow(state, dispatch)
+          const table = findParentNodeClosestToPos(
+            state.selection.$from,
+            node => node.type.name === 'table',
+          )
+
+          return deleteRow(
+            state,
+            dispatch &&
+              (tr => {
+                if (table) {
+                  keepCursorInTable(tr, table.pos)
+                }
+
+                dispatch(tr)
+              }),
+          )
         },
       deleteTable:
         () =>
@@ -579,6 +612,7 @@ export const Table = Node.create<TableOptions>({
       tableEditing({
         allowTableNodeSelection: this.options.allowTableNodeSelection,
       }),
+      preserveCellSelectionOnContextMenu(),
     ]
   },
 

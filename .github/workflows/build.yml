@@ -2,8 +2,7 @@ name: Verify
 
 env:
   NODE_VERSION: 24
-  PNPM_VERSION: 11.2.2
-  PNPM_STORE_DIR: .pnpm-store
+  VP_GIT_HOOKS: 0
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -30,70 +29,13 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v5
-        with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup-env
         with:
           node-version: ${{ env.NODE_VERSION }}
-
-      - name: Configure pnpm store
-        run: pnpm config set store-dir ${{ github.workspace }}/${{ env.PNPM_STORE_DIR }}
+          cache: 'true'
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile --strict-peer-dependencies
-
-      - name: Pack dependency artifacts
-        run: |
-          tar -czf /tmp/pnpm-store.tar.gz ${{ env.PNPM_STORE_DIR }}
-
-      - name: Upload dependency artifacts
-        uses: actions/upload-artifact@v7
-        with:
-          name: node-dependencies
-          path: |
-            /tmp/pnpm-store.tar.gz
-          retention-days: 1
-
-  check-linting-formatting:
-    name: Check linting & formatting
-    runs-on: ubuntu-latest
-    needs: build-packages
-    timeout-minutes: 15
-
-    steps:
-      - uses: actions/checkout@v7
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v5
-        with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Configure pnpm store
-        run: pnpm config set store-dir ${{ github.workspace }}/${{ env.PNPM_STORE_DIR }}
-
-      - name: Download dependency artifacts
-        uses: actions/download-artifact@v8
-        with:
-          name: node-dependencies
-          path: /tmp/node-dependencies
-
-      - name: Restore pnpm store
-        run: tar -xzf /tmp/node-dependencies/pnpm-store.tar.gz
-
-      - name: Restore dependencies
-        run: pnpm install --offline --frozen-lockfile --strict-peer-dependencies
-
-      - name: Run linting and formatting checks
-        run: pnpm run lint
+        run: vp install --frozen-lockfile -- --strict-peer-dependencies
 
   build-packages:
     name: Build packages
@@ -104,89 +46,56 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v5
-        with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup-env
         with:
           node-version: ${{ env.NODE_VERSION }}
+          cache: 'true'
 
-      - name: Configure pnpm store
-        run: pnpm config set store-dir ${{ github.workspace }}/${{ env.PNPM_STORE_DIR }}
-
-      - name: Download dependency artifacts
-        uses: actions/download-artifact@v8
-        with:
-          name: node-dependencies
-          path: /tmp/node-dependencies
-
-      - name: Restore pnpm store
-        run: tar -xzf /tmp/node-dependencies/pnpm-store.tar.gz
-
-      - name: Restore dependencies
-        run: pnpm install --offline --frozen-lockfile --strict-peer-dependencies
+      - uses: ./.github/actions/restore-dependencies
 
       - name: Build packages
-        run: pnpm run build && pnpm run build:demos
+        run: vp run build && vp run build:demos
 
-      - name: Pack build artifacts
-        run: tar -czf /tmp/build-output.tar.gz packages/*/dist packages-deprecated/*/dist demos/dist
+      - name: Check package exports
+        run: vp run check:package-exports
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v7
+  check-linting-formatting:
+    name: Check linting & formatting
+    runs-on: ubuntu-latest
+    needs: install-node-dependencies
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: ./.github/actions/setup-env
         with:
-          name: build-output
-          path: /tmp/build-output.tar.gz
-          retention-days: 1
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'true'
+
+      - uses: ./.github/actions/restore-dependencies
+
+      - name: Run linting and formatting checks
+        run: vp check
 
   run-unit-tests:
     name: Run unit tests
     runs-on: ubuntu-latest
-    needs: build-packages
+    needs: install-node-dependencies
     timeout-minutes: 20
 
     steps:
       - uses: actions/checkout@v7
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v5
-        with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup-env
         with:
           node-version: ${{ env.NODE_VERSION }}
+          cache: 'true'
 
-      - name: Configure pnpm store
-        run: pnpm config set store-dir ${{ github.workspace }}/${{ env.PNPM_STORE_DIR }}
-
-      - name: Download dependency artifacts
-        uses: actions/download-artifact@v8
-        with:
-          name: node-dependencies
-          path: /tmp/node-dependencies
-
-      - name: Restore pnpm store
-        run: tar -xzf /tmp/node-dependencies/pnpm-store.tar.gz
-
-      - name: Restore dependencies
-        run: pnpm install --offline --frozen-lockfile --strict-peer-dependencies
-
-      - name: Download build artifacts
-        uses: actions/download-artifact@v8
-        with:
-          name: build-output
-          path: /tmp/build-output
-
-      - name: Restore build output
-        run: tar -xzf /tmp/build-output/build-output.tar.gz
+      - uses: ./.github/actions/restore-dependencies
 
       - name: Run unit tests
-        run: pnpm run test:unit
+        run: vp test
 
   run-e2e-tests:
     name: Run e2e tests (shard ${{ matrix.shard }}/${{ matrix.total }})
@@ -202,61 +111,17 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v5
-        with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup-env
         with:
           node-version: ${{ env.NODE_VERSION }}
+          cache: 'true'
 
-      - name: Configure pnpm store
-        run: pnpm config set store-dir ${{ github.workspace }}/${{ env.PNPM_STORE_DIR }}
+      - uses: ./.github/actions/restore-dependencies
 
-      - name: Download dependency artifacts
-        uses: actions/download-artifact@v8
-        with:
-          name: node-dependencies
-          path: /tmp/node-dependencies
-
-      - name: Restore pnpm store
-        run: tar -xzf /tmp/node-dependencies/pnpm-store.tar.gz
-
-      - name: Restore dependencies
-        run: pnpm install --offline --frozen-lockfile --strict-peer-dependencies
-
-      - name: Download build artifacts
-        uses: actions/download-artifact@v8
-        with:
-          name: build-output
-          path: /tmp/build-output
-
-      - name: Restore build output
-        run: tar -xzf /tmp/build-output/build-output.tar.gz
-
-      - name: Get Playwright version
-        id: playwright-version
-        run: echo "version=$(node -p "require('@playwright/test/package.json').version")" >> $GITHUB_OUTPUT
-
-      - name: Cache Playwright browsers
-        id: playwright-cache
-        uses: actions/cache@v6
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ steps.playwright-version.outputs.version }}
-
-      - name: Install Playwright browsers
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: pnpm exec playwright install --with-deps chromium
-
-      - name: Install Playwright system deps
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
-        run: pnpm exec playwright install-deps chromium
+      - uses: ./.github/actions/setup-playwright
 
       - name: Run Playwright tests
-        run: pnpm exec playwright test --project=chromium --shard=${{ matrix.shard }}/${{ matrix.total }}
+        run: vp exec playwright test --project=chromium --shard=${{ matrix.shard }}/${{ matrix.total }}
 
       - name: Upload blob report
         if: always()
@@ -269,37 +134,19 @@ jobs:
   merge-e2e-reports:
     name: Merge e2e reports
     runs-on: ubuntu-latest
-    needs: run-e2e-tests
-    if: always()
+    needs: [install-node-dependencies, run-e2e-tests]
+    if: always() && needs.install-node-dependencies.result == 'success'
     timeout-minutes: 10
 
     steps:
       - uses: actions/checkout@v7
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v5
-        with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup-env
         with:
           node-version: ${{ env.NODE_VERSION }}
+          cache: 'true'
 
-      - name: Configure pnpm store
-        run: pnpm config set store-dir ${{ github.workspace }}/${{ env.PNPM_STORE_DIR }}
-
-      - name: Download dependency artifacts
-        uses: actions/download-artifact@v8
-        with:
-          name: node-dependencies
-          path: /tmp/node-dependencies
-
-      - name: Restore pnpm store
-        run: tar -xzf /tmp/node-dependencies/pnpm-store.tar.gz
-
-      - name: Restore dependencies
-        run: pnpm install --offline --frozen-lockfile --strict-peer-dependencies
+      - uses: ./.github/actions/restore-dependencies
 
       - name: Download blob reports
         uses: actions/download-artifact@v8
@@ -310,7 +157,7 @@ jobs:
 
       - name: Merge into HTML report
         if: ${{ hashFiles('all-blob-reports/**') != '' }}
-        run: pnpm exec playwright merge-reports --reporter html ./all-blob-reports
+        run: vp exec playwright merge-reports --reporter html ./all-blob-reports
 
       - name: Upload merged HTML report
         uses: actions/upload-artifact@v7

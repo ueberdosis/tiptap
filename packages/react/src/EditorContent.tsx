@@ -1,11 +1,15 @@
 import type { Editor } from '@tiptap/core'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
 import type { ForwardedRef, HTMLProps, LegacyRef, MutableRefObject } from 'react'
 import React, { forwardRef } from 'react'
 import ReactDOM from 'react-dom'
 import { useSyncExternalStore } from 'use-sync-external-store/shim/index.js'
 
 import type { ContentComponent, EditorWithContentComponent } from './Editor.js'
+import { handleMobileEnter } from './handleMobileEnter.js'
 import type { ReactRenderer } from './ReactRenderer.js'
+
+const mobileEnterPluginKey = new PluginKey('reactMobileEnter')
 
 const mergeRefs = <T extends HTMLDivElement>(
   ...refs: Array<MutableRefObject<T> | LegacyRef<T> | undefined>
@@ -41,9 +45,23 @@ export interface EditorContentProps extends HTMLProps<HTMLDivElement> {
   innerRef?: ForwardedRef<HTMLDivElement | null>
 }
 
-function getInstance(): ContentComponent {
+export function createContentComponent(): ContentComponent {
   const subscribers = new Set<() => void>()
   let renderers: Record<string, React.ReactPortal> = {}
+  let isNotificationQueued = false
+
+  const notifySubscribers = () => {
+    if (isNotificationQueued || !subscribers.size) {
+      return
+    }
+
+    isNotificationQueued = true
+
+    queueMicrotask(() => {
+      isNotificationQueued = false
+      subscribers.forEach(subscriber => subscriber())
+    })
+  }
 
   return {
     /**
@@ -70,7 +88,7 @@ function getInstance(): ContentComponent {
         [id]: ReactDOM.createPortal(renderer.reactElement, renderer.element, id),
       }
 
-      subscribers.forEach(subscriber => subscriber())
+      notifySubscribers()
     },
     /**
      * Removes a NodeView Renderer from the editor.
@@ -80,7 +98,7 @@ function getInstance(): ContentComponent {
 
       delete nextRenderers[id]
       renderers = nextRenderers
-      subscribers.forEach(subscriber => subscriber())
+      notifySubscribers()
     },
   }
 }
@@ -120,9 +138,20 @@ export class PureEditorContent extends React.Component<
         element,
       })
 
-      editor.contentComponent = getInstance()
+      editor.contentComponent = createContentComponent()
 
       editor.createNodeViews()
+
+      editor.registerPlugin(
+        new Plugin({
+          key: mobileEnterPluginKey,
+          props: {
+            handleDOMEvents: {
+              beforeinput: (_view, event) => handleMobileEnter(editor, event),
+            },
+          },
+        }),
+      )
 
       editor.isEditorContentInitialized = true
 
@@ -140,6 +169,7 @@ export class PureEditorContent extends React.Component<
     editor.isEditorContentInitialized = false
 
     if (!editor.isDestroyed) {
+      editor.unregisterPlugin(mobileEnterPluginKey)
       editor.view.setProps({
         nodeViews: {},
       })

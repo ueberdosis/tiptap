@@ -134,6 +134,8 @@ class EditorInstanceManager {
       onDrop: (...args) => this.options.current.onDrop?.(...args),
       onPaste: (...args) => this.options.current.onPaste?.(...args),
       onDelete: (...args) => this.options.current.onDelete?.(...args),
+      onMount: (...args) => this.options.current.onMount?.(...args),
+      onUnmount: (...args) => this.options.current.onUnmount?.(...args),
     }
     const editor = new Editor(optionsToApply)
 

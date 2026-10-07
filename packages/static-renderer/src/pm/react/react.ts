@@ -1,12 +1,17 @@
 /* oslint-disable no-plusplus,no-explicit-any */
 import type { DOMOutputSpecArray, Extensions, JSONContent } from '@tiptap/core'
-import type { DOMOutputSpec, Mark, Node } from '@tiptap/pm/model'
+import type { DOMOutputSpec, Mark, Node as PMNode } from '@tiptap/pm/model'
 import React from 'react'
 
 import { renderJSONContentToReactElement } from '../../json/react/react.js'
 import type { TiptapStaticRendererOptions } from '../../json/renderer.js'
 import type { StaticEditorOptions } from '../extensionRenderer.js'
 import { applyStaticEditorOptionsToExtensions, renderToElement } from '../extensionRenderer.js'
+
+const HTML_ATTRIBUTE_TO_REACT_ATTRIBUTE: Record<string, string> = {
+  colspan: 'colSpan',
+  rowspan: 'rowSpan',
+}
 
 /**
  * This function maps the attributes of a node or mark to HTML attributes
@@ -43,7 +48,9 @@ export function mapAttrsToHTMLAttributes(
         return Object.assign(acc, { style: styleObject })
       }
 
-      return Object.assign(acc, { [name]: value })
+      const reactName = HTML_ATTRIBUTE_TO_REACT_ATTRIBUTE[name] ?? name
+
+      return Object.assign(acc, { [reactName]: value })
     },
     { key },
   )
@@ -114,9 +121,9 @@ export function domOutputSpecToReactElement(
             tag,
             mapAttrsToHTMLAttributes(undefined, key.toString()),
             domOutputSpecToReactElement(attrs as DOMOutputSpecArray)(child),
-            [children]
-              .concat(rest)
-              .map(outputSpec => domOutputSpecToReactElement(outputSpec, key++)(child)),
+            [children, ...rest].map(outputSpec =>
+              domOutputSpecToReactElement(outputSpec, key++)(child),
+            ),
           )
       }
       if (children === undefined) {
@@ -131,9 +138,9 @@ export function domOutputSpecToReactElement(
         React.createElement(
           tag,
           mapAttrsToHTMLAttributes(attrs, key.toString()),
-          [children]
-            .concat(rest)
-            .map(outputSpec => domOutputSpecToReactElement(outputSpec, key++)(child)),
+          [children, ...rest].map(outputSpec =>
+            domOutputSpecToReactElement(outputSpec, key++)(child),
+          ),
         )
     }
   }
@@ -165,10 +172,10 @@ export function renderToReactElement({
   staticEditorOptions,
   options,
 }: {
-  content: Node | JSONContent
+  content: PMNode | JSONContent
   extensions: Extensions
   staticEditorOptions?: StaticEditorOptions
-  options?: Partial<TiptapStaticRendererOptions<React.ReactNode, Mark, Node>>
+  options?: Partial<TiptapStaticRendererOptions<React.ReactNode, Mark, PMNode>>
 }): React.ReactNode {
   return renderToElement<React.ReactNode>({
     renderer: renderJSONContentToReactElement,

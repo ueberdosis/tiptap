@@ -1,6 +1,6 @@
 /* oslint-disableno-explicit-any */
 import type { DOMOutputSpecArray, Extensions, JSONContent } from '@tiptap/core'
-import type { DOMOutputSpec, Mark, Node } from '@tiptap/pm/model'
+import type { DOMOutputSpec, Mark, Node as PMNode } from '@tiptap/pm/model'
 
 import {
   escapeHTML,
@@ -31,6 +31,8 @@ const NON_SELF_CLOSING_TAGS = new Set([
   'span',
   'a',
   'button',
+  'audio',
+  'video',
 ])
 
 /**
@@ -54,6 +56,9 @@ export function domOutputSpecToHTMLString(
     }
 
     if (attrs === undefined) {
+      if (NON_SELF_CLOSING_TAGS.has(tag)) {
+        return () => `<${tag}></${tag}>`
+      }
       return () => `<${tag}/>`
     }
     if (attrs === 0) {
@@ -70,9 +75,12 @@ export function domOutputSpecToHTMLString(
             `<${tag}>${domOutputSpecToHTMLString(attrs as DOMOutputSpecArray)(child)}</${tag}>`
         }
         return child =>
-          `<${tag}>${domOutputSpecToHTMLString(attrs as DOMOutputSpecArray)(child)}${[children]
-            .concat(rest)
-            .map(a => domOutputSpecToHTMLString(a)(child))}</${tag}>`
+          `<${tag}>${domOutputSpecToHTMLString(attrs as DOMOutputSpecArray)(child)}${[
+            children,
+            ...rest,
+          ]
+            .map(a => domOutputSpecToHTMLString(a)(child))
+            .join('')}</${tag}>`
       }
       if (children === undefined) {
         if (NON_SELF_CLOSING_TAGS.has(tag)) {
@@ -86,8 +94,7 @@ export function domOutputSpecToHTMLString(
       }
 
       return child =>
-        `<${tag}${serializeAttrsToHTMLString(attrs)}>${[children]
-          .concat(rest)
+        `<${tag}${serializeAttrsToHTMLString(attrs)}>${[children, ...rest]
           .map(a => domOutputSpecToHTMLString(a)(child))
           .join('')}</${tag}>`
     }
@@ -124,10 +131,10 @@ export function renderToHTMLString({
   staticEditorOptions,
   options,
 }: {
-  content: Node | JSONContent
+  content: PMNode | JSONContent
   extensions: Extensions
   staticEditorOptions?: StaticEditorOptions
-  options?: Partial<TiptapStaticRendererOptions<string, Mark, Node>>
+  options?: Partial<TiptapStaticRendererOptions<string, Mark, PMNode>>
 }): string {
   return renderToElement<string>({
     renderer: renderJSONContentToString,

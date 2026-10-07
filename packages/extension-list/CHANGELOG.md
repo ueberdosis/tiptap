@@ -1,5 +1,94 @@
 # Change Log
 
+## 3.30.3
+
+### Patch Changes
+
+- Updated dependencies [965a880]
+  - @tiptap/core@3.30.3
+  - @tiptap/pm@3.30.3
+
+## 3.30.2
+
+### Patch Changes
+
+- Updated dependencies [3dffed5]
+- Updated dependencies [214a140]
+  - @tiptap/core@3.30.2
+  - @tiptap/pm@3.30.2
+
+## 3.30.1
+
+### Patch Changes
+
+- Updated dependencies [abc8828]
+  - @tiptap/core@3.30.1
+  - @tiptap/pm@3.30.1
+
+## 3.30.0
+
+### Minor Changes
+
+- 0247d39: `ListKeymap` now registers a `Tab` shortcut that sinks a top-level textblock into the previous list's last item. Pressing Tab at the start of a paragraph right after a bullet/ordered/task list moves the paragraph inside the last list item. The handler does nothing when the cursor is already inside a list item (`sinkListItem` keeps working), when there is no list before the paragraph, when the caret is mid-textblock, or when the selection is not a text selection (for example a gap cursor).
+
+  `@tiptap/core` also exposes a new `getPreviousBlockSibling($pos)` helper that returns the block-level sibling before the cursor's textblock, or null at the first child of the block parent.
+
+### Patch Changes
+
+- c296281: Parse block math that follows an ordered list item without a blank line, both after the list and indented inside the item, instead of pulling it into the item's text.
+- ceb0dac: TaskItem: the checkbox label now also fills the wrapping label element, so accessibility audits no longer flag it as empty.
+- Updated dependencies [0247d39]
+- Updated dependencies [58a8953]
+- Updated dependencies [51909d3]
+- Updated dependencies [3099eef]
+  - @tiptap/core@3.30.0
+  - @tiptap/pm@3.30.0
+
+## 3.29.2
+
+### Patch Changes
+
+- @tiptap/core@3.29.2
+- @tiptap/pm@3.29.2
+
+## 3.29.1
+
+### Patch Changes
+
+- @tiptap/core@3.29.1
+- @tiptap/pm@3.29.1
+
+## 3.29.0
+
+### Patch Changes
+
+- Updated dependencies [d26840f]
+- Updated dependencies [e150ee0]
+- Updated dependencies [935e63f]
+- Updated dependencies [b4c5a2d]
+- Updated dependencies [a963d48]
+- Updated dependencies [51f45b6]
+- Updated dependencies [0f63969]
+- Updated dependencies [9acaa65]
+  - @tiptap/core@3.29.0
+  - @tiptap/pm@3.29.0
+
+## 3.28.0
+
+### Patch Changes
+
+- c1254c1: Fix markdown parsing a line like `(216) 555-1234` as an ordered list. A number followed by `)` mid-line is no longer treated as a list marker.
+  - @tiptap/core@3.28.0
+  - @tiptap/pm@3.28.0
+
+## 3.27.4
+
+### Patch Changes
+
+- c28d888: Fix a markdown parsing bug where a plain bullet (`- item`) nested under a task-list parent (`- [ ]`) was silently dropped from the parsed document. The task-list tokenizer's nested parser stopped at the first non-checkbox line and discarded everything after it; that remainder is now lexed and kept as sibling blocks (a bullet list or paragraph inside the parent task item), matching how mixed lists already behave at the top level.
+  - @tiptap/core@3.27.4
+  - @tiptap/pm@3.27.4
+
 ## 3.27.3
 
 ### Patch Changes

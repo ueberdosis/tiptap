@@ -1,15 +1,18 @@
-import type { NodeWithPos } from '@tiptap/core'
+import type { NodeWithPos, Range } from '@tiptap/core'
 import {
   combineTransactionSteps,
   findChildrenInRange,
   getChangedRanges,
   getMarksBetween,
 } from '@tiptap/core'
+import { isHistoryTransaction } from '@tiptap/pm/history'
 import type { MarkType } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
+import { ReplaceStep } from '@tiptap/pm/transform'
 import type { MultiToken } from 'linkifyjs'
 import { tokenize } from 'linkifyjs'
 
+import { unlinkTrailingWhitespace } from './unlinkTrailingWhitespace.js'
 import { UNICODE_WHITESPACE_REGEX, UNICODE_WHITESPACE_REGEX_END } from './whitespace.js'
 
 /**
@@ -73,6 +76,28 @@ export function autolink(options: AutolinkOptions): Plugin {
 
       const { tr } = newState
       const transform = combineTransactionSteps(oldState.doc, [...transactions])
+      if (!transactions.some(isHistoryTransaction)) {
+        const insertedRanges: Range[] = []
+
+        transform.steps.forEach((step, index) => {
+          if (!(step instanceof ReplaceStep) || !step.slice.size) {
+            return
+          }
+
+          const mapping = transform.mapping.slice(index + 1)
+          const from = mapping.map(step.from, 1)
+          const to = mapping.map(step.from + step.slice.size, -1)
+
+          if (from < to) {
+            insertedRanges.push({ from, to })
+          }
+        })
+
+        // Unlink later spaces before checking whether earlier spaces end a link.
+        insertedRanges.sort((left, right) => right.to - left.to)
+        insertedRanges.forEach(range => unlinkTrailingWhitespace(tr, range, options.type))
+      }
+
       const changes = getChangedRanges(transform)
 
       changes.forEach(({ newRange }) => {
@@ -100,6 +125,7 @@ export function autolink(options: AutolinkOptions): Plugin {
           if (!UNICODE_WHITESPACE_REGEX_END.test(endText)) {
             return
           }
+
           textBlock = nodesInChangedRanges[0]
           textBeforeWhitespace = newState.doc.textBetween(
             textBlock.pos,

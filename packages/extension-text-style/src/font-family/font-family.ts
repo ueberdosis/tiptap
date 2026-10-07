@@ -1,6 +1,6 @@
 import '../text-style/index.js'
 
-import { Extension, getStyleProperty } from '@tiptap/core'
+import { Extension, getStyleProperty, isValidCSSStyleValue } from '@tiptap/core'
 
 export type FontFamilyOptions = {
   /**
@@ -63,7 +63,7 @@ export const FontFamily = Extension.create<FontFamilyOptions>({
             parseHTML: element =>
               getStyleProperty(element, 'font-family') ?? element.style.fontFamily,
             renderHTML: attributes => {
-              if (!attributes.fontFamily) {
+              if (!isValidCSSStyleValue(attributes.fontFamily)) {
                 return {}
               }
 

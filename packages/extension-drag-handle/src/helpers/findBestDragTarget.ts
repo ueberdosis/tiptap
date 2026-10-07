@@ -1,4 +1,4 @@
-import type { Node, ResolvedPos } from '@tiptap/pm/model'
+import type { Node as PMNode, ResolvedPos } from '@tiptap/pm/model'
 import type { EditorView } from '@tiptap/pm/view'
 
 import type { NormalizedNestedOptions } from '../types/options.js'
@@ -11,7 +11,7 @@ import { calculateScore } from './scoring.js'
  */
 export interface DragTarget {
   /** The ProseMirror node */
-  node: Node
+  node: PMNode
 
   /** The absolute position in the document */
   pos: number

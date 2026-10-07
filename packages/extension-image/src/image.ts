@@ -1,5 +1,11 @@
-import type { ResizableNodeViewDirection } from '@tiptap/core'
-import { mergeAttributes, Node, nodeInputRule, ResizableNodeView } from '@tiptap/core'
+import type { ResizableNodeViewDirection, ResizableNodeViewOptions } from '@tiptap/core'
+import {
+  getRenderedAttributes,
+  mergeAttributes,
+  Node,
+  nodeInputRule,
+  ResizableNodeView,
+} from '@tiptap/core'
 
 export interface ImageOptions {
   /**
@@ -149,6 +155,7 @@ export const Image = Node.create<ImageOptions>({
     }
 
     const { directions, minWidth, minHeight, alwaysPreserveAspectRatio } = this.options.resize
+    const resizeManagedAttributes = new Set(['src', 'width', 'height'])
 
     return ({ node, getPos, HTMLAttributes, editor }) => {
       const el = document.createElement('img')
@@ -159,6 +166,7 @@ export const Image = Node.create<ImageOptions>({
       Object.entries(mergedAttributes).forEach(([key, value]) => {
         if (value != null) {
           switch (key) {
+            case 'src':
             case 'width':
             case 'height':
               break
@@ -171,6 +179,65 @@ export const Image = Node.create<ImageOptions>({
 
       if (mergedAttributes.src !== null) {
         el.src = mergedAttributes.src
+      }
+
+      let previousHTMLAttributes = { ...HTMLAttributes }
+      const syncImageSource = (src: unknown) => {
+        if (typeof src === 'string' && src !== '') {
+          if (el.getAttribute('src') !== src) {
+            el.src = src
+          }
+
+          return
+        }
+
+        if (el.hasAttribute('src')) {
+          el.removeAttribute('src')
+        }
+
+        if (el.src !== '') {
+          el.src = ''
+        }
+      }
+
+      syncImageSource(HTMLAttributes.src)
+
+      const onUpdate: ResizableNodeViewOptions['onUpdate'] = (
+        updatedNode: Parameters<typeof getRenderedAttributes>[0],
+      ) => {
+        if (updatedNode.type !== node.type) {
+          return false
+        }
+
+        const extensionAttributes = editor.extensionManager.attributes.filter(
+          attribute => attribute.type === updatedNode.type.name,
+        )
+        const newHTMLAttributes = getRenderedAttributes(updatedNode, extensionAttributes)
+
+        // Remove attributes that were previously rendered but are no longer present
+        Object.keys(previousHTMLAttributes).forEach(key => {
+          if (!resizeManagedAttributes.has(key) && !(key in newHTMLAttributes)) {
+            el.removeAttribute(key)
+          }
+        })
+
+        Object.entries(newHTMLAttributes).forEach(([key, value]) => {
+          if (resizeManagedAttributes.has(key)) {
+            return
+          }
+
+          if (value != null) {
+            el.setAttribute(key, value)
+          } else {
+            el.removeAttribute(key)
+          }
+        })
+
+        syncImageSource(newHTMLAttributes.src)
+
+        previousHTMLAttributes = newHTMLAttributes
+
+        return true
       }
 
       const nodeView = new ResizableNodeView({
@@ -197,13 +264,7 @@ export const Image = Node.create<ImageOptions>({
             })
             .run()
         },
-        onUpdate: (updatedNode, _decorations, _innerDecorations) => {
-          if (updatedNode.type !== node.type) {
-            return false
-          }
-
-          return true
-        },
+        onUpdate,
         options: {
           directions,
           min: {
@@ -217,11 +278,23 @@ export const Image = Node.create<ImageOptions>({
       const dom = nodeView.dom as HTMLElement
 
       // when image is loaded, show the node view to get the correct dimensions
-      dom.style.visibility = 'hidden'
-      dom.style.pointerEvents = 'none'
-      el.onload = () => {
+      const showNodeView = () => {
         dom.style.visibility = ''
         dom.style.pointerEvents = ''
+      }
+
+      dom.style.visibility = 'hidden'
+      dom.style.pointerEvents = 'none'
+
+      if (el.complete && el.naturalWidth > 0) {
+        // A cached image is already complete before this node view mounts, so
+        // `load` never fires again and the image would stay hidden forever.
+        showNodeView()
+      } else {
+        el.onload = showNodeView
+        // Reveal on error too, so a broken src renders as an inspectable broken
+        // image instead of an invisible node.
+        el.onerror = showNodeView
       }
 
       return nodeView

@@ -26,12 +26,22 @@ export const ORDERED_LIST_ITEM_REGEX = new RegExp(
   `^(\\s*)(${ORDERED_LIST_MARKER_PATTERN})([.)])\\s+(.*)$`,
 )
 
-/**
- * Matches the start of an ordered list line (used by markdown tokenizer).
- */
-export const ORDERED_LIST_LINE_START_REGEX = new RegExp(
-  `^(\\s*)(${ORDERED_LIST_MARKER_PATTERN})([.)])\\s+`,
-)
+// Mixed-case titles match the pattern but are not list markers.
+export function matchOrderedListItemLine(line: string): RegExpMatchArray | undefined {
+  const match = line.match(ORDERED_LIST_ITEM_REGEX)
+
+  if (!match) {
+    return undefined
+  }
+
+  const [, , marker] = match
+
+  if (/^\d+$/.test(marker) || detectMarkerType(marker)) {
+    return match
+  }
+
+  return undefined
+}
 
 /**
  * Matches any line that starts with whitespace (indented content).
@@ -47,6 +57,7 @@ const PARAGRAPH_INTERRUPTERS = {
   heading: /^#{1,6}(?:\s|$)/,
   bulletItem: /^[-+*]\s+/,
   codeFence: /^(?:```|~~~)/,
+  blockMath: /^\$\$/,
   thematicBreak: /^(?:(?:-[ \t]*){3,}|(?:_[ \t]*){3,}|(?:\*[ \t]*){3,})$/,
 }
 
@@ -63,7 +74,7 @@ export interface OrderedListItem {
 }
 
 function isOrderedListMarkerLine(line: string): boolean {
-  return ORDERED_LIST_ITEM_REGEX.test(line.trimStart())
+  return matchOrderedListItemLine(line.trimStart()) !== undefined
 }
 
 function isBlockContentLine(line: string): boolean {
@@ -78,7 +89,8 @@ function isBlockContentLine(line: string): boolean {
     (PARAGRAPH_INTERRUPTERS.thematicBreak.test(trimmedLine) && !trimmedLine.startsWith('-')) ||
     // oxlint-disable-next-line prefer-string-starts-ends-with
     /^>\s?/.test(trimmedLine) ||
-    PARAGRAPH_INTERRUPTERS.codeFence.test(trimmedLine)
+    PARAGRAPH_INTERRUPTERS.codeFence.test(trimmedLine) ||
+    PARAGRAPH_INTERRUPTERS.blockMath.test(trimmedLine)
   )
 }
 
@@ -136,7 +148,7 @@ export function collectOrderedListItems(lines: string[]): [OrderedListItem[], nu
 
   while (currentLineIndex < lines.length) {
     const line = lines[currentLineIndex]
-    const match = line.match(ORDERED_LIST_ITEM_REGEX)
+    const match = matchOrderedListItemLine(line)
 
     if (!match) {
       break
@@ -157,10 +169,9 @@ export function collectOrderedListItems(lines: string[]): [OrderedListItem[], nu
     // Collect continuation lines for this item (but NOT nested list items)
     while (nextLineIndex < lines.length) {
       const nextLine = lines[nextLineIndex]
-      const nextMatch = nextLine.match(ORDERED_LIST_ITEM_REGEX)
 
       // If it's another list item (nested or not), stop collecting
-      if (nextMatch) {
+      if (matchOrderedListItemLine(nextLine)) {
         break
       }
 

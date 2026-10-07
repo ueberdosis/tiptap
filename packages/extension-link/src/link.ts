@@ -5,6 +5,7 @@ import { find, registerCustomProtocol, reset } from 'linkifyjs'
 
 import { autolink } from './helpers/autolink.js'
 import { clickHandler } from './helpers/clickHandler.js'
+import { markdownLinkInputRule, markdownLinkPasteRule } from './helpers/markdownLink.js'
 import { pasteHandler } from './helpers/pasteHandler.js'
 import { UNICODE_WHITESPACE_REGEX_GLOBAL } from './helpers/whitespace.js'
 
@@ -71,6 +72,14 @@ export interface LinkOptions {
    * @example false
    */
   linkOnPaste: boolean
+
+  /**
+   * If enabled, typing or pasting the Markdown link syntax, e.g. `[Tiptap](https://tiptap.dev)`
+   * or `[Tiptap](https://tiptap.dev "Rich text editor")`, converts it into a link.
+   * @default false
+   * @example true
+   */
+  markdownLinks: boolean
 
   /**
    * HTML attributes to add to the link element.
@@ -247,6 +256,7 @@ export const Link = Mark.create<LinkOptions>({
       openOnClick: true,
       enableClickSelection: false,
       linkOnPaste: true,
+      markdownLinks: false, // TODO (major) - default to true on next major version
       autolink: true,
       protocols: [],
       defaultProtocol: 'http',
@@ -419,43 +429,76 @@ export const Link = Mark.create<LinkOptions>({
     }
   },
 
-  addPasteRules() {
+  addInputRules() {
+    if (!this.options.markdownLinks) {
+      return []
+    }
+
     return [
-      markPasteRule({
-        find: text => {
-          const foundLinks: PasteRuleMatch[] = []
+      markdownLinkInputRule({
+        type: this.type,
+        isAllowedHref: href =>
+          this.options.isAllowedUri(href, {
+            defaultValidate: url => !!isAllowedUri(url, this.options.protocols),
+            protocols: this.options.protocols,
+            defaultProtocol: this.options.defaultProtocol,
+          }),
+      }),
+    ]
+  },
 
-          if (text) {
-            const { protocols, defaultProtocol } = this.options
-            const links = find(text).filter(
-              item =>
-                item.isLink &&
-                this.options.isAllowedUri(item.value, {
-                  defaultValidate: href => !!isAllowedUri(href, protocols),
-                  protocols,
-                  defaultProtocol,
-                }),
-            )
+  addPasteRules() {
+    const findPlainUrls = (text: string): PasteRuleMatch[] => {
+      const foundLinks: PasteRuleMatch[] = []
 
-            if (links.length) {
-              links.forEach(link => {
-                if (!this.options.shouldAutoLink(link.value)) {
-                  return
-                }
+      if (text) {
+        const { protocols, defaultProtocol } = this.options
+        const links = find(text).filter(
+          item =>
+            item.isLink &&
+            this.options.isAllowedUri(item.value, {
+              defaultValidate: href => !!isAllowedUri(href, protocols),
+              protocols,
+              defaultProtocol,
+            }),
+        )
 
-                foundLinks.push({
-                  text: link.value,
-                  data: {
-                    href: link.href,
-                  },
-                  index: link.start,
-                })
-              })
-            }
+        links.forEach(link => {
+          if (!this.options.shouldAutoLink(link.value)) {
+            return
           }
 
-          return foundLinks
-        },
+          foundLinks.push({
+            text: link.value,
+            data: {
+              href: link.href,
+            },
+            index: link.start,
+          })
+        })
+      }
+
+      return foundLinks
+    }
+
+    if (this.options.markdownLinks) {
+      return [
+        markdownLinkPasteRule({
+          type: this.type,
+          isAllowedHref: href =>
+            this.options.isAllowedUri(href, {
+              defaultValidate: url => !!isAllowedUri(url, this.options.protocols),
+              protocols: this.options.protocols,
+              defaultProtocol: this.options.defaultProtocol,
+            }),
+          findPlainUrls,
+        }),
+      ]
+    }
+
+    return [
+      markPasteRule({
+        find: findPlainUrls,
         type: this.type,
         getAttributes: match => {
           return {

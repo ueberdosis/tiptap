@@ -1,9 +1,4 @@
-import type {
-  Mark as ProseMirrorMark,
-  Node as ProseMirrorNode,
-  ParseOptions,
-  Slice,
-} from '@tiptap/pm/model'
+import type { Mark as ProseMirrorMark, Node as PMNode, ParseOptions, Slice } from '@tiptap/pm/model'
 import type { EditorState, Transaction } from '@tiptap/pm/state'
 import type { Mappable, Transform } from '@tiptap/pm/transform'
 import type {
@@ -244,7 +239,7 @@ export interface EditorEvents {
          * The node which the deletion occurred in
          * @note This can be a parent node of the deleted content
          */
-        node: ProseMirrorNode
+        node: PMNode
         /**
          * The new start position of the node in the document (after the deletion)
          */
@@ -866,7 +861,7 @@ export type Range = {
 }
 
 export type NodeRange = {
-  node: ProseMirrorNode
+  node: PMNode
   from: number
   to: number
 }
@@ -877,17 +872,17 @@ export type MarkRange = {
   to: number
 }
 
-export type Predicate = (node: ProseMirrorNode) => boolean
+export type Predicate = (node: PMNode) => boolean
 
 export type NodeWithPos = {
-  node: ProseMirrorNode
+  node: PMNode
   pos: number
 }
 
 export type TextSerializer = (props: {
-  node: ProseMirrorNode
+  node: PMNode
   pos: number
-  parent: ProseMirrorNode
+  parent: PMNode
   index: number
   range: Range
 }) => string

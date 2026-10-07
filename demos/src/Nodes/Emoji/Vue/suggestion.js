@@ -1,4 +1,4 @@
-import { VueRenderer } from '@tiptap/vue-3'
+import { VueRenderer } from '@tiptap/vue'
 
 import { updatePosition } from '../../../utils/updatePosition.js'
 import EmojiList from './EmojiList.vue'

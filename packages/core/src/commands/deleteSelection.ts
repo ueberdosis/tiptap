@@ -1,4 +1,5 @@
 import type { ResolvedPos, Schema } from '@tiptap/pm/model'
+import { TextSelection } from '@tiptap/pm/state'
 
 import type { RawCommands } from '../types.js'
 
@@ -92,6 +93,13 @@ export const deleteSelection: RawCommands['deleteSelection'] =
         const { from, to } = expandSelectionForInlineText($from, $to, state.schema)
         tr.deleteRange(from, to)
       })
+
+      // after deleting the selection we restore a text selection
+      // near the from position to avoid having confusing selections
+      // after the deletion (for example after deleting via Ctrl/Cmd+A)
+      if (!tr.selection.empty) {
+        tr.setSelection(TextSelection.near(tr.doc.resolve(tr.selection.from)))
+      }
 
       tr.scrollIntoView()
       dispatch(tr)

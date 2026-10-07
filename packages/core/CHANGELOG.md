@@ -1,5 +1,128 @@
 # Change Log
 
+## 3.30.3
+
+### Patch Changes
+
+- 965a880: Fix JSX runtime to properly render nested sibling elements by spreading children arrays into DOMOutputSpec
+  - @tiptap/pm@3.30.3
+
+## 3.30.2
+
+### Patch Changes
+
+- 3dffed5: Keep mixed JSX children as separate siblings in DOM output.
+- 214a140: Fixed a bug where `editor.chain` and `editor.can` can not be accessed on editor initialization
+  - @tiptap/pm@3.30.2
+
+## 3.30.1
+
+### Patch Changes
+
+- abc8828: Added new ProseMirror helpers that check whether a value is a specific ProseMirror type.
+  - @tiptap/pm@3.30.1
+
+## 3.30.0
+
+### Minor Changes
+
+- 0247d39: `ListKeymap` now registers a `Tab` shortcut that sinks a top-level textblock into the previous list's last item. Pressing Tab at the start of a paragraph right after a bullet/ordered/task list moves the paragraph inside the last list item. The handler does nothing when the cursor is already inside a list item (`sinkListItem` keeps working), when there is no list before the paragraph, when the caret is mid-textblock, or when the selection is not a text selection (for example a gap cursor).
+
+  `@tiptap/core` also exposes a new `getPreviousBlockSibling($pos)` helper that returns the block-level sibling before the cursor's textblock, or null at the first child of the block parent.
+
+- 3099eef: **New Decorations API**
+
+  Finally the decorations API is here! Even though Decorations itself are nothing new in ProseMirror, the new API makes it much easier to use them in Tiptap without leaving your extensions.
+
+  Decorations change how the document looks without changing the document itself. Highlighting search results, marking spelling mistakes, showing collaborator cursors, putting a drag handle next to every block.
+
+  Until now you had to write a ProseMirror plugin by hand for this, keep the decoration set in plugin state, and map it forward on every transaction. Extensions can now declare decorations directly with a new `addDecorations()` hook.
+
+  ```js
+  addDecorations() {
+    return {
+      create: ({ state }) =>
+        // findMatches can be any function that returns an array of { from, to } ranges
+        findMatches(state.doc).map(match =>
+          Decoration.Inline(match.from, match.to, { class: 'highlight' }),
+        ),
+    }
+  }
+  ```
+
+  There are three kinds. `Decoration.Inline()` styles a range of text. `Decoration.Node()` puts attributes on a block's DOM element. `Decoration.Widget()` renders your own element at a single position.
+
+  Every extension that declares decorations is collected into one plugin, so several extensions can decorate the same document without fighting over it.
+
+  **Doing less work on every keystroke**
+
+  By default decorations are rebuilt whenever the document changes. That is fine for small documents and wasteful for large ones, so there are two ways to narrow it down.
+
+  `shouldUpdate()` skips transactions you do not care about. If your decorations only depend on headings, ignore everything else.
+
+  `update: 'changedRanges'` together with `createInRange()` only rescans the blocks that actually changed. On a long document this is the difference between scanning the whole thing on every keystroke and scanning one paragraph.
+
+  For decorations driven by data outside the editor, like comments loaded from a server, use `update: 'manual'` and refresh them yourself with `editor.commands.updateDecorations()`.
+
+  **React and Vue components as widgets**
+
+  `ReactWidgetRenderer` and `VueWidgetRenderer` render a real component into a widget decoration, inside your existing app context. Providers, context and stores work as usual.
+
+  Widgets take a `key`. Reuse the same key and the component instance stays mounted while the document changes around it, so local state such as an open menu, a counter or a half-typed input survives editing. Use a stable id from your own data, not a position or a list index, otherwise the component remounts and loses that state.
+
+  Widgets also accept the ProseMirror options `side`, `relaxedSide`, `stopEvent` and `ignoreSelection`.
+
+  **Documentation**
+
+  - [Decorations](https://tiptap.dev/docs/editor/core-concepts/decorations)
+  - [Decorations with React](https://tiptap.dev/docs/guides/decorations-react)
+  - [Decorations with Vue](https://tiptap.dev/docs/guides/decorations-vue)
+  - [API Documentation](https://tiptap.dev/docs/editor/api/decorations)
+
+### Patch Changes
+
+- 51909d3: Fixed `insertContent`, `insertContentAt` and `setContent` failing when prosemirror-model is loaded more than once.
+- Updated dependencies [58a8953]
+  - @tiptap/pm@3.30.0
+
+## 3.29.2
+
+### Patch Changes
+
+- @tiptap/pm@3.29.2
+
+## 3.29.1
+
+### Patch Changes
+
+- @tiptap/pm@3.29.1
+
+## 3.29.0
+
+### Patch Changes
+
+- d26840f: Fix a TypeScript build error in `isAndroid()` where comparing `navigator.platform` against the literal `'Android'` with `===` could fail to compile under some `lib.dom.d.ts` typings ("types have no overlap"). Switched to the same `.includes()` pattern already used by `isiOS()`, which is not affected by this TypeScript narrowing issue. No runtime behavior change.
+- 935e63f: Fixed a bug where deleting an `AllSelection` (for example right after Ctrl/Cmd+A) left a lingering "phantom" selection highlight over the emptied document instead of a text cursor. `deleteSelection` now collapses the selection to a cursor.
+- b4c5a2d: Fix input rules crashing when the matched text spans an inline atom node like a mention.
+- a963d48: Node view `getPos()` now returns `undefined` instead of throwing when the position cannot be resolved yet, for example when React 19 renders a node view component while the editor view is still updating.
+- 51f45b6: Fixed `onContentError` throwing when calling `editor.commands` from inside the handler on initial load with invalid content. The editor now has a usable state (seeded from the stripped fallback document) before `onContentError` fires.
+- 0f63969: Fix `editor.$pos()` returning the wrong node inside container nodes, for example the list item instead of the list.
+- 9acaa65: Add `insertDefaultBlock` to insert the default textblock allowed at a position. It accepts an optional position, attributes, content, and selection-update option.
+- Updated dependencies [e150ee0]
+  - @tiptap/pm@3.29.0
+
+## 3.28.0
+
+### Patch Changes
+
+- @tiptap/pm@3.28.0
+
+## 3.27.4
+
+### Patch Changes
+
+- @tiptap/pm@3.27.4
+
 ## 3.27.3
 
 ### Patch Changes
@@ -481,7 +604,7 @@
   - Previously some command option types were only available as internal types or scattered across files, which made it awkward for downstream users to import and reuse them.
 
   ```ts
-  import { commands } from '@tiptap/core'
+  import { commands } from "@tiptap/core";
   ```
 
   Notes:
@@ -513,9 +636,9 @@
   - **`contentType`**: Control the type of content that is inserted into the editor. Can be `json`, `html` or `markdown` - defaults to `json` and will automatically detect invalid content types (like JSON when it is actually Markdown).
     ```typescript
     new Editor({
-      content: '# Hello World',
-      contentType: 'markdown',
-    })
+      content: "# Hello World",
+      contentType: "markdown",
+    });
     ```
 
   **Command Options:** All content commands now support an `contentType` option:
@@ -829,13 +952,13 @@
   Before
 
   ```ts
-  const pos = nodeViewProps.getPos() // Type was () => number
+  const pos = nodeViewProps.getPos(); // Type was () => number
   ```
 
   After
 
   ```ts
-  const pos = nodeViewProps.getPos() // Type is () => number | undefined
+  const pos = nodeViewProps.getPos(); // Type is () => number | undefined
 
   if (pos !== undefined) {
     // Safe to use pos here
@@ -847,24 +970,24 @@
   To add keys, like when using `extendNodeSchema` or `extendMarkSchema`, you can do this:
 
   ```ts
-  declare module '@tiptap/core' {
+  declare module "@tiptap/core" {
     interface NodeConfig {
       /**
        * This key will be added to all NodeConfig objects in your project
        */
-      newKey?: string
+      newKey?: string;
     }
     interface MarkConfig {
       /**
        * This key will be added to all MarkConfig objects in your project
        */
-      newKey?: string
+      newKey?: string;
     }
     interface ExtensionConfig {
       /**
        * This key will be added to all ExtensionConfig objects in your project
        */
-      newKey?: string
+      newKey?: string;
     }
   }
   ```
@@ -875,9 +998,9 @@
 - 32958d6: `editor.storage` is now strongly typed `Storage` instances, using a similar pattern as commands, where you can define the type of the storage value using namespaces like:
 
   ```ts
-  declare module '@tiptap/core' {
+  declare module "@tiptap/core" {
     interface Storage {
-      extensionName: StorageValue
+      extensionName: StorageValue;
     }
   }
   ```
@@ -901,18 +1024,18 @@
     // Other options...
     addMarkView() {
       return ({ mark, HTMLAttributes }) => {
-        const dom = document.createElement('b')
-        const contentDOM = document.createElement('span')
+        const dom = document.createElement("b");
+        const contentDOM = document.createElement("span");
 
-        dom.appendChild(contentDOM)
+        dom.appendChild(contentDOM);
 
         return {
           dom,
           contentDOM,
-        }
-      }
+        };
+      };
     },
-  })
+  });
   ```
 
   ## React binding
@@ -920,41 +1043,41 @@
   To use a React component for a markview, you can use the `@tiptap/react` package:
 
   ```ts
-  import { Mark } from '@tiptap/core'
-  import { ReactMarkViewRenderer } from '@tiptap/react'
+  import { Mark } from "@tiptap/core";
+  import { ReactMarkViewRenderer } from "@tiptap/react";
 
-  import Component from './Component.jsx'
+  import Component from "./Component.jsx";
 
   export default Mark.create({
-    name: 'reactComponent',
+    name: "reactComponent",
 
     parseHTML() {
       return [
         {
-          tag: 'react-component',
+          tag: "react-component",
         },
-      ]
+      ];
     },
 
     renderHTML({ HTMLAttributes }) {
-      return ['react-component', HTMLAttributes]
+      return ["react-component", HTMLAttributes];
     },
 
     addMarkView() {
-      return ReactMarkViewRenderer(Component)
+      return ReactMarkViewRenderer(Component);
     },
-  })
+  });
   ```
 
   And here is an example of a React component:
 
   ```tsx
-  import { MarkViewContent, MarkViewRendererProps } from '@tiptap/react'
-  import React from 'react'
+  import { MarkViewContent, MarkViewRendererProps } from "@tiptap/react";
+  import React from "react";
 
   // oxlint-disable-next-line no-unused-vars
   export default (props: MarkViewRendererProps) => {
-    const [count, setCount] = React.useState(0)
+    const [count, setCount] = React.useState(0);
 
     return (
       <span className="content" data-test-id="mark-view">
@@ -963,15 +1086,15 @@
           React component:
           <button
             onClick={() => {
-              setCount(count + 1)
+              setCount(count + 1);
             }}
           >
             This button has been clicked {count} times.
           </button>
         </label>
       </span>
-    )
-  }
+    );
+  };
   ```
 
   ## Vue 3 binding
@@ -979,30 +1102,30 @@
   To use a Vue 3 component for a markview, you can use the `@tiptap/vue-3` package:
 
   ```ts
-  import { Mark } from '@tiptap/core'
-  import { VueMarkViewRenderer } from '@tiptap/vue-3'
+  import { Mark } from "@tiptap/core";
+  import { VueMarkViewRenderer } from "@tiptap/vue-3";
 
-  import Component from './Component.vue'
+  import Component from "./Component.vue";
 
   export default Mark.create({
-    name: 'vueComponent',
+    name: "vueComponent",
 
     parseHTML() {
       return [
         {
-          tag: 'vue-component',
+          tag: "vue-component",
         },
-      ]
+      ];
     },
 
     renderHTML({ HTMLAttributes }) {
-      return ['vue-component', HTMLAttributes]
+      return ["vue-component", HTMLAttributes];
     },
 
     addMarkView() {
-      return VueMarkViewRenderer(Component)
+      return VueMarkViewRenderer(Component);
     },
-  })
+  });
   ```
 
   And here is an example of a Vue 3 component:
@@ -1013,13 +1136,15 @@
       <mark-view-content />
       <label contenteditable="false"
         >Vue Component::
-        <button @click="increase" class="primary">This button has been clicked {{ count }} times.</button>
+        <button @click="increase" class="primary">
+          This button has been clicked {{ count }} times.
+        </button>
       </label>
     </span>
   </template>
 
   <script>
-  import { MarkViewContent, markViewProps } from '@tiptap/vue-3'
+  import { MarkViewContent, markViewProps } from "@tiptap/vue-3";
   export default {
     components: {
       MarkViewContent,
@@ -1027,15 +1152,15 @@
     data() {
       return {
         count: 0,
-      }
+      };
     },
     props: markViewProps,
     methods: {
       increase() {
-        this.count += 1
+        this.count += 1;
       },
     },
-  }
+  };
   </script>
   ```
 
@@ -1063,45 +1188,66 @@
   Therefore, this will work on the server:
 
   ```ts
-  import { Editor } from '@tiptap/core'
-  import StarterKit from '@tiptap/starter-kit'
+  import { Editor } from "@tiptap/core";
+  import StarterKit from "@tiptap/starter-kit";
 
   const editor = new Editor({
     element: null,
-    content: { type: 'doc', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Hello, World!' }] }] },
+    content: {
+      type: "doc",
+      content: [
+        {
+          type: "paragraph",
+          content: [{ type: "text", text: "Hello, World!" }],
+        },
+      ],
+    },
     extensions: [StarterKit],
-  })
+  });
 
   editor
     .chain()
     .selectAll()
-    .setContent({ type: 'doc', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'XYZ' }] }] })
-    .run()
+    .setContent({
+      type: "doc",
+      content: [
+        { type: "paragraph", content: [{ type: "text", text: "XYZ" }] },
+      ],
+    })
+    .run();
 
-  console.log(editor.state.doc.toJSON())
+  console.log(editor.state.doc.toJSON());
   // { type: 'doc', content: [ { type: 'paragraph', content: [ { type: 'text', text: 'XYZ' } ] } ] }
   ```
 
   Any of these things will not work on the server, and result in a runtime error:
 
   ```ts
-  import { Editor } from '@tiptap/core'
-  import StarterKit from '@tiptap/starter-kit'
+  import { Editor } from "@tiptap/core";
+  import StarterKit from "@tiptap/starter-kit";
 
   const editor = new Editor({
     // document will not be defined in a server environment
-    element: document.createElement('div'),
-    content: { type: 'doc', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Hello, World!' }] }] },
+    element: document.createElement("div"),
+    content: {
+      type: "doc",
+      content: [
+        {
+          type: "paragraph",
+          content: [{ type: "text", text: "Hello, World!" }],
+        },
+      ],
+    },
     extensions: [StarterKit],
-  })
+  });
 
   editor
     .chain()
     // focus is a command which depends on the editor-view, so it will not work in a server environment
     .focus()
-    .run()
+    .run();
 
-  console.log(editor.getHTML())
+  console.log(editor.getHTML());
   // getHTML relies on the editor-view, so it will not work in a server environment
   ```
 
@@ -1367,13 +1513,13 @@
   Before
 
   ```ts
-  const pos = nodeViewProps.getPos() // Type was () => number
+  const pos = nodeViewProps.getPos(); // Type was () => number
   ```
 
   After
 
   ```ts
-  const pos = nodeViewProps.getPos() // Type is () => number | undefined
+  const pos = nodeViewProps.getPos(); // Type is () => number | undefined
 
   if (pos !== undefined) {
     // Safe to use pos here
@@ -1385,24 +1531,24 @@
   To add keys, like when using `extendNodeSchema` or `extendMarkSchema`, you can do this:
 
   ```ts
-  declare module '@tiptap/core' {
+  declare module "@tiptap/core" {
     interface NodeConfig {
       /**
        * This key will be added to all NodeConfig objects in your project
        */
-      newKey?: string
+      newKey?: string;
     }
     interface MarkConfig {
       /**
        * This key will be added to all MarkConfig objects in your project
        */
-      newKey?: string
+      newKey?: string;
     }
     interface ExtensionConfig {
       /**
        * This key will be added to all ExtensionConfig objects in your project
        */
-      newKey?: string
+      newKey?: string;
     }
   }
   ```
@@ -1413,9 +1559,9 @@
 - 32958d6: `editor.storage` is now strongly typed `Storage` instances, using a similar pattern as commands, where you can define the type of the storage value using namespaces like:
 
   ```ts
-  declare module '@tiptap/core' {
+  declare module "@tiptap/core" {
     interface Storage {
-      extensionName: StorageValue
+      extensionName: StorageValue;
     }
   }
   ```
@@ -1437,18 +1583,18 @@
     // Other options...
     addMarkView() {
       return ({ mark, HTMLAttributes }) => {
-        const dom = document.createElement('b')
-        const contentDOM = document.createElement('span')
+        const dom = document.createElement("b");
+        const contentDOM = document.createElement("span");
 
-        dom.appendChild(contentDOM)
+        dom.appendChild(contentDOM);
 
         return {
           dom,
           contentDOM,
-        }
-      }
+        };
+      };
     },
-  })
+  });
   ```
 
   ## React binding
@@ -1456,41 +1602,41 @@
   To use a React component for a markview, you can use the `@tiptap/react` package:
 
   ```ts
-  import { Mark } from '@tiptap/core'
-  import { ReactMarkViewRenderer } from '@tiptap/react'
+  import { Mark } from "@tiptap/core";
+  import { ReactMarkViewRenderer } from "@tiptap/react";
 
-  import Component from './Component.jsx'
+  import Component from "./Component.jsx";
 
   export default Mark.create({
-    name: 'reactComponent',
+    name: "reactComponent",
 
     parseHTML() {
       return [
         {
-          tag: 'react-component',
+          tag: "react-component",
         },
-      ]
+      ];
     },
 
     renderHTML({ HTMLAttributes }) {
-      return ['react-component', HTMLAttributes]
+      return ["react-component", HTMLAttributes];
     },
 
     addMarkView() {
-      return ReactMarkViewRenderer(Component)
+      return ReactMarkViewRenderer(Component);
     },
-  })
+  });
   ```
 
   And here is an example of a React component:
 
   ```tsx
-  import { MarkViewContent, MarkViewRendererProps } from '@tiptap/react'
-  import React from 'react'
+  import { MarkViewContent, MarkViewRendererProps } from "@tiptap/react";
+  import React from "react";
 
   // oxlint-disable-next-line no-unused-vars
   export default (props: MarkViewRendererProps) => {
-    const [count, setCount] = React.useState(0)
+    const [count, setCount] = React.useState(0);
 
     return (
       <span className="content" data-test-id="mark-view">
@@ -1499,15 +1645,15 @@
           React component:
           <button
             onClick={() => {
-              setCount(count + 1)
+              setCount(count + 1);
             }}
           >
             This button has been clicked {count} times.
           </button>
         </label>
       </span>
-    )
-  }
+    );
+  };
   ```
 
   ## Vue 3 binding
@@ -1515,30 +1661,30 @@
   To use a Vue 3 component for a markview, you can use the `@tiptap/vue-3` package:
 
   ```ts
-  import { Mark } from '@tiptap/core'
-  import { VueMarkViewRenderer } from '@tiptap/vue-3'
+  import { Mark } from "@tiptap/core";
+  import { VueMarkViewRenderer } from "@tiptap/vue-3";
 
-  import Component from './Component.vue'
+  import Component from "./Component.vue";
 
   export default Mark.create({
-    name: 'vueComponent',
+    name: "vueComponent",
 
     parseHTML() {
       return [
         {
-          tag: 'vue-component',
+          tag: "vue-component",
         },
-      ]
+      ];
     },
 
     renderHTML({ HTMLAttributes }) {
-      return ['vue-component', HTMLAttributes]
+      return ["vue-component", HTMLAttributes];
     },
 
     addMarkView() {
-      return VueMarkViewRenderer(Component)
+      return VueMarkViewRenderer(Component);
     },
-  })
+  });
   ```
 
   And here is an example of a Vue 3 component:
@@ -1549,13 +1695,15 @@
       <mark-view-content />
       <label contenteditable="false"
         >Vue Component::
-        <button @click="increase" class="primary">This button has been clicked {{ count }} times.</button>
+        <button @click="increase" class="primary">
+          This button has been clicked {{ count }} times.
+        </button>
       </label>
     </span>
   </template>
 
   <script>
-  import { MarkViewContent, markViewProps } from '@tiptap/vue-3'
+  import { MarkViewContent, markViewProps } from "@tiptap/vue-3";
   export default {
     components: {
       MarkViewContent,
@@ -1563,15 +1711,15 @@
     data() {
       return {
         count: 0,
-      }
+      };
     },
     props: markViewProps,
     methods: {
       increase() {
-        this.count += 1
+        this.count += 1;
       },
     },
-  }
+  };
   </script>
   ```
 
@@ -1598,45 +1746,66 @@
   Therefore, this will work on the server:
 
   ```ts
-  import { Editor } from '@tiptap/core'
-  import StarterKit from '@tiptap/starter-kit'
+  import { Editor } from "@tiptap/core";
+  import StarterKit from "@tiptap/starter-kit";
 
   const editor = new Editor({
     element: null,
-    content: { type: 'doc', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Hello, World!' }] }] },
+    content: {
+      type: "doc",
+      content: [
+        {
+          type: "paragraph",
+          content: [{ type: "text", text: "Hello, World!" }],
+        },
+      ],
+    },
     extensions: [StarterKit],
-  })
+  });
 
   editor
     .chain()
     .selectAll()
-    .setContent({ type: 'doc', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'XYZ' }] }] })
-    .run()
+    .setContent({
+      type: "doc",
+      content: [
+        { type: "paragraph", content: [{ type: "text", text: "XYZ" }] },
+      ],
+    })
+    .run();
 
-  console.log(editor.state.doc.toJSON())
+  console.log(editor.state.doc.toJSON());
   // { type: 'doc', content: [ { type: 'paragraph', content: [ { type: 'text', text: 'XYZ' } ] } ] }
   ```
 
   Any of these things will not work on the server, and result in a runtime error:
 
   ```ts
-  import { Editor } from '@tiptap/core'
-  import StarterKit from '@tiptap/starter-kit'
+  import { Editor } from "@tiptap/core";
+  import StarterKit from "@tiptap/starter-kit";
 
   const editor = new Editor({
     // document will not be defined in a server environment
-    element: document.createElement('div'),
-    content: { type: 'doc', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Hello, World!' }] }] },
+    element: document.createElement("div"),
+    content: {
+      type: "doc",
+      content: [
+        {
+          type: "paragraph",
+          content: [{ type: "text", text: "Hello, World!" }],
+        },
+      ],
+    },
     extensions: [StarterKit],
-  })
+  });
 
   editor
     .chain()
     // focus is a command which depends on the editor-view, so it will not work in a server environment
     .focus()
-    .run()
+    .run();
 
-  console.log(editor.getHTML())
+  console.log(editor.getHTML());
   // getHTML relies on the editor-view, so it will not work in a server environment
   ```
 
@@ -1656,24 +1825,24 @@
   To add keys, like when using `extendNodeSchema` or `extendMarkSchema`, you can do this:
 
   ```ts
-  declare module '@tiptap/core' {
+  declare module "@tiptap/core" {
     interface NodeConfig {
       /**
        * This key will be added to all NodeConfig objects in your project
        */
-      newKey?: string
+      newKey?: string;
     }
     interface MarkConfig {
       /**
        * This key will be added to all MarkConfig objects in your project
        */
-      newKey?: string
+      newKey?: string;
     }
     interface ExtensionConfig {
       /**
        * This key will be added to all ExtensionConfig objects in your project
        */
-      newKey?: string
+      newKey?: string;
     }
   }
   ```
@@ -1683,9 +1852,9 @@
 - 32958d6: `editor.storage` is now strongly typed `Storage` instances, using a similar pattern as commands, where you can define the type of the storage value using namespaces like:
 
   ```ts
-  declare module '@tiptap/core' {
+  declare module "@tiptap/core" {
     interface Storage {
-      extensionName: StorageValue
+      extensionName: StorageValue;
     }
   }
   ```
@@ -1707,18 +1876,18 @@
     // Other options...
     addMarkView() {
       return ({ mark, HTMLAttributes }) => {
-        const dom = document.createElement('b')
-        const contentDOM = document.createElement('span')
+        const dom = document.createElement("b");
+        const contentDOM = document.createElement("span");
 
-        dom.appendChild(contentDOM)
+        dom.appendChild(contentDOM);
 
         return {
           dom,
           contentDOM,
-        }
-      }
+        };
+      };
     },
-  })
+  });
   ```
 
   ## React binding
@@ -1726,41 +1895,41 @@
   To use a React component for a markview, you can use the `@tiptap/react` package:
 
   ```ts
-  import { Mark } from '@tiptap/core'
-  import { ReactMarkViewRenderer } from '@tiptap/react'
+  import { Mark } from "@tiptap/core";
+  import { ReactMarkViewRenderer } from "@tiptap/react";
 
-  import Component from './Component.jsx'
+  import Component from "./Component.jsx";
 
   export default Mark.create({
-    name: 'reactComponent',
+    name: "reactComponent",
 
     parseHTML() {
       return [
         {
-          tag: 'react-component',
+          tag: "react-component",
         },
-      ]
+      ];
     },
 
     renderHTML({ HTMLAttributes }) {
-      return ['react-component', HTMLAttributes]
+      return ["react-component", HTMLAttributes];
     },
 
     addMarkView() {
-      return ReactMarkViewRenderer(Component)
+      return ReactMarkViewRenderer(Component);
     },
-  })
+  });
   ```
 
   And here is an example of a React component:
 
   ```tsx
-  import { MarkViewContent, MarkViewRendererProps } from '@tiptap/react'
-  import React from 'react'
+  import { MarkViewContent, MarkViewRendererProps } from "@tiptap/react";
+  import React from "react";
 
   // oxlint-disable-next-line no-unused-vars
   export default (props: MarkViewRendererProps) => {
-    const [count, setCount] = React.useState(0)
+    const [count, setCount] = React.useState(0);
 
     return (
       <span className="content" data-test-id="mark-view">
@@ -1769,15 +1938,15 @@
           React component:
           <button
             onClick={() => {
-              setCount(count + 1)
+              setCount(count + 1);
             }}
           >
             This button has been clicked {count} times.
           </button>
         </label>
       </span>
-    )
-  }
+    );
+  };
   ```
 
   ## Vue 3 binding
@@ -1785,30 +1954,30 @@
   To use a Vue 3 component for a markview, you can use the `@tiptap/vue-3` package:
 
   ```ts
-  import { Mark } from '@tiptap/core'
-  import { VueMarkViewRenderer } from '@tiptap/vue-3'
+  import { Mark } from "@tiptap/core";
+  import { VueMarkViewRenderer } from "@tiptap/vue-3";
 
-  import Component from './Component.vue'
+  import Component from "./Component.vue";
 
   export default Mark.create({
-    name: 'vueComponent',
+    name: "vueComponent",
 
     parseHTML() {
       return [
         {
-          tag: 'vue-component',
+          tag: "vue-component",
         },
-      ]
+      ];
     },
 
     renderHTML({ HTMLAttributes }) {
-      return ['vue-component', HTMLAttributes]
+      return ["vue-component", HTMLAttributes];
     },
 
     addMarkView() {
-      return VueMarkViewRenderer(Component)
+      return VueMarkViewRenderer(Component);
     },
-  })
+  });
   ```
 
   And here is an example of a Vue 3 component:
@@ -1819,13 +1988,15 @@
       <mark-view-content />
       <label contenteditable="false"
         >Vue Component::
-        <button @click="increase" class="primary">This button has been clicked {{ count }} times.</button>
+        <button @click="increase" class="primary">
+          This button has been clicked {{ count }} times.
+        </button>
       </label>
     </span>
   </template>
 
   <script>
-  import { MarkViewContent, markViewProps } from '@tiptap/vue-3'
+  import { MarkViewContent, markViewProps } from "@tiptap/vue-3";
   export default {
     components: {
       MarkViewContent,
@@ -1833,15 +2004,15 @@
     data() {
       return {
         count: 0,
-      }
+      };
     },
     props: markViewProps,
     methods: {
       increase() {
-        this.count += 1
+        this.count += 1;
       },
     },
-  }
+  };
   </script>
   ```
 
@@ -1867,45 +2038,66 @@
   Therefore, this will work on the server:
 
   ```ts
-  import { Editor } from '@tiptap/core'
-  import StarterKit from '@tiptap/starter-kit'
+  import { Editor } from "@tiptap/core";
+  import StarterKit from "@tiptap/starter-kit";
 
   const editor = new Editor({
     element: null,
-    content: { type: 'doc', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Hello, World!' }] }] },
+    content: {
+      type: "doc",
+      content: [
+        {
+          type: "paragraph",
+          content: [{ type: "text", text: "Hello, World!" }],
+        },
+      ],
+    },
     extensions: [StarterKit],
-  })
+  });
 
   editor
     .chain()
     .selectAll()
-    .setContent({ type: 'doc', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'XYZ' }] }] })
-    .run()
+    .setContent({
+      type: "doc",
+      content: [
+        { type: "paragraph", content: [{ type: "text", text: "XYZ" }] },
+      ],
+    })
+    .run();
 
-  console.log(editor.state.doc.toJSON())
+  console.log(editor.state.doc.toJSON());
   // { type: 'doc', content: [ { type: 'paragraph', content: [ { type: 'text', text: 'XYZ' } ] } ] }
   ```
 
   Any of these things will not work on the server, and result in a runtime error:
 
   ```ts
-  import { Editor } from '@tiptap/core'
-  import StarterKit from '@tiptap/starter-kit'
+  import { Editor } from "@tiptap/core";
+  import StarterKit from "@tiptap/starter-kit";
 
   const editor = new Editor({
     // document will not be defined in a server environment
-    element: document.createElement('div'),
-    content: { type: 'doc', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Hello, World!' }] }] },
+    element: document.createElement("div"),
+    content: {
+      type: "doc",
+      content: [
+        {
+          type: "paragraph",
+          content: [{ type: "text", text: "Hello, World!" }],
+        },
+      ],
+    },
     extensions: [StarterKit],
-  })
+  });
 
   editor
     .chain()
     // focus is a command which depends on the editor-view, so it will not work in a server environment
     .focus()
-    .run()
+    .run();
 
-  console.log(editor.getHTML())
+  console.log(editor.getHTML());
   // getHTML relies on the editor-view, so it will not work in a server environment
   ```
 

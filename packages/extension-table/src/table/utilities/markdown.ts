@@ -41,9 +41,13 @@ export function escapeTableCellPipes(line: string): string {
       while (j + closeLen < line.length && line[j + closeLen] === '`') closeLen += 1
       if (closeLen === runLen) {
         const spanContent = line.slice(i + runLen, j)
+        // Matches an already-escaped pipe (`\|`, kept as-is) or a bare pipe
+        // (escaped). Deliberately avoids a negative lookbehind assertion:
+        // WebKit before Safari 16.4 cannot parse lookbehind, and a regex
+        // literal fails the whole chunk at parse time, not at call time.
         result +=
           line.slice(i, i + runLen) +
-          spanContent.replace(/(?<!\\)\|/g, '\\|') +
+          spanContent.replace(/\\\||\|/g, match => (match === '|' ? '\\|' : match)) +
           line.slice(j, j + runLen)
         i = j + runLen
         found = true
@@ -78,7 +82,20 @@ export function preprocessTablePipes(src: string): string {
 }
 
 function collapseWhitespace(s: string) {
-  return (s || '').replace(/\s+/g, ' ').trim()
+  return (s || '').replaceAll(DEFAULT_CELL_LINE_SEPARATOR, ' ').replace(/\s+/g, ' ').trim()
+}
+
+function replaceCellLineSeparator(value: string, cellLineSeparator?: string) {
+  if (!cellLineSeparator) {
+    return value
+  }
+
+  return value.split(cellLineSeparator).join('\n')
+}
+
+function escapePipesInCellText(text: string) {
+  // Keep already escaped pipes as they are
+  return text.replace(/\\.|\|/g, match => (match === '|' ? '\\|' : match))
 }
 
 export function renderTableToMarkdown(
@@ -86,8 +103,6 @@ export function renderTableToMarkdown(
   h: MarkdownRendererHelpers,
   options: { cellLineSeparator?: string } = {},
 ) {
-  const cellSep = options.cellLineSeparator ?? DEFAULT_CELL_LINE_SEPARATOR
-
   if (!node || !node.content || node.content.length === 0) {
     return ''
   }
@@ -103,18 +118,24 @@ export function renderTableToMarkdown(
         let raw = ''
 
         if (cellNode.content && Array.isArray(cellNode.content) && cellNode.content.length > 1) {
-          // Render each direct child separately and join with separator so we can split again later
           const parts = cellNode.content.map(child =>
-            h.renderChildren(child as unknown as JSONContent),
+            replaceCellLineSeparator(
+              h.renderChildren(child as unknown as JSONContent),
+              options.cellLineSeparator,
+            ),
           )
-          raw = parts.join(cellSep)
+          raw = parts.join('\n')
         } else {
-          raw = cellNode.content
-            ? h.renderChildren(cellNode.content as unknown as JSONContent[])
-            : ''
+          raw = replaceCellLineSeparator(
+            cellNode.content ? h.renderChildren(cellNode.content as unknown as JSONContent[]) : '',
+            options.cellLineSeparator,
+          )
         }
 
-        const text = collapseWhitespace(raw)
+        // Cells have to stay on a single line, so line breaks become <br> tags.
+        // The parser already turns <br> back into hard breaks, so this round trips.
+        const singleLine = collapseWhitespace(raw.replace(/[ \t]*\r?\n[ \t]*/g, '<br>'))
+        const text = escapePipesInCellText(singleLine)
         const isHeader = cellNode.type === 'tableHeader'
         const align = normalizeTableCellAlignFromAttributes(cellNode.attrs)
 

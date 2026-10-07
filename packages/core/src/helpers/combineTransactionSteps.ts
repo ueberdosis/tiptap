@@ -1,4 +1,4 @@
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import type { Transaction } from '@tiptap/pm/state'
 import { Transform } from '@tiptap/pm/transform'
 
@@ -8,10 +8,7 @@ import { Transform } from '@tiptap/pm/transform'
  * @param transactions The transactions to combine
  * @returns A new `Transform` with all steps of the passed transactions
  */
-export function combineTransactionSteps(
-  oldDoc: ProseMirrorNode,
-  transactions: Transaction[],
-): Transform {
+export function combineTransactionSteps(oldDoc: PMNode, transactions: Transaction[]): Transform {
   const transform = new Transform(oldDoc)
 
   transactions.forEach(transaction => {

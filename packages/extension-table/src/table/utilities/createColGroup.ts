@@ -1,4 +1,4 @@
-import type { DOMOutputSpec, Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { DOMOutputSpec, Node as PMNode } from '@tiptap/pm/model'
 
 import { getColStyleDeclaration } from './colStyle.js'
 
@@ -19,15 +19,15 @@ export type ColGroup =
  * @param overrideValue - (Optional) The width value to use for the overridden column.
  * @returns An object containing the colgroup element, the total width of the table, and the minimum width of the table.
  */
-export function createColGroup(node: ProseMirrorNode, cellMinWidth: number): ColGroup
+export function createColGroup(node: PMNode, cellMinWidth: number): ColGroup
 export function createColGroup(
-  node: ProseMirrorNode,
+  node: PMNode,
   cellMinWidth: number,
   overrideCol: number,
   overrideValue: number,
 ): ColGroup
 export function createColGroup(
-  node: ProseMirrorNode,
+  node: PMNode,
   cellMinWidth: number,
   overrideCol?: number,
   overrideValue?: number,

@@ -3,7 +3,7 @@ import CollaborationCaret from '@tiptap/extension-collaboration-caret'
 import Highlight from '@tiptap/extension-highlight'
 import { TaskItem, TaskList } from '@tiptap/extension-list'
 import { CharacterCount } from '@tiptap/extensions'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useCallback, useEffect, useState } from 'react'
 
@@ -80,6 +80,7 @@ const getInitialUser = () => {
 const Editor = ({ ydoc, provider, room }) => {
   const [status, setStatus] = useState('connecting')
   const [currentUser, setCurrentUser] = useState(getInitialUser)
+  const [userCount, setUserCount] = useState(0)
 
   const editor = useEditor({
     enableContentCheck: true,
@@ -112,6 +113,17 @@ const Editor = ({ ydoc, provider, room }) => {
     ],
   })
 
+  const { isBold, isItalic, isStrike, isBulletList, isCode } = useEditorState({
+    editor,
+    selector: ctx => ({
+      isBold: ctx.editor.isActive('bold') ?? false,
+      isItalic: ctx.editor.isActive('italic') ?? false,
+      isStrike: ctx.editor.isActive('strike') ?? false,
+      isBulletList: ctx.editor.isActive('bulletList') ?? false,
+      isCode: ctx.editor.isActive('code') ?? false,
+    }),
+  })
+
   useEffect(() => {
     // Update status changes
     const statusHandler = event => {
@@ -124,6 +136,23 @@ const Editor = ({ ydoc, provider, room }) => {
       provider.off('status', statusHandler)
     }
   }, [provider])
+
+  useEffect(() => {
+    if (!editor) {
+      return undefined
+    }
+
+    const updateUserCount = () => {
+      setUserCount(editor.storage.collaborationCaret.users.length)
+    }
+
+    updateUserCount()
+    provider.awareness.on('update', updateUserCount)
+
+    return () => {
+      provider.awareness.off('update', updateUserCount)
+    }
+  }, [editor, provider])
 
   // Save current user to localStorage and emit to editor
   useEffect(() => {
@@ -151,31 +180,31 @@ const Editor = ({ ydoc, provider, room }) => {
         <div className="button-group">
           <button
             onClick={() => editor.chain().focus().toggleBold().run()}
-            className={editor.isActive('bold') ? 'is-active' : ''}
+            className={isBold ? 'is-active' : ''}
           >
             Bold
           </button>
           <button
             onClick={() => editor.chain().focus().toggleItalic().run()}
-            className={editor.isActive('italic') ? 'is-active' : ''}
+            className={isItalic ? 'is-active' : ''}
           >
             Italic
           </button>
           <button
             onClick={() => editor.chain().focus().toggleStrike().run()}
-            className={editor.isActive('strike') ? 'is-active' : ''}
+            className={isStrike ? 'is-active' : ''}
           >
             Strike
           </button>
           <button
             onClick={() => editor.chain().focus().toggleBulletList().run()}
-            className={editor.isActive('bulletList') ? 'is-active' : ''}
+            className={isBulletList ? 'is-active' : ''}
           >
             Bullet list
           </button>
           <button
             onClick={() => editor.chain().focus().toggleCode().run()}
-            className={editor.isActive('code') ? 'is-active' : ''}
+            className={isCode ? 'is-active' : ''}
           >
             Code
           </button>
@@ -190,9 +219,7 @@ const Editor = ({ ydoc, provider, room }) => {
       >
         <label>
           {status === 'connected'
-            ? `${editor.storage.collaborationCaret.users.length} user${
-                editor.storage.collaborationCaret.users.length === 1 ? '' : 's'
-              } online in ${room}`
+            ? `${userCount} user${userCount === 1 ? '' : 's'} online in ${room}`
             : 'offline'}
         </label>
         <button style={{ '--color': currentUser.color }} onClick={setName}>

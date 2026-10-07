@@ -63,6 +63,7 @@ const getInitialUser = () => {
 export default () => {
   const [status, setStatus] = useState('connecting')
   const [currentUser, setCurrentUser] = useState(getInitialUser)
+  const [userCount, setUserCount] = useState(0)
 
   const editor = useEditor({
     extensions: [
@@ -87,6 +88,23 @@ export default () => {
       setStatus(event.status)
     })
   }, [])
+
+  useEffect(() => {
+    if (!editor) {
+      return undefined
+    }
+
+    const updateUserCount = () => {
+      setUserCount(editor.storage.collaborationCaret.users.length)
+    }
+
+    updateUserCount()
+    websocketProvider.awareness.on('update', updateUserCount)
+
+    return () => {
+      websocketProvider.awareness.off('update', updateUserCount)
+    }
+  }, [editor])
 
   // Save current user to localStorage and emit to editor
   useEffect(() => {
@@ -115,7 +133,7 @@ export default () => {
         <div className="editor__users">
           <div className={`editor__status editor__status--${status}`}>
             {status === 'connected'
-              ? `${editor.storage.collaborationCaret.users.length} user${editor.storage.collaborationCaret.users.length === 1 ? '' : 's'} online in ${room}`
+              ? `${userCount} user${userCount === 1 ? '' : 's'} online in ${room}`
               : 'offline'}
           </div>
           <div className="editor__name">

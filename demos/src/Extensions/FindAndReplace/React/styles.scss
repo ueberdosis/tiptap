@@ -1,0 +1,21 @@
+/* Basic editor styles */
+.tiptap {
+  :first-child {
+    margin-top: 0;
+  }
+}
+
+.control-group {
+  label {
+    align-items: center;
+    display: flex;
+    gap: 0.25rem;
+    font-size: 0.875rem;
+  }
+
+  .result-count {
+    align-self: center;
+    color: var(--gray-5);
+    font-size: 0.875rem;
+  }
+}

@@ -5,6 +5,7 @@
 ### Core, framework bindings, and shared utilities
 
 - core
+- ai-toolkit
 - extensions
 - html
 - markdown
@@ -14,8 +15,7 @@
 - starter-kit
 - static-renderer
 - suggestion
-- vue-2
-- vue-3
+- vue
 
 ### Extensions
 
@@ -34,8 +34,7 @@
 - extension-document
 - extension-drag-handle
 - extension-drag-handle-react
-- extension-drag-handle-vue-2
-- extension-drag-handle-vue-3
+- extension-drag-handle-vue
 - extension-emoji
 - extension-file-handler
 - extension-floating-menu
@@ -57,6 +56,7 @@
 - extension-strike
 - extension-subscript
 - extension-superscript
+- extension-ruby-text
 - extension-table
 - extension-table-of-contents
 - extension-text

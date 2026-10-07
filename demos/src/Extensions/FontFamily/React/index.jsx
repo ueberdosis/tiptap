@@ -27,14 +27,16 @@ export default () => {
       selector: ctx => {
         return {
           isInter: ctx.editor.isActive('textStyle', { fontFamily: 'Inter' }),
-          isComicSans: editor.isActive('textStyle', {
+          isComicSans: ctx.editor.isActive('textStyle', {
             fontFamily: '"Comic Sans MS", "Comic Sans"',
           }),
-          isSerif: editor.isActive('textStyle', { fontFamily: 'serif' }),
-          isMonospace: editor.isActive('textStyle', { fontFamily: 'monospace' }),
-          isCursive: editor.isActive('textStyle', { fontFamily: 'cursive' }),
-          isExo2: editor.isActive('textStyle', { fontFamily: '"Exo 2"' }),
-          isCssVariable: editor.isActive('textStyle', { fontFamily: 'var(--title-font-family)' }),
+          isSerif: ctx.editor.isActive('textStyle', { fontFamily: 'serif' }),
+          isMonospace: ctx.editor.isActive('textStyle', { fontFamily: 'monospace' }),
+          isCursive: ctx.editor.isActive('textStyle', { fontFamily: 'cursive' }),
+          isExo2: ctx.editor.isActive('textStyle', { fontFamily: '"Exo 2"' }),
+          isCssVariable: ctx.editor.isActive('textStyle', {
+            fontFamily: 'var(--title-font-family)',
+          }),
         }
       },
     })

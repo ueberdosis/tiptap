@@ -1,6 +1,6 @@
 import './styles.scss'
 
-import { EditorContent, useEditor } from '@tiptap/react'
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import { FloatingMenu } from '@tiptap/react/menus'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useEffect } from 'react'
@@ -24,6 +24,15 @@ export default () => {
     }
   }, [isEditable, editor])
 
+  const { isHeading1, isHeading2, isBulletList } = useEditorState({
+    editor,
+    selector: ctx => ({
+      isHeading1: ctx.editor.isActive('heading', { level: 1 }) ?? false,
+      isHeading2: ctx.editor.isActive('heading', { level: 2 }) ?? false,
+      isBulletList: ctx.editor.isActive('bulletList') ?? false,
+    }),
+  })
+
   return (
     <>
       <div className="control-group">
@@ -37,19 +46,19 @@ export default () => {
           <div className="floating-menu" data-testid="floating-menu">
             <button
               onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-              className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
+              className={isHeading1 ? 'is-active' : ''}
             >
               H1
             </button>
             <button
               onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-              className={editor.isActive('heading', { level: 2 }) ? 'is-active' : ''}
+              className={isHeading2 ? 'is-active' : ''}
             >
               H2
             </button>
             <button
               onClick={() => editor.chain().focus().toggleBulletList().run()}
-              className={editor.isActive('bulletList') ? 'is-active' : ''}
+              className={isBulletList ? 'is-active' : ''}
             >
               Bullet list
             </button>

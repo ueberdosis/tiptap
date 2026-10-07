@@ -1,5 +1,5 @@
 import type { Editor } from '@tiptap/core'
-import { deepEqual } from 'fast-equals'
+import { circularDeepEqual } from 'fast-equals'
 import { useDebugValue, useEffect, useLayoutEffect, useState } from 'react'
 import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/shim/with-selector.js'
 
@@ -24,7 +24,7 @@ export type UseEditorStateOptions<
   selector: (context: EditorStateSnapshot<TEditor>) => TSelectorResult
   /**
    * A custom equality function to determine if the editor should re-render.
-   * @default `deepEqual` from `fast-deep-equal`
+   * @default `circularDeepEqual` from `fast-equals`
    */
   equalityFn?: (a: TSelectorResult, b: TSelectorResult | null) => boolean
 }
@@ -95,7 +95,14 @@ class EditorStateManager<TEditor extends Editor | null = Editor | null> {
        * This is to support things like `editor.can().toggleBold()` in components that `useEditor`.
        * This could be more efficient, but it's a good trade-off for now.
        */
-      const fn = () => {
+      // Changes can emit both events, so notify only once
+      let lastTransaction: unknown
+      const fn = (props?: { transaction?: unknown }) => {
+        if (props?.transaction !== undefined && props.transaction === lastTransaction) {
+          return
+        }
+        lastTransaction = props?.transaction
+
         this.transactionNumber += 1
         this.subscribers.forEach(callback => callback())
       }
@@ -103,8 +110,10 @@ class EditorStateManager<TEditor extends Editor | null = Editor | null> {
       const currentEditor = this.editor
 
       currentEditor.on('transaction', fn)
+      currentEditor.on('update', fn)
       return () => {
         currentEditor.off('transaction', fn)
+        currentEditor.off('update', fn)
       }
     }
 
@@ -165,7 +174,7 @@ export function useEditorState<TSelectorResult>(
     editorStateManager.getSnapshot,
     editorStateManager.getServerSnapshot,
     options.selector as UseEditorStateOptions<TSelectorResult, Editor | null>['selector'],
-    options.equalityFn ?? deepEqual,
+    options.equalityFn ?? circularDeepEqual,
   )
 
   useIsomorphicLayoutEffect(() => {

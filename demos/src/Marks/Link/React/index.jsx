@@ -19,6 +19,7 @@ export default () => {
       Link.configure({
         openOnClick: false,
         autolink: true,
+        markdownLinks: true,
         defaultProtocol: 'https',
         protocols: ['http', 'https'],
         isAllowedUri: (url, ctx) => {

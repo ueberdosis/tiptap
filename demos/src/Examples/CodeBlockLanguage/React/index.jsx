@@ -4,7 +4,7 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { EditorContent, ReactNodeViewRenderer, useEditor } from '@tiptap/react'
+import { EditorContent, ReactNodeViewRenderer, useEditor, useEditorState } from '@tiptap/react'
 import css from 'highlight.js/lib/languages/css'
 import js from 'highlight.js/lib/languages/javascript'
 import ts from 'highlight.js/lib/languages/typescript'
@@ -26,6 +26,13 @@ lowlight.register('js', js)
 lowlight.register('ts', ts)
 
 const MenuBar = ({ editor }) => {
+  const { isCodeBlock } = useEditorState({
+    editor,
+    selector: ctx => ({
+      isCodeBlock: ctx.editor.isActive('codeBlock') ?? false,
+    }),
+  })
+
   if (!editor) {
     return null
   }
@@ -35,7 +42,7 @@ const MenuBar = ({ editor }) => {
       <div className="button-group">
         <button
           onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-          className={editor.isActive('codeBlock') ? 'is-active' : ''}
+          className={isCodeBlock ? 'is-active' : ''}
         >
           Toggle code block
         </button>

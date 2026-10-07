@@ -20,6 +20,11 @@ export interface CodeBlockOptions {
    */
   exitOnArrowDown: boolean | null | undefined
   /**
+   * Define whether the node should be exited on arrow up if there is no node before it.
+   * @default true
+   */
+  exitOnArrowUp: boolean | null | undefined
+  /**
    * The default language.
    * @default null
    * @example 'js'
@@ -84,6 +89,7 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
       languageClassPrefix: 'language-',
       exitOnTripleEnter: true,
       exitOnArrowDown: true,
+      exitOnArrowUp: true,
       defaultLanguage: null,
       enableTabIndentation: false,
       tabSize: DEFAULT_TAB_SIZE,
@@ -360,6 +366,33 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
           })
           .exitCode()
           .run()
+      },
+
+      // exit node on arrow up if there is no node before it
+      ArrowUp: ({ editor }) => {
+        if (!this.options.exitOnArrowUp) {
+          return false
+        }
+
+        const { state } = editor
+        const { selection } = state
+        const { $from, empty } = selection
+
+        if (!empty || $from.parent.type !== this.type) {
+          return false
+        }
+
+        if ($from.parentOffset !== 0) {
+          return false
+        }
+
+        const before = $from.before()
+
+        if (before > 0) {
+          return false
+        }
+
+        return editor.commands.insertDefaultBlock({ pos: before })
       },
 
       // exit node on arrow down

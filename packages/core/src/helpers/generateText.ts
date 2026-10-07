@@ -1,4 +1,4 @@
-import { Node } from '@tiptap/pm/model'
+import { Node as PMNode } from '@tiptap/pm/model'
 
 import type { Extensions, JSONContent, TextSerializer } from '../types.js'
 import { getSchema } from './getSchema.js'
@@ -22,7 +22,7 @@ export function generateText(
 ): string {
   const { blockSeparator = '\n\n', textSerializers = {} } = options || {}
   const schema = getSchema(extensions)
-  const contentNode = Node.fromJSON(schema, doc)
+  const contentNode = PMNode.fromJSON(schema, doc)
 
   return getText(contentNode, {
     blockSeparator,

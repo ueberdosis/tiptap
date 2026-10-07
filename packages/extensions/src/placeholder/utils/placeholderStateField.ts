@@ -1,6 +1,6 @@
 import type { Editor } from '@tiptap/core'
 import { getChangedRanges } from '@tiptap/core'
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import type { EditorState, StateField, Transaction } from '@tiptap/pm/state'
 import type { Selection } from '@tiptap/pm/state'
 import { DecorationSet } from '@tiptap/pm/view'
@@ -30,7 +30,7 @@ export type CreatePlaceholderStateFieldOptions = {
  * adjacent empty nodes (e.g. a new paragraph after Enter).
  */
 function collectBlocksForChange(
-  doc: Node,
+  doc: PMNode,
   change: { from: number; to: number },
 ): Array<{ from: number; to: number }> {
   const ranges = getTopLevelBlocksInRange(doc, change.from, change.to)
@@ -94,7 +94,7 @@ function collectRescanRanges(
 }
 
 /** Clamps a content-relative range to `[0, doc.content.size]`. */
-function clampRange(from: number, to: number, doc: Node): { from: number; to: number } {
+function clampRange(from: number, to: number, doc: PMNode): { from: number; to: number } {
   const clampedFrom = Math.max(0, Math.min(from, doc.content.size))
   const clampedTo = Math.max(clampedFrom, Math.min(to, doc.content.size))
 
@@ -120,7 +120,7 @@ function updateDecorationsInRanges({
   editor: Editor
   options: PlaceholderOptions
   dataAttribute: string
-  doc: Node
+  doc: PMNode
   selection: Selection
 }): DecorationSet {
   let next = decorations

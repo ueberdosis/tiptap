@@ -9,7 +9,7 @@ import { BulletList, ListItem } from '@tiptap/extension-list'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { Selection } from '@tiptap/extensions'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 
 export default {
   components: {
@@ -37,11 +37,11 @@ export default {
       ],
       content: `
         <p>
-          The Selection extension adds a class to the current text selection when the editor is blurred, which lets you keep the selected text highlighted even after the editor loses focus. This is especially useful when a selection spans multiple wrapped lines, where only the selected text should be highlighted rather than the empty space at the end of each line. By default it adds a <code>.selection</code> classname that you can style.
+          The selection extension adds a class to the selected text when the editor loses focus. This lets you keep the selection visible even while the editor is blurred. By default, it adds the <code>.selection</code> class name.
         </p>
       `,
       onCreate: ({ editor }) => {
-        editor.commands.setTextSelection({ from: 5, to: 280 })
+        editor.commands.setTextSelection({ from: 5, to: 30 })
       },
     })
   },

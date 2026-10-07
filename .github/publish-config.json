@@ -1,0 +1,10 @@
+{
+  "branches": {
+    "main": {
+      "distTag": "next",
+      "label": "next",
+      "title": "Release new pre release",
+      "commit": "chore(release): release new pre release"
+    }
+  }
+}

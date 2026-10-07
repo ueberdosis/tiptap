@@ -13,9 +13,9 @@ async function paste(
   await editor.evaluate((el: HTMLElement, text: string) => {
     const dt = new DataTransfer()
     dt.setData('text/plain', text)
-    el.dispatchEvent(
-      new ClipboardEvent('paste', { clipboardData: dt, bubbles: true, cancelable: true }),
-    )
+    const event = new ClipboardEvent('paste', { bubbles: true, cancelable: true })
+    Object.defineProperty(event, 'clipboardData', { value: dt })
+    el.dispatchEvent(event)
   }, payload)
 }
 
@@ -126,6 +126,46 @@ test.describe(`${demoPath}/${demoName}`, () => {
           'href',
           'https://example.com?paramA=nice&paramB=cool',
         )
+      })
+
+      test('does not extend a pasted URL when typing after a space', async ({ page }) => {
+        const editor = await getEditor(page)
+        await editor.evaluate((el: any) => el.editor.commands.clearContent())
+        await editor.click()
+        await paste(editor, 'https://example.com')
+        await page.keyboard.type(' hello')
+        await expect(page.locator('.tiptap a')).toHaveText('https://example.com')
+        await expect(page.locator('.tiptap')).toContainText('https://example.com hello')
+      })
+
+      test('converts typed Markdown link syntax into a link', async ({ page }) => {
+        const editor = await getEditor(page)
+        await editor.evaluate((el: any) => el.editor.commands.clearContent())
+        await editor.click()
+        await page.keyboard.type('[Tiptap](https://example.com)')
+        await expect(page.locator('.tiptap a')).toContainText('Tiptap')
+        await expect(page.locator('.tiptap a')).toHaveAttribute('href', 'https://example.com')
+        await expect(page.locator('.tiptap')).not.toContainText('[')
+      })
+
+      test('converts typed Markdown link syntax with a title into a link', async ({ page }) => {
+        const editor = await getEditor(page)
+        await editor.evaluate((el: any) => el.editor.commands.clearContent())
+        await editor.click()
+        await page.keyboard.type('[Tiptap](https://example.com "Rich text editor")')
+        await expect(page.locator('.tiptap a')).toContainText('Tiptap')
+        await expect(page.locator('.tiptap a')).toHaveAttribute('href', 'https://example.com')
+        await expect(page.locator('.tiptap a')).toHaveAttribute('title', 'Rich text editor')
+      })
+
+      test('converts a pasted Markdown link within text', async ({ page }) => {
+        const editor = await getEditor(page)
+        await editor.evaluate((el: any) => el.editor.commands.clearContent())
+        await editor.click()
+        await paste(editor, 'Check out [Tiptap](https://example.com) today')
+        await expect(page.locator('.tiptap a')).toContainText('Tiptap')
+        await expect(page.locator('.tiptap a')).toHaveAttribute('href', 'https://example.com')
+        await expect(page.locator('.tiptap')).toContainText('Check out Tiptap today')
       })
 
       if (frameworkPath === 'React') {

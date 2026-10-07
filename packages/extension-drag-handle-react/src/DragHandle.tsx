@@ -6,7 +6,7 @@ import {
   dragHandlePluginDefaultKey,
   normalizeNestedOptions,
 } from '@tiptap/extension-drag-handle'
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import type { Editor } from '@tiptap/react'
 import { type ReactNode, useEffect, useMemo, useRef } from 'react'
 import { createPortal } from 'react-dom'
@@ -18,7 +18,7 @@ export type DragHandleProps = Omit<
   'element' | 'nestedOptions'
 > & {
   className?: string
-  onNodeChange?: (data: { node: Node | null; editor: Editor; pos: number }) => void
+  onNodeChange?: (data: { node: PMNode | null; editor: Editor; pos: number }) => void
   children: ReactNode
 
   /**
@@ -84,6 +84,16 @@ export const DragHandle = (props: DragHandleProps) => {
     elementRef.current = document.createElement('div')
   }
 
+  // Keep callbacks in a ref so an unstable identity can't re-register the plugin.
+  const callbacks = {
+    onNodeChange,
+    onElementDragStart,
+    onElementDragEnd,
+    getReferencedVirtualElement,
+  }
+  const callbacksRef = useRef(callbacks)
+  callbacksRef.current = callbacks
+
   // oxlint-disable-next-line react-hooks/exhaustive-deps
   const nestedOptions = useMemo(() => normalizeNestedOptions(nested), [JSON.stringify(nested)])
 
@@ -122,10 +132,11 @@ export const DragHandle = (props: DragHandleProps) => {
         ...defaultComputePositionConfig,
         ...computePositionConfig,
       },
-      onElementDragStart,
-      onElementDragEnd,
-      onNodeChange,
-      getReferencedVirtualElement,
+      onElementDragStart: event => callbacksRef.current.onElementDragStart?.(event),
+      onElementDragEnd: event => callbacksRef.current.onElementDragEnd?.(event),
+      onNodeChange: data => callbacksRef.current.onNodeChange?.(data),
+      getReferencedVirtualElement: () =>
+        callbacksRef.current.getReferencedVirtualElement?.() ?? null,
       nestedOptions,
     })
 
@@ -137,16 +148,7 @@ export const DragHandle = (props: DragHandleProps) => {
       }
       unbind()
     }
-  }, [
-    editor,
-    onNodeChange,
-    getReferencedVirtualElement,
-    pluginKey,
-    computePositionConfig,
-    onElementDragStart,
-    onElementDragEnd,
-    nestedOptions,
-  ])
+  }, [editor, pluginKey, computePositionConfig, nestedOptions])
 
   const element = elementRef.current
   if (!element) {

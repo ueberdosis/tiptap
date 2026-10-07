@@ -1,6 +1,6 @@
 import type { Editor } from '@tiptap/core'
 import { isNodeEmpty } from '@tiptap/core'
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import type { Selection } from '@tiptap/pm/state'
 import type { Decoration } from '@tiptap/pm/view'
 import { DecorationSet } from '@tiptap/pm/view'
@@ -10,7 +10,7 @@ import { createPlaceholderDecoration } from './createPlaceholderDecoration.js'
 
 function resolveEmptyNodeClass(
   emptyNodeClass: PlaceholderOptions['emptyNodeClass'],
-  props: { editor: Editor; node: Node; pos: number; hasAnchor: boolean },
+  props: { editor: Editor; node: PMNode; pos: number; hasAnchor: boolean },
 ): string {
   return typeof emptyNodeClass === 'function' ? emptyNodeClass(props) : emptyNodeClass
 }
@@ -31,7 +31,7 @@ export function scanRangeForDecorations({
   editor: Editor
   options: PlaceholderOptions
   dataAttribute: string
-  doc: Node
+  doc: PMNode
   selection: Selection
   from: number
   to: number
@@ -96,7 +96,7 @@ export function buildPlaceholderDecorations({
   editor: Editor
   options: PlaceholderOptions
   dataAttribute: string
-  doc: Node
+  doc: PMNode
   selection: Selection
 }): DecorationSet | null {
   const active = editor.isEditable || !options.showOnlyWhenEditable
