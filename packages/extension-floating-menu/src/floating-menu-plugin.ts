@@ -384,7 +384,12 @@ export class FloatingMenuView {
   }
 
   focusHandler = () => {
+    if (this.isDestroyed) {
+      return
+    }
+
     // we use `setTimeout` to make sure `selection` is already updated
+    clearTimeout(this.focusTimer)
     this.focusTimer = window.setTimeout(() => this.update(this.editor.view))
   }
 

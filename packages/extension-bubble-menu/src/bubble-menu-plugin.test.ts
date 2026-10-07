@@ -323,18 +323,19 @@ describe('BubbleMenuView after destroy', () => {
     editor.destroy()
   })
 
-  it('should not show from a focus event that reaches it after it was destroyed', () => {
+  it('should not update from a focus event that reaches it after it was destroyed', () => {
     const editor = createEditor()
     const onShow = vi.fn()
-    let shouldShow = false
-    const view = createBubbleMenuView(editor, { shouldShow: () => shouldShow, options: { onShow } })
+    const shouldShow = vi.fn(() => false)
+    const view = createBubbleMenuView(editor, { shouldShow, options: { onShow } })
 
-    shouldShow = true
     view.destroy()
+    shouldShow.mockClear().mockReturnValue(true)
     // An emit in progress still calls listeners that were removed during it
     view.focusHandler()
     vi.runAllTimers()
 
+    expect(shouldShow).not.toHaveBeenCalled()
     expect(onShow).not.toHaveBeenCalled()
 
     editor.destroy()
