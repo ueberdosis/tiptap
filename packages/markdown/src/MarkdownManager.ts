@@ -959,7 +959,7 @@ export class MarkdownManager {
     }
 
     // Preserve comment-only markup that DOM parsing would discard.
-    if (!html.replace(/<!--[\s\S]*?-->/g, '').trim()) {
+    if (/^\s*(?:<!--(?:(?!-->)[\s\S])*-->\s*)+$/.test(html)) {
       return this.htmlAsLiteralText(html, !!token.block)
     }
 
