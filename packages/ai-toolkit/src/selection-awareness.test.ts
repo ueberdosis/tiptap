@@ -88,12 +88,60 @@ function resolveSelection(
 }
 
 afterEach(() => {
+  vi.restoreAllMocks()
+  vi.doUnmock('@tiptap/y-tiptap')
   editors.splice(0).forEach(editor => editor.destroy())
   documents.splice(0).forEach(doc => doc.destroy())
   document.body.innerHTML = ''
 })
 
 describe('AI selection awareness', () => {
+  it('reports a failed optional import to the application without an unhandled rejection', async () => {
+    const cause = new Error('Collaboration peer unavailable')
+    vi.doMock('@tiptap/y-tiptap', () => {
+      throw cause
+    })
+    const onError = vi.fn()
+    const provider = createProvider()
+    const editor = new Editor({
+      extensions: [
+        StarterKit,
+        ServerAiToolkit.configure({
+          selectionAwareness: { provider, userId: 'user-1', onError },
+        }),
+      ],
+    })
+    editors.push(editor)
+    await vi.waitFor(() => expect(onError).toHaveBeenCalledOnce())
+    expect(onError.mock.calls[0][0]).toMatchObject({
+      message: 'ServerAiToolkit selectionAwareness failed to initialize',
+      cause: { cause },
+    })
+    expect(provider.awareness.setLocalStateField).not.toHaveBeenCalled()
+  })
+
+  it('logs setup failures when no application error handler is configured', async () => {
+    const cause = new Error('Plugin setup failed')
+    const log = vi.spyOn(console, 'error').mockImplementation(() => {})
+    const editor = new Editor({
+      extensions: [
+        StarterKit,
+        ServerAiToolkit.configure({
+          selectionAwareness: { provider: createProvider(), userId: 'user-1' },
+        }),
+      ],
+    })
+    editors.push(editor)
+    vi.spyOn(editor, 'registerPlugin').mockImplementation(() => {
+      throw cause
+    })
+    await vi.waitFor(() => expect(log).toHaveBeenCalledOnce())
+    expect(log.mock.calls[0][0]).toMatchObject({
+      message: 'ServerAiToolkit selectionAwareness failed to initialize',
+      cause,
+    })
+  })
+
   it('publishes a selection made in onCreate before the collaboration modules finish loading', async () => {
     const provider = createProvider()
     await new Promise<void>(resolve => {
