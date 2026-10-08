@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.31.5
+
+### Patch Changes
+
+- cc90cc5: Fix list toggling between list types that use different item nodes. Nested lists are recursively converted when the target item schema supports nesting, and flattened into sibling items when it does not.
+- Updated dependencies [3b5560c]
+  - @tiptap/pm@3.31.5
+
 ## 3.31.4
 
 ### Patch Changes
