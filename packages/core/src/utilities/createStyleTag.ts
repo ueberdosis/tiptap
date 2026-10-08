@@ -1,6 +1,15 @@
-export function createStyleTag(style: string, nonce?: string, suffix?: string): HTMLStyleElement {
+/**
+ * Document styles do not cross a shadow boundary, so an editor inside a shadow root
+ * needs the style tag in that root instead of `document.head`.
+ */
+export function createStyleTag(
+  style: string,
+  nonce?: string,
+  suffix?: string,
+  root: Document | ShadowRoot = document,
+): HTMLStyleElement {
   const tiptapStyleTag = <HTMLStyleElement>(
-    document.querySelector(`style[data-tiptap-style${suffix ? `-${suffix}` : ''}]`)
+    root.querySelector(`style[data-tiptap-style${suffix ? `-${suffix}` : ''}]`)
   )
 
   if (tiptapStyleTag !== null) {
@@ -15,7 +24,9 @@ export function createStyleTag(style: string, nonce?: string, suffix?: string): 
 
   styleNode.setAttribute(`data-tiptap-style${suffix ? `-${suffix}` : ''}`, '')
   styleNode.innerHTML = style
-  document.getElementsByTagName('head')[0].appendChild(styleNode)
+  const parent = 'head' in root ? root.head : root
+
+  parent.appendChild(styleNode)
 
   return styleNode
 }
