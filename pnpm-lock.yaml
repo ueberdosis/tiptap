@@ -330,6 +330,9 @@ importers:
       '@tiptap/y-tiptap':
         specifier: ^3.0.7
         version: 3.0.8(prosemirror-model@1.25.12)(prosemirror-state@1.4.4)(prosemirror-view@1.42.6)(y-protocols@1.0.7(yjs@13.6.23))(yjs@13.6.23)
+      happy-dom:
+        specifier: ^20.11.2
+        version: 20.11.2
       vite-plus:
         specifier: 'catalog:'
         version: 0.3.0(@types/node@22.20.1)(@voidzero-dev/vite-plus-core@0.3.0(@types/node@22.20.1)(jiti@2.6.1)(sass-embedded@1.100.0)(sass@1.100.0)(terser@5.50.0)(typescript@5.9.3))(happy-dom@20.11.2)(jiti@2.6.1)(sass-embedded@1.100.0)(sass@1.100.0)(svelte@5.56.8)(terser@5.50.0)(typescript@5.9.3)

@@ -59,6 +59,9 @@ jobs:
       - name: Check package exports
         run: vp run check:package-exports
 
+      - name: Test AI Toolkit CommonJS output
+        run: node --test packages/ai-toolkit/tests/integration/commonjs.test.cjs
+
   check-linting-formatting:
     name: Check linting & formatting
     runs-on: ubuntu-latest
