@@ -5,7 +5,6 @@ import { relativePositionToAbsolutePosition, ySyncPluginKey } from '@tiptap/y-ti
 import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 import * as Y from 'yjs'
 
-import { AiSelectionAwareness } from './selection-awareness.js'
 import { ServerAiToolkit } from './server-ai-toolkit-extension.js'
 
 function createProvider() {
@@ -32,19 +31,20 @@ function createDocument() {
   return doc
 }
 
-function createEditor(options: {
+async function createEditor(options: {
   doc: Y.Doc
   provider: ReturnType<typeof createProvider>
   field?: string
 }) {
-  return new Promise<Editor>(resolve => {
+  const ready = await new Promise<Editor>(resolve => {
     const editor = new Editor({
       element: document.body.appendChild(document.createElement('div')),
       extensions: [
         StarterKit.configure({ undoRedo: false }),
         Collaboration.configure({ document: options.doc, field: options.field ?? 'default' }),
-        ServerAiToolkit,
-        AiSelectionAwareness.configure({ provider: options.provider, userId: 'user-1' }),
+        ServerAiToolkit.configure({
+          selectionAwareness: { provider: options.provider, userId: 'user-1' },
+        }),
       ],
       onCreate: ({ editor: created }) => {
         created.commands.setContent('<p>Hello world</p>')
@@ -53,6 +53,14 @@ function createEditor(options: {
     })
     editors.push(editor)
   })
+  await vi.waitFor(() =>
+    expect(
+      options.provider.awareness.getLocalState()?.aiToolkitSelection?.fields[
+        options.field ?? 'default'
+      ],
+    ).toBeDefined(),
+  )
+  return ready
 }
 
 function resolveSelection(
@@ -86,6 +94,66 @@ afterEach(() => {
 })
 
 describe('AI selection awareness', () => {
+  it('publishes a selection made in onCreate before the collaboration modules finish loading', async () => {
+    const provider = createProvider()
+    await new Promise<void>(resolve => {
+      const editor = new Editor({
+        extensions: [
+          StarterKit.configure({ undoRedo: false }),
+          Collaboration.configure({ document: createDocument() }),
+          ServerAiToolkit.configure({ selectionAwareness: { provider, userId: 'user-1' } }),
+        ],
+        onCreate: ({ editor: created }) => {
+          created.commands.setContent('<p>Hello world</p>')
+          created.commands.setTextSelection({ from: 1, to: 6 })
+          resolve()
+        },
+      })
+      editors.push(editor)
+    })
+    await vi.waitFor(() =>
+      expect(provider.awareness.getLocalState()?.aiToolkitSelection).toBeDefined(),
+    )
+    expect(resolveSelection(editors[0], provider)).toEqual({ anchor: 1, head: 6 })
+  })
+
+  it('does not register or publish after the editor is destroyed during initialization', async () => {
+    const provider = createProvider()
+    const editor = await new Promise<Editor>(resolve => {
+      const created = new Editor({
+        extensions: [
+          StarterKit.configure({ undoRedo: false }),
+          Collaboration.configure({ document: createDocument() }),
+          ServerAiToolkit.configure({ selectionAwareness: { provider, userId: 'user-1' } }),
+        ],
+        onCreate: ({ editor: ready }) => {
+          ready.destroy()
+          resolve(ready)
+        },
+      })
+      editors.push(created)
+    })
+    await import('@tiptap/y-tiptap')
+    await import('yjs')
+    await new Promise(resolve => setTimeout(resolve, 0))
+    expect(editor.isDestroyed).toBe(true)
+    expect(provider.awareness.setLocalStateField).not.toHaveBeenCalled()
+  })
+
+  it('keeps unconfigured ServerAiToolkit usable without collaboration', () => {
+    const editor = new Editor({
+      extensions: [StarterKit, ServerAiToolkit],
+      content: '<p>Hello</p>',
+    })
+    editors.push(editor)
+    expect(editor.getText()).toBe('Hello')
+    expect(
+      editor.extensionManager.extensions.some(
+        extension => extension.name === 'aiSelectionAwareness',
+      ),
+    ).toBe(false)
+  })
+
   it('publishes without collaboration caret and keeps the selection on blur', async () => {
     const provider = createProvider()
     const editor = await createEditor({ doc: createDocument(), provider })
