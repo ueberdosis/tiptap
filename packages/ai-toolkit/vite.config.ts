@@ -3,7 +3,7 @@ import { basePackConfig } from '../../pack.config.mjs'
 
 export default defineConfig({
   pack: {
-    entry: ['src/index.ts', 'src/streaming-reveal.ts'],
+    entry: ['src/index.ts', 'src/streaming-reveal.ts', 'src/selection-awareness.ts'],
     ...basePackConfig(),
   },
 })
