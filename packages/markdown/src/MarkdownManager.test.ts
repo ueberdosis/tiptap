@@ -292,7 +292,7 @@ Second paragraph.`
     beforeEach(() => {
       markdownManager = new MarkdownManager({ extensions: basicExtensions })
     })
-    const nestedMarkdown = `**...++abc++**`
+    const nestedMarkdown = `**...<u>abc</u>**`
 
     const expectedJSON = {
       type: 'doc',
@@ -328,7 +328,7 @@ Second paragraph.`
     beforeEach(() => {
       markdownManager = new MarkdownManager({ extensions: basicExtensions })
     })
-    const nestedMarkdown = `**...~~++abc*abc*++~~**`
+    const nestedMarkdown = `**...~~<u>abc*abc*</u>~~**`
 
     const expectedJSON = {
       type: 'doc',
