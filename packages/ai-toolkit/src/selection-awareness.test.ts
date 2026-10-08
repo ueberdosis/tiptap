@@ -5,6 +5,7 @@ import { relativePositionToAbsolutePosition, ySyncPluginKey } from '@tiptap/y-ti
 import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 import * as Y from 'yjs'
 
+import { AiSelectionAwareness } from './selection-awareness.js'
 import { ServerAiToolkit } from './server-ai-toolkit-extension.js'
 
 function createProvider() {
@@ -42,9 +43,8 @@ async function createEditor(options: {
       extensions: [
         StarterKit.configure({ undoRedo: false }),
         Collaboration.configure({ document: options.doc, field: options.field ?? 'default' }),
-        ServerAiToolkit.configure({
-          selectionAwareness: { provider: options.provider, userId: 'user-1' },
-        }),
+        ServerAiToolkit,
+        AiSelectionAwareness.configure({ provider: options.provider, userId: 'user-1' }),
       ],
       onCreate: ({ editor: created }) => {
         created.commands.setContent('<p>Hello world</p>')
@@ -89,46 +89,19 @@ function resolveSelection(
 
 afterEach(() => {
   vi.restoreAllMocks()
-  vi.doUnmock('@tiptap/y-tiptap')
   editors.splice(0).forEach(editor => editor.destroy())
   documents.splice(0).forEach(doc => doc.destroy())
   document.body.innerHTML = ''
 })
 
 describe('AI selection awareness', () => {
-  it('reports a failed optional import to the application without an unhandled rejection', async () => {
-    const cause = new Error('Collaboration peer unavailable')
-    vi.doMock('@tiptap/y-tiptap', () => {
-      throw cause
-    })
-    const onError = vi.fn()
-    const provider = createProvider()
-    const editor = new Editor({
-      extensions: [
-        StarterKit,
-        ServerAiToolkit.configure({
-          selectionAwareness: { provider, userId: 'user-1', onError },
-        }),
-      ],
-    })
-    editors.push(editor)
-    await vi.waitFor(() => expect(onError).toHaveBeenCalledOnce())
-    expect(onError.mock.calls[0][0]).toMatchObject({
-      message: 'ServerAiToolkit selectionAwareness failed to initialize',
-      cause: { cause },
-    })
-    expect(provider.awareness.setLocalStateField).not.toHaveBeenCalled()
-  })
-
   it('logs setup failures when no application error handler is configured', async () => {
     const cause = new Error('Plugin setup failed')
     const log = vi.spyOn(console, 'error').mockImplementation(() => {})
     const editor = new Editor({
       extensions: [
         StarterKit,
-        ServerAiToolkit.configure({
-          selectionAwareness: { provider: createProvider(), userId: 'user-1' },
-        }),
+        AiSelectionAwareness.configure({ provider: createProvider(), userId: 'user-1' }),
       ],
     })
     editors.push(editor)
@@ -137,19 +110,19 @@ describe('AI selection awareness', () => {
     })
     await vi.waitFor(() => expect(log).toHaveBeenCalledOnce())
     expect(log.mock.calls[0][0]).toMatchObject({
-      message: 'ServerAiToolkit selectionAwareness failed to initialize',
+      message: 'AiSelectionAwareness failed to initialize',
       cause,
     })
   })
 
-  it('publishes a selection made in onCreate before the collaboration modules finish loading', async () => {
+  it('publishes a selection made in onCreate', async () => {
     const provider = createProvider()
     await new Promise<void>(resolve => {
       const editor = new Editor({
         extensions: [
           StarterKit.configure({ undoRedo: false }),
           Collaboration.configure({ document: createDocument() }),
-          ServerAiToolkit.configure({ selectionAwareness: { provider, userId: 'user-1' } }),
+          AiSelectionAwareness.configure({ provider, userId: 'user-1' }),
         ],
         onCreate: ({ editor: created }) => {
           created.commands.setContent('<p>Hello world</p>')
@@ -163,29 +136,6 @@ describe('AI selection awareness', () => {
       expect(provider.awareness.getLocalState()?.aiToolkitSelection).toBeDefined(),
     )
     expect(resolveSelection(editors[0], provider)).toEqual({ anchor: 1, head: 6 })
-  })
-
-  it('does not register or publish after the editor is destroyed during initialization', async () => {
-    const provider = createProvider()
-    const editor = await new Promise<Editor>(resolve => {
-      const created = new Editor({
-        extensions: [
-          StarterKit.configure({ undoRedo: false }),
-          Collaboration.configure({ document: createDocument() }),
-          ServerAiToolkit.configure({ selectionAwareness: { provider, userId: 'user-1' } }),
-        ],
-        onCreate: ({ editor: ready }) => {
-          ready.destroy()
-          resolve(ready)
-        },
-      })
-      editors.push(created)
-    })
-    await import('@tiptap/y-tiptap')
-    await import('yjs')
-    await new Promise(resolve => setTimeout(resolve, 0))
-    expect(editor.isDestroyed).toBe(true)
-    expect(provider.awareness.setLocalStateField).not.toHaveBeenCalled()
   })
 
   it('keeps unconfigured ServerAiToolkit usable without collaboration', () => {

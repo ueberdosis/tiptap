@@ -47,6 +47,14 @@
       },
       "import": "./dist/streaming-reveal.js",
       "require": "./dist/streaming-reveal.cjs"
+    },
+    "./selection-awareness": {
+      "types": {
+        "import": "./dist/selection-awareness.d.ts",
+        "require": "./dist/selection-awareness.d.cts"
+      },
+      "import": "./dist/selection-awareness.js",
+      "require": "./dist/selection-awareness.cjs"
     }
   },
   "scripts": {
@@ -61,7 +69,6 @@
     "@tiptap/core": "workspace:^",
     "@tiptap/pm": "workspace:^",
     "@tiptap/y-tiptap": "^3.0.7",
-    "happy-dom": "^20.11.2",
     "vite-plus": "catalog:",
     "yjs": "^13.6.23"
   },

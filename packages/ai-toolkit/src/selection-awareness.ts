@@ -1,6 +1,7 @@
 import { Extension } from '@tiptap/core'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
-import type * as Y from 'yjs'
+import { absolutePositionToRelativePosition, ySyncPluginKey } from '@tiptap/y-tiptap'
+import * as Y from 'yjs'
 
 /** The provider awareness surface used to publish AI selections. */
 export type AiSelectionProvider = {
@@ -40,7 +41,7 @@ function readFields(state: Record<string, unknown>): Record<string, unknown> {
  * Requires Collaboration and a provider for the same Y.Doc; no caret extension is needed.
  *
  * @example
- * ServerAiToolkit.configure({ selectionAwareness: { provider, userId: 'user-1' } })
+ * AiSelectionAwareness.configure({ provider, userId: 'user-1' })
  */
 export const AiSelectionAwareness = Extension.create<AiSelectionAwarenessOptions>({
   name: 'aiSelectionAwareness',
@@ -51,25 +52,16 @@ export const AiSelectionAwareness = Extension.create<AiSelectionAwarenessOptions
 
   onBeforeCreate() {
     if (!this.options.provider?.awareness || !this.options.userId.trim()) {
-      throw new Error(
-        'ServerAiToolkit selectionAwareness requires provider.awareness and a non-empty userId',
-      )
+      throw new Error('AiSelectionAwareness requires provider.awareness and a non-empty userId')
     }
   },
 
-  async onCreate() {
+  onCreate() {
     const awareness = this.options.provider?.awareness
     const userId = this.options.userId.trim()
     if (!awareness) return
 
     try {
-      // Keep collaboration peers optional for existing non-collaborative editors.
-      const [{ absolutePositionToRelativePosition, ySyncPluginKey }, Y] = await Promise.all([
-        import('@tiptap/y-tiptap'),
-        import('yjs'),
-      ])
-      if (this.editor.isDestroyed) return
-
       this.editor.registerPlugin(
         new Plugin({
           key: new PluginKey('aiSelectionAwareness'),
@@ -133,7 +125,7 @@ export const AiSelectionAwareness = Extension.create<AiSelectionAwarenessOptions
         }),
       )
     } catch (cause) {
-      const error = new Error('ServerAiToolkit selectionAwareness failed to initialize', { cause })
+      const error = new Error('AiSelectionAwareness failed to initialize', { cause })
       if (this.options.onError) {
         this.options.onError(error)
       } else {
