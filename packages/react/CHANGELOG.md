@@ -1,5 +1,15 @@
 # Change Log
 
+## 3.31.5
+
+### Patch Changes
+
+- 075447e: Fix `useEditorState` overflowing the stack when a selector returns a value with circular references, such as `editor.state` after one stored mark replaces another.
+- Updated dependencies [3b5560c]
+- Updated dependencies [cc90cc5]
+  - @tiptap/pm@3.31.5
+  - @tiptap/core@3.31.5
+
 ## 3.31.4
 
 ### Patch Changes

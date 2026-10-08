@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.31.5
+
+### Patch Changes
+
+- Updated dependencies [cc90cc5]
+  - @tiptap/core@3.31.5
+
 ## 3.31.4
 
 ### Patch Changes

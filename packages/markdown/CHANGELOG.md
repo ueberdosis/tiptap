@@ -1,5 +1,15 @@
 # @tiptap/markdown
 
+## 3.31.5
+
+### Patch Changes
+
+- 7a5752f: A literal `!` directly before a link is now escaped when serializing to Markdown, so the link is no longer parsed back as an image.
+- Updated dependencies [3b5560c]
+- Updated dependencies [cc90cc5]
+  - @tiptap/pm@3.31.5
+  - @tiptap/core@3.31.5
+
 ## 3.31.4
 
 ### Patch Changes
