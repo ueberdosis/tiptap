@@ -958,6 +958,11 @@ export class MarkdownManager {
       return null
     }
 
+    // Preserve comment-only markup that DOM parsing would discard.
+    if (/^\s*(?:<!--(?:(?!-->)[\s\S])*-->\s*)+$/.test(html)) {
+      return this.htmlAsLiteralText(html, !!token.block)
+    }
+
     // If the HTML would parse to nothing meaningful, keep the original
     // characters as literal text instead of dropping them.
     if (this.isUnrecognizedHtml(html)) {
