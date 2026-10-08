@@ -3,8 +3,8 @@ packages:
   - 'codemods/*'
   - 'demos'
 catalog:
-  vite: npm:@voidzero-dev/vite-plus-core@0.3.0
-  vite-plus: 0.3.0
+  vite: npm:@voidzero-dev/vite-plus-core@1.1.0
+  vite-plus: 1.1.0
 allowBuilds:
   '@parcel/watcher': true
   esbuild: true
@@ -12,6 +12,16 @@ allowBuilds:
 minimumReleaseAgeExclude:
   - '@tiptap/*'
   - prosemirror-history@1.5.1
+  - '@voidzero-dev/vite-plus-core@1.1.0'
+  - '@voidzero-dev/vite-plus-darwin-arm64@1.1.0'
+  - '@voidzero-dev/vite-plus-darwin-x64@1.1.0'
+  - '@voidzero-dev/vite-plus-linux-arm64-gnu@1.1.0'
+  - '@voidzero-dev/vite-plus-linux-arm64-musl@1.1.0'
+  - '@voidzero-dev/vite-plus-linux-x64-gnu@1.1.0'
+  - '@voidzero-dev/vite-plus-linux-x64-musl@1.1.0'
+  - '@voidzero-dev/vite-plus-win32-arm64-msvc@1.1.0'
+  - '@voidzero-dev/vite-plus-win32-x64-msvc@1.1.0'
+  - vite-plus@1.1.0
 overrides:
   '@rollup/pluginutils>picomatch': '2.3.2'
   'prosemirror-model': '^1.25.12'
