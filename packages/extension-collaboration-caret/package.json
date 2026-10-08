@@ -50,11 +50,13 @@
     "@tiptap/extension-text": "workspace:^",
     "@tiptap/pm": "workspace:^",
     "@tiptap/y-tiptap": "^3.0.7",
+    "vite-plus": "catalog:",
     "yjs": "^13.6.23"
   },
   "peerDependencies": {
     "@tiptap/core": "workspace:*",
     "@tiptap/pm": "workspace:*",
-    "@tiptap/y-tiptap": "^3.0.7"
+    "@tiptap/y-tiptap": "^3.0.7",
+    "yjs": "^13.6.23"
   }
 }
