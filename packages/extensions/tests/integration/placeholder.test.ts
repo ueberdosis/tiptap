@@ -393,6 +393,21 @@ describe('extension-placeholder — empty editor class', () => {
     expect(paragraph.classList.contains('is-editor-empty')).toBe(false)
   })
 
+  it('restores is-editor-empty after the content is deleted when includeChildren is true', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, Placeholder.configure({ includeChildren: true })],
+      content: '<p>Hello</p>',
+    })
+
+    const paragraph = editor!.view.dom.querySelector('p') as HTMLElement
+    expect(paragraph.classList.contains('is-editor-empty')).toBe(false)
+
+    editor!.commands.selectAll()
+    editor!.commands.deleteSelection()
+
+    expect(paragraph.classList.contains('is-editor-empty')).toBe(true)
+  })
+
   it('uses custom emptyEditorClass option', () => {
     editor = new Editor({
       extensions: [
@@ -517,6 +532,29 @@ describe('extension-placeholder: incremental updates (slow path)', () => {
     expect(paragraphs[2].getAttribute('data-placeholder-text')).toBe('Fill me in...')
     expect(paragraphs[3].getAttribute('data-placeholder-text')).toBe('Fill me in...')
     expect(paragraphs[4].getAttribute('data-placeholder-text')).toBe('Fill me in...')
+  })
+
+  it('passes the document being decorated to the placeholder callback', () => {
+    editor = new Editor({
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Placeholder.configure({
+          ...slowPathConfig,
+          placeholder: ({ doc }) => (doc.textContent.length === 0 ? 'Empty doc' : ''),
+        }),
+      ],
+      content: '<p>Hello</p>',
+    })
+
+    const paragraph = editor!.view.dom.querySelector('p') as HTMLElement
+    expect(paragraph.hasAttribute('data-placeholder-text')).toBe(false)
+
+    editor!.commands.selectAll()
+    editor!.commands.deleteSelection()
+
+    expect(paragraph.getAttribute('data-placeholder-text')).toBe('Empty doc')
   })
 
   it('adds placeholder when a node becomes empty after deleteSelection', () => {
