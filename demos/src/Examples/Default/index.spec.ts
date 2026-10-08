@@ -21,7 +21,7 @@ const buttonNodes = [
   { label: 'H6', tag: 'h6' },
   { label: 'Bullet list', tag: 'ul' },
   { label: 'Ordered list', tag: 'ol' },
-  { label: 'Task list', tag: 'ul[data-type="taskList"]' },
+  { label: 'Task list', tag: 'ul[data-type="taskList"] > li > div > p' },
   { label: 'Code block', tag: 'pre code' },
   { label: 'Blockquote', tag: 'blockquote' },
 ]
@@ -35,9 +35,13 @@ test.describe(`${demoPath}/${demoName}`, () => {
         await page.goto(fullDemoPath)
         const editor = await getEditor(page)
 
+        await expect.poll(() => editor.evaluate((el: any) => el.editor.isInitialized)).toBe(true)
+
         await editor.evaluate((el: any) => {
           el.editor.chain().focus().setContent('<h1>Example Text</h1>').selectAll().run()
         })
+
+        await expect(editor).toBeFocused()
       })
 
       test('should apply the paragraph style when the keyboard shortcut is pressed', async ({
@@ -113,6 +117,15 @@ test.describe(`${demoPath}/${demoName}`, () => {
           await clickButton(page, n.label)
 
           await expect(page.locator(`.tiptap ${n.tag}`)).toHaveText('Hello world')
+
+          if (n.label === 'Task list') {
+            await expect(
+              editor.getByRole('checkbox', {
+                name: 'Task item checkbox for Hello world',
+                exact: true,
+              }),
+            ).not.toBeChecked()
+          }
         })
       })
 
