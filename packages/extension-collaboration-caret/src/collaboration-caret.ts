@@ -3,6 +3,8 @@ import { Plugin, PluginKey } from '@tiptap/pm/state'
 import type { DecorationAttrs } from '@tiptap/pm/view'
 import { defaultSelectionBuilder, yCursorPlugin } from '@tiptap/y-tiptap'
 
+import { AiSelectionAwareness } from './selection-awareness.js'
+
 type CollaborationCaretStorage = {
   users: { clientId: number; [key: string]: any }[]
 }
@@ -162,6 +164,10 @@ export const CollaborationCaret = Extension.create<
     if (!this.options.provider) {
       throw new Error('The "provider" option is required for the CollaborationCaret extension')
     }
+  },
+
+  addExtensions() {
+    return [AiSelectionAwareness.configure({ provider: this.options.provider })]
   },
 
   addStorage() {

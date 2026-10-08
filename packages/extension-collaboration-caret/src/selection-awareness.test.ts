@@ -1,24 +1,42 @@
 import { Editor } from '@tiptap/core'
 import { Collaboration } from '@tiptap/extension-collaboration'
-import StarterKit from '@tiptap/starter-kit'
+import Document from '@tiptap/extension-document'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
 import { relativePositionToAbsolutePosition, ySyncPluginKey } from '@tiptap/y-tiptap'
 import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 import * as Y from 'yjs'
 
-import { AiSelectionAwareness } from './selection-awareness.js'
-import { ServerAiToolkit } from './server-ai-toolkit-extension.js'
+import { CollaborationCaret } from './collaboration-caret.js'
 
 function createProvider() {
-  let state: Record<string, any> | null = { user: { name: 'You' }, cursor: null }
+  let state: Record<string, any> | null = {}
+  const states = new Map([[1, state]])
+  const listeners = new Map<string, Set<() => void>>()
   return {
     awareness: {
+      clientID: 1,
+      states,
+      getStates: () => states,
       getLocalState: () => state,
       setLocalStateField: vi.fn((key: string, value: unknown) => {
-        if (state) state = { ...state, [key]: JSON.parse(JSON.stringify(value)) }
+        if (!state) return
+        state = { ...state, [key]: JSON.parse(JSON.stringify(value)) }
+        states.set(1, state)
+        listeners.get('update')?.forEach(listener => listener())
+        listeners.get('change')?.forEach(listener => listener())
       }),
+      on: (event: string, listener: () => void) => {
+        if (!listeners.has(event)) listeners.set(event, new Set())
+        listeners.get(event)!.add(listener)
+      },
+      off: (event: string, listener: () => void) => {
+        listeners.get(event)?.delete(listener)
+      },
     },
     disconnect: () => {
       state = null
+      states.clear()
     },
   }
 }
@@ -36,15 +54,20 @@ async function createEditor(options: {
   doc: Y.Doc
   provider: ReturnType<typeof createProvider>
   field?: string
+  user?: Record<string, unknown>
 }) {
   const ready = await new Promise<Editor>(resolve => {
     const editor = new Editor({
       element: document.body.appendChild(document.createElement('div')),
       extensions: [
-        StarterKit.configure({ undoRedo: false }),
+        Document,
+        Paragraph,
+        Text,
         Collaboration.configure({ document: options.doc, field: options.field ?? 'default' }),
-        ServerAiToolkit,
-        AiSelectionAwareness.configure({ provider: options.provider, userId: 'user-1' }),
+        CollaborationCaret.configure({
+          provider: options.provider,
+          user: options.user ?? { id: 'user-1', name: 'You' },
+        }),
       ],
       onCreate: ({ editor: created }) => {
         created.commands.setContent('<p>Hello world</p>')
@@ -53,6 +76,7 @@ async function createEditor(options: {
     })
     editors.push(editor)
   })
+  if (options.user && !options.user.id) return ready
   await vi.waitFor(() =>
     expect(
       options.provider.awareness.getLocalState()?.aiToolkitSelection?.fields[
@@ -95,34 +119,16 @@ afterEach(() => {
 })
 
 describe('AI selection awareness', () => {
-  it('logs setup failures when no application error handler is configured', async () => {
-    const cause = new Error('Plugin setup failed')
-    const log = vi.spyOn(console, 'error').mockImplementation(() => {})
-    const editor = new Editor({
-      extensions: [
-        StarterKit,
-        AiSelectionAwareness.configure({ provider: createProvider(), userId: 'user-1' }),
-      ],
-    })
-    editors.push(editor)
-    vi.spyOn(editor, 'registerPlugin').mockImplementation(() => {
-      throw cause
-    })
-    await vi.waitFor(() => expect(log).toHaveBeenCalledOnce())
-    expect(log.mock.calls[0][0]).toMatchObject({
-      message: 'AiSelectionAwareness failed to initialize',
-      cause,
-    })
-  })
-
   it('publishes a selection made in onCreate', async () => {
     const provider = createProvider()
     await new Promise<void>(resolve => {
       const editor = new Editor({
         extensions: [
-          StarterKit.configure({ undoRedo: false }),
+          Document,
+          Paragraph,
+          Text,
           Collaboration.configure({ document: createDocument() }),
-          AiSelectionAwareness.configure({ provider, userId: 'user-1' }),
+          CollaborationCaret.configure({ provider, user: { id: 'user-1' } }),
         ],
         onCreate: ({ editor: created }) => {
           created.commands.setContent('<p>Hello world</p>')
@@ -138,31 +144,35 @@ describe('AI selection awareness', () => {
     expect(resolveSelection(editors[0], provider)).toEqual({ anchor: 1, head: 6 })
   })
 
-  it('keeps unconfigured ServerAiToolkit usable without collaboration', () => {
-    const editor = new Editor({
-      extensions: [StarterKit, ServerAiToolkit],
-      content: '<p>Hello</p>',
-    })
-    editors.push(editor)
-    expect(editor.getText()).toBe('Hello')
-    expect(
-      editor.extensionManager.extensions.some(
-        extension => extension.name === 'aiSelectionAwareness',
-      ),
-    ).toBe(false)
+  it('keeps caret users without an ID working and picks up updateUser IDs', async () => {
+    const provider = createProvider()
+    const editor = await createEditor({ doc: createDocument(), provider, user: { name: 'You' } })
+    editor.commands.setTextSelection({ from: 1, to: 6 })
+    expect(provider.awareness.getLocalState()?.aiToolkitSelection).toBeUndefined()
+    editor.commands.updateUser({ id: 'user-2', name: 'You' })
+    expect(provider.awareness.getLocalState()?.aiToolkitSelection.fields.default.userId).toBe(
+      'user-2',
+    )
+    expect(resolveSelection(editor, provider)).toEqual({ anchor: 1, head: 6 })
+    editor.commands.updateUser({ id: 'user-3' })
+    expect(provider.awareness.getLocalState()?.aiToolkitSelection.fields.default.userId).toBe(
+      'user-3',
+    )
+    editor.commands.updateUser({ name: 'Anonymous' })
+    expect(resolveSelection(editor, provider)).toBeNull()
   })
 
-  it('publishes without collaboration caret and keeps the selection on blur', async () => {
+  it('publishes through CollaborationCaret and keeps the selection on blur', async () => {
     const provider = createProvider()
     const editor = await createEditor({ doc: createDocument(), provider })
     editor.commands.setTextSelection({ from: 1, to: 6 })
     editor.view.focus()
     editor.view.dom.blur()
     editor.view.dom.dispatchEvent(new FocusEvent('focusout'))
-    provider.awareness.setLocalStateField('cursor', null)
+    expect(provider.awareness.getLocalState()?.cursor).toBeNull()
 
     expect(resolveSelection(editor, provider)).toEqual({ anchor: 1, head: 6 })
-    expect(provider.awareness.getLocalState()?.user).toEqual({ name: 'You' })
+    expect(provider.awareness.getLocalState()?.user).toMatchObject({ id: 'user-1', name: 'You' })
     expect(provider.awareness.getLocalState()?.aiToolkitSelection.fields.default.userId).toBe(
       'user-1',
     )
@@ -230,6 +240,11 @@ describe('AI selection awareness', () => {
     expect(provider.awareness.setLocalStateField).not.toHaveBeenCalled()
     provider.disconnect()
     editor.destroy()
-    expect(provider.awareness.setLocalStateField).not.toHaveBeenCalled()
+    expect(
+      provider.awareness.setLocalStateField.mock.calls.some(
+        ([key]) => key === 'aiToolkitSelection',
+      ),
+    ).toBe(false)
+    expect(provider.awareness.getLocalState()).toBeNull()
   })
 })

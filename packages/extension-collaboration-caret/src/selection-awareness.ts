@@ -4,21 +4,19 @@ import { absolutePositionToRelativePosition, ySyncPluginKey } from '@tiptap/y-ti
 import * as Y from 'yjs'
 
 /** The provider awareness surface used to publish AI selections. */
-export type AiSelectionProvider = {
+type AiSelectionProvider = {
   awareness?: {
-    getLocalState(): Record<string, unknown> | null
+    getLocalState(): Record<string, any> | null
+    on(event: string, listener: () => void): void
+    off(event: string, listener: () => void): void
     setLocalStateField(field: string, value: unknown): void
   } | null
 }
 
 /** Configuration for {@link AiSelectionAwareness}. */
-export type AiSelectionAwarenessOptions = {
+type AiSelectionAwarenessOptions = {
   /** The provider connected to the editor's collaborative document. */
   provider: AiSelectionProvider | null
-  /** The user ID passed to the server as `tool.config.user`. */
-  userId: string
-  /** Receives initialization failures. Defaults to logging the error to the console. */
-  onError?: (error: Error) => void
 }
 
 type SelectionEntry = {
@@ -38,27 +36,20 @@ function readFields(state: Record<string, unknown>): Record<string, unknown> {
 
 /**
  * Publishes a selection per collaborative field and retains it when the editor blurs.
- * Requires Collaboration and a provider for the same Y.Doc; no caret extension is needed.
+ * Registered internally by CollaborationCaret using its provider and awareness user ID.
  *
  * @example
- * AiSelectionAwareness.configure({ provider, userId: 'user-1' })
+ * CollaborationCaret.configure({ provider, user: { id: 'user-1' } })
  */
 export const AiSelectionAwareness = Extension.create<AiSelectionAwarenessOptions>({
   name: 'aiSelectionAwareness',
 
   addOptions() {
-    return { provider: null, userId: '' }
-  },
-
-  onBeforeCreate() {
-    if (!this.options.provider?.awareness || !this.options.userId.trim()) {
-      throw new Error('AiSelectionAwareness requires provider.awareness and a non-empty userId')
-    }
+    return { provider: null }
   },
 
   onCreate() {
     const awareness = this.options.provider?.awareness
-    const userId = this.options.userId.trim()
     if (!awareness) return
 
     try {
@@ -67,6 +58,11 @@ export const AiSelectionAwareness = Extension.create<AiSelectionAwarenessOptions
           key: new PluginKey('aiSelectionAwareness'),
           view: view => {
             let field: string | undefined
+            let userId: string | undefined
+            const currentUserId = () => {
+              const id = awareness.getLocalState()?.user?.id
+              return typeof id === 'string' && id.length > 0 ? id : undefined
+            }
 
             const write = (entry: SelectionEntry) => {
               const state = awareness.getLocalState()
@@ -80,6 +76,14 @@ export const AiSelectionAwareness = Extension.create<AiSelectionAwarenessOptions
             }
 
             const publish = () => {
+              const nextUserId = currentUserId()
+              if (!nextUserId) {
+                const previousUserId = userId
+                userId = undefined
+                if (previousUserId) write({ userId: previousUserId, anchor: null, head: null })
+                return
+              }
+              userId = nextUserId
               const sync = ySyncPluginKey.getState(view.state)
               if (!sync?.binding) return
               const doc: Y.Doc = sync.doc
@@ -103,6 +107,10 @@ export const AiSelectionAwareness = Extension.create<AiSelectionAwarenessOptions
 
             publish()
             view.dom.addEventListener('focusin', publish)
+            const onAwarenessUpdate = () => {
+              if (currentUserId() !== userId) publish()
+            }
+            awareness.on('update', onAwarenessUpdate)
 
             return {
               update: (_, previous) => {
@@ -118,7 +126,8 @@ export const AiSelectionAwareness = Extension.create<AiSelectionAwarenessOptions
               },
               destroy: () => {
                 view.dom.removeEventListener('focusin', publish)
-                write({ userId, anchor: null, head: null })
+                awareness.off('update', onAwarenessUpdate)
+                if (userId) write({ userId, anchor: null, head: null })
               },
             }
           },
@@ -126,11 +135,7 @@ export const AiSelectionAwareness = Extension.create<AiSelectionAwarenessOptions
       )
     } catch (cause) {
       const error = new Error('AiSelectionAwareness failed to initialize', { cause })
-      if (this.options.onError) {
-        this.options.onError(error)
-      } else {
-        console.error(error)
-      }
+      console.error(error)
     }
   },
 })

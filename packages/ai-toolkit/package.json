@@ -47,14 +47,6 @@
       },
       "import": "./dist/streaming-reveal.js",
       "require": "./dist/streaming-reveal.cjs"
-    },
-    "./selection-awareness": {
-      "types": {
-        "import": "./dist/selection-awareness.d.ts",
-        "require": "./dist/selection-awareness.d.cts"
-      },
-      "import": "./dist/selection-awareness.js",
-      "require": "./dist/selection-awareness.cjs"
     }
   },
   "scripts": {
