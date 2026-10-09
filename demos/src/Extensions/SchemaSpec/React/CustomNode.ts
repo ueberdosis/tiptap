@@ -29,7 +29,7 @@ export const CustomNode = Node.create({
       _event,
       direct,
     ) => {
-      if (!view.editable || !direct || node.type.name !== name) {
+      if (_event.button !== 0 || !view.editable || !direct || node.type.name !== name) {
         return false
       }
 
