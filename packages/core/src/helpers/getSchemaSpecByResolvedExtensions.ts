@@ -2,7 +2,7 @@ import type { MarkSpec, NodeSpec, TagParseRule } from '@tiptap/pm/model'
 import type { SchemaSpec } from '@tiptap/pm/model'
 
 import type { Editor, MarkConfig, NodeConfig } from '../index.js'
-import type { AnyConfig, Extensions } from '../types.js'
+import type { AnyConfig, ExtensionAttribute, Extensions } from '../types.js'
 import { callOrReturn } from '../utilities/callOrReturn.js'
 import { isEmptyObject } from '../utilities/isEmptyObject.js'
 import { getAttributesFromExtensions } from './getAttributesFromExtensions.js'
@@ -54,10 +54,14 @@ function buildAttributeSpec(
  * Builds schema specifications without compiling content expressions.
  * @param extensions An array of Tiptap extensions
  * @param editor The editor instance
+ * @param allAttributes The effective attributes used for schema and DOM behavior
  * @returns The node and mark specifications
  */
-export function getSchemaSpecByResolvedExtensions(extensions: Extensions, editor?: Editor) {
-  const allAttributes = getAttributesFromExtensions(extensions)
+export function getSchemaSpecByResolvedExtensions(
+  extensions: Extensions,
+  editor?: Editor,
+  allAttributes: ExtensionAttribute[] = getAttributesFromExtensions(extensions),
+) {
   const { nodeExtensions, markExtensions } = splitExtensions(extensions)
   const topNode = nodeExtensions.find(extension => getExtensionField(extension, 'topNode'))?.name
 
