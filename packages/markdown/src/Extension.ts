@@ -9,6 +9,7 @@ import type { marked } from 'marked'
 
 import MarkdownManager from './MarkdownManager.js'
 import type { ContentType } from './types.js'
+import { createMarkdownClipboardPlugin } from './markdownClipboardPlugin.js'
 import { assumeContentType } from './utils.js'
 
 declare module '@tiptap/core' {
@@ -84,6 +85,12 @@ export type MarkdownExtensionOptions = {
    * See the [marked documentation](https://marked.js.org/using_advanced#options) for available options.
    */
   markedOptions?: Parameters<typeof marked.setOptions>[0]
+
+  /**
+   * Parse pasted plain text as markdown. Pastes that contain HTML are not affected.
+   * @default false
+   */
+  transformPastedText?: boolean
 }
 
 export type MarkdownExtensionStorage = {
@@ -98,7 +105,12 @@ export const Markdown = Extension.create<MarkdownExtensionOptions, MarkdownExten
       indentation: { style: 'space', size: 2 },
       marked: undefined,
       markedOptions: {},
+      transformPastedText: false,
     }
+  },
+
+  addProseMirrorPlugins() {
+    return [createMarkdownClipboardPlugin(this.editor, () => !!this.options.transformPastedText)]
   },
 
   addCommands() {
