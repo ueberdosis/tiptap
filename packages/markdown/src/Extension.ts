@@ -105,6 +105,7 @@ export const Markdown = Extension.create<MarkdownExtensionOptions, MarkdownExten
       indentation: { style: 'space', size: 2 },
       marked: undefined,
       markedOptions: {},
+      // TODO: consider enabling this by default in the next major version
       transformPastedText: false,
     }
   },
