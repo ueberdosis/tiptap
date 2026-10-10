@@ -407,6 +407,13 @@ export function parseListItems(
       })
     }
 
+    // An empty item ("2. " with nothing after the marker) still needs the
+    // paragraph the listItem schema requires, as ListItem.parseMarkdown gives
+    // an empty bullet item.
+    if (content.length === 0) {
+      content.push({ type: 'paragraph', content: [] })
+    }
+
     return {
       type: 'listItem',
       content,
