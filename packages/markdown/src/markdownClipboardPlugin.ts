@@ -1,5 +1,5 @@
 import type { Editor } from '@tiptap/core'
-import { Slice } from '@tiptap/pm/model'
+import { Fragment, Slice } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 export const markdownClipboardPluginKey = new PluginKey('markdownClipboard')
@@ -12,7 +12,7 @@ export function createMarkdownClipboardPlugin(editor: Editor, isEnabled: () => b
   return new Plugin({
     key: markdownClipboardPluginKey,
     props: {
-      clipboardTextParser: (text, _context, plainText) => {
+      clipboardTextParser: (text, $context, plainText) => {
         if (plainText || !isEnabled() || !editor.markdown) {
           return null
         }
@@ -25,11 +25,22 @@ export function createMarkdownClipboardPlugin(editor: Editor, isEnabled: () => b
           }
 
           const { content } = editor.schema.nodeFromJSON(json)
-          const isSingleParagraph =
-            content.childCount === 1 && content.firstChild?.type.name === 'paragraph'
+          const paragraph = content.firstChild
+
+          if (content.childCount !== 1 || paragraph?.type.name !== 'paragraph') {
+            return new Slice(content, 0, 0)
+          }
+
+          // Inherit the marks at the insertion point, like a plain text paste
+          const contextMarks = $context.marks()
+          const inlineContent = Fragment.fromArray(
+            paragraph.children.map(child =>
+              child.mark(contextMarks.reduce((set, mark) => mark.addToSet(set), child.marks)),
+            ),
+          )
 
           // Open a lone paragraph so it merges into the current text
-          return isSingleParagraph ? new Slice(content, 1, 1) : new Slice(content, 0, 0)
+          return new Slice(Fragment.from(paragraph.copy(inlineContent)), 1, 1)
         } catch {
           // Fall back to the default plain text paste
           return null

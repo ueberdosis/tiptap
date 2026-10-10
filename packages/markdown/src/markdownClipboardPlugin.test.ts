@@ -1,6 +1,8 @@
 import { Editor } from '@tiptap/core'
+import Bold from '@tiptap/extension-bold'
 import Document from '@tiptap/extension-document'
 import Heading from '@tiptap/extension-heading'
+import Italic from '@tiptap/extension-italic'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import type { Plugin } from '@tiptap/pm/state'
@@ -14,17 +16,27 @@ const createEditor = (transformPastedText?: boolean, withHeading = true) =>
       Document,
       Paragraph,
       Text,
+      Bold,
+      Italic,
       ...(withHeading ? [Heading] : []),
       Markdown.configure(transformPastedText === undefined ? {} : { transformPastedText }),
     ],
     content: '<p></p>',
   })
 
-const parseClipboardText = (editor: Editor, text: string, plainText = false) => {
+const parseClipboardText = (
+  editor: Editor,
+  text: string,
+  plainText = false,
+  markNames: string[] = [],
+) => {
   const plugin = editor.state.plugins.find(candidate => candidate.props.clipboardTextParser) as
     | Plugin
     | undefined
   const $context = editor.state.doc.resolve(1)
+  const marks = markNames.map(name => editor.schema.marks[name].create())
+
+  $context.marks = () => marks
 
   return plugin?.props.clipboardTextParser?.call(plugin, text, $context, plainText, editor.view)
 }
@@ -78,5 +90,50 @@ describe('markdown clipboard text parser', () => {
 
     expect(() => parseClipboardText(editor, '# title')).not.toThrow()
     expect(parseClipboardText(editor, '# title')).toBeNull()
+  })
+
+  describe('inherited marks at the insertion point', () => {
+    const markNamesOf = (node: { marks: readonly { type: { name: string } }[] }) =>
+      node.marks.map(mark => mark.type.name).sort()
+
+    it('applies the context marks to a single pasted paragraph', () => {
+      editor = createEditor(true)
+
+      const slice = parseClipboardText(editor, 'hello world', false, ['bold'])
+
+      expect(markNamesOf(slice!.content.firstChild!.firstChild!)).toEqual(['bold'])
+    })
+
+    it('keeps marks parsed from markdown next to the context marks', () => {
+      editor = createEditor(true)
+
+      const slice = parseClipboardText(editor, 'a *b* c', false, ['bold'])
+      const texts: Array<[string, string[]]> = []
+
+      slice!.content.firstChild!.forEach(child => texts.push([child.text!, markNamesOf(child)]))
+
+      expect(texts).toEqual([
+        ['a ', ['bold']],
+        ['b', ['bold', 'italic']],
+        [' c', ['bold']],
+      ])
+    })
+
+    it('adds no marks when the context has none', () => {
+      editor = createEditor(true)
+
+      const slice = parseClipboardText(editor, 'hello world')
+
+      expect(markNamesOf(slice!.content.firstChild!.firstChild!)).toEqual([])
+    })
+
+    it('does not apply the context marks to multiple blocks', () => {
+      editor = createEditor(true)
+
+      const slice = parseClipboardText(editor, '# title\n\ntext', false, ['bold'])
+
+      expect(markNamesOf(slice!.content.child(0).firstChild!)).toEqual([])
+      expect(markNamesOf(slice!.content.child(1).firstChild!)).toEqual([])
+    })
   })
 })
