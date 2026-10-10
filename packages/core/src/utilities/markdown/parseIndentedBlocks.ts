@@ -87,6 +87,25 @@ export function parseIndentedBlocks(
       raw: string
     }
   | undefined {
+  // Block tokenizers are offered the whole rest of the document at every
+  // block. Check the first non-blank line before splitting it all into lines,
+  // or parsing a long document becomes quadratic (#8458).
+  let lineStart = 0
+  for (;;) {
+    const lineEnd = src.indexOf('\n', lineStart)
+    const line = src.slice(lineStart, lineEnd < 0 ? undefined : lineEnd)
+    if (line.trim() !== '') {
+      if (!line.match(config.itemPattern)) {
+        return undefined
+      }
+      break
+    }
+    if (lineEnd < 0) {
+      return undefined
+    }
+    lineStart = lineEnd + 1
+  }
+
   const lines = src.split('\n')
   const items: ParsedBlock[] = []
   let totalRaw = ''
