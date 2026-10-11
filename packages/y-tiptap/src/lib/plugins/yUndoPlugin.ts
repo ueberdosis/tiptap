@@ -8,13 +8,14 @@ import { getSyncPluginState } from './getSyncPluginState.js'
 import { getUndoPluginState } from './getUndoPluginState.js'
 import { ySyncPluginKey, yUndoPluginKey } from './keys.js'
 import { getRelativeSelection } from '../utils/positions/getRelativeSelection.js'
+import { restorePositionHistory } from '../utils/positions/migrations/restorePositionHistory.js'
 
 /** Undoes a local change through the editor's Yjs undo manager. */
 export const undo = (state: EditorState) => {
   const undoManager = getUndoPluginState(state).undoManager
 
   if (undoManager != null) {
-    undoManager.undo()
+    restorePositionHistory(getSyncPluginState(state).type, undoManager, 'undo')
 
     return true
   }
@@ -25,7 +26,7 @@ export const redo = (state: EditorState) => {
   const undoManager = getUndoPluginState(state).undoManager
 
   if (undoManager != null) {
-    undoManager.redo()
+    restorePositionHistory(getSyncPluginState(state).type, undoManager, 'redo')
 
     return true
   }

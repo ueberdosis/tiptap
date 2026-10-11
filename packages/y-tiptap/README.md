@@ -13,6 +13,14 @@ Tiptap is a headless rich text editor toolkit built on [ProseMirror](https://pro
 
 The `y-tiptap` package connects Yjs documents to ProseMirror editors. It provides document synchronization, shared cursors, undo and redo, relative positions, and document conversion utilities.
 
+## Relative positions
+
+Use `absolutePositionToRelativePosition` and `relativePositionToAbsolutePosition` to store and resolve positions. The binding tracks text characters, XML nodes, and empty paragraph boundaries through structural changes and moves that retain the ProseMirror node identity. Copies keep separate identities. Conflicting concurrent destinations and deleted identities resolve to `null`.
+
+These transfers are shared in a separate Y.Map in the same document. Persist the complete Y.Doc as a binary update to retain them. Use the exported `undo` and `redo` functions to share restored identities. A custom UndoManager must track editor content and exclude the transfer map.
+
+Native Yjs resolvers and direct XML changes do not use these transfers. Moves reconstructed from new ProseMirror nodes cannot be inferred from equal content. Root document boundaries remain attached to the document.
+
 ## Official Documentation
 
 Documentation can be found on the [Tiptap website](https://tiptap.dev).

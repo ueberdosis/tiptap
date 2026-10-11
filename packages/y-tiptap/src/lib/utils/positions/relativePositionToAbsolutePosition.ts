@@ -4,6 +4,7 @@ import * as Y from 'yjs'
 import { getParentOffset } from './getParentOffset.js'
 import { getYContentOffset } from './getYContentOffset.js'
 import { isMisresolvedTextPosition } from './isMisresolvedTextPosition.js'
+import { resolvePositionMigration } from './migrations/resolvePositionMigration.js'
 
 /** Resolves a Yjs relative position, returning null when it cannot be mapped. */
 export const relativePositionToAbsolutePosition = (
@@ -12,6 +13,13 @@ export const relativePositionToAbsolutePosition = (
   relPos: Y.RelativePosition,
   mapping: ProsemirrorMapping,
 ) => {
+  const migrated = resolvePositionMigration(documentType, relPos)
+
+  if (!migrated) {
+    return null
+  }
+
+  relPos = migrated
   const decodedPos = Y.createAbsolutePositionFromRelativePosition(relPos, y)
   if (
     decodedPos === null ||
