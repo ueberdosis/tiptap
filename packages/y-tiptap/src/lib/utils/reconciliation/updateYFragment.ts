@@ -55,7 +55,20 @@ export const updateYFragment = (
   const yChildCnt = yChildren.length
   const minCnt = math.min(pChildCnt, yChildCnt)
 
-  if (reconcileMappedChildren(y, yDomFragment, pChildren, yChildren, meta, updateYFragment)) {
+  let reconciled = false
+
+  y.transact(() => {
+    reconciled = reconcileMappedChildren(
+      y,
+      yDomFragment,
+      pChildren,
+      yChildren,
+      meta,
+      updateYFragment,
+    )
+  }, ySyncPluginKey)
+
+  if (reconciled) {
     return
   }
 

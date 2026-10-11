@@ -2,6 +2,7 @@ import { Schema } from 'prosemirror-model'
 import { afterEach, describe, expect, it } from 'vite-plus/test'
 import * as Y from 'yjs'
 
+import { ySyncPluginKey } from '../../plugins/keys.js'
 import { createEmptyMeta } from '../conversion/createEmptyMeta.js'
 import { yXmlFragmentToProsemirrorJSON } from '../conversion/yXmlFragmentToProsemirrorJSON.js'
 import { updateYFragment } from './updateYFragment.js'
@@ -86,6 +87,22 @@ describe('updateYFragment', () => {
     expect(fragment.get(2)).toBe(secondElement)
     expect(meta.mapping.get(firstElement)).toBe(first)
     expect(meta.mapping.get(secondElement)).toBe(second)
+  })
+
+  it('groups direct mapped-child updates in one sync transaction', () => {
+    const { document, fragment, meta } = createFragment()
+    updateYFragment(document, fragment, schema.node('doc', null, [first, second]), meta)
+    const next = schema.node('doc', null, [first, inserted, second, heading('Last')])
+    const updates: unknown[] = []
+    document.on('update', (_update, origin) => {
+      const content = schema.nodeFromJSON(yXmlFragmentToProsemirrorJSON(fragment)).toJSON()
+      updates.push({ origin, content })
+    })
+
+    updateYFragment(document, fragment, next, meta)
+
+    expect(updates).toHaveLength(1)
+    expect(updates).toEqual([{ origin: ySyncPluginKey, content: next.toJSON() }])
   })
 
   it('keeps the existing text type when its content becomes empty', () => {
