@@ -20,6 +20,7 @@ export const syncPositionElement = (
 
   const source = sources.get(`${element._item.id.client}:${element._item.id.clock}`)
 
+  // Reconciliation may reuse an element for another node, which would redirect its anchors.
   if (source && source.position !== position) {
     metadata.mapping.delete(element)
     parent.delete(index, 1)

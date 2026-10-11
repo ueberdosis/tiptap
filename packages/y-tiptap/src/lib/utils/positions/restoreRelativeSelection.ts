@@ -77,6 +77,7 @@ export const restoreRelativeSelection = (
         binding.mapping,
       )
       if (oldDoc != null) {
+        // Content-based recovery must not override an identity transfer or its conflict result.
         if (resolvePositionMigration(binding.type, relSel.anchor) === relSel.anchor) {
           anchor = recoverSelectionEndpoint(tr.doc, oldDoc, relSel.absAnchor, anchor)
         }

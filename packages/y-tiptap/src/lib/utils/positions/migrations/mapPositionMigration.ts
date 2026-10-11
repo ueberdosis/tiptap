@@ -39,6 +39,7 @@ const findMovedNode = (
   step: number,
   indexes: Map<Node, number[]>[],
 ) => {
+  // Equal content may be a copy. Only a unique node object identifies a move.
   if (indexes[step].get(node)?.length !== 1) {
     return null
   }
@@ -121,9 +122,11 @@ export const mapPositionMigration = (
   binding: ProsemirrorBinding,
   previous: PositionMigrationPlan | null,
 ): PositionMigrationPlan | null => {
+  // Appended transactions may run before the view writes the preceding change to Yjs.
   const pending =
     previous?.doc === transaction.before && previous.doc !== binding.syncedDoc ? previous : null
 
+  // Ordinary text edits retain Yjs character identities without structural migration.
   if (
     !transaction.docChanged ||
     !binding.prosemirrorView ||

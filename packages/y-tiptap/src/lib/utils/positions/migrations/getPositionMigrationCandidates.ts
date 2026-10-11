@@ -26,6 +26,7 @@ export const getPositionMigrationCandidates = (
 
   let index = indexes.get(store)
 
+  // Migration records are append-only, so the map size detects index changes.
   if (!index || index.size !== store.size) {
     const clients = new Map<number, PositionMigrationCandidate[]>()
 
@@ -47,6 +48,7 @@ export const getPositionMigrationCandidates = (
       identity.clock < transfer.source.clock + transfer.source.length,
   )
 
+  // A causally later transfer supersedes earlier ones. Concurrent transfers remain candidates.
   return candidates.filter(
     candidate =>
       !candidates.some(

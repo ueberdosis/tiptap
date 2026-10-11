@@ -92,6 +92,7 @@ const restoreTransfers = (fragment: Y.XmlFragment, store: Y.Map<PositionMigratio
       pending.push(...(connections.get(key) ?? []))
     }
 
+    // Multiple live identities do not identify a unique restored destination.
     if (targets.length !== 1) {
       return
     }
@@ -140,6 +141,7 @@ export const restorePositionHistory = (
   try {
     manager.doc.transact(() => {
       result = manager[action]()
+      // Keep the outer transaction classified as undo or redo through observer cleanup.
       manager[flag] = true
 
       if (result) {

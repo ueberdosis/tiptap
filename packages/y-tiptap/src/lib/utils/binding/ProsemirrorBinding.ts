@@ -30,6 +30,7 @@ import { getPositionMigrationStore } from '../positions/migrations/getPositionMi
 export class ProsemirrorBinding {
   readonly type: Y.XmlFragment
   prosemirrorView: EditorView | null = null
+  // Prevent editor and Yjs observers from echoing the same change back to each other.
   readonly mux = createMutex()
   readonly mapping: ProsemirrorMapping
   readonly isOMark = new Map<PModel.MarkType, boolean>()
@@ -51,6 +52,7 @@ export class ProsemirrorBinding {
     }
 
     this.doc = yXmlFragment.doc
+    // Capture against the old mapping before Yjs observers rebuild the editor document.
     this.beforeAllTransactions = () => {
       if (this.beforeTransactionSelection === null && this.prosemirrorView != null) {
         this.beforeTransactionSelection = getRelativeSelection(this, this.view.state)
@@ -257,6 +259,7 @@ export class ProsemirrorBinding {
         }
         const fragmentContent = Y.typeListToArraySnapshot(
           historyType,
+          // Include content deleted since the previous snapshot so removals remain visible.
           new Y.Snapshot(previousSnapshot.ds, currentSnapshot.sv),
         )
           .map((t: unknown) => {
@@ -347,6 +350,7 @@ export class ProsemirrorBinding {
     this.doc.transact(() => {
       updateYFragment(this.doc, this.type, doc, this)
 
+      // Publish identity transfers with the content so peers receive both atomically.
       if (plan?.doc === doc) {
         applyPositionMigration(this.type, plan, this, getPositionMigrationStore(this.type))
       }

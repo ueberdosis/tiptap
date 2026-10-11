@@ -7,6 +7,7 @@ export const normalizePNodeContent = (pnode: PModel.Node) => {
   for (let i = 0; i < c.length; i++) {
     const n = c[i]
     if (n.isText) {
+      // Adjacent ProseMirror text nodes share one Y.XmlText, even with different marks.
       const textNodes = []
       for (let tnode = c[i]; i < c.length && tnode.isText; tnode = c[++i]) {
         textNodes.push(tnode)

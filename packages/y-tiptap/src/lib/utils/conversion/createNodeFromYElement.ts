@@ -33,6 +33,7 @@ export const createNodeFromYElement = (
         nextItem &&
         nextDoc &&
         !nextItem.deleted &&
+        // Only the creator merges this text item to avoid competing repairs on peers.
         nextItem.id.client === nextDoc.clientID
       ) {
         type.applyDelta([{ retain: type.length }, ...nextytext.toDelta()])
@@ -79,6 +80,7 @@ export const createNodeFromYElement = (
     meta.mapping.set(el, node)
     return node
   } catch {
+    // Remove unrenderable shared content so later projections do not repeat the failure.
     const doc = el.doc
     const item = el._item
     if (!doc || !item) throw error.unexpectedCase()

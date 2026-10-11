@@ -40,6 +40,7 @@ export const syncPositionText = (
 
   const retained = retainedCharacters(characters, indexes, text.length)
 
+  // Work backwards so replacements leave the remaining source indexes unchanged.
   for (let index = retained.length - 1; index > 0; index -= 1) {
     const left = retained[index - 1]
     const right = retained[index]

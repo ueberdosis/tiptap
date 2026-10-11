@@ -12,6 +12,7 @@ export const marksToAttributes = (marks: readonly PModel.Mark[], meta: BindingMe
         mark.type,
         () => !mark.type.excludes(mark.type),
       )
+      // Distinct keys preserve overlapping marks of the same type with different attributes.
       pattrs[
         isOverlapping ? `${mark.type.name}--${utils.hashOfJSON(mark.toJSON())}` : mark.type.name
       ] = mark.attrs

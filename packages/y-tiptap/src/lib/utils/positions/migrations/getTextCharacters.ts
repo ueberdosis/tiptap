@@ -17,6 +17,7 @@ export const getTextCharacters = (type: Y.XmlText, position = 0) => {
       throw new Error('Position tracking requires string text content')
     }
 
+    // A Yjs string item spans consecutive clocks, one per UTF-16 code unit.
     for (let index = 0; index < item.length; index += 1) {
       characters.push({
         client: item.id.client,

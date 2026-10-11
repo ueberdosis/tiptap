@@ -27,6 +27,7 @@ export const findMappedChildAnchors = (
   if (candidates.length === 0) {
     return []
   }
+  // The longest increasing subsequence keeps the most mapped children in their shared order.
   const predecessors: number[] = []
   const tails: number[] = []
   for (let index = 0; index < candidates.length; index++) {

@@ -64,6 +64,7 @@ export const ySyncPlugin = (
         pluginState.isUndoRedoOperation =
           change !== undefined && !!change.isChangeOrigin && !!change.isUndoRedoOperation
 
+        // Only local edits need transfers. Remote updates already carry their migration history.
         pluginState = {
           ...pluginState,
           positionMigration:
@@ -132,6 +133,7 @@ export const ySyncPlugin = (
               throw new Error('The schema cannot create an empty document')
             }
 
+            // Avoid writing the schema's placeholder document before shared content arrives.
             if (
               initialContentChanged ||
               view.state.doc.content.findDiffStart(emptyDocument.content) !== null

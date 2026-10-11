@@ -13,6 +13,7 @@ export const relativePositionToAbsolutePosition = (
   relPos: Y.RelativePosition,
   mapping: ProsemirrorMapping,
 ) => {
+  // Structural edits may replace the XML item while persisted anchors keep its old ID.
   const migrated = resolvePositionMigration(documentType, relPos)
 
   if (!migrated) {
@@ -65,6 +66,7 @@ export const relativePositionToAbsolutePosition = (
     type = parent
   }
 
+  // The root fragment has no opening token in ProseMirror's position space.
   const absPos = pos - 1
 
   if (isMisresolvedTextPosition(y, relPos, absPos)) {

@@ -18,6 +18,7 @@ export const writePositionMigration = (
     version: 1,
     client: doc.clientID,
     clock,
+    // Record causal knowledge to distinguish later edits from concurrent destinations.
     seen: [...Y.decodeStateVector(Y.encodeStateVector(doc))],
     transfers: mergePositionTransfers(transfers),
   })

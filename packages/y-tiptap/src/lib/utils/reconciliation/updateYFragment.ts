@@ -122,6 +122,7 @@ export const updateYFragment = (
         const equalityLeft = computeChildEqualityFactor(leftY, leftP, meta)
         const equalityRight = computeChildEqualityFactor(rightY, rightP, meta)
 
+        // Mapped child identity is stronger evidence than equal content when choosing a side.
         if (equalityLeft.foundMappedChild && !equalityRight.foundMappedChild) {
           updateRight = false
         } else if (!equalityLeft.foundMappedChild && equalityRight.foundMappedChild) {
@@ -154,6 +155,7 @@ export const updateYFragment = (
     const yDelLen = yChildCnt - left - right
 
     if (yChildCnt === 1 && pChildCnt === 0 && yChildren[0] instanceof Y.XmlText) {
+      // Keep the text type alive so empty-block positions can still resolve.
       meta.mapping.delete(yChildren[0])
       yChildren[0].delete(0, yChildren[0].length)
     } else if (yDelLen > 0) {
