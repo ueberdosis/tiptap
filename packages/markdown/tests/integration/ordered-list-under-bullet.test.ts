@@ -43,6 +43,40 @@ describe('ordered list nested in a bullet list inside an ordered list item', () 
     expect(mm.serialize(mm.parse(markdown) as any)).toBe(markdown)
   })
 
+  it('keeps the ordered list together when an item of it has a deeper bullet list', () => {
+    const markdown = [
+      '1. one',
+      '   - two',
+      '     1. three',
+      '        - child',
+      '     2. four',
+    ].join('\n')
+    const doc = manager().parse(markdown) as any
+
+    expect(doc.content).toEqual([
+      {
+        type: 'orderedList',
+        content: [
+          item(paragraph('one'), {
+            type: 'bulletList',
+            content: [
+              item(paragraph('two'), {
+                type: 'orderedList',
+                content: [
+                  item(paragraph('three'), {
+                    type: 'bulletList',
+                    content: [item(paragraph('child'))],
+                  }),
+                  item(paragraph('four')),
+                ],
+              }),
+            ],
+          }),
+        ],
+      },
+    ])
+  })
+
   it('still makes an ordered list at the item content indent a sibling of the bullet list', () => {
     const markdown = ['1. one', '   - two', '   1. three'].join('\n')
     const doc = manager().parse(markdown) as any

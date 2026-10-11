@@ -171,7 +171,7 @@ export function collectOrderedListItems(lines: string[]): [OrderedListItem[], nu
     let nextLineIndex = currentLineIndex + 1
     const itemLines = [line]
     let sawBlankLine = false
-    // Content column of the latest bullet item nested in this item's content.
+    // Content column of the shallowest bullet item nested in this item's content.
     // An ordered item indented at least that far belongs to that bullet item.
     let bulletContentIndent = Infinity
 
@@ -190,7 +190,12 @@ export function collectOrderedListItems(lines: string[]): [OrderedListItem[], nu
         const bulletMarker = nextLine.trimStart().match(BULLET_ITEM_MARKER_REGEX)
 
         if (bulletMarker) {
-          bulletContentIndent = leadingWhitespace + bulletMarker[0].length
+          // Keep the shallowest one: a deeper bullet must not raise the
+          // threshold for ordered items that belong to an outer bullet item
+          bulletContentIndent = Math.min(
+            bulletContentIndent,
+            leadingWhitespace + bulletMarker[0].length,
+          )
         } else if (nextLine.trim() !== '' && leadingWhitespace < bulletContentIndent) {
           // Content back at a shallower indent has left the bullet item
           bulletContentIndent = Infinity
