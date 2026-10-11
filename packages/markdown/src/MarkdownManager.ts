@@ -36,8 +36,8 @@ import {
 import { collectMarkSpanTexts } from './utils/collectMarkSpanTexts.js'
 import { htmlContainsUnrecognizedTag } from './utils/htmlTagDetection.js'
 
-/** A letter or digit in any script; `_` between two of these is literal in CommonMark. */
-const INTRAWORD_CHARACTER = /^[\p{L}\p{N}]$/u
+const INTRAWORD_CHARACTER_BEFORE = /[\p{L}\p{N}]$/u
+const INTRAWORD_CHARACTER_AFTER = /^[\p{L}\p{N}]/u
 
 export class MarkdownManager {
   private markedInstance: typeof marked
@@ -1174,13 +1174,11 @@ export class MarkdownManager {
    */
   private escapeMarkdownSyntax(text: string): string {
     return text.replace(/[\\`*_[\]~]/g, (char, offset: number) => {
-      // An underscore between two letters or digits (e.g. `snake_case` or
-      // `@olivia_rhye`) can neither open nor close emphasis in CommonMark,
-      // so it stays as-is instead of gaining a backslash on every save.
+      // Include both code units of non-BMP letters and digits.
       if (
         char === '_' &&
-        INTRAWORD_CHARACTER.test(text.charAt(offset - 1)) &&
-        INTRAWORD_CHARACTER.test(text.charAt(offset + 1))
+        INTRAWORD_CHARACTER_BEFORE.test(text.slice(Math.max(0, offset - 2), offset)) &&
+        INTRAWORD_CHARACTER_AFTER.test(text.slice(offset + 1, offset + 3))
       ) {
         return char
       }
