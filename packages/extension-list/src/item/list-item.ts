@@ -115,6 +115,19 @@ export const ListItem = Node.create<ListItemOptions>({
         }
       }
 
+      const [firstToken, ...remainingTokens] = token.tokens
+
+      // A setext underline or "# " makes marked emit a heading, but the item text is a paragraph
+      if (firstToken.type === 'heading') {
+        return {
+          type: 'listItem',
+          content: [
+            { type: 'paragraph', content: helpers.parseInline(firstToken.tokens ?? []) },
+            ...(remainingTokens.length > 0 ? parseBlockChildren(remainingTokens) : []),
+          ],
+        }
+      }
+
       // Check if we have paragraph tokens (complex list items)
       const hasParagraphTokens = token.tokens.some(t => t.type === 'paragraph')
 
@@ -123,14 +136,7 @@ export const ListItem = Node.create<ListItemOptions>({
         content = parseBlockChildren(token.tokens)
       } else {
         // Check if the first token is a text token with nested inline tokens
-        const firstToken = token.tokens[0]
-
-        if (
-          firstToken &&
-          firstToken.type === 'text' &&
-          firstToken.tokens &&
-          firstToken.tokens.length > 0
-        ) {
+        if (firstToken.type === 'text' && firstToken.tokens && firstToken.tokens.length > 0) {
           // Parse the inline content from the text token
           const inlineContent = helpers.parseInline(firstToken.tokens)
 

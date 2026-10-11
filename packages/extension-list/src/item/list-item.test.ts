@@ -48,12 +48,7 @@ describe('ListItem markdown parsing', () => {
     const helpers: MarkdownParseHelpers = {
       parseInline: tokens => tokens.map(token => ({ type: 'text', text: token.text })),
       parseChildren: () => [],
-      parseBlockChildren: tokens =>
-        tokens.map(token =>
-          token.type === 'heading'
-            ? { type: 'heading', content: [{ type: 'text', text: token.text }] }
-            : { type: token.type },
-        ),
+      parseBlockChildren: tokens => tokens.map(token => ({ type: token.type })),
       createTextNode: text => ({ type: 'text', text }),
       createNode: (type, attrs, content) => ({ type, attrs, content }),
       applyMark: (mark, content) => ({ mark, content }),
@@ -62,7 +57,13 @@ describe('ListItem markdown parsing', () => {
     it('turns a leading heading into a paragraph', () => {
       const token: MarkdownToken = {
         type: 'list_item',
-        tokens: [{ type: 'heading', text: 'Title', raw: '# Title' }],
+        tokens: [
+          {
+            type: 'heading',
+            raw: '# Title',
+            tokens: [{ type: 'text', text: 'Title', raw: 'Title' }],
+          },
+        ],
       }
 
       expect(ListItem.config.parseMarkdown?.(token, helpers)).toEqual({
