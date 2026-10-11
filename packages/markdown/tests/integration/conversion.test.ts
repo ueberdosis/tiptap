@@ -695,6 +695,31 @@ describe('Markdown Conversion Tests', () => {
         expect(markdown).toBe('\\_underscore\\_')
       })
 
+      it('should leave an underscore between two letters or digits unescaped', () => {
+        const cases: Array<[string, string]> = [
+          ['Ask @olivia_rhye about it', 'Ask @olivia_rhye about it'],
+          ['snake_case_name and v1_2', 'snake_case_name and v1_2'],
+          ['日本_語', '日本_語'],
+          ['_lead and trail_', '\\_lead and trail\\_'],
+          ['foo_ _bar', 'foo\\_ \\_bar'],
+          ['a__b', 'a\\_\\_b'],
+        ]
+
+        cases.forEach(([text, expected]) => {
+          const json = {
+            type: 'doc',
+            content: [{ type: 'paragraph', content: [{ type: 'text', text }] }],
+          }
+
+          const markdown = markdownManager.serialize(json)
+          expect(markdown).toBe(expected)
+          // The output must parse back to the same plain text, with no emphasis
+          expect(markdownManager.parse(markdown).content[0].content).toEqual([
+            { type: 'text', text },
+          ])
+        })
+      })
+
       it('should escape backticks in text nodes', () => {
         const json = {
           type: 'doc',
