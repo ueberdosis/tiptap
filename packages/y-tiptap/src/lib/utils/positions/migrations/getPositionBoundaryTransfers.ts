@@ -1,4 +1,5 @@
 import type { PositionCharacter, PositionTransfer } from '../../../../types/PositionMigration.js'
+import * as Y from 'yjs'
 
 export const getPositionBoundaryTransfers = (
   characters: PositionCharacter[],
@@ -20,16 +21,19 @@ export const getPositionBoundaryTransfers = (
     const last = group[group.length - 1]
     const start = first.position === null ? undefined : destinations.get(first.position)
     const end = last.position === null ? undefined : destinations.get(last.position)
-    transfers.push(
-      {
+    if (!start || !Y.compareIDs(first.type, start.type)) {
+      transfers.push({
         source: { ...first.type, length: 1, boundary: 'start' },
         target: start ? { ...start, assoc: 0 } : null,
-      },
-      {
+      })
+    }
+
+    if (!end || !Y.compareIDs(last.type, end.type)) {
+      transfers.push({
         source: { ...first.type, length: 1, boundary: 'end' },
         target: end ? { ...end, assoc: -1 } : null,
-      },
-    )
+      })
+    }
   })
 
   return transfers

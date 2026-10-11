@@ -386,18 +386,31 @@ describe('relative positions through structural changes', () => {
     )
     const second = createClient()
     Y.applyUpdate(second.document, Y.encodeStateAsUpdate(first.document))
-    const binding = ySyncPluginKey.getState(first.view.state)!.binding
     const start = first.view.state.doc.child(0).nodeSize
     const encoded = Y.encodeRelativePosition(
-      absolutePositionToRelativePosition(start, first.fragment, binding.mapping),
+      Y.createRelativePositionFromTypeIndex(first.fragment, 1),
     )
     const moved = first.view.state.doc.child(1)
-    first.view.dispatch(first.view.state.tr.delete(start, start + moved.nodeSize).insert(0, moved))
+    const before = first.view.state.doc.child(0)
+    first.view.dispatch(
+      first.view.state.tr
+        .delete(start, start + moved.nodeSize)
+        .replaceWith(
+          0,
+          before.nodeSize,
+          schema.node('bulletList', null, schema.node('listItem', null, [before, moved])),
+        ),
+    )
     const other = second.view.state.doc.child(1)
+    const after = second.view.state.doc.child(2)
     second.view.dispatch(
       second.view.state.tr
         .delete(start, start + other.nodeSize)
-        .insert(second.view.state.doc.content.size - other.nodeSize, other),
+        .replaceWith(
+          start,
+          start + after.nodeSize,
+          schema.node('bulletList', null, schema.node('listItem', null, [after, other])),
+        ),
     )
     const firstUpdate = Y.encodeStateAsUpdate(first.document)
     const secondUpdate = Y.encodeStateAsUpdate(second.document)
@@ -708,6 +721,67 @@ describe('relative positions through structural changes', () => {
     expect([first, second].map(client => resolvePosition(client, encoded))).toEqual([null, null])
   })
 
+  it.each([
+    { name: 'text', scope: 'text', offset: 12, assoc: -1, expected: 15 },
+    { name: 'text start', scope: 'text', offset: 0, assoc: -1, expected: 1 },
+    { name: 'text end', scope: 'text', offset: text.length, assoc: 0, expected: text.length + 3 },
+    { name: 'node', scope: 'fragment', offset: 0, assoc: 0, expected: 0 },
+    { name: 'node start', scope: 'node', offset: 0, assoc: -1, expected: 1 },
+    { name: 'node end', scope: 'node', offset: 1, assoc: 0, expected: text.length + 3 },
+  ] as const)(
+    'preserves $name anchors through concurrent splits in different paragraphs',
+    ({ scope, offset, assoc, expected }) => {
+      const first = createClient()
+      first.view.dispatch(
+        first.view.state.tr.replaceWith(0, first.view.state.doc.content.size, [
+          paragraph(text),
+          paragraph(text),
+        ]),
+      )
+      const second = createClient()
+      Y.applyUpdate(second.document, Y.encodeStateAsUpdate(first.document))
+      const paragraphSize = first.view.state.doc.child(0).nodeSize
+      const anchors = first.fragment.toArray().map((element, index) => {
+        if (!(element instanceof Y.XmlElement)) {
+          throw new Error('Expected a paragraph element')
+        }
+
+        const paragraphElement = element
+        const sharedText = paragraphElement.get(0)
+
+        if (!(sharedText instanceof Y.XmlText)) {
+          throw new Error('Expected paragraph text')
+        }
+        const types = { text: sharedText, node: paragraphElement, fragment: first.fragment }
+        const type = types[scope]
+        const position = Y.createRelativePositionFromTypeIndex(
+          type,
+          scope === 'fragment' ? index : offset,
+          assoc,
+        )
+
+        return Y.encodeRelativePosition(position)
+      })
+
+      first.view.dispatch(first.view.state.tr.split(8))
+      second.view.dispatch(second.view.state.tr.split(paragraphSize + 8))
+      expect(resolvePosition(first, anchors[0])).toBe(expected)
+      expect(resolvePosition(second, anchors[1])).toBe(paragraphSize + expected)
+      const firstUpdate = Y.encodeStateAsUpdate(first.document)
+      const secondUpdate = Y.encodeStateAsUpdate(second.document)
+      Y.applyUpdate(first.document, secondUpdate)
+      Y.applyUpdate(second.document, firstUpdate)
+
+      expect(second.view.state.doc.toJSON()).toEqual(first.view.state.doc.toJSON())
+      for (const client of [first, second]) {
+        expect(anchors.map(anchor => resolvePosition(client, anchor))).toEqual([
+          expected,
+          paragraphSize + expected + 2,
+        ])
+      }
+    },
+  )
+
   it('returns null for conflicting concurrent structural destinations', () => {
     const first = createClient()
     first.view.dispatch(
@@ -725,7 +799,7 @@ describe('relative positions through structural changes', () => {
       absolutePositionToRelativePosition(13, first.fragment, binding.mapping),
     )
     first.view.dispatch(first.view.state.tr.split(8))
-    second.view.dispatch(second.view.state.tr.split(15))
+    second.view.dispatch(second.view.state.tr.split(10))
     const firstUpdate = Y.encodeStateAsUpdate(first.document)
     const secondUpdate = Y.encodeStateAsUpdate(second.document)
     Y.applyUpdate(first.document, secondUpdate)

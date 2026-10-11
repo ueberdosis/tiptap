@@ -76,10 +76,21 @@ export const applyPositionMigration = (
   }
 
   visit(fragment, plan.doc, 0)
-  const transfers: PositionTransfer[] = plan.characters.map(character => ({
-    source: { client: character.client, clock: character.clock, length: 1 },
-    target: character.position === null ? null : (targets.get(character.position) ?? null),
-  }))
+  const transfers: PositionTransfer[] = []
+
+  plan.characters.forEach(character => {
+    const target = character.position === null ? null : (targets.get(character.position) ?? null)
+
+    // Unchanged identities must not compete with another client's structural transfer.
+    if (target && Y.compareIDs(character, target) && Y.compareIDs(character.type, target.type)) {
+      return
+    }
+
+    transfers.push({
+      source: { client: character.client, clock: character.clock, length: 1 },
+      target,
+    })
+  })
 
   transfers.push(...getPositionBoundaryTransfers(plan.characters, targets))
   transfers.push(...getPositionNodeTransfers(plan.nodes, starts, ends, plan.emptyTexts))
