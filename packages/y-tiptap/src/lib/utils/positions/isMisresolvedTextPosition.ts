@@ -10,7 +10,11 @@ export const isMisresolvedTextPosition = (
     return false
   }
   const decoded = Y.createAbsolutePositionFromRelativePosition(relPos, y)
+  // Yjs falls back to index 0 only when the text type itself was deleted.
   return (
-    decoded !== null && decoded.type instanceof Y.XmlText && relPos.item !== null && absPos <= 1
+    decoded !== null &&
+    decoded.type instanceof Y.XmlText &&
+    relPos.item !== null &&
+    decoded.type._item?.deleted === true
   )
 }
