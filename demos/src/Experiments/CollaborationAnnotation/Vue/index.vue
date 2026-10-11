@@ -1,17 +1,5 @@
 <template>
   <div class="annotation-demo">
-    <div class="control-group">
-      <h1>Collaborative annotations</h1>
-      <p>
-        Select text or click the image, then add an annotation. Try splitting paragraphs, moving
-        blocks, and undoing changes in either editor.
-      </p>
-      <p>
-        Each editor has its own Y.Doc. Annotations live in a separate Y.Map and appear as
-        decorations.
-      </p>
-    </div>
-
     <div class="annotation-clients">
       <section
         v-for="(client, index) in clients"
