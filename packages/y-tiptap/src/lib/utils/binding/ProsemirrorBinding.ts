@@ -196,7 +196,7 @@ export class ProsemirrorBinding {
 
     if (snapshot instanceof Uint8Array || prevSnapshot instanceof Uint8Array) {
       if (!(snapshot instanceof Uint8Array) || !(prevSnapshot instanceof Uint8Array)) {
-        error.unexpectedCase()
+        throw error.unexpectedCase()
       }
 
       historyDoc = new Y.Doc({ gc: false })
