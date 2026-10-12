@@ -1,11 +1,8 @@
 import type { BindingMetadata } from '../../../types/BindingMetadata.js'
 import type { ComputeYChange } from '../../../types/YChange.js'
 import * as PModel from 'prosemirror-model'
-import * as error from 'lib0/error'
-import { ySyncPluginKey } from '../../plugins/keys.js'
 import * as Y from 'yjs'
 import { isVisible } from '../binding/isVisible.js'
-import { deleteMapping } from '../binding/deleteMapping.js'
 import { projectedMappings } from '../binding/projectedMappings.js'
 
 import { createTextNodesFromYText } from './createTextNodesFromYText.js'
@@ -32,43 +29,15 @@ export const createNodeFromYElement = (
   const children: PModel.Node[] = []
   const createChildren = (type: Y.XmlElement | Y.XmlText | Y.XmlHook) => {
     if (type instanceof Y.XmlElement) {
-      const n = createNodeFromYElement(type, schema, meta, snapshot, prevSnapshot, computeYChange)
-      if (n !== null) {
-        children.push(n)
-      }
-    } else if (type instanceof Y.XmlText) {
-      const content = type._item?.right?.content
-      const nextytext = content instanceof Y.ContentType ? content.type : null
-      const nextItem = nextytext?._item
-      const nextDoc = nextytext?.doc
-      if (
-        nextytext instanceof Y.Text &&
-        nextItem &&
-        nextDoc &&
-        !nextItem.deleted &&
-        // Only the creator merges this text item to avoid competing repairs on peers.
-        nextItem.id.client === nextDoc.clientID
-      ) {
-        type.applyDelta([{ retain: type.length }, ...nextytext.toDelta()])
-        nextDoc.transact(tr => {
-          nextItem.delete(tr)
-        })
-      }
-      const ns = createTextNodesFromYText(
-        type,
-        schema,
-        meta,
-        snapshot,
-        prevSnapshot,
-        computeYChange,
+      children.push(
+        createNodeFromYElement(type, schema, meta, snapshot, prevSnapshot, computeYChange),
       )
-      if (ns !== null) {
-        ns.forEach(textchild => {
-          if (textchild !== null) {
-            children.push(textchild)
-          }
-        })
-      }
+    } else if (type instanceof Y.XmlText) {
+      children.push(
+        ...createTextNodesFromYText(type, schema, meta, snapshot, prevSnapshot, computeYChange),
+      )
+    } else {
+      throw new Error('Cannot project a Yjs XML hook')
     }
   }
   if (snapshot === undefined || prevSnapshot === undefined) {
@@ -78,41 +47,27 @@ export const createNodeFromYElement = (
       createChildren,
     )
   }
-  try {
-    const attrs: Record<string, unknown> = el.getAttributes(snapshot)
-    if (snapshot !== undefined && el._item) {
-      if (!isVisible(el._item, snapshot)) {
-        attrs.ychange = computeYChange
-          ? computeYChange('removed', el._item.id)
-          : { type: 'removed' }
-      } else if (!isVisible(el._item, prevSnapshot)) {
-        attrs.ychange = computeYChange ? computeYChange('added', el._item.id) : { type: 'added' }
-      }
+  const attrs: Record<string, unknown> = el.getAttributes(snapshot)
+  if (snapshot !== undefined && el._item) {
+    if (!isVisible(el._item, snapshot)) {
+      attrs.ychange = computeYChange ? computeYChange('removed', el._item.id) : { type: 'removed' }
+    } else if (!isVisible(el._item, prevSnapshot)) {
+      attrs.ychange = computeYChange ? computeYChange('added', el._item.id) : { type: 'added' }
     }
-    let node = schema.node(el.nodeName, attrs, children)
-    if (cachedNode !== undefined && !Array.isArray(cachedNode) && cachedNode.eq(node)) {
-      node = cachedNode
-    }
-
-    meta.mapping.set(el, node)
-    let projectedNodes = projectedMappings.get(meta.mapping)
-
-    if (projectedNodes === undefined) {
-      projectedNodes = new WeakMap()
-      projectedMappings.set(meta.mapping, projectedNodes)
-    }
-
-    projectedNodes.set(el, node)
-    return node
-  } catch {
-    // Remove unrenderable shared content so later projections do not repeat the failure.
-    const doc = el.doc
-    const item = el._item
-    if (!doc || !item) throw error.unexpectedCase()
-    doc.transact(transaction => {
-      item.delete(transaction)
-    }, ySyncPluginKey)
-    deleteMapping(meta.mapping, el)
-    return null
   }
+  let node = schema.node(el.nodeName, attrs, children)
+  if (cachedNode !== undefined && !Array.isArray(cachedNode) && cachedNode.eq(node)) {
+    node = cachedNode
+  }
+
+  meta.mapping.set(el, node)
+  let projectedNodes = projectedMappings.get(meta.mapping)
+
+  if (projectedNodes === undefined) {
+    projectedNodes = new WeakMap()
+    projectedMappings.set(meta.mapping, projectedNodes)
+  }
+
+  projectedNodes.set(el, node)
+  return node
 }
