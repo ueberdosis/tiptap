@@ -1,14 +1,13 @@
 import { attrsEqual } from './attrsEqual.js'
 import { Node } from 'prosemirror-model'
 import { hasDistinctiveAttrs } from './hasDistinctiveAttrs.js'
-import { remapIntoBlock } from './remapIntoBlock.js'
 
 /** Recovers a position in a moved block, returning null when the match is ambiguous. */
 export const findAbsolutePositionAfterStructuralChange = (
   oldDoc: Node,
   newDoc: Node,
   absPos: number,
-) => {
+): number | null => {
   let pos = 0
   let targetIdx = 0
   for (; targetIdx < oldDoc.childCount; targetIdx++) {
@@ -30,7 +29,21 @@ export const findAbsolutePositionAfterStructuralChange = (
       const contentEnd = newBlockStart + newBlock.nodeSize - 1
       return Math.max(contentStart, Math.min(remapped, contentEnd))
     }
-    return remapIntoBlock($oldPos, newBlockStart, newBlock)
+    if ($oldPos.depth > 1) {
+      const innerPosition = findAbsolutePositionAfterStructuralChange(
+        $oldPos.node(1),
+        newBlock,
+        $oldPos.pos - $oldPos.start(1),
+      )
+
+      return innerPosition === null ? null : newBlockStart + 1 + innerPosition
+    }
+
+    if (!newBlock.isTextblock) {
+      return null
+    }
+
+    return newBlockStart + 1 + Math.min($oldPos.parentOffset, newBlock.content.size)
   }
   const findByPredicate = (pred: (arg0: Node) => boolean, requireUnique: boolean = false) => {
     let occurrence = 0
@@ -72,7 +85,7 @@ export const findAbsolutePositionAfterStructuralChange = (
   if (byText !== null) {
     return byText
   }
-  if (hasDistinctiveAttrs(targetChild)) {
+  if (!targetChild.isTextblock || hasDistinctiveAttrs(targetChild)) {
     const byAttrs = findByPredicate(sameTypeAndAttrs, true)
     if (byAttrs !== null) {
       return byAttrs

@@ -13,6 +13,7 @@ import { reconcileMappedChildren } from './reconcileMappedChildren.js'
 import { computeChildEqualityFactor } from './computeChildEqualityFactor.js'
 import { updateYText } from './updateYText.js'
 import { matchNodeName } from './matchNodeName.js'
+import { deleteMapping } from '../binding/deleteMapping.js'
 
 /** Updates a Yjs XML fragment to match a ProseMirror node while preserving mapped children. */
 export const updateYFragment = (
@@ -159,7 +160,7 @@ export const updateYFragment = (
         continue
       }
 
-      meta.mapping.delete(yDomFragment.get(left))
+      deleteMapping(meta.mapping, yDomFragment.get(left))
       yDomFragment.delete(left, 1)
       yDomFragment.insert(left, [createTypeFromTextOrElementNode(leftP, meta)])
       left += 1
@@ -169,10 +170,10 @@ export const updateYFragment = (
 
     if (yChildCnt === 1 && pChildCnt === 0 && yChildren[0] instanceof Y.XmlText) {
       // Keep the text type alive so empty-block positions can still resolve.
-      meta.mapping.delete(yChildren[0])
+      deleteMapping(meta.mapping, yChildren[0])
       yChildren[0].delete(0, yChildren[0].length)
     } else if (yDelLen > 0) {
-      yDomFragment.slice(left, left + yDelLen).forEach(type => meta.mapping.delete(type))
+      yDomFragment.slice(left, left + yDelLen).forEach(type => deleteMapping(meta.mapping, type))
       yDomFragment.delete(left, yDelLen)
     }
 

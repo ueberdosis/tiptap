@@ -42,6 +42,35 @@ test.describe(`${demoPath}/${demoName}`, () => {
         await page.screenshot({ path: '/tmp/tiptap-annotation-demo-mobile.png', fullPage: true })
       })
 
+      test('reuses untouched blocks after remote typing', async ({ page }) => {
+        const first = page.locator('.editor-1 .tiptap')
+        const second = page.locator('.editor-2 .tiptap')
+        await expect(second.locator('p').first()).toContainText('Select some text')
+        const before = await second.evaluateHandle(
+          element => (element as HTMLElement & { editor: Editor }).editor.state.doc,
+        )
+
+        await first.evaluate(element =>
+          (element as HTMLElement & { editor: Editor }).editor.commands.setTextSelection(1),
+        )
+        await first.pressSequentially('!')
+        await expect(second.locator('p').first()).toContainText('!Select some text')
+
+        expect(
+          await second.evaluate((element, oldDoc) => {
+            const doc = (element as HTMLElement & { editor: Editor }).editor.state.doc
+
+            return {
+              changed: doc.child(0) !== oldDoc.child(0),
+              image: doc.child(1) === oldDoc.child(1),
+              paragraph: doc.child(2) === oldDoc.child(2),
+              list: doc.child(3) === oldDoc.child(3),
+            }
+          }, before),
+        ).toEqual({ changed: true, image: true, paragraph: true, list: true })
+        await before.dispose()
+      })
+
       test('keeps a comment on its text after a paragraph split', async ({ page }) => {
         const first = page.locator('.editor-1 .tiptap')
         const second = page.locator('.editor-2 .tiptap')

@@ -1,5 +1,4 @@
 import type { CursorAwarenessState } from '../../types/CursorAwarenessState.js'
-import type { CursorUpdateOptions } from '../../types/CursorUpdateOptions.js'
 import type { EditorState } from 'prosemirror-state'
 import type { EditorView } from 'prosemirror-view'
 import type { CursorUser } from '../../types/CursorUser.js'
@@ -76,7 +75,7 @@ export const createDecorations = (
     }
 
     if (aw && aw.cursor != null) {
-      const user = aw.user || {}
+      const user = { ...aw.user }
 
       if (user.color == null) {
         user.color = '#ffa500'
@@ -192,7 +191,7 @@ export const yCursorPlugin = (
           setMeta(view, yCursorPluginKey, { awarenessUpdated: true })
         }
       }
-      const updateCursorInfo = (editorView: EditorView, opts: CursorUpdateOptions = {}) => {
+      const updateCursorInfo = (editorView: EditorView) => {
         const ystate = ySyncPluginKey.getState(editorView.state)
 
         if (!ystate || !ystate.binding) {
@@ -215,7 +214,6 @@ export const yCursorPlugin = (
           )
 
           if (
-            opts.force ||
             current.cursor == null ||
             !Y.compareRelativePositions(
               Y.createRelativePositionFromJSON(current.cursor.anchor),
@@ -247,16 +245,7 @@ export const yCursorPlugin = (
       view.dom.addEventListener('focusout', onFocusChange)
 
       return {
-        update: (editorView, prevState) => {
-          const ystate = ySyncPluginKey.getState(editorView.state)
-          const forceAwarenessUpdate = !!(
-            ystate?.isChangeOrigin &&
-            prevState?.doc &&
-            !prevState.doc.eq(editorView.state.doc)
-          )
-
-          updateCursorInfo(editorView, { force: forceAwarenessUpdate })
-        },
+        update: updateCursorInfo,
         destroy: () => {
           view.dom.removeEventListener('focusin', onFocusChange)
           view.dom.removeEventListener('focusout', onFocusChange)

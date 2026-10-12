@@ -3,6 +3,7 @@ import type { BindingMetadata } from '../../../../types/BindingMetadata.js'
 import type { PositionNode } from '../../../../types/PositionMigration.js'
 import * as Y from 'yjs'
 import { createTypeFromTextOrElementNode } from '../../conversion/createTypeFromTextOrElementNode.js'
+import { deleteMapping } from '../../binding/deleteMapping.js'
 
 export const syncPositionElement = (
   parent: Y.XmlFragment,
@@ -22,7 +23,7 @@ export const syncPositionElement = (
 
   // Reconciliation may reuse an element for another node, which would redirect its anchors.
   if (source && source.position !== position) {
-    metadata.mapping.delete(element)
+    deleteMapping(metadata.mapping, element)
     parent.delete(index, 1)
     element = createTypeFromTextOrElementNode(node, metadata)
     parent.insert(index, [element])

@@ -1,5 +1,6 @@
 import type { BindingMetadata } from '../../../types/BindingMetadata.js'
 import * as Y from 'yjs'
+import { deleteMapping } from '../binding/deleteMapping.js'
 
 export const deleteYChildren = (
   yDomFragment: Y.XmlFragment,
@@ -8,7 +9,7 @@ export const deleteYChildren = (
   meta: BindingMetadata,
 ) => {
   if (length > 0) {
-    yDomFragment.slice(index, index + length).forEach(type => meta.mapping.delete(type))
+    yDomFragment.slice(index, index + length).forEach(type => deleteMapping(meta.mapping, type))
     yDomFragment.delete(index, length)
   }
 }

@@ -5,6 +5,8 @@ import * as error from 'lib0/error'
 import { ySyncPluginKey } from '../../plugins/keys.js'
 import * as Y from 'yjs'
 import { isVisible } from '../binding/isVisible.js'
+import { deleteMapping } from '../binding/deleteMapping.js'
+import { projectedMappings } from '../binding/projectedMappings.js'
 
 import { createTextNodesFromYText } from './createTextNodesFromYText.js'
 
@@ -16,10 +18,21 @@ export const createNodeFromYElement = (
   prevSnapshot?: Y.Snapshot,
   computeYChange?: ComputeYChange,
 ) => {
+  const cachedNode = meta.mapping.get(el)
+
+  // Local nodes need projection checks to preserve overlapping mark order.
+  if (
+    cachedNode !== undefined &&
+    !Array.isArray(cachedNode) &&
+    projectedMappings.get(meta.mapping)?.get(el) === cachedNode
+  ) {
+    return cachedNode
+  }
+
   const children: PModel.Node[] = []
   const createChildren = (type: Y.XmlElement | Y.XmlText | Y.XmlHook) => {
     if (type instanceof Y.XmlElement) {
-      const n = createNodeIfNotExists(type, schema, meta, snapshot, prevSnapshot, computeYChange)
+      const n = createNodeFromYElement(type, schema, meta, snapshot, prevSnapshot, computeYChange)
       if (n !== null) {
         children.push(n)
       }
@@ -76,8 +89,20 @@ export const createNodeFromYElement = (
         attrs.ychange = computeYChange ? computeYChange('added', el._item.id) : { type: 'added' }
       }
     }
-    const node = schema.node(el.nodeName, attrs, children)
+    let node = schema.node(el.nodeName, attrs, children)
+    if (cachedNode !== undefined && !Array.isArray(cachedNode) && cachedNode.eq(node)) {
+      node = cachedNode
+    }
+
     meta.mapping.set(el, node)
+    let projectedNodes = projectedMappings.get(meta.mapping)
+
+    if (projectedNodes === undefined) {
+      projectedNodes = new WeakMap()
+      projectedMappings.set(meta.mapping, projectedNodes)
+    }
+
+    projectedNodes.set(el, node)
     return node
   } catch {
     // Remove unrenderable shared content so later projections do not repeat the failure.
@@ -87,27 +112,7 @@ export const createNodeFromYElement = (
     doc.transact(transaction => {
       item.delete(transaction)
     }, ySyncPluginKey)
-    meta.mapping.delete(el)
+    deleteMapping(meta.mapping, el)
     return null
   }
-}
-
-const createNodeIfNotExists = (
-  el: Y.XmlElement | Y.XmlHook | Y.XmlText,
-  schema: PModel.Schema,
-  meta: BindingMetadata,
-  snapshot?: Y.Snapshot,
-  prevSnapshot?: Y.Snapshot,
-  computeYChange?: ComputeYChange,
-) => {
-  const node = meta.mapping.get(el)
-  if (node === undefined) {
-    if (el instanceof Y.XmlElement) {
-      return createNodeFromYElement(el, schema, meta, snapshot, prevSnapshot, computeYChange)
-    } else {
-      throw error.methodUnimplemented()
-    }
-  }
-  if (Array.isArray(node)) throw error.unexpectedCase()
-  return node
 }

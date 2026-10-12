@@ -25,6 +25,9 @@ import { updateYFragment } from '../reconciliation/updateYFragment.js'
 import type { PositionMigrationPlan } from '../../../types/PositionMigration.js'
 import { applyPositionMigration } from '../positions/migrations/applyPositionMigration.js'
 import { getPositionMigrationStore } from '../positions/migrations/getPositionMigrationStore.js'
+import { deleteMapping } from './deleteMapping.js'
+import { projectedMappings } from './projectedMappings.js'
+import { replaceChangedChildren } from './replaceChangedChildren.js'
 
 /** Synchronizes one integrated Yjs XML fragment with a ProseMirror editor view. */
 export class ProsemirrorBinding {
@@ -157,6 +160,7 @@ export class ProsemirrorBinding {
 
   unrenderSnapshot() {
     this.mapping.clear()
+    projectedMappings.delete(this.mapping)
     this.mux(() => {
       const tr = this.createDocumentTransaction()
 
@@ -167,6 +171,7 @@ export class ProsemirrorBinding {
 
   _forceRerender() {
     this.mapping.clear()
+    projectedMappings.delete(this.mapping)
     this.mux(() => {
       const sel = this.beforeTransactionSelection !== null ? null : this.view.state.selection
       const tr = this.createDocumentTransaction()
@@ -234,6 +239,7 @@ export class ProsemirrorBinding {
     const previousSnapshot = prevSnapshot ?? Y.emptySnapshot
 
     this.mapping.clear()
+    projectedMappings.delete(this.mapping)
     this.mux(() => {
       historyDoc.transact(transaction => {
         const pud = pluginState.permanentUserData
@@ -313,7 +319,15 @@ export class ProsemirrorBinding {
     }
 
     this.mux(() => {
-      this.mapping.clear()
+      const delType = (_: unknown, type: unknown) => deleteMapping(this.mapping, type)
+
+      Y.iterateDeletedStructs(transaction, transaction.deleteSet, struct => {
+        if (struct instanceof Y.Item && struct.content instanceof Y.ContentType) {
+          deleteMapping(this.mapping, struct.content.type)
+        }
+      })
+      transaction.changed.forEach(delType)
+      transaction.changedParentTypes.forEach(delType)
 
       const fragmentContent = this.type
         .toArray()
@@ -326,11 +340,7 @@ export class ProsemirrorBinding {
         })
         .filter(n => n !== null)
       const oldDoc = this.view.state.doc
-      let tr = this._tr.replace(
-        0,
-        this.view.state.doc.content.size,
-        new PModel.Slice(PModel.Fragment.from(fragmentContent), 0, 0),
-      )
+      let tr = replaceChangedChildren(this._tr, PModel.Fragment.from(fragmentContent))
 
       restoreRelativeSelection(tr, this.beforeTransactionSelection, this, oldDoc)
       tr = tr.setMeta(ySyncPluginKey, {
