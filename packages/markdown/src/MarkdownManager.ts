@@ -1173,17 +1173,19 @@ export class MarkdownManager {
    * (`encodeTextForMarkdown`) via the existing `isInsideCode` guard.
    */
   private escapeMarkdownSyntax(text: string): string {
-    return text.replace(/[\\`*_[\]~]/g, (char, offset: number) => {
+    return text.replace(/[\\`*[\]~]|_+/g, (characters, offset: number) => {
+      const end = offset + characters.length
+
       // Include both code units of non-BMP letters and digits.
       if (
-        char === '_' &&
+        characters[0] === '_' &&
         INTRAWORD_CHARACTER_BEFORE.test(text.slice(Math.max(0, offset - 2), offset)) &&
-        INTRAWORD_CHARACTER_AFTER.test(text.slice(offset + 1, offset + 3))
+        INTRAWORD_CHARACTER_AFTER.test(text.slice(end, end + 2))
       ) {
-        return char
+        return characters
       }
 
-      return `\\${char}`
+      return characters.replace(/./g, char => `\\${char}`)
     })
   }
 
