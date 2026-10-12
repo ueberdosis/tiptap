@@ -18,6 +18,6 @@ export const initProseMirrorDoc = (
   })
   const content = Fragment.fromArray(fragmentContent)
   validateDocumentContent(content, schema)
-  const doc = schema.topNodeType.create(null, content)
+  const doc = schema.topNodeType.createChecked(null, content)
   return { doc, meta, mapping: meta.mapping }
 }

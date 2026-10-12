@@ -11,5 +11,5 @@ export const yXmlFragmentToProseMirrorRootNode = (
 ): Node => {
   const content = yXmlFragmentToProseMirrorFragment(yXmlFragment, schema)
   validateDocumentContent(content, schema)
-  return schema.topNodeType.create(null, content)
+  return schema.topNodeType.createChecked(null, content)
 }

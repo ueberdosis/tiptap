@@ -3,6 +3,7 @@ import { EditorState } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import { nodes, marks } from 'prosemirror-schema-basic'
 import {
+  initProseMirrorDoc,
   prosemirrorToYXmlFragment,
   yDocToProsemirrorJSON,
   ySyncPlugin,
@@ -71,6 +72,50 @@ describe('schema compatibility', () => {
     if (!state) throw new Error('Missing sync plugin')
     return state.binding
   }
+
+  describe.each([
+    ['root conversion', yXmlFragmentToProseMirrorRootNode],
+    [
+      'initial document',
+      (fragment: Y.XmlFragment, schema: Schema) => initProseMirrorDoc(fragment, schema).doc,
+    ],
+  ] as const)('headless %s', (_name, convert) => {
+    it('rejects empty content when the schema requires a block', () => {
+      const document = createDocument()
+      const before = Y.encodeStateAsUpdate(document)
+
+      expect(() => convert(document.getXmlFragment('prosemirror'), narrowSchema)).toThrow(
+        RangeError,
+      )
+      expect(Y.encodeStateAsUpdate(document)).toEqual(before)
+    })
+
+    it('accepts empty content when the schema allows it', () => {
+      const document = createDocument()
+      const schema = new Schema({ nodes: { ...nodes, doc: { content: 'block*' } }, marks })
+
+      const result = convert(document.getXmlFragment('prosemirror'), schema)
+
+      expect(result.content.childCount).toBe(0)
+      expect(() => result.check()).not.toThrow()
+    })
+
+    it('preserves valid nonempty content', () => {
+      const document = createDocument()
+      const content = narrowSchema.node(
+        'doc',
+        null,
+        narrowSchema.node('paragraph', null, narrowSchema.text('Hello')),
+      )
+      const fragment = document.getXmlFragment('prosemirror')
+      prosemirrorToYXmlFragment(content, fragment)
+
+      const result = convert(fragment, narrowSchema)
+
+      expect(result.eq(content)).toBe(true)
+      expect(() => result.check()).not.toThrow()
+    })
+  })
 
   it.each(['node', 'mark'] as const)(
     'leaves unknown %s content intact during headless conversion',
