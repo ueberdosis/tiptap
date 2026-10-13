@@ -56,26 +56,26 @@
 </template>
 
 <script setup lang="ts">
-import { getSchema } from "@tiptap/core";
-import Collaboration from "@tiptap/extension-collaboration";
-import Image from "@tiptap/extension-image";
-import StarterKit from "@tiptap/starter-kit";
-import { Editor, EditorContent } from "@tiptap/vue-3";
-import { prosemirrorJSONToYXmlFragment } from "@tiptap/y-tiptap";
-import { onBeforeUnmount, onMounted, ref, shallowRef } from "vue";
-import * as Y from "yjs";
-import { connectDocuments } from "./connectDocuments.js";
-import { content } from "./content.js";
-import CollaborationAnnotation from "./extension/index.js";
-import type { Annotation, ResolvedAnnotation } from "./extension/types/Annotation.js";
-import { moveSelectedBlock } from "./moveSelectedBlock.js";
-import type { DemoClient } from "./types/DemoClient.js";
-import AnnotationList from "./AnnotationList.vue";
+import { getSchema } from '@tiptap/core'
+import Collaboration from '@tiptap/extension-collaboration'
+import Image from '@tiptap/extension-image'
+import StarterKit from '@tiptap/starter-kit'
+import { Editor, EditorContent } from '@tiptap/vue-3'
+import { prosemirrorJSONToYXmlFragment } from '@tiptap/y-tiptap'
+import { onBeforeUnmount, onMounted, ref, shallowRef } from 'vue'
+import * as Y from 'yjs'
+import { connectDocuments } from './connectDocuments.js'
+import { content } from './content.js'
+import CollaborationAnnotation from './extension/index.js'
+import type { Annotation, ResolvedAnnotation } from './extension/types/Annotation.js'
+import { moveSelectedBlock } from './moveSelectedBlock.js'
+import type { DemoClient } from './types/DemoClient.js'
+import AnnotationList from './AnnotationList.vue'
 
-const clients = shallowRef<DemoClient[]>([]);
-const drafts = ref(["A text or image annotation", "Another annotation"]);
-const documents = [new Y.Doc(), new Y.Doc()];
-let disconnect = () => {};
+const clients = shallowRef<DemoClient[]>([])
+const drafts = ref(['A text or image annotation', 'Another annotation'])
+const documents = [new Y.Doc(), new Y.Doc()]
+let disconnect = () => {}
 
 function refreshClient(index: number, annotations?: ResolvedAnnotation[]) {
   clients.value = clients.value.map((client, current) =>
@@ -83,21 +83,21 @@ function refreshClient(index: number, annotations?: ResolvedAnnotation[]) {
       ? {
           ...client,
           annotations: annotations ?? client.annotations,
-          stored: JSON.stringify(client.document.getMap("annotations").toJSON(), null, 2),
+          stored: JSON.stringify(client.document.getMap('annotations').toJSON(), null, 2),
           content: JSON.stringify(client.editor.getJSON(), null, 2),
         }
       : client,
-  );
+  )
 }
 
 onMounted(() => {
   prosemirrorJSONToYXmlFragment(
     getSchema([StarterKit, Image]),
     content,
-    documents[0].getXmlFragment("default"),
-  );
-  Y.applyUpdate(documents[1], Y.encodeStateAsUpdate(documents[0]));
-  disconnect = connectDocuments(documents[0], documents[1]);
+    documents[0].getXmlFragment('default'),
+  )
+  Y.applyUpdate(documents[1], Y.encodeStateAsUpdate(documents[0]))
+  disconnect = connectDocuments(documents[0], documents[1])
 
   clients.value = documents.map((document, index) => {
     const editor = new Editor({
@@ -106,29 +106,29 @@ onMounted(() => {
         Image,
         Collaboration.configure({ document }),
         CollaborationAnnotation.configure({
-          map: document.getMap<Annotation>("annotations"),
-          onUpdate: (annotations) => refreshClient(index, annotations),
+          map: document.getMap<Annotation>('annotations'),
+          onUpdate: annotations => refreshClient(index, annotations),
         }),
       ],
       onSelectionUpdate: () => refreshClient(index),
-    });
+    })
 
     return {
       name: `Client ${index + 1}`,
       document,
       editor,
       annotations: [],
-      stored: "{}",
+      stored: '{}',
       content: JSON.stringify(editor.getJSON(), null, 2),
-    };
-  });
-});
+    }
+  })
+})
 
 onBeforeUnmount(() => {
-  disconnect();
-  clients.value.forEach((client) => client.editor.destroy());
-  documents.forEach((document) => document.destroy());
-});
+  disconnect()
+  clients.value.forEach(client => client.editor.destroy())
+  documents.forEach(document => document.destroy())
+})
 </script>
 
 <style lang="scss">
