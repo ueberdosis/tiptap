@@ -1,5 +1,17 @@
 # Change Log
 
+## 3.32.1
+
+### Patch Changes
+
+- 3ebb519: Indent continuation lines when exporting Markdown task items so they stay inside the item when imported again.
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
 ## 3.32.0
 
 ### Patch Changes

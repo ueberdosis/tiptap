@@ -1,5 +1,742 @@
 # Releases
 
+## v3.32.1
+
+### @tiptap/extension-underline
+
+#### Patch Changes
+
+- 3ebb519: Export underlined text as `<u>text</u>` in Markdown. Treat `++` as plain text when parsing, so C++ mentions keep their plus signs.
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+
+### @tiptap/core
+
+#### Patch Changes
+
+- 3ebb519: Keep indented Markdown task-item continuation lines in the same paragraph instead of turning them into separate paragraphs or code blocks.
+- 3ebb519: Indent continuation lines when exporting Markdown task items so they stay inside the item when imported again.
+- 3ebb519: Keep Markdown task-item continuation lines in the same paragraph when the opening text resembles a heading or list, including tasks nested inside bullet lists.
+- 3ebb519: Preserve task-list continuation text with custom block tokenizers and tab indentation.
+- @tiptap/pm@3.32.1
+
+### @tiptap/extension-list
+
+#### Patch Changes
+
+- 3ebb519: Indent continuation lines when exporting Markdown task items so they stay inside the item when imported again.
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- 3ebb519: Keep Markdown task-item continuation lines in the same paragraph when the opening text resembles a heading or list, including tasks nested inside bullet lists.
+- 3ebb519: Preserve task-list continuation text with custom block tokenizers and tab indentation.
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-table
+
+#### Patch Changes
+
+- 3ebb519: Apply custom table attributes when resizing is enabled and keep them current after attribute changes.
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/starter-kit
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/extension-underline@3.32.1
+  - @tiptap/core@3.32.1
+  - @tiptap/extension-list@3.32.1
+  - @tiptap/extension-blockquote@3.32.1
+  - @tiptap/extension-bold@3.32.1
+  - @tiptap/extension-code@3.32.1
+  - @tiptap/extension-code-block@3.32.1
+  - @tiptap/extension-document@3.32.1
+  - @tiptap/extension-hard-break@3.32.1
+  - @tiptap/extension-heading@3.32.1
+  - @tiptap/extension-horizontal-rule@3.32.1
+  - @tiptap/extension-italic@3.32.1
+  - @tiptap/extension-link@3.32.1
+  - @tiptap/extension-paragraph@3.32.1
+  - @tiptap/extension-strike@3.32.1
+  - @tiptap/extension-text@3.32.1
+  - @tiptap/extensions@3.32.1
+  - @tiptap/extension-list-item@3.32.1
+  - @tiptap/extension-list-keymap@3.32.1
+  - @tiptap/extension-bullet-list@3.32.1
+  - @tiptap/extension-ordered-list@3.32.1
+  - @tiptap/extension-dropcursor@3.32.1
+  - @tiptap/extension-gapcursor@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-audio
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+
+### @tiptap/extension-blockquote
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-bold
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+
+### @tiptap/extension-bubble-menu
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-code
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+
+### @tiptap/extension-code-block
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-code-block-lowlight
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/extension-code-block@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-collaboration
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-collaboration-caret
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-details
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/extension-text-style@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-document
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+
+### @tiptap/extension-drag-handle
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/extension-collaboration@3.32.1
+  - @tiptap/extension-node-range@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-emoji
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/suggestion@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-file-handler
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/extension-text-style@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-find-and-replace
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-floating-menu
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-hard-break
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+
+### @tiptap/extension-heading
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+
+### @tiptap/extension-highlight
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+
+### @tiptap/extension-horizontal-rule
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-image
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+
+### @tiptap/extension-invisible-characters
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/extension-text-style@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-italic
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+
+### @tiptap/extension-link
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-mathematics
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-mention
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/suggestion@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-node-range
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-paragraph
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+
+### @tiptap/extension-ruby-text
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-strike
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+
+### @tiptap/extension-subscript
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-superscript
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-table-of-contents
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-text
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+
+### @tiptap/extension-text-align
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+
+### @tiptap/extension-text-style
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+
+### @tiptap/extension-twitch
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+
+### @tiptap/extension-typography
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+
+### @tiptap/extension-unique-id
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-youtube
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+
+### @tiptap/extensions
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/html
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/react
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/static-renderer
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/suggestion
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/vue-2
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/vue-3
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-list-item
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+  - @tiptap/extension-list@3.32.1
+
+### @tiptap/extension-list-keymap
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+  - @tiptap/extension-list@3.32.1
+
+### @tiptap/extension-task-item
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+  - @tiptap/extension-list@3.32.1
+
+### @tiptap/extension-task-list
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+  - @tiptap/extension-list@3.32.1
+
+### @tiptap/extension-bullet-list
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+  - @tiptap/extension-list@3.32.1
+
+### @tiptap/extension-ordered-list
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+  - @tiptap/extension-list@3.32.1
+
+### @tiptap/extension-table-cell
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+  - @tiptap/extension-table@3.32.1
+
+### @tiptap/extension-table-header
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+  - @tiptap/extension-table@3.32.1
+
+### @tiptap/extension-table-row
+
+#### Patch Changes
+
+- Updated dependencies [3ebb519]
+  - @tiptap/extension-table@3.32.1
+
+### @tiptap/extension-drag-handle-react
+
+#### Patch Changes
+
+- @tiptap/extension-drag-handle@3.32.1
+  - @tiptap/react@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-drag-handle-vue-2
+
+#### Patch Changes
+
+- @tiptap/extension-drag-handle@3.32.1
+  - @tiptap/vue-2@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-drag-handle-vue-3
+
+#### Patch Changes
+
+- @tiptap/extension-drag-handle@3.32.1
+  - @tiptap/vue-3@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-color
+
+#### Patch Changes
+
+- @tiptap/extension-text-style@3.32.1
+
+### @tiptap/extension-font-family
+
+#### Patch Changes
+
+- @tiptap/extension-text-style@3.32.1
+
+### @tiptap/extension-character-count
+
+#### Patch Changes
+
+- @tiptap/extensions@3.32.1
+
+### @tiptap/extension-dropcursor
+
+#### Patch Changes
+
+- @tiptap/extensions@3.32.1
+
+### @tiptap/extension-focus
+
+#### Patch Changes
+
+- @tiptap/extensions@3.32.1
+
+### @tiptap/extension-gapcursor
+
+#### Patch Changes
+
+- @tiptap/extensions@3.32.1
+
+### @tiptap/extension-history
+
+#### Patch Changes
+
+- @tiptap/extensions@3.32.1
+
+### @tiptap/extension-placeholder
+
+#### Patch Changes
+
+- @tiptap/extensions@3.32.1
+
 ## v3.32.0
 
 ### @tiptap/markdown

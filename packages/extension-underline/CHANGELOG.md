@@ -1,5 +1,16 @@
 # Change Log
 
+## 3.32.1
+
+### Patch Changes
+
+- b9ac8a8: Export underlined text as `<u>text</u>` in Markdown. Treat `++` as plain text when parsing, so C++ mentions keep their plus signs.
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+
 ## 3.32.0
 
 ### Patch Changes
