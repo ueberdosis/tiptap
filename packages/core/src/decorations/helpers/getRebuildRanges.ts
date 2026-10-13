@@ -82,7 +82,7 @@ export function getRebuildRanges(tr: Transaction, doc: PMNode): RebuildRangeReso
 
   // for each range, merge it with the previous range if it overlaps
   for (const range of ranges) {
-    const last = merged[merged.length - 1]
+    const last = merged.at(-1)
 
     // if the current range overlaps with the previous range, merge it
     if (last && range.from <= last.to) {

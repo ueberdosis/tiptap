@@ -14,5 +14,5 @@ export function mergeResults(first: SearchResult[], second: SearchResult[]): Sea
     results.push(second[secondIndex++])
   }
 
-  return results.concat(first.slice(firstIndex), second.slice(secondIndex))
+  return [...results, ...first.slice(firstIndex), ...second.slice(secondIndex)]
 }
