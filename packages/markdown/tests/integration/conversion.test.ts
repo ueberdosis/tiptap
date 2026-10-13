@@ -1,4 +1,4 @@
-import type { Extension } from '@tiptap/core'
+import type { Extension, JSONContent } from '@tiptap/core'
 import { Bold } from '@tiptap/extension-bold'
 import { Code } from '@tiptap/extension-code'
 import { CodeBlock } from '@tiptap/extension-code-block'
@@ -387,6 +387,51 @@ describe('Markdown Conversion Tests', () => {
       const tildeJSON = markdownManager.parse(tildeMarkdown)
       const backtickJSON = markdownManager.parse(backtickMarkdown)
       expect(tildeJSON).toEqual(backtickJSON)
+    })
+  })
+
+  describe('fenced code blocks indented by 1-3 spaces', () => {
+    const parseCodeBlock = (markdown: string) => {
+      const json = markdownManager.parse(`para\n\n${markdown}\n\nafter`)
+
+      expect(json.content?.map((node: JSONContent) => node.type)).toEqual([
+        'paragraph',
+        'codeBlock',
+        'paragraph',
+      ])
+
+      return json.content?.[1]
+    }
+
+    it.each([' ```', '  ```', '   ```', ' ~~~', '   ~~~'])(
+      'should parse a code block opened by "%s"',
+      fence => {
+        const codeBlock = parseCodeBlock(`${fence}\n${fence.replace(/\S+/, '')}code\n${fence}`)
+
+        expect(codeBlock?.content).toMatchObject([{ type: 'text', text: 'code' }])
+      },
+    )
+
+    it('should keep the language of an indented fence', () => {
+      const codeBlock = parseCodeBlock('  ```js\n  const a = 1\n  ```')
+
+      expect(codeBlock?.attrs).toEqual({ language: 'js' })
+      expect(codeBlock?.content).toMatchObject([{ type: 'text', text: 'const a = 1' }])
+    })
+
+    it('should remove the fence indent from tilde fence content like backtick fences', () => {
+      const markdown = '  FENCE\n  a\n    b\n c\n  FENCE'
+      const tilde = parseCodeBlock(markdown.replaceAll('FENCE', '~~~'))
+      const backtick = parseCodeBlock(markdown.replaceAll('FENCE', '```'))
+
+      expect(tilde?.content).toMatchObject([{ type: 'text', text: 'a\n  b\n c' }])
+      expect(tilde).toEqual(backtick)
+    })
+
+    it('should keep an indented code block when serializing', () => {
+      const markdown = markdownManager.serialize(markdownManager.parse('para\n\n ```\n code\n ```'))
+
+      expect(markdown).toBe('para\n\n```\ncode\n```')
     })
   })
 
