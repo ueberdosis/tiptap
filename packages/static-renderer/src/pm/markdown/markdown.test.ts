@@ -401,6 +401,29 @@ describe('static render json to string (no prosemirror)', () => {
     expect(md).toBe('\n> First\n> \n> Second\n')
   })
 
+  it('should render a heading with multiple marked text nodes without commas', () => {
+    const json = {
+      type: 'doc',
+      content: [
+        {
+          type: 'heading',
+          attrs: { level: 2 },
+          content: [
+            { type: 'text', text: 'Hello ' },
+            { type: 'text', text: 'bold', marks: [{ type: 'bold' }] },
+            { type: 'text', text: ' and ' },
+            { type: 'text', text: 'it', marks: [{ type: 'italic' }] },
+          ],
+        },
+      ],
+    }
+    const md = renderToMarkdown({
+      content: json,
+      extensions: [StarterKit],
+    })
+    expect(md).toBe('## Hello **bold** and _it_\n')
+  })
+
   it('accepts staticEditorOptions.textDirection without crashing', () => {
     const json = {
       type: 'doc',

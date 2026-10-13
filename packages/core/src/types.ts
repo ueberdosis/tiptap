@@ -1,4 +1,10 @@
-import type { Mark as ProseMirrorMark, Node as PMNode, ParseOptions, Slice } from '@tiptap/pm/model'
+import type {
+  Mark as ProseMirrorMark,
+  Node as PMNode,
+  ParseOptions,
+  SchemaSpec,
+  Slice,
+} from '@tiptap/pm/model'
 import type { EditorState, Transaction } from '@tiptap/pm/state'
 import type { Mappable, Transform } from '@tiptap/pm/transform'
 import type {
@@ -298,6 +304,14 @@ export interface EditorOptions {
    * The extensions to use
    */
   extensions: Extensions
+  /**
+   * A complete ProseMirror specification applied when the editor is created.
+   * Its structure replaces local node, mark and attribute definitions.
+   * Local extensions retain parsing, rendering, commands and plugins.
+   * Every node and mark must have a matching local extension, and vice versa.
+   * Changing this option on an existing editor does not rebuild its schema.
+   */
+  schemaSpec?: SchemaSpec
   /**
    * Whether to inject base CSS styles
    */
