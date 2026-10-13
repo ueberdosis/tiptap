@@ -1032,6 +1032,9 @@ export type MarkdownLexerConfiguration = {
    * @returns Array of block-level tokens
    */
   blockTokens: (src: string) => MarkdownToken[]
+
+  /** Returns whether a line continues an existing paragraph without starting a block. */
+  isParagraphContinuation?: (line: string) => boolean
 }
 
 /** Custom tokenizer function for marked.js extensions */
