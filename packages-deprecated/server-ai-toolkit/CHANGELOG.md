@@ -1,5 +1,12 @@
 # @tiptap/server-ai-toolkit
 
+## 0.4.1
+
+### Patch Changes
+
+- Updated dependencies [3fd922c]
+  - @tiptap/ai-toolkit@0.4.1
+
 ## 0.4.0
 
 ### Patch Changes

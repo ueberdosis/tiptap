@@ -1,5 +1,702 @@
 # Releases
 
+## v3.32.0
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- 8e2a86f: A literal `!` directly before a link is now escaped when serializing to Markdown, so the link is no longer parsed back as an image.
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/pm
+
+#### Patch Changes
+
+- 8e2a86f: Update ProseMirror dependencies to their latest versions.
+
+### @tiptap/react
+
+#### Patch Changes
+
+- 8e2a86f: Fix `useEditorState` overflowing the stack when a selector returns a value with circular references, such as `editor.state` after one stored mark replaces another.
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/core
+
+#### Minor Changes
+
+- 8e2a86f: Add the `schemaSpec` editor option to use an external ProseMirror schema structure with local extension behavior.
+
+#### Patch Changes
+
+- 8e2a86f: Fix list toggling between list types that use different item nodes. Nested lists are recursively converted when the target item schema supports nesting, and flattened into sibling items when it does not.
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+
+### @tiptap/y-tiptap
+
+#### Patch Changes
+
+- 8e2a86f: Keep relative text and node positions attached through structural edits, node moves, and undo or redo across collaborating clients.
+- 8e2a86f: Improve TypeScript definitions for document synchronization, shared cursors, undo, redo, and document conversions.
+- 8e2a86f: Improve collaboration performance and keep comments, highlights, caret positions, and remote caret details intact during remote edits.
+- 8e2a86f: Preserve shared content when a client cannot display its nodes or marks, and pause that client's editing until compatible content is available.
+  
+  Headless document creation rejects empty content when the schema requires child nodes.
+
+### @tiptap/extension-collaboration
+
+#### Patch Changes
+
+- 8e2a86f: Keep collaborative editing, cursor presence, and drag handles compatible with the updated `@tiptap/y-tiptap` binding.
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-collaboration-caret
+
+#### Patch Changes
+
+- 8e2a86f: Keep collaborative editing, cursor presence, and drag handles compatible with the updated `@tiptap/y-tiptap` binding.
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-drag-handle
+
+#### Patch Changes
+
+- 8e2a86f: Keep collaborative editing, cursor presence, and drag handles compatible with the updated `@tiptap/y-tiptap` binding.
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+  - @tiptap/extension-collaboration@3.32.0
+  - @tiptap/extension-node-range@3.32.0
+
+### @tiptap/ai-toolkit
+
+#### Patch Changes
+
+- 8e2a86f: Keep collaborative editing, cursor presence, and drag handles compatible with the updated `@tiptap/y-tiptap` binding.
+
+### @tiptap/extension-blockquote
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-bubble-menu
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-code-block
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-code-block-lowlight
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+  - @tiptap/extension-code-block@3.32.0
+
+### @tiptap/extension-details
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+  - @tiptap/extension-text-style@3.32.0
+
+### @tiptap/extension-drag-handle-react
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/react@3.32.0
+  - @tiptap/extension-drag-handle@3.32.0
+
+### @tiptap/extension-drag-handle-vue-2
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/extension-drag-handle@3.32.0
+  - @tiptap/vue-2@3.32.0
+
+### @tiptap/extension-drag-handle-vue-3
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/extension-drag-handle@3.32.0
+  - @tiptap/vue-3@3.32.0
+
+### @tiptap/extension-emoji
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+  - @tiptap/suggestion@3.32.0
+
+### @tiptap/extension-file-handler
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+  - @tiptap/extension-text-style@3.32.0
+
+### @tiptap/extension-find-and-replace
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-floating-menu
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-horizontal-rule
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-invisible-characters
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+  - @tiptap/extension-text-style@3.32.0
+
+### @tiptap/extension-link
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-list
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-mathematics
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-mention
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+  - @tiptap/suggestion@3.32.0
+
+### @tiptap/extension-node-range
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-ruby-text
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-subscript
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-superscript
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-table
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-table-of-contents
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-unique-id
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extensions
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/html
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/starter-kit
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+  - @tiptap/extension-blockquote@3.32.0
+  - @tiptap/extension-code-block@3.32.0
+  - @tiptap/extension-horizontal-rule@3.32.0
+  - @tiptap/extension-link@3.32.0
+  - @tiptap/extension-list@3.32.0
+  - @tiptap/extensions@3.32.0
+  - @tiptap/extension-bold@3.32.0
+  - @tiptap/extension-code@3.32.0
+  - @tiptap/extension-document@3.32.0
+  - @tiptap/extension-hard-break@3.32.0
+  - @tiptap/extension-heading@3.32.0
+  - @tiptap/extension-italic@3.32.0
+  - @tiptap/extension-paragraph@3.32.0
+  - @tiptap/extension-strike@3.32.0
+  - @tiptap/extension-text@3.32.0
+  - @tiptap/extension-underline@3.32.0
+  - @tiptap/extension-list-item@3.32.0
+  - @tiptap/extension-list-keymap@3.32.0
+  - @tiptap/extension-bullet-list@3.32.0
+  - @tiptap/extension-ordered-list@3.32.0
+  - @tiptap/extension-dropcursor@3.32.0
+  - @tiptap/extension-gapcursor@3.32.0
+
+### @tiptap/static-renderer
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/suggestion
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/vue-2
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/vue-3
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-audio
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-bold
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-code
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-document
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-hard-break
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-heading
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-highlight
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-image
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-italic
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-paragraph
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-strike
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-text
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-text-align
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-text-style
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-twitch
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-typography
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-underline
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-youtube
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/server-ai-toolkit
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+  - @tiptap/ai-toolkit@0.4.1
+
+### @tiptap/extension-list-item
+
+#### Patch Changes
+
+- @tiptap/extension-list@3.32.0
+
+### @tiptap/extension-list-keymap
+
+#### Patch Changes
+
+- @tiptap/extension-list@3.32.0
+
+### @tiptap/extension-task-item
+
+#### Patch Changes
+
+- @tiptap/extension-list@3.32.0
+
+### @tiptap/extension-task-list
+
+#### Patch Changes
+
+- @tiptap/extension-list@3.32.0
+
+### @tiptap/extension-bullet-list
+
+#### Patch Changes
+
+- @tiptap/extension-list@3.32.0
+
+### @tiptap/extension-ordered-list
+
+#### Patch Changes
+
+- @tiptap/extension-list@3.32.0
+
+### @tiptap/extension-table-cell
+
+#### Patch Changes
+
+- @tiptap/extension-table@3.32.0
+
+### @tiptap/extension-table-header
+
+#### Patch Changes
+
+- @tiptap/extension-table@3.32.0
+
+### @tiptap/extension-table-row
+
+#### Patch Changes
+
+- @tiptap/extension-table@3.32.0
+
+### @tiptap/extension-character-count
+
+#### Patch Changes
+
+- @tiptap/extensions@3.32.0
+
+### @tiptap/extension-dropcursor
+
+#### Patch Changes
+
+- @tiptap/extensions@3.32.0
+
+### @tiptap/extension-focus
+
+#### Patch Changes
+
+- @tiptap/extensions@3.32.0
+
+### @tiptap/extension-gapcursor
+
+#### Patch Changes
+
+- @tiptap/extensions@3.32.0
+
+### @tiptap/extension-history
+
+#### Patch Changes
+
+- @tiptap/extensions@3.32.0
+
+### @tiptap/extension-placeholder
+
+#### Patch Changes
+
+- @tiptap/extensions@3.32.0
+
+### @tiptap/extension-color
+
+#### Patch Changes
+
+- @tiptap/extension-text-style@3.32.0
+
+### @tiptap/extension-font-family
+
+#### Patch Changes
+
+- @tiptap/extension-text-style@3.32.0
+
 ## v3.31.4
 
 ### @tiptap/extension-mathematics

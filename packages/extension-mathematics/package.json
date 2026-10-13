@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/extension-mathematics",
-  "version": "3.31.4",
+  "version": "3.32.0",
   "description": "latex math extension for tiptap",
   "keywords": [
     "tiptap",

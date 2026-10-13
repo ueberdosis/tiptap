@@ -1,5 +1,16 @@
 # Change Log
 
+## 3.32.0
+
+### Patch Changes
+
+- 3fd922c: Keep collaborative editing, cursor presence, and drag handles compatible with the updated `@tiptap/y-tiptap` binding.
+- Updated dependencies [3b5560c]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [cc90cc5]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
 ## 3.31.4
 
 ### Patch Changes
