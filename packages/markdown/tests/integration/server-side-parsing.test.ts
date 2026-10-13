@@ -2,6 +2,7 @@
  * @vitest-environment node
  */
 
+import { Node } from '@tiptap/core'
 import { Code } from '@tiptap/extension-code'
 import { Document } from '@tiptap/extension-document'
 import { Heading } from '@tiptap/extension-heading'
@@ -266,5 +267,50 @@ describe('consecutive hard breaks without DOMParser', () => {
     }
 
     expect(manager.parse(manager.serialize(doc))).toEqual(doc)
+  })
+})
+
+describe('multiple br handlers without DOMParser', () => {
+  const paragraph = (content: Record<string, unknown>[]) => ({
+    type: 'paragraph',
+    content,
+  })
+
+  const text = (value: string) => ({ type: 'text', text: value })
+
+  it('uses a later br handler when an earlier one returns an empty array', () => {
+    const DecliningBreak = Node.create({
+      name: 'decliningBreak',
+      priority: 200,
+      markdownTokenName: 'br',
+      parseMarkdown: () => [],
+    })
+
+    const manager = new MarkdownManager({
+      extensions: [Document, Paragraph, Text, DecliningBreak, HardBreak],
+    })
+
+    expect(manager.parse('Line 1<br>Line 2')).toEqual({
+      type: 'doc',
+      content: [paragraph([text('Line 1'), { type: 'hardBreak' }, text('Line 2')])],
+    })
+  })
+
+  it('keeps the first br handler that returns a node', () => {
+    const CustomBreak = Node.create({
+      name: 'customBreak',
+      priority: 200,
+      markdownTokenName: 'br',
+      parseMarkdown: () => ({ type: 'customBreak' }),
+    })
+
+    const manager = new MarkdownManager({
+      extensions: [Document, Paragraph, Text, CustomBreak, HardBreak],
+    })
+
+    expect(manager.parse('Line 1<br>Line 2')).toEqual({
+      type: 'doc',
+      content: [paragraph([text('Line 1'), { type: 'customBreak' }, text('Line 2')])],
+    })
   })
 })

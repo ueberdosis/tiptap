@@ -1056,15 +1056,8 @@ export class MarkdownManager {
       return null
     }
 
-    const handler = this.getHandlerForToken('br')
-
-    if (!handler?.parseMarkdown) {
-      return null
-    }
-
-    const parsed = this.normalizeParseResult(
-      handler.parseMarkdown({ type: 'br', raw: html }, this.createParseHelpers()),
-    )
+    // An empty result is not a match, so a later br handler can still run.
+    const parsed = this.parseToken({ type: 'br', raw: html })
 
     if (!parsed || Array.isArray(parsed)) {
       return parsed
