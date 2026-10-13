@@ -10,6 +10,10 @@ import { Strike } from '@tiptap/extension-strike'
 import { Text } from '@tiptap/extension-text'
 import { MarkdownManager } from '@tiptap/markdown'
 import { beforeEach, describe, expect, it } from 'vite-plus/test'
+// Keep the vite-plus import on this line so fallow still treats it as inherited.
+import { Blockquote } from '@tiptap/extension-blockquote'
+import { BulletList, ListItem } from '@tiptap/extension-list'
+import { HardBreak } from '@tiptap/extension-hard-break'
 
 describe('MarkdownManager Server-side Parsing', () => {
   let manager: MarkdownManager
@@ -208,5 +212,59 @@ describe('MarkdownManager Server-side Parsing', () => {
     // Should have 'world' text (with or without strike mark depending on parsing)
     const hasWorldText = textNodes.some((n: any) => n.text && n.text.includes('world'))
     expect(hasWorldText).toBe(true)
+  })
+})
+
+describe('consecutive hard breaks without DOMParser', () => {
+  const manager = new MarkdownManager({
+    extensions: [Document, Paragraph, Text, HardBreak, BulletList, ListItem, Blockquote],
+  })
+
+  const paragraph = (content: Record<string, unknown>[]) => ({
+    type: 'paragraph',
+    content,
+  })
+
+  const text = (value: string) => ({ type: 'text', text: value })
+  const hardBreak = { type: 'hardBreak' }
+
+  it('round trips two hard breaks in a paragraph', () => {
+    const doc = {
+      type: 'doc',
+      content: [paragraph([text('Line 1'), hardBreak, hardBreak, text('Line 2')])],
+    }
+
+    expect(manager.parse(manager.serialize(doc))).toEqual(doc)
+  })
+
+  it('round trips a trailing run without keeping a backslash', () => {
+    const doc = {
+      type: 'doc',
+      content: [paragraph([text('Line 1'), hardBreak, hardBreak])],
+    }
+
+    const markdown = manager.serialize(doc)
+
+    expect(markdown).not.toContain('\\')
+    expect(manager.parse(markdown)).toEqual(doc)
+  })
+
+  it('round trips consecutive hard breaks in a list item', () => {
+    const doc = {
+      type: 'doc',
+      content: [
+        {
+          type: 'bulletList',
+          content: [
+            {
+              type: 'listItem',
+              content: [paragraph([text('Line 1'), hardBreak, hardBreak, text('Line 2')])],
+            },
+          ],
+        },
+      ],
+    }
+
+    expect(manager.parse(manager.serialize(doc))).toEqual(doc)
   })
 })

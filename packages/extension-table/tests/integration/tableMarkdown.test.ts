@@ -231,6 +231,30 @@ describe('table markdown line breaks', () => {
     const serialized = markdownManager.serialize(doc)
 
     expect(serialized).toContain('foo<br><br>bar')
+    expect(serialized).not.toContain('\\<br>')
+  })
+
+  it('round trips consecutive hard breaks in a cell', () => {
+    const doc = tableDoc([
+      cell([
+        {
+          type: 'paragraph',
+          content: [
+            { type: 'text', text: 'foo' },
+            { type: 'hardBreak' },
+            { type: 'hardBreak' },
+            { type: 'text', text: 'bar' },
+          ],
+        },
+      ]),
+    ])
+
+    const serialized = markdownManager.serialize(doc)
+    const parsed = markdownManager.parse(serialized)
+    const parsedText = JSON.stringify(parsed)
+
+    expect(parsedText.match(/"hardBreak"/g)).toHaveLength(2)
+    expect(parsedText).not.toContain('\\')
   })
 
   it('round trips <br> inside cells', () => {
