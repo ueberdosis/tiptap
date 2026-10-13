@@ -1,5 +1,15 @@
 # Change Log
 
+## 3.32.1
+
+### Patch Changes
+
+- 3ebb519: Keep indented Markdown task-item continuation lines in the same paragraph instead of turning them into separate paragraphs or code blocks.
+- 3ebb519: Indent continuation lines when exporting Markdown task items so they stay inside the item when imported again.
+- 3ebb519: Keep Markdown task-item continuation lines in the same paragraph when the opening text resembles a heading or list, including tasks nested inside bullet lists.
+- 3ebb519: Preserve task-list continuation text with custom block tokenizers and tab indentation.
+  - @tiptap/pm@3.32.1
+
 ## 3.32.0
 
 ### Minor Changes

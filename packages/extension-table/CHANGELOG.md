@@ -1,5 +1,17 @@
 # Change Log
 
+## 3.32.1
+
+### Patch Changes
+
+- 5d089c3: Apply custom table attributes when resizing is enabled and keep them current after attribute changes.
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
 ## 3.32.0
 
 ### Patch Changes
