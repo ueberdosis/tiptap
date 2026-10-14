@@ -50,5 +50,31 @@ describe('destinations containing a space', () => {
     expect(markdownManager.serialize(markdownManager.parse('![photo](images/photo.png)'))).toBe(
       '![photo](images/photo.png)',
     )
+    // a bare destination may contain angle brackets literally, so they must not be escaped there
+    expect(markdownManager.serialize(markdownManager.parse('[plan](My>Plan.md)'))).toBe(
+      '[plan](My>Plan.md)',
+    )
+  })
+
+  it('escapes angle brackets inside a bracketed link destination', () => {
+    const json = markdownManager.parse('[My plan](<docs/My Plan \\> v2.md>)')
+
+    expect(json.content?.[0]?.content?.[0]?.marks?.[0]?.attrs?.href).toBe('docs/My Plan > v2.md')
+
+    const output = markdownManager.serialize(json)
+
+    expect(output).toBe('[My plan](<docs/My Plan \\> v2.md>)')
+    expect(markdownManager.parse(output)).toEqual(json)
+  })
+
+  it('escapes angle brackets inside a bracketed image source', () => {
+    const json = markdownManager.parse('![My photo](<images/My \\<Plan\\>.png>)')
+
+    expect(json.content?.[0]?.attrs?.src).toBe('images/My <Plan>.png')
+
+    const output = markdownManager.serialize(json)
+
+    expect(output).toBe('![My photo](<images/My \\<Plan\\>.png>)')
+    expect(markdownManager.parse(output)).toEqual(json)
   })
 })
