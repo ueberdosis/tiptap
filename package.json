@@ -80,8 +80,9 @@
     "webpack": "^5.97.1"
   },
   "browserslist": [
-    "defaults",
-    "not IE 11"
+    "last 3 Chrome major versions",
+    "last 3 Safari major versions",
+    "last 3 Firefox major versions"
   ],
   "engines": {
     "node": ">=24"

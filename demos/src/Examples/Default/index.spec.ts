@@ -21,7 +21,7 @@ const buttonNodes = [
   { label: 'H6', tag: 'h6' },
   { label: 'Bullet list', tag: 'ul' },
   { label: 'Ordered list', tag: 'ol' },
-  { label: 'Task list', tag: 'ul[data-type="taskList"]' },
+  { label: 'Task list', tag: 'ul[data-type="taskList"] > li > div' },
   { label: 'Code block', tag: 'pre code' },
   { label: 'Blockquote', tag: 'blockquote' },
 ]
