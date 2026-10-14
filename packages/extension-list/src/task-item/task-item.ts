@@ -130,9 +130,9 @@ export const TaskItem = Node.create<TaskItemOptions>({
         priority: 51,
       },
       {
-        // Skip just the checkbox label, so sibling content of the item is kept
         tag: `li[data-type="${this.name}"] > label`,
         priority: 52,
+        getAttrs: element => (element.querySelector('input[type="checkbox"]') ? null : false),
         ignore: true,
       },
     ]

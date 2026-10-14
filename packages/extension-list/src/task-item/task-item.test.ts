@@ -252,6 +252,39 @@ describe('TaskItem', () => {
   })
 
   describe('parseHTML', () => {
+    it.each([
+      '<label>Buy milk</label>',
+      '<label><span>Buy milk</span></label>',
+      '<label><input type="text">Buy milk</label>',
+    ])('keeps ordinary label content: %s', label => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, TaskList, TaskItem],
+        content: `<ul data-type="taskList"><li data-type="taskItem">${label}</li></ul>`,
+      })
+
+      expect(editor.state.doc.firstChild?.firstChild?.textContent).toBe('Buy milk')
+    })
+
+    it('keeps ordinary labels alongside a checkbox label and a content wrapper', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, TaskList, TaskItem],
+        content: `
+          <ul data-type="taskList">
+            <li data-type="taskItem">
+              <label><input type="checkbox"><span>Task checkbox</span></label>
+              <label>Buy milk</label>
+              <div><p>And bread</p></div>
+            </li>
+          </ul>
+        `,
+      })
+
+      const item = editor.state.doc.firstChild?.firstChild
+
+      expect(item?.textContent).toBe('Buy milkAnd bread')
+      expect(item?.childCount).toBe(2)
+    })
+
     it('keeps content next to a div child', () => {
       editor = new Editor({
         extensions: [Document, Paragraph, Text, TaskList, TaskItem],
