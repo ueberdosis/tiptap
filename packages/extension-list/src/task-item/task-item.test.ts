@@ -293,6 +293,41 @@ describe('TaskItem', () => {
       expect(item?.content?.map(node => node.type)).toEqual(['paragraph', 'taskList'])
       expect(editor.getText()).not.toContain('Task item checkbox')
     })
+
+    it('keeps the text of a label that carries no checkbox', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, TaskList, TaskItem],
+        content: `
+          <ul data-type="taskList">
+            <li data-type="taskItem"><label>Buy milk</label></li>
+          </ul>
+        `,
+      })
+
+      const item = editor.getJSON().content?.[0]?.content?.[0]
+
+      expect(item?.content?.[0]?.content?.[0]?.text).toBe('Buy milk')
+    })
+
+    it('skips a checkbox label that carries the accessibility text', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, TaskList, TaskItem],
+        content: `
+          <ul data-type="taskList">
+            <li data-type="taskItem">
+              <label><input type="checkbox"><span>Task item checkbox for Buy milk</span></label>
+              <div><p>Buy milk</p></div>
+            </li>
+          </ul>
+        `,
+      })
+
+      const item = editor.getJSON().content?.[0]?.content?.[0]
+
+      expect(item?.content?.map(node => node.type)).toEqual(['paragraph'])
+      expect(item?.content?.[0]?.content?.[0]?.text).toBe('Buy milk')
+      expect(editor.getText()).not.toContain('Task item checkbox')
+    })
   })
 
   it('preserves custom HTML attributes on node update', () => {
