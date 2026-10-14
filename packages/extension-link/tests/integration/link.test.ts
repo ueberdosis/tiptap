@@ -485,4 +485,27 @@ describe('extension-link', () => {
       getEditorEl()?.remove()
     })
   })
+
+  describe('defaultProtocol', () => {
+    it('uses the default protocol for a pasted link without one', () => {
+      editor = new Editor({
+        element: createEditorEl(),
+        extensions: [
+          Document,
+          Text,
+          Paragraph,
+          Link.configure({
+            defaultProtocol: 'https',
+          }),
+        ],
+      })
+
+      editor.view.pasteText('www.example.com')
+
+      expect(editor.getHTML()).toContain('href="https://www.example.com"')
+
+      editor?.destroy()
+      getEditorEl()?.remove()
+    })
+  })
 })
