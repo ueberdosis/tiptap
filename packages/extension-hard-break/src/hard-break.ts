@@ -67,9 +67,11 @@ export const HardBreak = Node.create<HardBreakOptions>({
   renderMarkdown: (_node, _helpers, ctx) => {
     const inBreakRun =
       ctx?.previousNode?.type === 'hardBreak' || ctx?.nextNode?.type === 'hardBreak'
+    const atEdge = !ctx?.previousNode || !ctx?.nextNode
 
     // A spaces-only line is a paragraph break, so a run stays on one line.
-    return inBreakRun ? '<br>' : '  \n'
+    // Trailing spaces at either edge of a paragraph are trimmed, so use <br> there too.
+    return inBreakRun || atEdge ? '<br>' : '  \n'
   },
 
   parseMarkdown: () => {

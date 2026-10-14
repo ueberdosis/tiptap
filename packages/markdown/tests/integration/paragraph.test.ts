@@ -336,6 +336,19 @@ describe('consecutive hard breaks markdown round trip', () => {
     expect(result.html).toBe('<blockquote><p>Line 1<br><br>Line 2</p></blockquote>')
   })
 
+  it('keeps a single hard break at the start of a paragraph', () => {
+    const result = roundTrip('<p><br>Line 2</p>')
+
+    expect(result.html).toBe('<p><br>Line 2</p>')
+  })
+
+  it('keeps a single hard break at the end of a paragraph', () => {
+    const result = roundTrip('<p>Line 1<br></p>')
+
+    expect(result.html).toBe('<p>Line 1<br></p>')
+    expect(result.markdown).toBe('Line 1<br>')
+  })
+
   it('still serializes a single hard break as two trailing spaces', () => {
     const result = roundTrip('<p>Line 1<br>Line 2</p>')
 
