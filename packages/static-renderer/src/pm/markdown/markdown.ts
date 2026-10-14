@@ -16,21 +16,25 @@ function serializeListItemContent(node: PMNode, children: string | string[], mar
   const rendered = Array.isArray(children) ? children : [children]
   const indent = ' '.repeat(marker.length)
 
-  return node.children
+  const content = node.children
     .map((child, index) => {
-      const content = rendered[index] ?? ''
+      const childContent = rendered[index] ?? ''
 
       if (!NESTED_LIST_TYPES.includes(child.type.name)) {
-        return content
+        return childContent
       }
 
-      return content
+      return childContent
         .split('\n')
         .map(line => (line ? `${indent}${line}` : line))
         .join('\n')
     })
     .join('')
-    .trim()
+
+  // The marker replaces the leading line break emitted by the item's first block, so only
+  // line breaks may be trimmed: trimming spaces would pull a nested list back up to the
+  // parent's marker column whenever the item's own first paragraph is empty.
+  return content.replace(/^\n+/, '').replace(/[ \n]+$/, '')
 }
 
 /**

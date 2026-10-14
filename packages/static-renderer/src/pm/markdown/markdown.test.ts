@@ -591,4 +591,44 @@ describe('static render json to string (no prosemirror)', () => {
 
     expect(md).toBe('\n- l1\n\n  - l2\n\n    - l3\n')
   })
+
+  it('should keep a nested list indented when the item has no own text', () => {
+    const json = {
+      type: 'doc',
+      content: [
+        {
+          type: 'bulletList',
+          content: [
+            {
+              type: 'listItem',
+              content: [
+                { type: 'paragraph' },
+                {
+                  type: 'bulletList',
+                  content: [
+                    {
+                      type: 'listItem',
+                      content: [
+                        { type: 'paragraph', content: [{ type: 'text', text: 'nested item' }] },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              type: 'listItem',
+              content: [{ type: 'paragraph', content: [{ type: 'text', text: 'second' }] }],
+            },
+          ],
+        },
+      ],
+    }
+    const md = renderToMarkdown({
+      content: json,
+      extensions: [StarterKit, TableKit],
+    })
+
+    expect(md).toBe('\n-   - nested item\n- second\n')
+  })
 })
