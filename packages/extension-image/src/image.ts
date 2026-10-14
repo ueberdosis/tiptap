@@ -147,7 +147,7 @@ export const Image = Node.create<ImageOptions>({
     const title = node.attrs?.title ?? ''
     // CommonMark allows a space in a destination only inside angle brackets, and there
     // the brackets themselves have to be escaped to keep the destination readable back.
-    const destination = /\s/.test(src) ? `<${src.replace(/[<>]/g, '\\$&')}>` : src
+    const destination = /\s/.test(src) ? `<${src.replace(/[\\<>]/g, '\\$&')}>` : src
 
     return title ? `![${alt}](${destination} "${title}")` : `![${alt}](${destination})`
   },

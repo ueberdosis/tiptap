@@ -374,7 +374,7 @@ export const Link = Mark.create<LinkOptions>({
     const text = h.renderChildren(node)
     // CommonMark allows a space in a destination only inside angle brackets, and there
     // the brackets themselves have to be escaped to keep the destination readable back.
-    const destination = /\s/.test(href) ? `<${href.replace(/[<>]/g, '\\$&')}>` : href
+    const destination = /\s/.test(href) ? `<${href.replace(/[\\<>]/g, '\\$&')}>` : href
 
     return title ? `[${text}](${destination} "${title}")` : `[${text}](${destination})`
   },

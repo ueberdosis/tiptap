@@ -34,6 +34,25 @@ describe('destinations containing a space', () => {
     expect(markdownManager.parse(output)).toEqual(json)
   })
 
+  it.each([
+    [String.raw`docs/My \> Plan.md`, String.raw`docs/My \\\> Plan.md`],
+    [String.raw`docs/My \< Plan.md`, String.raw`docs/My \\\< Plan.md`],
+  ])('preserves backslashes in the destination %s', (destination, escaped) => {
+    const link = markdownManager.parse(`[My plan](<${escaped}> "Weekly plan")`)
+    const image = markdownManager.parse(`![My photo](<${escaped}> "Weekly photo")`)
+
+    expect(link.content?.[0]?.content?.[0]?.marks?.[0]?.attrs?.href).toBe(destination)
+    expect(image.content?.[0]?.attrs?.src).toBe(destination)
+
+    const linkOutput = markdownManager.serialize(link)
+    const imageOutput = markdownManager.serialize(image)
+
+    expect(linkOutput).toBe(`[My plan](<${escaped}> "Weekly plan")`)
+    expect(imageOutput).toBe(`![My photo](<${escaped}> "Weekly photo")`)
+    expect(markdownManager.parse(linkOutput)).toEqual(link)
+    expect(markdownManager.parse(imageOutput)).toEqual(image)
+  })
+
   it('keeps the title after a bracketed destination', () => {
     const json = markdownManager.parse('[My plan](<docs/My Plan.md> "Weekly plan")')
     const output = markdownManager.serialize(json)
