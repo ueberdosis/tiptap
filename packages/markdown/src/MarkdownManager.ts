@@ -1260,7 +1260,12 @@ export class MarkdownManager {
       return ''
     }
 
-    const siblings = Array.isArray(parentNode?.content) ? parentNode.content : undefined
+    // serialize() also accepts a bare node array and passes it as the parent
+    const siblings: JSONContent[] | undefined = Array.isArray(parentNode)
+      ? parentNode
+      : Array.isArray(parentNode?.content)
+        ? parentNode.content
+        : undefined
     const previousNode = siblings && index > 0 ? siblings[index - 1] : undefined
     const nextNode = siblings && index < siblings.length - 1 ? siblings[index + 1] : undefined
     const helpers: MarkdownRendererHelpers = {

@@ -1,5 +1,6 @@
 import { Blockquote } from '@tiptap/extension-blockquote'
 import { Document } from '@tiptap/extension-document'
+import { HardBreak } from '@tiptap/extension-hard-break'
 import { Heading } from '@tiptap/extension-heading'
 import { BulletList, ListItem, OrderedList } from '@tiptap/extension-list'
 import { Paragraph } from '@tiptap/extension-paragraph'
@@ -354,5 +355,17 @@ describe('consecutive hard breaks markdown round trip', () => {
 
     expect(result.markdown).toBe('Line 1  \nLine 2')
     expect(result.html).toBe('<p>Line 1<br>Line 2</p>')
+  })
+
+  it('uses two trailing spaces for a single middle break in a node array', () => {
+    const manager = new MarkdownManager({ extensions: [Document, Paragraph, Text, HardBreak] })
+
+    const markdown = manager.serialize([
+      { type: 'text', text: 'Line 1' },
+      { type: 'hardBreak' },
+      { type: 'text', text: 'Line 2' },
+    ] as any)
+
+    expect(markdown).toBe('Line 1  \nLine 2')
   })
 })
