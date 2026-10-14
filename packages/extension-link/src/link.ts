@@ -372,8 +372,10 @@ export const Link = Mark.create<LinkOptions>({
     const href = node.attrs?.href ?? ''
     const title = node.attrs?.title ?? ''
     const text = h.renderChildren(node)
+    // CommonMark allows a space in a destination only inside angle brackets
+    const destination = /\s/.test(href) ? `<${href}>` : href
 
-    return title ? `[${text}](${href} "${title}")` : `[${text}](${href})`
+    return title ? `[${text}](${destination} "${title}")` : `[${text}](${destination})`
   },
 
   addCommands() {
