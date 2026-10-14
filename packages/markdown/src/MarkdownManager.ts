@@ -36,8 +36,10 @@ import {
 import { collectMarkSpanTexts } from './utils/collectMarkSpanTexts.js'
 import { htmlContainsUnrecognizedTag } from './utils/htmlTagDetection.js'
 
-const INTRAWORD_CHARACTER_BEFORE = /[\p{L}\p{N}]$/u
-const INTRAWORD_CHARACTER_AFTER = /^[\p{L}\p{N}]/u
+// Written as an alternation instead of `[\p{L}\p{N}]`: V8 does not match a non-BMP
+// code point when property escapes share a character class that is `$`-anchored.
+const INTRAWORD_CHARACTER_BEFORE = /(?:\p{L}|\p{N})$/u
+const INTRAWORD_CHARACTER_AFTER = /^(?:\p{L}|\p{N})/u
 
 export class MarkdownManager {
   private markedInstance: typeof marked
