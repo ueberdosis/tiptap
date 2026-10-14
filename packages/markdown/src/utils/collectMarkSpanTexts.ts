@@ -1,6 +1,6 @@
 import type { JSONContent } from '@tiptap/core'
 
-// Gives each node the full text of its mark run, so a delimiter can fit the whole span
+// Gives each node the text its mark run wraps, so a delimiter can fit the whole span
 export function collectMarkSpanTexts(nodes: JSONContent[]): Map<string, string>[] {
   const spanTexts: Map<string, string>[] = nodes.map(() => new Map())
   const openRuns = new Map<string, { indexes: number[]; text: string }>()
@@ -10,7 +10,9 @@ export function collectMarkSpanTexts(nodes: JSONContent[]): Map<string, string>[
     if (!run) {
       return
     }
-    run.indexes.forEach(index => spanTexts[index].set(markType, run.text))
+    // The edge whitespace is written outside the delimiters
+    const wrappedText = run.text.trim()
+    run.indexes.forEach(index => spanTexts[index].set(markType, wrappedText))
     openRuns.delete(markType)
   }
 
