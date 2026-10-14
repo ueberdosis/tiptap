@@ -60,6 +60,44 @@ describe('Ordered list indentation parsing', () => {
     })
   })
 
+  it('keeps an item that stops short of a wide marker content column a sibling', () => {
+    const markdown = ['10. ten', '   1. inner', '11. eleven'].join('\n')
+
+    expect(markdownManager.parse(markdown)).toEqual({
+      type: 'doc',
+      content: [
+        {
+          type: 'orderedList',
+          attrs: { start: 10 },
+          content: [listItem('ten'), listItem('inner'), listItem('eleven')],
+        },
+      ],
+    })
+  })
+
+  it('nests an item that reaches the content column of a narrow marker', () => {
+    const markdown = ['1. ten', '   2. inner', '2. eleven'].join('\n')
+
+    expect(markdownManager.parse(markdown)).toEqual({
+      type: 'doc',
+      content: [
+        {
+          type: 'orderedList',
+          content: [
+            listItem('ten', [
+              {
+                type: 'orderedList',
+                attrs: { start: 2 },
+                content: [listItem('inner')],
+              },
+            ]),
+            listItem('eleven'),
+          ],
+        },
+      ],
+    })
+  })
+
   it('keeps shallower siblings that follow a nested list', () => {
     const markdown = ['1. one', '    1. nested', '2. two'].join('\n')
 

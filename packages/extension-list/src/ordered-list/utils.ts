@@ -67,11 +67,11 @@ const PARAGRAPH_INTERRUPTERS = {
 export interface OrderedListItem {
   indent: number
   /**
-   * Column at which the item content starts (`indent` + marker + one space).
-   * Markers of different widths, e.g. ` 9.` and `10.`, share a content column
-   * even though their leading indentation differs.
+   * Column at which the item content starts, i.e. just past the marker,
+   * the separator and the whitespace between them and the text. Items
+   * indented this far (or more) are nested inside the item above them.
    */
-  contentIndent: number
+  contentColumn: number
   number: number
   type?: string
   content: string
@@ -162,7 +162,8 @@ export function collectOrderedListItems(lines: string[]): [OrderedListItem[], nu
 
     const [, indent, marker, _separator, content] = match
     const indentLevel = indent.length
-    const contentIndent = indentLevel + marker.length + 1
+    // the match spans the whole line, so what is left of it after the content is its column
+    const contentColumn = match[0].length - content.length
     const number = parseInt(marker, 10)
 
     const markerType = isNaN(number) ? detectMarkerType(marker) : undefined
@@ -194,6 +195,7 @@ export function collectOrderedListItems(lines: string[]): [OrderedListItem[], nu
         // Strip the indentation only up to the whitespace that is actually present,
         // so an under-indented line (e.g. a single leading space) keeps its first character.
         const leadingWhitespace = nextLine.length - nextLine.trimStart().length
+        const contentIndent = indentLevel + marker.length + 1
 
         itemLines.push(nextLine)
         itemContentLines.push(nextLine.slice(Math.min(leadingWhitespace, contentIndent)))
@@ -211,7 +213,7 @@ export function collectOrderedListItems(lines: string[]): [OrderedListItem[], nu
 
     listItems.push({
       indent: indentLevel,
-      contentIndent,
+      contentColumn,
       number: itemNumber,
       type: markerType,
       content: itemContentLines.join('\n').trim(),
@@ -325,7 +327,7 @@ export function buildNestedStructure(
     let lookAheadIndex = currentIndex + 1
     const nestedItems = []
 
-    while (lookAheadIndex < items.length && items[lookAheadIndex].indent >= item.contentIndent) {
+    while (lookAheadIndex < items.length && items[lookAheadIndex].indent >= item.contentColumn) {
       nestedItems.push(items[lookAheadIndex])
       lookAheadIndex += 1
     }
