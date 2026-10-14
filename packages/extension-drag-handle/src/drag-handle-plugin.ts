@@ -9,18 +9,19 @@ import {
   relativePositionToAbsolutePosition,
   ySyncPluginKey,
 } from '@tiptap/y-tiptap'
+import type { RelativePosition } from '@tiptap/y-tiptap'
 
 import { dragHandler } from './helpers/dragHandler.js'
 import { findElementNextToCoords } from './helpers/findNextElementFromCursor.js'
 import { getOuterNode, getOuterNodePos } from './helpers/getOuterNode.js'
 import {
-  type ActiveDragRange,
   createDroppedNodeRangeSelection,
   getActiveDragRange,
   mapPendingRestoreAnchor,
 } from './helpers/nodeRangeDrop.js'
 import { removeNode } from './helpers/removeNode.js'
 import type { NormalizedNestedOptions } from './types/options.js'
+import type { ActiveDragRange } from './types/activeDragRange.js'
 
 type PluginState = {
   locked: boolean
@@ -36,13 +37,13 @@ const getRelativePos = (state: EditorState, absolutePos: number) => {
   return absolutePositionToRelativePosition(absolutePos, ystate.type, ystate.binding.mapping)
 }
 
-// biome-ignore lint/suspicious/noExplicitAny: y-prosemirror (and y-tiptap by extension) does not have types for relative positions
-const getAbsolutePos = (state: EditorState, relativePos: any) => {
+const getAbsolutePos = (state: EditorState, relativePos: RelativePosition | null) => {
   const ystate = ySyncPluginKey.getState(state)
 
   if (!ystate) {
     return -1
   }
+  if (relativePos === null) return 0
 
   return (
     relativePositionToAbsolutePosition(
@@ -100,8 +101,7 @@ export const DragHandlePlugin = ({
   let locked = false
   let currentNode: PMNode | null = null
   let currentNodePos = -1
-  // biome-ignore lint/suspicious/noExplicitAny: See above - relative positions in y-prosemirror are not typed
-  let currentNodeRelPos: any
+  let currentNodeRelPos: RelativePosition | null = null
   let rafId: number | null = null
   let pendingMouseCoords: { x: number; y: number } | null = null
   let activeDragRange: ActiveDragRange | null = null

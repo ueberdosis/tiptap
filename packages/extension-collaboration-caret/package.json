@@ -49,7 +49,7 @@
     "@tiptap/extension-table": "workspace:^",
     "@tiptap/extension-text": "workspace:^",
     "@tiptap/pm": "workspace:^",
-    "@tiptap/y-tiptap": "^3.0.7",
+    "@tiptap/y-tiptap": "workspace:^",
     "yjs": "^13.6.23"
   },
   "peerDependencies": {
