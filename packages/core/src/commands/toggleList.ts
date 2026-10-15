@@ -1,4 +1,5 @@
-import type { NodeType } from '@tiptap/pm/model'
+import { Fragment } from '@tiptap/pm/model'
+import type { Node as ProseMirrorNode, NodeType } from '@tiptap/pm/model'
 import type { Transaction } from '@tiptap/pm/state'
 import { TextSelection } from '@tiptap/pm/state'
 import { canJoin } from '@tiptap/pm/transform'
@@ -7,6 +8,8 @@ import { findParentNode } from '../helpers/findParentNode.js'
 import { getNodeType } from '../helpers/getNodeType.js'
 import { isList } from '../helpers/isList.js'
 import type { RawCommands } from '../types.js'
+import { convertListItems } from './utils/convertListItems.js'
+import { findNodePosition } from './utils/findNodePosition.js'
 
 /**
  * Normalise a list type attribute for comparison.
@@ -117,16 +120,14 @@ function createInnerSelectionForWholeDocList(tr: Transaction) {
     return null
   }
 
-  // Place the selection inside the list node so that ProseMirror's
-  // liftListItem command can operate. AllSelection sits at the doc root.
-  // Use TextSelection.between to resolve positions into valid inline
-  // content positions, so the selection survives position mapping after
-  // liftListItem removes list/item wrappers.
+  // Move the root AllSelection into the list so liftListItem can operate
+  // while preserving a valid text selection.
   const $start = doc.resolve(1)
   const $end = doc.resolve(list.nodeSize - 1)
 
   return TextSelection.between($start, $end)
 }
+
 export const toggleList: RawCommands['toggleList'] =
   (listTypeOrName, itemTypeOrName, keepMarks, attributes = {}) =>
   ({ editor, tr, state, dispatch, chain, commands, can }) => {
@@ -145,12 +146,8 @@ export const toggleList: RawCommands['toggleList'] =
 
     const parentList = findParentNode(node => isList(node.type.name, extensions))(selection)
 
-    // When the user presses Ctrl/Cmd+A, ProseMirror creates an `AllSelection`
-    // covering the entire document (0..doc.content.size). In that case
-    // `findParentNode` cannot detect the surrounding list because the
-    // selection sits at the document root. If the document consists of a
-    // single top-level list node, treat that list as the active list so the
-    // toggle logic can correctly lift or change it.
+    // Treat a sole top-level list selected with Ctrl/Cmd+A as the active list,
+    // since findParentNode cannot detect it from the document root.
     const isAllSelection = selection.from === 0 && selection.to === state.doc.content.size
     const topLevelNodes = state.doc.content.content
     const soleTopLevelNode = topLevelNodes.length === 1 ? topLevelNodes[0] : null
@@ -175,10 +172,7 @@ export const toggleList: RawCommands['toggleList'] =
         if (isAllSelection && hasWholeDocSelectedList) {
           return chain()
             .command(({ tr: trx, dispatch: disp }) => {
-              // Ctrl/Cmd+A creates an AllSelection at the document root.
-              // When the whole document is a single top-level list, normalize the
-              // selection into that list before lifting, since liftListItem expects
-              // a selection inside a list item.
+              // Move the root AllSelection into the list before lifting it.
               const nextSelection = createInnerSelectionForWholeDocList(trx)
 
               if (!nextSelection) {
@@ -200,7 +194,7 @@ export const toggleList: RawCommands['toggleList'] =
         return commands.liftListItem(itemType)
       }
 
-      // change list type
+      // change list type: same item type (e.g., bulletList to orderedList)
       if (
         isList(currentList.node.type.name, extensions) &&
         listType.validContent(currentList.node.content)
@@ -214,6 +208,62 @@ export const toggleList: RawCommands['toggleList'] =
           .command(() => joinListBackwards(tr, listType))
           .command(() => joinListForwards(tr, listType))
           .run()
+      }
+
+      // change list type: cross-item-type conversion
+      // Handles cases like bulletList(listItem) to taskList(taskItem)
+      // where the list item type differs between source and target lists.
+      if (isList(currentList.node.type.name, extensions)) {
+        const currentItemType = currentList.node.firstChild?.type
+
+        if (currentItemType && currentItemType !== itemType) {
+          const convertedItems = convertListItems(currentList.node, {
+            listType,
+            itemType,
+            isListNode: node => isList(node.type.name, extensions),
+          })
+
+          const convertedContent = convertedItems ? Fragment.from(convertedItems) : null
+
+          if (!convertedContent || !listType.validContent(convertedContent)) {
+            return false
+          }
+
+          return chain()
+            .command(() => {
+              const { $anchor, $head } = tr.selection
+              const anchorParent = $anchor.parent
+              const headParent = $head.parent
+              const anchorOffset = $anchor.parentOffset
+              const headOffset = $head.parentOffset
+              let newList: ProseMirrorNode
+
+              try {
+                newList = listType.create(attributes, convertedContent)
+              } catch {
+                return false
+              }
+
+              tr.replaceWith(currentList.pos, currentList.pos + currentList.node.nodeSize, newList)
+
+              if (anchorParent.inlineContent && headParent.inlineContent) {
+                const anchorParentPos = findNodePosition(newList, anchorParent)
+                const headParentPos = findNodePosition(newList, headParent)
+
+                if (anchorParentPos !== null && headParentPos !== null) {
+                  const anchor = currentList.pos + anchorParentPos + 2 + anchorOffset
+                  const head = currentList.pos + headParentPos + 2 + headOffset
+
+                  tr.setSelection(TextSelection.create(tr.doc, anchor, head))
+                }
+              }
+
+              return true
+            })
+            .command(() => joinListBackwards(tr, listType))
+            .command(() => joinListForwards(tr, listType))
+            .run()
+        }
       }
     }
 
