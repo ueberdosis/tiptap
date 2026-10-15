@@ -410,12 +410,9 @@ export const Table = Node.create<TableOptions>({
       const tableToken = block[0]
       if (tableToken?.type !== 'table' || !tableToken.raw) return undefined
 
-      // preprocessTablePipes only inserts backslashes (never adds or removes
-      // newlines), so line N in preprocessed maps 1-to-1 to line N in src.
-      // Use the token's line count to reconstruct raw from the original src so
-      // marked advances its cursor by the correct amount.
+      // Preprocessing preserves line boundaries, so reuse the original candidate lines.
       const lineCount = tableToken.raw.split('\n').length
-      const raw = src.split('\n').slice(0, lineCount).join('\n')
+      const raw = candidateLines.slice(0, lineCount).join('\n')
 
       return { ...tableToken, raw }
     },
