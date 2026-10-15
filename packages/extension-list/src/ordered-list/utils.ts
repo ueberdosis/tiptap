@@ -139,6 +139,16 @@ function splitItemContent(contentLines: string[]): {
   }
 }
 
+function getMarkdownColumn(value: string): number {
+  let column = 0
+
+  for (const character of value) {
+    column += character === '\t' ? 4 - (column % 4) : 1
+  }
+
+  return column
+}
+
 /**
  * Collects all ordered list items from lines, parsing them into a flat array
  * with indentation information. Stops collecting continuation content when
@@ -162,8 +172,8 @@ export function collectOrderedListItems(lines: string[]): [OrderedListItem[], nu
 
     const [, indent, marker, _separator, content] = match
     const indentLevel = indent.length
-    // the match spans the whole line, so what is left of it after the content is its column
-    const contentColumn = match[0].length - content.length
+    const contentStart = match[0].length - content.length
+    const contentColumn = getMarkdownColumn(match[0].slice(0, contentStart))
     const number = parseInt(marker, 10)
 
     const markerType = isNaN(number) ? detectMarkerType(marker) : undefined
@@ -212,7 +222,7 @@ export function collectOrderedListItems(lines: string[]): [OrderedListItem[], nu
     }
 
     listItems.push({
-      indent: indentLevel,
+      indent: getMarkdownColumn(indent),
       contentColumn,
       number: itemNumber,
       type: markerType,

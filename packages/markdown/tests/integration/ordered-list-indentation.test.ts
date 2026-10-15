@@ -136,4 +136,61 @@ describe('Ordered list indentation parsing', () => {
       ],
     })
   })
+
+  it.each(['\t', ' \t', '  \t', '   \t'])('nests a child indented with %j', indent => {
+    const markdown = ['10. ten', `${indent}1. inner`, '11. eleven'].join('\n')
+    const spaces = ['10. ten', '    1. inner', '11. eleven'].join('\n')
+
+    expect(markdownManager.parse(markdown)).toEqual(markdownManager.parse(spaces))
+  })
+
+  it.each(['   ', '    '])('uses tab stops after the marker with %j indentation', indent => {
+    const markdown = ['1.\tparent', `${indent}1. item`, '2. end'].join('\n')
+    const spaces = ['1.  parent', `${indent}1. item`, '2. end'].join('\n')
+
+    expect(markdownManager.parse(markdown)).toEqual(markdownManager.parse(spaces))
+  })
+
+  it('keeps nesting through multiple tabs', () => {
+    const markdown = ['1. parent', '\t1. child', '\t\t1. grandchild', '2. end'].join('\n')
+    const spaces = ['1. parent', '    1. child', '        1. grandchild', '2. end'].join('\n')
+
+    expect(markdownManager.parse(markdown)).toEqual(markdownManager.parse(spaces))
+  })
+
+  it('counts the full prefix of an empty item', () => {
+    const markdown = ['10.\t', '\t1. child', '11. end'].join('\n')
+    const spaces = ['10. ', '    1. child', '11. end'].join('\n')
+
+    expect(markdownManager.parse(markdown)).toEqual(markdownManager.parse(spaces))
+  })
+
+  it('preserves continuation text inside a tab-indented item', () => {
+    const markdown = ['1. parent', '\t1. child', '   continuation', '2. end'].join('\n')
+
+    expect(markdownManager.parse(markdown)).toEqual({
+      type: 'doc',
+      content: [
+        {
+          type: 'orderedList',
+          content: [
+            listItem('parent', [
+              { type: 'orderedList', content: [listItem('child\ncontinuation')] },
+            ]),
+            listItem('end'),
+          ],
+        },
+      ],
+    })
+  })
+
+  it('parses its tab-indented serialization without losing nesting', () => {
+    const manager = new MarkdownManager({
+      extensions: [Document, Paragraph, Text, OrderedList, ListItem],
+      indentation: { style: 'tab', size: 1 },
+    })
+    const document = manager.parse('10. ten\n    1. inner\n11. eleven')
+
+    expect(manager.parse(manager.serialize(document))).toEqual(document)
+  })
 })
