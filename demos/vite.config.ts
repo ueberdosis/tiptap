@@ -12,12 +12,16 @@ const getPackageDependencies = () => {
 
   function collectPackageInformation(path: string) {
     const packagesPath = resolve(import.meta.dirname, '..', path)
+    // Windows absolute paths contain backslashes; fast-glob treats those as
+    // escape characters unless convertPathToPattern normalizes them first (#8522).
+    const packagesGlob = (pattern: string) =>
+      fg.sync(fg.convertPathToPattern(pattern), { onlyDirectories: true })
 
-    fg.sync(`${packagesPath}/*`, { onlyDirectories: true })
+    packagesGlob(`${packagesPath}/*`)
       .map(name => basename(name))
       .forEach(name => {
         if (name === 'pm') {
-          fg.sync(`${packagesPath}/${name}/*`, { onlyDirectories: true }).forEach(subName => {
+          packagesGlob(`${packagesPath}/${name}/*`).forEach(subName => {
             const subPkgName = basename(subName)
 
             if (subPkgName === 'dist' || subPkgName === 'node_modules') {
@@ -37,7 +41,7 @@ const getPackageDependencies = () => {
           name === 'react' ||
           name === 'vue'
         ) {
-          fg.sync(`${packagesPath}/${name}/src/*`, { onlyDirectories: true }).forEach(subName => {
+          packagesGlob(`${packagesPath}/${name}/src/*`).forEach(subName => {
             const subPkgName = basename(subName)
 
             paths.push({
