@@ -2,4 +2,4 @@
 '@tiptap/markdown': patch
 ---
 
-Keep already-escaped markdown specials (`\*`, `\``, etc.) intact when serializing text so `getMarkdown()` stays stable if that output is loaded again as plain/HTML content (#8519).
+Fix `getMarkdown()` adding extra backslashes each time its output is loaded again as plain or HTML content (#8519).
