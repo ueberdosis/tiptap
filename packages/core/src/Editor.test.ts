@@ -625,6 +625,92 @@ describe('unmounted', () => {
     elementB.remove()
   })
 
+  it('should inject CSS into the shadow root when the editor is mounted inside one', () => {
+    const host = document.createElement('div')
+    document.body.appendChild(host)
+    const shadowRoot = host.attachShadow({ mode: 'open' })
+    const element = document.createElement('div')
+    shadowRoot.appendChild(element)
+
+    const editor = new Editor({
+      element,
+      extensions: [Document, Paragraph, Text],
+      content: '<p>Hello</p>',
+    })
+
+    expect(shadowRoot.querySelectorAll('style[data-tiptap-style]')).toHaveLength(1)
+    expect(document.head.querySelectorAll('style[data-tiptap-style]')).toHaveLength(0)
+
+    editor.unmount()
+
+    expect(shadowRoot.querySelectorAll('style[data-tiptap-style]')).toHaveLength(0)
+
+    host.remove()
+  })
+
+  it('should inject CSS once per shadow root and keep it until the last editor in it is unmounted', () => {
+    const host = document.createElement('div')
+    document.body.appendChild(host)
+    const shadowRoot = host.attachShadow({ mode: 'open' })
+    const elementA = document.createElement('div')
+    const elementB = document.createElement('div')
+    shadowRoot.append(elementA, elementB)
+
+    const documentElement = document.createElement('div')
+    document.body.appendChild(documentElement)
+
+    const editorA = new Editor({ element: elementA, extensions: [Document, Paragraph, Text] })
+    const editorB = new Editor({ element: elementB, extensions: [Document, Paragraph, Text] })
+    const documentEditor = new Editor({
+      element: documentElement,
+      extensions: [Document, Paragraph, Text],
+    })
+
+    expect(shadowRoot.querySelectorAll('style[data-tiptap-style]')).toHaveLength(1)
+    expect(document.head.querySelectorAll('style[data-tiptap-style]')).toHaveLength(1)
+
+    editorA.unmount()
+    expect(shadowRoot.querySelectorAll('style[data-tiptap-style]')).toHaveLength(1)
+
+    editorB.unmount()
+    expect(shadowRoot.querySelectorAll('style[data-tiptap-style]')).toHaveLength(0)
+    expect(document.head.querySelectorAll('style[data-tiptap-style]')).toHaveLength(1)
+
+    documentEditor.unmount()
+    expect(document.head.querySelectorAll('style[data-tiptap-style]')).toHaveLength(0)
+
+    host.remove()
+    documentElement.remove()
+  })
+
+  it('should move injected CSS into the shadow root when the editor DOM is moved into one', () => {
+    const editor = new Editor({
+      element: document.createElement('div'),
+      extensions: [Document, Paragraph, Text],
+    })
+
+    expect(document.head.querySelectorAll('style[data-tiptap-style]')).toHaveLength(1)
+
+    const host = document.createElement('div')
+    document.body.appendChild(host)
+    const shadowRoot = host.attachShadow({ mode: 'open' })
+    const element = document.createElement('div')
+    shadowRoot.appendChild(element)
+
+    // what the React EditorContent does once it renders
+    element.append(...editor.view.dom.parentNode!.childNodes)
+    editor.setOptions({ element })
+
+    expect(shadowRoot.querySelectorAll('style[data-tiptap-style]')).toHaveLength(1)
+    expect(document.head.querySelectorAll('style[data-tiptap-style]')).toHaveLength(0)
+
+    editor.unmount()
+
+    expect(shadowRoot.querySelectorAll('style[data-tiptap-style]')).toHaveLength(0)
+
+    host.remove()
+  })
+
   it('should emit a destroy event when the editor is destroyed', async () => {
     const editor = new Editor({
       element: null,

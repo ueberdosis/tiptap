@@ -179,8 +179,8 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.createView(el)
     this.emit('mount', { editor: this })
 
-    if (this.css && !document.head.contains(this.css)) {
-      document.head.appendChild(this.css)
+    if (this.css && !this.css.isConnected) {
+      this.injectCSS()
     }
 
     window.setTimeout(() => {
@@ -216,20 +216,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.editorView = null
     this.isInitialized = false
 
-    // Safely remove CSS element with fallback for test environments
-    // Only remove CSS if no other editors exist in the document after unmount
-    if (this.css && !document.querySelectorAll(`.${this.className}`).length) {
-      try {
-        if (typeof this.css.remove === 'function') {
-          this.css.remove()
-        } else if (this.css.parentNode) {
-          this.css.parentNode.removeChild(this.css)
-        }
-      } catch (error) {
-        // Silently handle any unexpected DOM removal errors in test environments
-        console.warn('Failed to remove CSS element:', error)
-      }
-    }
+    this.removeCSS()
     this.css = null
     this.emit('unmount', { editor: this })
   }
@@ -275,8 +262,45 @@ export class Editor extends EventEmitter<EditorEvents> {
    */
   private injectCSS(): void {
     if (this.options.injectCSS && typeof document !== 'undefined') {
-      this.css = createStyleTag(style, this.options.injectNonce)
+      const css = createStyleTag(style, this.options.injectNonce, undefined, this.getStyleRoot())
+
+      // The editor moved into another document or shadow root, so its old style tag may be unused now
+      if (this.css && this.css !== css) {
+        this.removeCSS()
+      }
+      this.css = css
     }
+  }
+
+  /**
+   * Remove the injected CSS if no other editor is left in its document or shadow root.
+   */
+  private removeCSS(): void {
+    // Safely remove CSS element with fallback for test environments
+    if (
+      this.css &&
+      !(this.css.getRootNode() as ParentNode).querySelectorAll(`.${this.className}`).length
+    ) {
+      try {
+        if (typeof this.css.remove === 'function') {
+          this.css.remove()
+        } else if (this.css.parentNode) {
+          this.css.parentNode.removeChild(this.css)
+        }
+      } catch (error) {
+        // Silently handle any unexpected DOM removal errors in test environments
+        console.warn('Failed to remove CSS element:', error)
+      }
+    }
+  }
+
+  /**
+   * The shadow root the editor is rendered in, or the document otherwise.
+   */
+  private getStyleRoot(): Document | ShadowRoot {
+    const root = this.editorView?.dom.getRootNode()
+
+    return typeof ShadowRoot !== 'undefined' && root instanceof ShadowRoot ? root : document
   }
 
   /**
@@ -302,6 +326,11 @@ export class Editor extends EventEmitter<EditorEvents> {
     }
 
     this.view.updateState(this.state)
+
+    // Bindings like the React EditorContent move the view's DOM into a new element, which can be inside a shadow root
+    if (options.element) {
+      this.injectCSS()
+    }
   }
 
   /**
