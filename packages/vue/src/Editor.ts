@@ -41,7 +41,8 @@ export class Editor extends CoreEditor {
   public appContext: AppContext | null = null
 
   constructor(options: Partial<EditorOptions> = {}) {
-    super(options)
+    // EditorContent calls createNodeViews after contentComponent exists (#8516).
+    super({ deferNodeViews: true, ...options })
 
     this.reactiveState = useDebouncedRef(this.view.state)
     this.reactiveExtensionStorage = useDebouncedRef(this.extensionStorage)
