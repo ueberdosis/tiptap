@@ -128,6 +128,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     onDrop: () => null,
     onDelete: () => null,
     enableExtensionDispatchTransaction: true,
+    deferNodeViews: false,
   }
 
   constructor(options: Partial<EditorOptions> = {}) {
@@ -645,6 +646,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     const baseTransformPastedHTML = (editorProps as DirectEditorProps).transformPastedHTML
     const transformPastedHTML = this.extensionManager.transformPastedHTML(baseTransformPastedHTML)
 
+    const deferNodeViews = this.options.deferNodeViews
     this.editorView = new EditorView(element, {
       ...editorProps,
       attributes: this.getEditorViewAttributes(),
@@ -662,8 +664,11 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.hasMounted = true
     this.view.setProps({
       state,
-      markViews: this.extensionManager.markViews,
-      nodeViews: this.extensionManager.nodeViews,
+      // Framework EditorContent sets up a portal host after mount, then calls
+      // createNodeViews(). Installing real constructors here would build every
+      // node view twice (and React ones as inert placeholders). See #8516.
+      markViews: deferNodeViews ? {} : this.extensionManager.markViews,
+      nodeViews: deferNodeViews ? {} : this.extensionManager.nodeViews,
     })
 
     this.prependClass()

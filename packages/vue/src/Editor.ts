@@ -41,7 +41,14 @@ export class Editor extends CoreEditor {
   public appContext: AppContext | null = null
 
   constructor(options: Partial<EditorOptions> = {}) {
-    super({ element: null, ...options })
+    // EditorContent mounts later and calls createNodeViews after contentComponent
+    // exists (#8516). Direct mounts (element provided) stay eager so native
+    // node/mark views still work without EditorContent.
+    super({
+      element: null,
+      ...options,
+      deferNodeViews: options.deferNodeViews ?? options.element == null,
+    })
 
     this.reactiveState = useDebouncedRef(this.view.state)
     this.reactiveExtensionStorage = useDebouncedRef(this.extensionStorage)

@@ -499,6 +499,13 @@ export interface EditorOptions {
    * })
    */
   enableExtensionDispatchTransaction?: boolean
+  /**
+   * When `true`, `createView` installs empty `nodeViews` / `markViews` and leaves
+   * them for a later `createNodeViews()` call (used by React/Vue `EditorContent`
+   * after the portal host exists). Avoids building every node view twice on mount.
+   * @default false
+   */
+  deferNodeViews?: boolean
 }
 
 /** Options that can change without rebuilding the editor. */
