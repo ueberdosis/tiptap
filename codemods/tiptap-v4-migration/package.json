@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/codemod-v3-to-v4",
-  "version": "0.1.0",
+  "version": "4.0.0-next.0",
   "private": true,
   "description": "Migrate Tiptap Vue package imports for v4",
   "type": "module",

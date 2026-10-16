@@ -1,5 +1,15 @@
 # Change Log
 
+## 3.0.4-next.0
+
+### Patch Changes
+
+- Updated dependencies [dd62145]
+- Updated dependencies [dd62145]
+- Updated dependencies [dd62145]
+- Updated dependencies [dd62145]
+  - @tiptap/y-tiptap@3.0.10-next.0
+
 ## 3.0.3
 
 ### Patch Changes
