@@ -61,6 +61,75 @@ declare module '@tiptap/core' {
 }
 
 /**
+ * Finds the ProseMirror document position at which `limit` text characters
+ * (as counted by `textCounter`) have been consumed, walking from the start of
+ * the document.  Used by autoTrim so that excess content is removed from the
+ * END of the document rather than the beginning.
+ *
+ * For the default counter (`text => text.length`) the position is exact.
+ * For custom counters (e.g. Intl.Segmenter) the per-node approximation is
+ * used: within a node the split point is proportional to the node's length.
+ */
+function findDocPositionAtChar(
+  doc: ProseMirrorNode,
+  limit: number,
+  textCounter: (text: string) => number,
+): number {
+  let accumulated = 0
+  let trimPos = doc.content.size
+
+  doc.descendants((node, pos) => {
+    if (accumulated >= limit) return false
+
+    if (node.isText && node.text) {
+      const nodeCharCount = textCounter(node.text)
+      const remaining = limit - accumulated
+
+      if (nodeCharCount >= remaining) {
+        // The trim boundary falls inside (or at the end of) this text node.
+        // For the default counter textCounter === text.length so `remaining` is
+        // the exact UTF-16 offset; for custom counters this is a best-effort
+        // proportional approximation.
+        const charOffset =
+          nodeCharCount === node.text.length
+            ? remaining
+            : Math.round((remaining / nodeCharCount) * node.text.length)
+
+        trimPos = pos + charOffset
+        accumulated = limit
+        return false
+      }
+
+      accumulated += nodeCharCount
+      return true
+    }
+
+    // Non-text leaf/atom nodes (e.g. images, hard breaks, inline math) are
+    // counted as a single space by textBetween(..., leafText = ' '), which is
+    // what this.storage.characters() uses to compute initialContentSize. Mirror
+    // that here so the split position stays in sync with the measured count.
+    if (node.isLeaf) {
+      const leafCount = textCounter(' ')
+      const remaining = limit - accumulated
+      if (leafCount >= remaining) {
+        // The leaf node contributes the character(s) that reach the limit, so
+        // it belongs to the preserved prefix — split *after* it (like the text
+        // branch splits after the consumed characters), not before it.
+        trimPos = pos + node.nodeSize
+        accumulated = limit
+        return false
+      }
+      accumulated += leafCount
+      return false // leaf nodes have no children to descend into
+    }
+
+    return true
+  })
+
+  return trimPos
+}
+
+/**
  * This extension allows you to count the characters and words of your document.
  * @see https://tiptap.dev/api/extensions/character-count
  */
@@ -106,42 +175,67 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
     }
   },
 
-  addProseMirrorPlugins() {
-    let initialEvaluationDone = false
+  // Runs once after the initial EditorState (and view) has been created.
+  // Content passed via the `content` constructor option becomes part of that
+  // initial state directly — it is never applied as a dispatched Transaction —
+  // so a ProseMirror `appendTransaction` plugin hook never sees it. Trimming
+  // over-limit initial content therefore has to happen here, by dispatching a
+  // real transaction against the already-created view.
+  onCreate() {
+    const limit = this.options.limit
+    const autoTrim = this.options.autoTrim
 
+    if (limit === null || limit === undefined || limit === 0 || autoTrim === false) {
+      return
+    }
+
+    const initialContentSize = this.storage.characters({ node: this.editor.state.doc })
+
+    if (initialContentSize <= limit) {
+      return
+    }
+
+    const { state, view } = this.editor
+    let tr = state.tr
+
+    const trimOnce = (doc: ProseMirrorNode) => {
+      if (this.options.mode === 'nodeSize') {
+        const currentSize = this.storage.characters({ node: doc, mode: 'nodeSize' })
+        const over = currentSize - limit
+        return { from: doc.content.size - over, to: doc.content.size }
+      }
+
+      return {
+        from: findDocPositionAtChar(doc, limit, this.options.textCounter),
+        to: doc.content.size,
+      }
+    }
+
+    const { from, to } = trimOnce(tr.doc)
+
+    console.warn(
+      `[CharacterCount] Initial content exceeded limit of ${limit} characters. Content was automatically trimmed.`,
+    )
+    tr = tr.deleteRange(from, to)
+
+    // Safety re-check: ProseMirror may close open nodes after deletion,
+    // pushing the count back over the limit (same scenario as the paste
+    // path in filterTransaction below). Keep trimming until within limit.
+    let safetyIterations = 0
+    while (this.storage.characters({ node: tr.doc }) > limit && safetyIterations < 10) {
+      const range = trimOnce(tr.doc)
+      tr = tr.deleteRange(range.from, range.to)
+      safetyIterations++
+    }
+
+    tr.setMeta('addToHistory', false)
+    view.dispatch(tr)
+  },
+
+  addProseMirrorPlugins() {
     return [
       new Plugin({
         key: new PluginKey('characterCount'),
-        appendTransaction: (transactions, oldState, newState) => {
-          if (initialEvaluationDone) {
-            return
-          }
-
-          const limit = this.options.limit
-          const autoTrim = this.options.autoTrim
-
-          if (limit === null || limit === undefined || limit === 0 || autoTrim === false) {
-            initialEvaluationDone = true
-            return
-          }
-
-          const initialContentSize = this.storage.characters({ node: newState.doc })
-
-          if (initialContentSize > limit) {
-            const over = initialContentSize - limit
-            const from = 0
-            const to = over
-
-            console.warn(
-              `[CharacterCount] Initial content exceeded limit of ${limit} characters. Content was automatically trimmed.`,
-            )
-            const tr = newState.tr.deleteRange(from, to)
-            initialEvaluationDone = true
-            return tr
-          }
-
-          initialEvaluationDone = true
-        },
         filterTransaction: (transaction, state) => {
           const limit = this.options.limit
 
@@ -181,7 +275,7 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
           const from = pos - over
           const to = pos
 
-          // It’s probably a bad idea to mutate transactions within `filterTransaction`
+          // It's probably a bad idea to mutate transactions within `filterTransaction`
           // but for now this is working fine.
           transaction.deleteRange(from, to)
 
