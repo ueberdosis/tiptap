@@ -77,7 +77,8 @@ function createVueEditor(options: ConstructorParameters<typeof VueEditor>[0]) {
     writable: true,
     configurable: true,
   })
-  const instance = new VueEditor(options)
+  // Tests mount without EditorContent; install nodeViews in createView.
+  const instance = new VueEditor({ deferNodeViews: false, ...options })
   if (desc) Object.defineProperty(VueEditor.prototype, 'contentComponent', desc)
   else delete (VueEditor.prototype as any).contentComponent
   return instance

@@ -121,6 +121,8 @@ class EditorInstanceManager {
   private createEditor(): Editor {
     const optionsToApply: Partial<EditorOptions> = {
       ...this.options.current,
+      // EditorContent calls createNodeViews after contentComponent exists (#8516).
+      deferNodeViews: this.options.current.deferNodeViews ?? true,
       // Always call the most recent version of the callback function by default
       onBeforeCreate: (...args) => this.options.current.onBeforeCreate?.(...args),
       onBlur: (...args) => this.options.current.onBlur?.(...args),
