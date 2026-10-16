@@ -119,3 +119,48 @@ describe('ResizableNodeView', () => {
     expect(container.style.display).toBe('flex')
   })
 })
+
+describe('ResizableNodeView dimension updates', () => {
+  let editor: Editor
+
+  afterEach(() => {
+    editor?.destroy()
+  })
+
+  it('synchronizes changed and removed dimensions with the node attributes', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, BlockImage],
+      content: '<img data-type="block" src="test.png" width="200" height="100" />',
+    })
+
+    const image = editor.view.dom.querySelector('img') as HTMLImageElement
+
+    editor.commands.updateAttributes('blockImage', { width: 400, height: 300 })
+    expect(image.style.width).toBe('400px')
+    expect(image.style.height).toBe('300px')
+
+    editor.commands.updateAttributes('blockImage', { width: null, height: null })
+    expect(image.style.width).toBe('')
+    expect(image.style.height).toBe('')
+  })
+
+  it('preserves the current drag dimensions when another attribute changes', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, BlockImage],
+      content: '<img data-type="block" src="test.png" width="200" height="100" />',
+    })
+
+    const image = editor.view.dom.querySelector('img') as HTMLImageElement
+    const handle = editor.view.dom.querySelector('[data-resize-handle]') as HTMLElement
+    handle.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, clientX: 0, clientY: 0 }))
+    document.dispatchEvent(new MouseEvent('mousemove', { clientX: 400, clientY: 300 }))
+    const width = image.style.width
+    const height = image.style.height
+    expect(width).not.toBe('200px')
+
+    editor.commands.updateAttributes('blockImage', { src: 'changed.png' })
+    expect(image.style.width).toBe(width)
+    expect(image.style.height).toBe(height)
+    document.dispatchEvent(new MouseEvent('mouseup'))
+  })
+})
