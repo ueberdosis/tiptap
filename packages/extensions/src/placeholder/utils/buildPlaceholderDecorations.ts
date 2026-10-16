@@ -38,7 +38,8 @@ export function scanRangeForDecorations({
 }): Decoration[] {
   const { anchor } = selection
   const decorations: Decoration[] = []
-  const isEmptyDoc = editor.isEmpty
+  // Read the doc being decorated: editor.state is still the previous state while the state field applies
+  const isEmptyDoc = isNodeEmpty(doc)
 
   doc.nodesBetween(from, to, (node, pos) => {
     const hasAnchor = anchor >= pos && anchor <= pos + node.nodeSize
@@ -52,6 +53,7 @@ export function scanRangeForDecorations({
       decorations.push(
         createPlaceholderDecoration({
           editor,
+          doc,
           isEmptyDoc,
           dataAttribute,
           hasAnchor,
@@ -107,7 +109,8 @@ export function buildPlaceholderDecorations({
 
   const { anchor } = selection
   const decorations: Decoration[] = []
-  const isEmptyDoc = editor.isEmpty
+  // Read the doc being decorated: editor.state is still the previous state while the state field applies
+  const isEmptyDoc = isNodeEmpty(doc)
 
   const useResolvedPath = options.showOnlyCurrent && !options.includeChildren
 
@@ -128,6 +131,7 @@ export function buildPlaceholderDecorations({
       decorations.push(
         createPlaceholderDecoration({
           editor,
+          doc,
           isEmptyDoc,
           dataAttribute,
           hasAnchor,
