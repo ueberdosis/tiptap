@@ -25,9 +25,11 @@ describe('Highlight delimiters next to whitespace', () => {
   })
 
   it('does not highlight when only the closing "==" follows a space', () => {
-    const json = markdownManager.parse('a ==b == c')
+    const input = 'a ==b == c'
+    const json = markdownManager.parse(input)
 
     expect(collectMarks(json)).not.toContain('highlight')
+    expect(markdownManager.serialize(json)).toBe(input)
   })
 
   it('still highlights text wrapped tightly in "=="', () => {
