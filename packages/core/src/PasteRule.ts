@@ -200,6 +200,7 @@ const createClipboardPasteEvent = (text: string) => {
 export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }): Plugin[] {
   const { editor, rules } = props
   let dragSourceElement: Element | null = null
+  let dragSourceId = 0
   let isPastedFromProseMirror = false
   let isDroppedFromProseMirror = false
   let pasteEvent = typeof ClipboardEvent !== 'undefined' ? new ClipboardEvent('paste') : null
@@ -265,6 +266,7 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
       // we register a global drag handler to track the current drag source element
       view(view) {
         const handleDragstart = (event: DragEvent) => {
+          dragSourceId += 1
           dragSourceElement = view.dom.parentElement?.contains(event.target as Element)
             ? view.dom.parentElement
             : null
@@ -275,18 +277,25 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
         }
 
         const handleDragend = () => {
+          dragSourceElement = null
           if (tiptapDragFromOtherEditor) {
             tiptapDragFromOtherEditor = null
           }
         }
 
+        const handleDropGlobal = () => {
+          dragSourceElement = null
+        }
+
         window.addEventListener('dragstart', handleDragstart)
         window.addEventListener('dragend', handleDragend)
+        window.addEventListener('drop', handleDropGlobal)
 
         return {
           destroy() {
             window.removeEventListener('dragstart', handleDragstart)
             window.removeEventListener('dragend', handleDragend)
+            window.removeEventListener('drop', handleDropGlobal)
           },
         }
       },
@@ -297,13 +306,18 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
             isDroppedFromProseMirror = dragSourceElement === view.dom.parentElement
             dropEvent = event as DragEvent
 
-            if (!isDroppedFromProseMirror) {
-              const dragFromOtherEditor = tiptapDragFromOtherEditor
+            const dragFromOtherEditor = tiptapDragFromOtherEditor
 
+            if (tiptapDragFromOtherEditor) {
+              tiptapDragFromOtherEditor = null
+            }
+
+            if (!isDroppedFromProseMirror) {
               if (dragFromOtherEditor?.isEditable) {
+                const dragSourceIdAtDrop = dragSourceId
                 // setTimeout to avoid the wrong content after drop, timeout arg can't be empty or 0
                 setTimeout(() => {
-                  if (dragFromOtherEditor.isDestroyed) {
+                  if (dragFromOtherEditor.isDestroyed || dragSourceId !== dragSourceIdAtDrop) {
                     return
                   }
 
