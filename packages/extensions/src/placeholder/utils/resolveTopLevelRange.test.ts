@@ -4,7 +4,11 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { describe, expect, it } from 'vite-plus/test'
 
-import { getTopLevelBlocksInRange, toContentRelativeRange } from './resolveTopLevelRange.js'
+import {
+  getTopLevelBlocksInRange,
+  resolveTopLevelRange,
+  toContentRelativeRange,
+} from './resolveTopLevelRange.js'
 
 function createHeadlessEditor(content: string) {
   return new Editor({
@@ -42,10 +46,11 @@ describe('placeholder utility: getTopLevelBlocksInRange', () => {
 
     doc.forEach((node, offset) => {
       const contentRange = { from: offset, to: offset + node.nodeSize }
-      const absoluteRange = { from: offset + 1, to: offset + node.nodeSize + 1 }
+      // The cursor position inside the empty paragraph.
+      const cursor = offset + 1
 
-      expect(toContentRelativeRange(doc, absoluteRange)).toEqual(contentRange)
-      expect(getTopLevelBlocksInRange(doc, absoluteRange.from, absoluteRange.to)).toEqual([
+      expect(toContentRelativeRange(doc, resolveTopLevelRange(doc, cursor))).toEqual(contentRange)
+      expect(getTopLevelBlocksInRange(doc, cursor, offset + node.nodeSize + 1)).toEqual([
         contentRange,
       ])
     })

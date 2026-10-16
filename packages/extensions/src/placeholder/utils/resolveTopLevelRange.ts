@@ -26,16 +26,21 @@ export function resolveTopLevelRange(doc: PMNode, pos: number): { from: number; 
 }
 
 /**
- * Converts an absolute document range to content-relative positions used by
- * `Node#nodesBetween` and `Node#forEach` offsets.
+ * Clamps a top-level block range from `resolveTopLevelRange` to the document
+ * content, giving the positions used by `Node#nodesBetween` and `Node#forEach`
+ * offsets.
+ *
+ * A top-level node at `Node#forEach` offset `n` already sits at document
+ * position `n`, so the range must not be shifted: a node decoration spans
+ * exactly `[n, n + nodeSize]` and has to stay inside the range to be replaced.
  */
 export function toContentRelativeRange(
   doc: PMNode,
   range: { from: number; to: number },
 ): { from: number; to: number } {
   return {
-    from: Math.max(0, range.from - 1),
-    to: Math.min(doc.content.size, range.to - 1),
+    from: Math.max(0, range.from),
+    to: Math.min(doc.content.size, range.to),
   }
 }
 
