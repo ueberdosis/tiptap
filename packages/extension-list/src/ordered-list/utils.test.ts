@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vite-plus/test'
 
-import { parsePlainTextOrderedListPaste } from './utils.js'
+import { collectOrderedListItems, parsePlainTextOrderedListPaste } from './utils.js'
 
 describe('plain-text paste detection', () => {
   it('detects single-line lowercase alpha paste', () => {
@@ -101,5 +101,29 @@ describe('plain-text paste detection', () => {
     const result = parsePlainTextOrderedListPaste('a. Item 1\nc. Item 3')
 
     expect(result).toBeNull()
+  })
+})
+
+describe('ordered list columns', () => {
+  it('keeps character offsets when stripping continuation indentation', () => {
+    const [items] = collectOrderedListItems(['\t1. child', '      continuation'])
+
+    expect(items[0].indent).toBe(4)
+    expect(items[0].contentColumn).toBe(7)
+    expect(items[0].contentLines).toEqual(['child', '   continuation'])
+  })
+
+  it('uses tab stops for an empty item prefix', () => {
+    const [items] = collectOrderedListItems(['1.\t'])
+
+    expect(items[0].contentColumn).toBe(4)
+    expect(items[0].contentLines).toEqual([''])
+  })
+
+  it('measures mixed indentation and separator tabs from their current column', () => {
+    const [items] = collectOrderedListItems([' \t1.\tchild'])
+
+    expect(items[0].indent).toBe(4)
+    expect(items[0].contentColumn).toBe(8)
   })
 })
