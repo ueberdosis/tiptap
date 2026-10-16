@@ -821,11 +821,14 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Get the document as HTML.
    */
   public getHTML(): string {
-    if (!this.schema || !this.editorState) {
+    if (!this.editorState) {
       return ''
     }
 
-    return getHTMLFromFragment(this.state.doc.content, this.schema)
+    const { doc } = this.state
+
+    // Use the doc's own schema, `this.schema` is released on destroy
+    return getHTMLFromFragment(doc.content, doc.type.schema)
   }
 
   /**
@@ -835,16 +838,17 @@ export class Editor extends EventEmitter<EditorEvents> {
     blockSeparator?: string
     textSerializers?: Record<string, TextSerializer>
   }): string {
-    if (!this.schema || !this.editorState) {
+    if (!this.editorState) {
       return ''
     }
 
     const { blockSeparator = '\n\n', textSerializers = {} } = options || {}
+    const { doc } = this.state
 
-    return getText(this.state.doc, {
+    return getText(doc, {
       blockSeparator,
       textSerializers: {
-        ...getTextSerializersFromSchema(this.schema),
+        ...getTextSerializersFromSchema(doc.type.schema),
         ...textSerializers,
       },
     })

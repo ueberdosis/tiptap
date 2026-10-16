@@ -119,24 +119,24 @@ describe('Editor', () => {
       expect(editor.can().chain().setContent('').blur().run()).toBe(false)
     })
 
-    it('should return an empty string from getHTML after the editor is destroyed', () => {
+    it('should return the last document from getHTML after the editor is destroyed', () => {
       const editor = createTestEditor()
 
       expect(editor.getHTML()).toBe('<p>Hello</p>')
 
       editor.destroy()
 
-      expect(editor.getHTML()).toBe('')
+      expect(editor.getHTML()).toBe('<p>Hello</p>')
     })
 
-    it('should return an empty string from getText after the editor is destroyed', () => {
+    it('should return the last document from getText after the editor is destroyed', () => {
       const editor = createTestEditor()
 
       expect(editor.getText()).toBe('Hello')
 
       editor.destroy()
 
-      expect(editor.getText()).toBe('')
+      expect(editor.getText()).toBe('Hello')
     })
   })
 })
