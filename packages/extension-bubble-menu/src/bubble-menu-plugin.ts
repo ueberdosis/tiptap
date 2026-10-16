@@ -171,7 +171,11 @@ export class BubbleMenuView implements PluginView {
 
   private resizeDebounceTimer: number | undefined
 
+  private focusTimer: number | undefined
+
   private isVisible = false
+
+  private isDestroyed = false
 
   private scrollTarget: HTMLElement | Window = window
 
@@ -441,8 +445,13 @@ export class BubbleMenuView implements PluginView {
   }
 
   focusHandler = () => {
+    if (this.isDestroyed) {
+      return
+    }
+
     // we use `setTimeout` to make sure `selection` is already updated
-    setTimeout(() => this.update(this.editor.view))
+    clearTimeout(this.focusTimer)
+    this.focusTimer = window.setTimeout(() => this.update(this.editor.view))
   }
 
   blurHandler = ({ event }: { event: FocusEvent }) => {
@@ -587,7 +596,7 @@ export class BubbleMenuView implements PluginView {
   }
 
   show() {
-    if (this.isVisible) {
+    if (this.isVisible || this.isDestroyed) {
       return
     }
 
@@ -686,6 +695,10 @@ export class BubbleMenuView implements PluginView {
   }
 
   destroy() {
+    this.isDestroyed = true
+    clearTimeout(this.focusTimer)
+    clearTimeout(this.updateDebounceTimer)
+    clearTimeout(this.resizeDebounceTimer)
     this.hide()
     this.element.removeEventListener('mousedown', this.mousedownHandler, { capture: true })
     this.view.dom.removeEventListener('dragstart', this.dragstartHandler)
