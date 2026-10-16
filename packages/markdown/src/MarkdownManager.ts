@@ -1236,6 +1236,10 @@ export class MarkdownManager {
 
     const previousNode =
       Array.isArray(parentNode?.content) && index > 0 ? parentNode.content[index - 1] : undefined
+    const nextNode =
+      Array.isArray(parentNode?.content) && index < parentNode.content.length - 1
+        ? parentNode.content[index + 1]
+        : undefined
     const helpers: MarkdownRendererHelpers = {
       renderChildren: (nodes, separator) => {
         const childLevel = handler.isIndenting ? level + 1 : level
@@ -1268,6 +1272,7 @@ export class MarkdownManager {
       level,
       parentType: parentNode?.type,
       previousNode,
+      nextNode,
       meta: {
         parentAttrs: parentNode?.attrs,
         ...meta,
