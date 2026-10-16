@@ -292,7 +292,6 @@ export const TableOfContents = Extension.create<TableOfContentsOptions, TableOfC
         tr.setNodeMarkup(pos, undefined, {
           ...node.attrs,
           'data-toc-id': id,
-          id,
         })
       }
 
