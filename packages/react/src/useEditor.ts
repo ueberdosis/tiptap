@@ -10,6 +10,9 @@ const isDev = process.env.NODE_ENV !== 'production'
 const isSSR = typeof window === 'undefined'
 const isNext = isSSR || Boolean(typeof window !== 'undefined' && (window as any).next)
 
+// Give React time for a delayed first commit
+const FIRST_MOUNT_TIMEOUT = 1000
+
 /**
  * The options for the `useEditor` hook.
  */
@@ -73,7 +76,7 @@ class EditorInstanceManager {
     this.options = options
     this.subscriptions = new Set<() => void>()
     this.setEditor(this.getInitialEditor())
-    this.scheduleDestroy()
+    this.scheduleDestroy(FIRST_MOUNT_TIMEOUT)
 
     this.getEditor = this.getEditor.bind(this)
     this.getServerSnapshot = this.getServerSnapshot.bind(this)
@@ -282,10 +285,10 @@ class EditorInstanceManager {
 
   /**
    * Schedule the destruction of the editor instance.
-   * This will only destroy the editor if it was not mounted on the next tick.
+   * This will only destroy the editor if it was not mounted within `timeout` milliseconds.
    * This is to avoid destroying the editor instance when it's actually still mounted.
    */
-  private scheduleDestroy() {
+  private scheduleDestroy(timeout = 1) {
     const currentInstanceId = this.instanceId
     const currentEditor = this.editor
 
@@ -307,7 +310,7 @@ class EditorInstanceManager {
       }
       // This allows the effect to run again between ticks
       // which may save us from having to re-create the editor
-    }, 1)
+    }, timeout)
   }
 }
 
