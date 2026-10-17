@@ -30,7 +30,7 @@ const addTocActiveStatesAndGetItems = (
   const scrolledOverIds: string[] = []
   let activeId: string | null = null
 
-  if (editor.isDestroyed) {
+  if (!editor.isMounted) {
     return content
   }
 
@@ -81,7 +81,7 @@ const setTocData = (options: {
 }) => {
   const { editor } = options
 
-  if (editor.isDestroyed) {
+  if (!editor.isMounted) {
     return
   }
 

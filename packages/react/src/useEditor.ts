@@ -141,7 +141,7 @@ class EditorInstanceManager {
   }
 
   private createEditor(): Editor {
-    return new Editor({ ...this.options.current, ...this.getRuntimeOptions() })
+    return new Editor({ element: null, ...this.options.current, ...this.getRuntimeOptions() })
   }
 
   /**
