@@ -53,9 +53,7 @@ export const EditorContent = defineComponent({
             }
           }
 
-          editor.setOptions({
-            element,
-          })
+          editor.options.element = element
 
           editor.createNodeViews()
         })
