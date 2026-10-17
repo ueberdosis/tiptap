@@ -32,7 +32,14 @@ export const EditorContent = defineComponent({
 
       if (editor && editor.options.element && rootEl.value) {
         nextTick(() => {
-          if (!rootEl.value || !editor.view.dom?.parentNode) {
+          // The editor can be destroyed or replaced before this runs,
+          // for example when `useEditor` is mounted again during hydration
+          if (
+            editor.isDestroyed ||
+            editor !== props.editor ||
+            !rootEl.value ||
+            !editor.view.dom?.parentNode
+          ) {
             return
           }
 
