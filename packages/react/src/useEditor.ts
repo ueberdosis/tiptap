@@ -120,6 +120,7 @@ class EditorInstanceManager {
    */
   private createEditor(): Editor {
     const optionsToApply: Partial<EditorOptions> = {
+      element: null,
       ...this.options.current,
       // Always call the most recent version of the callback function by default
       onBeforeCreate: (...args) => this.options.current.onBeforeCreate?.(...args),
