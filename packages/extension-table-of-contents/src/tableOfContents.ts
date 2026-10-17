@@ -244,6 +244,19 @@ export const TableOfContents = Extension.create<TableOfContentsOptions, TableOfC
     }
   },
 
+  onBeforeCreate() {
+    this.editor.on('mount', () => {
+      setTocData({
+        editor: this.editor,
+        storage: this.storage,
+        onUpdate: this.options.onUpdate?.bind(this),
+        getIndexFn: this.options.getIndex || getLinearIndexes,
+        getLevelFn: this.options.getLevel || getHeadlineLevel,
+        anchorTypes: this.options.anchorTypes,
+      })
+    })
+  },
+
   onTransaction({ transaction }) {
     if (transaction.docChanged && !transaction.getMeta('toc')) {
       setTocData({
