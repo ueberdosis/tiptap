@@ -76,6 +76,8 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   private hasMounted = false
 
+  private hasCreated = false
+
   private editorState!: EditorState
 
   /**
@@ -206,7 +208,10 @@ export class Editor extends EventEmitter<EditorEvents> {
       if (this.options.autofocus !== false && this.options.autofocus !== null) {
         this.commands.focus(this.options.autofocus)
       }
-      this.emit('create', { editor: this })
+      if (!this.hasCreated) {
+        this.hasCreated = true
+        this.emit('create', { editor: this })
+      }
       this.isInitialized = !this.isDestroyed && this.editorView === view
     }, 0)
   }
