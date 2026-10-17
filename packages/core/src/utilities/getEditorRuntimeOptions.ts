@@ -33,6 +33,7 @@ export function getEditorRuntimeOptions(
 ): Partial<EditorRuntimeOptions> {
   const runtimeOptions: Partial<EditorRuntimeOptions> = {}
 
+  /** Keep explicitly supplied undefined values. */
   function copyOption<Key extends keyof EditorRuntimeOptions>(key: Key) {
     if (Object.hasOwn(options, key)) {
       runtimeOptions[key] = options[key]
