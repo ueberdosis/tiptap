@@ -82,6 +82,31 @@ describe('editor lifecycle', () => {
     expect(editor.isInitialized).toBe(true)
   })
 
+  it('emits create once and initializes each mounted view', () => {
+    vi.useFakeTimers()
+    const editor = new Editor({
+      element: null,
+      extensions: [StarterKit],
+      autofocus: true,
+    })
+    editors.push(editor)
+    const create = vi.fn()
+    editor.on('create', create)
+
+    editor.mount(document.createElement('div'))
+    vi.runAllTimers()
+
+    expect(create).toHaveBeenCalledTimes(1)
+    expect(editor.isInitialized).toBe(true)
+
+    editor.unmount()
+    editor.mount(document.createElement('div'))
+    vi.runAllTimers()
+
+    expect(create).toHaveBeenCalledTimes(1)
+    expect(editor.isInitialized).toBe(true)
+  })
+
   it('preserves plugin state and registered plugins across remounts', () => {
     const key = new PluginKey<number>('lifecycleCounter')
     const editor = new Editor({
