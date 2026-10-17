@@ -43,7 +43,6 @@ yarn-error.log*
 # packaged files
 /package-dist-artifacts.tar
 packages/**/*.tgz
-packages-deprecated/**/*.tgz
 demos/*.tgz
 
 # pnpm

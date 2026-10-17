@@ -1,6 +1,6 @@
 import { Extension } from '@tiptap/core'
 
-import { handleBackspace, handleDelete } from './listHelpers/index.js'
+import { handleBackspace, handleDelete, handleTab } from './listHelpers/index.js'
 
 export type ListKeymapOptions = {
   /**
@@ -100,6 +100,20 @@ export const ListKeymap = Extension.create<ListKeymapOptions>({
         })
 
         return handled
+      },
+      Tab: ({ editor }) => {
+        // stop at the first handled list type so a single Tab cannot sink the block twice
+        for (const { itemName, wrapperNames } of this.options.listTypes) {
+          if (editor.state.schema.nodes[itemName] === undefined) {
+            continue
+          }
+
+          if (handleTab(editor, itemName, wrapperNames)) {
+            return true
+          }
+        }
+
+        return false
       },
     }
   },

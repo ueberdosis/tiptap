@@ -1,4 +1,4 @@
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import type { Mappable } from '@tiptap/pm/transform'
 
 import { NodeRangeSelection } from './NodeRangeSelection.js'
@@ -18,7 +18,7 @@ export class NodeRangeBookmark {
     return new NodeRangeBookmark(mapping.map(this.anchor), mapping.map(this.head), this.depth)
   }
 
-  resolve(doc: ProseMirrorNode) {
+  resolve(doc: PMNode) {
     const $anchor = doc.resolve(this.anchor)
     const $head = doc.resolve(this.head)
 

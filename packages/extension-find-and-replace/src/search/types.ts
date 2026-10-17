@@ -1,4 +1,4 @@
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 
 export interface SearchResult {
   from: number
@@ -6,7 +6,7 @@ export interface SearchResult {
 }
 
 export interface TextblockSearchTarget {
-  node: Node
+  node: PMNode
   pos: number
 }
 

@@ -24,6 +24,18 @@ export async function setEditorContent(page: Page, content: string) {
 }
 
 /**
+ * Place the caret at the end of the document.
+ * Clicking the editor and pressing Ctrl+End is flaky, the caret can stay at the start.
+ * @param page The page containing the editor
+ */
+export async function focusEditorEnd(page: Page) {
+  const editor = await getEditor(page)
+  await editor.evaluate((el: any) => {
+    el.editor.commands.focus('end')
+  })
+}
+
+/**
  * Click a button in the editor
  * @param page The page containing the editor
  * @param buttonLabel The label of the button to click

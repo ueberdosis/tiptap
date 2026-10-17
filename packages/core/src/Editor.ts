@@ -1,10 +1,11 @@
 /* oslint-disableno-empty-object-type */
-import type { MarkType, Node as ProseMirrorNode, NodeType, Schema } from '@tiptap/pm/model'
+import type { MarkType, Node as PMNode, NodeType, Schema } from '@tiptap/pm/model'
 import type { Plugin, PluginKey, Transaction } from '@tiptap/pm/state'
 import { EditorState } from '@tiptap/pm/state'
 import { type DirectEditorProps, EditorView } from '@tiptap/pm/view'
 
 import { CommandManager } from './CommandManager.js'
+import { isInDecorationApplyScope } from './decorations/decorationApplyScope.js'
 import { EventEmitter } from './EventEmitter.js'
 import { ExtensionManager } from './ExtensionManager.js'
 import {
@@ -28,6 +29,7 @@ import { isActive } from './helpers/isActive.js'
 import { isNodeEmpty } from './helpers/isNodeEmpty.js'
 import { createMappablePosition, getUpdatedPosition } from './helpers/MappablePosition.js'
 import { resolveFocusPosition } from './helpers/resolveFocusPosition.js'
+import { warnOnDuplicatedProseMirrorModel } from './helpers/warnOnDuplicatedProseMirrorModel.js'
 import type { Storage } from './index.js'
 import { NodePos } from './NodePos.js'
 import { style } from './style.js'
@@ -44,6 +46,7 @@ import type {
   Utils,
 } from './types.js'
 import { createStyleTag } from './utilities/createStyleTag.js'
+import { isDev } from './utilities/isDev.js'
 import { isFunction } from './utilities/isFunction.js'
 
 export * as extensions from './extensions/index.js'
@@ -83,6 +86,8 @@ export class Editor extends EventEmitter<EditorEvents> {
    * A unique ID for this editor instance.
    */
   public instanceId = Math.random().toString(36).slice(2, 9)
+
+  private hasWarnedStaleDecorationRead = false
 
   public options: EditorOptions = {
     element: typeof document !== 'undefined' ? document.createElement('div') : null,
@@ -155,6 +160,8 @@ export class Editor extends EventEmitter<EditorEvents> {
       })
     }
 
+    warnOnDuplicatedProseMirrorModel(this.schema)
+
     if (this.options.element) {
       this.mount(this.options.element)
     }
@@ -194,6 +201,9 @@ export class Editor extends EventEmitter<EditorEvents> {
    */
   public unmount() {
     if (this.editorView) {
+      // Keep the cached state in sync so plugin state stays available after unmount.
+      this.editorState = this.editorView.state
+
       // Cleanup our reference to prevent circular references which caused memory leaks
       // @ts-ignore
       const dom = this.editorView.dom as TiptapEditorHTMLElement
@@ -242,6 +252,10 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Create a command chain to call multiple commands at once.
    */
   public chain(): ChainedCommands {
+    if (!this.commandManager) {
+      return CommandManager.createFakeChain()
+    }
+
     return this.commandManager.chain()
   }
 
@@ -249,6 +263,10 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Check if a command or a command chain can be executed. Without executing it.
    */
   public can(): CanCommands {
+    if (!this.commandManager) {
+      return CommandManager.createFallbackCan()
+    }
+
     return this.commandManager.can()
   }
 
@@ -277,7 +295,10 @@ export class Editor extends EventEmitter<EditorEvents> {
     }
 
     if (this.options.editorProps) {
-      this.view.setProps(this.options.editorProps)
+      this.view.setProps({
+        ...this.options.editorProps,
+        attributes: this.getEditorViewAttributes(),
+      })
     }
 
     this.view.updateState(this.state)
@@ -356,6 +377,19 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Returns the editor state.
    */
   public get state(): EditorState {
+    if (isDev && !this.hasWarnedStaleDecorationRead && isInDecorationApplyScope(this)) {
+      // Warn once per editor. The same read repeats on every transaction, and
+      // a decoration that dispatches from `create()` would flood the console.
+      this.hasWarnedStaleDecorationRead = true
+
+      console.warn(
+        '[tiptap warn]: `editor.state` was read while decoration `create()` was running. ' +
+          'It returns the pre-transaction document. Use the `state` argument passed to ' +
+          '`create()` instead. Helpers like `editor.isActive()` read `editor.state` too, ' +
+          'so pass `state` to their standalone versions instead of calling them on the editor.',
+      )
+    }
+
     if (this.editorView) {
       this.editorState = this.view.state
     }
@@ -483,8 +517,8 @@ export class Editor extends EventEmitter<EditorEvents> {
   /**
    * Creates the initial document.
    */
-  private createDoc(): ProseMirrorNode {
-    let doc: ProseMirrorNode
+  private createDoc(): PMNode {
+    let doc: PMNode
 
     try {
       doc = createDocument(this.options.content, this.schema, this.options.parseOptions, {
@@ -545,6 +579,27 @@ export class Editor extends EventEmitter<EditorEvents> {
   }
 
   /**
+   * Returns the attributes for the editor element.
+   * Merges the default `role="textbox"` with the attributes from `editorProps`,
+   * so the role is kept no matter when the props are applied.
+   */
+  private getEditorViewAttributes(): NonNullable<DirectEditorProps['attributes']> {
+    const attributes = this.options.editorProps?.attributes
+
+    if (isFunction(attributes)) {
+      return state => ({
+        role: 'textbox',
+        ...attributes(state),
+      })
+    }
+
+    return {
+      role: 'textbox',
+      ...attributes,
+    }
+  }
+
+  /**
    * Creates a ProseMirror view.
    */
   private createView(element: NonNullable<EditorOptions['element']>): void {
@@ -564,11 +619,7 @@ export class Editor extends EventEmitter<EditorEvents> {
 
     this.editorView = new EditorView(element, {
       ...editorProps,
-      attributes: {
-        // add `role="textbox"` to the editor element
-        role: 'textbox',
-        ...editorProps?.attributes,
-      },
+      attributes: this.getEditorViewAttributes(),
       dispatchTransaction: dispatch,
       transformPastedHTML,
       state: this.editorState,
@@ -805,15 +856,13 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.destroyed = true
 
     this.emit('destroy')
-
     this.unmount()
-
     this.removeAllListeners()
 
     this.extensionManager.destroy()
     this.extensionManager = null as any
     this.schema = null as any
-    this.commandManager = null as any
+    this.commandManager = null as unknown as CommandManager
     this.extensionStorage = {} as Storage
   }
 

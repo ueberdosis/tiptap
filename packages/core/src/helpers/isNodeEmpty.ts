@@ -1,10 +1,10 @@
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 
 /**
  * Returns true if the given prosemirror node is empty.
  */
 export function isNodeEmpty(
-  node: ProseMirrorNode,
+  node: PMNode,
   {
     checkChildren = true,
     ignoreWhitespace = false,

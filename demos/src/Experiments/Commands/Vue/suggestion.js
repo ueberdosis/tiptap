@@ -1,5 +1,5 @@
 import { computePosition, flip, shift } from '@floating-ui/dom'
-import { posToDOMRect, VueRenderer } from '@tiptap/vue-3'
+import { posToDOMRect, VueRenderer } from '@tiptap/vue'
 
 import CommandsList from './CommandsList.vue'
 
@@ -59,9 +59,6 @@ export default {
     return {
       onStart: props => {
         component = new VueRenderer(CommandsList, {
-          // using vue 2:
-          // parent: this,
-          // propsData: props,
           props,
           editor: props.editor,
         })

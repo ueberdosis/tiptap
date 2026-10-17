@@ -1,4 +1,4 @@
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 
 import type { FindAndReplaceOptions } from '../types.js'
 import type { FindAndReplacePluginState } from '../plugin/plugin-state.js'
@@ -6,7 +6,10 @@ import { searchDocument } from '../search/search.js'
 
 import { createDecorations } from './createDecorations.js'
 
-export function createState(doc: Node, options: FindAndReplaceOptions): FindAndReplacePluginState {
+export function createState(
+  doc: PMNode,
+  options: FindAndReplaceOptions,
+): FindAndReplacePluginState {
   const results = searchDocument(doc, options.searchTerm, options)
   const currentIndex = results.length > 0 ? 0 : null
 

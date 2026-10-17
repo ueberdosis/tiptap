@@ -33,6 +33,7 @@ import {
   reopenMarksAfterNode,
   wrapInMarkdownBlock,
 } from './utils.js'
+import { collectMarkSpanTexts } from './utils/collectMarkSpanTexts.js'
 import { htmlContainsUnrecognizedTag } from './utils/htmlTagDetection.js'
 
 /**
@@ -69,6 +70,8 @@ export class MarkdownManager {
   private codeTypes: Set<string> = new Set()
   /** Lazy cache of tag names declared by the registered schema's parseDOM rules. */
   private schemaParseDomTagsCache: Set<string> | null = null
+  /** Lazy cache of the names of the schema's inline node types. */
+  private inlineNodeTypesCache: Set<string> | null = null
 
   /**
    * Create a MarkdownManager.
@@ -140,6 +143,11 @@ export class MarkdownManager {
     const isCode = callOrReturn(getExtensionField(extension, 'code'))
 
     const name = extension.name
+    const extensionContext = {
+      name,
+      options: extension.options,
+      storage: extension.storage,
+    }
 
     if (isCode) {
       this.codeTypes.add(name)
@@ -152,20 +160,21 @@ export class MarkdownManager {
       (getExtensionField(
         extension,
         'markdownTokenName',
+        extensionContext,
       ) as ExtendableConfig['markdownTokenName']) || name
-    const parseMarkdown = getExtensionField(extension, 'parseMarkdown') as
+    const parseMarkdown = getExtensionField(extension, 'parseMarkdown', extensionContext) as
       | ExtendableConfig['parseMarkdown']
       | undefined
-    const renderMarkdown = getExtensionField(extension, 'renderMarkdown') as
+    const renderMarkdown = getExtensionField(extension, 'renderMarkdown', extensionContext) as
       | ExtendableConfig['renderMarkdown']
       | undefined
-    const tokenizer = getExtensionField(extension, 'markdownTokenizer') as
+    const tokenizer = getExtensionField(extension, 'markdownTokenizer', extensionContext) as
       | ExtendableConfig['markdownTokenizer']
       | undefined
 
     // Read the `markdown` object from the extension config. This allows
     // extensions to provide `markdown: { name?, parseName?, renderName?, parse?, render?, match? }`.
-    const markdownCfg = (getExtensionField(extension, 'markdownOptions') ??
+    const markdownCfg = (getExtensionField(extension, 'markdownOptions', extensionContext) ??
       null) as ExtendableConfig['markdownOptions']
     const isIndenting = markdownCfg?.indentsContent ?? false
     const htmlReopen = markdownCfg?.htmlReopen
@@ -208,7 +217,46 @@ export class MarkdownManager {
   private createTokenizerHelpers(lexer: Lexer): MarkdownLexerConfiguration {
     return {
       inlineTokens: (src: string) => lexer.inlineTokens(src),
-      blockTokens: (src: string) => lexer.blockTokens(src),
+      blockTokens: (src: string) => {
+        const wasTopLevel = lexer.state.top
+
+        try {
+          return lexer.blockTokens(src)
+        } finally {
+          lexer.state.top = wasTopLevel
+        }
+      },
+      isParagraphContinuation: (line: string) => {
+        const probeLexer = new this.markedInstance.Lexer({
+          ...this.markedInstance.defaults,
+          extensions: undefined,
+          tokenizer: undefined,
+        })
+        // "text" simulates an open paragraph without reaching custom tokenizers.
+        const source = `text\n${line}\n`
+        const token = probeLexer.blockTokens(source)[0]
+
+        if (token?.type !== 'paragraph' || token.raw !== source) {
+          return false
+        }
+
+        const extensionLexer = this.createLexer()
+        extensionLexer.state.top = lexer.state.top
+        const extensions = this.markedInstance.defaults.extensions
+
+        if (
+          extensions?.startBlock?.some(start => {
+            const index = start.call({ lexer: extensionLexer }, line)
+            return typeof index === 'number' && index >= 0
+          })
+        ) {
+          return false
+        }
+
+        return !extensions?.block?.some(tokenize =>
+          tokenize.call({ lexer: extensionLexer }, `${line}\n`, []),
+        )
+      },
     }
   }
 
@@ -981,23 +1029,68 @@ export class MarkdownManager {
           return parsed.content
         }
 
-        // For inline HTML, we need to flatten the content appropriately
-        // If there's only one paragraph with content, unwrap it
-        if (
-          parsed.content.length === 1 &&
-          parsed.content[0].type === 'paragraph' &&
-          parsed.content[0].content
-        ) {
-          return parsed.content[0].content
-        }
+        const inlineContent = this.toInlineContent(parsed.content)
 
-        return parsed.content
+        return inlineContent.length > 0 ? inlineContent : null
       }
 
       return parsed as JSONContent
     } catch (error) {
       throw new Error(`Failed to parse HTML in markdown: ${error}`)
     }
+  }
+
+  /**
+   * Keep only the inline nodes of parsed HTML content, unwrapping the block
+   * nodes around them. Inline HTML sits inside a textblock, where a block node
+   * would make the document invalid for the schema.
+   *
+   * @param content Content array of a parsed HTML fragment.
+   * @example
+   *   toInlineContent([{ type: 'paragraph', content: [{ type: 'text', text: 'hi' }] }])
+   *   // → [{ type: 'text', text: 'hi' }]
+   */
+  private toInlineContent(content: JSONContent[]): JSONContent[] {
+    const inlineTypes = this.getInlineNodeTypes()
+
+    return content.flatMap(node => {
+      if (node.type && inlineTypes.has(node.type)) {
+        return [node]
+      }
+
+      return node.content ? this.toInlineContent(node.content) : []
+    })
+  }
+
+  /**
+   * Collect the names of the node types the schema treats as inline. Result is
+   * cached for the lifetime of the manager since extensions don't change after
+   * registration.
+   *
+   * @example
+   *   getInlineNodeTypes().has('text') // → true
+   */
+  private getInlineNodeTypes(): Set<string> {
+    if (this.inlineNodeTypesCache) {
+      return this.inlineNodeTypesCache
+    }
+
+    const types = new Set<string>(['text'])
+
+    try {
+      const schema = getSchema(this.baseExtensions)
+
+      Object.values(schema.nodes).forEach(type => {
+        if (type.isInline) {
+          types.add(type.name)
+        }
+      })
+    } catch {
+      // If schema construction fails, only text nodes count as inline.
+    }
+
+    this.inlineNodeTypesCache = types
+    return types
   }
 
   /**
@@ -1159,10 +1252,11 @@ export class MarkdownManager {
           .replace(/^( {0,3})(#{1,6})(\s|$)/, '$1\\$2$3')
           .replace(/^( {0,3})([-+])(\s|$)/, '$1\\$2$3')
 
-        // Inside a list item marked reads `1.` as text, so escaping it would only add noise.
-        if (!isIndented) {
-          escaped = escaped.replace(/^( {0,3})(\d{1,9})([.)])(\s|$)/, '$1$2\\$3$4')
-        }
+        // Inside a list item a bare `1.` stays text, but `1. one` opens a nested list.
+        escaped = escaped.replace(
+          isIndented ? /^( {0,3})(\d{1,9})([.)])(?=\s+\S)/ : /^( {0,3})(\d{1,9})([.)])(?=\s|$)/,
+          '$1$2\\$3',
+        )
 
         // The first line has nothing above it to underline, so only a break can start a block.
         return index === 0
@@ -1277,6 +1371,8 @@ export class MarkdownManager {
     const activeMarks: Map<string, any> = new Map()
     const reopenWithHtmlOnNextOpen = new Set<string>()
     const markOpeningModes = new Map<string, 'markdown' | 'html'>()
+    // Delimiters can depend on the whole mark run, not just one text node
+    const markSpanTexts = collectMarkSpanTexts(nodes)
     nodes.forEach((node, i) => {
       // Lookahead to the next node to determine if marks need to be closed
       const nextNode = i < nodes.length - 1 ? nodes[i + 1] : null
@@ -1302,11 +1398,27 @@ export class MarkdownManager {
           parentNode,
           blockContext,
         )
-        const currentMarks = new Map((node.marks || []).map(mark => [mark.type, mark]))
+        let currentMarks = new Map((node.marks || []).map(mark => [mark.type, mark]))
 
         // Find marks that need to be closed and opened
-        const marksToOpen = this.getMarksToOpenForSerialization(activeMarks, currentMarks, nextNode)
-        const marksToClose = findMarksToClose(currentMarks, nextNode)
+        let marksToOpen = this.getMarksToOpenForSerialization(activeMarks, currentMarks, nextNode)
+        let marksToClose = findMarksToClose(currentMarks, nextNode)
+
+        // Whitespace-only text has nothing to wrap; drop marks that open and close here
+        const isWhitespaceOnly = textContent.length > 0 && textContent.trim().length === 0
+        if (isWhitespaceOnly && currentMarks.size > 0) {
+          const transientMarks = new Set(
+            marksToClose.filter(markType => !activeMarks.has(markType)),
+          )
+
+          if (transientMarks.size > 0) {
+            currentMarks = new Map(
+              Array.from(currentMarks).filter(([markType]) => !transientMarks.has(markType)),
+            )
+            marksToOpen = this.getMarksToOpenForSerialization(activeMarks, currentMarks, nextNode)
+            marksToClose = findMarksToClose(currentMarks, nextNode)
+          }
+        }
 
         // When marks simultaneously close (old) AND open (new) at this boundary, the naive
         // approach of appending old-close and prepending new-open produces interleaved
@@ -1349,6 +1461,7 @@ export class MarkdownManager {
                 markType,
                 mark,
                 markOpeningModes.get(markType),
+                markSpanTexts[i]?.get(markType),
               )
               if (closeMarkdown) {
                 textContent += closeMarkdown
@@ -1377,7 +1490,12 @@ export class MarkdownManager {
         // so new marks correctly see them as active context.
         marksToOpen.forEach(({ type, mark }) => {
           const openingMode = reopenWithHtmlOnNextOpen.has(type) ? 'html' : 'markdown'
-          const openMarkdown = this.getMarkOpening(type, mark, openingMode)
+          const openMarkdown = this.getMarkOpening(
+            type,
+            mark,
+            openingMode,
+            markSpanTexts[i]?.get(type),
+          )
           if (openMarkdown) {
             textContent = openMarkdown + textContent
           }
@@ -1444,7 +1562,12 @@ export class MarkdownManager {
 
         marksToCloseAtEnd.forEach(markType => {
           const mark = activeMarks.get(markType) ?? currentMarks.get(markType)
-          const closeMarkdown = this.getMarkClosing(markType, mark, markOpeningModes.get(markType))
+          const closeMarkdown = this.getMarkClosing(
+            markType,
+            mark,
+            markOpeningModes.get(markType),
+            markSpanTexts[i]?.get(markType),
+          )
           if (closeMarkdown) {
             textContent += closeMarkdown
           }
@@ -1471,8 +1594,14 @@ export class MarkdownManager {
         })
 
         // Close all marks before the node
+        // The run ends on the previous node and restarts on the next one
         const beforeMarkdown = closeMarksBeforeNode(activeMarks, (markType, mark) => {
-          return this.getMarkClosing(markType, mark, markOpeningModes.get(markType))
+          return this.getMarkClosing(
+            markType,
+            mark,
+            markOpeningModes.get(markType),
+            markSpanTexts[i - 1]?.get(markType),
+          )
         })
         markOpeningModes.clear()
 
@@ -1487,12 +1616,34 @@ export class MarkdownManager {
             : reopenMarksAfterNode(marksToReopen, activeMarks, (markType, mark) => {
                 const openingMode = openingModesToReopen.get(markType) ?? 'markdown'
                 markOpeningModes.set(markType, openingMode)
-                return this.getMarkOpening(markType, mark, openingMode)
+                return this.getMarkOpening(
+                  markType,
+                  mark,
+                  openingMode,
+                  markSpanTexts[i + 1]?.get(markType),
+                )
               })
 
         result.push(beforeMarkdown + nodeContent + afterMarkdown)
       }
     })
+
+    // A literal "!" directly before a link would be reparsed as an image, so escape it
+    if (separator === '') {
+      let previous = -1
+      result.forEach((piece, i) => {
+        if (!piece) {
+          return
+        }
+        if (previous >= 0 && piece.startsWith('[')) {
+          const trailing = /(\\*)!$/.exec(result[previous])
+          if (trailing && trailing[1].length % 2 === 0) {
+            result[previous] = `${result[previous].slice(0, -1)}\\!`
+          }
+        }
+        previous = i
+      })
+    }
 
     return result.join(separator)
   }
@@ -1504,6 +1655,7 @@ export class MarkdownManager {
     markType: string,
     mark: any,
     openingMode: 'markdown' | 'html' = 'markdown',
+    markText?: string,
   ): string {
     if (openingMode === 'html') {
       return this.getHtmlReopenTags(markType)?.open || ''
@@ -1534,7 +1686,7 @@ export class MarkdownManager {
           indent: (content: string) => content,
           wrapInBlock: (prefix: string, content: string) => prefix + content,
         },
-        { index: 0, level: 0, parentType: 'text', meta: {} },
+        { index: 0, level: 0, parentType: 'text', meta: { markText } },
       )
 
       // Extract the opening part (everything before placeholder)
@@ -1552,6 +1704,7 @@ export class MarkdownManager {
     markType: string,
     mark: any,
     openingMode: 'markdown' | 'html' = 'markdown',
+    markText?: string,
   ): string {
     if (openingMode === 'html') {
       return this.getHtmlReopenTags(markType)?.close || ''
@@ -1581,7 +1734,7 @@ export class MarkdownManager {
           indent: (content: string) => content,
           wrapInBlock: (prefix: string, content: string) => prefix + content,
         },
-        { index: 0, level: 0, parentType: 'text', meta: {} },
+        { index: 0, level: 0, parentType: 'text', meta: { markText } },
       )
 
       // Extract the closing part (everything after placeholder)

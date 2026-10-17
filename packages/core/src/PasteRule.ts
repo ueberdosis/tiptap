@@ -1,4 +1,4 @@
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import { Fragment } from '@tiptap/pm/model'
 import type { EditorState } from '@tiptap/pm/state'
 import { Plugin } from '@tiptap/pm/state'
@@ -254,6 +254,12 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
     return tr
   }
 
+  editor.on('destroy', () => {
+    if (tiptapDragFromOtherEditor === editor) {
+      tiptapDragFromOtherEditor = null
+    }
+  })
+
   const plugins = rules.map(rule => {
     return new Plugin({
       // we register a global drag handler to track the current drag source element
@@ -297,6 +303,10 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
               if (dragFromOtherEditor?.isEditable) {
                 // setTimeout to avoid the wrong content after drop, timeout arg can't be empty or 0
                 setTimeout(() => {
+                  if (dragFromOtherEditor.isDestroyed) {
+                    return
+                  }
+
                   const selection = dragFromOtherEditor.state.selection
 
                   if (selection) {
@@ -331,7 +341,7 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
         // if PasteRule is triggered by insertContent()
         const simulatedPasteMeta = transaction.getMeta('applyPasteRules') as
           | undefined
-          | { from: number; text: string | ProseMirrorNode | Fragment }
+          | { from: number; text: string | PMNode | Fragment }
         const isSimulatedPaste = !!simulatedPasteMeta
 
         if (!isPaste && !isDrop && !isSimulatedPaste) {

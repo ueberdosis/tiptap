@@ -144,6 +144,17 @@ test.describe(`${demoPath}/${demoName}`, () => {
         const html = await editor.evaluate((el: any) => el.editor.getHTML())
         expect(html).toBe('<blockquote><p>AB</p></blockquote>')
       })
+
+      test('backspace after merge: should continue to delete text inside the blockquote', async ({
+        page,
+      }) => {
+        const editor = await getEditor(page)
+        await placeCaretBefore(editor, '<blockquote><p>A</p></blockquote><p>B</p>', 'B')
+        await editor.press('Backspace') // merges B into A -> "AB"
+        await editor.press('Backspace') // deletes 'B' -> "A"
+        const html = await editor.evaluate((el: any) => el.editor.getHTML())
+        expect(html).toBe('<blockquote><p>A</p></blockquote>')
+      })
     })
   })
 })

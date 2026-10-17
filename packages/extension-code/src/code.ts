@@ -93,6 +93,18 @@ export const pasteRegexMatch = (text: string): PasteRuleMatch[] => {
   return matches
 }
 
+// A code span must be fenced by a backtick run its own content does not contain
+function shortestUnusedBacktickRun(text: string): number {
+  const runs = new Set((text.match(/`+/g) || []).map(run => run.length))
+  let length = 1
+
+  while (runs.has(length)) {
+    length += 1
+  }
+
+  return length
+}
+
 /**
  * This extension allows you to mark text as inline code.
  * @see https://tiptap.dev/api/marks/code
@@ -128,12 +140,18 @@ export const Code = Mark.create<CodeOptions>({
     return helpers.applyMark('code', [{ type: 'text', text: token.text || '' }])
   },
 
-  renderMarkdown: (node, h) => {
+  renderMarkdown: (node, h, context) => {
     if (!node.content) {
       return ''
     }
 
-    return `\`${h.renderChildren(node.content)}\``
+    // Children are a placeholder here, so the fence comes from the full span text
+    const markText = typeof context?.meta?.markText === 'string' ? context.meta.markText : ''
+    const fence = '`'.repeat(shortestUnusedBacktickRun(markText))
+    // CommonMark strips one space on each side, so padding keeps backticks apart
+    const padding = markText.startsWith('`') || markText.endsWith('`') ? ' ' : ''
+
+    return `${fence}${padding}${h.renderChildren(node.content)}${padding}${fence}`
   },
 
   addCommands() {

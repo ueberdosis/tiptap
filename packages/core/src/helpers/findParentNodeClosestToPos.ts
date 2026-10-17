@@ -1,4 +1,4 @@
-import type { Node as ProseMirrorNode, ResolvedPos } from '@tiptap/pm/model'
+import type { Node as PMNode, ResolvedPos } from '@tiptap/pm/model'
 
 import type { Predicate } from '../types.js'
 
@@ -19,7 +19,7 @@ export function findParentNodeClosestToPos(
       pos: number
       start: number
       depth: number
-      node: ProseMirrorNode
+      node: PMNode
     }
   | undefined {
   for (let i = $pos.depth; i > 0; i -= 1) {

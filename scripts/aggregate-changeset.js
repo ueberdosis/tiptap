@@ -112,13 +112,10 @@ async function addCommitsToChangesets(cwd, changesets) {
 }
 
 async function loadWorkspacePackages(cwd) {
-  const packageFiles = await fg(
-    ['packages/*/package.json', 'packages-deprecated/*/package.json', 'demos/package.json'],
-    {
-      cwd,
-      absolute: true,
-    },
-  )
+  const packageFiles = await fg(['packages/*/package.json', 'demos/package.json'], {
+    cwd,
+    absolute: true,
+  })
 
   const packages = new Map()
 
@@ -377,12 +374,12 @@ async function main() {
 
     const packageMap = await loadWorkspacePackages(cwd)
     const releasesWithPackages = plan.releases
+      .filter(release => {
+        const pkg = packageMap.get(release.name)
+        return !!pkg
+      })
       .map(release => {
         const pkg = packageMap.get(release.name)
-
-        if (!pkg) {
-          throw new Error(`Could not find package metadata for ${release.name}`)
-        }
 
         return {
           ...release,

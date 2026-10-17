@@ -1,6 +1,6 @@
 import { attrsEqual } from '@tiptap/core'
 import type { Content, MarkdownToken } from '@tiptap/core'
-import type { Fragment, Node } from '@tiptap/pm/model'
+import type { Fragment, Node as PMNode } from '@tiptap/pm/model'
 
 import type { ContentType } from './types.js'
 
@@ -223,7 +223,7 @@ export function isTaskItem(item: MarkdownToken): {
  * @param contentType The content type that should be prioritized.
  */
 export function assumeContentType(
-  content: (Content | Fragment | Node) | string,
+  content: (Content | Fragment | PMNode) | string,
   contentType: ContentType,
 ): ContentType {
   // if not a string, we assume it will be a json content object

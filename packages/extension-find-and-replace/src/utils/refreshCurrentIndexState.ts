@@ -1,4 +1,4 @@
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 
 import type { FindAndReplaceMeta, FindAndReplacePluginState } from '../plugin/plugin-state.js'
 
@@ -8,7 +8,7 @@ import { resolveCurrentIndex } from './resolveCurrentIndex.js'
 export function refreshCurrentIndexState(
   previousState: FindAndReplacePluginState,
   state: FindAndReplacePluginState,
-  doc: Node,
+  doc: PMNode,
   meta: FindAndReplaceMeta | undefined,
 ): FindAndReplacePluginState {
   const currentIndex = resolveCurrentIndex(previousState, state.results, meta, false, undefined)

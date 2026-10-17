@@ -7,7 +7,7 @@ import {
   getChangedRanges,
   splitExtensions,
 } from '@tiptap/core'
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import { Fragment, Slice } from '@tiptap/pm/model'
 import type { Transaction } from '@tiptap/pm/state'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
@@ -16,7 +16,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { findDuplicates } from './helpers/findDuplicates.js'
 
 export type UniqueIDGenerationContext = {
-  node: ProseMirrorNode
+  node: PMNode
   pos: number
 }
 
@@ -424,7 +424,7 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
 
             const { attributeName } = this.options
             const removeId = (fragment: Fragment): Fragment => {
-              const list: ProseMirrorNode[] = []
+              const list: PMNode[] = []
 
               fragment.forEach(node => {
                 // don’t touch text nodes

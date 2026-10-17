@@ -1,6 +1,6 @@
 import '../text-style/index.js'
 
-import { Extension, getStyleProperty } from '@tiptap/core'
+import { Extension, getStyleProperty, isValidCSSStyleValue } from '@tiptap/core'
 
 export type LineHeightOptions = {
   /**
@@ -62,7 +62,7 @@ export const LineHeight = Extension.create<LineHeightOptions>({
             parseHTML: element =>
               getStyleProperty(element, 'line-height') ?? element.style.lineHeight,
             renderHTML: attributes => {
-              if (!attributes.lineHeight) {
+              if (!isValidCSSStyleValue(attributes.lineHeight)) {
                 return {}
               }
 

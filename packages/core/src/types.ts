@@ -1,7 +1,8 @@
 import type {
   Mark as ProseMirrorMark,
-  Node as ProseMirrorNode,
+  Node as PMNode,
   ParseOptions,
+  SchemaSpec,
   Slice,
 } from '@tiptap/pm/model'
 import type { EditorState, Transaction } from '@tiptap/pm/state'
@@ -244,7 +245,7 @@ export interface EditorEvents {
          * The node which the deletion occurred in
          * @note This can be a parent node of the deleted content
          */
-        node: ProseMirrorNode
+        node: PMNode
         /**
          * The new start position of the node in the document (after the deletion)
          */
@@ -303,6 +304,14 @@ export interface EditorOptions {
    * The extensions to use
    */
   extensions: Extensions
+  /**
+   * A complete ProseMirror specification applied when the editor is created.
+   * Its structure replaces local node, mark and attribute definitions.
+   * Local extensions retain parsing, rendering, commands and plugins.
+   * Every node and mark must have a matching local extension, and vice versa.
+   * Changing this option on an existing editor does not rebuild its schema.
+   */
+  schemaSpec?: SchemaSpec
   /**
    * Whether to inject base CSS styles
    */
@@ -866,7 +875,7 @@ export type Range = {
 }
 
 export type NodeRange = {
-  node: ProseMirrorNode
+  node: PMNode
   from: number
   to: number
 }
@@ -877,17 +886,17 @@ export type MarkRange = {
   to: number
 }
 
-export type Predicate = (node: ProseMirrorNode) => boolean
+export type Predicate = (node: PMNode) => boolean
 
 export type NodeWithPos = {
-  node: ProseMirrorNode
+  node: PMNode
   pos: number
 }
 
 export type TextSerializer = (props: {
-  node: ProseMirrorNode
+  node: PMNode
   pos: number
-  parent: ProseMirrorNode
+  parent: PMNode
   index: number
   range: Range
 }) => string
@@ -1023,6 +1032,9 @@ export type MarkdownLexerConfiguration = {
    * @returns Array of block-level tokens
    */
   blockTokens: (src: string) => MarkdownToken[]
+
+  /** Returns whether a line continues an existing paragraph without starting a block. */
+  isParagraphContinuation?: (line: string) => boolean
 }
 
 /** Custom tokenizer function for marked.js extensions */

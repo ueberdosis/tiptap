@@ -1,6 +1,6 @@
 import type { Extensions, JSONContent } from '@tiptap/core'
 import { getSchema } from '@tiptap/core'
-import { Node } from '@tiptap/pm/model'
+import { Node as PMNode } from '@tiptap/pm/model'
 import { EditorState } from '@tiptap/pm/state'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -54,7 +54,7 @@ export function generateTocIds(
   const anchorTypes = tocExtension.options.anchorTypes ?? ['heading']
   const getId = tocExtension.options.getId ?? (() => uuidv4())
 
-  const contentNode = Node.fromJSON(schema, doc)
+  const contentNode = PMNode.fromJSON(schema, doc)
 
   // Mirrors the TableOfContents plugin's appendTransaction in `plugin.ts`:
   // an anchor node gets a fresh id when its `data-toc-id` is missing or

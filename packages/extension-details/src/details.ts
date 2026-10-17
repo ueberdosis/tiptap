@@ -7,7 +7,7 @@ import {
   mergeAttributes,
   Node,
 } from '@tiptap/core'
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import { Plugin, PluginKey, Selection, TextSelection } from '@tiptap/pm/state'
 import type { ViewMutationRecord } from '@tiptap/pm/view'
 
@@ -27,7 +27,7 @@ export interface DetailsRenderToggleButtonOptions {
   /**
    * The current node used to derive toggle button state.
    */
-  node: ProseMirrorNode
+  node: PMNode
 }
 
 export interface DetailsOptions {
@@ -157,7 +157,7 @@ export const Details = Node.create<DetailsOptions>({
 
       dom.append(content)
 
-      const toggleDetailsContent = (options?: { setToValue?: boolean; node?: ProseMirrorNode }) => {
+      const toggleDetailsContent = (options?: { setToValue?: boolean; node?: PMNode }) => {
         const { setToValue, node: currentNode = node } = options || {}
 
         if (setToValue !== undefined) {

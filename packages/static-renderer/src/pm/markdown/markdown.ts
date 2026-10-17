@@ -1,5 +1,5 @@
 import type { Extensions, JSONContent } from '@tiptap/core'
-import type { Mark, Node } from '@tiptap/pm/model'
+import type { Mark, Node as PMNode } from '@tiptap/pm/model'
 import { TableMap } from '@tiptap/pm/tables'
 
 import type { TiptapStaticRendererOptions } from '../../json/renderer.js'
@@ -21,10 +21,10 @@ export function renderToMarkdown({
   staticEditorOptions,
   options,
 }: {
-  content: Node | JSONContent
+  content: PMNode | JSONContent
   extensions: Extensions
   staticEditorOptions?: StaticEditorOptions
-  options?: Partial<TiptapStaticRendererOptions<string, Mark, Node>>
+  options?: Partial<TiptapStaticRendererOptions<string, Mark, PMNode>>
 }) {
   return renderToHTMLString({
     content,
@@ -63,7 +63,7 @@ export function renderToMarkdown({
         heading({ node, children }) {
           const level = node.attrs.level as number
 
-          return `${Array.from<string>({ length: level }).fill('#').join('')} ${children}\n`
+          return `${Array.from<string>({ length: level }).fill('#').join('')} ${serializeChildrenToHTMLString(children)}\n`
         },
         codeBlock({ node, children }) {
           return `\n\`\`\`${node.attrs.language}\n${serializeChildrenToHTMLString(children)}\n\`\`\`\n`

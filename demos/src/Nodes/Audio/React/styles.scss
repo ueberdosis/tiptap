@@ -31,50 +31,25 @@
   font-weight: 600;
 }
 
-.control-group.toggles {
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+.additional-options-popover {
+  border: 0;
+  border-radius: 0.75rem;
+  inset: auto;
+  margin: 0.5rem 0 0;
+  max-width: calc(100vw - 3rem);
+  padding: 0;
+  position-area: bottom span-left;
 }
 
-.control-group.toggles .control {
-  align-self: center;
+.additional-options-group {
+  margin: 0;
 }
 
-.control-group.toggles label {
+.additional-options-group .control label {
   display: flex;
   align-items: center;
   gap: 0.35rem;
   font-weight: 500;
-}
-
-.insert {
-  background: #111827;
-  border: 1px solid #111827;
-  color: #fff;
-  border-radius: 0.75rem;
-  padding: 0.65rem 1rem;
-  font-weight: 600;
-  width: min(100%, 64rem);
-  margin-bottom: 1rem;
-  cursor: pointer;
-  display: block;
-}
-
-.insert:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.tiptap {
-  background-color: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 0.75rem;
-  padding: 1rem;
-  min-height: 12rem;
-  width: 100%;
-}
-
-.tiptap p {
-  margin: 0.5rem 0;
 }
 
 .tiptap audio {

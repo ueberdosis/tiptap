@@ -1,6 +1,6 @@
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 
-export const getOuterNodePos = (doc: Node, pos: number): number => {
+export const getOuterNodePos = (doc: PMNode, pos: number): number => {
   const resolvedPos = doc.resolve(pos)
   const { depth } = resolvedPos
 
@@ -13,7 +13,7 @@ export const getOuterNodePos = (doc: Node, pos: number): number => {
   return a - 1
 }
 
-export const getOuterNode = (doc: Node, pos: number): Node | null => {
+export const getOuterNode = (doc: PMNode, pos: number): PMNode | null => {
   const node = doc.nodeAt(pos)
   const resolvedPos = doc.resolve(pos)
 

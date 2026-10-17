@@ -1,0 +1,51 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/codemod/codemod/refs/heads/main/schemas/workflow.json
+
+version: '1'
+
+params:
+  schema:
+    vue_target_path:
+      name: Vue target path
+      description: Directory containing Vue SFC files
+      type: string
+      default: '.'
+
+nodes:
+  - id: migrate-package-specifiers
+    name: Migrate Vue package specifiers
+    type: automatic
+    steps:
+      - name: Migrate JavaScript imports
+        js-ast-grep:
+          js_file: scripts/vue-package-renames.ts
+          base_path: '.'
+          language: 'javascript'
+          include: ['**/*.{js,mjs,cjs}']
+          exclude: ['**/node_modules/**', '**/dist/**', '**/build/**']
+
+      - name: Migrate TypeScript imports
+        js-ast-grep:
+          js_file: scripts/vue-package-renames.ts
+          base_path: '.'
+          language: 'typescript'
+          include: ['**/*.{ts,mts,cts}']
+          exclude: ['**/node_modules/**', '**/dist/**', '**/build/**']
+
+      - name: Migrate TSX imports
+        js-ast-grep:
+          js_file: scripts/vue-package-renames.ts
+          base_path: '.'
+          language: 'tsx'
+          include: ['**/*.{tsx,jsx}']
+          exclude: ['**/node_modules/**', '**/dist/**', '**/build/**']
+
+      - name: Migrate package manifests
+        js-ast-grep:
+          js_file: scripts/vue-package-renames.ts
+          base_path: '.'
+          language: 'json'
+          include: ['**/package.json']
+          exclude: ['**/node_modules/**']
+
+      - name: Migrate Vue SFC imports
+        run: node scripts/vue-sfc-imports.mjs "${{ params.vue_target_path }}"

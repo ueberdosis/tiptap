@@ -1,10 +1,10 @@
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import type { EditorView, NodeView, ViewMutationRecord } from '@tiptap/pm/view'
 
 import { getColStyleDeclaration } from './utilities/colStyle.js'
 
 export function updateColumns(
-  node: ProseMirrorNode,
+  node: PMNode,
   colgroup: HTMLTableColElement, // <colgroup> has the same prototype as <col>
   table: HTMLTableElement,
   cellMinWidth: number,
@@ -75,7 +75,7 @@ export function updateColumns(
 }
 
 export class TableView implements NodeView {
-  node: ProseMirrorNode
+  node: PMNode
 
   cellMinWidth: number
 
@@ -88,7 +88,7 @@ export class TableView implements NodeView {
   contentDOM: HTMLTableSectionElement
 
   constructor(
-    node: ProseMirrorNode,
+    node: PMNode,
     cellMinWidth: number,
     _view?: EditorView,
     HTMLAttributes: Record<string, any> = {},
@@ -123,8 +123,9 @@ export class TableView implements NodeView {
     this.contentDOM = this.table.appendChild(document.createElement('tbody'))
   }
 
-  update(node: ProseMirrorNode) {
-    if (node.type !== this.node.type) {
+  update(node: PMNode) {
+    // Recreate the view to apply changed table attributes.
+    if (!node.sameMarkup(this.node)) {
       return false
     }
 

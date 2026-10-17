@@ -1,8 +1,8 @@
 import { getNodeType } from '@tiptap/core'
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import type { EditorState } from '@tiptap/pm/state'
 
-export const listItemHasSubList = (typeOrName: string, state: EditorState, node?: Node) => {
+export const listItemHasSubList = (typeOrName: string, state: EditorState, node?: PMNode) => {
   if (!node) {
     return false
   }

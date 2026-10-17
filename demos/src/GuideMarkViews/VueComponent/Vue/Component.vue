@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { MarkViewContent, markViewProps } from '@tiptap/vue-3'
+import { MarkViewContent, markViewProps } from '@tiptap/vue'
 
 export default {
   components: {

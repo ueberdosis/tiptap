@@ -1,0 +1,26 @@
+/* Basic editor styles */
+.tiptap {
+  :first-child {
+    margin-top: 0;
+  }
+}
+
+.decoration-counter {
+  background-color: var(--purple-light);
+  border: 1px solid var(--purple);
+  border-radius: 0.4rem;
+  color: var(--purple-contrast);
+  cursor: pointer;
+  font-size: 0.75rem;
+  line-height: 1;
+  margin-left: 0.4rem;
+  padding: 0.2rem 0.4rem;
+  user-select: none;
+  vertical-align: middle;
+  white-space: nowrap;
+
+  &:hover {
+    background-color: var(--purple);
+    color: var(--white);
+  }
+}

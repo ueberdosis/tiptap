@@ -1,25 +1,9 @@
 name: Restore dependencies
-description: Download cached pnpm store artifact and restore dependencies offline
-
-inputs:
-  artifact-name:
-    description: Name of the artifact containing the pnpm store
-    default: node-dependencies
-    required: false
+description: Install dependencies from the cached package manager data
 
 runs:
   using: composite
   steps:
-    - name: Download dependency artifacts
-      uses: actions/download-artifact@v8
-      with:
-        name: ${{ inputs.artifact-name }}
-        path: /tmp/node-dependencies
-
-    - name: Restore pnpm store
-      shell: bash
-      run: tar -xzf /tmp/node-dependencies/pnpm-store.tar.gz
-
     - name: Restore dependencies
       shell: bash
-      run: pnpm install --offline --frozen-lockfile --strict-peer-dependencies
+      run: vp install --offline --frozen-lockfile -- --strict-peer-dependencies

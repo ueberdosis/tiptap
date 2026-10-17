@@ -1,11 +1,15 @@
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 
 import { findMatches } from './matches.js'
 import type { SearchRegex } from './regex.js'
 import { getTextSegments, offsetToPos, overlapsNonTextSegment } from './text-segments.js'
 import type { SearchResult } from './types.js'
 
-export function searchTextblock(regex: SearchRegex, textblock: Node, pos: number): SearchResult[] {
+export function searchTextblock(
+  regex: SearchRegex,
+  textblock: PMNode,
+  pos: number,
+): SearchResult[] {
   const segments = getTextSegments(textblock, pos)
   const text = segments.map(segment => segment.text).join('')
   const results: SearchResult[] = []

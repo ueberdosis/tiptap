@@ -1,5 +1,5 @@
 import type { Editor } from '@tiptap/core'
-import type { Mark, MarkType, Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Mark, MarkType, Node as PMNode } from '@tiptap/pm/model'
 import { Plugin, PluginKey, TextSelection } from '@tiptap/pm/state'
 import { Decoration, DecorationSet, type EditorView } from '@tiptap/pm/view'
 
@@ -163,7 +163,7 @@ function createRtElement(
 }
 
 /** Gets the mark of ruby text from the given node, if it exists. */
-function getRubyTextMark(node: ProseMirrorNode, rubyTextType: MarkType) {
+function getRubyTextMark(node: PMNode, rubyTextType: MarkType) {
   return node.isText ? node.marks.find(candidate => candidate.type === rubyTextType) : undefined
 }
 
@@ -191,7 +191,7 @@ function canExtendRange(range: RubyTextRange | null, mark: Mark, pos: number) {
 function getNextRange(
   ranges: RubyTextRange[],
   range: RubyTextRange | null,
-  node: ProseMirrorNode,
+  node: PMNode,
   pos: number,
   rubyTextType: MarkType,
 ) {
@@ -211,7 +211,7 @@ function getNextRange(
   return { from: pos, to: pos + node.nodeSize, mark }
 }
 
-function getRubyTextRanges(doc: ProseMirrorNode, rubyTextType: MarkType) {
+function getRubyTextRanges(doc: PMNode, rubyTextType: MarkType) {
   const ranges: RubyTextRange[] = []
   let range: RubyTextRange | null = null
 
@@ -252,7 +252,7 @@ const STOPPED_EVENT_TYPES = new Set([
 ])
 
 function createDecorations(
-  doc: ProseMirrorNode,
+  doc: PMNode,
   rubyTextType: MarkType,
   options: RubyTextDecorationPluginOptions,
 ) {

@@ -1,3 +1,4 @@
+import type { InputRuleMatch } from '@tiptap/core'
 import { InputRule, mergeAttributes, Node } from '@tiptap/core'
 import type { Node as PMNode } from '@tiptap/pm/model'
 import katex, { type KatexOptions } from 'katex'
@@ -63,6 +64,28 @@ declare module '@tiptap/core' {
       updateInlineMath: (options?: { latex?: string; pos?: number }) => ReturnType
     }
   }
+}
+
+/**
+ * A negative lookbehind would crash old WebKit, and a consuming group like `(^|[^$])`
+ * would get replaced along with the math, so reject the preceding `$` in code instead.
+ */
+const findInlineMath = (text: string): InputRuleMatch | null => {
+  const pattern = /\$\$([^$\n]+?)\$\$(?!\$)/g
+
+  let match = pattern.exec(text)
+
+  while (match !== null) {
+    if (match.index === 0 || text[match.index - 1] !== '$') {
+      return { index: match.index, text: match[0], data: { latex: match[1] } }
+    }
+
+    // A valid match can start inside a rejected one, at its trailing `$$`.
+    pattern.lastIndex = match.index + 1
+    match = pattern.exec(text)
+  }
+
+  return null
 }
 
 /**
@@ -220,9 +243,14 @@ export const InlineMath = Node.create<InlineMathOptions>({
   addInputRules() {
     return [
       new InputRule({
-        find: /(?<!\$)(\$\$([^$\n]+?)\$\$)(?!\$)/,
+        find: findInlineMath,
         handler: ({ state, range, match }) => {
-          const latex = match[2]
+          const latex = match.data?.latex
+
+          if (typeof latex !== 'string') {
+            return null
+          }
+
           const { tr } = state
           const start = range.from
           const end = range.to
