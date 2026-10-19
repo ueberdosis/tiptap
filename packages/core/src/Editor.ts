@@ -46,6 +46,7 @@ import type {
   Utils,
 } from './types.js'
 import { createStyleTag } from './utilities/createStyleTag.js'
+import { getEditorRuntimeOptions } from './utilities/getEditorRuntimeOptions.js'
 import { isDev } from './utilities/isDev.js'
 import { isFunction } from './utilities/isFunction.js'
 
@@ -127,25 +128,25 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   constructor(options: Partial<EditorOptions> = {}) {
     super()
-    this.setOptions(options)
+    this.options = { ...this.options, ...options }
     this.createExtensionManager()
     this.createCommandManager()
     this.createSchema()
-    this.on('beforeCreate', this.options.onBeforeCreate)
+    this.on('beforeCreate', props => this.options.onBeforeCreate.call(this, props))
     this.emit('beforeCreate', { editor: this })
-    this.on('mount', this.options.onMount)
-    this.on('unmount', this.options.onUnmount)
-    this.on('contentError', this.options.onContentError)
-    this.on('create', this.options.onCreate)
-    this.on('update', this.options.onUpdate)
-    this.on('selectionUpdate', this.options.onSelectionUpdate)
-    this.on('transaction', this.options.onTransaction)
-    this.on('focus', this.options.onFocus)
-    this.on('blur', this.options.onBlur)
-    this.on('destroy', this.options.onDestroy)
+    this.on('mount', props => this.options.onMount.call(this, props))
+    this.on('unmount', props => this.options.onUnmount.call(this, props))
+    this.on('contentError', props => this.options.onContentError.call(this, props))
+    this.on('create', props => this.options.onCreate.call(this, props))
+    this.on('update', props => this.options.onUpdate.call(this, props))
+    this.on('selectionUpdate', props => this.options.onSelectionUpdate.call(this, props))
+    this.on('transaction', props => this.options.onTransaction.call(this, props))
+    this.on('focus', props => this.options.onFocus.call(this, props))
+    this.on('blur', props => this.options.onBlur.call(this, props))
+    this.on('destroy', props => this.options.onDestroy.call(this, props))
     this.on('drop', ({ event, slice, moved }) => this.options.onDrop(event, slice, moved))
     this.on('paste', ({ event, slice }) => this.options.onPaste(event, slice))
-    this.on('delete', this.options.onDelete)
+    this.on('delete', props => this.options.onDelete.call(this, props))
 
     const initialDoc = this.createDoc()
 
@@ -280,15 +281,27 @@ export class Editor extends EventEmitter<EditorEvents> {
   }
 
   /**
-   * Update editor options.
+   * Update runtime options. Initial options are ignored with a warning.
    *
-   * @param options A list of options
+   * @param options Runtime options to update.
    */
   public setOptions(options: Partial<EditorOptions> = {}): void {
-    this.options = {
-      ...this.options,
-      ...options,
+    const runtimeOptions = getEditorRuntimeOptions(options)
+
+    if (isDev) {
+      for (const key of Object.keys(options)) {
+        if (
+          !Object.hasOwn(runtimeOptions, key) &&
+          Reflect.get(options, key) !== Reflect.get(this.options, key)
+        ) {
+          console.warn(
+            `[tiptap warn]: "${key}" is an initial option and cannot be updated with setOptions(). Use setContent() for content changes or create a new editor for other initial options.`,
+          )
+        }
+      }
     }
+
+    this.options = { ...this.options, ...runtimeOptions }
 
     if (!this.editorView || !this.state || this.isDestroyed) {
       return

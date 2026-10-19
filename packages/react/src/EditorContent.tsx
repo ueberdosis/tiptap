@@ -134,9 +134,7 @@ export class PureEditorContent extends React.Component<
 
       element.append(...editor.view.dom.parentNode.childNodes)
 
-      editor.setOptions({
-        element,
-      })
+      editor.options.element = element
 
       editor.contentComponent = createContentComponent()
 
@@ -189,9 +187,7 @@ export class PureEditorContent extends React.Component<
 
       newElement.append(...editor.view.dom.parentNode.childNodes)
 
-      editor.setOptions({
-        element: newElement,
-      })
+      editor.options.element = newElement
     } catch {
       // do nothing, nothing to reset
     }
