@@ -249,6 +249,7 @@ export default {
     // The demo's height, for a page that sizes its frame to the demo
     onFrameLoad() {
       this.heightObserver?.disconnect()
+      clearTimeout(this.heightFallback)
 
       const win = this.$refs.frame?.contentWindow
       const root = win?.document.getElementById('app') ?? win?.document.body
@@ -257,7 +258,14 @@ export default {
         return
       }
 
+      const loadedAt = Date.now()
+
       const report = () => {
+        // Not the empty page before the demo rendered its editor; a demo without one after 3s
+        if (!root.querySelector('.ProseMirror, .tiptap') && Date.now() - loadedAt < 3000) {
+          return
+        }
+
         // The bottom, so the margins of the first and last element count; 24px for the last one's
         const height = Math.ceil(root.getBoundingClientRect().bottom + win.scrollY + 24)
 
@@ -267,9 +275,16 @@ export default {
         }
       }
 
-      this.heightObserver = new win.ResizeObserver(report)
+      // Once it settles: a demo that draws its charts in steps reports one height, not each step
+      const settle = () => {
+        clearTimeout(this.heightTimeout)
+        this.heightTimeout = setTimeout(report, 150)
+      }
+
+      this.heightObserver = new win.ResizeObserver(settle)
       this.heightObserver.observe(root)
-      report()
+      settle()
+      this.heightFallback = setTimeout(report, 3000)
     },
 
     postReady() {
@@ -344,10 +359,14 @@ export default {
   created() {
     this.heightObserver = null
     this.lastHeight = 0
+    this.heightTimeout = null
+    this.heightFallback = null
   },
 
   beforeUnmount() {
     this.heightObserver?.disconnect()
+    clearTimeout(this.heightTimeout)
+    clearTimeout(this.heightFallback)
     clearTimeout(this.postTimeout)
     window.removeEventListener('message', this.onMessage)
     window.document.removeEventListener('editor', this.onEditor)
