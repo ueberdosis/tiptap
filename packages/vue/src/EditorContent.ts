@@ -25,20 +25,43 @@ export const EditorContent = defineComponent({
   setup(props) {
     const rootEl: Ref<Element | undefined> = ref()
     const instance = getCurrentInstance()
+    let mountedEditor: Editor | null = null
 
     watchEffect(() => {
       const editor = props.editor
 
       if (editor && editor.options.element && rootEl.value) {
         nextTick(() => {
-          if (!rootEl.value || !editor.view.dom?.parentNode) {
+          // The editor can be destroyed or replaced before this runs,
+          // for example when `useEditor` is mounted again during hydration
+          if (
+            editor.isDestroyed ||
+            editor !== props.editor ||
+            !rootEl.value ||
+            !editor.view.dom?.parentNode
+          ) {
             return
           }
 
           // TODO using the new editor.mount method might allow us to remove this
           const element = unref(rootEl.value)
 
+          // When the editor is replaced, move the previous editor's view out of the element,
+          // otherwise the new view is added next to it instead of replacing it
+          if (mountedEditor && mountedEditor !== editor && !mountedEditor.isDestroyed) {
+            const previousElement = document.createElement('div')
+
+            previousElement.append(...rootEl.value.childNodes)
+
+            mountedEditor.contentComponent = null
+            mountedEditor.appContext = null
+            mountedEditor.setOptions({
+              element: previousElement,
+            })
+          }
+
           rootEl.value.append(...editor.view.dom.parentNode.childNodes)
+          mountedEditor = editor
 
           // @ts-ignore
           editor.contentComponent = instance.ctx._
