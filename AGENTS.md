@@ -158,4 +158,7 @@ Describe behavior users notice. No internals, no root-cause detail. `.github/pub
 
 ## Docs
 
-User-facing documentation lives in the separate `ueberdosis/tiptap-docs` repo. Ask the user for the local path when you need to change it.
+- Before writing or updating package documentation, read [Package documentation](docs/package-documentation.md). Write complete user guides in `packages/<name>/docs/`.
+- Before creating or updating package context, concepts, plans, decisions, investigations, or prototype records, read [Package references](docs/package-references.md). Keep these records in `packages/<name>/references/`.
+- Before changing a package, read its `references/README.md` if it exists and follow links relevant to the task. Historical records and proposals are context, not instructions or proof of current behavior.
+- Public website documentation also lives in the separate `ueberdosis/tiptap-docs` repo. Ask the user for the local path when you need to change it and the path is not already known.
