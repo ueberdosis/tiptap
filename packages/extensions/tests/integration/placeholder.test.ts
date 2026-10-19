@@ -693,4 +693,72 @@ describe('extension-placeholder: showOnlyCurrent with includeChildren', () => {
     expect(paragraphs[0].hasAttribute('data-placeholder')).toBe(false)
     expect(paragraphs[1].getAttribute('data-placeholder')).toBe('Write here...')
   })
+
+  it('removes the previous placeholder when the cursor moves up through empty textblocks', () => {
+    editor = new Editor({
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Placeholder.configure({
+          placeholder: 'Write here...',
+          showOnlyCurrent: true,
+          includeChildren: true,
+        }),
+      ],
+      content: '<p></p><p></p><p></p>',
+    })
+
+    const placeholders = () =>
+      Array.from(editor!.view.dom.querySelectorAll('p')).map(paragraph =>
+        paragraph.hasAttribute('data-placeholder'),
+      )
+
+    // Each empty paragraph is two positions wide; its cursor position is odd.
+    editor!.commands.setTextSelection(5)
+    expect(placeholders()).toEqual([false, false, true])
+
+    editor!.commands.setTextSelection(3)
+    expect(placeholders()).toEqual([false, true, false])
+
+    editor!.commands.setTextSelection(1)
+    expect(placeholders()).toEqual([true, false, false])
+
+    editor!.commands.setTextSelection(5)
+    expect(placeholders()).toEqual([false, false, true])
+  })
+
+  it('removes the previous placeholder when the cursor moves between empty list items', () => {
+    editor = new Editor({
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        BulletList,
+        ListItem,
+        Placeholder.configure({
+          placeholder: 'Write here...',
+          showOnlyCurrent: true,
+          includeChildren: true,
+        }),
+      ],
+      content: '<ul><li><p></p></li><li><p></p></li></ul><p></p>',
+    })
+
+    const placeholders = () =>
+      Array.from(editor!.view.dom.querySelectorAll('p')).map(paragraph =>
+        paragraph.hasAttribute('data-placeholder'),
+      )
+
+    // <ul> opens at 0, the first <li> at 1 and its <p> at 2; the second <li>
+    // opens at 5 and its <p> at 6; the trailing paragraph opens at 10.
+    editor!.commands.setTextSelection(11)
+    expect(placeholders()).toEqual([false, false, true])
+
+    editor!.commands.setTextSelection(7)
+    expect(placeholders()).toEqual([false, true, false])
+
+    editor!.commands.setTextSelection(3)
+    expect(placeholders()).toEqual([true, false, false])
+  })
 })
