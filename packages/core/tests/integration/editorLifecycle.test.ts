@@ -1,4 +1,5 @@
 import { Editor, Extension } from '@tiptap/core'
+import type { FocusPosition } from '@tiptap/core'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import StarterKit from '@tiptap/starter-kit'
 import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
@@ -105,6 +106,35 @@ describe('editor lifecycle', () => {
 
     expect(create).toHaveBeenCalledTimes(1)
     expect(editor.isInitialized).toBe(true)
+  })
+
+  it.each<{ autofocus: FocusPosition; from: number; to: number }>([
+    { autofocus: 'start', from: 1, to: 1 },
+    { autofocus: true, from: 1, to: 1 },
+    { autofocus: 'end', from: 6, to: 6 },
+    { autofocus: 'all', from: 1, to: 6 },
+    { autofocus: 3, from: 3, to: 3 },
+  ])('preserves the remounted selection with autofocus=$autofocus', ({ autofocus, from, to }) => {
+    vi.useFakeTimers()
+    const editor = new Editor({
+      element: null,
+      extensions: [StarterKit],
+      content: '<p>Hello</p>',
+      autofocus,
+    })
+    editors.push(editor)
+    editor.commands.setTextSelection({ from: 2, to: 4 })
+    editor.mount(document.createElement('div'))
+    vi.runAllTimers()
+    expect(editor.state.selection.from).toBe(from)
+    expect(editor.state.selection.to).toBe(to)
+
+    editor.commands.setTextSelection({ from: 2, to: 4 })
+    editor.unmount()
+    editor.mount(document.createElement('div'))
+    vi.runAllTimers()
+    expect(editor.state.selection.from).toBe(2)
+    expect(editor.state.selection.to).toBe(4)
   })
 
   it('preserves plugin state and registered plugins across remounts', () => {

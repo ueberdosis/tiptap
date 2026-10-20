@@ -205,11 +205,11 @@ export class Editor extends EventEmitter<EditorEvents> {
         return
       }
 
-      if (this.options.autofocus !== false && this.options.autofocus !== null) {
-        this.commands.focus(this.options.autofocus)
-      }
       if (!this.hasCreated) {
         this.hasCreated = true
+        if (this.options.autofocus !== false && this.options.autofocus !== null) {
+          this.commands.focus(this.options.autofocus)
+        }
         this.emit('create', { editor: this })
       }
       this.isInitialized = !this.isDestroyed && this.editorView === view
