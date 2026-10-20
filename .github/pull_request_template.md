@@ -16,6 +16,6 @@
 
 ### Responsibility
 
-<!-- This checkbox is checked by default on purpose. The PR author is responsible for reviewing and understanding the changes, even when an AI agent created them. -->
+<!-- Check this yourself after reviewing and understanding the changes, including any AI-generated code. -->
 
-- [x] I have reviewed and understand these changes, and I take responsibility for this PR, even if an AI agent created it.
+- [ ] I have reviewed and understand these changes, and I take responsibility for this PR, even if an AI agent created it.

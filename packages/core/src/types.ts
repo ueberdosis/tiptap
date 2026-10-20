@@ -501,6 +501,20 @@ export interface EditorOptions {
   enableExtensionDispatchTransaction?: boolean
 }
 
+/** Options that can change without rebuilding the editor. */
+export type EditorRuntimeOptions = Pick<
+  EditorOptions,
+  | 'editable'
+  | 'editorProps'
+  | 'parseOptions'
+  | 'enableContentCheck'
+  | 'emitContentError'
+  | Extract<keyof EditorOptions, `on${string}`>
+>
+
+/** Options applied only when creating an editor. */
+export type EditorInitialOptions = Omit<EditorOptions, keyof EditorRuntimeOptions>
+
 /**
  * The editor's content as HTML
  */
