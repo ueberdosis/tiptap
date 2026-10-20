@@ -810,6 +810,9 @@ importers:
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
+      vite-plus:
+        specifier: 'catalog:'
+        version: 0.3.3(@types/node@22.20.1)(happy-dom@20.11.2)(jiti@2.6.1)(sass-embedded@1.100.0)(sass@1.100.0)(svelte@5.56.8)(terser@5.50.0)(typescript@5.9.3)
 
   packages/extension-text:
     devDependencies:
@@ -1100,6 +1103,9 @@ importers:
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
+      vite-plus:
+        specifier: 'catalog:'
+        version: 0.3.3(@types/node@22.20.1)(happy-dom@20.11.2)(jiti@2.6.1)(sass-embedded@1.100.0)(sass@1.100.0)(svelte@5.56.8)(terser@5.50.0)(typescript@5.9.3)
       vue:
         specifier: ^3.5.13
         version: 3.5.41(typescript@5.9.3)
