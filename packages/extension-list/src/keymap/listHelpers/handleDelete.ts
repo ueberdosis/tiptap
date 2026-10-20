@@ -17,12 +17,9 @@ export const handleDelete = (editor: Editor, name: string) => {
     return false
   }
 
-  // if the selection is not collapsed, or not within a single node
-  // do nothing and proceed
-  const { selection } = editor.state
-  const { $from, $to } = selection
-
-  if (!selection.empty && $from.sameParent($to)) {
+  // if the selection is not collapsed
+  // we can rely on the default delete behavior
+  if (!editor.state.selection.empty) {
     return false
   }
 
