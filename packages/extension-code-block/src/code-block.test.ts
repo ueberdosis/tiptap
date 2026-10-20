@@ -119,6 +119,16 @@ describe('CodeBlock paste', () => {
     ])
   })
 
+  it('drops the trailing newline of pasted HTML code blocks with uppercase tags', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, CodeBlock],
+    })
+
+    editor.view.pasteHTML('<PRE><CODE>a\n</CODE></PRE>')
+
+    expect(editor.state.doc.firstChild?.textContent).toBe('a')
+  })
+
   it('keeps an empty last line that is visible in the pasted HTML', () => {
     editor = new Editor({
       extensions: [Document, Paragraph, Text, CodeBlock],

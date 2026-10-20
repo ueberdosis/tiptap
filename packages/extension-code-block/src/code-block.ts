@@ -162,7 +162,7 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
 
   transformPastedHTML(html) {
     // Browsers hide a trailing newline in `pre`, so drop it like they do
-    return html.replace(/\r?\n((?:<\/\w+>)*<\/pre>)/g, '$1')
+    return html.replace(/\r?\n((?:<\/\w+>)*<\/pre>)/gi, '$1')
   },
 
   markdownTokenName: 'code',
