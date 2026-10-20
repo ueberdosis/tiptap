@@ -1,16 +1,22 @@
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { afterEach, describe, expect, it } from 'vite-plus/test'
+import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 
 import { Editor } from './Editor.js'
+import { Extension } from './Extension.js'
 import { PasteRule, pasteRulesPlugin } from './PasteRule.js'
 
 describe('PasteRule plugin', () => {
   let editor: Editor
+  let sourceEditor: Editor
+  let targetEditor: Editor
 
   afterEach(() => {
+    vi.useRealTimers()
     editor?.destroy()
+    sourceEditor?.destroy()
+    targetEditor?.destroy()
   })
 
   it('attaches global drag and drop listeners', () => {
@@ -38,5 +44,48 @@ describe('PasteRule plugin', () => {
     window.dispatchEvent(dropEvent)
 
     view.destroy!()
+  })
+
+  it('deletes source content only once when dragging between editors with multiple paste rules', () => {
+    vi.useFakeTimers()
+
+    const sourceEl = document.createElement('div')
+    const targetEl = document.createElement('div')
+    document.body.appendChild(sourceEl)
+    document.body.appendChild(targetEl)
+
+    const rule1 = new PasteRule({ find: /foo/, handler: () => null })
+    const rule2 = new PasteRule({ find: /bar/, handler: () => null })
+
+    const pasteRuleExtension = Extension.create({
+      name: 'testPasteRules',
+      addPasteRules() {
+        return [rule1, rule2]
+      },
+    })
+
+    sourceEditor = new Editor({
+      element: sourceEl,
+      extensions: [Document, Paragraph, Text, pasteRuleExtension],
+      content: '<p>Hello world</p>',
+    })
+
+    targetEditor = new Editor({
+      element: targetEl,
+      extensions: [Document, Paragraph, Text, pasteRuleExtension],
+      content: '<p></p>',
+    })
+
+    sourceEditor.commands.setTextSelection({ from: 1, to: 7 })
+    const transactionSpy = vi.fn()
+    sourceEditor.on('transaction', transactionSpy)
+
+    sourceEditor.view.dom.dispatchEvent(new Event('dragstart', { bubbles: true }))
+    targetEditor.view.dom.dispatchEvent(new Event('drop', { bubbles: true }))
+
+    vi.advanceTimersByTime(20)
+
+    expect(transactionSpy).toHaveBeenCalledTimes(1)
+    expect(sourceEditor.getText()).toBe('world')
   })
 })
