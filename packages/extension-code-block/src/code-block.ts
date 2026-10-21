@@ -3,6 +3,17 @@ import { Plugin, PluginKey, Selection, TextSelection } from '@tiptap/pm/state'
 
 const DEFAULT_TAB_SIZE = 4
 
+const FENCE_REGEX = /^( {0,3})(```|~~~)/
+
+function removeFenceIndent(text: string, indent: number) {
+  const fenceIndent = ' '.repeat(indent)
+
+  return text
+    .split('\n')
+    .map(line => (line.startsWith(fenceIndent) ? line.slice(indent) : line))
+    .join('\n')
+}
+
 export interface CodeBlockOptions {
   /**
    * Adds a prefix to language classes that are applied to code tags.
@@ -163,18 +174,23 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
   markdownTokenName: 'code',
 
   parseMarkdown: (token, helpers) => {
-    if (
-      token.raw?.startsWith('```') === false &&
-      token.raw?.startsWith('~~~') === false &&
-      token.codeBlockStyle !== 'indented'
-    ) {
+    const fence = token.raw?.match(FENCE_REGEX)
+
+    if (token.raw !== undefined && !fence && token.codeBlockStyle !== 'indented') {
       return []
+    }
+
+    let text = token.text
+
+    // marked only strips the fence indent from backtick fences
+    if (text && fence?.[2] === '~~~') {
+      text = removeFenceIndent(text, fence[1].length)
     }
 
     return helpers.createNode(
       'codeBlock',
       { language: token.lang || null },
-      token.text ? [helpers.createTextNode(token.text)] : [],
+      text ? [helpers.createTextNode(text)] : [],
     )
   },
 
