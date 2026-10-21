@@ -67,7 +67,7 @@
     "http-server": "14.1.1",
     "lowlight": "^3.3.0",
     "minimist": "^1.2.8",
-    "pkg-pr-new": "0.0.66",
+    "pkg-pr-new": "0.0.91",
     "react": "^19.0.0",
     "tinyglobby": "0.2.10",
     "ts-loader": "9.3.1",
