@@ -4,7 +4,7 @@ packages:
   - 'demos'
 catalog:
   vite: npm:@voidzero-dev/vite-plus-core@0.3.3
-  vite-plus: 0.3.3
+  vite-plus: 1.1.0
 allowBuilds:
   '@parcel/watcher': true
   esbuild: true
