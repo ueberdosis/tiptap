@@ -25,6 +25,7 @@ overrides:
   'micromatch>picomatch': '2.3.2'
   'minimatch@^3.0.5': '3.1.4'
   'minimatch@^3.1.2': '3.1.4'
+  'postcss-selector-parser@>=6 <8': '7.1.7'
   'qs': '^6.16.1'
   'readdirp>picomatch': '2.3.2'
   'sass>immutable': '5.1.9'
