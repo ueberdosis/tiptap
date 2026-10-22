@@ -33,5 +33,3 @@ peerDependencyRules:
     vite: '*'
   allowAny:
     - vite
-patchedDependencies:
-  '@changesets/assemble-release-plan@6.0.10': 'patches/@changesets__assemble-release-plan@6.0.10.patch'
