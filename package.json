@@ -42,9 +42,9 @@
     "prepare": "vp config --no-agent",
     "changeset": "changeset",
     "changelog": "node ./scripts/aggregate-changeset.js",
-    "version": "vp run changelog && vp run changeset -- version && vp install --no-frozen-lockfile",
+    "version": "vp run changelog && vp exec changeset version && vp install --no-frozen-lockfile",
     "publish:markdown": "vp run build && vp exec changeset publish --tag markdown",
-    "version:markdown": "vp run changeset version --snapshot markdown"
+    "version:markdown": "vp exec changeset version --snapshot markdown"
   },
   "devDependencies": {
     "@babel/core": "^7.29.6",
