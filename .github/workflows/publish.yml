@@ -112,13 +112,15 @@ jobs:
 
       - name: Run changesets release flow
         id: changesets
-        uses: changesets/action@v1
+        uses: changesets/action@v2
         with:
-          createGithubReleases: false
-          version: vp run version
-          publish: vp exec changeset publish
-          title: ${{ needs.resolve-config.outputs.title }}
-          commit: ${{ needs.resolve-config.outputs.commit }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          create-github-releases: false
+          push-with-git-cli: true
+          version-script: vp run version
+          publish-script: vp exec changeset publish
+          pr-title: ${{ needs.resolve-config.outputs.title }}
+          commit-message: ${{ needs.resolve-config.outputs.commit }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
