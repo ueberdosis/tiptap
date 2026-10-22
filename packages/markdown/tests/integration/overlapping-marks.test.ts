@@ -228,7 +228,7 @@ describe('Overlapping marks serialization', () => {
   })
 
   it('keeps the code mark innermost when it has a higher priority', () => {
-    const manager = new MarkdownManager({
+    const markdownManagerWithCode = new MarkdownManager({
       extensions: [
         Document,
         Paragraph,
@@ -240,7 +240,9 @@ describe('Overlapping marks serialization', () => {
     })
     const markdown = '~~`x`~~ and **`y`**'
 
-    expect(manager.serialize(manager.parse(markdown))).toBe(markdown)
+    const result = markdownManagerWithCode.serialize(markdownManagerWithCode.parse(markdown))
+
+    expect(result).toBe(markdown)
   })
 
   it('keeps html-reopened italic open across later text nodes before closing', () => {

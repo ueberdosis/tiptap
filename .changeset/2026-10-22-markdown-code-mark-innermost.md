@@ -2,4 +2,4 @@
 '@tiptap/markdown': patch
 ---
 
-Inline code is now always written inside other marks in Markdown, even when the code mark has a higher priority.
+Bold, strike and other marks on inline code are no longer lost when serializing to Markdown.

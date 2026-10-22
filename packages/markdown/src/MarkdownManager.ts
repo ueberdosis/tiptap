@@ -1718,8 +1718,7 @@ export class MarkdownManager {
    *      outermost. ProseMirror assigns mark ranks in the same priority-aware
    *      order Tiptap uses when building the schema, so link (priority 1000)
    *      naturally wraps bold/italic without the serializer needing to peek
-   *      at how any particular mark renders. Code marks always sort innermost,
-   *      since markdown reads everything inside a code span as literal text.
+   *      at how any particular mark renders.
    */
   private getMarksToOpenForSerialization(
     activeMarks: Map<string, any>,
@@ -1744,6 +1743,7 @@ export class MarkdownManager {
     // recorded rank fall back to MAX_SAFE_INTEGER so they sort innermost,
     // matching the implicit "registered last" assumption for ad-hoc marks.
     const byRankInnerFirst = (a: { type: string }, b: { type: string }) => {
+      // Markdown reads code spans as literal text, so code always goes innermost
       const isCodeA = this.codeTypes.has(a.type)
       const isCodeB = this.codeTypes.has(b.type)
 
