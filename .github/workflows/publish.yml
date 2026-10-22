@@ -116,6 +116,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           create-github-releases: false
+          push-git-tags: false
           push-with-git-cli: true
           version-script: vp run version
           publish-script: vp exec changeset publish
