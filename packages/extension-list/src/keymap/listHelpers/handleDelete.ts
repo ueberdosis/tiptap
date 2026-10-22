@@ -1,5 +1,6 @@
 import type { Editor } from '@tiptap/core'
 import { isAtEndOfNode, isNodeActive } from '@tiptap/core'
+import { joinTextblockForward } from '@tiptap/pm/commands'
 
 import { nextListIsDeeper } from './nextListIsDeeper.js'
 import { nextListIsHigher } from './nextListIsHigher.js'
@@ -34,7 +35,7 @@ export const handleDelete = (editor: Editor, name: string) => {
   }
 
   if (nextListIsHigher(name, editor.state)) {
-    return editor.chain().joinForward().joinBackward().run()
+    return editor.commands.command(({ state, dispatch }) => joinTextblockForward(state, dispatch))
   }
 
   return editor.commands.joinItemForward()
