@@ -40,12 +40,6 @@ importers:
       '@babel/core':
         specifier: ^7.29.6
         version: 7.29.7
-      '@babel/plugin-proposal-nullish-coalescing-operator':
-        specifier: ^7.18.6
-        version: 7.18.6(@babel/core@7.29.7)
-      '@babel/plugin-proposal-optional-chaining':
-        specifier: ^7.21.0
-        version: 7.21.0(@babel/core@7.29.7)
       '@babel/preset-env':
         specifier: ^7.26.0
         version: 7.29.7(@babel/core@7.29.7)
@@ -810,6 +804,9 @@ importers:
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
+      vite-plus:
+        specifier: 'catalog:'
+        version: 0.3.3(@types/node@22.20.1)(happy-dom@20.11.2)(jiti@2.6.1)(sass-embedded@1.100.0)(sass@1.100.0)(svelte@5.56.8)(terser@5.50.0)(typescript@5.9.3)
 
   packages/extension-text:
     devDependencies:
@@ -874,6 +871,9 @@ importers:
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
+      vite-plus:
+        specifier: 'catalog:'
+        version: 0.3.3(@types/node@22.20.1)(happy-dom@20.11.2)(jiti@2.6.1)(sass-embedded@1.100.0)(sass@1.100.0)(svelte@5.56.8)(terser@5.50.0)(typescript@5.9.3)
 
   packages/html:
     devDependencies:
@@ -1072,6 +1072,9 @@ importers:
       react-dom:
         specifier: ^19.0.0
         version: 19.2.8(react@19.2.8)
+      vite-plus:
+        specifier: 'catalog:'
+        version: 0.3.3(@types/node@22.20.1)(happy-dom@20.11.2)(jiti@2.6.1)(sass-embedded@1.100.0)(sass@1.100.0)(svelte@5.56.8)(terser@5.50.0)(typescript@5.9.3)
 
   packages/suggestion:
     devDependencies:
@@ -1097,6 +1100,9 @@ importers:
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
+      vite-plus:
+        specifier: 'catalog:'
+        version: 0.3.3(@types/node@22.20.1)(happy-dom@20.11.2)(jiti@2.6.1)(sass-embedded@1.100.0)(sass@1.100.0)(svelte@5.56.8)(terser@5.50.0)(typescript@5.9.3)
       vue:
         specifier: ^3.5.13
         version: 3.5.41(typescript@5.9.3)
@@ -1301,20 +1307,6 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0
 
-  '@babel/plugin-proposal-nullish-coalescing-operator@7.18.6':
-    resolution: {integrity: sha512-wQxQzxYeJqHcfppzBDnm1yAY0jSRkUXR2z8RePZYrKwMKgMlE8+Z6LUno+bd6LvbGh8Gltvy74+9pIYkr+XkKA==}
-    engines: {node: '>=6.9.0'}
-    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-nullish-coalescing-operator instead.
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-
-  '@babel/plugin-proposal-optional-chaining@7.21.0':
-    resolution: {integrity: sha512-p4zeefM72gpmEe2fkUr/OnOXpWEf8nAgk7ZYVqqfFiyIG7oFfVZcCrU64hWn5xp4tQ9LkV4bTIa5rD0KANpKNA==}
-    engines: {node: '>=6.9.0'}
-    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-optional-chaining instead.
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-
   '@babel/plugin-proposal-private-property-in-object@7.21.0-placeholder-for-preset-env.2':
     resolution: {integrity: sha512-SOSkfJDddaM7mak6cPEpswyTRnuRltl429hMraQEglW+OkovnCzsiszTmsrlY//qLFjCpQDFRvjdm2wA5pPm9w==}
     engines: {node: '>=6.9.0'}
@@ -1336,16 +1328,6 @@ packages:
   '@babel/plugin-syntax-jsx@7.29.7':
     resolution: {integrity: sha512-TSu8+mHCoEaaCDEZ0I3+6mvTBYR4PCxQwf2z9/r5Tbztv6NaLR3B9thGTTxX2WGuGHJqRiAbKPeGTJ5XWXVg6A==}
     engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-
-  '@babel/plugin-syntax-nullish-coalescing-operator@7.8.3':
-    resolution: {integrity: sha512-aSff4zPII1u2QD7y+F8oDsz19ew4IGEJg9SVW+bqwpwtfFleiQDMdzA/R+UlWDzfnHFCxxleFT0PMIrR36XLNQ==}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-
-  '@babel/plugin-syntax-optional-chaining@7.8.3':
-    resolution: {integrity: sha512-KoK9ErH1MBlCPxV0VANkXW2/dw4vlbGDrFgz8bmUsBGYkFRcbRwMh6cIJubdPrkxRwuGdtCk0v/wPTKbQgBjkg==}
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
@@ -4148,8 +4130,8 @@ packages:
     resolution: {integrity: sha512-7MptL8U0cqcFdzIzwOTHoilX9x5BrNqye7Z/LuC7kCMRio1EMSyqRK3BEAUD7sXRq4iT4AzTVuZdhgQ2TCvYLg==}
     engines: {node: '>=8.6.0'}
 
-  fast-uri@3.1.5:
-    resolution: {integrity: sha512-gHwA1O9LDIcKunMKhObS/HimwtehO1nPUECKAu5TpKgaO19fcWEl4bliWe1jWxVFvIXztJjjQ4L8XQ1EU9f7Jw==}
+  fast-uri@3.1.8:
+    resolution: {integrity: sha512-GZMtZUTNRpOVIECoXwLNZS5xUGE+mVNbTB8h/7Rwh2TFWcBQiPzTgyZi05BF9UMZKkLJv8XBRJTlU7zg8+ZfMg==}
 
   fastq@1.20.1:
     resolution: {integrity: sha512-GGToxJ/w1x32s/D2EKND7kTil4n8OVk/9mycTc4VDza13lOvpUZTGX3mFSCtV9ksdGBVzvsyAVLM6mHFThxXxw==}
@@ -4719,8 +4701,8 @@ packages:
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
 
-  markdown-it@14.3.0:
-    resolution: {integrity: sha512-RCEsPjR+sr0x+AuYp601tKTkgFG4YEPLCzHST3cQ/fhlJkqAkz1L2/Qbp1j9qw5SBwQHFBoW8+hoN5xssOF0Tw==}
+  markdown-it@14.3.3:
+    resolution: {integrity: sha512-L//tDAkjTjJCU6pBUSBTgs3Kg4InVaZuUZog/b6V12UKhcDQ7S78877ibbCanRExwPuYP1CZD7Gd2dxSy1GXRg==}
     hasBin: true
 
   marked@17.0.6:
@@ -6329,21 +6311,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@babel/plugin-proposal-nullish-coalescing-operator@7.18.6(@babel/core@7.29.7)':
-    dependencies:
-      '@babel/core': 7.29.7
-      '@babel/helper-plugin-utils': 7.29.7
-      '@babel/plugin-syntax-nullish-coalescing-operator': 7.8.3(@babel/core@7.29.7)
-
-  '@babel/plugin-proposal-optional-chaining@7.21.0(@babel/core@7.29.7)':
-    dependencies:
-      '@babel/core': 7.29.7
-      '@babel/helper-plugin-utils': 7.29.7
-      '@babel/helper-skip-transparent-expression-wrappers': 7.29.7
-      '@babel/plugin-syntax-optional-chaining': 7.8.3(@babel/core@7.29.7)
-    transitivePeerDependencies:
-      - supports-color
-
   '@babel/plugin-proposal-private-property-in-object@7.21.0-placeholder-for-preset-env.2(@babel/core@7.29.7)':
     dependencies:
       '@babel/core': 7.29.7
@@ -6359,16 +6326,6 @@ snapshots:
       '@babel/helper-plugin-utils': 7.29.7
 
   '@babel/plugin-syntax-jsx@7.29.7(@babel/core@7.29.7)':
-    dependencies:
-      '@babel/core': 7.29.7
-      '@babel/helper-plugin-utils': 7.29.7
-
-  '@babel/plugin-syntax-nullish-coalescing-operator@7.8.3(@babel/core@7.29.7)':
-    dependencies:
-      '@babel/core': 7.29.7
-      '@babel/helper-plugin-utils': 7.29.7
-
-  '@babel/plugin-syntax-optional-chaining@7.8.3(@babel/core@7.29.7)':
     dependencies:
       '@babel/core': 7.29.7
       '@babel/helper-plugin-utils': 7.29.7
@@ -8513,7 +8470,7 @@ snapshots:
   ajv@8.20.0:
     dependencies:
       fast-deep-equal: 3.1.3
-      fast-uri: 3.1.5
+      fast-uri: 3.1.8
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
 
@@ -9312,7 +9269,7 @@ snapshots:
       merge2: 1.4.1
       micromatch: 4.0.8
 
-  fast-uri@3.1.5: {}
+  fast-uri@3.1.8: {}
 
   fastq@1.20.1:
     dependencies:
@@ -9857,7 +9814,7 @@ snapshots:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  markdown-it@14.3.0:
+  markdown-it@14.3.3:
     dependencies:
       argparse: 2.0.1
       entities: 4.5.0
@@ -10330,7 +10287,7 @@ snapshots:
   prosemirror-markdown@1.13.8:
     dependencies:
       '@types/markdown-it': 14.1.2
-      markdown-it: 14.3.0
+      markdown-it: 14.3.3
       prosemirror-model: 1.25.12
 
   prosemirror-menu@1.3.2:
