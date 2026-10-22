@@ -12,10 +12,7 @@ const getPackageDependencies = () => {
 
   function collectPackageInformation(path: string) {
     const packagesPath = resolve(import.meta.dirname, '..', path)
-    // Windows absolute paths contain backslashes; fast-glob treats those as
-    // escape characters unless convertPathToPattern normalizes them first (#8522).
-    // Convert the base path only, then append glob suffixes — convertPathToPattern
-    // also escapes `*` on POSIX, which would make `${path}/*` match a literal asterisk.
+    // Windows absolute paths contain backslashes; normalize them before appending wildcards.
     const packagesGlob = (suffix: string) =>
       fg.sync(`${fg.convertPathToPattern(packagesPath)}${suffix}`, { onlyDirectories: true })
 
