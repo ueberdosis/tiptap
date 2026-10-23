@@ -1,5 +1,46 @@
 # Change Log
 
+## 4.0.0-next.0
+
+### Patch Changes
+
+- 548216e: Nested lists exported to Markdown now keep their hierarchy when the file is read back by other Markdown tools.
+- 504260b: Parsing large Markdown documents that contain ordered lists is much faster. A 578KB document went from about 19s to about 160ms.
+- 8b37c2c: Courtesy titles such as "Ms." and "Dr." are no longer parsed as ordered-list markers. Numbered, lettered, and roman lists are unchanged.
+- 77df9af: Indent continuation lines when exporting Markdown task items so they stay inside the item when imported again.
+- dec32fa: Fixed Markdown list items that start with a heading, quote or other non-paragraph block, which produced invalid documents. They now parse with a leading paragraph. Empty nested list items are written as `- &nbsp;`, so they no longer turn the parent item into a heading when read back.
+- 09e691c: Pressing Delete on a selection that starts at the end of a list item now deletes the selected text instead of only joining the items.
+- 0a28144: Keep the cursor after tables on Backspace and join nested list text correctly on Delete.
+- Updated dependencies [548216e]
+- Updated dependencies [93e3727]
+- Updated dependencies [8aea2ef]
+- Updated dependencies [c4488ba]
+- Updated dependencies [2fab93e]
+- Updated dependencies [3451d10]
+- Updated dependencies [17ec9ff]
+- Updated dependencies [5c7200d]
+- Updated dependencies [a90921e]
+- Updated dependencies [6ec63ef]
+- Updated dependencies [8cbeca3]
+- Updated dependencies [c402400]
+- Updated dependencies [77df9af]
+- Updated dependencies [77df9af]
+- Updated dependencies [77df9af]
+- Updated dependencies [77df9af]
+- Updated dependencies [b95679f]
+- Updated dependencies [0c62b27]
+- Updated dependencies [73b8e59]
+- Updated dependencies [bf45080]
+- Updated dependencies [9aa59dd]
+- Updated dependencies [fd086c5]
+- Updated dependencies [6520e58]
+- Updated dependencies [32c048d]
+- Updated dependencies [73da270]
+- Updated dependencies [3f111e9]
+- Updated dependencies [ec29df8]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+
 ## 3.30.3
 
 ### Patch Changes

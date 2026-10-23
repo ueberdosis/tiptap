@@ -1,5 +1,45 @@
 # @tiptap/markdown
 
+## 4.0.0-next.0
+
+### Patch Changes
+
+- 496d53a: Fix Markdown serialization of whitespace-only marked text.
+- 7c8ad87: Fix Markdown serialization of inline code containing backticks
+- 13675ea: A literal `!` directly before a link is now escaped when serializing to Markdown, so the link is no longer parsed back as an image.
+- 77df9af: Keep Markdown task-item continuation lines in the same paragraph when the opening text resembles a heading or list, including tasks nested inside bullet lists.
+- 77df9af: Preserve task-list continuation text with custom block tokenizers and tab indentation.
+- 6520e58: Bind `parseMarkdown` and `renderMarkdown` to the configured extension so hooks can read `this.options` and `this.name` without an Editor.
+- Updated dependencies [548216e]
+- Updated dependencies [93e3727]
+- Updated dependencies [8aea2ef]
+- Updated dependencies [c4488ba]
+- Updated dependencies [2fab93e]
+- Updated dependencies [3451d10]
+- Updated dependencies [17ec9ff]
+- Updated dependencies [5c7200d]
+- Updated dependencies [a90921e]
+- Updated dependencies [6ec63ef]
+- Updated dependencies [8cbeca3]
+- Updated dependencies [c402400]
+- Updated dependencies [77df9af]
+- Updated dependencies [77df9af]
+- Updated dependencies [77df9af]
+- Updated dependencies [77df9af]
+- Updated dependencies [b95679f]
+- Updated dependencies [0c62b27]
+- Updated dependencies [73b8e59]
+- Updated dependencies [bf45080]
+- Updated dependencies [9aa59dd]
+- Updated dependencies [fd086c5]
+- Updated dependencies [6520e58]
+- Updated dependencies [32c048d]
+- Updated dependencies [73da270]
+- Updated dependencies [3f111e9]
+- Updated dependencies [ec29df8]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+
 ## 3.30.3
 
 ### Patch Changes
