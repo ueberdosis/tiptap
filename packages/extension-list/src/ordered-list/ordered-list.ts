@@ -4,6 +4,7 @@ import { Plugin } from '@tiptap/pm/state'
 import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core'
 
 import { collectOrderedListItemsFromSource } from './collectOrderedListItemsFromSource.js'
+import { continueSplitNumbering } from './continueSplitNumbering.js'
 import { buildNestedStructure, parseListItems, parsePlainTextOrderedListPaste } from './utils.js'
 
 const ListItemName = 'listItem'
@@ -37,6 +38,13 @@ export interface OrderedListOptions {
    * @example true
    */
   keepAttributes: boolean
+
+  /**
+   * Continue numbering on the list that follows a split.
+   * @default true
+   * @example false
+   */
+  continueNumberingOnSplit: boolean
 }
 
 declare module '@tiptap/core' {
@@ -99,6 +107,7 @@ export const OrderedList = Node.create<OrderedListOptions>({
       HTMLAttributes: {},
       keepMarks: false,
       keepAttributes: false,
+      continueNumberingOnSplit: true,
     }
   },
 
@@ -290,7 +299,7 @@ export const OrderedList = Node.create<OrderedListOptions>({
   },
 
   addProseMirrorPlugins() {
-    return [
+    const plugins = [
       new Plugin({
         props: {
           handlePaste: (view, event) => {
@@ -326,6 +335,18 @@ export const OrderedList = Node.create<OrderedListOptions>({
         },
       }),
     ]
+
+    if (this.options.continueNumberingOnSplit) {
+      plugins.push(
+        new Plugin({
+          appendTransaction: (transactions, oldState, newState) => {
+            return continueSplitNumbering(transactions, oldState, newState)
+          },
+        }),
+      )
+    }
+
+    return plugins
   },
 
   addInputRules() {
