@@ -29,6 +29,9 @@ const schema = new Schema({
     listItem: { content: 'paragraph block*', toDOM: () => ['li', 0] },
     text: { group: 'inline' },
   },
+  marks: {
+    bold: { toDOM: () => ['strong', 0] },
+  },
 })
 
 const paragraph = (text: string) => schema.node('paragraph', null, schema.text(text))
@@ -828,6 +831,101 @@ describe('relative positions through structural changes', () => {
     const second = createClient()
     Y.applyUpdate(second.document, Y.encodeStateAsUpdate(first.document))
 
+    expect([first, second].map(client => resolvePosition(client, encoded))).toEqual([19, 19])
+  })
+
+  it.each([
+    { name: 'insert', from: 1, to: 1, inserted: 'new ', expected: 17 },
+    { name: 'delete', from: 1, to: 5, inserted: '', expected: 9 },
+    { name: 'replace', from: 1, to: 5, inserted: 'X', expected: 10 },
+  ])(
+    'maps a text $name before appended paragraph normalization',
+    ({ from, to, inserted, expected }) => {
+      const first = createClient()
+      first.view.dispatch(
+        first.view.state.tr.replaceWith(0, first.view.state.doc.content.size, paragraph(text)),
+      )
+      const binding = ySyncPluginKey.getState(first.view.state)!.binding
+      const encoded = Y.encodeRelativePosition(
+        absolutePositionToRelativePosition(13, first.fragment, binding.mapping),
+      )
+      const typedState = first.view.state.apply(first.view.state.tr.insertText(inserted, from, to))
+      first.view.updateState(
+        typedState.apply(typedState.tr.setNodeMarkup(0, undefined, { align: 'center' })),
+      )
+      const second = createClient()
+      Y.applyUpdate(second.document, Y.encodeStateAsUpdate(first.document))
+
+      expect(first.view.state.doc.firstChild!.attrs.align).toBe('center')
+      expect(first.view.state.doc.textContent).toBe(
+        text.slice(0, from - 1) + inserted + text.slice(to - 1),
+      )
+      expect(second.view.state.doc.toJSON()).toEqual(first.view.state.doc.toJSON())
+      expect([first, second].map(client => resolvePosition(client, encoded))).toEqual([
+        expected,
+        expected,
+      ])
+    },
+  )
+
+  it('preserves anchors through typing and appended marks on both clients', () => {
+    const first = createClient()
+    first.view.dispatch(
+      first.view.state.tr.replaceWith(0, first.view.state.doc.content.size, paragraph(text)),
+    )
+    const binding = ySyncPluginKey.getState(first.view.state)!.binding
+    const encoded = Y.encodeRelativePosition(
+      absolutePositionToRelativePosition(13, first.fragment, binding.mapping),
+    )
+    const typedState = first.view.state.apply(first.view.state.tr.insertText('new ', 1))
+    first.view.updateState(
+      typedState.apply(typedState.tr.addMark(1, 5, schema.marks.bold.create())),
+    )
+    const second = createClient()
+    Y.applyUpdate(second.document, Y.encodeStateAsUpdate(first.document))
+
+    expect(first.view.state.doc.textContent).toBe(`new ${text}`)
+    expect(second.view.state.doc.toJSON()).toEqual(first.view.state.doc.toJSON())
+    expect([first, second].map(client => resolvePosition(client, encoded))).toEqual([17, 17])
+  })
+
+  it('maps consecutive text and mark transactions before an appended split', () => {
+    const first = createClient()
+    first.view.dispatch(
+      first.view.state.tr.replaceWith(0, first.view.state.doc.content.size, paragraph(text)),
+    )
+    const binding = ySyncPluginKey.getState(first.view.state)!.binding
+    const encoded = Y.encodeRelativePosition(
+      absolutePositionToRelativePosition(13, first.fragment, binding.mapping),
+    )
+    let pending = first.view.state.apply(first.view.state.tr.insertText('new ', 1))
+    pending = pending.apply(pending.tr.insertText('more ', 1))
+    pending = pending.apply(pending.tr.addMark(1, 10, schema.marks.bold.create()))
+    first.view.updateState(pending.apply(pending.tr.split(8)))
+    const second = createClient()
+    Y.applyUpdate(second.document, Y.encodeStateAsUpdate(first.document))
+
+    expect(first.view.state.doc.textContent).toBe(`more new ${text}`)
+    expect(second.view.state.doc.toJSON()).toEqual(first.view.state.doc.toJSON())
+    expect([first, second].map(client => resolvePosition(client, encoded))).toEqual([24, 24])
+  })
+
+  it('does not replay text that was already synchronized before a split', () => {
+    const first = createClient()
+    first.view.dispatch(
+      first.view.state.tr.replaceWith(0, first.view.state.doc.content.size, paragraph(text)),
+    )
+    const binding = ySyncPluginKey.getState(first.view.state)!.binding
+    const encoded = Y.encodeRelativePosition(
+      absolutePositionToRelativePosition(13, first.fragment, binding.mapping),
+    )
+
+    first.view.dispatch(first.view.state.tr.insertText('new ', 1))
+    first.view.dispatch(first.view.state.tr.split(8))
+    const second = createClient()
+    Y.applyUpdate(second.document, Y.encodeStateAsUpdate(first.document))
+
+    expect(second.view.state.doc.toJSON()).toEqual(first.view.state.doc.toJSON())
     expect([first, second].map(client => resolvePosition(client, encoded))).toEqual([19, 19])
   })
 
