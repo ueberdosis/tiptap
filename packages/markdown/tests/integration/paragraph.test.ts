@@ -1,11 +1,15 @@
 import { Blockquote } from '@tiptap/extension-blockquote'
 import { Document } from '@tiptap/extension-document'
+import { HardBreak } from '@tiptap/extension-hard-break'
 import { Heading } from '@tiptap/extension-heading'
 import { BulletList, ListItem, OrderedList } from '@tiptap/extension-list'
 import { Paragraph } from '@tiptap/extension-paragraph'
 import { Text } from '@tiptap/extension-text'
-import { MarkdownManager } from '@tiptap/markdown'
+import { Markdown, MarkdownManager } from '@tiptap/markdown'
 import { beforeEach, describe, expect, it } from 'vite-plus/test'
+// Keep the vite-plus import on this line so fallow still treats it as inherited.
+import { Editor } from '@tiptap/core'
+import { StarterKit } from '@tiptap/starter-kit'
 
 describe('Paragraph Markdown Rendering', () => {
   let markdownManager: MarkdownManager
@@ -263,5 +267,105 @@ describe('Paragraph Markdown Rendering', () => {
       expect(listItem.content![1].content).toEqual([])
       expect(listItem.content![2].content).toEqual([])
     })
+  })
+})
+
+describe('consecutive hard breaks markdown round trip', () => {
+  const roundTrip = (html: string) => {
+    const editor = new Editor({
+      extensions: [StarterKit.configure({ trailingNode: false }), Markdown],
+      content: html,
+    })
+
+    const markdown = editor.getMarkdown()
+
+    editor.commands.setContent(markdown, { contentType: 'markdown' })
+
+    const result = { markdown, html: editor.getHTML() }
+
+    editor.destroy()
+
+    return result
+  }
+
+  it('keeps two hard breaks inside a paragraph', () => {
+    const result = roundTrip('<p>Line 1<br><br>Line 2</p>')
+
+    expect(result.html).toBe('<p>Line 1<br><br>Line 2</p>')
+  })
+
+  it('keeps three hard breaks inside a paragraph', () => {
+    const result = roundTrip('<p>Line 1<br><br><br>Line 2</p>')
+
+    expect(result.html).toBe('<p>Line 1<br><br><br>Line 2</p>')
+  })
+
+  it('keeps a trailing run of hard breaks', () => {
+    const result = roundTrip('<p>Line 1<br><br></p>')
+
+    expect(result.html).toBe('<p>Line 1<br><br></p>')
+    expect(result.markdown).not.toContain('\\')
+  })
+
+  it('keeps a leading run of hard breaks', () => {
+    const result = roundTrip('<p><br><br>Line 2</p>')
+
+    expect(result.html).toBe('<p><br><br>Line 2</p>')
+  })
+
+  it('keeps consecutive hard breaks in a bullet list', () => {
+    const result = roundTrip('<ul><li><p>Line 1<br><br>Line 2</p></li></ul>')
+
+    expect(result.html).toBe('<ul><li><p>Line 1<br><br>Line 2</p></li></ul>')
+  })
+
+  it('keeps a trailing hard-break run before the next list item', () => {
+    const result = roundTrip('<ul><li><p>Line 1<br><br></p></li><li><p>Next</p></li></ul>')
+
+    expect(result.html).toBe('<ul><li><p>Line 1<br><br></p></li><li><p>Next</p></li></ul>')
+  })
+
+  it('keeps consecutive hard breaks in an ordered list', () => {
+    const result = roundTrip('<ol><li><p>Line 1<br><br>Line 2</p></li></ol>')
+
+    expect(result.html).toBe('<ol><li><p>Line 1<br><br>Line 2</p></li></ol>')
+  })
+
+  it('keeps consecutive hard breaks in a blockquote', () => {
+    const result = roundTrip('<blockquote><p>Line 1<br><br>Line 2</p></blockquote>')
+
+    expect(result.html).toBe('<blockquote><p>Line 1<br><br>Line 2</p></blockquote>')
+  })
+
+  it('keeps a single hard break at the start of a paragraph', () => {
+    const result = roundTrip('<p><br>Line 2</p>')
+
+    expect(result.html).toBe('<p><br>Line 2</p>')
+  })
+
+  it('keeps a single hard break at the end of a paragraph', () => {
+    const result = roundTrip('<p>Line 1<br></p>')
+
+    expect(result.html).toBe('<p>Line 1<br></p>')
+    expect(result.markdown).toBe('Line 1<br>')
+  })
+
+  it('still serializes a single hard break as two trailing spaces', () => {
+    const result = roundTrip('<p>Line 1<br>Line 2</p>')
+
+    expect(result.markdown).toBe('Line 1  \nLine 2')
+    expect(result.html).toBe('<p>Line 1<br>Line 2</p>')
+  })
+
+  it('uses two trailing spaces for a single middle break in a node array', () => {
+    const manager = new MarkdownManager({ extensions: [Document, Paragraph, Text, HardBreak] })
+
+    const markdown = manager.serialize([
+      { type: 'text', text: 'Line 1' },
+      { type: 'hardBreak' },
+      { type: 'text', text: 'Line 2' },
+    ] as any)
+
+    expect(markdown).toBe('Line 1  \nLine 2')
   })
 })
