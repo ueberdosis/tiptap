@@ -1,6 +1,7 @@
 /* oslint-disableno-shadow */
 import type { MarkViewProps, MarkViewRenderer, MarkViewRendererOptions } from '@tiptap/core'
 import { MarkView } from '@tiptap/core'
+import type { Mark } from '@tiptap/pm/model'
 import React from 'react'
 
 // import { flushSync } from 'react-dom'
@@ -84,13 +85,22 @@ export class ReactMarkView extends MarkView<
     )
 
     ReactMarkViewProvider.displayName = 'ReactMarkView'
+    const tag = props.mark.type.name === 'link' ? 'a' : as
 
     this.renderer = new ReactRenderer(ReactMarkViewProvider, {
       editor: props.editor,
       props: componentProps,
-      as,
+      as: tag,
       className: `mark-${props.mark.type.name} ${className}`.trim(),
     })
+
+    if (props.mark.type.name === 'link') {
+      this.renderer.updateAttributes({
+        href: props.mark.attrs.href,
+        target: props.mark.attrs.target,
+        rel: props.mark.attrs.rel,
+      })
+    }
 
     if (attrs) {
       this.renderer.updateAttributes(attrs)
@@ -103,6 +113,28 @@ export class ReactMarkView extends MarkView<
 
   get contentDOM() {
     return this.contentDOMElement
+  }
+
+  update(mark: Mark) {
+    if (mark.type !== this.mark.type) {
+      return false
+    }
+
+    this.mark = mark
+
+    this.renderer.updateProps({
+      mark,
+    })
+
+    if (mark.type.name === 'link') {
+      this.renderer.updateAttributes({
+        href: mark.attrs.href,
+        target: mark.attrs.target,
+        rel: mark.attrs.rel,
+      })
+    }
+
+    return true
   }
 }
 
