@@ -1,5 +1,18 @@
 # Change Log
 
+## 4.0.0-next.0
+
+### Patch Changes
+
+- Updated dependencies [548216e]
+- Updated dependencies [504260b]
+- Updated dependencies [8b37c2c]
+- Updated dependencies [77df9af]
+- Updated dependencies [dec32fa]
+- Updated dependencies [09e691c]
+- Updated dependencies [0a28144]
+  - @tiptap/extension-list@4.0.0-next.0
+
 ## 3.30.3
 
 ### Patch Changes
