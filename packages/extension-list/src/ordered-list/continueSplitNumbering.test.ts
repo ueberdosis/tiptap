@@ -3,7 +3,7 @@ import { Editor, Extension } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { history, undo, undoDepth } from '@tiptap/pm/history'
+import { history, redo, undo, undoDepth } from '@tiptap/pm/history'
 import { liftListItem } from '@tiptap/pm/schema-list'
 import { afterEach, describe, expect, it } from 'vite-plus/test'
 
@@ -115,6 +115,23 @@ function selectText(editor: Editor, text: string) {
 function liftText(editor: Editor, text: string) {
   selectText(editor, text)
   expect(editor.commands.liftListItem('listItem')).toBe(true)
+}
+
+function boundaryBetweenOrderedLists(editor: Editor): number {
+  const { doc } = editor.state
+  let offset = 0
+
+  for (let index = 0; index < doc.childCount - 1; index += 1) {
+    const child = doc.child(index)
+
+    offset += child.nodeSize
+
+    if (child.type.name === 'orderedList' && doc.child(index + 1).type.name === 'orderedList') {
+      return offset
+    }
+  }
+
+  throw new Error('Could not find adjacent ordered lists')
 }
 
 function selectEmptyParagraph(editor: Editor) {
@@ -268,6 +285,34 @@ describe('continueSplitNumbering', () => {
 
     expect(editor.getJSON()).toEqual(before)
     expect(undoDepth(editor.state)).toBe(0)
+  })
+
+  it('restores numbering when undoing a join of independent lists', () => {
+    editor = createEditor(
+      {
+        type: 'doc',
+        content: [orderedList(['One', 'Two']), orderedList(['Three', 'Four'])],
+      },
+      { history: true },
+    )
+
+    const before = editor.getJSON()
+
+    editor.view.dispatch(editor.state.tr.join(boundaryBetweenOrderedLists(editor)))
+
+    expect(readOrderedLists(editor)).toEqual([
+      { start: 1, type: null, items: ['One', 'Two', 'Three', 'Four'] },
+    ])
+
+    undo(editor.state, editor.view.dispatch)
+
+    expect(editor.getJSON()).toEqual(before)
+
+    redo(editor.state, editor.view.dispatch)
+
+    expect(readOrderedLists(editor)).toEqual([
+      { start: 1, type: null, items: ['One', 'Two', 'Three', 'Four'] },
+    ])
   })
 
   it('counts a lifted item with two paragraphs once', () => {

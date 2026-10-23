@@ -1,5 +1,6 @@
 import type { ChangedRange } from '@tiptap/core'
 import { combineTransactionSteps, getChangedRanges } from '@tiptap/core'
+import { isHistoryTransaction } from '@tiptap/pm/history'
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import type { EditorState, Transaction } from '@tiptap/pm/state'
 import type { Mapping } from '@tiptap/pm/transform'
@@ -82,7 +83,10 @@ function ignoreTransactions(transactions: readonly Transaction[]): boolean {
   }
 
   return transactions.some(
-    transaction => transaction.getMeta('y-sync$') || transaction.getMeta('addToHistory') === false,
+    transaction =>
+      isHistoryTransaction(transaction) ||
+      transaction.getMeta('y-sync$') ||
+      transaction.getMeta('addToHistory') === false,
   )
 }
 
