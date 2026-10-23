@@ -19,6 +19,8 @@ This demo showcases **bidirectional** markdown support in Tiptap with extended f
 - [x] Completed task
   - [ ] Incomplete task
   - [x] Completed task
+- [ ] This task wraps onto a second line
+      aligned with the checkbox text.
 
 <h2>HTML Support</h2>
 

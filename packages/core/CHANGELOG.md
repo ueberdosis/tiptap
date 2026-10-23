@@ -1,5 +1,17 @@
 # Change Log
 
+## 3.32.0
+
+### Minor Changes
+
+- 8e2a86f: Add the `schemaSpec` editor option to use an external ProseMirror schema structure with local extension behavior.
+
+### Patch Changes
+
+- cc90cc5: Fix list toggling between list types that use different item nodes. Nested lists are recursively converted when the target item schema supports nesting, and flattened into sibling items when it does not.
+- Updated dependencies [3b5560c]
+  - @tiptap/pm@3.32.0
+
 ## 3.31.4
 
 ### Patch Changes

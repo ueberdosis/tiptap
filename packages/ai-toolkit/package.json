@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/ai-toolkit",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Integrate AI capabilities into the Tiptap editor. This package contains the SDK for connecting to the Server AI Toolkit service.",
   "keywords": [
     "ai toolkit",
@@ -60,7 +60,7 @@
   "devDependencies": {
     "@tiptap/core": "workspace:^",
     "@tiptap/pm": "workspace:^",
-    "@tiptap/y-tiptap": "^3.0.7",
+    "@tiptap/y-tiptap": "workspace:^",
     "yjs": "^13.6.23"
   },
   "peerDependencies": {
