@@ -55,7 +55,10 @@ export class Editor extends CoreEditor {
   }
 
   get state() {
-    return this.reactiveState ? this.reactiveState.value : this.view.state
+    // Track Vue updates without returning a stale editor state.
+    void this.reactiveState?.value
+
+    return super.state
   }
 
   get storage() {
