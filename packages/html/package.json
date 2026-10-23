@@ -62,6 +62,6 @@
   "peerDependencies": {
     "@tiptap/core": "workspace:*",
     "@tiptap/pm": "workspace:*",
-    "happy-dom": "^20.8.9"
+    "happy-dom": "^20.8.9 || ^21.0.0"
   }
 }
