@@ -16,6 +16,12 @@ type OrderedListAnchor = {
   direct: boolean
 }
 
+type PreviousList = {
+  node: ProseMirrorNode
+  position: number
+  firstIndex: number
+}
+
 export function continueSplitNumbering(
   transactions: readonly Transaction[],
   oldState: EditorState,
@@ -35,7 +41,9 @@ export function continueSplitNumbering(
   const inverted = transform.mapping.invert()
   const explicitOrderedLists = explicitOrderedListPositions(transactions)
   const updates: { position: number; start: number }[] = []
+  const starts = new Map<number, number>()
 
+  positions.sort((left, right) => left - right)
   positions.forEach(position => {
     // A start of 1 set in this transaction is intentional, not the copied default.
     if (explicitOrderedLists.has(position)) {
@@ -48,12 +56,13 @@ export function continueSplitNumbering(
       return
     }
 
-    const start = trailingListStart(node, position, newState.doc, oldState.doc, inverted)
+    const start = trailingListStart(node, position, newState.doc, oldState.doc, inverted, starts)
 
     if (start == null) {
       return
     }
 
+    starts.set(position, start)
     updates.push({ position, start })
   })
 
@@ -207,6 +216,7 @@ function trailingListStart(
   doc: ProseMirrorNode,
   oldDoc: ProseMirrorNode,
   inverted: Mapping,
+  starts: Map<number, number>,
 ): number | null {
   const source = sourceAnchor(node, position, oldDoc, inverted)
 
@@ -222,13 +232,21 @@ function trailingListStart(
     return null
   }
 
-  const previousAnchor = previousSplitList(node, position, doc, oldDoc, inverted, source.position)
+  const previous = previousSplitList(node, position, doc, oldDoc, inverted, source.position)
 
-  if (!previousAnchor || source.index <= previousAnchor.index) {
+  if (!previous || source.index <= previous.firstIndex) {
     return null
   }
 
-  const start = sourceStart + source.index
+  const lastIndex = lastItemIndex(previous, oldDoc, inverted, source.position)
+
+  if (lastIndex == null || source.index <= lastIndex) {
+    return null
+  }
+
+  // Count items in the new document so edits made before the split are included.
+  const previousStart = starts.get(previous.position) ?? readStart(previous.node)
+  const start = previousStart + previous.node.childCount + (source.index - lastIndex - 1)
 
   return start === currentStart ? null : start
 }
@@ -259,7 +277,7 @@ function previousSplitList(
   oldDoc: ProseMirrorNode,
   inverted: Mapping,
   sourcePosition: number,
-): OrderedListAnchor | null {
+): PreviousList | null {
   const resolved = doc.resolve(position)
   let siblingEnd = position
 
@@ -283,10 +301,32 @@ function previousSplitList(
       return null
     }
 
-    return anchor
+    return { node: sibling, position: siblingPosition, firstIndex: anchor.index }
   }
 
   return null
+}
+
+function lastItemIndex(
+  previous: PreviousList,
+  oldDoc: ProseMirrorNode,
+  inverted: Mapping,
+  sourcePosition: number,
+): number | null {
+  const lastItem = previous.node.lastChild
+
+  if (!lastItem) {
+    return null
+  }
+
+  const itemPosition = previous.position + previous.node.nodeSize - 1 - lastItem.nodeSize
+  const mapped = mapInside(lastItem, itemPosition, inverted, oldDoc.content.size)
+
+  if (mapped == null) {
+    return null
+  }
+
+  return orderedListAnchor(oldDoc, mapped, sourcePosition)?.index ?? null
 }
 
 function splitAnchor(

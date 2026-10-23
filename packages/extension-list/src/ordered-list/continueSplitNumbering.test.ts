@@ -496,6 +496,51 @@ describe('continueSplitNumbering', () => {
     ])
   })
 
+  it('counts an item inserted in the same transaction as the split', () => {
+    editor = createEditor({
+      type: 'doc',
+      content: [orderedList(['One', 'Two', 'Three', 'Four', 'Five'])],
+    })
+
+    selectText(editor, 'Three')
+
+    const lifted = liftListItem(editor.schema.nodes.listItem)(editor.state, transaction => {
+      transaction.insert(1, editor.schema.nodeFromJSON(item('Zero')))
+      editor.view.dispatch(transaction)
+    })
+
+    expect(lifted).toBe(true)
+    expect(readOrderedLists(editor)).toEqual([
+      { start: 1, type: null, items: ['Zero', 'One', 'Two'] },
+      { start: 5, type: null, items: ['Four', 'Five'] },
+    ])
+  })
+
+  it('counts an item removed in the same transaction as the split', () => {
+    editor = createEditor({
+      type: 'doc',
+      content: [orderedList(['One', 'Two', 'Three', 'Four', 'Five'])],
+    })
+
+    selectText(editor, 'Three')
+
+    const lifted = liftListItem(editor.schema.nodes.listItem)(editor.state, transaction => {
+      const first = transaction.doc.firstChild?.firstChild
+
+      if (first) {
+        transaction.delete(1, 1 + first.nodeSize)
+      }
+
+      editor.view.dispatch(transaction)
+    })
+
+    expect(lifted).toBe(true)
+    expect(readOrderedLists(editor)).toEqual([
+      { start: 1, type: null, items: ['Two'] },
+      { start: 3, type: null, items: ['Four', 'Five'] },
+    ])
+  })
+
   it('ignores a collaboration transaction', () => {
     editor = createEditor({
       type: 'doc',
