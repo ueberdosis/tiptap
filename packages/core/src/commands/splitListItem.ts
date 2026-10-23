@@ -1,7 +1,7 @@
 import type { Node as ProseMirrorNode, NodeType } from '@tiptap/pm/model'
 import { Fragment, Slice } from '@tiptap/pm/model'
 import { TextSelection } from '@tiptap/pm/state'
-import { canSplit } from '@tiptap/pm/transform'
+import { canSplit, Transform } from '@tiptap/pm/transform'
 
 import { getNodeType } from '../helpers/getNodeType.js'
 import { getSplittedAttributes } from '../helpers/getSplittedAttributes.js'
@@ -127,8 +127,6 @@ export const splitListItem: RawCommands['splitListItem'] =
     const splitsAtStartOfItem = $from.parentOffset === 0 && $from.index(-1) === 0
     const itemStart = $from.before(-1)
 
-    tr.delete($from.pos, $to.pos)
-
     const trailingTypeAttributes = splitsAtStartOfItem ? grandParent.attrs : newTypeAttributes
 
     const types = nextType
@@ -138,7 +136,17 @@ export const splitListItem: RawCommands['splitListItem'] =
         ]
       : [{ type, attrs: trailingTypeAttributes }]
 
-    if (!canSplit(tr.doc, $from.pos, 2)) {
+    // Deleting the selection can change what the split would produce, so the split has to be
+    // validated against the document as it will look after the deletion. Simulate the deletion
+    // on a scratch transform instead of mutating `tr`: the shared transaction is dispatched even
+    // when a command returns `false`, so it must stay untouched until the split is known to be
+    // possible.
+    const deletedTr =
+      $from.pos === $to.pos ? null : new Transform(tr.doc).delete($from.pos, $to.pos)
+    const splitDoc = deletedTr ? deletedTr.doc : tr.doc
+    const splitPos = deletedTr ? deletedTr.mapping.map($from.pos) : $from.pos
+
+    if (!canSplit(splitDoc, splitPos, 2)) {
       return false
     }
 
@@ -146,8 +154,10 @@ export const splitListItem: RawCommands['splitListItem'] =
       const { selection, storedMarks } = state
       const { splittableMarks } = editor.extensionManager
       const marks = storedMarks || (selection.$to.parentOffset && selection.$from.marks())
+      const mapFrom = tr.steps.length
 
-      tr.split($from.pos, 2, types).scrollIntoView()
+      tr.delete($from.pos, $to.pos)
+      tr.split(tr.mapping.slice(mapFrom).map($from.pos), 2, types).scrollIntoView()
 
       if (splitsAtStartOfItem) {
         tr.setNodeMarkup(itemStart, undefined, newTypeAttributes)
