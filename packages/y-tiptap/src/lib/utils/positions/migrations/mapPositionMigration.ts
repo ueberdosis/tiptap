@@ -1,12 +1,20 @@
 import type { Node } from 'prosemirror-model'
 import type { Transaction } from 'prosemirror-state'
-import type { Step } from 'prosemirror-transform'
-import type { PositionMigrationPlan, PositionNode } from '../../../../types/PositionMigration.js'
+import { AddMarkStep, RemoveMarkStep, type Step } from 'prosemirror-transform'
+import type {
+  PositionMigrationContent,
+  PositionMigrationPlan,
+  PositionNode,
+} from '../../../../types/PositionMigration.js'
 import type { ProsemirrorBinding } from '../../binding/ProsemirrorBinding.js'
 import { getPositionContent } from './getPositionContent.js'
 import { isNodeMarkupChange } from './isNodeMarkupChange.js'
 
-const isTextReplacement = (step: Step, doc: Node) => {
+const retainsYjsIdentities = (step: Step, doc: Node) => {
+  if (step instanceof AddMarkStep || step instanceof RemoveMarkStep) {
+    return true
+  }
+
   const json = step.toJSON()
   const slice = json.slice ?? { content: [] }
 
@@ -126,17 +134,32 @@ export const mapPositionMigration = (
   const pending =
     previous?.doc === transaction.before && previous.doc !== binding.syncedDoc ? previous : null
 
-  // Ordinary text edits retain Yjs character identities without structural migration.
-  if (
-    !transaction.docChanged ||
-    !binding.prosemirrorView ||
-    (!pending &&
-      transaction.steps.every((step, index) => isTextReplacement(step, transaction.docs[index])))
-  ) {
+  if (!transaction.docChanged || !binding.prosemirrorView) {
     return pending
   }
 
-  const source = pending ?? getPositionContent(binding.type, transaction.before)
+  const transactions =
+    pending && 'transactions' in pending ? [...pending.transactions, transaction] : [transaction]
+
+  if (
+    (!pending || 'transactions' in pending) &&
+    transaction.steps.every((step, index) => retainsYjsIdentities(step, transaction.docs[index]))
+  ) {
+    return { doc: transaction.doc, transactions }
+  }
+
+  const source =
+    pending && !('transactions' in pending)
+      ? pending
+      : { doc: transactions[0].before, ...getPositionContent(binding.type, transactions[0].before) }
+
+  return transactions.reduce(mapTransactionPositions, source)
+}
+
+const mapTransactionPositions = (
+  source: PositionMigrationContent,
+  transaction: Transaction,
+): PositionMigrationContent => {
   const docs = [...transaction.docs, transaction.doc]
   const indexes = docs.map(indexNodes)
   const characters = source.characters.map(character => ({
