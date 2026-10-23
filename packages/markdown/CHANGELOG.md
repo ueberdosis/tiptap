@@ -1,5 +1,18 @@
 # @tiptap/markdown
 
+## 3.32.1
+
+### Patch Changes
+
+- 3ebb519: Keep Markdown task-item continuation lines in the same paragraph when the opening text resembles a heading or list, including tasks nested inside bullet lists.
+- 3ebb519: Preserve task-list continuation text with custom block tokenizers and tab indentation.
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
 ## 3.32.0
 
 ### Patch Changes
