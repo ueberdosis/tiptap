@@ -381,6 +381,16 @@ describe('Markdown Conversion Tests', () => {
       expect(json).toEqual(codeBlockWithLangJSON)
     })
 
+    it('should preserve code blocks containing longer backtick fences when serializing', () => {
+      const markdown = ['````markdown', '```js', 'console.log("Hello");', '```', '````'].join('\n')
+      const json = markdownManager.parse(markdown)
+      const serialized = markdownManager.serialize(json)
+      const reparsed = markdownManager.parse(serialized)
+
+      expect(serialized).toBe(markdown)
+      expect(reparsed).toEqual(json)
+    })
+
     it('should produce the same result for tilde and backtick fenced code blocks', () => {
       const tildeMarkdown = '~~~\ncode block\n~~~'
       const backtickMarkdown = '```\ncode block\n```'
