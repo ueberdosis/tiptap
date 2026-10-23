@@ -1,5 +1,16 @@
 # @tiptap/extension-table-of-contents
 
+## 3.32.1
+
+### Patch Changes
+
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
 ## 3.32.0
 
 ### Patch Changes
