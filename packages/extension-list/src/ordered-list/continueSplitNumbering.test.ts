@@ -5,6 +5,7 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { history, redo, undo, undoDepth } from '@tiptap/pm/history'
 import { liftListItem } from '@tiptap/pm/schema-list'
+import type { Transaction } from '@tiptap/pm/state'
 import { afterEach, describe, expect, it } from 'vite-plus/test'
 
 import { ListItem, OrderedList } from '../index.js'
@@ -115,6 +116,36 @@ function selectText(editor: Editor, text: string) {
 function liftText(editor: Editor, text: string) {
   selectText(editor, text)
   expect(editor.commands.liftListItem('listItem')).toBe(true)
+}
+
+function splitAndEditTrailingList(
+  editor: Editor,
+  text: string,
+  edit: (transaction: Transaction, position: number) => void,
+) {
+  selectText(editor, text)
+
+  const lifted = liftListItem(editor.schema.nodes.listItem)(editor.state, transaction => {
+    let trailing: number | null = null
+
+    transaction.doc.descendants((node, pos) => {
+      if (node.type.name !== 'orderedList') {
+        return
+      }
+
+      trailing = pos
+      return false
+    })
+
+    if (trailing == null) {
+      throw new Error('Expected a trailing ordered list')
+    }
+
+    edit(transaction, trailing)
+    editor.view.dispatch(transaction)
+  })
+
+  expect(lifted).toBe(true)
 }
 
 function boundaryBetweenOrderedLists(editor: Editor): number {
@@ -380,6 +411,88 @@ describe('continueSplitNumbering', () => {
     expect(readOrderedLists(editor)).toEqual([
       { start: 1, type: null, items: ['One', 'Two'] },
       { start: 4, type: null, items: ['Four', 'Five'] },
+    ])
+  })
+
+  it('keeps an explicit start of 1 set with setNodeMarkup while splitting', () => {
+    editor = createEditor({
+      type: 'doc',
+      content: [orderedList(['One', 'Two', 'Three', 'Four', 'Five'])],
+    })
+
+    splitAndEditTrailingList(editor, 'Three', (transaction, position) => {
+      const node = transaction.doc.nodeAt(position)
+
+      if (!node) {
+        throw new Error('Expected an ordered list')
+      }
+
+      transaction.setNodeMarkup(position, undefined, {
+        ...node.attrs,
+        start: 1,
+      })
+    })
+
+    expect(readOrderedLists(editor)).toEqual([
+      { start: 1, type: null, items: ['One', 'Two'] },
+      { start: 1, type: null, items: ['Four', 'Five'] },
+    ])
+  })
+
+  it('keeps an explicit start attribute set while splitting', () => {
+    editor = createEditor({
+      type: 'doc',
+      content: [orderedList(['One', 'Two', 'Three', 'Four', 'Five'])],
+    })
+
+    splitAndEditTrailingList(editor, 'Three', (transaction, position) => {
+      transaction.setNodeAttribute(position, 'start', 1)
+    })
+
+    expect(readOrderedLists(editor)).toEqual([
+      { start: 1, type: null, items: ['One', 'Two'] },
+      { start: 1, type: null, items: ['Four', 'Five'] },
+    ])
+  })
+
+  it('keeps an explicit start of 1 from the splitting command chain', () => {
+    editor = createEditor({
+      type: 'doc',
+      content: [orderedList(['One', 'Two', 'Three', 'Four', 'Five'])],
+    })
+
+    selectText(editor, 'Three')
+
+    const updated = editor
+      .chain()
+      .liftListItem('listItem')
+      .command(({ tr, commands }) => {
+        let inside: number | null = null
+
+        tr.doc.descendants((node, pos) => {
+          if (inside !== null) {
+            return false
+          }
+
+          if (node.isText && node.text === 'Four') {
+            inside = pos + 1
+            return false
+          }
+        })
+
+        if (inside === null) {
+          return false
+        }
+
+        return commands.setTextSelection(inside)
+      })
+      .updateAttributes('orderedList', { start: 1 })
+      .run()
+
+    expect(updated).toBe(true)
+    expect(readOrderedLists(editor)).toEqual([
+      { start: 1, type: null, items: ['One', 'Two'] },
+      { start: 1, type: null, items: ['Four', 'Five'] },
     ])
   })
 

@@ -3,7 +3,8 @@ import { combineTransactionSteps, getChangedRanges } from '@tiptap/core'
 import { isHistoryTransaction } from '@tiptap/pm/history'
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import type { EditorState, Transaction } from '@tiptap/pm/state'
-import type { Mapping } from '@tiptap/pm/transform'
+import { AttrStep, ReplaceAroundStep } from '@tiptap/pm/transform'
+import type { Mapping, Step } from '@tiptap/pm/transform'
 
 const orderedListName = 'orderedList'
 const defaultListStart = 1
@@ -32,9 +33,15 @@ export function continueSplitNumbering(
   }
 
   const inverted = transform.mapping.invert()
+  const explicitOrderedLists = explicitOrderedListPositions(transactions)
   const updates: { position: number; start: number }[] = []
 
   positions.forEach(position => {
+    // A start of 1 set in this transaction is intentional, not the copied default.
+    if (explicitOrderedLists.has(position)) {
+      return
+    }
+
     const node = newState.doc.nodeAt(position)
 
     if (!node) {
@@ -73,6 +80,89 @@ export function continueSplitNumbering(
     })
 
   return transaction.steps.length > 0 ? transaction : null
+}
+
+function explicitOrderedListPositions(transactions: readonly Transaction[]): Set<number> {
+  const positions = new Set<number>()
+
+  transactions.forEach((transaction, transactionIndex) => {
+    // Plugin appends, such as id rewrites, are not the caller's numbering choice.
+    if (transaction.getMeta('appendedTransaction')) {
+      return
+    }
+
+    transaction.steps.forEach((step, stepIndex) => {
+      const doc = transaction.docs[stepIndex]
+      const position = doc ? explicitOrderedListPosition(step, doc) : null
+
+      if (position == null) {
+        return
+      }
+
+      positions.add(mapToFinalPosition(position, transactions, transactionIndex, stepIndex))
+    })
+  })
+
+  return positions
+}
+
+// setNodeMarkup rewraps the ordered list and keeps its content in the gap. Splits do not.
+function explicitOrderedListPosition(step: Step, doc: ProseMirrorNode): number | null {
+  if (step instanceof AttrStep) {
+    if (step.attr !== 'start' || doc.nodeAt(step.pos)?.type.name !== orderedListName) {
+      return null
+    }
+
+    return step.pos
+  }
+
+  if (!(step instanceof ReplaceAroundStep) || !rewritesOrderedList(step, doc)) {
+    return null
+  }
+
+  return step.from
+}
+
+function rewritesOrderedList(step: ReplaceAroundStep, doc: ProseMirrorNode): boolean {
+  if (
+    step.insert !== 1 ||
+    step.gapFrom !== step.from + 1 ||
+    step.gapTo !== step.to - 1 ||
+    step.slice.openStart !== 0 ||
+    step.slice.openEnd !== 0 ||
+    step.slice.content.childCount !== 1
+  ) {
+    return false
+  }
+
+  const wrapper = step.slice.content.firstChild
+  const current = doc.nodeAt(step.from)
+
+  if (
+    !wrapper ||
+    wrapper.type.name !== orderedListName ||
+    wrapper.content.size !== 0 ||
+    current?.type.name !== orderedListName
+  ) {
+    return false
+  }
+
+  return true
+}
+
+function mapToFinalPosition(
+  position: number,
+  transactions: readonly Transaction[],
+  transactionIndex: number,
+  stepIndex: number,
+): number {
+  let mapped = transactions[transactionIndex].mapping.slice(stepIndex + 1).map(position, 1)
+
+  for (let index = transactionIndex + 1; index < transactions.length; index += 1) {
+    mapped = transactions[index].mapping.map(mapped, 1)
+  }
+
+  return mapped
 }
 
 function ignoreTransactions(transactions: readonly Transaction[]): boolean {
