@@ -128,7 +128,14 @@ export const TaskItem = Node.create<TaskItemOptions>({
       {
         tag: `li[data-type="${this.name}"]`,
         priority: 51,
-        contentElement: element => element.querySelector('div') ?? element,
+      },
+      {
+        // Only the checkbox label is chrome: skipping the whole item's label keeps the
+        // accessibility text out of the content, while a plain label still contributes it.
+        tag: `li[data-type="${this.name}"] > label`,
+        priority: 52,
+        ignore: true,
+        getAttrs: element => (element.querySelector('input[type="checkbox"]') ? {} : false),
       },
     ]
   },
