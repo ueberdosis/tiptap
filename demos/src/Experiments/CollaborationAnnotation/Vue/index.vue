@@ -1,188 +1,203 @@
 <template>
-  <div>
-    <div v-if="editor" class="container">
-      <div class="control-group">
-        <h2>Original Editor</h2>
-        <div class="button-group">
-          <button @click="addComment" :disabled="!editor.can().addAnnotation()">Comment</button>
+  <div class="annotation-demo">
+    <div class="annotation-clients">
+      <section
+        v-for="(client, index) in clients"
+        :key="client.name"
+        class="annotation-client"
+        :aria-label="client.name"
+      >
+        <div class="control-group">
+          <h2>{{ client.name }}</h2>
+          <label :for="`annotation-text-${index}`">Annotation</label>
+          <input
+            :id="`annotation-text-${index}`"
+            v-model="drafts[index]"
+            placeholder="Write an annotation"
+          />
+          <div class="button-group">
+            <button
+              :disabled="!client.editor.can().addAnnotation(drafts[index])"
+              @mousedown.prevent
+              @click="client.editor.commands.addAnnotation(drafts[index])"
+            >
+              Annotate
+            </button>
+            <button @mousedown.prevent @click="moveSelectedBlock(client.editor)">
+              Move block to end
+            </button>
+            <button :disabled="!client.editor.can().undo()" @click="client.editor.commands.undo()">
+              Undo
+            </button>
+            <button :disabled="!client.editor.can().redo()" @click="client.editor.commands.redo()">
+              Redo
+            </button>
+          </div>
         </div>
-      </div>
-      <editor-content class="editor-1" :editor="editor" />
 
-      <div class="output-group" v-for="comment in comments" :key="comment.id">
-        {{ comment }}
+        <editor-content
+          :editor="client.editor"
+          :class="['annotation-editor', `editor-${index + 1}`]"
+        />
 
-        <div class="button-group">
-          <button @click="updateComment(comment.id)">Update</button>
+        <annotation-list :editor="client.editor" :annotations="client.annotations" />
 
-          <button @click="deleteComment(comment.id)">Remove</button>
-        </div>
-      </div>
-
-      <div class="control-group">
-        <h2>Another Editor</h2>
-        <div class="button-group">
-          <button @click="addAnotherComment" :disabled="!anotherEditor.can().addAnnotation()">
-            Comment
-          </button>
-        </div>
-      </div>
-      <editor-content class="editor-2" :editor="anotherEditor" />
+        <details class="output-group">
+          <summary>Stored Y.Map annotations</summary>
+          <pre :data-testid="`annotations-${index}`">{{ client.stored }}</pre>
+        </details>
+        <details class="output-group">
+          <summary>Document JSON without annotations</summary>
+          <pre :data-testid="`document-${index}`">{{ client.content }}</pre>
+        </details>
+      </section>
     </div>
   </div>
 </template>
 
-<script>
-import Bold from '@tiptap/extension-bold'
+<script setup lang="ts">
+import { getSchema } from '@tiptap/core'
 import Collaboration from '@tiptap/extension-collaboration'
-import Document from '@tiptap/extension-document'
-import Heading from '@tiptap/extension-heading'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
+import Image from '@tiptap/extension-image'
+import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
+import { prosemirrorJSONToYXmlFragment } from '@tiptap/y-tiptap'
+import { onBeforeUnmount, onMounted, ref, shallowRef } from 'vue'
 import * as Y from 'yjs'
+import { connectDocuments } from './connectDocuments.js'
+import { content } from './content.js'
+import CollaborationAnnotation from './extension/index.js'
+import type { Annotation, ResolvedAnnotation } from './extension/types/Annotation.js'
+import { moveSelectedBlock } from './moveSelectedBlock.js'
+import type { DemoClient } from './types/DemoClient.js'
+import AnnotationList from './AnnotationList.vue'
 
-import CollaborationAnnotation from './extension/index.ts'
+const clients = shallowRef<DemoClient[]>([])
+const drafts = ref(['A text or image annotation', 'Another annotation'])
+const documents = [new Y.Doc(), new Y.Doc()]
+let disconnect = () => {}
 
-export default {
-  components: {
-    EditorContent,
-  },
-
-  data() {
-    return {
-      editor: null,
-      anotherEditor: null,
-      comments: [],
-    }
-  },
-
-  mounted() {
-    const ydoc = new Y.Doc()
-
-    this.editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Bold,
-        Heading,
-        CollaborationAnnotation.configure({
-          document: ydoc,
-          onUpdate: items => {
-            this.comments = items
-          },
-          instance: 'editor1',
-        }),
-        Collaboration.configure({
-          document: ydoc,
-        }),
-      ],
-      content: `
-        <p>
-          Annotations can be used to add additional information to the content, for example comments. They live on a different level than the actual editor content.
-        </p>
-        <p>
-          This example allows you to add plain text, but you’re free to add more complex data, for example JSON from another Tiptap instance. :-)
-        </p>
-      `,
-    })
-
-    this.anotherEditor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Bold,
-        Heading,
-        CollaborationAnnotation.configure({
-          document: ydoc,
-          instance: 'editor2',
-        }),
-        Collaboration.configure({
-          document: ydoc,
-        }),
-      ],
-    })
-  },
-
-  methods: {
-    addComment() {
-      const data = prompt('Comment', '')
-
-      this.editor.commands.addAnnotation(data)
-    },
-    updateComment(id) {
-      const comment = this.comments.find(item => {
-        return id === item.id
-      })
-
-      const data = prompt('Comment', comment.data)
-
-      this.editor.commands.updateAnnotation(id, data)
-    },
-    deleteComment(id) {
-      this.editor.commands.deleteAnnotation(id)
-    },
-    addAnotherComment() {
-      const data = prompt('Comment', '')
-
-      this.anotherEditor.commands.addAnnotation(data)
-    },
-  },
-
-  beforeUnmount() {
-    this.editor.destroy()
-    this.anotherEditor.destroy()
-  },
+function refreshClient(index: number, annotations?: ResolvedAnnotation[]) {
+  clients.value = clients.value.map((client, current) =>
+    current === index
+      ? {
+          ...client,
+          annotations: annotations ?? client.annotations,
+          stored: JSON.stringify(client.document.getMap('annotations').toJSON(), null, 2),
+          content: JSON.stringify(client.editor.getJSON(), null, 2),
+        }
+      : client,
+  )
 }
+
+onMounted(() => {
+  prosemirrorJSONToYXmlFragment(
+    getSchema([StarterKit, Image]),
+    content,
+    documents[0].getXmlFragment('default'),
+  )
+  Y.applyUpdate(documents[1], Y.encodeStateAsUpdate(documents[0]))
+  disconnect = connectDocuments(documents[0], documents[1])
+
+  clients.value = documents.map((document, index) => {
+    const editor = new Editor({
+      extensions: [
+        StarterKit.configure({ undoRedo: false }),
+        Image,
+        Collaboration.configure({ document }),
+        CollaborationAnnotation.configure({
+          map: document.getMap<Annotation>('annotations'),
+          onUpdate: annotations => refreshClient(index, annotations),
+        }),
+      ],
+      onSelectionUpdate: () => refreshClient(index),
+    })
+
+    return {
+      name: `Client ${index + 1}`,
+      document,
+      editor,
+      annotations: [],
+      stored: '{}',
+      content: JSON.stringify(editor.getJSON(), null, 2),
+    }
+  })
+})
+
+onBeforeUnmount(() => {
+  disconnect()
+  clients.value.forEach(client => client.editor.destroy())
+  documents.forEach(document => document.destroy())
+})
 </script>
 
 <style lang="scss">
-/* Basic editor styles */
-.tiptap {
-  :first-child {
-    margin-top: 0;
+.annotation-clients {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  padding: 0 1rem 1rem;
+}
+
+.annotation-client {
+  min-width: 0;
+  border: 1px solid var(--gray-3);
+  border-radius: 0.5rem;
+  overflow: hidden;
+
+  input {
+    display: block;
+    width: 100%;
+    margin: 0.5rem 0;
   }
 
-  /* Heading styles */
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    line-height: 1.1;
-    margin-top: 2.5rem;
-    text-wrap: pretty;
+  pre {
+    max-height: 20rem;
+    overflow: auto;
+    font-size: 0.75rem;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
   }
 
-  h1,
-  h2 {
-    margin-top: 3.5rem;
-    margin-bottom: 1.5rem;
-  }
-
-  h1 {
-    font-size: 1.4rem;
-  }
-
-  h2 {
-    font-size: 1.2rem;
-  }
-
-  h3 {
-    font-size: 1.1rem;
-  }
-
-  h4,
-  h5,
-  h6 {
-    font-size: 1rem;
+  summary {
+    cursor: pointer;
   }
 }
 
-.annotation {
-  background: #9def8f;
+.annotation-editor {
+  .annotation {
+    background: var(--yellow);
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+  }
+
+  img.annotation {
+    outline: 4px solid var(--yellow-contrast);
+  }
+
+  .ProseMirror-selectednode {
+    outline: 3px solid var(--purple);
+  }
+}
+
+.annotation-list {
+  li + li {
+    margin-top: 1rem;
+  }
+
+  small {
+    color: var(--gray-5);
+  }
+}
+
+@media (max-width: 760px) {
+  .annotation-clients {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

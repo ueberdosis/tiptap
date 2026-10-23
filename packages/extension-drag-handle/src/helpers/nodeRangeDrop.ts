@@ -1,19 +1,12 @@
 import { isNodeRangeSelection, NodeRangeSelection } from '@tiptap/extension-node-range'
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import type { Selection } from '@tiptap/pm/state'
-
-export interface ActiveDragRange {
-  anchorPos: number
-  nodeCount: number
-  depth: number
-  // Yjs relative position for remapping the drop anchor across isChangeOrigin rebuilds.
-  // biome-ignore lint/suspicious/noExplicitAny: y-prosemirror relative positions are untyped
-  relativeAnchorPos?: any
-}
+import type { RelativePosition } from '@tiptap/y-tiptap'
+import type { ActiveDragRange } from '../types/activeDragRange.js'
 
 interface MapPendingRestoreAnchorOptions {
   isChangeOrigin: boolean
-  getAbsolutePos: (relativePos: unknown) => number
+  getAbsolutePos: (relativePos: RelativePosition) => number
 }
 
 // Remaps the drop anchor while a restore is pending. Returns null when the anchor

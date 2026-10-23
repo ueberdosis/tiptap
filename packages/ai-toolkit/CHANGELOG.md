@@ -1,5 +1,11 @@
 # @tiptap/ai-toolkit
 
+## 0.4.1
+
+### Patch Changes
+
+- 3fd922c: Keep collaborative editing, cursor presence, and drag handles compatible with the updated `@tiptap/y-tiptap` binding.
+
 ## 0.4.0
 
 ### Minor Changes

@@ -116,6 +116,14 @@ The resolver job looks up the current branch by exact name. If it is missing, th
 
 ## Requirements
 
+### Documentation and references
+
+Follow the [package documentation rules](docs/package-documentation.md) when writing installation, getting started, usage, configuration, and API documentation in `packages/<name>/docs/`.
+
+Follow the [package reference rules](docs/package-references.md) when recording development context, concepts, plans, decisions, investigations, or prototype results in `packages/<name>/references/`.
+
+Before changing a package, read its `references/README.md` if it exists and follow links relevant to your task. Update affected user documentation with the code change.
+
 If the project maintainer has any additional requirements, you will find them listed here.
 
 - **Document any change in behaviour** - Make sure the `README.md` and any other relevant documentation are kept up-to-date.
