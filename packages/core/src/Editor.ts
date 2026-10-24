@@ -74,6 +74,10 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   private destroyed = false
 
+  private hasMounted = false
+
+  private hasCreated = false
+
   private editorState!: EditorState
 
   /**
@@ -177,7 +181,19 @@ export class Editor extends EventEmitter<EditorEvents> {
         `[tiptap error]: The editor cannot be mounted because there is no 'document' defined in this environment.`,
       )
     }
+    if (this.isDestroyed) {
+      throw new Error('[tiptap error]: A destroyed editor cannot be mounted.')
+    }
+
+    if (this.isMounted && this.options.element === el) {
+      return
+    }
+
+    this.unmount()
+    this.options.element = el
     this.createView(el)
+    const view = this.editorView
+
     this.emit('mount', { editor: this })
 
     if (this.css && !document.head.contains(this.css)) {
@@ -185,15 +201,18 @@ export class Editor extends EventEmitter<EditorEvents> {
     }
 
     window.setTimeout(() => {
-      if (this.isDestroyed) {
+      if (this.isDestroyed || this.editorView !== view) {
         return
       }
 
-      if (this.options.autofocus !== false && this.options.autofocus !== null) {
-        this.commands.focus(this.options.autofocus)
+      if (!this.hasCreated) {
+        this.hasCreated = true
+        if (this.options.autofocus !== false && this.options.autofocus !== null) {
+          this.commands.focus(this.options.autofocus)
+        }
+        this.emit('create', { editor: this })
       }
-      this.emit('create', { editor: this })
-      this.isInitialized = true
+      this.isInitialized = !this.isDestroyed && this.editorView === view
     }, 0)
   }
 
@@ -201,21 +220,18 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Remove the editor from the DOM, but still allow remounting at a different point in time
    */
   public unmount() {
-    if (this.editorView) {
-      // Keep the cached state in sync so plugin state stays available after unmount.
-      this.editorState = this.editorView.state
-
-      // Cleanup our reference to prevent circular references which caused memory leaks
-      // @ts-ignore
-      const dom = this.editorView.dom as TiptapEditorHTMLElement
-
-      if (dom?.editor) {
-        delete dom.editor
-      }
-      this.editorView.destroy()
+    if (!this.editorView) {
+      return
     }
+
+    this.editorState = this.editorView.state
+    const dom = this.editorView.dom as TiptapEditorHTMLElement
+
+    delete dom.editor
+    this.editorView.destroy()
     this.editorView = null
     this.isInitialized = false
+    this.isFocused = false
 
     // Safely remove CSS element with fallback for test environments
     // Only remove CSS if no other editors exist in the document after unmount
@@ -332,10 +348,7 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Returns whether the editor is editable.
    */
   public get isEditable(): boolean {
-    // since plugins are applied after creating the view
-    // `editable` is always `true` for one tick.
-    // that’s why we also have to check for `options.editable`
-    return this.options.editable && this.view && this.view.editable
+    return this.options.editable && (this.editorView?.editable ?? true)
   }
 
   /**
@@ -360,7 +373,7 @@ export class Editor extends EventEmitter<EditorEvents> {
         composing: false,
         dragging: null,
         editable: true,
-        isDestroyed: false,
+        isDestroyed: this.isDestroyed,
       } as EditorView,
       {
         get: (obj, key) => {
@@ -369,7 +382,9 @@ export class Editor extends EventEmitter<EditorEvents> {
             // Just return what the editor view has.
             return this.editorView[key as keyof EditorView]
           }
-          // Specifically always return the most recent editorState
+          if (key === 'isDestroyed') {
+            return this.isDestroyed
+          }
           if (key === 'state') {
             return this.editorState
           }
@@ -635,18 +650,21 @@ export class Editor extends EventEmitter<EditorEvents> {
       attributes: this.getEditorViewAttributes(),
       dispatchTransaction: dispatch,
       transformPastedHTML,
-      state: this.editorState,
+      state: this.editorState.reconfigure({ plugins: [] }),
+    })
+
+    const state = this.hasMounted
+      ? this.editorState
+      : this.editorState.reconfigure({
+          plugins: [...this.extensionManager.plugins, ...this.editorState.plugins],
+        })
+
+    this.hasMounted = true
+    this.view.setProps({
+      state,
       markViews: this.extensionManager.markViews,
       nodeViews: this.extensionManager.nodeViews,
     })
-
-    // `editor.view` is not yet available at this time.
-    // Therefore we will add all plugins and node views directly afterwards.
-    const newState = this.state.reconfigure({
-      plugins: this.extensionManager.plugins,
-    })
-
-    this.view.updateState(newState)
 
     this.prependClass()
     this.injectCSS()
@@ -663,7 +681,7 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Creates all node and mark views.
    */
   public createNodeViews(): void {
-    if (this.view.isDestroyed) {
+    if (!this.isMounted) {
       return
     }
 
@@ -702,9 +720,7 @@ export class Editor extends EventEmitter<EditorEvents> {
    * @param transaction An editor state transaction
    */
   private dispatchTransaction(transaction: Transaction): void {
-    // if the editor / the view of the editor was destroyed
-    // the transaction should not be dispatched as there is no view anymore.
-    if (this.view.isDestroyed) {
+    if (this.isDestroyed) {
       return
     }
 
@@ -883,7 +899,14 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Check if the editor is already destroyed.
    */
   public get isDestroyed(): boolean {
-    return this.editorView?.isDestroyed ?? true
+    return this.destroyed
+  }
+
+  /**
+   * Check if the editor has an active view.
+   */
+  public get isMounted(): boolean {
+    return !this.destroyed && this.editorView !== null && !this.editorView.isDestroyed
   }
 
   public $node(selector: string, attributes?: { [key: string]: any }): NodePos | null {

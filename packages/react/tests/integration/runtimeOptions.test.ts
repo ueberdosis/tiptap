@@ -1,8 +1,10 @@
-import { act, cleanup, renderHook } from '@testing-library/react'
+import { act, cleanup, render, renderHook } from '@testing-library/react'
 import { Editor } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
+import React from 'react'
 import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 
+import { EditorContent } from '../../src/EditorContent.js'
 import { useEditor } from '../../src/useEditor.js'
 
 describe('useEditor runtime options', () => {
@@ -27,6 +29,7 @@ describe('useEditor runtime options', () => {
       { initialProps: { content: '<p>Original</p>', onUpdate: original, className: 'original' } },
     )
     const editor = result.current!
+    render(React.createElement(EditorContent, { editor }))
     setOptions.mockClear()
     rerender({ content: '<p>Ignored</p>', onUpdate: replacement, className: 'updated' })
     await act(async () => {
