@@ -285,6 +285,9 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
 
         const handleDropGlobal = () => {
           dragSourceElement = null
+          if (tiptapDragFromOtherEditor) {
+            tiptapDragFromOtherEditor = null
+          }
         }
 
         window.addEventListener('dragstart', handleDragstart)
