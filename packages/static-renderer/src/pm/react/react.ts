@@ -37,12 +37,20 @@ export function mapAttrsToHTMLAttributes(
       if (name === 'style' && typeof value === 'string') {
         const styleObject: Record<string, string> = {}
         value.split(';').forEach(style => {
-          const [styleKey, val] = style.split(':')
-          if (styleKey && val) {
-            // we need to turn the key into camelCase
-            const camelCaseKey = styleKey.trim().replace(/-([a-z])/g, g => g[1].toUpperCase())
-            styleObject[camelCaseKey] = val.trim()
+          const seperatorIndex = style.indexOf(':')
+          if (seperatorIndex === -1) {
+            return
           }
+          const styleKey = style.slice(0, seperatorIndex).trim()
+          const val = style.slice(seperatorIndex + 1)
+          if (!styleKey || !val) {
+            return
+          }
+          // we need to turn the key into camelCase
+          const camelCaseKey = styleKey.startsWith('--')
+            ? styleKey
+            : styleKey.replace(/-([a-z])/g, g => g[1].toUpperCase())
+          styleObject[camelCaseKey] = val.trim()
         })
 
         return Object.assign(acc, { style: styleObject })

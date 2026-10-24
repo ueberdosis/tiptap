@@ -30,9 +30,59 @@ describe('static renderer: react', () => {
       key: 'test-key',
     })
   })
+
+  it('preserves CSS custom property names and their casing', () => {
+    const result = mapAttrsToHTMLAttributes({
+      style: '--my-color: red; --MyColor: blue; font-size: 16px;',
+    })
+
+    expect(result.style).toEqual({
+      '--my-color': 'red',
+      '--MyColor': 'blue',
+      fontSize: '16px',
+    })
+  })
+
+  it('preserves colons inside style values', () => {
+    const result = mapAttrsToHTMLAttributes({
+      style: 'background-image: url("https://example.com:8443/a.png"); color: red;',
+    })
+
+    expect(result.style).toEqual({
+      backgroundImage: 'url("https://example.com:8443/a.png")',
+      color: 'red',
+    })
+  })
 })
 
 describe('static render json to react elements (with prosemirror)', () => {
+  it('keeps custom properties and complete URLs when mounting a styled mark', () => {
+    const styledBold = Bold.configure({
+      HTMLAttributes: {
+        style: 'color: red; --my-color: red; background-image: url(https://example.com/a.png);',
+      },
+    })
+    const view = render(
+      renderToReactElement({
+        extensions: [Document, Paragraph, Text, styledBold],
+        content: {
+          type: 'doc',
+          content: [
+            {
+              type: 'paragraph',
+              content: [{ type: 'text', text: 'Styled text', marks: [{ type: 'bold' }] }],
+            },
+          ],
+        },
+      }),
+    )
+    const mark = view.getByText('Styled text')
+
+    expect(mark.style.getPropertyValue('--my-color')).toBe('red')
+    expect(mark.style.color).toBe('red')
+    expect(mark.style.backgroundImage).toContain('https://example.com/a.png')
+  })
+
   it('generates a React element from JSON without an editor instance', () => {
     const json = {
       type: 'doc',
