@@ -133,30 +133,26 @@ function explicitOrderedListPosition(step: Step, doc: ProseMirrorNode): number |
 }
 
 function rewritesOrderedList(step: ReplaceAroundStep, doc: ProseMirrorNode): boolean {
-  if (
-    step.insert !== 1 ||
-    step.gapFrom !== step.from + 1 ||
-    step.gapTo !== step.to - 1 ||
-    step.slice.openStart !== 0 ||
-    step.slice.openEnd !== 0 ||
-    step.slice.content.childCount !== 1
-  ) {
-    return false
-  }
-
   const wrapper = step.slice.content.firstChild
-  const current = doc.nodeAt(step.from)
 
-  if (
-    !wrapper ||
-    wrapper.type.name !== orderedListName ||
-    wrapper.content.size !== 0 ||
-    current?.type.name !== orderedListName
-  ) {
-    return false
-  }
+  return (
+    wrapsWholeNode(step) &&
+    wrapper?.type.name === orderedListName &&
+    wrapper.content.size === 0 &&
+    doc.nodeAt(step.from)?.type.name === orderedListName
+  )
+}
 
-  return true
+function wrapsWholeNode(step: ReplaceAroundStep): boolean {
+  const { slice } = step
+
+  return (
+    step.insert === 1 &&
+    step.gapFrom === step.from + 1 &&
+    step.gapTo === step.to - 1 &&
+    slice.openStart + slice.openEnd === 0 &&
+    slice.content.childCount === 1
+  )
 }
 
 function mapToFinalPosition(
