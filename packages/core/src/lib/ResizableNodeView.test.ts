@@ -131,6 +131,7 @@ describe('ResizableNodeView', () => {
       editor,
       getPos: () => undefined,
       onCommit: () => {},
+      onUpdate: () => true,
       options: { directions: ['bottom-right'], createCustomHandle },
     })
 
