@@ -2,4 +2,4 @@
 '@tiptap/core': patch
 ---
 
-Task lists at the end of Markdown without a final newline now map back to the source text, so they are no longer dropped.
+Markdown lexer tokens for a task list at the end of the input now match the source text when it has no final newline.
