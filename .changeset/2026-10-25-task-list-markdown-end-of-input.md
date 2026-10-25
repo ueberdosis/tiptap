@@ -2,4 +2,4 @@
 '@tiptap/core': patch
 ---
 
-Markdown task list tokens no longer end with a newline that is not in the source when the list is at the end of the input.
+Task lists at the end of Markdown without a final newline now map back to the source text, so they are no longer dropped.
