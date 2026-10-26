@@ -11,7 +11,10 @@ import { renderToReactElement } from '../../src/pm/react/react.js'
 describe('static React style attributes', () => {
   it('preserves custom properties and complete URLs on nodes and marks during SSR', () => {
     const styledParagraph = Paragraph.configure({
-      HTMLAttributes: { style: '--node-color: blue; color: blue;' },
+      HTMLAttributes: {
+        style:
+          '--node-color: blue; color: blue; background-image: url("data:image/svg+xml;base64,PHN2Zy8+");',
+      },
     })
     const styledBold = Bold.extend({
       renderHTML() {
@@ -40,7 +43,7 @@ describe('static React style attributes', () => {
     )
 
     expect(html).toBe(
-      '<p style="--node-color:blue;color:blue"><span style="color:red;--my-color:red;background-image:url(https://example.com/a.png)">Styled text</span></p>',
+      '<p style="--node-color:blue;color:blue;background-image:url(&quot;data:image/svg+xml;base64,PHN2Zy8+&quot;)"><span style="color:red;--my-color:red;background-image:url(https://example.com/a.png)">Styled text</span></p>',
     )
   })
 })

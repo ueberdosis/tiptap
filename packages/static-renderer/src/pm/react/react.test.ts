@@ -53,13 +53,86 @@ describe('static renderer: react', () => {
       color: 'red',
     })
   })
+
+  it.each([
+    {
+      name: 'quoted SVG data URLs',
+      style: 'background-image: url("data:image/svg+xml;base64,PHN2Zy8+"); color: red;',
+      expected: {
+        backgroundImage: 'url("data:image/svg+xml;base64,PHN2Zy8+")',
+        color: 'red',
+      },
+    },
+    {
+      name: 'unquoted SVG data URLs',
+      style: 'background-image: url(data:image/svg+xml;base64,PHN2Zy8+); color: red;',
+      expected: {
+        backgroundImage: 'url(data:image/svg+xml;base64,PHN2Zy8+)',
+        color: 'red',
+      },
+    },
+    {
+      name: 'quoted semicolons',
+      style: 'font-family: "A; B"; color: red;',
+      expected: { fontFamily: '"A; B"', color: 'red' },
+    },
+    {
+      name: 'escaped quotes',
+      style: String.raw`--label: "a\";b"; color: red;`,
+      expected: { '--label': String.raw`"a\";b"`, color: 'red' },
+    },
+    {
+      name: 'escaped semicolons',
+      style: String.raw`--label: a\;b; color: red;`,
+      expected: { '--label': String.raw`a\;b`, color: 'red' },
+    },
+    {
+      name: 'CSS comments',
+      style: '/* theme; */ color: red; font-size: /* size */ 16px;',
+      expected: { color: 'red', fontSize: '16px' },
+    },
+    {
+      name: 'comment markers inside strings',
+      style: '--label: "/* a;b */"; color: red;',
+      expected: { '--label': '"/* a;b */"', color: 'red' },
+    },
+    {
+      name: 'comment markers inside unquoted URLs',
+      style: 'background-image: url(https://example.com/a/*image*/b.png); color: red;',
+      expected: {
+        backgroundImage: 'url(https://example.com/a/*image*/b.png)',
+        color: 'red',
+      },
+    },
+    {
+      name: 'non-ASCII function names ending in url',
+      style: '--theme: éurl(a(b); c); --other: \u{1D49C}url(x(y); z); color: red;',
+      expected: {
+        '--theme': 'éurl(a(b); c)',
+        '--other': '\u{1D49C}url(x(y); z)',
+        color: 'red',
+      },
+    },
+    {
+      name: 'nested values',
+      style: '--spacing: calc((1px + 2px) * 2); --theme: { color: red; }; color: blue;',
+      expected: {
+        '--spacing': 'calc((1px + 2px) * 2)',
+        '--theme': '{ color: red; }',
+        color: 'blue',
+      },
+    },
+  ])('preserves $name', ({ style, expected }) => {
+    expect(mapAttrsToHTMLAttributes({ style }).style).toEqual(expected)
+  })
 })
 
 describe('static render json to react elements (with prosemirror)', () => {
-  it('keeps custom properties and complete URLs when mounting a styled mark', () => {
+  it('keeps custom properties and complete SVG data URLs when mounting a styled mark', () => {
     const styledBold = Bold.configure({
       HTMLAttributes: {
-        style: 'color: red; --my-color: red; background-image: url(https://example.com/a.png);',
+        style:
+          'color: red; --my-color: red; background-image: url("data:image/svg+xml;base64,PHN2Zy8+");',
       },
     })
     const view = render(
@@ -80,7 +153,7 @@ describe('static render json to react elements (with prosemirror)', () => {
 
     expect(mark.style.getPropertyValue('--my-color')).toBe('red')
     expect(mark.style.color).toBe('red')
-    expect(mark.style.backgroundImage).toContain('https://example.com/a.png')
+    expect(mark.style.backgroundImage).toContain('data:image/svg+xml;base64,PHN2Zy8+')
   })
 
   it('generates a React element from JSON without an editor instance', () => {
