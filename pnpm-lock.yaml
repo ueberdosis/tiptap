@@ -472,7 +472,7 @@ importers:
         specifier: ^1.41.0
         version: 1.50.0
       zod:
-        specifier: ^4.6.6
+        specifier: ^4.1.8
         version: 4.6.6
     devDependencies:
       '@tiptap/core':
