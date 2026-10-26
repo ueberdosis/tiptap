@@ -55,7 +55,7 @@
   },
   "dependencies": {
     "es-toolkit": "^1.41.0",
-    "zod": "^4.1.8"
+    "zod": "^4.6.6"
   },
   "devDependencies": {
     "@tiptap/core": "workspace:^",
