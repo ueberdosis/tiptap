@@ -62,7 +62,7 @@ export const EditorContent: Component = {
 
     editor.contentComponent = null
 
-    if (!editor.view.dom?.parentNode) {
+    if (editor.isDestroyed || !editor.view.dom?.parentNode) {
       return
     }
 
