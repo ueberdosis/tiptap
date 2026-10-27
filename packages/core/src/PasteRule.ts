@@ -1,7 +1,7 @@
 import type { Node as PMNode } from '@tiptap/pm/model'
 import { Fragment } from '@tiptap/pm/model'
 import type { EditorState } from '@tiptap/pm/state'
-import { Plugin } from '@tiptap/pm/state'
+import { NodeSelection, Plugin } from '@tiptap/pm/state'
 
 import { CommandManager } from './CommandManager.js'
 import type { Editor } from './Editor.js'
@@ -265,9 +265,15 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
       // we register a global drag handler to track the current drag source element
       view(view) {
         const handleDragstart = (event: DragEvent) => {
-          dragSourceElement = view.dom.parentElement?.contains(event.target as Element)
-            ? view.dom.parentElement
-            : null
+          const parent = view.dom.parentElement
+          const target = event.target as Element | null
+          const fromParent = !!(parent && target && parent.contains(target))
+          // Drag handles often sit beside EditorContent (outside parentElement)
+          // and select a node before starting the drag (#8585).
+          const fromExternalNodeDrag =
+            !fromParent && !!parent && view.state.selection instanceof NodeSelection
+
+          dragSourceElement = fromParent || fromExternalNodeDrag ? parent : null
 
           if (dragSourceElement) {
             tiptapDragFromOtherEditor = editor
@@ -294,8 +300,13 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
       props: {
         handleDOMEvents: {
           drop: (view, event: Event) => {
-            isDroppedFromProseMirror = dragSourceElement === view.dom.parentElement
             dropEvent = event as DragEvent
+            const html = dropEvent.dataTransfer?.getData('text/html') ?? ''
+            // Same-editor moves (including an external drag handle) must not run paste rules.
+            isDroppedFromProseMirror =
+              dragSourceElement === view.dom.parentElement ||
+              html.includes('data-pm-slice') ||
+              !!view.dragging?.move
 
             if (!isDroppedFromProseMirror) {
               const dragFromOtherEditor = tiptapDragFromOtherEditor
