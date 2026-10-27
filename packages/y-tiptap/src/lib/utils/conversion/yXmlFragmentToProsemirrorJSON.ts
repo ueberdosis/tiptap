@@ -26,7 +26,7 @@ export function yXmlFragmentToProsemirrorJSON(xmlFragment: Y.XmlFragment) {
             const mark: ProsemirrorJSONMark = {
               type,
             }
-            if (Object.keys(attrs)) {
+            if (Object.keys(attrs).length) {
               mark.attrs = attrs
             }
             return mark
