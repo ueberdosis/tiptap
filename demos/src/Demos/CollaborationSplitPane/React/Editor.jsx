@@ -63,6 +63,9 @@ const names = [
 const defaultContent = `
   <p>Hi 👋, this is a collaborative document.</p>
   <p>Feel free to edit and collaborate in real-time!</p>
+  <ul><li><p>First bullet</p></li><li><p>Lift this bullet with Shift+Tab</p></li><li><p></p></li></ul>
+  <p>Exit the empty bullet with Enter, then undo and redo to check the cursor.</p>
+  <p>This paragraph should stay below the list.</p>
 `
 
 const getRandomElement = list => list[Math.floor(Math.random() * list.length)]
@@ -178,6 +181,8 @@ const Editor = ({ ydoc, provider, room }) => {
     <div className="column-half">
       <div className="control-group">
         <div className="button-group">
+          <button onClick={() => editor.chain().focus().undo().run()}>Undo</button>
+          <button onClick={() => editor.chain().focus().redo().run()}>Redo</button>
           <button
             onClick={() => editor.chain().focus().toggleBold().run()}
             className={isBold ? 'is-active' : ''}

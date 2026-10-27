@@ -360,6 +360,14 @@ export class ProsemirrorBinding {
       return
     }
 
+    const isUndoRedoOperation = transaction.origin instanceof Y.UndoManager
+    const undoSelection: RelativeSelection | undefined = isUndoRedoOperation
+      ? transaction.origin.currStackItem?.meta.get(this)
+      : undefined
+    const selection = undoSelection || this.beforeTransactionSelection
+    // Historical absolute positions belong to the saved document.
+    const oldDoc = undoSelection ? undefined : this.view.state.doc
+
     this.mux(() => {
       const delType = (_: unknown, type: unknown) => deleteMapping(this.mapping, type)
 
@@ -375,13 +383,12 @@ export class ProsemirrorBinding {
 
       if (content === null) return
 
-      const oldDoc = this.view.state.doc
       let tr = replaceChangedChildren(this._tr, content)
 
-      restoreRelativeSelection(tr, this.beforeTransactionSelection, this, oldDoc)
+      restoreRelativeSelection(tr, selection, this, oldDoc)
       tr = tr.setMeta(ySyncPluginKey, {
         isChangeOrigin: true,
-        isUndoRedoOperation: transaction.origin instanceof Y.UndoManager,
+        isUndoRedoOperation,
       })
 
       if (this.beforeTransactionSelection !== null && this._isLocalCursorInView()) {
