@@ -94,15 +94,20 @@ describe('MarkdownManager unrecognized HTML tags', () => {
     })
   })
 
-  it('does not flag hyphenated custom elements as unrecognized', () => {
+  it('preserves hyphenated placeholders not in the schema as literal text', () => {
     const manager = new MarkdownManager({ extensions: basicExtensions })
 
-    // Hyphenated tag names are valid custom elements per the HTML spec – the
-    // browser constructs them as HTMLElement, not HTMLUnknownElement.
-    const doc = manager.parse('<my-mention></my-mention>')
+    // Hyphenated names are Custom Elements in the HTML sense, but without a
+    // matching parseDOM rule they are placeholders (e.g. docs / runbooks) and
+    // must not be silently dropped (#8623).
+    const doc = manager.parse('Run kubectl logs <pod-name> -n <namespace>')
     const text = collectText(doc)
-    expect(text).not.toContain('<my-mention>')
-    expect(text).not.toContain('</my-mention>')
+    expect(text).toContain('<pod-name>')
+    expect(text).toContain('<namespace>')
+    expect(text).toContain('Run kubectl logs')
+
+    const empty = manager.parse('<my-mention></my-mention>')
+    expect(collectText(empty)).toContain('<my-mention></my-mention>')
   })
 
   it('preserves angle-bracket text with spaces as literal text', () => {

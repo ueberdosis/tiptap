@@ -4,10 +4,11 @@
  * angle-bracket text such as `<enter foo bar>` so the latter can be
  * preserved as literal text.
  *
- * Non-hyphenated tags not in this set are treated as unknown unless
- * declared in the schema's parseDOM rules. This does not claim full
- * parity with browser `HTMLUnknownElement` classification across all
- * namespaces (e.g. rare SVG filter elements, MathML).
+ * Tags not in this set are treated as unknown unless declared in the
+ * schema's parseDOM rules (including hyphenated custom-element names).
+ * This does not claim full parity with browser `HTMLUnknownElement`
+ * classification across all namespaces (e.g. rare SVG filter elements,
+ * MathML).
  */
 export const STANDARD_HTML_TAGS = new Set([
   'a',
@@ -165,15 +166,15 @@ export function extractHtmlTagNames(html: string): string[] {
 }
 
 /**
- * Returns true when the tag name is non-hyphenated and not in the
- * STANDARD_HTML_TAGS allowlist (i.e. would be treated as unrecognized).
+ * Returns true when the tag name is not in the STANDARD_HTML_TAGS allowlist
+ * (i.e. would be treated as unrecognized unless the schema declares it).
+ *
+ * Hyphenated names are treated as unknown here too: Custom Elements that an
+ * extension can parse must be listed in the schema's parseDOM tags. Otherwise
+ * placeholders like `<pod-name>` are preserved as literal text (#8623).
  */
 export function isHtmlUnknownTagName(tagName: string): boolean {
   const lower = tagName.toLowerCase()
-
-  if (lower.includes('-')) {
-    return false
-  }
 
   return !STANDARD_HTML_TAGS.has(lower)
 }

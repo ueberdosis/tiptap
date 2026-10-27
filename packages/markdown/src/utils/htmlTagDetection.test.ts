@@ -35,9 +35,11 @@ describe('htmlTagDetection', () => {
       expect(isHtmlUnknownTagName('span')).toBe(false)
     })
 
-    it('treats hyphenated tag names as known custom elements', () => {
-      expect(isHtmlUnknownTagName('my-mention')).toBe(false)
-      expect(isHtmlUnknownTagName('my-el')).toBe(false)
+    it('treats hyphenated tag names as unknown unless in the schema', () => {
+      // Custom elements are recognized via schema parseDOM, not the allowlist (#8623).
+      expect(isHtmlUnknownTagName('my-mention')).toBe(true)
+      expect(isHtmlUnknownTagName('my-el')).toBe(true)
+      expect(isHtmlUnknownTagName('pod-name')).toBe(true)
     })
 
     it('treats common SVG child elements as known', () => {
@@ -64,8 +66,14 @@ describe('htmlTagDetection', () => {
       expect(htmlContainsUnrecognizedTag('<br>', emptySchema)).toBe(false)
     })
 
-    it('returns false for hyphenated custom elements', () => {
-      expect(htmlContainsUnrecognizedTag('<my-el></my-el>', emptySchema)).toBe(false)
+    it('returns true for hyphenated tags not declared in the schema', () => {
+      expect(htmlContainsUnrecognizedTag('<my-el></my-el>', emptySchema)).toBe(true)
+      expect(htmlContainsUnrecognizedTag('<pod-name>', emptySchema)).toBe(true)
+    })
+
+    it('returns false for hyphenated tags declared in the schema', () => {
+      const schemaTags = new Set(['my-el'])
+      expect(htmlContainsUnrecognizedTag('<my-el></my-el>', schemaTags)).toBe(false)
     })
 
     it('returns false when schema declares a non-standard tag', () => {
