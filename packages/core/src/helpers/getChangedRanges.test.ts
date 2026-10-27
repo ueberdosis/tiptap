@@ -36,6 +36,43 @@ describe('getChangedRanges', () => {
     expect(changes[0].oldRange).toEqual({ from: 2, to: 7 })
   })
 
+  it('multiple steps: each range is mapped through later steps and back to the original doc', () => {
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, Bold],
+      content: '<p>hello world</p><p>second paragraph here</p>',
+    })
+    const doc = editor.state.doc
+    const { schema } = doc.type
+    editor.destroy()
+
+    const transform = new Transform(doc)
+
+    transform.insert(3, schema.text('abc'))
+    transform.delete(8, 11)
+    transform.addMark(2, 6, schema.marks.bold.create())
+    transform.insert(20, schema.text('xyz'))
+    transform.replaceWith(1, 4, schema.text('Q'))
+
+    expect(getChangedRanges(transform)).toEqual([
+      { oldRange: { from: 1, to: 3 }, newRange: { from: 1, to: 4 } },
+      { oldRange: { from: 5, to: 8 }, newRange: { from: 6, to: 6 } },
+      { oldRange: { from: 20, to: 20 }, newRange: { from: 18, to: 21 } },
+    ])
+  })
+
+  it('many steps: contained ranges collapse to one', () => {
+    const doc = createDoc()
+    const transform = new Transform(doc)
+
+    for (let index = 0; index < 200; index += 1) {
+      transform.insert(2 + index, doc.type.schema.text('a'))
+    }
+
+    expect(getChangedRanges(transform)).toEqual([
+      { oldRange: { from: 2, to: 2 }, newRange: { from: 2, to: 202 } },
+    ])
+  })
+
   it('no-position fallback branch: DocAttrStep produces no changed ranges', () => {
     const doc = createDoc()
     const transform = new Transform(doc)
