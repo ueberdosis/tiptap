@@ -378,7 +378,14 @@ export class ProsemirrorBinding {
       const oldDoc = this.view.state.doc
       let tr = replaceChangedChildren(this._tr, content)
 
-      restoreRelativeSelection(tr, this.beforeTransactionSelection, this, oldDoc)
+      // Keep Yjs text positions when no block structure changed.
+      const textOnlyChange = events.every(event => event.target instanceof Y.XmlText)
+      restoreRelativeSelection(
+        tr,
+        this.beforeTransactionSelection,
+        this,
+        textOnlyChange ? undefined : oldDoc,
+      )
       tr = tr.setMeta(ySyncPluginKey, {
         isChangeOrigin: true,
         isUndoRedoOperation: transaction.origin instanceof Y.UndoManager,
