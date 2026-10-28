@@ -1,4 +1,10 @@
-import type { Mark as ProseMirrorMark, Node as PMNode, ParseOptions, Slice } from '@tiptap/pm/model'
+import type {
+  Mark as ProseMirrorMark,
+  Node as PMNode,
+  ParseOptions,
+  SchemaSpec,
+  Slice,
+} from '@tiptap/pm/model'
 import type { EditorState, Transaction } from '@tiptap/pm/state'
 import type { Mappable, Transform } from '@tiptap/pm/transform'
 import type {
@@ -299,6 +305,14 @@ export interface EditorOptions {
    */
   extensions: Extensions
   /**
+   * A complete ProseMirror specification applied when the editor is created.
+   * Its structure replaces local node, mark and attribute definitions.
+   * Local extensions retain parsing, rendering, commands and plugins.
+   * Every node and mark must have a matching local extension, and vice versa.
+   * Changing this option on an existing editor does not rebuild its schema.
+   */
+  schemaSpec?: SchemaSpec
+  /**
    * Whether to inject base CSS styles
    */
   injectCSS: boolean
@@ -486,6 +500,20 @@ export interface EditorOptions {
    */
   enableExtensionDispatchTransaction?: boolean
 }
+
+/** Options that can change without rebuilding the editor. */
+export type EditorRuntimeOptions = Pick<
+  EditorOptions,
+  | 'editable'
+  | 'editorProps'
+  | 'parseOptions'
+  | 'enableContentCheck'
+  | 'emitContentError'
+  | Extract<keyof EditorOptions, `on${string}`>
+>
+
+/** Options applied only when creating an editor. */
+export type EditorInitialOptions = Omit<EditorOptions, keyof EditorRuntimeOptions>
 
 /**
  * The editor's content as HTML
@@ -1018,6 +1046,9 @@ export type MarkdownLexerConfiguration = {
    * @returns Array of block-level tokens
    */
   blockTokens: (src: string) => MarkdownToken[]
+
+  /** Returns whether a line continues an existing paragraph without starting a block. */
+  isParagraphContinuation?: (line: string) => boolean
 }
 
 /** Custom tokenizer function for marked.js extensions */
