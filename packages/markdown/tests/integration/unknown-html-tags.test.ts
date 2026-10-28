@@ -158,4 +158,38 @@ describe('MarkdownManager unrecognized HTML tags', () => {
     expect(text).not.toContain('<something-with-hyphen>')
     expect(text).not.toContain('</something-with-hyphen>')
   })
+
+  it('parses custom nodes matched by attribute-only parseDOM selectors', () => {
+    const Widget = Node.create({
+      name: 'widget',
+      group: 'inline',
+      inline: true,
+      content: 'text*',
+      renderHTML: () => ['custom-node', { 'data-kind': 'widget' }, 0],
+      parseHTML: () => [{ tag: '[data-kind="widget"]' }],
+    })
+
+    const manager = new MarkdownManager({
+      extensions: [...basicExtensions, Widget],
+    })
+
+    const doc = manager.parse('<custom-node data-kind="widget">value</custom-node>')
+    const textContent = collectText(doc)
+    expect(textContent).toContain('value')
+    expect(textContent).not.toContain('<custom-node')
+  })
+
+  it('still parses HTML when placeholders appear only in attributes or comments', () => {
+    const manager = new MarkdownManager({ extensions: basicExtensions })
+
+    const withAttr = manager.parse('<em title="Use <pod-name>">value</em>')
+    expect(collectText(withAttr)).toContain('value')
+    expect(collectText(withAttr)).not.toContain('<em')
+
+    const withComment = manager.parse('before <!-- <pod-name> --> after')
+    const commented = collectText(withComment)
+    expect(commented).toContain('before')
+    expect(commented).toContain('after')
+    expect(commented).not.toContain('<pod-name>')
+  })
 })

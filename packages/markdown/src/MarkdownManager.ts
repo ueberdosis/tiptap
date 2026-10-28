@@ -34,7 +34,7 @@ import {
   wrapInMarkdownBlock,
 } from './utils.js'
 import { collectMarkSpanTexts } from './utils/collectMarkSpanTexts.js'
-import { htmlContainsUnrecognizedTag } from './utils/htmlTagDetection.js'
+import { htmlContainsUnrecognizedTag, type SchemaParseDomHints } from './utils/htmlTagDetection.js'
 
 export class MarkdownManager {
   private markedInstance: typeof marked
@@ -58,8 +58,8 @@ export class MarkdownManager {
   private extensions: AnyExtension[] = []
   /** Set of extension names whose `code` spec property is truthy (nodes and marks). */
   private codeTypes: Set<string> = new Set()
-  /** Lazy cache of tag names declared by the registered schema's parseDOM rules. */
-  private schemaParseDomTagsCache: Set<string> | null = null
+  /** Lazy cache of parseDOM tag names / attribute selectors from the registered schema. */
+  private schemaParseDomTagsCache: SchemaParseDomHints | null = null
   /** Lazy cache of the names of the schema's inline node types. */
   private inlineNodeTypesCache: Set<string> | null = null
 
@@ -1087,16 +1087,17 @@ export class MarkdownManager {
    * Returns true when the HTML contains a tag that is neither a standard
    * HTML/SVG element nor declared in a registered extension's parseDOM rules.
    *
-   * Recognized but empty elements such as `<em></em>` or `<span></span>`,
-   * and hyphenated custom elements like `<my-mention>`, are not considered
-   * unrecognized.
+   * Recognized but empty elements such as `<em></em>` or `<span></span>` are
+   * not considered unrecognized. Hyphenated custom elements are preserved as
+   * literal text unless a matching parseDOM rule (tag or attribute selector)
+   * is registered.
    *
    * @param html Raw HTML string from a marked token.
    * @example
    *   isUnrecognizedHtml('<enter foo bar>')  // → true
    *   isUnrecognizedHtml('<em></em>')        // → false (empty, but real tag)
    *   isUnrecognizedHtml('<em>hi</em>')      // → false
-   *   isUnrecognizedHtml('<my-el></my-el>')  // → false (valid custom element)
+   *   isUnrecognizedHtml('<pod-name>')       // → true (placeholder, not in schema)
    *   isUnrecognizedHtml('<br>')             // → false
    */
   private isUnrecognizedHtml(html: string): boolean {
@@ -1104,21 +1105,22 @@ export class MarkdownManager {
   }
 
   /**
-   * Collect the lower-cased tag names declared by the registered extensions'
-   * parseDOM rules, so custom node/mark elements that use non-hyphenated,
-   * non-standard tag names are treated as recognized HTML. Result is cached for the
-   * lifetime of the manager since extensions don't change after registration.
+   * Collect parseDOM hints (bare tag names and attribute-only selectors) from
+   * registered extensions so custom node/mark elements are treated as recognized
+   * HTML. Result is cached for the lifetime of the manager since extensions don't
+   * change after registration.
    *
    * @example
    *   // After registering an extension with parseDOM [{ tag: 'something' }]
-   *   getSchemaParseDomTags().has('something') // → true
+   *   getSchemaParseDomTags().tagNames.has('something') // → true
    */
-  private getSchemaParseDomTags(): Set<string> {
+  private getSchemaParseDomTags(): SchemaParseDomHints {
     if (this.schemaParseDomTagsCache) {
       return this.schemaParseDomTagsCache
     }
 
     const tags = new Set<string>()
+    const attrSelectors: string[] = []
 
     try {
       const schema = getSchema(this.baseExtensions)
@@ -1129,12 +1131,18 @@ export class MarkdownManager {
           return
         }
         parseDOM.forEach((rule: any) => {
-          if (typeof rule?.tag === 'string') {
-            // Extract the bare tag name from selectors like "something.example"
-            const match = rule.tag.match(/^[a-zA-Z][\w-]*/)
-            if (match) {
-              tags.add(match[0].toLowerCase())
-            }
+          if (typeof rule?.tag !== 'string') {
+            return
+          }
+          // Extract the bare tag name from selectors like "something.example"
+          const match = rule.tag.match(/^[a-zA-Z][\w-]*/)
+          if (match) {
+            tags.add(match[0].toLowerCase())
+            return
+          }
+          // Attribute-only selectors like `[data-kind="widget"]`
+          if (rule.tag.startsWith('[')) {
+            attrSelectors.push(rule.tag)
           }
         })
       }
@@ -1142,12 +1150,12 @@ export class MarkdownManager {
       Object.values(schema.nodes).forEach(type => collect((type as any).spec))
       Object.values(schema.marks).forEach(type => collect((type as any).spec))
     } catch {
-      // If schema construction fails, leave the set empty – detection then
+      // If schema construction fails, leave hints empty – detection then
       // falls back to the standard HTML tag list only.
     }
 
-    this.schemaParseDomTagsCache = tags
-    return tags
+    this.schemaParseDomTagsCache = { tagNames: tags, attrSelectors }
+    return this.schemaParseDomTagsCache
   }
 
   /**
