@@ -1489,5 +1489,17 @@ describe('TaskItem', () => {
       expect(isTaskItemChecked(editor)).toBe(false)
       expect(updateCount).toBe(0)
     })
+
+    it('lets the callback change the document itself', () => {
+      editor = createReadOnlyEditor(() => {
+        editor.commands.insertContentAt(editor.state.doc.content.size, '<p>Saved</p>')
+
+        return true
+      })
+
+      expect(() => getCheckbox(editor).click()).not.toThrow()
+      expect(isTaskItemChecked(editor)).toBe(true)
+      expect(editor.getText()).toContain('Saved')
+    })
   })
 })

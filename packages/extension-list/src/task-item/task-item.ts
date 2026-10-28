@@ -245,6 +245,19 @@ export const TaskItem = Node.create<TaskItemOptions>({
 
         const { checked } = event.target as any
 
+        if (!editor.isEditable && this.options.onReadOnlyChecked) {
+          const position = getPos()
+          const currentNode =
+            typeof position === 'number' ? editor.state.doc.nodeAt(position) : null
+
+          // Call before the transaction starts so the callback can dispatch its own
+          if (!currentNode || !this.options.onReadOnlyChecked(currentNode, checked)) {
+            checkbox.checked = !checkbox.checked
+
+            return
+          }
+        }
+
         if (typeof getPos === 'function') {
           editor
             .chain()
@@ -256,14 +269,6 @@ export const TaskItem = Node.create<TaskItemOptions>({
                 return false
               }
               const currentNode = tr.doc.nodeAt(position)
-
-              if (!editor.isEditable && this.options.onReadOnlyChecked) {
-                // Reset state if onReadOnlyChecked returns false
-                if (!currentNode || !this.options.onReadOnlyChecked(currentNode, checked)) {
-                  checkbox.checked = !checkbox.checked
-                  return false
-                }
-              }
 
               tr.setNodeMarkup(position, undefined, {
                 ...currentNode?.attrs,
