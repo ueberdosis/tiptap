@@ -49,8 +49,17 @@ export const setNode: RawCommands['setNode'] =
 
           return commands.clearNodes()
         })
-        .command(({ state: updatedState }) => {
-          return setBlockType(type, { ...attributesToCopy, ...attributes })(updatedState, dispatch)
+        .command(({ state: updatedState, tr }) => {
+          const applied = setBlockType(type, { ...attributesToCopy, ...attributes })(
+            updatedState,
+            dispatch,
+          )
+
+          // clearNodes may have lifted the block (e.g. out of a blockquote) even
+          // when setBlockType then reports false because the node is already the
+          // target type. Keep that lift so Mod-Alt-0 / setParagraph still works
+          // after CommandManager stopped dispatching failed top-level commands.
+          return applied || tr.docChanged
         })
         .run()
     )
