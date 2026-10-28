@@ -1,4 +1,4 @@
-import type { KeyboardShortcutCommand } from '@tiptap/core'
+import type { FocusPosition, KeyboardShortcutCommand } from '@tiptap/core'
 import {
   getRenderedAttributes,
   mergeAttributes,
@@ -244,6 +244,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
         }
 
         const { checked } = event.target as any
+        let focusPosition: FocusPosition = null
 
         if (!editor.isEditable && this.options.onReadOnlyChecked) {
           const position = getPos()
@@ -256,12 +257,15 @@ export const TaskItem = Node.create<TaskItemOptions>({
 
             return
           }
+
+          // Keep focus where it is in read-only editors
+          focusPosition = false
         }
 
         if (typeof getPos === 'function') {
           editor
             .chain()
-            .focus(undefined, { scrollIntoView: false })
+            .focus(focusPosition, { scrollIntoView: false })
             .command(({ tr }) => {
               const position = getPos()
 

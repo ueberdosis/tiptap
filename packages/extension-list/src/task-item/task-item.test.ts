@@ -2,7 +2,7 @@ import { Editor } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { afterEach, describe, expect, it } from 'vite-plus/test'
+import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 
 import type { TaskItemOptions } from '../index.js'
 import { BulletList, ListItem, OrderedList, TaskItem, TaskList } from '../index.js'
@@ -1398,9 +1398,13 @@ describe('TaskItem', () => {
   describe('onReadOnlyChecked', () => {
     afterEach(() => {
       document.body.replaceChildren()
+      vi.unstubAllGlobals()
     })
 
-    function createReadOnlyEditor(onReadOnlyChecked: TaskItemOptions['onReadOnlyChecked']) {
+    function createReadOnlyEditor(
+      onReadOnlyChecked: TaskItemOptions['onReadOnlyChecked'],
+      tabindex?: string,
+    ) {
       // Checkbox clicks only fire change events when the element is in the document
       const element = document.createElement('div')
 
@@ -1409,6 +1413,7 @@ describe('TaskItem', () => {
       return new Editor({
         element,
         editable: false,
+        coreExtensionOptions: { tabindex: { value: tabindex } },
         extensions: [
           Document,
           Paragraph,
@@ -1500,6 +1505,24 @@ describe('TaskItem', () => {
       expect(() => getCheckbox(editor).click()).not.toThrow()
       expect(isTaskItemChecked(editor)).toBe(true)
       expect(editor.getText()).toContain('Saved')
+    })
+
+    it('keeps focus on the checkbox in a focusable read-only editor in Safari', () => {
+      vi.stubGlobal('navigator', {
+        platform: 'MacIntel',
+        userAgent:
+          'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Safari/605.1.15',
+      })
+
+      editor = createReadOnlyEditor(() => true, '0')
+
+      const checkbox = getCheckbox(editor)
+
+      checkbox.focus()
+      checkbox.click()
+
+      expect(isTaskItemChecked(editor)).toBe(true)
+      expect(document.activeElement).toBe(checkbox)
     })
   })
 })
