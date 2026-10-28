@@ -146,8 +146,7 @@ class EditorInstanceManager {
       ...this.options.current,
       // EditorContent calls createNodeViews after contentComponent exists (#8516).
       // Direct mounts (element provided) stay eager unless explicitly deferred.
-      deferNodeViews:
-        this.options.current.deferNodeViews ?? this.options.current.element == null,
+      deferNodeViews: this.options.current.deferNodeViews ?? this.options.current.element == null,
       ...this.getRuntimeOptions(),
     })
   }
