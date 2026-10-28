@@ -42,7 +42,10 @@ export class CommandManager {
         const method = (...args: any[]) => {
           const callback = command(...args)(props)
 
-          if (!tr.getMeta('preventDispatch') && !this.hasCustomState) {
+          // Only dispatch when the command succeeded. An empty dispatch on a
+          // failed shortcut (e.g. Backspace during IME composition) makes
+          // ProseMirror redraw the text node and cancels the composition.
+          if (callback && !tr.getMeta('preventDispatch') && !this.hasCustomState) {
             view.dispatch(tr)
           }
 
