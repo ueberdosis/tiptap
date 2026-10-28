@@ -116,7 +116,7 @@ describe('Yjs binding', () => {
       content: [
         {
           type: 'paragraph',
-          content: [{ type: 'text', text: 'Hello', marks: [{ type: 'bold', attrs: {} }] }],
+          content: [{ type: 'text', text: 'Hello', marks: [{ type: 'bold' }] }],
         },
       ],
     }
