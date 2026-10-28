@@ -1,5 +1,12 @@
 # @tiptap/y-tiptap
 
+## 3.0.11
+
+### Patch Changes
+
+- d45d341: Omit empty `attrs` objects when serializing marks to ProseMirror JSON.
+- 9869a4b: Preserve cursor positions and selections when undoing and redoing list changes or deletions. Requires Yjs 13.6.13 or later.
+
 ## 3.0.10
 
 ### Patch Changes

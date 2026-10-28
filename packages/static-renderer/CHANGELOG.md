@@ -1,5 +1,21 @@
 # Change Log
 
+## 3.32.1
+
+### Patch Changes
+
+- 1b889d6: Headings with bold, italic, or linked text now render to Markdown without extra commas between the words.
+- 85a4a37: Prevent attribute names, inline event handlers, and iframe srcdoc attributes from injecting executable HTML into static HTML output.
+- Updated dependencies [959e0e8]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [b513d24]
+- Updated dependencies [22b0e70]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
 ## 3.32.0
 
 ### Patch Changes

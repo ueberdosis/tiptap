@@ -1,5 +1,20 @@
 # Change Log
 
+## 3.32.1
+
+### Patch Changes
+
+- 10d598f: Fix collaborative redo after plugins such as BubbleMenu or DragHandle are registered or removed.
+- Updated dependencies [959e0e8]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [b513d24]
+- Updated dependencies [22b0e70]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
 ## 3.32.0
 
 ### Patch Changes
