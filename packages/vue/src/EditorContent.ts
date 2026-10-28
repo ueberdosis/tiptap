@@ -51,8 +51,10 @@ export const EditorContent = defineComponent({
           }
 
           editor.mount(element)
-          // Install nodeViews after the portal host exists (deferNodeViews).
-          editor.createNodeViews()
+          // Install nodeViews after the portal host exists (only when deferred).
+          if (editor.options.deferNodeViews) {
+            editor.createNodeViews()
+          }
         })
       },
       { immediate: true },

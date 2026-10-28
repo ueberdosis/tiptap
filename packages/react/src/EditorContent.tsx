@@ -135,8 +135,10 @@ export class PureEditorContent extends React.Component<
       editor.unmount()
       editor.contentComponent = createContentComponent()
       editor.mount(element)
-      // Install nodeViews after the portal host exists (deferNodeViews).
-      editor.createNodeViews()
+      // Install nodeViews after the portal host exists (only when deferred).
+      if (editor.options.deferNodeViews) {
+        editor.createNodeViews()
+      }
 
       editor.registerPlugin(
         new Plugin({
