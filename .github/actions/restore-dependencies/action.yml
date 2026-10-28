@@ -6,4 +6,4 @@ runs:
   steps:
     - name: Restore dependencies
       shell: bash
-      run: vp install --offline --frozen-lockfile -- --strict-peer-dependencies
+      run: vp install --prefer-offline --frozen-lockfile -- --strict-peer-dependencies

@@ -248,6 +248,6 @@ export function parseIndentedBlocks(
 
   return {
     items,
-    raw: totalRaw,
+    raw: totalRaw.slice(0, src.length),
   }
 }
