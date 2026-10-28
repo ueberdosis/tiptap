@@ -107,15 +107,12 @@ export const yUndoPlugin = ({
         const binding = syncState.binding
 
         if (binding) {
-          stackItem.meta.set(binding, getUndoPluginState(view.state).prevSel)
-        }
-      })
-      manager.on('stack-item-popped', ({ stackItem }) => {
-        const binding = syncState.binding
-
-        if (binding) {
-          binding.beforeTransactionSelection =
-            stackItem.meta.get(binding) || binding.beforeTransactionSelection
+          // Capture the inverse selection before undo/redo changes the mapping.
+          const selection =
+            manager.undoing || manager.redoing
+              ? binding.beforeTransactionSelection
+              : getUndoPluginState(view.state).prevSel
+          stackItem.meta.set(binding, selection)
         }
       })
 

@@ -1283,12 +1283,18 @@ importers:
         specifier: ^1.6.0
         version: 1.12.2
     devDependencies:
+      prosemirror-commands:
+        specifier: ^1.6.2
+        version: 1.7.2
       prosemirror-model:
         specifier: ^1.25.12
         version: 1.25.12
       prosemirror-schema-basic:
         specifier: ^1.2.5
         version: 1.2.5
+      prosemirror-schema-list:
+        specifier: ^1.5.0
+        version: 1.5.1
       prosemirror-state:
         specifier: ^1.4.4
         version: 1.4.4
@@ -1302,7 +1308,7 @@ importers:
         specifier: ^1.0.1
         version: 1.0.7(yjs@13.6.23)
       yjs:
-        specifier: ^13.5.38
+        specifier: ^13.6.13
         version: 13.6.23
 
 packages:
