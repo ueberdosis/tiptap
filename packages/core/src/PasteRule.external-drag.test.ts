@@ -91,19 +91,20 @@ describe('PasteRule external drag handle', () => {
       }),
     )
 
-    // Apply a drop transaction the way ProseMirror marks UI drops.
-    const $pos = editor.state.doc.resolve(editor.state.doc.content.size - 2)
+    // Insert at the document end (block boundary), then delete the source.
+    const insertPos = editor.state.doc.content.size
     editor.view.dispatch(
       editor.state.tr
         .setMeta('uiEvent', 'drop')
-        .insert($pos.pos, firstBlock!.copy(firstBlock!.content))
+        .insert(insertPos, firstBlock!.copy(firstBlock!.content))
         .delete(selection.from, selection.to),
     )
 
     // Paste rules must not turn *réserve* into a mark on an internal move.
     expect(editor.getHTML()).not.toContain('<em>')
     expect(editor.getHTML()).toContain('*réserve*')
-    // Sanity: content still present (moved, not paste-transformed away).
+    // Full document: original second paragraph first, moved block after it.
+    expect(editor.getHTML()).toBe('<p>Fin</p><p>Sous *réserve* de validation</p>')
     expect(editor.getText()).toContain('Sous *réserve* de validation')
     expect(before).toContain('*réserve*')
   })

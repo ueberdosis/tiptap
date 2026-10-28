@@ -269,9 +269,18 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
           const target = event.target as Element | null
           const fromParent = !!(parent && target && parent.contains(target))
           // Drag handles often sit beside EditorContent (outside parentElement)
-          // and select a node before starting the drag (#8585).
+          // and select a node before starting the drag (#8585). Require the
+          // event target to share the editor's wrapper so a NodeSelection
+          // alone cannot mark this editor as the drag source for unrelated
+          // page drags.
+          const wrapper = parent?.parentElement
           const fromExternalNodeDrag =
-            !fromParent && !!parent && view.state.selection instanceof NodeSelection
+            !fromParent &&
+            !!parent &&
+            !!wrapper &&
+            !!target &&
+            wrapper.contains(target) &&
+            view.state.selection instanceof NodeSelection
 
           dragSourceElement = fromParent || fromExternalNodeDrag ? parent : null
 
@@ -302,13 +311,15 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
           drop: (view, event: Event) => {
             dropEvent = event as DragEvent
             const html = dropEvent.dataTransfer?.getData('text/html') ?? ''
-            // Same-editor moves (including an external drag handle) must not run paste rules.
+            // Same-editor identity for cross-editor cleanup (do not use payload
+            // format alone — PM slices also appear when dragging A → B).
+            const isSameEditorDrop =
+              dragSourceElement === view.dom.parentElement || !!view.dragging?.move
+            // Skip paste rules for same-editor moves and for ProseMirror HTML.
             isDroppedFromProseMirror =
-              dragSourceElement === view.dom.parentElement ||
-              html.includes('data-pm-slice') ||
-              !!view.dragging?.move
+              isSameEditorDrop || html.includes('data-pm-slice')
 
-            if (!isDroppedFromProseMirror) {
+            if (!isSameEditorDrop) {
               const dragFromOtherEditor = tiptapDragFromOtherEditor
 
               if (dragFromOtherEditor?.isEditable) {
