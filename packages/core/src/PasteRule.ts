@@ -316,8 +316,7 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
             const isSameEditorDrop =
               dragSourceElement === view.dom.parentElement || !!view.dragging?.move
             // Skip paste rules for same-editor moves and for ProseMirror HTML.
-            isDroppedFromProseMirror =
-              isSameEditorDrop || html.includes('data-pm-slice')
+            isDroppedFromProseMirror = isSameEditorDrop || html.includes('data-pm-slice')
 
             if (!isSameEditorDrop) {
               const dragFromOtherEditor = tiptapDragFromOtherEditor
