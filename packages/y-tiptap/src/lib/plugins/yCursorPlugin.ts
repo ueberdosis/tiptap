@@ -159,8 +159,12 @@ export const yCursorPlugin = (
     getSelection = state => state.selection,
   }: CursorPluginOptions = {},
   cursorStateField: string = 'cursor',
-): Plugin<DecorationSet> =>
-  new Plugin<DecorationSet>({
+): Plugin<DecorationSet> => {
+  if (cursorStateField === 'lastSelection') {
+    throw new Error('yCursorPlugin: "lastSelection" is reserved and cannot be the cursor field')
+  }
+
+  return new Plugin<DecorationSet>({
     key: yCursorPluginKey,
     state: {
       init(_, state) {
@@ -222,11 +226,7 @@ export const yCursorPlugin = (
         focused: boolean,
         cursor: CursorAwarenessSelection | null | undefined,
       ) => {
-        if (
-          field === undefined ||
-          cursorStateField === 'lastSelection' ||
-          typeof awareness.setLocalState !== 'function'
-        ) {
+        if (field === undefined || typeof awareness.setLocalState !== 'function') {
           if (cursor !== current[cursorStateField]) {
             awareness.setLocalStateField(cursorStateField, cursor)
           }
@@ -305,3 +305,4 @@ export const yCursorPlugin = (
       }
     },
   })
+}
