@@ -136,7 +136,18 @@ export const mapPositionMigration = (
     return pending
   }
 
-  const source = pending ?? getPositionContent(binding.type, transaction.before)
+  // A transaction appended in the same dispatch (an anchor extension marking a
+  // heading up after the keystroke that typed into it) can leave the fragment
+  // one write behind the transaction's before-state, and the zip below would
+  // throw "Position tracking requires synchronized editor text", killing the
+  // whole dispatch. Skip the migration for this transaction instead; positions
+  // fall back to the default prosemirror mapping.
+  let source
+  try {
+    source = pending ?? getPositionContent(binding.type, transaction.before)
+  } catch {
+    return null
+  }
   const docs = [...transaction.docs, transaction.doc]
   const indexes = docs.map(indexNodes)
   const characters = source.characters.map(character => ({
