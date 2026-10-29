@@ -245,7 +245,11 @@ export const yCursorPlugin = (
         if (publishedCursor === null) return
         const cursor = current[cursorStateField] as CursorAwarenessState['cursor']
         const ownsCursor = isSameSelection(cursor, publishedCursor)
-        publish(current, publishedCursor, false, ownsCursor ? null : cursor)
+        const ownsEntry =
+          field !== undefined && isSameSelection(current.lastSelection?.[field], publishedCursor)
+        if (ownsCursor || ownsEntry) {
+          publish(current, publishedCursor, false, ownsCursor ? null : cursor)
+        }
         publishedCursor = null
       }
       const updateCursorInfo = (editorView: EditorView) => {

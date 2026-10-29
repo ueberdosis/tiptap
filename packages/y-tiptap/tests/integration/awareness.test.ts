@@ -367,3 +367,33 @@ it('an unfocused editor on the same field does not fight over the cursor', async
     doc.destroy()
   }
 })
+
+it('releasing an editor keeps a newer selection from another editor on the same field', () => {
+  const doc = new Y.Doc()
+  const awareness = new Awareness(doc)
+  const first = createFieldView(doc, 'body', awareness)
+  const second = new EditorView(null, {
+    state: EditorState.create({
+      schema,
+      plugins: [ySyncPlugin(doc.getXmlFragment('body')), yCursorPlugin(awareness)],
+    }),
+  })
+
+  try {
+    focus(first, 1, 4)
+    // Focus moves without a focusout, as when an editor's DOM is removed
+    first.hasFocus = () => false
+    focus(second, 2, 5)
+    const { cursor, lastSelection } = awareness.getLocalState() ?? {}
+
+    first.destroy()
+    assert.deepEqual(awareness.getLocalState()?.cursor, cursor)
+    assert.deepEqual(awareness.getLocalState()?.lastSelection.body, lastSelection.body)
+    assert.equal(lastSelection.body.focused, true)
+  } finally {
+    first.destroy()
+    second.destroy()
+    awareness.destroy()
+    doc.destroy()
+  }
+})
