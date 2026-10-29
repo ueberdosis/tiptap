@@ -86,7 +86,8 @@ export const createNodeFromYElement = (
       prevSnapshot,
       computeYChange,
     )
-    if (textNodes !== null) children.push(...textNodes)
+    // Avoid spreading, which overflows the call stack for many formatting runs
+    textNodes?.forEach(textNode => children.push(textNode))
   }
   if (snapshot === undefined || prevSnapshot === undefined) {
     el.toArray().forEach(createChildren)
