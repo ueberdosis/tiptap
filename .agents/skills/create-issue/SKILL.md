@@ -5,6 +5,8 @@ description: MUST be used whenever an agent drafts or creates an issue in this r
 
 # Create issue
 
+You MUST use this skill for every issue. Do not draft an issue without it.
+
 A maintainer must understand the issue in one read. Target one screen, not a design document. Describe the problem, not the fix.
 
 ## Before writing
@@ -25,7 +27,7 @@ A maintainer must understand the issue in one read. Target one screen, not a des
 - Root cause: include it only if you truly know it. Put it in Additional Context and keep it to two short sentences. If it needs a step chain, a diagram, or internal names to explain, leave it out.
 - Code examples: only the smallest snippet that reproduces the bug, ten lines or less. No complete apps, no long logs.
 - Inline code: only package names, API names, and exact error text. Do not wrap ordinary words in backticks.
-- Plain English, short sentences. Run the `unslop` checks before publishing.
+- Plain English, short sentences. You MUST run the `unslop` skill before publishing.
 - Leave optional fields empty when you have nothing short to add.
 
 ## Length budget

@@ -1,11 +1,15 @@
 ---
 name: create-pr
-description: Create a pull request with a clear, concise description that follows the repository's current PR template. Use when asked to open a PR or prepare its title and description.
+description: MUST be used whenever an agent drafts or creates a pull request in this repository. Writes a clear, concise description that follows the current PR template. Use when asked to open a PR or prepare its title and description.
 ---
 
 # Create PR
 
+This skill is required for every PR. You MUST use it even when the request looks small.
+
 Write for busy developers: make the change and its purpose clear before adding detail.
+
+You MUST run the `unslop` skill on the title and description before publishing.
 
 ## Read the current template
 

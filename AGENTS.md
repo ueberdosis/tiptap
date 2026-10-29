@@ -7,6 +7,7 @@ Published packages live in `packages/*`. `demos/` is a Vite app used as playgrou
 ## Rules
 
 - Use the `create-issue` skill for every new issue. Follow the current template and keep the issue short.
+- Use the `create-pr` skill for every pull request. Run the `unslop` skill on the title and description before opening it.
 - Small, single-purpose diffs. Ask the user to review. Never autocommit.
 - Add a changeset for user-facing changes. Public API breaks need a major bump and migration notes.
 - Add or update a demo and tests for user-visible behavior. Prefer unit tests over e2e when deterministic.
