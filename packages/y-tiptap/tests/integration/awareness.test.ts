@@ -153,33 +153,39 @@ const blur = (view: EditorView) => {
   view.dom.dispatchEvent(new FocusEvent('focusout'))
 }
 
-it('blur keeps the last selection per field in the same awareness update', () => {
+it("keeps each field's latest selection and focus in the cursor's awareness update", () => {
   const doc = new Y.Doc()
   const awareness = new Awareness(doc)
   const title = createFieldView(doc, 'title', awareness)
   const body = createFieldView(doc, 'body', awareness)
 
   try {
-    focus(title, 1, 4)
-    const titleCursor = awareness.getLocalState()?.cursor
-    assert.isUndefined(awareness.getLocalState()?.lastSelection, 'focused editors publish a cursor')
-
     let updates = 0
     awareness.on('update', ({ updated }: { updated: number[] }) => {
       if (updated.includes(doc.clientID)) updates++
     })
+
+    focus(title, 1, 4)
+    const titleCursor = awareness.getLocalState()?.cursor
+    assert.equal(updates, 1, 'a selection change publishes the cursor and entry together')
+    assert.deepInclude(awareness.getLocalState()?.lastSelection.title, {
+      ...titleCursor,
+      focused: true,
+    })
+
     blur(title)
-    assert.equal(updates, 1, 'blur publishes the cleared cursor and last selection together')
+    assert.equal(updates, 2, 'blur publishes the cleared cursor and entry together')
     assert.isNull(awareness.getLocalState()?.cursor)
     const titleSelection = awareness.getLocalState()?.lastSelection.title
-    assert.deepEqual(titleSelection.anchor, titleCursor.anchor)
-    assert.deepEqual(titleSelection.head, titleCursor.head)
+    assert.deepInclude(titleSelection, { ...titleCursor, focused: false })
     assert.isNumber(titleSelection.time)
 
     focus(body, 2, 5)
+    assert.equal(awareness.getLocalState()?.lastSelection.body.focused, true)
     blur(body)
     const { lastSelection } = awareness.getLocalState() ?? {}
     assert.deepEqual(lastSelection.title, titleSelection, 'other fields keep their selection')
+    assert.equal(lastSelection.body.focused, false)
     assert.equal(
       relativePositionToAbsolutePosition(
         doc,
@@ -211,6 +217,7 @@ it('keeps the last selection once for a custom cursor state field', async () => 
     focus(view, 1, 4)
     const cursor = awareness.getLocalState()?.titleCursor
     assert(cursor, 'focused editors publish the configured cursor field')
+    assert.isNull(awareness.getLocalState()?.cursor, 'the default cursor field stays untouched')
 
     let updates = 0
     awareness.on('update', ({ updated }: { updated: number[] }) => {

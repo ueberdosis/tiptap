@@ -1,4 +1,8 @@
-import type { CursorAwarenessState } from '../../types/CursorAwarenessState.js'
+import type {
+  CursorAwarenessSelection,
+  CursorAwarenessState,
+} from '../../types/CursorAwarenessState.js'
+import type { SyncPluginState } from '../../types/SyncPluginState.js'
 import type { EditorState } from 'prosemirror-state'
 import type { EditorView } from 'prosemirror-view'
 import type { CursorUser } from '../../types/CursorUser.js'
@@ -206,6 +210,37 @@ export const yCursorPlugin = (
           setMeta(view, yCursorPluginKey, { awarenessUpdated: true })
         }
       }
+      /**
+       * Publishes the cursor together with the field's `lastSelection` entry in one awareness
+       * update, so keeping the entry current costs no extra message.
+       */
+      const publishCursor = (
+        ystate: SyncPluginState,
+        current: CursorAwarenessState,
+        selection: CursorAwarenessSelection,
+        focused: boolean,
+      ) => {
+        const cursor = focused ? selection : null
+        const field = getRootFieldName(ystate.doc, ystate.type)
+        if (
+          field === undefined ||
+          cursorStateField === 'lastSelection' ||
+          typeof awareness.setLocalState !== 'function'
+        ) {
+          // Awareness adapters without `setLocalState`, or a cursor stored under
+          // `lastSelection`, only get the cursor.
+          awareness.setLocalStateField(cursorStateField, cursor)
+          return
+        }
+        awareness.setLocalState({
+          ...current,
+          [cursorStateField]: cursor,
+          lastSelection: {
+            ...current.lastSelection,
+            [field]: { ...selection, time: Date.now(), focused },
+          },
+        })
+      }
       const updateCursorInfo = (editorView: EditorView) => {
         const ystate = ySyncPluginKey.getState(editorView.state)
 
@@ -234,10 +269,7 @@ export const yCursorPlugin = (
             !Y.compareRelativePositions(Y.createRelativePositionFromJSON(cursor.anchor), anchor) ||
             !Y.compareRelativePositions(Y.createRelativePositionFromJSON(cursor.head), head)
           ) {
-            awareness.setLocalStateField(cursorStateField, {
-              anchor,
-              head,
-            })
+            publishCursor(ystate, current, { anchor, head }, true)
           }
         } else if (
           cursor != null &&
@@ -248,24 +280,8 @@ export const yCursorPlugin = (
             ystate.binding.mapping,
           ) !== null
         ) {
-          // Keep the selection after blur in the same update, so it costs no extra message.
-          // It outlives the plugin view, which ProseMirror also recreates on plugin changes.
-          const field = getRootFieldName(ystate.doc, ystate.type)
-          if (
-            field === undefined ||
-            cursorStateField === 'lastSelection' ||
-            typeof awareness.setLocalState !== 'function'
-          ) {
-            // Awareness adapters without `setLocalState`, or a cursor stored under
-            // `lastSelection`, only get the cursor cleared.
-            awareness.setLocalStateField(cursorStateField, null)
-            return
-          }
-          awareness.setLocalState({
-            ...current,
-            [cursorStateField]: null,
-            lastSelection: { ...current.lastSelection, [field]: { ...cursor, time: Date.now() } },
-          })
+          // The entry outlives the plugin view, which ProseMirror also recreates on plugin changes.
+          publishCursor(ystate, current, cursor, false)
         }
       }
       const onFocusChange = () => updateCursorInfo(view)
