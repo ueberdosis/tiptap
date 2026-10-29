@@ -61,7 +61,7 @@
     "@types/react-dom": "^19.0.0",
     "babel-loader": "^9.2.1",
     "cz-conventional-changelog": "^3.3.0",
-    "fallow": "^2.98.0",
+    "fallow": "^3.34.0",
     "fast-glob": "^3.3.2",
     "happy-dom": "^21.0.4",
     "http-server": "14.1.1",
