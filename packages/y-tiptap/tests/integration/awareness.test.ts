@@ -302,7 +302,7 @@ it('does not republish presence after the local state is disabled', () => {
   }
 })
 
-it('marks a field blurred after another editor cleared the shared cursor', () => {
+it("destroying an unfocused editor keeps the focused editor's cursor", () => {
   const doc = new Y.Doc()
   const awareness = new Awareness(doc)
   const title = createFieldView(doc, 'title', awareness)
@@ -310,14 +310,59 @@ it('marks a field blurred after another editor cleared the shared cursor', () =>
 
   try {
     focus(title, 1, 4)
+    const cursor = awareness.getLocalState()?.cursor
     body.destroy()
-    assert.isNull(awareness.getLocalState()?.cursor, 'destroying an editor clears the cursor')
-
-    blur(title)
-    assert.equal(awareness.getLocalState()?.lastSelection.title.focused, false)
+    assert.deepEqual(awareness.getLocalState()?.cursor, cursor)
   } finally {
     title.destroy()
     body.destroy()
+    awareness.destroy()
+    doc.destroy()
+  }
+})
+
+it('destroying a focused editor clears its cursor and marks its field blurred', () => {
+  const doc = new Y.Doc()
+  const awareness = new Awareness(doc)
+  const title = createFieldView(doc, 'title', awareness)
+
+  try {
+    focus(title, 1, 4)
+    title.destroy()
+    assert.isNull(awareness.getLocalState()?.cursor)
+    assert.equal(awareness.getLocalState()?.lastSelection.title.focused, false)
+  } finally {
+    title.destroy()
+    awareness.destroy()
+    doc.destroy()
+  }
+})
+
+it('an unfocused editor on the same field does not fight over the cursor', async () => {
+  const doc = new Y.Doc()
+  const awareness = new Awareness(doc)
+  const editor = createFieldView(doc, 'body', awareness)
+  const preview = new EditorView(null, {
+    state: EditorState.create({
+      schema,
+      plugins: [ySyncPlugin(doc.getXmlFragment('body')), yCursorPlugin(awareness)],
+    }),
+  })
+
+  try {
+    let updates = 0
+    awareness.on('update', ({ updated }: { updated: number[] }) => {
+      if (updated.includes(doc.clientID)) updates++
+    })
+    focus(editor, 1, 4)
+    await promise.wait(20)
+
+    assert.equal(updates, 1)
+    assert.isNotNull(awareness.getLocalState()?.cursor)
+    assert.equal(awareness.getLocalState()?.lastSelection.body.focused, true)
+  } finally {
+    editor.destroy()
+    preview.destroy()
     awareness.destroy()
     doc.destroy()
   }
