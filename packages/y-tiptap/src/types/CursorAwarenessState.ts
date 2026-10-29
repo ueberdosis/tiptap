@@ -13,6 +13,7 @@ export interface CursorAwarenessState {
   /**
    * The selection each collaborative field had when its editor lost focus, keyed by field
    * name. `time` is the local timestamp in milliseconds, used to pick the newest selection.
+   * Entries last until the client leaves awareness.
    */
   lastSelection?: Record<string, CursorAwarenessSelection & { time: number }>
   [key: string]: unknown

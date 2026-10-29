@@ -206,8 +206,6 @@ export const yCursorPlugin = (
           setMeta(view, yCursorPluginKey, { awarenessUpdated: true })
         }
       }
-      // The field this editor last stored a blurred selection for, removed on destroy.
-      let lastSelectionField: string | undefined
       const updateCursorInfo = (editorView: EditorView) => {
         const ystate = ySyncPluginKey.getState(editorView.state)
 
@@ -251,16 +249,17 @@ export const yCursorPlugin = (
           ) !== null
         ) {
           // Keep the selection after blur in the same update, so it costs no extra message.
-          lastSelectionField = getRootFieldName(ystate.doc, ystate.type)
+          // It outlives the plugin view, which ProseMirror also recreates on plugin changes.
+          const field = getRootFieldName(ystate.doc, ystate.type)
           awareness.setLocalState({
             ...current,
             [cursorStateField]: null,
-            ...(lastSelectionField === undefined
+            ...(field === undefined
               ? {}
               : {
                   lastSelection: {
                     ...current.lastSelection,
-                    [lastSelectionField]: { ...cursor, time: Date.now() },
+                    [field]: { ...cursor, time: Date.now() },
                   },
                 }),
           })
@@ -278,14 +277,7 @@ export const yCursorPlugin = (
           view.dom.removeEventListener('focusin', onFocusChange)
           view.dom.removeEventListener('focusout', onFocusChange)
           awareness.off('change', awarenessListener)
-          const current: CursorAwarenessState | null =
-            lastSelectionField === undefined ? null : awareness.getLocalState()
-          if (lastSelectionField === undefined || !current?.lastSelection?.[lastSelectionField]) {
-            awareness.setLocalStateField(cursorStateField, null)
-            return
-          }
-          const { [lastSelectionField]: _removed, ...lastSelection } = current.lastSelection
-          awareness.setLocalState({ ...current, [cursorStateField]: null, lastSelection })
+          awareness.setLocalStateField(cursorStateField, null)
         },
       }
     },

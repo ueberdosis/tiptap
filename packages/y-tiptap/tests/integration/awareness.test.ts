@@ -190,12 +190,9 @@ it('blur keeps the last selection per field in the same awareness update', () =>
       5,
     )
 
+    // Plugin views are recreated on plugin changes, so destroying one keeps the selection.
     body.destroy()
-    assert.deepEqual(
-      awareness.getLocalState()?.lastSelection,
-      { title: titleSelection },
-      'destroying an editor removes only its field',
-    )
+    assert.deepEqual(awareness.getLocalState()?.lastSelection, lastSelection)
   } finally {
     title.destroy()
     body.destroy()
