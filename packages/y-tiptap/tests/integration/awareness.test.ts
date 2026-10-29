@@ -186,15 +186,15 @@ it("keeps each field's latest selection and focus in the cursor's awareness upda
     const { lastSelection } = awareness.getLocalState() ?? {}
     assert.deepEqual(lastSelection.title, titleSelection, 'other fields keep their selection')
     assert.equal(lastSelection.body.focused, false)
-    assert.equal(
+    const resolveBody = (position: unknown) =>
       relativePositionToAbsolutePosition(
         doc,
         doc.getXmlFragment('body'),
-        Y.createRelativePositionFromJSON(lastSelection.body.head),
+        Y.createRelativePositionFromJSON(position),
         getSyncPluginState(body.state).binding.mapping,
-      ),
-      5,
-    )
+      )
+    assert.equal(resolveBody(lastSelection.body.anchor), 2)
+    assert.equal(resolveBody(lastSelection.body.head), 5)
 
     // Plugin views are recreated on plugin changes, so destroying one keeps the selection.
     body.destroy()
