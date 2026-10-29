@@ -2,7 +2,6 @@ import type {
   CursorAwarenessSelection,
   CursorAwarenessState,
 } from '../../types/CursorAwarenessState.js'
-import type { SyncPluginState } from '../../types/SyncPluginState.js'
 import type { EditorState } from 'prosemirror-state'
 import type { EditorView } from 'prosemirror-view'
 import type { CursorUser } from '../../types/CursorUser.js'
@@ -215,13 +214,12 @@ export const yCursorPlugin = (
        * update, so keeping the entry current costs no extra message.
        */
       const publishCursor = (
-        ystate: SyncPluginState,
+        field: string | undefined,
         current: CursorAwarenessState,
         selection: CursorAwarenessSelection,
         focused: boolean,
+        cursor: CursorAwarenessSelection | null,
       ) => {
-        const cursor = focused ? selection : null
-        const field = getRootFieldName(ystate.doc, ystate.type)
         if (
           field === undefined ||
           cursorStateField === 'lastSelection' ||
@@ -253,6 +251,7 @@ export const yCursorPlugin = (
         if (localState === null) return
         const current: CursorAwarenessState = localState || {}
         const cursor = current[cursorStateField] as CursorAwarenessState['cursor']
+        const field = getRootFieldName(ystate.doc, ystate.type)
 
         if (editorView.hasFocus()) {
           const selection = getSelection(editorView.state)
@@ -272,19 +271,25 @@ export const yCursorPlugin = (
             !Y.compareRelativePositions(Y.createRelativePositionFromJSON(cursor.anchor), anchor) ||
             !Y.compareRelativePositions(Y.createRelativePositionFromJSON(cursor.head), head)
           ) {
-            publishCursor(ystate, current, { anchor, head }, true)
+            publishCursor(field, current, { anchor, head }, true, { anchor, head })
           }
-        } else if (
-          cursor != null &&
-          relativePositionToAbsolutePosition(
-            ystate.doc,
-            ystate.type,
-            Y.createRelativePositionFromJSON(cursor.anchor),
-            ystate.binding.mapping,
-          ) !== null
-        ) {
-          // The entry outlives the plugin view, which ProseMirror also recreates on plugin changes.
-          publishCursor(ystate, current, cursor, false)
+        } else {
+          const ownsCursor =
+            cursor != null &&
+            relativePositionToAbsolutePosition(
+              ystate.doc,
+              ystate.type,
+              Y.createRelativePositionFromJSON(cursor.anchor),
+              ystate.binding.mapping,
+            ) !== null
+          const entry = field === undefined ? undefined : current.lastSelection?.[field]
+          // Entries outlive the plugin view, which ProseMirror also recreates on plugin changes.
+          if (ownsCursor) {
+            publishCursor(field, current, cursor, false, null)
+          } else if (entry?.focused) {
+            // Another editor already cleared the shared cursor, so only mark this field blurred.
+            publishCursor(field, current, entry, false, cursor ?? null)
+          }
         }
       }
       const onFocusChange = () => updateCursorInfo(view)

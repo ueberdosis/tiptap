@@ -301,3 +301,24 @@ it('does not republish presence after the local state is disabled', () => {
     doc.destroy()
   }
 })
+
+it('marks a field blurred after another editor cleared the shared cursor', () => {
+  const doc = new Y.Doc()
+  const awareness = new Awareness(doc)
+  const title = createFieldView(doc, 'title', awareness)
+  const body = createFieldView(doc, 'body', awareness)
+
+  try {
+    focus(title, 1, 4)
+    body.destroy()
+    assert.isNull(awareness.getLocalState()?.cursor, 'destroying an editor clears the cursor')
+
+    blur(title)
+    assert.equal(awareness.getLocalState()?.lastSelection.title.focused, false)
+  } finally {
+    title.destroy()
+    body.destroy()
+    awareness.destroy()
+    doc.destroy()
+  }
+})
