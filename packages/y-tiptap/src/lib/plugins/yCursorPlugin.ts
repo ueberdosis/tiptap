@@ -248,7 +248,10 @@ export const yCursorPlugin = (
           return
         }
 
-        const current: CursorAwarenessState = awareness.getLocalState() || {}
+        const localState: CursorAwarenessState | null = awareness.getLocalState()
+        // A null local state means the app disabled presence, so publish nothing.
+        if (localState === null) return
+        const current: CursorAwarenessState = localState || {}
         const cursor = current[cursorStateField] as CursorAwarenessState['cursor']
 
         if (editorView.hasFocus()) {

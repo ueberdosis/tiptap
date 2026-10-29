@@ -284,3 +284,20 @@ it('only clears a cursor stored under the lastSelection field', async () => {
     doc.destroy()
   }
 })
+
+it('does not republish presence after the local state is disabled', () => {
+  const doc = new Y.Doc()
+  const awareness = new Awareness(doc)
+  const view = createFieldView(doc, 'title', awareness)
+
+  try {
+    awareness.setLocalState(null)
+    focus(view, 1, 4)
+    blur(view)
+    assert.isNull(awareness.getLocalState())
+  } finally {
+    view.destroy()
+    awareness.destroy()
+    doc.destroy()
+  }
+})
