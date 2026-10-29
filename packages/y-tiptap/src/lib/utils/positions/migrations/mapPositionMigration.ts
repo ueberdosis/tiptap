@@ -4,7 +4,11 @@ import type { Step } from 'prosemirror-transform'
 import type { PositionMigrationPlan, PositionNode } from '../../../../types/PositionMigration.js'
 import type { ProsemirrorBinding } from '../../binding/ProsemirrorBinding.js'
 import { getPositionContent } from './getPositionContent.js'
+import { getPositionRegion } from './getPositionRegion.js'
+import { getRetainedEmptyTextTransfers } from './getRetainedEmptyTextTransfers.js'
 import { isNodeMarkupChange } from './isNodeMarkupChange.js'
+
+type PositionContent = Pick<PositionMigrationPlan, 'characters' | 'nodes' | 'emptyTexts'>
 
 const isTextReplacement = (step: Step, doc: Node) => {
   const json = step.toJSON()
@@ -33,19 +37,22 @@ const indexNodes = (doc: Node) => {
   return nodes
 }
 
+type NodeIndexes = (step: number) => Map<Node, number[]>
+
 const findMovedNode = (
   node: Node,
   offset: number,
   step: number,
-  indexes: Map<Node, number[]>[],
+  docs: Node[],
+  indexes: NodeIndexes,
 ) => {
   // Equal content may be a copy. Only a unique node object identifies a move.
-  if (indexes[step].get(node)?.length !== 1) {
+  if (indexes(step).get(node)?.length !== 1) {
     return null
   }
 
-  for (let targetStep = step + 1; targetStep < indexes.length; targetStep += 1) {
-    const target = indexes[targetStep].get(node)
+  for (let targetStep = step + 1; targetStep < docs.length; targetStep += 1) {
+    const target = indexes(targetStep).get(node)
 
     if (target?.length === 1) {
       return { position: target[0] + offset, step: targetStep }
@@ -55,12 +62,7 @@ const findMovedNode = (
   return null
 }
 
-const findMovedPosition = (
-  position: number,
-  step: number,
-  docs: Node[],
-  indexes: Map<Node, number[]>[],
-) => {
+const findMovedPosition = (position: number, step: number, docs: Node[], indexes: NodeIndexes) => {
   const original = docs[step].resolve(position)
   const candidates: { node: Node; offset: number }[] = []
   const child = docs[step].nodeAt(position)
@@ -74,7 +76,7 @@ const findMovedPosition = (
   }
 
   for (const candidate of candidates) {
-    const moved = findMovedNode(candidate.node, candidate.offset, step, indexes)
+    const moved = findMovedNode(candidate.node, candidate.offset, step, docs, indexes)
 
     if (moved) {
       return moved
@@ -88,7 +90,7 @@ const mapCharacterPosition = (
   position: number,
   transaction: Transaction,
   docs: Node[],
-  indexes: Map<Node, number[]>[],
+  indexes: NodeIndexes,
 ) => {
   for (let step = 0; step < transaction.mapping.maps.length; step += 1) {
     const mapping = transaction.mapping.maps[step]
@@ -117,6 +119,29 @@ const mapCharacterPosition = (
   return position
 }
 
+const mapPositionContent = (content: PositionContent, transaction: Transaction) => {
+  const docs = [...transaction.docs, transaction.doc]
+  const indexes: Map<Node, number[]>[] = []
+  // Node indexes are only needed when a step deletes tracked content.
+  const getIndexes = (step: number) => (indexes[step] ??= indexNodes(docs[step]))
+  const map = (position: number | null) =>
+    position === null ? null : mapCharacterPosition(position, transaction, docs, getIndexes)
+  const mapNode = (node: PositionNode) => ({
+    ...node,
+    position: map(node.position),
+    end: map(node.end),
+  })
+
+  return {
+    characters: content.characters.map(character => ({
+      ...character,
+      position: map(character.position),
+    })),
+    nodes: content.nodes.map(mapNode),
+    emptyTexts: content.emptyTexts.map(mapNode),
+  }
+}
+
 export const mapPositionMigration = (
   transaction: Transaction,
   binding: ProsemirrorBinding,
@@ -136,29 +161,27 @@ export const mapPositionMigration = (
     return pending
   }
 
-  const source = pending ?? getPositionContent(binding.type, transaction.before)
-  const docs = [...transaction.docs, transaction.doc]
-  const indexes = docs.map(indexNodes)
-  const characters = source.characters.map(character => ({
-    ...character,
-    position:
-      character.position === null
-        ? null
-        : mapCharacterPosition(character.position, transaction, docs, indexes),
-  }))
-  const mapNode = (node: PositionNode) => ({
-    ...node,
-    position:
-      node.position === null
-        ? null
-        : mapCharacterPosition(node.position, transaction, docs, indexes),
-    end: node.end === null ? null : mapCharacterPosition(node.end, transaction, docs, indexes),
-  })
+  // Yjs still matches the source document, so chained transactions are mapped from there again.
+  const source = pending?.source ?? transaction.before
+  const transactions = [...(pending?.transactions ?? []), transaction]
+  const region = getPositionRegion(
+    source,
+    transaction.doc,
+    transactions,
+    binding.type,
+    binding.mapping,
+  )
+  const content = transactions.reduce(
+    mapPositionContent,
+    getPositionContent(binding.type, source, region),
+  )
 
   return {
     doc: transaction.doc,
-    characters,
-    nodes: source.nodes.map(mapNode),
-    emptyTexts: source.emptyTexts.map(mapNode),
+    source,
+    transactions,
+    region,
+    ...content,
+    retainedTransfers: getRetainedEmptyTextTransfers(binding.type, source, region),
   }
 }
