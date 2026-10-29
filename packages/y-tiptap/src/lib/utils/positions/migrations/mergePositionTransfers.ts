@@ -16,10 +16,21 @@ const adjacentTargets = (left: PositionTransfer, right: PositionTransfer) => {
   )
 }
 
+// Boundary targets resolve without a character offset, so they keep their written order.
+const isCharacterTransfer = (transfer: PositionTransfer) =>
+  !transfer.source.boundary && !transfer.target?.boundary
+
+const compareSources = (left: PositionTransfer, right: PositionTransfer) =>
+  left.source.client - right.source.client || left.source.clock - right.source.clock
+
 export const mergePositionTransfers = (transfers: PositionTransfer[]) => {
   const merged: PositionTransfer[] = []
+  const ordered = [
+    ...transfers.filter(isCharacterTransfer).sort(compareSources),
+    ...transfers.filter(transfer => !isCharacterTransfer(transfer)),
+  ]
 
-  transfers.forEach(transfer => {
+  ordered.forEach(transfer => {
     const previous = merged[merged.length - 1]
 
     if (
