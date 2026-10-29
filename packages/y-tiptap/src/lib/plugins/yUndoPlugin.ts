@@ -10,27 +10,24 @@ import { ySyncPluginKey, yUndoPluginKey } from './keys.js'
 import { getRelativeSelection } from '../utils/positions/getRelativeSelection.js'
 import { restorePositionHistory } from '../utils/positions/migrations/restorePositionHistory.js'
 
-/** Undoes a local change through the editor's Yjs undo manager. */
-export const undo = (state: EditorState) => {
+const restoreHistory = (state: EditorState, direction: 'undo' | 'redo') => {
+  const syncState = getSyncPluginState(state)
+  if (syncState.snapshot != null || syncState.prevSnapshot != null) return false
+
   const undoManager = getUndoPluginState(state).undoManager
 
   if (undoManager != null) {
-    restorePositionHistory(getSyncPluginState(state).type, undoManager, 'undo')
+    restorePositionHistory(syncState.type, undoManager, direction)
 
     return true
   }
 }
+
+/** Undoes a local change through the editor's Yjs undo manager. */
+export const undo = (state: EditorState) => restoreHistory(state, 'undo')
 
 /** Redoes a local change through the editor's Yjs undo manager. */
-export const redo = (state: EditorState) => {
-  const undoManager = getUndoPluginState(state).undoManager
-
-  if (undoManager != null) {
-    restorePositionHistory(getSyncPluginState(state).type, undoManager, 'redo')
-
-    return true
-  }
-}
+export const redo = (state: EditorState) => restoreHistory(state, 'redo')
 
 export const defaultProtectedNodes = new Set(['paragraph'])
 

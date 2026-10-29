@@ -364,6 +364,9 @@ export class ProsemirrorBinding {
   }
 
   _prosemirrorChanged(doc: PModel.Node, plan: PositionMigrationPlan | null = null) {
+    const syncState = getSyncPluginState(this.view.state)
+    if (syncState.snapshot != null || syncState.prevSnapshot != null) return
+
     this.doc.transact(() => {
       updateYFragment(this.doc, this.type, doc, this)
 

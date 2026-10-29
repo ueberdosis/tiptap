@@ -81,6 +81,23 @@ describe('Yjs binding', () => {
     expect(client.view.state.doc.textContent).toBe('Hi')
   })
 
+  it('blocks undo and redo while a snapshot is shown', async () => {
+    const client = createClient()
+    client.view.dispatch(client.view.state.tr.insertText('Hello', 1))
+    const history = Y.snapshot(client.document)
+    client.view.dispatch(client.view.state.tr.insertText('Hi', 1, 6))
+    const syncState = ySyncPluginKey.getState(client.view.state)
+    if (!syncState) throw new Error('Missing sync plugin state')
+    const before = Y.encodeStateAsUpdate(client.document)
+
+    syncState.binding.renderSnapshot(history, history)
+    await vi.waitFor(() => expect(client.view.state.doc.textContent).toBe('Hello'))
+
+    expect(undo(client.view.state)).toBe(false)
+    expect(redo(client.view.state)).toBe(false)
+    expect(Y.encodeStateAsUpdate(client.document)).toEqual(before)
+  })
+
   it.each(['snapshot', 'update'] as const)(
     'writes a restored historical %s to the shared document',
     async format => {
@@ -107,6 +124,13 @@ describe('Yjs binding', () => {
         }),
       )
       expect(client.view.state.doc.textContent).toBe('Hello')
+      expect(client.view.editable).toBe(true)
+
+      client.view.dispatch(client.view.state.tr.insertText('!', 6))
+      expect(yDocToProsemirrorJSON(client.document)).toEqual({
+        type: 'doc',
+        content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Hello!' }] }],
+      })
     },
   )
 

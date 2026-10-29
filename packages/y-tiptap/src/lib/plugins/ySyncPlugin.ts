@@ -96,9 +96,6 @@ export const ySyncPlugin = (
           }
 
           binding._renderSnapshot(change.snapshot, change.snapshot, pluginState)
-          delete pluginState.restore
-          delete pluginState.snapshot
-          delete pluginState.prevSnapshot
           binding.mux(() => {
             const activeView = binding.prosemirrorView
 
@@ -106,6 +103,14 @@ export const ySyncPlugin = (
               return
             }
 
+            activeView.dispatch(
+              binding._tr.setMeta(ySyncPluginKey, {
+                restore: false,
+                snapshot: null,
+                prevSnapshot: null,
+                isChangeOrigin: true,
+              }),
+            )
             binding._prosemirrorChanged(activeView.state.doc)
           })
         })
