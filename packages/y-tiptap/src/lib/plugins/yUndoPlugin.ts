@@ -10,29 +10,27 @@ import { ySyncPluginKey, yUndoPluginKey } from './keys.js'
 import { getRelativeSelection } from '../utils/positions/getRelativeSelection.js'
 import { restorePositionHistory } from '../utils/positions/migrations/restorePositionHistory.js'
 
-const restoreHistory = (state: EditorState, direction: 'undo' | 'redo') => {
-  const syncState = getSyncPluginState(state)
-  if (
-    syncState.binding.projectionError !== null ||
-    syncState.snapshot != null ||
-    syncState.prevSnapshot != null
-  )
-    return false
-
+/** Undoes a local change through the editor's Yjs undo manager. */
+export const undo = (state: EditorState) => {
   const undoManager = getUndoPluginState(state).undoManager
 
   if (undoManager != null) {
-    restorePositionHistory(syncState.type, undoManager, direction)
+    restorePositionHistory(getSyncPluginState(state).type, undoManager, 'undo')
 
     return true
   }
 }
 
-/** Undoes a local change through the editor's Yjs undo manager. */
-export const undo = (state: EditorState) => restoreHistory(state, 'undo')
-
 /** Redoes a local change through the editor's Yjs undo manager. */
-export const redo = (state: EditorState) => restoreHistory(state, 'redo')
+export const redo = (state: EditorState) => {
+  const undoManager = getUndoPluginState(state).undoManager
+
+  if (undoManager != null) {
+    restorePositionHistory(getSyncPluginState(state).type, undoManager, 'redo')
+
+    return true
+  }
+}
 
 export const defaultProtectedNodes = new Set(['paragraph'])
 
