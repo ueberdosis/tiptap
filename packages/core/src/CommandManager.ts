@@ -131,6 +131,28 @@ export class CommandManager {
     return chain
   }
 
+  /**
+   * Creates commands that safely return `false`.
+   * @returns Non-dispatching commands.
+   * @example
+   * const commands = CommandManager.createFallbackCommands()
+   * commands.focus() // false
+   */
+  public static createFallbackCommands(): SingleCommands {
+    return new Proxy(
+      {},
+      {
+        get: (_target, property) => {
+          if (property === 'then') {
+            return undefined
+          }
+
+          return () => false
+        },
+      },
+    ) as SingleCommands
+  }
+
   public createCan(startTr?: Transaction): CanCommands {
     const { rawCommands, state } = this
     const dispatch = false
