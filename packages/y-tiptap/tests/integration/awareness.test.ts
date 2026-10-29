@@ -254,3 +254,26 @@ it('clears the cursor on blur for awareness adapters without setLocalState', () 
     doc.destroy()
   }
 })
+
+it('only clears a cursor stored under the lastSelection field', async () => {
+  const doc = new Y.Doc()
+  const awareness = new Awareness(doc)
+  const view = createFieldView(doc, 'title', awareness, 'lastSelection')
+
+  try {
+    focus(view, 1, 4)
+    let updates = 0
+    awareness.on('update', ({ updated }: { updated: number[] }) => {
+      if (updated.includes(doc.clientID)) updates++
+    })
+    blur(view)
+    await promise.wait(20)
+
+    assert.equal(updates, 1)
+    assert.isNull(awareness.getLocalState()?.lastSelection)
+  } finally {
+    view.destroy()
+    awareness.destroy()
+    doc.destroy()
+  }
+})
