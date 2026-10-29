@@ -108,6 +108,35 @@ describe('editor lifecycle', () => {
     expect(editor.isInitialized).toBe(true)
   })
 
+  it('still initializes and emits create when autofocus throws', () => {
+    vi.useFakeTimers()
+    vi.spyOn(console, 'error').mockImplementation(() => undefined)
+    const throwingFocus = Extension.create({
+      name: 'throwingFocus',
+      addCommands() {
+        return {
+          focus: () => () => {
+            throw new Error('mismatched transaction')
+          },
+        }
+      },
+    })
+    const editor = new Editor({
+      element: null,
+      extensions: [StarterKit, throwingFocus],
+      autofocus: true,
+    })
+    editors.push(editor)
+    const create = vi.fn()
+    editor.on('create', create)
+
+    editor.mount(document.createElement('div'))
+    vi.runAllTimers()
+
+    expect(create).toHaveBeenCalledTimes(1)
+    expect(editor.isInitialized).toBe(true)
+  })
+
   it.each<{ autofocus: FocusPosition; from: number; to: number }>([
     { autofocus: 'start', from: 1, to: 1 },
     { autofocus: true, from: 1, to: 1 },
