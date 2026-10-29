@@ -7,21 +7,19 @@ export type CursorAwarenessSelection = {
   head: ReturnType<typeof relativePositionToJSON>
 }
 
-/** A collaborative field's latest selection, kept after its editor loses focus. */
+/** A field's latest selection, kept after its editor loses focus. */
 export type CursorAwarenessLastSelection = CursorAwarenessSelection & {
-  /** Local timestamp in milliseconds of the last update, used to pick the newest selection. */
+  /** Local time of the last update in milliseconds. */
   time: number
-  /** Whether the field's editor had focus when the entry was written. */
+  /** Whether the field's editor had focus at that time. */
   focused: boolean
 }
 
+/** The awareness state written by `yCursorPlugin`. */
 export interface CursorAwarenessState {
   user?: Partial<CursorUser> | null
   cursor?: CursorAwarenessSelection | null
-  /**
-   * The latest selection of each collaborative field, keyed by field name. Unlike `cursor`, an
-   * entry stays after its editor loses focus, until the client leaves awareness.
-   */
+  /** Latest selection per root field name, kept until the client leaves awareness. */
   lastSelection?: Record<string, CursorAwarenessLastSelection>
   [key: string]: unknown
 }
