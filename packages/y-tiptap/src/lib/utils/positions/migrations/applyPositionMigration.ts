@@ -29,31 +29,40 @@ export const applyPositionMigration = (
   const starts = new Map<number, NonNullable<PositionTransfer['target']>>()
   const ends = new Map<number, NonNullable<PositionTransfer['target']>>()
 
-  const visit = (type: Y.XmlFragment, node: Node, position: number) => {
+  const visitText = (
+    shared: Y.XmlElement | Y.XmlHook | Y.XmlText,
+    child: Node[],
+    offset: number,
+  ) => {
+    if (!(shared instanceof Y.XmlText) || !shared._item) {
+      throw new Error('Position migration requires integrated text')
+    }
+
+    const text = child.map(node => node.text ?? '').join('')
+    const characters = syncPositionText(shared, text, offset, desired, sources)
+    const typeId = shared._item.id
+    characters.forEach(character =>
+      targets.set(character.position!, {
+        client: character.client,
+        clock: character.clock,
+        type: typeId,
+      }),
+    )
+    updateYText(shared, child, metadata)
+    return text.length
+  }
+
+  const visit = (type: Y.XmlFragment, node: Node, position: number, start = 0, end?: number) => {
     const children = type.toArray()
+    const content = normalizePNodeContent(node)
     let offset = position
 
-    normalizePNodeContent(node).forEach((child, index) => {
-      const shared = children[index]
+    for (let index = start; index < (end ?? content.length); index += 1) {
+      const child = content[index]
 
       if (Array.isArray(child)) {
-        if (!(shared instanceof Y.XmlText) || !shared._item) {
-          throw new Error('Position migration requires integrated text')
-        }
-
-        const text = child.map(node => node.text ?? '').join('')
-        const characters = syncPositionText(shared, text, offset, desired, sources)
-        const typeId = shared._item.id
-        characters.forEach(character =>
-          targets.set(character.position!, {
-            client: character.client,
-            clock: character.clock,
-            type: typeId,
-          }),
-        )
-        updateYText(shared, child, metadata)
-        offset += text.length
-        return
+        offset += visitText(children[index], child, offset)
+        continue
       }
 
       const element = syncPositionElement(type, index, child, offset, nodeSources, metadata)
@@ -72,10 +81,11 @@ export const applyPositionMigration = (
       }
 
       offset += child.nodeSize
-    })
+    }
   }
 
-  visit(fragment, plan.doc, 0)
+  const region = plan.region
+  visit(fragment, plan.doc, region?.from ?? 0, region?.start, region?.targetEnd)
   const transfers: PositionTransfer[] = []
 
   plan.characters.forEach(character => {
@@ -94,6 +104,7 @@ export const applyPositionMigration = (
 
   transfers.push(...getPositionBoundaryTransfers(plan.characters, targets))
   transfers.push(...getPositionNodeTransfers(plan.nodes, starts, ends, plan.emptyTexts))
+  transfers.push(...plan.retainedTransfers)
 
   writePositionMigration(store, transfers)
 }

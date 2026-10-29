@@ -8,7 +8,11 @@ import type {
 } from '../../../../types/PositionMigration.js'
 import type { ProsemirrorBinding } from '../../binding/ProsemirrorBinding.js'
 import { getPositionContent } from './getPositionContent.js'
+import { getPositionRegion } from './getPositionRegion.js'
+import { getRetainedEmptyTextTransfers } from './getRetainedEmptyTextTransfers.js'
 import { isNodeMarkupChange } from './isNodeMarkupChange.js'
+
+type PositionContent = Pick<PositionMigrationContent, 'characters' | 'nodes' | 'emptyTexts'>
 
 const retainsYjsIdentities = (step: Step, doc: Node) => {
   if (step instanceof AddMarkStep || step instanceof RemoveMarkStep) {
@@ -123,6 +127,29 @@ const mapCharacterPosition = (
   return position
 }
 
+const mapPositionContent = (content: PositionContent, transaction: Transaction) => {
+  const docs = [...transaction.docs, transaction.doc]
+  const indexes: Map<Node, number[]>[] = []
+  // Node indexes are only needed when a step deletes tracked content.
+  const getIndexes = (step: number) => (indexes[step] ??= indexNodes(docs[step]))
+  const map = (position: number | null) =>
+    position === null ? null : mapCharacterPosition(position, transaction, docs, getIndexes)
+  const mapNode = (node: PositionNode) => ({
+    ...node,
+    position: map(node.position),
+    end: map(node.end),
+  })
+
+  return {
+    characters: content.characters.map(character => ({
+      ...character,
+      position: map(character.position),
+    })),
+    nodes: content.nodes.map(mapNode),
+    emptyTexts: content.emptyTexts.map(mapNode),
+  }
+}
+
 export const mapPositionMigration = (
   transaction: Transaction,
   binding: ProsemirrorBinding,
@@ -136,51 +163,34 @@ export const mapPositionMigration = (
     return pending
   }
 
-  const transactions =
-    pending && 'transactions' in pending ? [...pending.transactions, transaction] : [transaction]
+  const transactions = [...(pending?.transactions ?? []), transaction]
 
   if (
-    (!pending || 'transactions' in pending) &&
+    (!pending || !('characters' in pending)) &&
     transaction.steps.every((step, index) => retainsYjsIdentities(step, transaction.docs[index]))
   ) {
     return { doc: transaction.doc, transactions }
   }
 
-  const source =
-    pending && !('transactions' in pending)
-      ? pending
-      : { doc: transactions[0].before, ...getPositionContent(binding.type, transactions[0].before) }
-
-  return transactions.reduce(mapTransactionPositions, source)
-}
-
-const mapTransactionPositions = (
-  source: PositionMigrationContent,
-  transaction: Transaction,
-): PositionMigrationContent => {
-  const docs = [...transaction.docs, transaction.doc]
-  const cache: Map<Node, number[]>[] = []
-  const indexes = (step: number) => (cache[step] ??= indexNodes(docs[step]))
-  const characters = source.characters.map(character => ({
-    ...character,
-    position:
-      character.position === null
-        ? null
-        : mapCharacterPosition(character.position, transaction, docs, indexes),
-  }))
-  const mapNode = (node: PositionNode) => ({
-    ...node,
-    position:
-      node.position === null
-        ? null
-        : mapCharacterPosition(node.position, transaction, docs, indexes),
-    end: node.end === null ? null : mapCharacterPosition(node.end, transaction, docs, indexes),
-  })
+  // Yjs still matches the source document, so chained transactions are mapped from there again.
+  const source = transactions[0].before
+  const region = getPositionRegion(
+    source,
+    transaction.doc,
+    transactions,
+    binding.type,
+    binding.mapping,
+  )
+  const content = transactions.reduce(
+    mapPositionContent,
+    getPositionContent(binding.type, source, region),
+  )
 
   return {
     doc: transaction.doc,
-    characters,
-    nodes: source.nodes.map(mapNode),
-    emptyTexts: source.emptyTexts.map(mapNode),
+    transactions,
+    region,
+    ...content,
+    retainedTransfers: getRetainedEmptyTextTransfers(binding.type, source, region),
   }
 }

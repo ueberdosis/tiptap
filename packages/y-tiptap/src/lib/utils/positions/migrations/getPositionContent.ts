@@ -1,10 +1,18 @@
 import type { Node } from 'prosemirror-model'
-import type { PositionCharacter, PositionNode } from '../../../../types/PositionMigration.js'
+import type {
+  PositionCharacter,
+  PositionNode,
+  PositionRegion,
+} from '../../../../types/PositionMigration.js'
 import * as Y from 'yjs'
 import { normalizePNodeContent } from '../../conversion/normalizePNodeContent.js'
 import { getTextCharacters } from './getTextCharacters.js'
 
-export const getPositionContent = (fragment: Y.XmlFragment, doc: Node) => {
+export const getPositionContent = (
+  fragment: Y.XmlFragment,
+  doc: Node,
+  region: PositionRegion | null = null,
+) => {
   const characters: PositionCharacter[] = []
   const nodes: PositionNode[] = []
   const emptyTexts: PositionNode[] = []
@@ -13,7 +21,7 @@ export const getPositionContent = (fragment: Y.XmlFragment, doc: Node) => {
     return { characters, nodes, emptyTexts }
   }
 
-  const visit = (type: Y.XmlFragment, node: Node, position: number) => {
+  const visit = (type: Y.XmlFragment, node: Node, position: number, start = 0, end?: number) => {
     const children = type.toArray()
     const content = normalizePNodeContent(node)
     let offset = position
@@ -26,7 +34,8 @@ export const getPositionContent = (fragment: Y.XmlFragment, doc: Node) => {
       })
     }
 
-    content.forEach((child, index) => {
+    for (let index = start; index < (end ?? content.length); index += 1) {
+      const child = content[index]
       const shared = children[index]
 
       if (!Array.isArray(child)) {
@@ -41,7 +50,7 @@ export const getPositionContent = (fragment: Y.XmlFragment, doc: Node) => {
         }
 
         offset += child.nodeSize
-        return
+        continue
       }
 
       if (!(shared instanceof Y.XmlText)) {
@@ -51,9 +60,9 @@ export const getPositionContent = (fragment: Y.XmlFragment, doc: Node) => {
       const text = getTextCharacters(shared, offset)
       characters.push(...text)
       offset += text.length
-    })
+    }
   }
 
-  visit(fragment, doc, 0)
+  visit(fragment, doc, region?.from ?? 0, region?.start, region?.sourceEnd)
   return { characters, nodes, emptyTexts }
 }

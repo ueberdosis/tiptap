@@ -10,18 +10,30 @@ export interface PositionCharacter {
   position: number | null
 }
 
-export type PositionMigrationPlan =
-  | PositionMigrationContent
-  | {
-      doc: Node
-      transactions: Transaction[]
-    }
+/** Top-level children that a migration reads and rewrites. Other children are unchanged. */
+export interface PositionRegion {
+  /** Position of the first child in the region, equal in the source and target documents. */
+  from: number
+  start: number
+  sourceEnd: number
+  targetEnd: number
+}
 
-export interface PositionMigrationContent {
+/** Transactions since Yjs last matched the editor, which was at the first one's `before`. */
+export interface PositionMigrationChain {
   doc: Node
+  transactions: Transaction[]
+}
+
+export type PositionMigrationPlan = PositionMigrationChain | PositionMigrationContent
+
+export interface PositionMigrationContent extends PositionMigrationChain {
+  region: PositionRegion | null
   characters: PositionCharacter[]
   nodes: PositionNode[]
   emptyTexts: PositionNode[]
+  /** Transfers for unchanged children outside the region, which are not visited. */
+  retainedTransfers: PositionTransfer[]
 }
 
 export interface PositionNode {
