@@ -2,6 +2,20 @@ import { attrsEqual } from './attrsEqual.js'
 import { Node } from 'prosemirror-model'
 import { hasDistinctiveAttrs } from './hasDistinctiveAttrs.js'
 
+const countEmptyBlocksLike = (doc: Node, target: Node) => {
+  let count = 0
+  doc.forEach(child => {
+    if (
+      child.type === target.type &&
+      attrsEqual(child.attrs, target.attrs) &&
+      child.textContent === ''
+    ) {
+      count++
+    }
+  })
+  return count
+}
+
 /** Recovers a position in a moved block, returning null when the match is ambiguous. */
 export const findAbsolutePositionAfterStructuralChange = (
   oldDoc: Node,
@@ -75,12 +89,20 @@ export const findAbsolutePositionAfterStructuralChange = (
   const sameTypeAndAttrs = (child: Node) =>
     child.type === targetChild.type && attrsEqual(child.attrs, targetChild.attrs)
   const oldText = targetChild.textContent
-  const byAll = findByPredicate(child => sameTypeAndAttrs(child) && child.textContent === oldText)
+  const requireUniqueText =
+    oldText === '' &&
+    !hasDistinctiveAttrs(targetChild) &&
+    countEmptyBlocksLike(oldDoc, targetChild) !== countEmptyBlocksLike(newDoc, targetChild)
+  const byAll = findByPredicate(
+    child => sameTypeAndAttrs(child) && child.textContent === oldText,
+    requireUniqueText,
+  )
   if (byAll !== null) {
     return byAll
   }
   const byText = findByPredicate(
     child => child.type === targetChild.type && child.textContent === oldText,
+    requireUniqueText,
   )
   if (byText !== null) {
     return byText
