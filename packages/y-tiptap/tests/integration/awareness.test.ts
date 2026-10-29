@@ -228,3 +228,29 @@ it('keeps the last selection once for a custom cursor state field', async () => 
     doc.destroy()
   }
 })
+
+it('clears the cursor on blur for awareness adapters without setLocalState', () => {
+  const doc = new Y.Doc()
+  const awareness = new Awareness(doc)
+  const adapter = {
+    clientID: awareness.clientID,
+    getLocalState: () => awareness.getLocalState(),
+    getStates: () => awareness.getStates(),
+    setLocalStateField: (field: string, value: unknown) =>
+      awareness.setLocalStateField(field, value),
+    on: awareness.on.bind(awareness),
+    off: awareness.off.bind(awareness),
+  } as unknown as Awareness
+  const view = createFieldView(doc, 'title', adapter)
+
+  try {
+    focus(view, 1, 4)
+    blur(view)
+    assert.isNull(awareness.getLocalState()?.cursor)
+    assert.isUndefined(awareness.getLocalState()?.lastSelection)
+  } finally {
+    view.destroy()
+    awareness.destroy()
+    doc.destroy()
+  }
+})

@@ -251,17 +251,15 @@ export const yCursorPlugin = (
           // Keep the selection after blur in the same update, so it costs no extra message.
           // It outlives the plugin view, which ProseMirror also recreates on plugin changes.
           const field = getRootFieldName(ystate.doc, ystate.type)
+          if (field === undefined || typeof awareness.setLocalState !== 'function') {
+            // Awareness adapters without `setLocalState` only get the cursor cleared.
+            awareness.setLocalStateField(cursorStateField, null)
+            return
+          }
           awareness.setLocalState({
             ...current,
             [cursorStateField]: null,
-            ...(field === undefined
-              ? {}
-              : {
-                  lastSelection: {
-                    ...current.lastSelection,
-                    [field]: { ...cursor, time: Date.now() },
-                  },
-                }),
+            lastSelection: { ...current.lastSelection, [field]: { ...cursor, time: Date.now() } },
           })
         }
       }
