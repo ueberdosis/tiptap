@@ -249,6 +249,20 @@ describe('TaskItem', () => {
       expect(editor.getText()).toContain('A list item')
       expect(editor.getText()).not.toContain('Task item checkbox')
     })
+
+    it('keeps siblings of a stray div in hand-written task item HTML', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, TaskList, TaskItem],
+        content: `
+          <ul data-type="taskList">
+            <li data-type="taskItem"><p>lead</p><div>inner</div></li>
+          </ul>
+        `,
+      })
+
+      expect(editor.getText()).toContain('lead')
+      expect(editor.getText()).toContain('inner')
+    })
   })
 
   it('preserves custom HTML attributes on node update', () => {
