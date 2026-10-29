@@ -1,0 +1,69 @@
+{
+  "name": "@tiptap/y-tiptap",
+  "version": "3.0.9",
+  "description": "Tiptap ProseMirror bindings for Yjs",
+  "keywords": [
+    "prosemirror",
+    "tiptap",
+    "yjs"
+  ],
+  "homepage": "https://tiptap.dev",
+  "bugs": {
+    "url": "https://github.com/ueberdosis/tiptap/issues"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/y-tiptap"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "files": [
+    "src",
+    "dist",
+    "LICENSE"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "scripts": {
+    "build": "vp pack"
+  },
+  "dependencies": {
+    "lib0": "^0.2.100",
+    "prosemirror-transform": "^1.6.0"
+  },
+  "devDependencies": {
+    "prosemirror-commands": "^1.6.2",
+    "prosemirror-model": "^1.25.12",
+    "prosemirror-schema-basic": "^1.2.5",
+    "prosemirror-schema-list": "^1.5.0",
+    "prosemirror-state": "^1.4.4",
+    "prosemirror-view": "^1.42.6",
+    "vite-plus": "catalog:",
+    "y-protocols": "^1.0.1",
+    "yjs": "^13.6.13"
+  },
+  "peerDependencies": {
+    "prosemirror-model": "^1.7.1",
+    "prosemirror-state": "^1.2.3",
+    "prosemirror-view": "^1.9.10",
+    "y-protocols": "^1.0.1",
+    "yjs": "^13.6.13"
+  }
+}

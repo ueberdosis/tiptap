@@ -9,18 +9,18 @@ import { useState } from 'react'
 
 export default () => {
   const [serializedContent, setSerializedContent] = useState('')
+  const updateMarkdown = ({ editor: currentEditor }) => {
+    setSerializedContent(currentEditor.getMarkdown())
+  }
   const editor = useEditor({
     extensions: [Markdown, StarterKit, Image, TableKit],
     content: `
       <p>In this demo, you can serialize Tiptap content into Markdown on the client-side via <code>@tiptap/markdown</code>.</p>
       <p>Feel free to edit this document to see the live-changes.</p>
+      <p><u>Underlined text</u> exports as inline HTML. c++ is a good language, and c++ is nice.</p>
     `,
-    onUpdate: ({ editor: currentEditor }) => {
-      setSerializedContent(currentEditor.getMarkdown())
-    },
-    onCreate: ({ editor: currentEditor }) => {
-      setSerializedContent(currentEditor.getMarkdown())
-    },
+    onUpdate: updateMarkdown,
+    onCreate: updateMarkdown,
   })
 
   return (
