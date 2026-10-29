@@ -216,6 +216,7 @@ export const yCursorPlugin = (
         }
 
         const current: CursorAwarenessState = awareness.getLocalState() || {}
+        const cursor = current[cursorStateField] as CursorAwarenessState['cursor']
 
         if (editorView.hasFocus()) {
           const selection = getSelection(editorView.state)
@@ -231,12 +232,9 @@ export const yCursorPlugin = (
           )
 
           if (
-            current.cursor == null ||
-            !Y.compareRelativePositions(
-              Y.createRelativePositionFromJSON(current.cursor.anchor),
-              anchor,
-            ) ||
-            !Y.compareRelativePositions(Y.createRelativePositionFromJSON(current.cursor.head), head)
+            cursor == null ||
+            !Y.compareRelativePositions(Y.createRelativePositionFromJSON(cursor.anchor), anchor) ||
+            !Y.compareRelativePositions(Y.createRelativePositionFromJSON(cursor.head), head)
           ) {
             awareness.setLocalStateField(cursorStateField, {
               anchor,
@@ -244,11 +242,11 @@ export const yCursorPlugin = (
             })
           }
         } else if (
-          current.cursor != null &&
+          cursor != null &&
           relativePositionToAbsolutePosition(
             ystate.doc,
             ystate.type,
-            Y.createRelativePositionFromJSON(current.cursor.anchor),
+            Y.createRelativePositionFromJSON(cursor.anchor),
             ystate.binding.mapping,
           ) !== null
         ) {
@@ -262,7 +260,7 @@ export const yCursorPlugin = (
               : {
                   lastSelection: {
                     ...current.lastSelection,
-                    [lastSelectionField]: { ...current.cursor, time: Date.now() },
+                    [lastSelectionField]: { ...cursor, time: Date.now() },
                   },
                 }),
           })

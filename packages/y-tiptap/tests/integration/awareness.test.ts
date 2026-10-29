@@ -123,11 +123,19 @@ it('cursor rendering preserves awareness user', async () => {
   }
 })
 
-const createFieldView = (doc: Y.Doc, field: string, awareness: Awareness) => {
+const createFieldView = (
+  doc: Y.Doc,
+  field: string,
+  awareness: Awareness,
+  cursorStateField?: string,
+) => {
   const view = new EditorView(null, {
     state: EditorState.create({
       schema,
-      plugins: [ySyncPlugin(doc.getXmlFragment(field)), yCursorPlugin(awareness)],
+      plugins: [
+        ySyncPlugin(doc.getXmlFragment(field)),
+        yCursorPlugin(awareness, {}, cursorStateField),
+      ],
     }),
   })
   view.dispatch(view.state.tr.insertText(`${field} text`, 1))
@@ -191,6 +199,34 @@ it('blur keeps the last selection per field in the same awareness update', () =>
   } finally {
     title.destroy()
     body.destroy()
+    awareness.destroy()
+    doc.destroy()
+  }
+})
+
+it('keeps the last selection once for a custom cursor state field', async () => {
+  const doc = new Y.Doc()
+  const awareness = new Awareness(doc)
+  awareness.setLocalStateField('cursor', null)
+  const view = createFieldView(doc, 'title', awareness, 'titleCursor')
+
+  try {
+    focus(view, 1, 4)
+    const cursor = awareness.getLocalState()?.titleCursor
+    assert(cursor, 'focused editors publish the configured cursor field')
+
+    let updates = 0
+    awareness.on('update', ({ updated }: { updated: number[] }) => {
+      if (updated.includes(doc.clientID)) updates++
+    })
+    blur(view)
+    await promise.wait(20)
+
+    assert.equal(updates, 1, 'blur must not trigger further awareness updates')
+    assert.isNull(awareness.getLocalState()?.titleCursor)
+    assert.deepEqual(awareness.getLocalState()?.lastSelection.title.head, cursor.head)
+  } finally {
+    view.destroy()
     awareness.destroy()
     doc.destroy()
   }
