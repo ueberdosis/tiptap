@@ -131,6 +131,21 @@ export const createDecorations = (
 
   return DecorationSet.create(state.doc, decorations)
 }
+
+/**
+ * Finds the name under which a collaborative fragment is registered on its document.
+ *
+ * @param doc - The document containing the fragment.
+ * @param type - The collaborative fragment bound to the editor.
+ * @returns The field name, or `undefined` when the fragment is not a named root type.
+ */
+const getRootFieldName = (doc: Y.Doc, type: Y.AbstractType<any>): string | undefined => {
+  for (const [name, shared] of doc.share) {
+    if (shared === type) return name
+  }
+  return undefined
+}
+
 /** Renders remote cursors and publishes the local selection through awareness. */
 export const yCursorPlugin = (
   awareness: Awareness,
@@ -191,6 +206,8 @@ export const yCursorPlugin = (
           setMeta(view, yCursorPluginKey, { awarenessUpdated: true })
         }
       }
+      // The field this editor last stored a blurred selection for, removed on destroy.
+      let lastSelectionField: string | undefined
       const updateCursorInfo = (editorView: EditorView) => {
         const ystate = ySyncPluginKey.getState(editorView.state)
 
@@ -235,7 +252,20 @@ export const yCursorPlugin = (
             ystate.binding.mapping,
           ) !== null
         ) {
-          awareness.setLocalStateField(cursorStateField, null)
+          // Keep the selection after blur in the same update, so it costs no extra message.
+          lastSelectionField = getRootFieldName(ystate.doc, ystate.type)
+          awareness.setLocalState({
+            ...current,
+            [cursorStateField]: null,
+            ...(lastSelectionField === undefined
+              ? {}
+              : {
+                  lastSelection: {
+                    ...current.lastSelection,
+                    [lastSelectionField]: { ...current.cursor, time: Date.now() },
+                  },
+                }),
+          })
         }
       }
       const onFocusChange = () => updateCursorInfo(view)
@@ -250,7 +280,14 @@ export const yCursorPlugin = (
           view.dom.removeEventListener('focusin', onFocusChange)
           view.dom.removeEventListener('focusout', onFocusChange)
           awareness.off('change', awarenessListener)
-          awareness.setLocalStateField(cursorStateField, null)
+          const current: CursorAwarenessState | null =
+            lastSelectionField === undefined ? null : awareness.getLocalState()
+          if (lastSelectionField === undefined || !current?.lastSelection?.[lastSelectionField]) {
+            awareness.setLocalStateField(cursorStateField, null)
+            return
+          }
+          const { [lastSelectionField]: _removed, ...lastSelection } = current.lastSelection
+          awareness.setLocalState({ ...current, [cursorStateField]: null, lastSelection })
         },
       }
     },

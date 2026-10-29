@@ -3,8 +3,14 @@ import { getSyncPluginState } from '../../src/lib/plugins/getSyncPluginState.js'
 import * as Y from 'yjs'
 import * as promise from 'lib0/promise'
 import { Awareness, applyAwarenessUpdate, encodeAwarenessUpdate } from 'y-protocols/awareness'
-import { TextSelection } from 'prosemirror-state'
-import { absolutePositionToRelativePosition } from '@tiptap/y-tiptap'
+import { EditorState, TextSelection } from 'prosemirror-state'
+import { EditorView } from 'prosemirror-view'
+import {
+  absolutePositionToRelativePosition,
+  relativePositionToAbsolutePosition,
+  yCursorPlugin,
+  ySyncPlugin,
+} from '@tiptap/y-tiptap'
 import { createTestView } from '../utils/createTestView.js'
 import { schema } from '../utils/testSchema.js'
 import { syncDocuments as syncYDocs } from '../utils/syncDocuments.js'
@@ -114,5 +120,78 @@ it('cursor rendering preserves awareness user', async () => {
     publisher.destroy()
     readerDoc.destroy()
     publisherDoc.destroy()
+  }
+})
+
+const createFieldView = (doc: Y.Doc, field: string, awareness: Awareness) => {
+  const view = new EditorView(null, {
+    state: EditorState.create({
+      schema,
+      plugins: [ySyncPlugin(doc.getXmlFragment(field)), yCursorPlugin(awareness)],
+    }),
+  })
+  view.dispatch(view.state.tr.insertText(`${field} text`, 1))
+  return view
+}
+
+const focus = (view: EditorView, from: number, to: number) => {
+  // Publishing requires focus, which happy-dom does not provide.
+  view.hasFocus = () => true
+  view.dispatch(view.state.tr.setSelection(TextSelection.create(view.state.doc, from, to)))
+}
+
+const blur = (view: EditorView) => {
+  view.hasFocus = () => false
+  view.dom.dispatchEvent(new FocusEvent('focusout'))
+}
+
+it('blur keeps the last selection per field in the same awareness update', () => {
+  const doc = new Y.Doc()
+  const awareness = new Awareness(doc)
+  const title = createFieldView(doc, 'title', awareness)
+  const body = createFieldView(doc, 'body', awareness)
+
+  try {
+    focus(title, 1, 4)
+    const titleCursor = awareness.getLocalState()?.cursor
+    assert.isUndefined(awareness.getLocalState()?.lastSelection, 'focused editors publish a cursor')
+
+    let updates = 0
+    awareness.on('update', ({ updated }: { updated: number[] }) => {
+      if (updated.includes(doc.clientID)) updates++
+    })
+    blur(title)
+    assert.equal(updates, 1, 'blur publishes the cleared cursor and last selection together')
+    assert.isNull(awareness.getLocalState()?.cursor)
+    const titleSelection = awareness.getLocalState()?.lastSelection.title
+    assert.deepEqual(titleSelection.anchor, titleCursor.anchor)
+    assert.deepEqual(titleSelection.head, titleCursor.head)
+    assert.isNumber(titleSelection.time)
+
+    focus(body, 2, 5)
+    blur(body)
+    const { lastSelection } = awareness.getLocalState() ?? {}
+    assert.deepEqual(lastSelection.title, titleSelection, 'other fields keep their selection')
+    assert.equal(
+      relativePositionToAbsolutePosition(
+        doc,
+        doc.getXmlFragment('body'),
+        Y.createRelativePositionFromJSON(lastSelection.body.head),
+        getSyncPluginState(body.state).binding.mapping,
+      ),
+      5,
+    )
+
+    body.destroy()
+    assert.deepEqual(
+      awareness.getLocalState()?.lastSelection,
+      { title: titleSelection },
+      'destroying an editor removes only its field',
+    )
+  } finally {
+    title.destroy()
+    body.destroy()
+    awareness.destroy()
+    doc.destroy()
   }
 })
