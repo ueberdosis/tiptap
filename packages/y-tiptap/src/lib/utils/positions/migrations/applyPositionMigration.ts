@@ -1,7 +1,7 @@
 import type { Node } from 'prosemirror-model'
 import type {
   PositionMigration,
-  PositionMigrationPlan,
+  PositionMigrationContent,
   PositionTransfer,
 } from '../../../../types/PositionMigration.js'
 import type { BindingMetadata } from '../../../../types/BindingMetadata.js'
@@ -16,7 +16,7 @@ import { syncPositionElement } from './syncPositionElement.js'
 
 export const applyPositionMigration = (
   fragment: Y.XmlFragment,
-  plan: PositionMigrationPlan,
+  plan: PositionMigrationContent,
   metadata: BindingMetadata,
   store: Y.Map<PositionMigration>,
 ) => {

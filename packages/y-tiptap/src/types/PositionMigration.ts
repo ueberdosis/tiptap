@@ -1,4 +1,5 @@
 import type { Node } from 'prosemirror-model'
+import type { Transaction } from 'prosemirror-state'
 import type { ID } from 'yjs'
 
 export interface PositionCharacter {
@@ -9,7 +10,14 @@ export interface PositionCharacter {
   position: number | null
 }
 
-export interface PositionMigrationPlan {
+export type PositionMigrationPlan =
+  | PositionMigrationContent
+  | {
+      doc: Node
+      transactions: Transaction[]
+    }
+
+export interface PositionMigrationContent {
   doc: Node
   characters: PositionCharacter[]
   nodes: PositionNode[]
