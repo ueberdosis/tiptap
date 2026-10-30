@@ -2,9 +2,8 @@ name: Documentation feedback
 description: Share what we need to explain better.
 title: '[Documentation]: '
 labels:
-  - 'Type: Documentation'
-  - 'Category: Open Source'
-  - 'Status: New'
+  - 'area: docs'
+  - 'status: triage'
 body:
   - type: input
     id: url
