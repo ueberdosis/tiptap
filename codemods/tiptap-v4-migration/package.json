@@ -20,5 +20,5 @@
     "codemod": "^1.15.2",
     "typescript": "^5.7.3"
   },
-  "packageManager": "pnpm@11.2.2"
+  "packageManager": "pnpm@12.14.0"
 }

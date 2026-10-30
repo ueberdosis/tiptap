@@ -147,7 +147,7 @@ export const CollaborationCaret = Extension.create<
           return {}
         }
 
-        return defaultSelectionBuilder(user)
+        return defaultSelectionBuilder({ name: user.name, color: user.color })
       },
       onUpdate: defaultOnUpdate,
     }

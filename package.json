@@ -42,19 +42,17 @@
     "prepare": "vp config --no-agent",
     "changeset": "changeset",
     "changelog": "node ./scripts/aggregate-changeset.js",
-    "version": "vp run changelog && vp run changeset -- version && vp install --no-frozen-lockfile",
+    "version": "vp run changelog && vp exec changeset version && vp install --no-frozen-lockfile",
     "publish:markdown": "vp run build && vp exec changeset publish --tag markdown",
-    "version:markdown": "vp run changeset version --snapshot markdown"
+    "version:markdown": "vp exec changeset version --snapshot markdown"
   },
   "devDependencies": {
     "@babel/core": "^7.29.6",
-    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.18.6",
-    "@babel/plugin-proposal-optional-chaining": "^7.21.0",
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-react": "^7.26.3",
-    "@changesets/changelog-github": "^0.6.0",
-    "@changesets/cli": "^2.27.11",
-    "@changesets/get-release-plan": "^4.0.13",
+    "@changesets/changelog-github": "^1.0.1",
+    "@changesets/cli": "^3.0.3",
+    "@changesets/get-release-plan": "^5.0.2",
     "@commitlint/cli": "^19.6.1",
     "@commitlint/config-conventional": "^19.6.0",
     "@playwright/test": "^1.54.2",
@@ -63,13 +61,13 @@
     "@types/react-dom": "^19.0.0",
     "babel-loader": "^9.2.1",
     "cz-conventional-changelog": "^3.3.0",
-    "fallow": "^2.98.0",
+    "fallow": "^3.34.0",
     "fast-glob": "^3.3.2",
-    "happy-dom": "^20.8.9",
+    "happy-dom": "^21.0.4",
     "http-server": "14.1.1",
     "lowlight": "^3.3.0",
     "minimist": "^1.2.8",
-    "pkg-pr-new": "0.0.66",
+    "pkg-pr-new": "0.0.91",
     "react": "^19.0.0",
     "tinyglobby": "0.2.10",
     "ts-loader": "9.3.1",
@@ -80,11 +78,12 @@
     "webpack": "^5.97.1"
   },
   "browserslist": [
-    "defaults",
-    "not IE 11"
+    "last 3 Chrome major versions",
+    "last 3 Safari major versions",
+    "last 3 Firefox major versions"
   ],
   "engines": {
     "node": ">=24"
   },
-  "packageManager": "pnpm@11.2.2"
+  "packageManager": "pnpm@12.14.0"
 }

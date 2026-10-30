@@ -1,58 +1,14 @@
 import { Extension } from '@tiptap/core'
-import type * as Y from 'yjs'
-
-import { AnnotationPlugin, AnnotationPluginKey } from './AnnotationPlugin.js'
-
-export interface AddAnnotationAction {
-  type: 'addAnnotation'
-  data: any
-  from: number
-  to: number
-}
-
-export interface UpdateAnnotationAction {
-  type: 'updateAnnotation'
-  id: string
-  data: any
-}
-
-export interface DeleteAnnotationAction {
-  type: 'deleteAnnotation'
-  id: string
-}
-
-export interface AnnotationOptions {
-  HTMLAttributes: {
-    [key: string]: any
-  }
-  /**
-   * An event listener which receives annotations for the current selection.
-   */
-  onUpdate: (items: any[]) => object
-  /**
-   * An initialized Y.js document.
-   */
-  document: Y.Doc | null
-  /**
-   * Name of a Y.js map, can be changed to sync multiple fields with one Y.js document.
-   */
-  field: string
-  /**
-   * A raw Y.js map, can be used instead of `document` and `field`.
-   */
-  map: Y.Map<any> | null
-  instance: string
-}
-
-function getMapFromOptions(options: AnnotationOptions): Y.Map<any> {
-  return options.map ? options.map : (options.document?.getMap(options.field) as Y.Map<any>)
-}
+import { AnnotationPlugin } from './AnnotationPlugin.js'
+import { createAnnotation } from './createAnnotation.js'
+import type { AnnotationOptions } from './types/Annotation.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     annotation: {
-      addAnnotation: (data: any) => ReturnType
-      updateAnnotation: (id: string, data: any) => ReturnType
+      /** Stores an annotation for the selected text or node outside the editor document. */
+      addAnnotation: (text: string) => ReturnType
+      /** Removes an annotation from the shared map. */
       deleteAnnotation: (id: string) => ReturnType
     }
   }
@@ -61,79 +17,39 @@ declare module '@tiptap/core' {
 export const CollaborationAnnotation = Extension.create<AnnotationOptions>({
   name: 'annotation',
 
-  priority: 1000,
-
   addOptions() {
-    return {
-      HTMLAttributes: {
-        class: 'annotation',
-      },
-      onUpdate: decorations => decorations,
-      document: null,
-      field: 'annotations',
-      map: null,
-      instance: '',
-    }
-  },
-
-  onCreate() {
-    const map = getMapFromOptions(this.options)
-
-    map.observe(() => {
-      // oxlint-disable-next-line
-      console.log(`[${this.options.instance}] map updated  → createDecorations`)
-
-      const transaction = this.editor.state.tr.setMeta(AnnotationPluginKey, {
-        type: 'createDecorations',
-      })
-
-      this.editor.view.dispatch(transaction)
-    })
+    return { map: null, onUpdate: () => {} }
   },
 
   addCommands() {
     return {
       addAnnotation:
-        (data: any) =>
+        text =>
         ({ dispatch, state }) => {
-          const { selection } = state
+          const annotation = createAnnotation(state, text)
+          const { map } = this.options
 
-          if (selection.empty) {
+          if (!annotation || !map) {
             return false
           }
 
-          if (dispatch && data) {
-            state.tr.setMeta(AnnotationPluginKey, <AddAnnotationAction>{
-              type: 'addAnnotation',
-              from: selection.from,
-              to: selection.to,
-              data,
-            })
-          }
-
-          return true
-        },
-      updateAnnotation:
-        (id: string, data: any) =>
-        ({ dispatch, state }) => {
           if (dispatch) {
-            state.tr.setMeta(AnnotationPluginKey, <UpdateAnnotationAction>{
-              type: 'updateAnnotation',
-              id,
-              data,
-            })
+            map.set(crypto.randomUUID(), annotation)
           }
 
           return true
         },
       deleteAnnotation:
         id =>
-        ({ dispatch, state }) => {
+        ({ dispatch }) => {
+          const { map } = this.options
+
+          if (!map?.has(id)) {
+            return false
+          }
+
           if (dispatch) {
-            state.tr.setMeta(AnnotationPluginKey, <DeleteAnnotationAction>{
-              type: 'deleteAnnotation',
-              id,
-            })
+            map.delete(id)
           }
 
           return true
@@ -142,13 +58,12 @@ export const CollaborationAnnotation = Extension.create<AnnotationOptions>({
   },
 
   addProseMirrorPlugins() {
-    return [
-      AnnotationPlugin({
-        HTMLAttributes: this.options.HTMLAttributes,
-        onUpdate: this.options.onUpdate,
-        map: getMapFromOptions(this.options),
-        instance: this.options.instance,
-      }),
-    ]
+    const { map, onUpdate } = this.options
+
+    if (!map?.doc) {
+      throw new Error('Annotations require an integrated Y.Map')
+    }
+
+    return [AnnotationPlugin({ document: map.doc, map, onUpdate })]
   },
 })

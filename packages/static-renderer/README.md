@@ -46,6 +46,17 @@ Editor-level options that affect output are accepted via the
 `staticEditorOptions` object (currently `textDirection`). Other editor options
 that depend on a runtime view or transaction stream are out of scope.
 
+## Untrusted content in HTML output
+
+The HTML string renderer escapes text and attribute values. It omits malformed
+attribute names, inline event handlers such as `onerror`, and iframe `srcdoc`
+attributes. These checks also apply after removing an attribute's namespace.
+
+Use trusted extensions and render mappings. Extensions must validate URL schemes
+and other values that can load or run content. Custom mappings that return HTML
+strings must escape untrusted content themselves. The renderer is not an HTML
+sanitizer.
+
 ## License
 
 Tiptap is open sourced software licensed under the [MIT license](https://github.com/ueberdosis/tiptap/blob/main/LICENSE.md).

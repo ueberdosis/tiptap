@@ -40,16 +40,16 @@ export function escapeHTMLAttribute(value: string): string {
 }
 
 /**
- * Serialize the attributes of a node or mark to a string
+ * Serialize attributes, omitting malformed names, event handlers, and srcdoc.
  * @param attrs The attributes to serialize
  * @returns The serialized attributes as a string
  */
 export function serializeAttrsToHTMLString(attrs: Record<string, any> | undefined | null): string {
-  // Match ProseMirror's DOMSerializer.renderSpec, which omits null/undefined attribute
-  // values rather than stringifying them — otherwise we emit attrs like class="null".
   const output = Object.entries(attrs || {})
     .filter(([, value]) => value != null)
-    .map(([key, value]) => `${key.split(' ').at(-1)}="${escapeHTMLAttribute(String(value))}"`)
+    .map(([key, value]) => ({ key: key.split(' ').at(-1) ?? '', value }))
+    .filter(({ key }) => /^[^\s"'<>/=\p{Cc}]+$/u.test(key) && !/^(?:on|srcdoc$)/i.test(key))
+    .map(({ key, value }) => `${key}="${escapeHTMLAttribute(String(value))}"`)
     .join(' ')
 
   return output ? ` ${output}` : ''

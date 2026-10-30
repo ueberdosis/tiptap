@@ -1,6 +1,9 @@
 import { Extension } from '@tiptap/core'
 import type { Node as PMNode } from '@tiptap/pm/model'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
+import { Plugin } from '@tiptap/pm/state'
+
+import { characterCountPluginKey } from './characterCountPluginKey.js'
+import { hasCharacterLimit } from './hasCharacterLimit.js'
 
 export interface CharacterCountOptions {
   /**
@@ -55,6 +58,18 @@ export interface CharacterCountStorage {
 }
 
 declare module '@tiptap/core' {
+  interface Commands<ReturnType> {
+    characterCount: {
+      /**
+       * Update the character limit without trimming existing content.
+       * @param limit A nonnegative limit, or null to remove it. Zero also removes the limit.
+       * @returns Whether the limit is valid.
+       * @example editor.commands.setCharacterLimit(500)
+       */
+      setCharacterLimit: (limit: number | null) => ReturnType
+    }
+  }
+
   interface Storage {
     characterCount: CharacterCountStorage
   }
@@ -106,22 +121,49 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
     }
   },
 
-  addProseMirrorPlugins() {
-    let initialEvaluationDone = false
+  addCommands() {
+    return {
+      setCharacterLimit:
+        limit =>
+        ({ tr, dispatch }) => {
+          if (limit !== null && (!Number.isFinite(limit) || limit < 0)) {
+            return false
+          }
+          if (dispatch) {
+            tr.setMeta(characterCountPluginKey, { limit })
+          }
+          return true
+        },
+    }
+  },
 
+  addProseMirrorPlugins() {
     return [
       new Plugin({
-        key: new PluginKey('characterCount'),
+        key: characterCountPluginKey,
+        state: {
+          init: () => ({ limit: this.options.limit, initialized: false }),
+          apply: (tr, previous) => {
+            const update = tr.getMeta(characterCountPluginKey)
+            return {
+              limit: update === undefined ? previous.limit : update.limit,
+              initialized: true,
+            }
+          },
+        },
         appendTransaction: (transactions, oldState, newState) => {
-          if (initialEvaluationDone) {
+          if (characterCountPluginKey.getState(oldState)?.initialized) {
             return
           }
 
-          const limit = this.options.limit
+          if (transactions.some(tr => tr.getMeta(characterCountPluginKey) !== undefined)) {
+            return
+          }
+
+          const limit = characterCountPluginKey.getState(newState)?.limit
           const autoTrim = this.options.autoTrim
 
-          if (limit === null || limit === undefined || limit === 0 || autoTrim === false) {
-            initialEvaluationDone = true
+          if (!hasCharacterLimit(limit) || autoTrim === false) {
             return
           }
 
@@ -136,17 +178,16 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
               `[CharacterCount] Initial content exceeded limit of ${limit} characters. Content was automatically trimmed.`,
             )
             const tr = newState.tr.deleteRange(from, to)
-            initialEvaluationDone = true
             return tr
           }
-
-          initialEvaluationDone = true
         },
         filterTransaction: (transaction, state) => {
-          const limit = this.options.limit
+          const update = transaction.getMeta(characterCountPluginKey)
+          const limit =
+            update === undefined ? characterCountPluginKey.getState(state)?.limit : update.limit
 
           // Nothing has changed or no limit is defined. Ignore it.
-          if (!transaction.docChanged || limit === 0 || limit === null || limit === undefined) {
+          if (!transaction.docChanged || !hasCharacterLimit(limit)) {
             return true
           }
 

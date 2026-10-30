@@ -1,17 +1,16 @@
 import { Extension } from '@tiptap/core'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import type { EditorView } from '@tiptap/pm/view'
-import { redo, undo, ySyncPlugin, yUndoPlugin, yUndoPluginKey } from '@tiptap/y-tiptap'
-import type { Doc, UndoManager, XmlFragment } from 'yjs'
+import { redo, undo, ySyncPlugin, yUndoPlugin } from '@tiptap/y-tiptap'
+import type { SyncPluginOptions, UndoPluginOptions } from '@tiptap/y-tiptap'
+import type { Doc, XmlFragment } from 'yjs'
 
 import {
   createMappablePosition,
   getUpdatedPosition,
 } from './helpers/CollaborationMappablePosition.js'
 import { isChangeOrigin } from './helpers/isChangeOrigin.js'
-
-type YSyncOpts = Parameters<typeof ySyncPlugin>[1]
-type YUndoOpts = Parameters<typeof yUndoPlugin>[0]
+import { getUndoManager } from './helpers/getUndoManager.js'
 
 export interface CollaborationStorage {
   /**
@@ -76,12 +75,12 @@ export interface CollaborationOptions {
   /**
    * Options for the Yjs sync plugin.
    */
-  ySyncOptions?: YSyncOpts
+  ySyncOptions?: SyncPluginOptions
 
   /**
    * Options for the Yjs undo plugin.
    */
-  yUndoOptions?: YUndoOpts
+  yUndoOptions?: UndoPluginOptions
 }
 
 /**
@@ -130,7 +129,7 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
         ({ tr, state, dispatch }) => {
           tr.setMeta('preventDispatch', true)
 
-          const undoManager: UndoManager = yUndoPluginKey.getState(state).undoManager
+          const undoManager = getUndoManager(state)
 
           if (undoManager.undoStack.length === 0) {
             return false
@@ -140,14 +139,14 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
             return true
           }
 
-          return undo(state)
+          return undo(state) ?? false
         },
       redo:
         () =>
         ({ tr, state, dispatch }) => {
           tr.setMeta('preventDispatch', true)
 
-          const undoManager: UndoManager = yUndoPluginKey.getState(state).undoManager
+          const undoManager = getUndoManager(state)
 
           if (undoManager.redoStack.length === 0) {
             return false
@@ -157,7 +156,7 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
             return true
           }
 
-          return redo(state)
+          return redo(state) ?? false
         },
     }
   },
@@ -181,7 +180,7 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
     const originalUndoPluginView = yUndoPluginInstance.spec.view
 
     yUndoPluginInstance.spec.view = (view: EditorView) => {
-      const { undoManager } = yUndoPluginKey.getState(view.state)
+      const undoManager = getUndoManager(view.state)
 
       if (undoManager.restore) {
         undoManager.restore()
@@ -215,7 +214,7 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
       }
     }
 
-    const ySyncPluginOptions: YSyncOpts = {
+    const ySyncPluginOptions: SyncPluginOptions = {
       ...this.options.ySyncOptions,
       onFirstRender: this.options.onFirstRender,
     }
@@ -228,7 +227,7 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
       new Plugin({
         filterTransaction: (transaction, state) => {
           if (transaction.getMeta('inputRule')) {
-            yUndoPluginKey.getState(state).undoManager.stopCapturing()
+            getUndoManager(state).stopCapturing()
           }
 
           return true
@@ -267,6 +266,6 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
             }
           },
         }),
-    ].filter(Boolean)
+    ].filter((plugin): plugin is Plugin => plugin !== false)
   },
 })

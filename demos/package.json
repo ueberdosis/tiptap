@@ -16,7 +16,7 @@
     "@lexical/react": "^0.36.2",
     "@lifeomic/attempt": "3.1.0",
     "@shikijs/core": "1.10.3",
-    "@tiptap/y-tiptap": "^3.0.7",
+    "@tiptap/y-tiptap": "workspace:^",
     "d3": "^7.9.0",
     "fast-glob": "^3.3.2",
     "highlight.js": "^11.11.1",
@@ -59,13 +59,13 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "sass-embedded": "^1.99.0",
-    "svelte": "^5.56.8",
+    "svelte": "^5.57.2",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.7.2",
     "uuid": "^14.0.0",
     "vite": "catalog:",
     "vite-plus": "catalog:",
-    "vue": "^3.5.13",
+    "vue": "^3.5.44",
     "vue-router": "^4.5.0"
   }
 }

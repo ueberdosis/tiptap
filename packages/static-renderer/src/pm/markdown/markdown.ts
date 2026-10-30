@@ -63,7 +63,7 @@ export function renderToMarkdown({
         heading({ node, children }) {
           const level = node.attrs.level as number
 
-          return `${Array.from<string>({ length: level }).fill('#').join('')} ${children}\n`
+          return `${Array.from<string>({ length: level }).fill('#').join('')} ${serializeChildrenToHTMLString(children)}\n`
         },
         codeBlock({ node, children }) {
           return `\n\`\`\`${node.attrs.language}\n${serializeChildrenToHTMLString(children)}\n\`\`\`\n`
