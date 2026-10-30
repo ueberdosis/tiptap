@@ -1,7 +1,10 @@
+import { Blockquote } from '@tiptap/extension-blockquote'
 import { Document } from '@tiptap/extension-document'
 import { HardBreak } from '@tiptap/extension-hard-break'
 import { Heading } from '@tiptap/extension-heading'
+import { BulletList, ListItem, TaskItem, TaskList } from '@tiptap/extension-list'
 import { Paragraph } from '@tiptap/extension-paragraph'
+import { Table, TableCell, TableHeader, TableRow } from '@tiptap/extension-table'
 import { Text } from '@tiptap/extension-text'
 import { describe, expect, it } from 'vite-plus/test'
 
@@ -53,5 +56,64 @@ describe('hard break in a heading', () => {
     }
 
     expect(markdownManager.serialize(paragraph)).toBe('a  \nb')
+  })
+})
+
+describe('hard break in other blocks', () => {
+  const markdownManager = new MarkdownManager({
+    extensions: [
+      Document,
+      Paragraph,
+      Text,
+      HardBreak,
+      Blockquote,
+      BulletList,
+      ListItem,
+      TaskList,
+      TaskItem,
+      Table,
+      TableRow,
+      TableHeader,
+      TableCell,
+    ],
+  })
+
+  const paragraph = {
+    type: 'paragraph',
+    content: [{ type: 'text', text: 'a' }, { type: 'hardBreak' }, { type: 'text', text: 'b' }],
+  }
+
+  it.each([
+    ['a blockquote', { type: 'blockquote', content: [paragraph] }, '> a  \n> b'],
+    [
+      'a list item',
+      { type: 'bulletList', content: [{ type: 'listItem', content: [paragraph] }] },
+      '- a  \nb',
+    ],
+    [
+      'a task item',
+      {
+        type: 'taskList',
+        content: [{ type: 'taskItem', attrs: { checked: false }, content: [paragraph] }],
+      },
+      '- [ ] a  \n  b',
+    ],
+    [
+      'a table cell',
+      {
+        type: 'table',
+        content: [
+          { type: 'tableRow', content: [{ type: 'tableHeader', content: [paragraph] }] },
+          { type: 'tableRow', content: [{ type: 'tableCell', content: [paragraph] }] },
+        ],
+      },
+      '| a<br>b |',
+    ],
+  ])('round-trips in %s', (_name, block, markdown) => {
+    const doc = { type: 'doc', content: [block] }
+    const serialized = markdownManager.serialize(doc)
+
+    expect(serialized).toContain(markdown)
+    expect(markdownManager.parse(serialized)).toEqual(doc)
   })
 })
