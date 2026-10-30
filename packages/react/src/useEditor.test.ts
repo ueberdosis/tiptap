@@ -51,4 +51,27 @@ describe('useEditor', () => {
     expect(last).not.toBe(first)
     expect(last?.isDestroyed).toBe(false)
   })
+
+  it('returns null on the initial render when immediatelyRender is false, then an instance after the effect flushes', async () => {
+    const seen: Array<Editor | null> = []
+    const Probe = () => {
+      const editor = useEditor({ extensions, immediatelyRender: false })
+
+      seen.push(editor)
+
+      return null
+    }
+
+    render(React.createElement(Probe))
+
+    expect(seen[0]).toBe(null)
+
+    await act(async () => {
+      await new Promise(resolve => setTimeout(resolve, 10))
+    })
+
+    const last = seen.at(-1)
+
+    expect(last).toBeInstanceOf(Editor)
+  })
 })
