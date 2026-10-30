@@ -117,6 +117,34 @@ describe('relative positions through structural changes', () => {
     }
   })
 
+  it.each([1, 2])(
+    'preserves concurrent typing when client %i splits an empty paragraph',
+    clientId => {
+      const first = createClient()
+      first.document.clientID = clientId
+      first.view.dispatch(
+        first.view.state.tr.replaceWith(0, first.view.state.doc.content.size, paragraph('Before')),
+      )
+      first.view.dispatch(first.view.state.tr.split(7))
+      const second = createClient()
+      second.document.clientID = 3 - clientId
+      Y.applyUpdate(second.document, Y.encodeStateAsUpdate(first.document))
+
+      first.view.dispatch(first.view.state.tr.split(9))
+      second.view.dispatch(second.view.state.tr.insertText('Concurrent text', 9))
+      const firstUpdate = Y.encodeStateAsUpdate(first.document)
+      const secondUpdate = Y.encodeStateAsUpdate(second.document)
+      Y.applyUpdate(first.document, secondUpdate)
+      Y.applyUpdate(second.document, firstUpdate)
+
+      expect(second.view.state.doc.toJSON()).toEqual(first.view.state.doc.toJSON())
+      expect(first.view.state.doc.textContent).toBe('BeforeConcurrent text')
+      const reloaded = createClient()
+      Y.applyUpdate(reloaded.document, Y.encodeStateAsUpdate(first.document))
+      expect(reloaded.view.state.doc.toJSON()).toEqual(first.view.state.doc.toJSON())
+    },
+  )
+
   it.each(['image', 'empty paragraph', 'mention'])('follows a moved %s on both clients', kind => {
     const first = createClient()
     const moved =

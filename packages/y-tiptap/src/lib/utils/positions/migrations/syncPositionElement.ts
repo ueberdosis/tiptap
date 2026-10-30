@@ -21,12 +21,8 @@ export const syncPositionElement = (
 
   const source = sources.get(`${element._item.id.client}:${element._item.id.clock}`)
 
-  // Fresh anchors must not inherit migrations for the element's old boundaries.
-  if (
-    source &&
-    (source.position !== position ||
-      (node.content.size === 0 && source.end !== position + node.nodeSize - 1))
-  ) {
+  // Reconciliation may reuse an element for another node, which would redirect its anchors.
+  if (source && source.position !== position) {
     deleteMapping(metadata.mapping, element)
     parent.delete(index, 1)
     element = createTypeFromTextOrElementNode(node, metadata)
@@ -35,6 +31,17 @@ export const syncPositionElement = (
 
   if (!(element instanceof Y.XmlElement) || !element._item) {
     throw new Error('Position migration requires integrated elements')
+  }
+
+  // Keep concurrent edits alive while giving new carets an unmigrated text anchor.
+  if (
+    source &&
+    node.isTextblock &&
+    node.content.size === 0 &&
+    source.end !== position + node.nodeSize - 1 &&
+    element.length === 0
+  ) {
+    element.insert(0, [new Y.XmlText()])
   }
 
   return element
