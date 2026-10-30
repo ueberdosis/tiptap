@@ -14,7 +14,7 @@ A maintainer must understand the issue in one read. Target one screen, not a des
 - Read the current templates in `.github/ISSUE_TEMPLATE/`. Never rely on remembered fields.
 - Choose the matching template: `bug_report.yml`, `bug_report_pro.yml`, or `documentation.yml`.
 - Feature requests belong in Discussions, not issues. Read `config.yml` and send the user there instead.
-- Search for an existing issue with `gh issue list --search "<keywords>"`. If you find the same problem, link it instead of opening a duplicate.
+- Search for an existing issue with `gh issue list --search "<keywords>" --state all`. If you find the same problem, link it instead of opening a duplicate.
 - Reproduce the problem when you can. Only state what you verified.
 
 ## Writing rules
@@ -32,14 +32,14 @@ A maintainer must understand the issue in one read. Target one screen, not a des
 
 ## Length budget
 
-| Part | Limit |
-| --- | --- |
-| Title | 80 characters |
-| What happened | 3 sentences |
-| Expected behavior | 1 sentence |
-| Root cause | 2 sentences |
-| Reproduction | 10 lines |
-| Whole issue | One screen |
+| Part              | Limit         |
+| ----------------- | ------------- |
+| Title             | 80 characters |
+| What happened     | 3 sentences   |
+| Expected behavior | 1 sentence    |
+| Root cause        | 2 sentences   |
+| Reproduction      | 10 lines      |
+| Whole issue       | One screen    |
 
 If a draft is over budget, cut detail. Do not compress by removing articles or verbs.
 
@@ -60,6 +60,8 @@ The second version drops the call stack, the plugin internals, the proposed patc
 ## Publish
 
 - Show the draft to the user first. Wait for approval before creating the issue.
-- Create it with `gh issue create`, writing the Markdown body to a temp file and using `--body-file`. Apply the labels from the template metadata.
+- Create it with `gh issue create`, writing the Markdown body to a temp file and using `--body-file`.
+- Pass the template `type` with `--type` when it has one.
+- Apply the template labels with `--label`, but check `gh label list` first and skip labels the repository does not have.
 - If the user only asked for a draft, return the draft without publishing it.
 - Return the issue link and ask the user to review it.
