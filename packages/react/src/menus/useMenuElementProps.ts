@@ -231,23 +231,26 @@ function syncAttributes(
   prevProps: MenuElementProps,
   nextProps: MenuElementProps,
 ) {
+  // Iterate with `for...of` instead of chaining `.forEach()` onto the `Set`.
+  // Bundlers inline the `Set` and mark it as pure, and some minifiers then
+  // treat the whole chained call as pure and remove it from production builds.
   const allKeys = new Set([...Object.keys(prevProps), ...Object.keys(nextProps)])
 
-  allKeys.forEach(key => {
+  for (const key of allKeys) {
     if (
       ATTRIBUTE_EXCLUSIONS.has(key) ||
       !isForwardedAttributeKey(key) ||
       isEventProp(key, prevProps[key as keyof MenuElementProps]) ||
       isEventProp(key, nextProps[key as keyof MenuElementProps])
     ) {
-      return
+      continue
     }
 
     const prevValue = prevProps[key as keyof MenuElementProps]
     const nextValue = nextProps[key as keyof MenuElementProps]
 
     if (prevValue === nextValue) {
-      return
+      continue
     }
 
     const attributeName = toAttributeName(key)
@@ -258,7 +261,7 @@ function syncAttributes(
       }
 
       element.removeAttribute(attributeName)
-      return
+      continue
     }
 
     if (nextValue === true) {
@@ -267,16 +270,16 @@ function syncAttributes(
       }
 
       element.setAttribute(attributeName, '')
-      return
+      continue
     }
 
     if (isDirectPropertyKey(key)) {
       setDirectProperty(element, key, nextValue)
-      return
+      continue
     }
 
     element.setAttribute(attributeName, String(nextValue))
-  })
+  }
 }
 
 function syncClassName(element: HTMLDivElement, prevClassName?: string, nextClassName?: string) {
@@ -299,23 +302,24 @@ function syncStyles(
 ) {
   const previousStyle = prevStyle ?? {}
   const currentStyle = nextStyle ?? {}
+  // See `syncAttributes` for why this uses `for...of` instead of `.forEach()`.
   const allStyleNames = new Set([...Object.keys(previousStyle), ...Object.keys(currentStyle)])
 
-  allStyleNames.forEach(styleName => {
+  for (const styleName of allStyleNames) {
     const prevValue = previousStyle[styleName as keyof CSSProperties]
     const nextValue = currentStyle[styleName as keyof CSSProperties]
 
     if (prevValue === nextValue) {
-      return
+      continue
     }
 
     if (nextValue == null) {
       removeStyleProperty(element, styleName)
-      return
+      continue
     }
 
     applyStyleProperty(element, styleName, nextValue as string | number)
-  })
+  }
 }
 
 function syncEventListeners(
