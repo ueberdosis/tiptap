@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/extension-collaboration-caret",
-  "version": "3.30.3",
+  "version": "4.0.0-next.0",
   "description": "collaboration caret extension for tiptap",
   "keywords": [
     "tiptap",
@@ -55,6 +55,6 @@
   "peerDependencies": {
     "@tiptap/core": "workspace:*",
     "@tiptap/pm": "workspace:*",
-    "@tiptap/y-tiptap": "^3.0.7"
+    "@tiptap/y-tiptap": "^3.0.10-next.0"
   }
 }
