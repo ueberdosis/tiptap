@@ -21,7 +21,6 @@ import { restoreRelativeSelection } from '../positions/restoreRelativeSelection.
 import { getRelativeSelection } from '../positions/getRelativeSelection.js'
 
 import { createNodeFromYElement } from '../conversion/createNodeFromYElement.js'
-import { validateDocumentContent } from '../conversion/validateDocumentContent.js'
 import { updateYFragment } from '../reconciliation/updateYFragment.js'
 import type { PositionMigrationPlan } from '../../../types/PositionMigration.js'
 import { applyPositionMigration } from '../positions/migrations/applyPositionMigration.js'
@@ -45,15 +44,6 @@ export class ProsemirrorBinding {
   readonly afterAllTransactions: () => void
   _domSelectionInView: boolean | null = null
   syncedDoc: PModel.Node | null = null
-  private _projectionError: Error | null = null
-
-  /**
-   * Returns the last projection error. Shared writes stop until a compatible projection succeeds.
-   * @returns The projection error, or null when shared content can be rendered.
-   */
-  get projectionError(): Error | null {
-    return this._projectionError
-  }
 
   constructor(yXmlFragment: Y.XmlFragment, mapping: ProsemirrorMapping = new Map()) {
     this.type = yXmlFragment
@@ -67,11 +57,7 @@ export class ProsemirrorBinding {
     this.doc = yXmlFragment.doc
     // Capture against the old mapping before Yjs observers rebuild the editor document.
     this.beforeAllTransactions = () => {
-      if (
-        this.projectionError === null &&
-        this.beforeTransactionSelection === null &&
-        this.prosemirrorView != null
-      ) {
+      if (this.beforeTransactionSelection === null && this.prosemirrorView != null) {
         this.beforeTransactionSelection = getRelativeSelection(this, this.view.state)
       }
     }
@@ -153,40 +139,23 @@ export class ProsemirrorBinding {
     this.view.dispatch(this._tr.setMeta(ySyncPluginKey, { snapshot, prevSnapshot }))
   }
 
-  private createDocumentFragment(): PModel.Fragment | null {
-    try {
-      const fragmentContent = this.type.toArray().map(type => {
+  private createDocumentTransaction(): Transaction {
+    const fragmentContent = this.type
+      .toArray()
+      .map(type => {
         if (!(type instanceof Y.XmlElement)) {
           throw error.methodUnimplemented()
         }
 
         return createNodeFromYElement(type, this.view.state.schema, this)
       })
-      const content = PModel.Fragment.from(fragmentContent)
-      validateDocumentContent(content, this.view.state.schema)
-      this._projectionError = null
-      return content
-    } catch (error) {
-      this.handleProjectionError(error)
-      return null
-    }
-  }
+      .filter(node => node !== null)
 
-  private handleProjectionError(error: unknown) {
-    this._projectionError =
-      error instanceof Error ? error : new Error('Cannot project shared content')
-    this.mapping.clear()
-    projectedMappings.delete(this.mapping)
-    this.beforeTransactionSelection = null
-    this.view.dispatch(this._tr.setMeta(ySyncPluginKey, { isChangeOrigin: true }))
-  }
-
-  private createDocumentTransaction(): Transaction | null {
-    const content = this.createDocumentFragment()
-
-    if (content === null) return null
-
-    return this._tr.replace(0, this.view.state.doc.content.size, new PModel.Slice(content, 0, 0))
+    return this._tr.replace(
+      0,
+      this.view.state.doc.content.size,
+      new PModel.Slice(PModel.Fragment.from(fragmentContent), 0, 0),
+    )
   }
 
   unrenderSnapshot() {
@@ -194,8 +163,6 @@ export class ProsemirrorBinding {
     projectedMappings.delete(this.mapping)
     this.mux(() => {
       const tr = this.createDocumentTransaction()
-
-      if (tr === null) return
 
       tr.setMeta(ySyncPluginKey, { snapshot: null, prevSnapshot: null })
       this.view.dispatch(tr)
@@ -208,8 +175,6 @@ export class ProsemirrorBinding {
     this.mux(() => {
       const sel = this.beforeTransactionSelection !== null ? null : this.view.state.selection
       const tr = this.createDocumentTransaction()
-
-      if (tr === null) return
 
       if (sel) {
         const clampedAnchor = math.min(math.max(sel.anchor, 0), tr.doc.content.size)
@@ -276,71 +241,64 @@ export class ProsemirrorBinding {
     this.mapping.clear()
     projectedMappings.delete(this.mapping)
     this.mux(() => {
-      try {
-        historyDoc.transact(transaction => {
-          const pud = pluginState.permanentUserData
+      historyDoc.transact(transaction => {
+        const pud = pluginState.permanentUserData
 
-          if (pud) {
-            pud.dss.forEach(ds => {
-              Y.iterateDeletedStructs(transaction, ds, _item => {})
-            })
+        if (pud) {
+          pud.dss.forEach(ds => {
+            Y.iterateDeletedStructs(transaction, ds, _item => {})
+          })
+        }
+
+        const computeYChange: ComputeYChange = (type, id) => {
+          const user = pud
+            ? type === 'added'
+              ? pud.getUserByClientId(id.client)
+              : pud.getUserByDeletedId(id)
+            : null
+
+          return {
+            user,
+            type,
+            color: getUserColor(pluginState.colorMapping, pluginState.colors, user),
           }
-
-          const computeYChange: ComputeYChange = (type, id) => {
-            const user = pud
-              ? type === 'added'
-                ? pud.getUserByClientId(id.client)
-                : pud.getUserByDeletedId(id)
-              : null
-
-            return {
-              user,
-              type,
-              color: getUserColor(pluginState.colorMapping, pluginState.colors, user),
+        }
+        const fragmentContent = Y.typeListToArraySnapshot(
+          historyType,
+          // Include content deleted since the previous snapshot so removals remain visible.
+          new Y.Snapshot(previousSnapshot.ds, currentSnapshot.sv),
+        )
+          .map((t: unknown) => {
+            if (!(t instanceof Y.XmlElement) || !t._item) {
+              return null
             }
-          }
-          const fragmentContent = Y.typeListToArraySnapshot(
-            historyType,
-            // Include content deleted since the previous snapshot so removals remain visible.
-            new Y.Snapshot(previousSnapshot.ds, currentSnapshot.sv),
-          )
-            .map((t: unknown) => {
-              if (!(t instanceof Y.XmlElement) || !t._item) {
-                return null
-              }
 
-              if (
-                !t._item.deleted ||
-                isVisible(t._item, currentSnapshot) ||
-                isVisible(t._item, previousSnapshot)
-              ) {
-                return createNodeFromYElement(
-                  t,
-                  this.view.state.schema,
-                  { mapping: new Map(), isOMark: new Map() },
-                  currentSnapshot,
-                  previousSnapshot,
-                  computeYChange,
-                )
-              } else {
-                return null
-              }
-            })
-            .filter(n => n !== null)
-          const content = PModel.Fragment.from(fragmentContent)
-          validateDocumentContent(content, this.view.state.schema)
-          const tr = this._tr.replace(
-            0,
-            this.view.state.doc.content.size,
-            new PModel.Slice(content, 0, 0),
-          )
+            if (
+              !t._item.deleted ||
+              isVisible(t._item, currentSnapshot) ||
+              isVisible(t._item, previousSnapshot)
+            ) {
+              return createNodeFromYElement(
+                t,
+                this.view.state.schema,
+                { mapping: new Map(), isOMark: new Map() },
+                currentSnapshot,
+                previousSnapshot,
+                computeYChange,
+              )
+            } else {
+              return null
+            }
+          })
+          .filter(n => n !== null)
+        const tr = this._tr.replace(
+          0,
+          this.view.state.doc.content.size,
+          new PModel.Slice(PModel.Fragment.from(fragmentContent), 0, 0),
+        )
 
-          this._projectionError = null
-          this.view.dispatch(tr.setMeta(ySyncPluginKey, { isChangeOrigin: true }))
-        }, ySyncPluginKey)
-      } catch (error) {
-        this.handleProjectionError(error)
-      }
+        this.view.dispatch(tr.setMeta(ySyncPluginKey, { isChangeOrigin: true }))
+      }, ySyncPluginKey)
     })
   }
 
@@ -379,11 +337,17 @@ export class ProsemirrorBinding {
       transaction.changed.forEach(delType)
       transaction.changedParentTypes.forEach(delType)
 
-      const content = this.createDocumentFragment()
+      const fragmentContent = this.type
+        .toArray()
+        .map(t => {
+          if (!(t instanceof Y.XmlElement)) {
+            throw error.methodUnimplemented()
+          }
 
-      if (content === null) return
-
-      let tr = replaceChangedChildren(this._tr, content)
+          return createNodeFromYElement(t, this.view.state.schema, this)
+        })
+        .filter(n => n !== null)
+      let tr = replaceChangedChildren(this._tr, PModel.Fragment.from(fragmentContent))
 
       restoreRelativeSelection(tr, selection, this, oldDoc)
       tr = tr.setMeta(ySyncPluginKey, {
@@ -401,12 +365,7 @@ export class ProsemirrorBinding {
 
   _prosemirrorChanged(doc: PModel.Node, plan: PositionMigrationPlan | null = null) {
     const syncState = getSyncPluginState(this.view.state)
-    if (
-      this.projectionError !== null ||
-      syncState.snapshot != null ||
-      syncState.prevSnapshot != null
-    )
-      return
+    if (syncState.snapshot != null || syncState.prevSnapshot != null) return
 
     this.doc.transact(() => {
       updateYFragment(this.doc, this.type, doc, this)

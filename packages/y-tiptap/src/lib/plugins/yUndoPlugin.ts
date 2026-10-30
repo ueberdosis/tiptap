@@ -12,12 +12,7 @@ import { restorePositionHistory } from '../utils/positions/migrations/restorePos
 
 const restoreHistory = (state: EditorState, direction: 'undo' | 'redo') => {
   const syncState = getSyncPluginState(state)
-  if (
-    syncState.binding.projectionError !== null ||
-    syncState.snapshot != null ||
-    syncState.prevSnapshot != null
-  )
-    return false
+  if (syncState.snapshot != null || syncState.prevSnapshot != null) return false
 
   const undoManager = getUndoPluginState(state).undoManager
 
