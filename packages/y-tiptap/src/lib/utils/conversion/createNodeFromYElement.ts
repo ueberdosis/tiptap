@@ -5,6 +5,7 @@ import * as Y from 'yjs'
 import { isVisible } from '../binding/isVisible.js'
 import { projectedMappings } from '../binding/projectedMappings.js'
 
+import { getContentSnapshot } from './getContentSnapshot.js'
 import { createTextNodesFromYText } from './createTextNodesFromYText.js'
 
 export const createNodeFromYElement = (
@@ -26,6 +27,9 @@ export const createNodeFromYElement = (
     return cachedNode
   }
 
+  const contentSnapshot = getContentSnapshot(el, snapshot, prevSnapshot)
+  const isRemoved = contentSnapshot !== snapshot
+
   const children: PModel.Node[] = []
   const createChildren = (type: Y.XmlElement | Y.XmlText | Y.XmlHook) => {
     if (type instanceof Y.XmlElement) {
@@ -42,12 +46,16 @@ export const createNodeFromYElement = (
   }
   if (snapshot === undefined || prevSnapshot === undefined) {
     el.toArray().forEach(createChildren)
+  } else if (isRemoved) {
+    const removedChildren =
+      contentSnapshot === undefined ? el.toArray() : Y.typeListToArraySnapshot(el, contentSnapshot)
+    removedChildren.forEach(createChildren)
   } else {
     Y.typeListToArraySnapshot(el, new Y.Snapshot(prevSnapshot.ds, snapshot.sv)).forEach(
       createChildren,
     )
   }
-  const attrs: Record<string, unknown> = el.getAttributes(snapshot)
+  const attrs: Record<string, unknown> = el.getAttributes(contentSnapshot)
   if (snapshot !== undefined && el._item) {
     if (!isVisible(el._item, snapshot)) {
       attrs.ychange = computeYChange ? computeYChange('removed', el._item.id) : { type: 'removed' }
