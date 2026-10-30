@@ -57,10 +57,13 @@ export function nodeInputRule(config: {
           end = matchStart + match[1].length
         }
 
-        // insert last typed character
-        const lastChar = match[0][match[0].length - 1]
+        // Typed text is already in the document when the range covers the
+        // whole match (text input); otherwise insert the last typed character.
+        if (range.to - range.from < match[0].length) {
+          const lastChar = match[0][match[0].length - 1]
 
-        tr.insertText(lastChar, start + match[0].length - 1)
+          tr.insertText(lastChar, start + match[0].length - 1)
+        }
 
         // insert node from input rule
         tr.replaceWith(matchStart, end, newNode)
