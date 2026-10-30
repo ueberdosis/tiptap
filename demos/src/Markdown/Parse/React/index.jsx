@@ -14,6 +14,10 @@ This document demonstrates which Markdown constructs are parsed and preserved wh
 
 Headings (H1, H2, H3...) are preserved when ${'`'}StarterKit${'`'} is enabled.
 
+## Week of <!-- date -->
+
+HTML comments in Markdown are preserved as literal text.
+
 ## Lists
 
 - Unordered list item A
