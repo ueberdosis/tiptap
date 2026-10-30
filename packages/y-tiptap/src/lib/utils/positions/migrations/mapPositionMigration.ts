@@ -138,10 +138,12 @@ export const mapPositionMigration = (
 
   // A transaction appended in the same dispatch (an anchor extension marking a
   // heading up after the keystroke that typed into it) can leave the fragment
-  // one write behind the transaction's before-state, and the zip below would
-  // throw "Position tracking requires synchronized editor text", killing the
-  // whole dispatch. Skip the migration for this transaction instead; positions
-  // fall back to the default prosemirror mapping.
+  // one write behind the transaction's before-state. Zipping against that
+  // stale fragment throws or maps identities onto the wrong characters (the
+  // synchronized-text check in getPositionContent), so skip the migration for
+  // this transaction; positions fall back to the default prosemirror mapping.
+  // After a remote update the syncedDoc snapshot lags the view while the
+  // fragment itself is current, so snapshot identity is not divergence.
   let source
   try {
     source = pending ?? getPositionContent(binding.type, transaction.before)

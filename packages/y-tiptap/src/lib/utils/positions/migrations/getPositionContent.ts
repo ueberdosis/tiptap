@@ -49,6 +49,17 @@ export const getPositionContent = (fragment: Y.XmlFragment, doc: Node) => {
       }
 
       const text = getTextCharacters(shared, offset)
+
+      // The walk below advances by the fragment's text length, so a fragment
+      // that lags the prosemirror document (an appended transaction running
+      // before the view flushed the preceding keystroke) would silently
+      // mis-position every character after this one. A fragment that is ahead
+      // of the view carries remote identities and is expected, so only lag
+      // throws.
+      if (text.length < child.reduce((total, textNode) => total + textNode.textContent.length, 0)) {
+        throw new Error('Position tracking requires synchronized editor text')
+      }
+
       characters.push(...text)
       offset += text.length
     })
