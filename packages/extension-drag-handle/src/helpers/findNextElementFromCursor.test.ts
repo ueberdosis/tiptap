@@ -1,7 +1,11 @@
 import type { EditorView } from '@tiptap/pm/view'
 import { describe, expect, it } from 'vite-plus/test'
 
-import { edgeBlockRect, findClosestTopLevelBlock } from './findNextElementFromCursor.js'
+import {
+  clampToContent,
+  edgeBlockRect,
+  findClosestTopLevelBlock,
+} from './findNextElementFromCursor.js'
 
 /**
  * Builds a DOMRect-like object for tests, since jsdom does not run layout and
@@ -131,5 +135,45 @@ describe('findClosestTopLevelBlock', () => {
     const orphan = document.createElement('p')
 
     expect(findClosestTopLevelBlock(orphan, makeView(editorDom))).toBeUndefined()
+  })
+})
+
+describe('clampToContent', () => {
+  function makeView(dom: HTMLElement): EditorView {
+    return { dom } as unknown as EditorView
+  }
+
+  it('keeps X inside the hovered column when blocks sit in a CSS grid row', () => {
+    // Three paragraphs in one grid row (#8564): clamping X to the first block
+    // made every hover resolve to it.
+    const editorDom = document.createElement('div')
+    editorDom.append(
+      withRect(document.createElement('p'), rect({ width: 200, height: 24, top: 100, left: 0 })),
+      withRect(document.createElement('p'), rect({ width: 200, height: 24, top: 100, left: 224 })),
+      withRect(document.createElement('p'), rect({ width: 200, height: 24, top: 100, left: 448 })),
+    )
+
+    expect(clampToContent(makeView(editorDom), 300, 110)).toEqual({ x: 300, y: 110 })
+    expect(clampToContent(makeView(editorDom), 500, 110)).toEqual({ x: 500, y: 110 })
+  })
+
+  it('clamps X into the nearest block of the row when the pointer is in a gap', () => {
+    const editorDom = document.createElement('div')
+    editorDom.append(
+      withRect(document.createElement('p'), rect({ width: 200, height: 24, top: 100, left: 0 })),
+      withRect(document.createElement('p'), rect({ width: 200, height: 24, top: 100, left: 224 })),
+    )
+
+    expect(clampToContent(makeView(editorDom), 220, 110)).toEqual({ x: 229, y: 110 })
+  })
+
+  it('clamps X to the blocks column when every block shares it', () => {
+    const editorDom = document.createElement('div')
+    editorDom.append(
+      withRect(document.createElement('p'), rect({ width: 640, height: 24, top: 100, left: 50 })),
+      withRect(document.createElement('p'), rect({ width: 640, height: 24, top: 200, left: 50 })),
+    )
+
+    expect(clampToContent(makeView(editorDom), 0, 150)).toEqual({ x: 55, y: 150 })
   })
 })

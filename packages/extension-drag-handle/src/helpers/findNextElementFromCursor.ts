@@ -95,9 +95,38 @@ export function edgeBlockRect(container: Element, edge: 'first' | 'last'): DOMRe
 }
 
 /**
- * Clamps coordinates to content bounds with O(1) layout reads
+ * Returns the rect of the block in the row at `y` whose columns are closest to
+ * `x`. Used when the blocks don't share one column (for example a CSS grid),
+ * so that X is clamped to the block under the pointer rather than to the
+ * first block of the editor.
  */
-function clampToContent(
+function blockRectInRow(container: Element, x: number, y: number): DOMRect | null {
+  let best: DOMRect | null = null
+  let bestDistance = Infinity
+
+  for (const child of Array.from(container.children)) {
+    const rect = child.getBoundingClientRect()
+
+    if (!isValidRect(rect) || y < rect.top || y > rect.bottom) {
+      continue
+    }
+
+    const distance = x < rect.left ? rect.left - x : x > rect.right ? x - rect.right : 0
+
+    if (distance < bestDistance) {
+      best = rect
+      bestDistance = distance
+    }
+  }
+
+  return best
+}
+
+/**
+ * Clamps coordinates to content bounds with O(1) layout reads when every block
+ * shares one column
+ */
+export function clampToContent(
   view: EditorView,
   x: number,
   y: number,
@@ -130,9 +159,9 @@ function clampToContent(
     // Most of the time, every block has the same width
     rowRect = topRect
   } else {
-    // TODO
-    // find the actual block at the clamped Y
-    // This case is rare, avoid for now
+    // Blocks of different widths or in several columns (#8564): clamp to the
+    // block at the clamped Y nearest to the pointer.
+    rowRect = blockRectInRow(container, x, clampedY) ?? topRect
   }
 
   // Clamp X to the chosen block's bounds
