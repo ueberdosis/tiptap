@@ -3,7 +3,7 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { afterEach, beforeEach, describe, expect, it } from 'vite-plus/test'
-import { defineComponent } from 'vue'
+import { createApp, defineComponent, useId } from 'vue'
 
 import { VueRenderer } from './VueRenderer.js'
 
@@ -174,5 +174,48 @@ describe('VueRenderer', () => {
     expect(renderer.element?.textContent).toBe('Content')
 
     renderer.destroy()
+  })
+
+  it('should give each renderer its own appContext.config.idPrefix, so useId() cannot collide across node views', () => {
+    // Renders a real useId() call to a real DOM element on each instance — asserting on the
+    // generated ids themselves, not just the internal config.idPrefix each renderer computed.
+    const TestComponent = defineComponent({
+      name: 'TestComponent',
+      setup() {
+        const id = useId()
+        return { id }
+      },
+      template: '<div :id="id">Test</div>',
+    })
+
+    // A real, fully-formed AppContext (mirroring what EditorContent.ts assigns to editor.appContext
+    // via `{...instance.appContext, provides: instance.provides}` once the editor mounts) — a plain
+    // `{ config: {}, provides: {} }` stub isn't enough for Vue's own mount pipeline to run against.
+    const hostApp = createApp(defineComponent({ template: '<div />' }))
+    const hostEl = document.createElement('div')
+    hostApp.mount(hostEl)
+    editor!.appContext = (hostApp as any)._context
+
+    const rendererA = new VueRenderer(TestComponent, { editor: editor!, props: {} })
+    const rendererB = new VueRenderer(TestComponent, { editor: editor!, props: {} })
+
+    const prefixA = rendererA.renderedComponent.vNode?.appContext?.config.idPrefix
+    const prefixB = rendererB.renderedComponent.vNode?.appContext?.config.idPrefix
+
+    expect(prefixA).toBeTruthy()
+    expect(prefixB).toBeTruthy()
+    expect(prefixA).not.toBe(prefixB)
+
+    expect(rendererA.element?.id).toBeTruthy()
+    expect(rendererB.element?.id).toBeTruthy()
+    expect(rendererA.element?.id).not.toBe(rendererB.element?.id)
+
+    // The shared appContext.config object itself must stay untouched — every other consumer of this
+    // editor's real appContext (there is only one) would otherwise see one renderer's prefix leak in.
+    expect((editor!.appContext as any).config.idPrefix).toBeUndefined()
+
+    rendererA.destroy()
+    rendererB.destroy()
+    hostApp.unmount()
   })
 })
