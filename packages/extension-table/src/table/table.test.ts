@@ -4,6 +4,7 @@ import { Editor } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
+import { columnResizingPluginKey } from '@tiptap/pm/tables'
 import { afterEach, describe, expect, it } from 'vite-plus/test'
 
 import { TableCell } from '../cell/table-cell.js'
@@ -72,5 +73,32 @@ describe('Table HTMLAttributes', () => {
     expect(table.classList.contains('fallback-class')).toBe(true)
 
     editorEl.remove()
+  })
+})
+
+describe('Table resizable', () => {
+  let editor: Editor | null = null
+
+  afterEach(() => {
+    editor?.destroy()
+    editor = null
+  })
+
+  it('registers column resizing plugin when resizable is true, even if initialized with editable: false', () => {
+    editor = new Editor({
+      editable: false,
+      extensions: [
+        Document,
+        Text,
+        TableCell,
+        TableHeader,
+        TableRow,
+        Table.configure({
+          resizable: true,
+        }),
+      ],
+    })
+
+    expect(columnResizingPluginKey.getState(editor.state)).toBeDefined()
   })
 })
