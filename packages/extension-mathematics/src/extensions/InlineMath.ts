@@ -224,8 +224,8 @@ export const InlineMath = Node.create<InlineMathOptions>({
     level: 'inline',
     start: (src: string) => src.indexOf('$'),
     tokenize: (src: string) => {
-      // Match $latex$ syntax for inline math (but not $$)
-      const match = src.match(/^\$([^$]+)\$(?!\$)/)
+      // Match $latex$ but not $$, and skip a closing $ after a space or before a digit so prices stay text
+      const match = src.match(/^\$([^$]*[^\s$])\$(?![\d$])/)
       if (!match) {
         return undefined
       }
