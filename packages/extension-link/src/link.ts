@@ -453,7 +453,7 @@ export const Link = Mark.create<LinkOptions>({
 
       if (text) {
         const { protocols, defaultProtocol } = this.options
-        const links = find(text).filter(
+        const links = find(text, { defaultProtocol }).filter(
           item =>
             item.isLink &&
             this.options.isAllowedUri(item.value, {
