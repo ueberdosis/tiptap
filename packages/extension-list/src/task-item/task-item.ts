@@ -130,12 +130,12 @@ export const TaskItem = Node.create<TaskItemOptions>({
         priority: 51,
       },
       {
-        // Only the checkbox label is chrome: skipping the whole item's label keeps the
-        // accessibility text out of the content, while a plain label still contributes it.
-        tag: `li[data-type="${this.name}"] > label`,
+        // Only the generated accessibility span inside the checkbox label is chrome.
+        // Ignoring the whole label would drop real task text such as
+        // <label><input type="checkbox">Buy milk</label>.
+        tag: `li[data-type="${this.name}"] > label > span`,
         priority: 52,
         ignore: true,
-        getAttrs: element => (element.querySelector('input[type="checkbox"]') ? {} : false),
       },
     ]
   },
