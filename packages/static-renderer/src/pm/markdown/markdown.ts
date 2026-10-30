@@ -6,6 +6,37 @@ import type { TiptapStaticRendererOptions } from '../../json/renderer.js'
 import type { StaticEditorOptions } from '../extensionRenderer.js'
 import { renderToHTMLString, serializeChildrenToHTMLString } from '../html-string/html-string.js'
 
+const NESTED_LIST_TYPES = ['bulletList', 'orderedList']
+
+/**
+ * A nested list only stays inside its item when its lines begin at the item's
+ * content column, so it is indented by the width of the item's own marker.
+ */
+function serializeListItemContent(node: PMNode, children: string | string[], marker: string) {
+  const rendered = Array.isArray(children) ? children : [children]
+  const indent = ' '.repeat(marker.length)
+
+  const content = node.children
+    .map((child, index) => {
+      const childContent = rendered[index] ?? ''
+
+      if (!NESTED_LIST_TYPES.includes(child.type.name)) {
+        return childContent
+      }
+
+      return childContent
+        .split('\n')
+        .map(line => (line ? `${indent}${line}` : line))
+        .join('\n')
+    })
+    .join('')
+
+  // The marker replaces the leading line break emitted by the item's first block, so only
+  // line breaks may be trimmed: trimming spaces would pull a nested list back up to the
+  // parent's marker column whenever the item's own first paragraph is empty.
+  return content.replace(/^\n+/, '').replace(/[ \n]+$/, '')
+}
+
 /**
  * This code is just to show the flexibility of this renderer. We can potentially render content to any format we want.
  * This is a simple example of how we can render content to markdown. This is not a full implementation of a markdown renderer.
@@ -40,8 +71,10 @@ export function renderToMarkdown({
           return `\n${serializeChildrenToHTMLString(children)}`
         },
         listItem({ node, children, parent }) {
+          let marker = ''
+
           if (parent?.type.name === 'bulletList') {
-            return `- ${serializeChildrenToHTMLString(children).trim()}\n`
+            marker = '- '
           }
           if (parent?.type.name === 'orderedList') {
             let number = parent.attrs.start || 1
@@ -52,10 +85,14 @@ export function renderToMarkdown({
               }
             })
 
-            return `${number}. ${serializeChildrenToHTMLString(children).trim()}\n`
+            marker = `${number}. `
           }
 
-          return serializeChildrenToHTMLString(children)
+          if (!marker) {
+            return serializeChildrenToHTMLString(children)
+          }
+
+          return `${marker}${serializeListItemContent(node, children, marker)}\n`
         },
         paragraph({ children }) {
           return `\n${serializeChildrenToHTMLString(children)}\n`
