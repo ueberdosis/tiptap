@@ -13,6 +13,142 @@ const HTML_ATTRIBUTE_TO_REACT_ATTRIBUTE: Record<string, string> = {
   rowspan: 'rowSpan',
 }
 
+const STYLE_NAME_SEPARATOR = /-([a-z])/g
+// CSS identifiers can include non-ASCII characters.
+const STYLE_URL_FUNCTION = /^(?:[^a-z0-9_\u0080-\uFFFF-])?url$/i
+const STYLE_WHITESPACE = /\s/
+
+// Preserve colons in values when splitting a CSS declaration.
+function addStyleDeclaration(style: Record<string, string>, declaration: string): void {
+  const separator = declaration.indexOf(':')
+
+  if (separator === -1) {
+    return
+  }
+
+  const property = declaration.slice(0, separator).trim()
+  const value = declaration.slice(separator + 1).trim()
+
+  if (!property || !value) {
+    return
+  }
+
+  // CSS custom property names are case-sensitive.
+  const reactProperty = property.startsWith('--')
+    ? property
+    : property.replace(STYLE_NAME_SEPARATOR, (_, letter: string) => letter.toUpperCase())
+
+  style[reactProperty] = value
+}
+
+// Return the closing quote index, or source.length if the string is unfinished.
+function skipStyleString(source: string, start: number): number {
+  for (let index = start + 1; index < source.length; index += 1) {
+    // Escaped quotes cannot close the string.
+    if (source[index] === '\\') {
+      index += 1
+      continue
+    }
+
+    if (source[index] === source[start]) {
+      return index
+    }
+  }
+
+  return source.length
+}
+
+// start points to the opening parenthesis, not the URL's first character.
+function skipStyleUrl(source: string, start: number): number {
+  let index = start + 1
+
+  while (index < source.length && STYLE_WHITESPACE.test(source[index])) {
+    index += 1
+  }
+
+  // Let the string scanner handle quoted URLs.
+  if (source[index] === '"' || source[index] === "'") {
+    return start
+  }
+
+  while (index < source.length && source[index] !== ')') {
+    index += source[index] === '\\' ? 2 : 1
+  }
+
+  return index
+}
+
+// Return a skip endpoint; the original index means no skip.
+function skipStyleToken(source: string, index: number): number {
+  const character = source[index]
+
+  if (character === '\\') {
+    return index + 1
+  }
+
+  if (character === '"' || character === "'") {
+    return skipStyleString(source, index)
+  }
+
+  if (character === '(' && STYLE_URL_FUNCTION.test(source.slice(Math.max(0, index - 4), index))) {
+    // Unquoted URLs can contain comment markers.
+    return skipStyleUrl(source, index)
+  }
+
+  return index
+}
+
+function parseReactStyle(source: string): Record<string, string> {
+  const style: Record<string, string> = {}
+  let depth = 0
+  let start = 0
+  // Preserve fragments before comments until the declaration ends.
+  let declaration = ''
+
+  for (let index = 0; index < source.length; index += 1) {
+    const character = source[index]
+    const tokenEnd = skipStyleToken(source, index)
+
+    if (tokenEnd !== index) {
+      // The loop advances past the returned endpoint.
+      index = tokenEnd
+      continue
+    }
+
+    if (source.startsWith('/*', index)) {
+      // Keep adjacent tokens separate when removing comments.
+      declaration += source.slice(start, index) + ' '
+
+      const commentEnd = source.indexOf('*/', index + 2)
+      index = commentEnd === -1 ? source.length : commentEnd + 1
+      start = index + 1
+      continue
+    }
+
+    if ('([{'.includes(character)) {
+      depth += 1
+      continue
+    }
+
+    if (')]}'.includes(character)) {
+      depth = Math.max(0, depth - 1)
+      continue
+    }
+
+    // Only top-level semicolons end a declaration.
+    if (character === ';' && depth === 0) {
+      addStyleDeclaration(style, declaration + source.slice(start, index))
+      declaration = ''
+      start = index + 1
+    }
+  }
+
+  // A final declaration does not need a trailing semicolon.
+  addStyleDeclaration(style, declaration + source.slice(start))
+
+  return style
+}
+
 /**
  * This function maps the attributes of a node or mark to HTML attributes
  * @param attrs The attributes to map
@@ -32,20 +168,8 @@ export function mapAttrsToHTMLAttributes(
         return Object.assign(acc, { className: value })
       }
 
-      // React expects styles to be a object
-      // so we need to convert it from string to object
       if (name === 'style' && typeof value === 'string') {
-        const styleObject: Record<string, string> = {}
-        value.split(';').forEach(style => {
-          const [styleKey, val] = style.split(':')
-          if (styleKey && val) {
-            // we need to turn the key into camelCase
-            const camelCaseKey = styleKey.trim().replace(/-([a-z])/g, g => g[1].toUpperCase())
-            styleObject[camelCaseKey] = val.trim()
-          }
-        })
-
-        return Object.assign(acc, { style: styleObject })
+        return Object.assign(acc, { style: parseReactStyle(value) })
       }
 
       const reactName = HTML_ATTRIBUTE_TO_REACT_ATTRIBUTE[name] ?? name
