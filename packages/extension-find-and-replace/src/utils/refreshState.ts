@@ -5,6 +5,7 @@ import type { FindAndReplaceMeta, FindAndReplacePluginState } from '../plugin/pl
 import { searchDocument } from '../search/search.js'
 
 import { createDecorations } from './createDecorations.js'
+import { hasCurrentIndex } from './hasCurrentIndex.js'
 import { resolveCurrentIndex } from './resolveCurrentIndex.js'
 
 export function refreshState(
@@ -22,6 +23,7 @@ export function refreshState(
     ...state,
     results,
     currentIndex,
+    currentResultVisited: hasCurrentIndex(meta),
     decorations: createDecorations(doc, results, currentIndex),
   }
 }
