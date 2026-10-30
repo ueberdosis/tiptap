@@ -3,12 +3,13 @@ import './style.scss'
 
 import { createApp } from 'vue'
 
-import { debug, splitName } from './helper.js'
+import { applyTheme, debug, splitName } from './helper.js'
 
 export default function init(name: string, source: any) {
   // @ts-ignore
   window.source = source
   document.title = name
+  applyTheme(document, new URLSearchParams(window.location.search).get('theme'))
 
   const [demoCategory, demoName, frameworkName] = splitName(name)
 
