@@ -142,11 +142,7 @@ function getPendingAwarePluginState(
     return pluginState.results.length === 0 ? null : pluginState
   }
 
-  const results = searchDocument(state.doc, pendingTerm, {
-    caseSensitive: pluginState.caseSensitive,
-    useRegex: pluginState.useRegex,
-    wholeWord: pluginState.wholeWord,
-  })
+  const results = searchDocument(state.doc, pendingTerm, pluginState)
 
   if (results.length === 0) {
     return null
@@ -206,13 +202,13 @@ function replaceResult(
   pluginState: FindAndReplacePluginState,
   result: SearchResult,
 ): void {
-  const { searchTerm, replaceTerm, caseSensitive, useRegex, wholeWord } = pluginState
+  const { searchTerm, replaceTerm } = pluginState
 
   tr.insertText(replaceTerm, result.from, result.to)
 
   // Jump to the first result behind the inserted text, so a replacement
   // that still matches the search (e.g. "foo" -> "foobar") is skipped.
-  const results = searchDocument(tr.doc, searchTerm, { caseSensitive, useRegex, wholeWord })
+  const results = searchDocument(tr.doc, searchTerm, pluginState)
   const nextIndex = findNextIndex(results, result.from + replaceTerm.length)
 
   if (nextIndex === null) {
@@ -233,6 +229,7 @@ export const FindAndReplace = Extension.create<FindAndReplaceOptions, FindAndRep
       caseSensitive: false,
       useRegex: false,
       wholeWord: false,
+      continuesNode: () => false,
       searchDebounceMs: 250,
       injectCSS: true,
       injectNonce: undefined,

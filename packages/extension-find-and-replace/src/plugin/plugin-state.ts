@@ -1,3 +1,4 @@
+import type { Node as PMNode } from '@tiptap/pm/model'
 import type { DecorationSet } from '@tiptap/pm/view'
 
 import type { SearchResult } from '../search/search.js'
@@ -8,6 +9,7 @@ export interface FindAndReplacePluginState {
   caseSensitive: boolean
   useRegex: boolean
   wholeWord: boolean
+  continuesNode: (node: PMNode) => boolean
   results: SearchResult[]
   currentIndex: number | null
   /** Whether the current result was already selected by navigation. */

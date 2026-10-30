@@ -13,12 +13,12 @@ export function resultInTextblocks(
     const index = Math.floor((start + end) / 2)
     const textblock = textblocks[index]
 
-    if (result.from < textblock.from) {
+    if (result.to <= textblock.from) {
       end = index - 1
       continue
     }
 
-    if (result.to > textblock.to) {
+    if (result.from >= textblock.to) {
       start = index + 1
       continue
     }

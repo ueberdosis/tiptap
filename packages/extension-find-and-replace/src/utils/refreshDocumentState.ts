@@ -1,10 +1,11 @@
 import type { Node as PMNode } from '@tiptap/pm/model'
-import type { Mapping } from '@tiptap/pm/transform'
+import type { Transform } from '@tiptap/pm/transform'
 
 import type { FindAndReplaceMeta, FindAndReplacePluginState } from '../plugin/plugin-state.js'
 import type { SearchResult } from '../search/search.js'
 import { searchTextblocks } from '../search/search.js'
 
+import { addContinuedTextblocks } from './addContinuedTextblocks.js'
 import { getChangedTextblocks } from './getChangedTextblocks.js'
 import { hasCurrentIndex } from './hasCurrentIndex.js'
 import { isCurrentResult } from './isCurrentResult.js'
@@ -32,9 +33,14 @@ export function refreshDocumentState(
   state: FindAndReplacePluginState,
   doc: PMNode,
   meta: FindAndReplaceMeta | undefined,
-  mapping: Mapping,
+  transform: Transform,
 ): FindAndReplacePluginState {
-  const textblocks = getChangedTextblocks(doc, mapping)
+  const { mapping } = transform
+  const textblocks = addContinuedTextblocks(
+    doc,
+    getChangedTextblocks(doc, transform),
+    state.continuesNode,
+  )
   const mappedResults = mapResults(previousState.results, mapping)
   const unaffectedResults = mappedResults.filter(result => !resultInTextblocks(result, textblocks))
   const changedResults = searchTextblocks(textblocks, state.searchTerm, state)
