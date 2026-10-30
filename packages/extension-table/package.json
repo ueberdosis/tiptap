@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/extension-table",
-  "version": "3.30.3",
+  "version": "4.0.0-next.0",
   "description": "table extension for tiptap",
   "keywords": [
     "tiptap",

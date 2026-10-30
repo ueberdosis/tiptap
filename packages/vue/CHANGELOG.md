@@ -1,5 +1,70 @@
 # Change Log
 
+## 4.0.0-next.0
+
+### Major Changes
+
+- 0c62b27: Keep unmounted editors alive and build React and Vue NodeViews once per mount. Unmounting preserves the document, selection, and plugins. Autofocus runs only on the first mount. Repeated mounts at the same element and repeated unmounts do nothing. Destroyed editors cannot mount again.
+  
+  Migration: use `editor.isMounted` before reading view DOM. `editor.isDestroyed` is true only after `destroy()`. React `useEditor` and Vue `Editor` now wait for `EditorContent` to mount the view by default. For a view without `EditorContent`, pass an `element` or call `editor.mount(element)`. Use `unmount()` for temporary removal and `destroy()` for final cleanup. Mount and unmount events now follow `EditorContent` attachment and removal.
+- dceb48f: Vue 2 support is removed. `@tiptap/vue-3` is now `@tiptap/vue`, and `@tiptap/extension-drag-handle-vue-3` is now `@tiptap/extension-drag-handle-vue`.
+  
+  Update imports and dependencies:
+  
+  ```diff
+  - import { EditorContent } from '@tiptap/vue-3'
+  + import { EditorContent } from '@tiptap/vue'
+  
+  - import DragHandle from '@tiptap/extension-drag-handle-vue-3'
+  + import DragHandle from '@tiptap/extension-drag-handle-vue'
+  ```
+  
+  Vue 2 users must migrate to Vue 3 before using the new packages. The planned Codemod Registry package `@tiptap/codemod-v3-to-v4` updates package imports and dependencies.
+
+### Minor Changes
+
+- 253b2a1: Allow `editor.registerPlugin` to register an array of plugins in one call, including when using a custom plugin merge callback. Single-plugin registration remains supported.
+
+### Patch Changes
+
+- 73b8e59: Fix callback updates through `setOptions()`. Changes to initial options such as `content`, `extensions`, and `schemaSpec` are now ignored with a development warning.
+  
+  Use `editor.commands.setContent(content)` to replace content. Create a new editor to change extensions or the schema. Use `EditorRuntimeOptions` and `getEditorRuntimeOptions()` to select options supported by `setOptions()`.
+- de130d9: `@tiptap/react` and `@tiptap/vue` now pin their optional `@tiptap/extension-bubble-menu` and `@tiptap/extension-floating-menu` dependencies to the exact version they were released with, so installing a specific version gives you that version's menu extensions instead of the newest ones.
+- Updated dependencies [8f46243]
+- Updated dependencies [548216e]
+- Updated dependencies [93e3727]
+- Updated dependencies [8aea2ef]
+- Updated dependencies [c4488ba]
+- Updated dependencies [2fab93e]
+- Updated dependencies [3451d10]
+- Updated dependencies [17ec9ff]
+- Updated dependencies [5c7200d]
+- Updated dependencies [a90921e]
+- Updated dependencies [6ec63ef]
+- Updated dependencies [8cbeca3]
+- Updated dependencies [c402400]
+- Updated dependencies [77df9af]
+- Updated dependencies [77df9af]
+- Updated dependencies [77df9af]
+- Updated dependencies [77df9af]
+- Updated dependencies [b95679f]
+- Updated dependencies [0c62b27]
+- Updated dependencies [73b8e59]
+- Updated dependencies [bf45080]
+- Updated dependencies [9746fba]
+- Updated dependencies [b71ab87]
+- Updated dependencies [9aa59dd]
+- Updated dependencies [fd086c5]
+- Updated dependencies [6520e58]
+- Updated dependencies [32c048d]
+- Updated dependencies [73da270]
+- Updated dependencies [3f111e9]
+- Updated dependencies [ec29df8]
+- Updated dependencies [253b2a1]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+
 ## 3.30.3
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/y-tiptap",
-  "version": "3.0.9",
+  "version": "3.0.10-next.0",
   "description": "Tiptap ProseMirror bindings for Yjs",
   "keywords": [
     "prosemirror",

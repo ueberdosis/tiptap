@@ -1,5 +1,53 @@
 # @tiptap/ai-toolkit
 
+## 0.4.1-next.0
+
+### Patch Changes
+
+- 416749b: The Server AI Toolkit no longer adds `_hash` to inline nodes, including inline Image, Audio, YouTube and Twitch nodes.
+- dd62145: Keep collaborative editing, cursor presence, and drag handles compatible with the updated `@tiptap/y-tiptap` binding.
+- Updated dependencies [8f46243]
+- Updated dependencies [548216e]
+- Updated dependencies [93e3727]
+- Updated dependencies [8aea2ef]
+- Updated dependencies [c4488ba]
+- Updated dependencies [2fab93e]
+- Updated dependencies [3451d10]
+- Updated dependencies [17ec9ff]
+- Updated dependencies [5c7200d]
+- Updated dependencies [a90921e]
+- Updated dependencies [6ec63ef]
+- Updated dependencies [8cbeca3]
+- Updated dependencies [c402400]
+- Updated dependencies [77df9af]
+- Updated dependencies [77df9af]
+- Updated dependencies [77df9af]
+- Updated dependencies [77df9af]
+- Updated dependencies [b95679f]
+- Updated dependencies [dd62145]
+- Updated dependencies [dd62145]
+- Updated dependencies [dd62145]
+- Updated dependencies [dd62145]
+- Updated dependencies [0c62b27]
+- Updated dependencies [73b8e59]
+- Updated dependencies [bf45080]
+- Updated dependencies [9746fba]
+- Updated dependencies [b71ab87]
+- Updated dependencies [a1a407d]
+- Updated dependencies [94da3af]
+- Updated dependencies [4800a32]
+- Updated dependencies [9aa59dd]
+- Updated dependencies [fd086c5]
+- Updated dependencies [6520e58]
+- Updated dependencies [32c048d]
+- Updated dependencies [73da270]
+- Updated dependencies [3f111e9]
+- Updated dependencies [ec29df8]
+- Updated dependencies [253b2a1]
+  - @tiptap/core@4.0.0-next.0
+  - @tiptap/pm@4.0.0-next.0
+  - @tiptap/y-tiptap@3.0.10-next.0
+
 ## 0.4.0
 
 ### Minor Changes
