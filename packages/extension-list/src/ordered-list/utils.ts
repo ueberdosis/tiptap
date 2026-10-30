@@ -62,6 +62,12 @@ const PARAGRAPH_INTERRUPTERS = {
 }
 
 /**
+ * Matches the marker of a bullet list item and the spaces after it, so its length
+ * is the item's content column relative to the marker.
+ */
+const BULLET_ITEM_MARKER_REGEX = /^[-+*](?:[ \t]+|$)/
+
+/**
  * Represents a parsed ordered list item with indentation information
  */
 export interface OrderedListItem {
@@ -165,14 +171,35 @@ export function collectOrderedListItems(lines: string[]): [OrderedListItem[], nu
     let nextLineIndex = currentLineIndex + 1
     const itemLines = [line]
     let sawBlankLine = false
+    // Content column of the shallowest bullet item nested in this item's content.
+    // An ordered item indented at least that far belongs to that bullet item.
+    let bulletContentIndent = Infinity
 
     // Collect continuation lines for this item (but NOT nested list items)
     while (nextLineIndex < lines.length) {
       const nextLine = lines[nextLineIndex]
+      const leadingWhitespace = nextLine.length - nextLine.trimStart().length
 
-      // If it's another list item (nested or not), stop collecting
+      // If it's another list item (nested or not), stop collecting, unless it
+      // is nested inside a bullet item of this item's content
       if (matchOrderedListItemLine(nextLine)) {
-        break
+        if (leadingWhitespace < bulletContentIndent) {
+          break
+        }
+      } else if (leadingWhitespace > indentLevel) {
+        const bulletMarker = nextLine.trimStart().match(BULLET_ITEM_MARKER_REGEX)
+
+        if (bulletMarker) {
+          // Keep the shallowest one: a deeper bullet must not raise the
+          // threshold for ordered items that belong to an outer bullet item
+          bulletContentIndent = Math.min(
+            bulletContentIndent,
+            leadingWhitespace + bulletMarker[0].length,
+          )
+        } else if (nextLine.trim() !== '' && leadingWhitespace < bulletContentIndent) {
+          // Content back at a shallower indent has left the bullet item
+          bulletContentIndent = Infinity
+        }
       }
 
       // Check for continuation content (non-list content)
@@ -186,7 +213,6 @@ export function collectOrderedListItems(lines: string[]): [OrderedListItem[], nu
         // Indented content - part of this item (but not a list item).
         // Strip the indentation only up to the whitespace that is actually present,
         // so an under-indented line (e.g. a single leading space) keeps its first character.
-        const leadingWhitespace = nextLine.length - nextLine.trimStart().length
         const contentIndent = indentLevel + marker.length + 1
         itemLines.push(nextLine)
         itemContentLines.push(nextLine.slice(Math.min(leadingWhitespace, contentIndent)))
