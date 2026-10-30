@@ -1,3 +1,5 @@
+import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+
 import type { SearchResult } from './search/search.js'
 
 export interface FindAndReplaceOptions {
@@ -31,6 +33,19 @@ export interface FindAndReplaceOptions {
    * @default false
    */
   wholeWord: boolean
+
+  /**
+   * Whether a textblock continues the textblock before it.
+   * Continued textblocks are searched as one text, so a match can start in one and end in the next.
+   * @param node The textblock to check.
+   * @returns `true` when the node continues the previous textblock.
+   * @default () => false
+   * @example
+   * FindAndReplace.configure({
+   *   continuesNode: node => node.attrs.continued === true,
+   * })
+   */
+  continuesNode: (node: ProseMirrorNode) => boolean
 
   /**
    * Debounce delay in milliseconds applied to `setSearchTerm`.

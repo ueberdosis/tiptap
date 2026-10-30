@@ -19,8 +19,10 @@ export function createState(
     caseSensitive: options.caseSensitive,
     useRegex: options.useRegex,
     wholeWord: options.wholeWord,
+    continuesNode: options.continuesNode,
     results,
     currentIndex,
+    currentResultVisited: false,
     decorations: createDecorations(doc, results, currentIndex),
   }
 }

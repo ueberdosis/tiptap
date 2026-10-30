@@ -1,4 +1,4 @@
-import type { Node as PMNode } from '@tiptap/pm/model'
+import type { TextblockSearchTarget } from './types.js'
 
 interface TextSegment {
   isText: boolean
@@ -10,21 +10,23 @@ interface TextSegment {
 
 // Non-text inline nodes (hard break, mention, ...) contribute a placeholder
 // so matches never silently span across them.
-export function getTextSegments(textblock: PMNode, pos: number): TextSegment[] {
+export function getTextSegments(textblocks: readonly TextblockSearchTarget[]): TextSegment[] {
   const segments: TextSegment[] = []
   let textOffset = 0
 
-  textblock.forEach((child, offset) => {
-    const text = child.isText ? (child.text ?? '') : '\n'
+  textblocks.forEach(({ node, pos }) => {
+    node.forEach((child, offset) => {
+      const text = child.isText ? (child.text ?? '') : '\n'
 
-    segments.push({
-      isText: child.isText,
-      pos: pos + 1 + offset,
-      length: child.nodeSize,
-      text,
-      textOffset,
+      segments.push({
+        isText: child.isText,
+        pos: pos + 1 + offset,
+        length: child.nodeSize,
+        text,
+        textOffset,
+      })
+      textOffset += text.length
     })
-    textOffset += text.length
   })
 
   return segments
@@ -53,6 +55,11 @@ export function offsetToPos(segments: TextSegment[], offset: number): number {
   const segment = findOffsetSegment(segments, offset)
 
   return segment ? segment.pos + Math.min(offset - segment.textOffset, segment.length) : 0
+}
+
+// Resolve the last matched character, so an end at a textblock boundary stays in that textblock
+export function endOffsetToPos(segments: TextSegment[], offset: number): number {
+  return offsetToPos(segments, offset - 1) + 1
 }
 
 export function overlapsNonTextSegment(segments: TextSegment[], from: number, to: number): boolean {
