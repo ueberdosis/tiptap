@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.32.2
+
+### Patch Changes
+
+- b8c7a3b: Support Happy DOM 21.0.4 and later in version 21 while keeping support for Happy DOM 20.
+- @tiptap/core@3.32.2
+  - @tiptap/pm@3.32.2
+
 ## 3.32.1
 
 ### Patch Changes

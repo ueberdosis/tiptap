@@ -1,5 +1,523 @@
 # Releases
 
+## v3.32.2
+
+### @tiptap/html
+
+#### Patch Changes
+
+- 4bc08bc: Support Happy DOM 21.0.4 and later in version 21 while keeping support for Happy DOM 20.
+- @tiptap/core@3.32.2
+  - @tiptap/pm@3.32.2
+
+### @tiptap/static-renderer
+
+#### Patch Changes
+
+- 4bc08bc: Nest marks in the same order as the editor, so text with a color and an underline renders `<span style="color: …"><u>…</u></span>`.
+- @tiptap/core@3.32.2
+  - @tiptap/pm@3.32.2
+
+### @tiptap/y-tiptap
+
+#### Patch Changes
+
+- 4bc08bc: Restore the behavior from 3.0.9 and earlier for shared content that does not fit the editor schema. The editor stays editable again and removes or adjusts the content it cannot display, instead of becoming read-only.
+
+### @tiptap/extension-character-count
+
+#### Patch Changes
+
+- @tiptap/extensions@3.32.2
+
+### @tiptap/extension-dropcursor
+
+#### Patch Changes
+
+- @tiptap/extensions@3.32.2
+
+### @tiptap/extension-focus
+
+#### Patch Changes
+
+- @tiptap/extensions@3.32.2
+
+### @tiptap/extension-gapcursor
+
+#### Patch Changes
+
+- @tiptap/extensions@3.32.2
+
+### @tiptap/extension-history
+
+#### Patch Changes
+
+- @tiptap/extensions@3.32.2
+
+### @tiptap/extension-list-item
+
+#### Patch Changes
+
+- @tiptap/extension-list@3.32.2
+
+### @tiptap/extension-list-keymap
+
+#### Patch Changes
+
+- @tiptap/extension-list@3.32.2
+
+### @tiptap/extension-placeholder
+
+#### Patch Changes
+
+- @tiptap/extensions@3.32.2
+
+### @tiptap/extension-table-cell
+
+#### Patch Changes
+
+- @tiptap/extension-table@3.32.2
+
+### @tiptap/extension-table-header
+
+#### Patch Changes
+
+- @tiptap/extension-table@3.32.2
+
+### @tiptap/extension-table-row
+
+#### Patch Changes
+
+- @tiptap/extension-table@3.32.2
+
+### @tiptap/extension-task-item
+
+#### Patch Changes
+
+- @tiptap/extension-list@3.32.2
+
+### @tiptap/extension-task-list
+
+#### Patch Changes
+
+- @tiptap/extension-list@3.32.2
+
+### @tiptap/core
+
+#### Patch Changes
+
+- @tiptap/pm@3.32.2
+
+### @tiptap/extension-audio
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+
+### @tiptap/extension-blockquote
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+  - @tiptap/pm@3.32.2
+
+### @tiptap/extension-bold
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+
+### @tiptap/extension-bubble-menu
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+  - @tiptap/pm@3.32.2
+
+### @tiptap/extension-bullet-list
+
+#### Patch Changes
+
+- @tiptap/extension-list@3.32.2
+
+### @tiptap/extension-code
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+
+### @tiptap/extension-code-block
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+  - @tiptap/pm@3.32.2
+
+### @tiptap/extension-code-block-lowlight
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+  - @tiptap/extension-code-block@3.32.2
+  - @tiptap/pm@3.32.2
+
+### @tiptap/extension-collaboration
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+  - @tiptap/pm@3.32.2
+
+### @tiptap/extension-collaboration-caret
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+  - @tiptap/pm@3.32.2
+
+### @tiptap/extension-color
+
+#### Patch Changes
+
+- @tiptap/extension-text-style@3.32.2
+
+### @tiptap/extension-details
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+  - @tiptap/extension-text-style@3.32.2
+  - @tiptap/pm@3.32.2
+
+### @tiptap/extension-document
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+
+### @tiptap/extension-drag-handle
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+  - @tiptap/extension-collaboration@3.32.2
+  - @tiptap/extension-node-range@3.32.2
+  - @tiptap/pm@3.32.2
+
+### @tiptap/extension-drag-handle-react
+
+#### Patch Changes
+
+- @tiptap/extension-drag-handle@3.32.2
+  - @tiptap/pm@3.32.2
+  - @tiptap/react@3.32.2
+
+### @tiptap/extension-drag-handle-vue-2
+
+#### Patch Changes
+
+- @tiptap/extension-drag-handle@3.32.2
+  - @tiptap/pm@3.32.2
+  - @tiptap/vue-2@3.32.2
+
+### @tiptap/extension-drag-handle-vue-3
+
+#### Patch Changes
+
+- @tiptap/extension-drag-handle@3.32.2
+  - @tiptap/pm@3.32.2
+  - @tiptap/vue-3@3.32.2
+
+### @tiptap/extension-emoji
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+  - @tiptap/pm@3.32.2
+  - @tiptap/suggestion@3.32.2
+
+### @tiptap/extension-file-handler
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+  - @tiptap/extension-text-style@3.32.2
+  - @tiptap/pm@3.32.2
+
+### @tiptap/extension-find-and-replace
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+  - @tiptap/pm@3.32.2
+
+### @tiptap/extension-floating-menu
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+  - @tiptap/pm@3.32.2
+
+### @tiptap/extension-font-family
+
+#### Patch Changes
+
+- @tiptap/extension-text-style@3.32.2
+
+### @tiptap/extension-hard-break
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+
+### @tiptap/extension-heading
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+
+### @tiptap/extension-highlight
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+
+### @tiptap/extension-horizontal-rule
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+  - @tiptap/pm@3.32.2
+
+### @tiptap/extension-image
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+
+### @tiptap/extension-invisible-characters
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+  - @tiptap/extension-text-style@3.32.2
+  - @tiptap/pm@3.32.2
+
+### @tiptap/extension-italic
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+
+### @tiptap/extension-link
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+  - @tiptap/pm@3.32.2
+
+### @tiptap/extension-list
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+  - @tiptap/pm@3.32.2
+
+### @tiptap/extension-mathematics
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+  - @tiptap/pm@3.32.2
+
+### @tiptap/extension-mention
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+  - @tiptap/pm@3.32.2
+  - @tiptap/suggestion@3.32.2
+
+### @tiptap/extension-node-range
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+  - @tiptap/pm@3.32.2
+
+### @tiptap/extension-ordered-list
+
+#### Patch Changes
+
+- @tiptap/extension-list@3.32.2
+
+### @tiptap/extension-paragraph
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+
+### @tiptap/extension-ruby-text
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+  - @tiptap/pm@3.32.2
+
+### @tiptap/extension-strike
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+
+### @tiptap/extension-subscript
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+  - @tiptap/pm@3.32.2
+
+### @tiptap/extension-superscript
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+  - @tiptap/pm@3.32.2
+
+### @tiptap/extension-table
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+  - @tiptap/pm@3.32.2
+
+### @tiptap/extension-table-of-contents
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+  - @tiptap/pm@3.32.2
+
+### @tiptap/extension-text
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+
+### @tiptap/extension-text-align
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+
+### @tiptap/extension-text-style
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+
+### @tiptap/extension-twitch
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+
+### @tiptap/extension-typography
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+
+### @tiptap/extension-underline
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+
+### @tiptap/extension-unique-id
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+  - @tiptap/pm@3.32.2
+
+### @tiptap/extension-youtube
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+
+### @tiptap/extensions
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+  - @tiptap/pm@3.32.2
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+  - @tiptap/pm@3.32.2
+
+### @tiptap/react
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+  - @tiptap/pm@3.32.2
+
+### @tiptap/starter-kit
+
+#### Patch Changes
+
+- @tiptap/extension-dropcursor@3.32.2
+  - @tiptap/extension-gapcursor@3.32.2
+  - @tiptap/extension-list-item@3.32.2
+  - @tiptap/extension-list-keymap@3.32.2
+  - @tiptap/core@3.32.2
+  - @tiptap/extension-blockquote@3.32.2
+  - @tiptap/extension-bold@3.32.2
+  - @tiptap/extension-bullet-list@3.32.2
+  - @tiptap/extension-code@3.32.2
+  - @tiptap/extension-code-block@3.32.2
+  - @tiptap/extension-document@3.32.2
+  - @tiptap/extension-hard-break@3.32.2
+  - @tiptap/extension-heading@3.32.2
+  - @tiptap/extension-horizontal-rule@3.32.2
+  - @tiptap/extension-italic@3.32.2
+  - @tiptap/extension-link@3.32.2
+  - @tiptap/extension-list@3.32.2
+  - @tiptap/extension-ordered-list@3.32.2
+  - @tiptap/extension-paragraph@3.32.2
+  - @tiptap/extension-strike@3.32.2
+  - @tiptap/extension-text@3.32.2
+  - @tiptap/extension-underline@3.32.2
+  - @tiptap/extensions@3.32.2
+  - @tiptap/pm@3.32.2
+
+### @tiptap/suggestion
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+  - @tiptap/pm@3.32.2
+
+### @tiptap/vue-2
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+  - @tiptap/pm@3.32.2
+
+### @tiptap/vue-3
+
+#### Patch Changes
+
+- @tiptap/core@3.32.2
+  - @tiptap/pm@3.32.2
+
 ## v3.32.1
 
 ### @tiptap/core
