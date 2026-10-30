@@ -161,6 +161,16 @@ describe('InvisibleCharacters', () => {
       expect(countDecorations(editor, 'tab')).toBe(2)
     })
 
+    it('keeps the decoration of the character right after an insert', () => {
+      editor = createOptInEditor()
+      editor.commands.insertContent({ type: 'text', text: 'a\tbc' })
+      editor.commands.showInvisibleCharacters()
+
+      editor.view.dispatch(editor.state.tr.insertText('x', 2))
+
+      expect(countDecorations(editor, 'tab')).toBe(1)
+    })
+
     it('removes decorations again on undo', () => {
       editor = createOptInEditor({
         content: '<p>ab</p>',

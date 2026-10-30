@@ -1,5 +1,5 @@
 import type { Node as PMNode } from '@tiptap/pm/model'
-import type { DecorationSet } from '@tiptap/pm/view'
+import type { Decoration, DecorationSet } from '@tiptap/pm/view'
 
 import { createDecorationWidget } from './utils/create-decoration-widget.js'
 import { textBetween } from './utils/text-between.js'
@@ -28,29 +28,25 @@ export class InvisibleCharacter {
   }
 
   createDecoration(from: number, to: number, doc: PMNode, decorations: DecorationSet) {
-    const textContent = textBetween(from, to, doc)
+    const widgets: Decoration[] = []
 
-    return textContent.reduce((oldDecorations, currentPosition) => {
-      return currentPosition.text.split('').reduce((innerDecorations, char, i) => {
-        if (!this.test(char)) {
-          return innerDecorations
+    textBetween(from, to, doc).forEach(({ pos, text }) => {
+      text.split('').forEach((char, index) => {
+        if (this.test(char)) {
+          widgets.push(createDecorationWidget(pos + index, this.type, this.content))
         }
+      })
+    })
 
-        const decorationPosition = currentPosition.pos + i
+    // Overlapping update ranges would add the same widget twice
+    const lastCharacterPosition = to - 1
+    const existingWidgets = decorations.find(
+      from,
+      lastCharacterPosition,
+      spec => spec.key === this.type,
+    )
 
-        // Multi-step transactions can produce overlapping update ranges
-        // remove any existing widget first to avoid duplicates
-        const oldDecorationsAtPosition = innerDecorations.find(
-          decorationPosition,
-          decorationPosition,
-          spec => spec.key === this.type,
-        )
-
-        return innerDecorations
-          .remove(oldDecorationsAtPosition)
-          .add(doc, [createDecorationWidget(decorationPosition, this.type, this.content)])
-      }, oldDecorations)
-    }, decorations)
+    return decorations.remove(existingWidgets).add(doc, widgets)
   }
 
   test(value: string) {
