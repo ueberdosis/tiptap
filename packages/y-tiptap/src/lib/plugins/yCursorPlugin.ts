@@ -194,7 +194,7 @@ export const yCursorPlugin = (
       const updateCursorInfo = (editorView: EditorView) => {
         const ystate = ySyncPluginKey.getState(editorView.state)
 
-        if (!ystate || !ystate.binding || ystate.binding.projectionError !== null) {
+        if (!ystate || !ystate.binding) {
           return
         }
 

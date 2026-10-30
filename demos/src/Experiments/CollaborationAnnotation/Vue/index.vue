@@ -101,6 +101,7 @@ onMounted(() => {
 
   clients.value = documents.map((document, index) => {
     const editor = new Editor({
+      element: window.document.createElement('div'),
       extensions: [
         StarterKit.configure({ undoRedo: false }),
         Image,

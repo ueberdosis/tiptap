@@ -75,13 +75,8 @@ export class DecorationManager {
     return DECORATION_MANAGER_PLUGIN_KEY.getState(this.editor.state)?.widgetKeys ?? EMPTY_KEYS
   }
 
-  /**
-   * The mounted editor view, or `null` when destroyed. Decoration callbacks
-   * must never receive the placeholder view `editor.view` falls back to.
-   * @returns The mounted editor view, or `null`
-   */
   private get mountedView(): EditorView | null {
-    return this.editor.isDestroyed ? null : this.editor.view
+    return this.editor.isMounted ? this.editor.view : null
   }
 
   /**

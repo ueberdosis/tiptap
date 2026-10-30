@@ -12,4 +12,15 @@ test.describe('GuideNodeViews/ReactComponentContent/React', () => {
       'This is editable. You can create a new component by pressing Mod+Enter.',
     )
   })
+
+  test('keeps edited content across unmount and remount', async ({ page }) => {
+    const editor = page.locator('.tiptap')
+    await editor.click()
+    await page.keyboard.press('ControlOrMeta+End')
+    await page.keyboard.type(' Kept after remount')
+    await page.getByRole('button', { name: 'Unmount editor', exact: true }).click()
+    await expect(editor).toHaveCount(0)
+    await page.getByRole('button', { name: 'Mount editor', exact: true }).click()
+    await expect(editor).toContainText('Kept after remount')
+  })
 })

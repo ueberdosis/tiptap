@@ -1,5 +1,10 @@
 <template>
-  <editor-content :editor="editor" />
+  <div class="control-group">
+    <div class="button-group">
+      <button @click="mounted = !mounted">{{ mounted ? 'Unmount editor' : 'Mount editor' }}</button>
+    </div>
+  </div>
+  <editor-content v-if="mounted" :editor="editor" />
 </template>
 
 <script>
@@ -16,6 +21,7 @@ export default {
   data() {
     return {
       editor: null,
+      mounted: true,
     }
   },
 

@@ -1,8 +1,24 @@
 import { Extension } from '@tiptap/core'
+import { Plugin } from '@tiptap/pm/state'
 
 import { DEFAULT_DATA_ATTRIBUTE } from './constants.js'
+import { placeholderSettingsPluginKey } from './placeholderSettingsPluginKey.js'
 import { createPlaceholderPlugin } from './plugins/PlaceholderPlugin.js'
 import type { PlaceholderOptions } from './types.js'
+
+declare module '@tiptap/core' {
+  interface Commands<ReturnType> {
+    placeholder: {
+      /**
+       * Update the placeholder without changing the document.
+       * @param placeholder A string or a function returning the placeholder.
+       * @returns Whether the command can run.
+       * @example editor.commands.setPlaceholder('Write something')
+       */
+      setPlaceholder: (placeholder: PlaceholderOptions['placeholder']) => ReturnType
+    }
+  }
+}
 
 /**
  * This extension allows you to add a placeholder to your editor.
@@ -24,7 +40,29 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
     }
   },
 
+  addCommands() {
+    return {
+      setPlaceholder:
+        placeholder =>
+        ({ tr, dispatch }) => {
+          if (dispatch) {
+            tr.setMeta(placeholderSettingsPluginKey, placeholder)
+          }
+          return true
+        },
+    }
+  },
+
   addProseMirrorPlugins() {
-    return [createPlaceholderPlugin({ editor: this.editor, options: this.options })]
+    return [
+      new Plugin({
+        key: placeholderSettingsPluginKey,
+        state: {
+          init: () => this.options.placeholder,
+          apply: (tr, placeholder) => tr.getMeta(placeholderSettingsPluginKey) ?? placeholder,
+        },
+      }),
+      createPlaceholderPlugin({ editor: this.editor, options: this.options }),
+    ]
   },
 })

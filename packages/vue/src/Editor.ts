@@ -41,10 +41,14 @@ export class Editor extends CoreEditor {
   public appContext: AppContext | null = null
 
   constructor(options: Partial<EditorOptions> = {}) {
-    super(options)
+    super({ element: null, ...options })
 
     this.reactiveState = useDebouncedRef(this.view.state)
     this.reactiveExtensionStorage = useDebouncedRef(this.extensionStorage)
+
+    this.on('mount', () => {
+      this.reactiveState.value = super.state
+    })
 
     this.on('beforeTransaction', ({ nextState }) => {
       this.reactiveState.value = nextState
@@ -55,7 +59,9 @@ export class Editor extends CoreEditor {
   }
 
   get state() {
-    return this.reactiveState ? this.reactiveState.value : this.view.state
+    const state = this.reactiveState?.value
+
+    return this.isMounted ? super.state : (state ?? super.state)
   }
 
   get storage() {
@@ -63,11 +69,11 @@ export class Editor extends CoreEditor {
   }
 
   /**
-   * Register a ProseMirror plugin.
+   * Register one or more ProseMirror plugins.
    */
-  public registerPlugin(
-    plugin: Plugin,
-    handlePlugins?: (newPlugin: Plugin, plugins: Plugin[]) => Plugin[],
+  public registerPlugin<T extends Plugin | Plugin[]>(
+    plugin: T,
+    handlePlugins?: (newPlugin: T, plugins: Plugin[]) => Plugin[],
   ): EditorState {
     const nextState = super.registerPlugin(plugin, handlePlugins)
 

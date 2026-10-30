@@ -59,7 +59,7 @@ class ReactNodeViewSelectionTracker {
   private handleTransaction = () => this.scheduleSync()
 
   private sync() {
-    if (this.viewCount === 0 || this.editor.isDestroyed) {
+    if (this.viewCount === 0 || !this.editor.isMounted) {
       return
     }
 
