@@ -39,6 +39,11 @@ export interface PlaceholderOptions {
   placeholder:
     | ((PlaceholderProps: {
         editor: Editor
+        /**
+         * The document being decorated. Prefer it over `editor.state.doc`, which can still be the
+         * previous document while placeholders are updated after a transaction.
+         */
+        doc: ProsemirrorNode
         node: ProsemirrorNode
         pos: number
         hasAnchor: boolean
