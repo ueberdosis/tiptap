@@ -66,31 +66,51 @@ export const Underline = Mark.create<UnderlineOptions>({
   },
 
   renderMarkdown(node, helpers) {
-    return `++${helpers.renderChildren(node)}++`
+    return `<u>${helpers.renderChildren(node)}</u>`
   },
 
   markdownTokenizer: {
     name: 'underline',
     level: 'inline',
     start(src) {
-      return src.indexOf('++')
+      return src.toLowerCase().indexOf('<u>')
     },
     tokenize(src, _tokens, lexer) {
-      const rule = /^(\+\+)([\s\S]+?)(\+\+)/
-      const match = rule.exec(src)
-
-      if (!match) {
+      if (!/^<u>/i.test(src)) {
         return undefined
       }
 
-      const innerContent = match[2].trim()
+      const delimiters = /\\[\s\S]|`+|<\/u>/gi
+      delimiters.lastIndex = 3
 
-      return {
-        type: 'underline',
-        raw: match[0],
-        text: innerContent,
-        tokens: lexer.inlineTokens(innerContent),
+      let match = delimiters.exec(src)
+
+      while (match) {
+        if (match[0].startsWith('`')) {
+          const codeSpan = /^(`+)([^`]|[^`][\s\S]*?[^`])\1(?!`)/.exec(src.slice(match.index))
+
+          if (codeSpan) {
+            delimiters.lastIndex = match.index + codeSpan[0].length
+          }
+        } else if (!match[0].startsWith('\\')) {
+          const text = src.slice(3, match.index)
+
+          if (!text) {
+            return undefined
+          }
+
+          return {
+            type: 'underline',
+            raw: src.slice(0, delimiters.lastIndex),
+            text,
+            tokens: lexer.inlineTokens(text),
+          }
+        }
+
+        match = delimiters.exec(src)
       }
+
+      return undefined
     },
   },
 

@@ -1,5 +1,17 @@
 # Change Log
 
+## 3.32.1
+
+No changes in this release.
+
+## 3.32.0
+
+### Patch Changes
+
+- 3b5560c: Update ProseMirror dependencies to their latest versions.
+
+## 3.31.4
+
 ## 3.31.3
 
 ## 3.31.2

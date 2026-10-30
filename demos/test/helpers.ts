@@ -1,4 +1,4 @@
-import type { Page } from '@playwright/test'
+import { expect, type Page } from '@playwright/test'
 
 /**
  * Get the editor element from the page
@@ -33,6 +33,7 @@ export async function focusEditorEnd(page: Page) {
   await editor.evaluate((el: any) => {
     el.editor.commands.focus('end')
   })
+  await expect(editor).toBeFocused()
 }
 
 /**

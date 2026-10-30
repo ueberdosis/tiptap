@@ -207,7 +207,46 @@ export class MarkdownManager {
   private createTokenizerHelpers(lexer: Lexer): MarkdownLexerConfiguration {
     return {
       inlineTokens: (src: string) => lexer.inlineTokens(src),
-      blockTokens: (src: string) => lexer.blockTokens(src),
+      blockTokens: (src: string) => {
+        const wasTopLevel = lexer.state.top
+
+        try {
+          return lexer.blockTokens(src)
+        } finally {
+          lexer.state.top = wasTopLevel
+        }
+      },
+      isParagraphContinuation: (line: string) => {
+        const probeLexer = new this.markedInstance.Lexer({
+          ...this.markedInstance.defaults,
+          extensions: undefined,
+          tokenizer: undefined,
+        })
+        // "text" simulates an open paragraph without reaching custom tokenizers.
+        const source = `text\n${line}\n`
+        const token = probeLexer.blockTokens(source)[0]
+
+        if (token?.type !== 'paragraph' || token.raw !== source) {
+          return false
+        }
+
+        const extensionLexer = this.createLexer()
+        extensionLexer.state.top = lexer.state.top
+        const extensions = this.markedInstance.defaults.extensions
+
+        if (
+          extensions?.startBlock?.some(start => {
+            const index = start.call({ lexer: extensionLexer }, line)
+            return typeof index === 'number' && index >= 0
+          })
+        ) {
+          return false
+        }
+
+        return !extensions?.block?.some(tokenize =>
+          tokenize.call({ lexer: extensionLexer }, `${line}\n`, []),
+        )
+      },
     }
   }
 
@@ -1519,6 +1558,23 @@ export class MarkdownManager {
         result.push(beforeMarkdown + nodeContent + afterMarkdown)
       }
     })
+
+    // A literal "!" directly before a link would be reparsed as an image, so escape it
+    if (separator === '') {
+      let previous = -1
+      result.forEach((piece, i) => {
+        if (!piece) {
+          return
+        }
+        if (previous >= 0 && piece.startsWith('[')) {
+          const trailing = /(\\*)!$/.exec(result[previous])
+          if (trailing && trailing[1].length % 2 === 0) {
+            result[previous] = `${result[previous].slice(0, -1)}\\!`
+          }
+        }
+        previous = i
+      })
+    }
 
     return result.join(separator)
   }

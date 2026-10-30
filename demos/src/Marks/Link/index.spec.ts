@@ -13,9 +13,9 @@ async function paste(
   await editor.evaluate((el: HTMLElement, text: string) => {
     const dt = new DataTransfer()
     dt.setData('text/plain', text)
-    el.dispatchEvent(
-      new ClipboardEvent('paste', { clipboardData: dt, bubbles: true, cancelable: true }),
-    )
+    const event = new ClipboardEvent('paste', { bubbles: true, cancelable: true })
+    Object.defineProperty(event, 'clipboardData', { value: dt })
+    el.dispatchEvent(event)
   }, payload)
 }
 

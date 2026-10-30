@@ -258,7 +258,7 @@ export function TiptapStaticRenderer<
 
     // apply marks to the content
     const markedContent = content.marks
-      ? content.marks.reduce((acc, mark) => {
+      ? content.marks.reduceRight((acc, mark) => {
           const markType = typeof mark.type === 'string' ? mark.type : mark.type.name
           const MarkHandler = markMapping[markType] ?? unhandledMark
 

@@ -1,5 +1,47 @@
 # @tiptap/extension-table-of-contents
 
+## 3.32.1
+
+### Patch Changes
+
+- Updated dependencies [959e0e8]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [3ebb519]
+- Updated dependencies [b513d24]
+- Updated dependencies [22b0e70]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+## 3.32.0
+
+### Patch Changes
+
+- Updated dependencies [3b5560c]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [cc90cc5]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+## 3.31.4
+
+### Patch Changes
+
+- Updated dependencies [e1fb343]
+- Updated dependencies [8cb08c5]
+- Updated dependencies [4d56526]
+- Updated dependencies [7c089f2]
+- Updated dependencies [6f14bee]
+- Updated dependencies [45e1e85]
+- Updated dependencies [6c660cd]
+- Updated dependencies [182cba2]
+- Updated dependencies [1f60d5b]
+- Updated dependencies [7f9a867]
+- Updated dependencies [c92b926]
+  - @tiptap/core@3.31.4
+  - @tiptap/pm@3.31.4
+
 ## 3.31.3
 
 ### Patch Changes

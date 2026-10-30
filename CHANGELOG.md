@@ -1,5 +1,2784 @@
 # Releases
 
+## v3.32.1
+
+### @tiptap/core
+
+#### Patch Changes
+
+- 0c7c95f: Large transactions (for example a big paste with Link autolink enabled) are processed faster.
+- 0c7c95f: Keep indented Markdown task-item continuation lines in the same paragraph instead of turning them into separate paragraphs or code blocks.
+- 0c7c95f: Indent continuation lines when exporting Markdown task items so they stay inside the item when imported again.
+- 0c7c95f: Keep Markdown task-item continuation lines in the same paragraph when the opening text resembles a heading or list, including tasks nested inside bullet lists.
+- 0c7c95f: Preserve task-list continuation text with custom block tokenizers and tab indentation.
+- 0c7c95f: `deleteSelection` keeps the marks of the deleted text again, so typing after deleting bold text is bold, like in ProseMirror.
+- 0c7c95f: Markdown lexer tokens for a task list at the end of the input now match the source text when it has no final newline.
+- @tiptap/pm@3.32.1
+
+### @tiptap/extension-underline
+
+#### Patch Changes
+
+- 0c7c95f: Export underlined text as `<u>text</u>` in Markdown. Treat `++` as plain text when parsing, so C++ mentions keep their plus signs.
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+
+### @tiptap/extension-list
+
+#### Patch Changes
+
+- 0c7c95f: Indent continuation lines when exporting Markdown task items so they stay inside the item when imported again.
+- 0c7c95f: Fixed Markdown list items that start with a heading, quote or other non-paragraph block, which produced invalid documents. They now parse with a leading paragraph. Empty nested list items are written as `- &nbsp;`, so they no longer turn the parent item into a heading when read back.
+- 0c7c95f: Pressing Delete on a selection that starts at the end of a list item now deletes the selected text instead of only joining the items.
+- 0c7c95f: Keep the cursor after tables on Backspace and join nested list text correctly on Delete.
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/static-renderer
+
+#### Patch Changes
+
+- 0c7c95f: Headings with bold, italic, or linked text now render to Markdown without extra commas between the words.
+- 0c7c95f: Prevent attribute names, inline event handlers, and iframe srcdoc attributes from injecting executable HTML into static HTML output.
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- 0c7c95f: Keep Markdown task-item continuation lines in the same paragraph when the opening text resembles a heading or list, including tasks nested inside bullet lists.
+- 0c7c95f: Preserve task-list continuation text with custom block tokenizers and tab indentation.
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/suggestion
+
+#### Patch Changes
+
+- 0c7c95f: Escape `allowedPrefixes` when building the suggestion prefix regex so `-`, `]`, `^`, and `\` are treated as literals.
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-table
+
+#### Patch Changes
+
+- 0c7c95f: Apply custom table attributes when resizing is enabled and keep them current after attribute changes.
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-highlight
+
+#### Patch Changes
+
+- 0c7c95f: Markdown like `a == b and c == d` is no longer imported as highlighted text.
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+
+### @tiptap/vue-3
+
+#### Patch Changes
+
+- 0c7c95f: Fix collaborative redo after plugins such as BubbleMenu or DragHandle are registered or removed.
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/y-tiptap
+
+#### Patch Changes
+
+- 0c7c95f: Omit empty `attrs` objects when serializing marks to ProseMirror JSON.
+- 0c7c95f: Preserve cursor positions and selections when undoing and redoing list changes or deletions. Requires Yjs 13.6.13 or later.
+
+### @tiptap/extension-heading
+
+#### Patch Changes
+
+- 0c7c95f: Ensure Markdown parsing respects the configured `levels` option by falling back to paragraphs for unconfigured heading levels.
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+
+### @tiptap/extension-audio
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+
+### @tiptap/extension-blockquote
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-bold
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+
+### @tiptap/extension-bubble-menu
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-code
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+
+### @tiptap/extension-code-block
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-code-block-lowlight
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+  - @tiptap/extension-code-block@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-collaboration
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-collaboration-caret
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-details
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+  - @tiptap/extension-text-style@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-document
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+
+### @tiptap/extension-drag-handle
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+  - @tiptap/extension-collaboration@3.32.1
+  - @tiptap/extension-node-range@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-emoji
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+  - @tiptap/suggestion@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-file-handler
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+  - @tiptap/extension-text-style@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-find-and-replace
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-floating-menu
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-hard-break
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+
+### @tiptap/extension-horizontal-rule
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-image
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+
+### @tiptap/extension-invisible-characters
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+  - @tiptap/extension-text-style@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-italic
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+
+### @tiptap/extension-link
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-mathematics
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-mention
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+  - @tiptap/suggestion@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-node-range
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-paragraph
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+
+### @tiptap/extension-ruby-text
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-strike
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+
+### @tiptap/extension-subscript
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-superscript
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-table-of-contents
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-text
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+
+### @tiptap/extension-text-align
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+
+### @tiptap/extension-text-style
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+
+### @tiptap/extension-twitch
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+
+### @tiptap/extension-typography
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+
+### @tiptap/extension-unique-id
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-youtube
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+
+### @tiptap/extensions
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/html
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/react
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/starter-kit
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+  - @tiptap/extension-underline@3.32.1
+  - @tiptap/extension-list@3.32.1
+  - @tiptap/extension-heading@3.32.1
+  - @tiptap/extension-blockquote@3.32.1
+  - @tiptap/extension-bold@3.32.1
+  - @tiptap/extension-code@3.32.1
+  - @tiptap/extension-code-block@3.32.1
+  - @tiptap/extension-document@3.32.1
+  - @tiptap/extension-hard-break@3.32.1
+  - @tiptap/extension-horizontal-rule@3.32.1
+  - @tiptap/extension-italic@3.32.1
+  - @tiptap/extension-link@3.32.1
+  - @tiptap/extension-paragraph@3.32.1
+  - @tiptap/extension-strike@3.32.1
+  - @tiptap/extension-text@3.32.1
+  - @tiptap/extensions@3.32.1
+  - @tiptap/extension-list-item@3.32.1
+  - @tiptap/extension-list-keymap@3.32.1
+  - @tiptap/extension-bullet-list@3.32.1
+  - @tiptap/extension-ordered-list@3.32.1
+  - @tiptap/extension-dropcursor@3.32.1
+  - @tiptap/extension-gapcursor@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/vue-2
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/core@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-list-item
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/extension-list@3.32.1
+
+### @tiptap/extension-list-keymap
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/extension-list@3.32.1
+
+### @tiptap/extension-task-item
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/extension-list@3.32.1
+
+### @tiptap/extension-task-list
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/extension-list@3.32.1
+
+### @tiptap/extension-bullet-list
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/extension-list@3.32.1
+
+### @tiptap/extension-ordered-list
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+- Updated dependencies [0c7c95f]
+  - @tiptap/extension-list@3.32.1
+
+### @tiptap/extension-table-cell
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+  - @tiptap/extension-table@3.32.1
+
+### @tiptap/extension-table-header
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+  - @tiptap/extension-table@3.32.1
+
+### @tiptap/extension-table-row
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+  - @tiptap/extension-table@3.32.1
+
+### @tiptap/extension-drag-handle-vue-3
+
+#### Patch Changes
+
+- Updated dependencies [0c7c95f]
+  - @tiptap/vue-3@3.32.1
+  - @tiptap/extension-drag-handle@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-drag-handle-react
+
+#### Patch Changes
+
+- @tiptap/extension-drag-handle@3.32.1
+  - @tiptap/react@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-drag-handle-vue-2
+
+#### Patch Changes
+
+- @tiptap/extension-drag-handle@3.32.1
+  - @tiptap/vue-2@3.32.1
+  - @tiptap/pm@3.32.1
+
+### @tiptap/extension-color
+
+#### Patch Changes
+
+- @tiptap/extension-text-style@3.32.1
+
+### @tiptap/extension-font-family
+
+#### Patch Changes
+
+- @tiptap/extension-text-style@3.32.1
+
+### @tiptap/extension-character-count
+
+#### Patch Changes
+
+- @tiptap/extensions@3.32.1
+
+### @tiptap/extension-dropcursor
+
+#### Patch Changes
+
+- @tiptap/extensions@3.32.1
+
+### @tiptap/extension-focus
+
+#### Patch Changes
+
+- @tiptap/extensions@3.32.1
+
+### @tiptap/extension-gapcursor
+
+#### Patch Changes
+
+- @tiptap/extensions@3.32.1
+
+### @tiptap/extension-history
+
+#### Patch Changes
+
+- @tiptap/extensions@3.32.1
+
+### @tiptap/extension-placeholder
+
+#### Patch Changes
+
+- @tiptap/extensions@3.32.1
+
+## v3.32.0
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- 8e2a86f: A literal `!` directly before a link is now escaped when serializing to Markdown, so the link is no longer parsed back as an image.
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/pm
+
+#### Patch Changes
+
+- 8e2a86f: Update ProseMirror dependencies to their latest versions.
+
+### @tiptap/react
+
+#### Patch Changes
+
+- 8e2a86f: Fix `useEditorState` overflowing the stack when a selector returns a value with circular references, such as `editor.state` after one stored mark replaces another.
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/core
+
+#### Minor Changes
+
+- 8e2a86f: Add the `schemaSpec` editor option to use an external ProseMirror schema structure with local extension behavior.
+
+#### Patch Changes
+
+- 8e2a86f: Fix list toggling between list types that use different item nodes. Nested lists are recursively converted when the target item schema supports nesting, and flattened into sibling items when it does not.
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+
+### @tiptap/y-tiptap
+
+#### Patch Changes
+
+- 8e2a86f: Keep relative text and node positions attached through structural edits, node moves, and undo or redo across collaborating clients.
+- 8e2a86f: Improve TypeScript definitions for document synchronization, shared cursors, undo, redo, and document conversions.
+- 8e2a86f: Improve collaboration performance and keep comments, highlights, caret positions, and remote caret details intact during remote edits.
+- 8e2a86f: Preserve shared content when a client cannot display its nodes or marks, and pause that client's editing until compatible content is available.
+  
+  Headless document creation rejects empty content when the schema requires child nodes.
+
+### @tiptap/extension-collaboration
+
+#### Patch Changes
+
+- 8e2a86f: Keep collaborative editing, cursor presence, and drag handles compatible with the updated `@tiptap/y-tiptap` binding.
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-collaboration-caret
+
+#### Patch Changes
+
+- 8e2a86f: Keep collaborative editing, cursor presence, and drag handles compatible with the updated `@tiptap/y-tiptap` binding.
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-drag-handle
+
+#### Patch Changes
+
+- 8e2a86f: Keep collaborative editing, cursor presence, and drag handles compatible with the updated `@tiptap/y-tiptap` binding.
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+  - @tiptap/extension-collaboration@3.32.0
+  - @tiptap/extension-node-range@3.32.0
+
+### @tiptap/ai-toolkit
+
+#### Patch Changes
+
+- 8e2a86f: Keep collaborative editing, cursor presence, and drag handles compatible with the updated `@tiptap/y-tiptap` binding.
+
+### @tiptap/extension-blockquote
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-bubble-menu
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-code-block
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-code-block-lowlight
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+  - @tiptap/extension-code-block@3.32.0
+
+### @tiptap/extension-details
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+  - @tiptap/extension-text-style@3.32.0
+
+### @tiptap/extension-drag-handle-react
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/react@3.32.0
+  - @tiptap/extension-drag-handle@3.32.0
+
+### @tiptap/extension-drag-handle-vue-2
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/extension-drag-handle@3.32.0
+  - @tiptap/vue-2@3.32.0
+
+### @tiptap/extension-drag-handle-vue-3
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/extension-drag-handle@3.32.0
+  - @tiptap/vue-3@3.32.0
+
+### @tiptap/extension-emoji
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+  - @tiptap/suggestion@3.32.0
+
+### @tiptap/extension-file-handler
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+  - @tiptap/extension-text-style@3.32.0
+
+### @tiptap/extension-find-and-replace
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-floating-menu
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-horizontal-rule
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-invisible-characters
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+  - @tiptap/extension-text-style@3.32.0
+
+### @tiptap/extension-link
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-list
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-mathematics
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-mention
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+  - @tiptap/suggestion@3.32.0
+
+### @tiptap/extension-node-range
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-ruby-text
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-subscript
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-superscript
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-table
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-table-of-contents
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-unique-id
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extensions
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/html
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/starter-kit
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+  - @tiptap/extension-blockquote@3.32.0
+  - @tiptap/extension-code-block@3.32.0
+  - @tiptap/extension-horizontal-rule@3.32.0
+  - @tiptap/extension-link@3.32.0
+  - @tiptap/extension-list@3.32.0
+  - @tiptap/extensions@3.32.0
+  - @tiptap/extension-bold@3.32.0
+  - @tiptap/extension-code@3.32.0
+  - @tiptap/extension-document@3.32.0
+  - @tiptap/extension-hard-break@3.32.0
+  - @tiptap/extension-heading@3.32.0
+  - @tiptap/extension-italic@3.32.0
+  - @tiptap/extension-paragraph@3.32.0
+  - @tiptap/extension-strike@3.32.0
+  - @tiptap/extension-text@3.32.0
+  - @tiptap/extension-underline@3.32.0
+  - @tiptap/extension-list-item@3.32.0
+  - @tiptap/extension-list-keymap@3.32.0
+  - @tiptap/extension-bullet-list@3.32.0
+  - @tiptap/extension-ordered-list@3.32.0
+  - @tiptap/extension-dropcursor@3.32.0
+  - @tiptap/extension-gapcursor@3.32.0
+
+### @tiptap/static-renderer
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/suggestion
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/vue-2
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/vue-3
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/pm@3.32.0
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-audio
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-bold
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-code
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-document
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-hard-break
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-heading
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-highlight
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-image
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-italic
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-paragraph
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-strike
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-text
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-text-align
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-text-style
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-twitch
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-typography
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-underline
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/extension-youtube
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+- Updated dependencies [8e2a86f]
+  - @tiptap/core@3.32.0
+
+### @tiptap/server-ai-toolkit
+
+#### Patch Changes
+
+- Updated dependencies [8e2a86f]
+  - @tiptap/ai-toolkit@0.4.1
+
+### @tiptap/extension-list-item
+
+#### Patch Changes
+
+- @tiptap/extension-list@3.32.0
+
+### @tiptap/extension-list-keymap
+
+#### Patch Changes
+
+- @tiptap/extension-list@3.32.0
+
+### @tiptap/extension-task-item
+
+#### Patch Changes
+
+- @tiptap/extension-list@3.32.0
+
+### @tiptap/extension-task-list
+
+#### Patch Changes
+
+- @tiptap/extension-list@3.32.0
+
+### @tiptap/extension-bullet-list
+
+#### Patch Changes
+
+- @tiptap/extension-list@3.32.0
+
+### @tiptap/extension-ordered-list
+
+#### Patch Changes
+
+- @tiptap/extension-list@3.32.0
+
+### @tiptap/extension-table-cell
+
+#### Patch Changes
+
+- @tiptap/extension-table@3.32.0
+
+### @tiptap/extension-table-header
+
+#### Patch Changes
+
+- @tiptap/extension-table@3.32.0
+
+### @tiptap/extension-table-row
+
+#### Patch Changes
+
+- @tiptap/extension-table@3.32.0
+
+### @tiptap/extension-character-count
+
+#### Patch Changes
+
+- @tiptap/extensions@3.32.0
+
+### @tiptap/extension-dropcursor
+
+#### Patch Changes
+
+- @tiptap/extensions@3.32.0
+
+### @tiptap/extension-focus
+
+#### Patch Changes
+
+- @tiptap/extensions@3.32.0
+
+### @tiptap/extension-gapcursor
+
+#### Patch Changes
+
+- @tiptap/extensions@3.32.0
+
+### @tiptap/extension-history
+
+#### Patch Changes
+
+- @tiptap/extensions@3.32.0
+
+### @tiptap/extension-placeholder
+
+#### Patch Changes
+
+- @tiptap/extensions@3.32.0
+
+### @tiptap/extension-color
+
+#### Patch Changes
+
+- @tiptap/extension-text-style@3.32.0
+
+### @tiptap/extension-font-family
+
+#### Patch Changes
+
+- @tiptap/extension-text-style@3.32.0
+
+## v3.31.4
+
+### @tiptap/extension-mathematics
+
+#### Patch Changes
+
+- 45e1e85: The mathematics extension no longer crashes the editor in older WebKit browsers and WKWebView.
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/core
+
+#### Patch Changes
+
+- 45e1e85: Fix a `TypeError` thrown when the source editor is destroyed right after dragging content into another editor.
+- 45e1e85: `splitBlock` no longer throws `TransformError: Inserted content deeper than insertion position` when the selection spans block boundaries (for example from the start of one paragraph into another block, or across an isolating node). The command now returns `false` when the split is not possible.
+- 45e1e85: Prevent extra CSS declarations from being rendered from editor content.
+- 45e1e85: Atom block directives (`:::name {…} :::`) indented by up to 3 spaces are now tokenized, matching CommonMark indentation rules for block constructs.
+- 45e1e85: Numeric HTML entities (`&#39;`, `&#x27;`) are now decoded when parsing markdown, instead of showing up as literal text in the editor.
+- 45e1e85: The editor element keeps `role="textbox"` after `setOptions()` when `editorProps.attributes` is set. Before, a re-render in React replaced the default role with the user attributes. Attributes passed as a function now get the default role as well.
+- 45e1e85: Undoing an input rule restores the Markdown characters that triggered it when using Collaboration.
+- 45e1e85: Bind `parseMarkdown` and `renderMarkdown` to the configured extension so hooks can read `this.options` and `this.name` without an Editor.
+- 45e1e85: Pressing Enter before the text of a checked task item now leaves the new empty item unchecked and the item with the text checked. Attributes declared with `keepOnSplit: false` now reset on the new item, not on the one that keeps the text.
+- 45e1e85: Stop joinItemForward and joinItemBackward from joining across isolating nodes.
+- 45e1e85: Node views without a `contentDOM` no longer ignore selection mutations, so ProseMirror moves the caret back to a valid position when the browser places it inside the node view.
+- @tiptap/pm@3.31.4
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- 45e1e85: Fix Markdown serialization of inline code containing backticks
+- 45e1e85: Bind `parseMarkdown` and `renderMarkdown` to the configured extension so hooks can read `this.options` and `this.name` without an Editor.
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/extension-code
+
+#### Patch Changes
+
+- 45e1e85: Fix Markdown serialization of inline code containing backticks
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+
+### @tiptap/extension-table
+
+#### Patch Changes
+
+- 45e1e85: Table cells exported to Markdown now escape literal pipe characters, so the cell content survives when the output is read back.
+- 45e1e85: Multi-block table cells no longer leak a U+001F control character into Markdown.
+- 45e1e85: Right-clicking a cell inside a multi-cell table selection no longer collapses that selection.
+- 45e1e85: Prevent extra CSS declarations from being rendered from editor content.
+- 45e1e85: Table cells and headers no longer render the default `colspan="1"` and `rowspan="1"` attributes. Cells that actually span still render them, matching how prosemirror-tables serializes spans.
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/extension-list
+
+#### Patch Changes
+
+- 45e1e85: Parsing large Markdown documents that contain ordered lists is much faster. A 578KB document went from about 19s to about 160ms.
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/extension-collaboration-caret
+
+#### Patch Changes
+
+- 45e1e85: Prevent extra CSS declarations from being rendered from editor content.
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/extension-highlight
+
+#### Patch Changes
+
+- 45e1e85: Prevent extra CSS declarations from being rendered from editor content.
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+
+### @tiptap/extension-text-align
+
+#### Patch Changes
+
+- 45e1e85: Prevent extra CSS declarations from being rendered from editor content.
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+
+### @tiptap/extension-text-style
+
+#### Patch Changes
+
+- 45e1e85: Prevent extra CSS declarations from being rendered from editor content.
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+
+### @tiptap/extension-link
+
+#### Patch Changes
+
+- 45e1e85: Typing spaces after a link no longer extends the link, including multiple spaces inserted in one transaction. Formatting changes and undo/redo preserve existing linked whitespace.
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/react
+
+#### Patch Changes
+
+- 45e1e85: Fix Enter and Shift-Enter inside React node views on iOS and Android.
+- 45e1e85: React and Vue now use matching menu extension versions when installed from a specific release.
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/static-renderer
+
+#### Patch Changes
+
+- 45e1e85: Render `<audio>` and `<video>` with a closing tag instead of self-closing them, so browsers no longer nest the following content inside the first audio element.
+- 45e1e85: Rendering a node whose `renderHTML` returns several nested child elements no longer adds stray commas between them in the HTML string output.
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/extension-collaboration
+
+#### Patch Changes
+
+- 45e1e85: Undoing an input rule restores the Markdown characters that triggered it when using Collaboration.
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/vue-2
+
+#### Patch Changes
+
+- 45e1e85: React and Vue now use matching menu extension versions when installed from a specific release.
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/vue-3
+
+#### Patch Changes
+
+- 45e1e85: React and Vue now use matching menu extension versions when installed from a specific release.
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/extension-audio
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+
+### @tiptap/extension-blockquote
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/extension-bold
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+
+### @tiptap/extension-bubble-menu
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/extension-code-block
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/extension-code-block-lowlight
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+  - @tiptap/extension-code-block@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/extension-details
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+  - @tiptap/extension-text-style@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/extension-document
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+
+### @tiptap/extension-drag-handle
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+  - @tiptap/extension-collaboration@3.31.4
+  - @tiptap/extension-node-range@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/extension-emoji
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+  - @tiptap/suggestion@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/extension-file-handler
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+  - @tiptap/extension-text-style@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/extension-find-and-replace
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/extension-floating-menu
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/extension-hard-break
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+
+### @tiptap/extension-heading
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+
+### @tiptap/extension-horizontal-rule
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/extension-image
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+
+### @tiptap/extension-invisible-characters
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+  - @tiptap/extension-text-style@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/extension-italic
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+
+### @tiptap/extension-mention
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+  - @tiptap/suggestion@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/extension-node-range
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/extension-paragraph
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+
+### @tiptap/extension-ruby-text
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/extension-strike
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+
+### @tiptap/extension-subscript
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/extension-superscript
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/extension-table-of-contents
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/extension-text
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+
+### @tiptap/extension-twitch
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+
+### @tiptap/extension-typography
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+
+### @tiptap/extension-underline
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+
+### @tiptap/extension-unique-id
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/extension-youtube
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+
+### @tiptap/extensions
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/html
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/starter-kit
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+  - @tiptap/extension-code@3.31.4
+  - @tiptap/extension-list@3.31.4
+  - @tiptap/extension-link@3.31.4
+  - @tiptap/extension-blockquote@3.31.4
+  - @tiptap/extension-bold@3.31.4
+  - @tiptap/extension-code-block@3.31.4
+  - @tiptap/extension-document@3.31.4
+  - @tiptap/extension-hard-break@3.31.4
+  - @tiptap/extension-heading@3.31.4
+  - @tiptap/extension-horizontal-rule@3.31.4
+  - @tiptap/extension-italic@3.31.4
+  - @tiptap/extension-paragraph@3.31.4
+  - @tiptap/extension-strike@3.31.4
+  - @tiptap/extension-text@3.31.4
+  - @tiptap/extension-underline@3.31.4
+  - @tiptap/extensions@3.31.4
+  - @tiptap/extension-list-item@3.31.4
+  - @tiptap/extension-list-keymap@3.31.4
+  - @tiptap/extension-bullet-list@3.31.4
+  - @tiptap/extension-ordered-list@3.31.4
+  - @tiptap/extension-dropcursor@3.31.4
+  - @tiptap/extension-gapcursor@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/suggestion
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/core@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/extension-table-cell
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/extension-table@3.31.4
+
+### @tiptap/extension-table-header
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/extension-table@3.31.4
+
+### @tiptap/extension-table-row
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/extension-table@3.31.4
+
+### @tiptap/extension-list-item
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+  - @tiptap/extension-list@3.31.4
+
+### @tiptap/extension-list-keymap
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+  - @tiptap/extension-list@3.31.4
+
+### @tiptap/extension-task-item
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+  - @tiptap/extension-list@3.31.4
+
+### @tiptap/extension-task-list
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+  - @tiptap/extension-list@3.31.4
+
+### @tiptap/extension-bullet-list
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+  - @tiptap/extension-list@3.31.4
+
+### @tiptap/extension-ordered-list
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+  - @tiptap/extension-list@3.31.4
+
+### @tiptap/extension-color
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+  - @tiptap/extension-text-style@3.31.4
+
+### @tiptap/extension-font-family
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+  - @tiptap/extension-text-style@3.31.4
+
+### @tiptap/extension-drag-handle-react
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+- Updated dependencies [45e1e85]
+  - @tiptap/react@3.31.4
+  - @tiptap/extension-drag-handle@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/extension-drag-handle-vue-2
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+  - @tiptap/vue-2@3.31.4
+  - @tiptap/extension-drag-handle@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/extension-drag-handle-vue-3
+
+#### Patch Changes
+
+- Updated dependencies [45e1e85]
+  - @tiptap/vue-3@3.31.4
+  - @tiptap/extension-drag-handle@3.31.4
+  - @tiptap/pm@3.31.4
+
+### @tiptap/extension-character-count
+
+#### Patch Changes
+
+- @tiptap/extensions@3.31.4
+
+### @tiptap/extension-dropcursor
+
+#### Patch Changes
+
+- @tiptap/extensions@3.31.4
+
+### @tiptap/extension-focus
+
+#### Patch Changes
+
+- @tiptap/extensions@3.31.4
+
+### @tiptap/extension-gapcursor
+
+#### Patch Changes
+
+- @tiptap/extensions@3.31.4
+
+### @tiptap/extension-history
+
+#### Patch Changes
+
+- @tiptap/extensions@3.31.4
+
+### @tiptap/extension-placeholder
+
+#### Patch Changes
+
+- @tiptap/extensions@3.31.4
+
 ## v3.31.3
 
 ### @tiptap/extension-collaboration-caret

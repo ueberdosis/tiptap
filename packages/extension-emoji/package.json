@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/extension-emoji",
-  "version": "3.31.3",
+  "version": "3.32.1",
   "description": "emoji extension for tiptap",
   "keywords": [
     "tiptap",
@@ -39,7 +39,8 @@
     }
   },
   "scripts": {
-    "build": "vp pack"
+    "build": "vp pack",
+    "generate": "tsx --tsconfig tsconfig.generate.json src/generate.ts"
   },
   "dependencies": {
     "emoji-regex": "^10.6.0",
@@ -52,7 +53,7 @@
     "@tiptap/suggestion": "workspace:^",
     "emoji-datasource": "^16.0.0",
     "json5": "^2.2.3",
-    "tsm": "^2.3.0"
+    "tsx": "^4.23.15"
   },
   "peerDependencies": {
     "@tiptap/core": "workspace:*",

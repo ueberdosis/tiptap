@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/markdown",
-  "version": "3.31.3",
+  "version": "3.32.1",
   "description": "markdown parser and serializer for tiptap",
   "keywords": [
     "tiptap",
@@ -49,7 +49,8 @@
   },
   "devDependencies": {
     "@tiptap/core": "workspace:^",
-    "@tiptap/pm": "workspace:^"
+    "@tiptap/pm": "workspace:^",
+    "vite-plus": "catalog:"
   },
   "peerDependencies": {
     "@tiptap/core": "workspace:*",
