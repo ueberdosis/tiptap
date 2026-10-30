@@ -94,15 +94,20 @@ describe('MarkdownManager unrecognized HTML tags', () => {
     })
   })
 
-  it('does not flag hyphenated custom elements as unrecognized', () => {
+  it('preserves hyphenated placeholders not in the schema as literal text', () => {
     const manager = new MarkdownManager({ extensions: basicExtensions })
 
-    // Hyphenated tag names are valid custom elements per the HTML spec – the
-    // browser constructs them as HTMLElement, not HTMLUnknownElement.
-    const doc = manager.parse('<my-mention></my-mention>')
+    // Hyphenated names are Custom Elements in the HTML sense, but without a
+    // matching parseDOM rule they are placeholders (e.g. docs / runbooks) and
+    // must not be silently dropped (#8623).
+    const doc = manager.parse('Run kubectl logs <pod-name> -n <namespace>')
     const text = collectText(doc)
-    expect(text).not.toContain('<my-mention>')
-    expect(text).not.toContain('</my-mention>')
+    expect(text).toContain('<pod-name>')
+    expect(text).toContain('<namespace>')
+    expect(text).toContain('Run kubectl logs')
+
+    const empty = manager.parse('<my-mention></my-mention>')
+    expect(collectText(empty)).toContain('<my-mention></my-mention>')
   })
 
   it('preserves angle-bracket text with spaces as literal text', () => {
@@ -152,5 +157,39 @@ describe('MarkdownManager unrecognized HTML tags', () => {
     expect(text).not.toContain('</something>')
     expect(text).not.toContain('<something-with-hyphen>')
     expect(text).not.toContain('</something-with-hyphen>')
+  })
+
+  it('parses custom nodes matched by attribute-only parseDOM selectors', () => {
+    const Widget = Node.create({
+      name: 'widget',
+      group: 'inline',
+      inline: true,
+      content: 'text*',
+      renderHTML: () => ['custom-node', { 'data-kind': 'widget' }, 0],
+      parseHTML: () => [{ tag: '[data-kind="widget"]' }],
+    })
+
+    const manager = new MarkdownManager({
+      extensions: [...basicExtensions, Widget],
+    })
+
+    const doc = manager.parse('<custom-node data-kind="widget">value</custom-node>')
+    const textContent = collectText(doc)
+    expect(textContent).toContain('value')
+    expect(textContent).not.toContain('<custom-node')
+  })
+
+  it('still parses HTML when placeholders appear only in attributes or comments', () => {
+    const manager = new MarkdownManager({ extensions: basicExtensions })
+
+    const withAttr = manager.parse('<em title="Use <pod-name>">value</em>')
+    expect(collectText(withAttr)).toContain('value')
+    expect(collectText(withAttr)).not.toContain('<em')
+
+    const withComment = manager.parse('before <!-- <pod-name> --> after')
+    const commented = collectText(withComment)
+    expect(commented).toContain('before')
+    expect(commented).toContain('after')
+    expect(commented).not.toContain('<pod-name>')
   })
 })
