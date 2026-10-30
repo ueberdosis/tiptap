@@ -33,5 +33,16 @@ export const syncPositionElement = (
     throw new Error('Position migration requires integrated elements')
   }
 
+  // Keep concurrent edits alive while giving new carets an unmigrated text anchor.
+  if (
+    source &&
+    node.isTextblock &&
+    node.content.size === 0 &&
+    source.end !== position + node.nodeSize - 1 &&
+    element.length === 0
+  ) {
+    element.insert(0, [new Y.XmlText()])
+  }
+
   return element
 }
