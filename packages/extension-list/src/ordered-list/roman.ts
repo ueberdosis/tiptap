@@ -276,7 +276,8 @@ export function getListMarker(
 ): string {
   const position = index + 1
 
-  if (!type || type === '1') {
+  // alpha and roman markers have no symbol for a zero start, so it stays numeric
+  if (!type || type === '1' || position < 1) {
     return `${position}${separator}`
   }
 
