@@ -128,7 +128,12 @@ export const TaskItem = Node.create<TaskItemOptions>({
       {
         tag: `li[data-type="${this.name}"]`,
         priority: 51,
-        contentElement: element => element.querySelector('div') ?? element,
+      },
+      {
+        tag: `li[data-type="${this.name}"] > label`,
+        priority: 52,
+        getAttrs: element => (element.querySelector('input[type="checkbox"]') ? null : false),
+        ignore: true,
       },
     ]
   },

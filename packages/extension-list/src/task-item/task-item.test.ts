@@ -251,6 +251,83 @@ describe('TaskItem', () => {
     })
   })
 
+  describe('parseHTML', () => {
+    it.each([
+      '<label>Buy milk</label>',
+      '<label><span>Buy milk</span></label>',
+      '<label><input type="text">Buy milk</label>',
+    ])('keeps ordinary label content: %s', label => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, TaskList, TaskItem],
+        content: `<ul data-type="taskList"><li data-type="taskItem">${label}</li></ul>`,
+      })
+
+      expect(editor.state.doc.firstChild?.firstChild?.textContent).toBe('Buy milk')
+    })
+
+    it('keeps ordinary labels alongside a checkbox label and a content wrapper', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, TaskList, TaskItem],
+        content: `
+          <ul data-type="taskList">
+            <li data-type="taskItem">
+              <label><input type="checkbox"><span>Task checkbox</span></label>
+              <label>Buy milk</label>
+              <div><p>And bread</p></div>
+            </li>
+          </ul>
+        `,
+      })
+
+      const item = editor.state.doc.firstChild?.firstChild
+
+      expect(item?.textContent).toBe('Buy milkAnd bread')
+      expect(item?.childCount).toBe(2)
+    })
+
+    it('keeps content next to a div child', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, TaskList, TaskItem],
+        content: `
+          <ul data-type="taskList">
+            <li data-type="taskItem"><p>lead</p><div>inner</div></li>
+          </ul>
+        `,
+      })
+
+      const item = editor.getJSON().content?.[0]?.content?.[0]
+
+      expect(item?.content?.map(paragraph => paragraph.content?.[0]?.text)).toEqual([
+        'lead',
+        'inner',
+      ])
+    })
+
+    it('keeps a nested task list in a parsed item', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, TaskList, TaskItem.configure({ nested: true })],
+        content: `
+          <ul data-type="taskList">
+            <li data-type="taskItem">
+              <label><input type="checkbox"><span></span></label>
+              <div>
+                <p>parent</p>
+                <ul data-type="taskList">
+                  <li data-type="taskItem"><p>child</p></li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        `,
+      })
+
+      const item = editor.getJSON().content?.[0]?.content?.[0]
+
+      expect(item?.content?.map(node => node.type)).toEqual(['paragraph', 'taskList'])
+      expect(editor.getText()).not.toContain('Task item checkbox')
+    })
+  })
+
   it('preserves custom HTML attributes on node update', () => {
     // Extend TaskItem with a custom attribute
     const CustomTaskItem = TaskItem.extend({

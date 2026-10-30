@@ -20,7 +20,7 @@ export default () => {
     ],
     content: `
         <ul data-type="taskList">
-          <li data-type="taskItem" data-checked="true">A list item</li>
+          <li data-type="taskItem" data-checked="true"><label>A list item</label></li>
           <li data-type="taskItem" data-checked="false">And another one</li>
         </ul>
       `,
