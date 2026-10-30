@@ -5,7 +5,7 @@ import Paragraph from '@tiptap/extension-paragraph'
 import { TableKit } from '@tiptap/extension-table'
 import Text from '@tiptap/extension-text'
 import { MarkdownManager } from '@tiptap/markdown'
-import { describe, expect, it } from 'vite-plus/test'
+import { describe, expect, it, vi } from 'vite-plus/test'
 
 describe('table markdown — inline code with pipe characters', () => {
   const manager = new MarkdownManager({
@@ -82,6 +82,28 @@ describe('table markdown — inline code with pipe characters', () => {
     expect(parsed.content?.[0]?.type).toBe('table')
     expect(parsed.content?.[1]?.type).toBe('paragraph')
     expect(parsed.content?.[1]?.content?.[0]?.text).toBe('Paragraph after.')
+  })
+
+  it('does not split later blocks when reconstructing a table with code pipes', () => {
+    const table = '| H |\n| - |\n| `a || b` |'
+    const markdown = `${table}\n\n${table}\n\nParagraph after.`
+    const split = vi.spyOn(String.prototype, 'split')
+
+    try {
+      const parsed = manager.parse(markdown)
+      const splitSources = split.mock.contexts.map(source => String(source))
+
+      expect(splitSources).not.toContain(markdown)
+      expect(parsed.content?.map(node => node.type)).toEqual(['table', 'table', 'paragraph'])
+      for (const node of parsed.content?.slice(0, 2) || []) {
+        const cell = node.content?.[1]?.content?.[0]?.content?.[0]?.content?.[0]
+        expect(cell?.text).toBe('a || b')
+        expect(cell?.marks?.[0]?.type).toBe('code')
+      }
+      expect(parsed.content?.[2]?.content?.[0]?.text).toBe('Paragraph after.')
+    } finally {
+      split.mockRestore()
+    }
   })
 
   it('should not affect inline code with pipes outside of tables', () => {

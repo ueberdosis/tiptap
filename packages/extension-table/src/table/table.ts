@@ -367,11 +367,14 @@ export const Table = Node.create<TableOptions>({
     name: 'table',
     level: 'block' as const,
     start: (src: string) => {
-      const lines = src.split('\n')
-      if (lines.length < 2) return -1
-      const sep = lines[1]
+      // marked offers the whole rest of the document here at every block, so
+      // read only the two lines a table needs instead of splitting it all (#8458)
+      const firstEnd = src.indexOf('\n')
+      if (firstEnd < 0) return -1
+      const sepEnd = src.indexOf('\n', firstEnd + 1)
+      const sep = src.slice(firstEnd + 1, sepEnd < 0 ? undefined : sepEnd)
       if (!/^[ \t|:]*-[ \t|:-]*$/.test(sep) || !sep.includes('|')) return -1
-      return lines[0].includes('|') ? 0 : -1
+      return src.slice(0, firstEnd).includes('|') ? 0 : -1
     },
     tokenize(src, _tokens, helper) {
       // Marked terminates a table block at a blank line. Slicing to the first
@@ -407,12 +410,9 @@ export const Table = Node.create<TableOptions>({
       const tableToken = block[0]
       if (tableToken?.type !== 'table' || !tableToken.raw) return undefined
 
-      // preprocessTablePipes only inserts backslashes (never adds or removes
-      // newlines), so line N in preprocessed maps 1-to-1 to line N in src.
-      // Use the token's line count to reconstruct raw from the original src so
-      // marked advances its cursor by the correct amount.
+      // Preprocessing preserves line boundaries, so reuse the original candidate lines.
       const lineCount = tableToken.raw.split('\n').length
-      const raw = src.split('\n').slice(0, lineCount).join('\n')
+      const raw = candidateLines.slice(0, lineCount).join('\n')
 
       return { ...tableToken, raw }
     },
