@@ -2,13 +2,22 @@ import type { Node as PMNode } from '@tiptap/pm/model'
 import type { Transform } from '@tiptap/pm/transform'
 import { AttrStep } from '@tiptap/pm/transform'
 
+import { findAdjacentTextblock } from './findAdjacentTextblock.js'
 import type { TextblockRange } from './types.js'
 
-function addTextblock(textblocks: Map<number, TextblockRange>, node: PMNode, pos: number): void {
-  textblocks.set(pos, { node, pos, from: pos, to: pos + node.nodeSize })
+function addTextblock(
+  textblocks: Map<number, TextblockRange>,
+  node: PMNode,
+  pos: number,
+): TextblockRange {
+  const textblock = { node, pos, from: pos, to: pos + node.nodeSize }
+
+  textblocks.set(pos, textblock)
+
+  return textblock
 }
 
-// Attribute steps change no ranges, but can change whether a textblock continues another
+// Attribute steps change no ranges, but can join or split a textblock and the one before it
 function addAttributeChanges(
   doc: PMNode,
   transform: Transform,
@@ -22,8 +31,15 @@ function addAttributeChanges(
     const pos = transform.mapping.slice(index + 1).map(step.pos)
     const node = doc.nodeAt(pos)
 
-    if (node?.isTextblock) {
-      addTextblock(textblocks, node, pos)
+    if (!node?.isTextblock) {
+      return
+    }
+
+    const textblock = addTextblock(textblocks, node, pos)
+    const previous = findAdjacentTextblock(doc, textblock, -1)
+
+    if (previous) {
+      textblocks.set(previous.pos, previous)
     }
   })
 }

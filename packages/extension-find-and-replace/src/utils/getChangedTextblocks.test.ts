@@ -14,10 +14,13 @@ describe('getChangedTextblocks', () => {
     expect(textblocks.map(textblock => textblock.node.textContent)).toEqual(['txwo'])
   })
 
-  it('finds a textblock whose attributes changed', () => {
+  it('finds a textblock whose attributes changed and the one before it', () => {
     const transform = new Transform(doc).setNodeAttribute(5, 'continued', true)
     const textblocks = getChangedTextblocks(transform.doc, transform)
 
-    expect(textblocks).toEqual([{ node: transform.doc.child(1), pos: 5, from: 5, to: 10 }])
+    expect(textblocks).toEqual([
+      { node: transform.doc.child(0), pos: 0, from: 0, to: 5 },
+      { node: transform.doc.child(1), pos: 5, from: 5, to: 10 },
+    ])
   })
 })

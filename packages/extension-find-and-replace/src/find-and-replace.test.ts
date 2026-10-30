@@ -205,6 +205,18 @@ describe('continued textblocks', () => {
     expect(editor.view.dom.querySelectorAll('.find-and-replace-result')).toHaveLength(0)
   })
 
+  it('finds a whole word at the end of a textblock that is no longer continued', () => {
+    editor = createEditor([paragraph('hel'), paragraph('lo', true)])
+    editor.commands.setWholeWord(true)
+    editor.commands.setSearchTerm('hel')
+
+    expect(editor.storage.findAndReplace.results).toEqual([])
+
+    editor.view.dispatch(editor.state.tr.setNodeAttribute(5, 'continued', false))
+
+    expect(editor.storage.findAndReplace.results).toEqual([{ from: 1, to: 4 }])
+  })
+
   it('finds a result when a textblock starts continuing', () => {
     editor = createEditor([paragraph('find the '), paragraph('phrase here')])
     editor.commands.setSearchTerm('the phrase')
