@@ -28,6 +28,11 @@ export { initProseMirrorDoc } from './lib/utils/conversion/initProseMirrorDoc.js
 export type { BindingMetadata } from './types/BindingMetadata.js'
 export type { InitialProseMirrorDoc } from './types/InitialProseMirrorDoc.js'
 export type { ColorDef } from './types/ColorDef.js'
+export type {
+  CursorAwarenessLastSelection,
+  CursorAwarenessSelection,
+  CursorAwarenessState,
+} from './types/CursorAwarenessState.js'
 export type { CursorUser } from './types/CursorUser.js'
 export type { CursorPluginOptions } from './types/CursorPluginOptions.js'
 export type { SyncPluginOptions } from './types/SyncPluginOptions.js'
