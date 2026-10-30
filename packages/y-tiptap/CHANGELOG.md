@@ -1,5 +1,11 @@
 # @tiptap/y-tiptap
 
+## 3.0.12
+
+### Patch Changes
+
+- 43fb708: Restore the behavior from 3.0.9 and earlier for shared content that does not fit the editor schema. The editor stays editable again and removes or adjusts the content it cannot display, instead of becoming read-only.
+
 ## 3.0.11
 
 ### Patch Changes

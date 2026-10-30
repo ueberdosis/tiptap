@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.32.2
+
+### Patch Changes
+
+- 6576250: Nest marks in the same order as the editor, so text with a color and an underline renders `<span style="color: …"><u>…</u></span>`.
+- @tiptap/core@3.32.2
+  - @tiptap/pm@3.32.2
+
 ## 3.32.1
 
 ### Patch Changes
