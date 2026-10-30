@@ -1,5 +1,5 @@
 import type { PasteRuleMatch } from '@tiptap/core'
-import { Mark, markPasteRule, mergeAttributes } from '@tiptap/core'
+import { decodeHtmlEntities, Mark, markPasteRule, mergeAttributes } from '@tiptap/core'
 import type { Plugin } from '@tiptap/pm/state'
 import { find, registerCustomProtocol, reset } from 'linkifyjs'
 
@@ -363,7 +363,9 @@ export const Link = Mark.create<LinkOptions>({
 
   parseMarkdown: (token, helpers) => {
     return helpers.applyMark('link', helpers.parseInline(token.tokens || []), {
-      href: token.href,
+      // marked keeps entities in the destination because its output is HTML.
+      // The href is used as an attribute value, so decode it like the link text.
+      href: token.href && decodeHtmlEntities(token.href),
       title: token.title || null,
     })
   },
