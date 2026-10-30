@@ -42,6 +42,8 @@ import { htmlContainsUnrecognizedTag } from './utils/htmlTagDetection.js'
 interface BlockLineContext {
   /** Something already rendered on this line, so the first line of the node cannot start a block. */
   startsMidLine: boolean
+  /** Earlier nodes already rendered a line, so the first line of the node can underline it. */
+  hasLineAbove: boolean
   /** The paragraph is nested in a list item or a similar indenting block. */
   isIndented: boolean
 }
@@ -1232,7 +1234,10 @@ export class MarkdownManager {
    * Backslash-escape leading block syntax so the text stays text when the markdown is parsed
    * again. Runs per line, since a text node can contain literal `\n`.
    */
-  private escapeBlockSyntax(text: string, { startsMidLine, isIndented }: BlockLineContext): string {
+  private escapeBlockSyntax(
+    text: string,
+    { startsMidLine, hasLineAbove, isIndented }: BlockLineContext,
+  ): string {
     const lines = text.split('\n')
     const isTableDelimiter = (line = '') => /^ {0,3}\|?[\s:|-]*-[\s:|-]*$/.test(line)
 
@@ -1243,8 +1248,10 @@ export class MarkdownManager {
           return line
         }
 
+        const isFirstLine = index === 0 && !hasLineAbove
+
         // marked reads the line above a delimiter row as a table header, so break the row.
-        if (index > 0 && isTableDelimiter(line)) {
+        if (!isFirstLine && isTableDelimiter(line)) {
           return line.replace('-', '\\-')
         }
 
@@ -1259,7 +1266,7 @@ export class MarkdownManager {
         )
 
         // The first line has nothing above it to underline, so only a break can start a block.
-        return index === 0
+        return isFirstLine
           ? escaped.replace(/^( {0,3})(-{3,})(\s*)$/, '$1\\$2$3')
           : escaped.replace(/^( {0,3})(={1,})(\s*)$/, '$1\\$2$3')
       })
@@ -1382,13 +1389,15 @@ export class MarkdownManager {
       }
 
       if (node.type === 'text') {
-        // Every paragraph starts a block, nested ones too, so its line starts carry block
-        // syntax. Marked text is already protected by the mark delimiters around it.
+        // Every paragraph starts a block, nested ones too, so its line starts carry block syntax.
         const renderedSoFar = result.join(separator)
+        // An opening mark delimiter is written before the text, so the first line is mid-line.
+        const opensMark = (node.marks || []).some(mark => !activeMarks.has(mark.type))
         const blockContext =
-          parentNode?.type === 'paragraph' && !node.marks?.length
+          parentNode?.type === 'paragraph'
             ? {
-                startsMidLine: renderedSoFar !== '' && !renderedSoFar.endsWith('\n'),
+                startsMidLine: opensMark || (renderedSoFar !== '' && !renderedSoFar.endsWith('\n')),
+                hasLineAbove: renderedSoFar !== '',
                 isIndented: level > 0,
               }
             : undefined

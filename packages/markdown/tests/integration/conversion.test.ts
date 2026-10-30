@@ -905,6 +905,24 @@ describe('Markdown Conversion Tests', () => {
         expect(markdownManager.serialize(input)).toBe('Title  \n\\# not a heading')
       })
 
+      it('should escape an underline after a hard break', () => {
+        const input = {
+          type: 'doc',
+          content: [
+            {
+              type: 'paragraph',
+              content: [
+                { type: 'text', text: 'Title' },
+                { type: 'hardBreak' },
+                { type: 'text', text: '===' },
+              ],
+            },
+          ],
+        }
+
+        expect(markdownManager.serialize(input)).toBe('Title  \n\\===')
+      })
+
       it('should escape a leading block marker when the node before it renders nothing', () => {
         const input = {
           type: 'doc',
@@ -955,6 +973,38 @@ describe('Markdown Conversion Tests', () => {
         }
 
         expect(markdownManager.serialize(input)).toBe('**a**# b')
+      })
+
+      it('should escape a block marker after a newline inside bold text', () => {
+        const input = {
+          type: 'doc',
+          content: [
+            {
+              type: 'paragraph',
+              content: [
+                { type: 'text', text: 'Title\n# not a heading', marks: [{ type: 'bold' }] },
+              ],
+            },
+          ],
+        }
+
+        expect(markdownManager.serialize(input)).toBe('**Title\n\\# not a heading**')
+      })
+
+      it('should not escape a block marker after a newline inside inline code', () => {
+        const input = {
+          type: 'doc',
+          content: [
+            {
+              type: 'paragraph',
+              content: [
+                { type: 'text', text: 'Title\n# not a heading', marks: [{ type: 'code' }] },
+              ],
+            },
+          ],
+        }
+
+        expect(markdownManager.serialize(input)).toBe('`Title\n# not a heading`')
       })
 
       it('should escape a leading block marker inside a list item', () => {
@@ -1009,6 +1059,41 @@ describe('Markdown Conversion Tests', () => {
                 { type: 'text', text: 'text' },
                 { type: 'text', text: 'bold', marks: [{ type: 'bold' }] },
                 { type: 'text', text: '\n# not a heading' },
+              ],
+            },
+          ],
+        }
+
+        expect(roundTrip(input)).toEqual(input)
+      })
+
+      it('should keep an underline after a hard break as text after round-trip', () => {
+        const afterHardBreak = (text: string) => ({
+          type: 'doc',
+          content: [
+            {
+              type: 'paragraph',
+              content: [
+                { type: 'text', text: 'Title' },
+                { type: 'hardBreak' },
+                { type: 'text', text },
+              ],
+            },
+          ],
+        })
+
+        expect(roundTrip(afterHardBreak('==='))).toEqual(afterHardBreak('==='))
+        expect(roundTrip(afterHardBreak('--'))).toEqual(afterHardBreak('--'))
+      })
+
+      it('should keep a block marker after a newline in bold text as text after round-trip', () => {
+        const input = {
+          type: 'doc',
+          content: [
+            {
+              type: 'paragraph',
+              content: [
+                { type: 'text', text: 'Title\n# not a heading', marks: [{ type: 'bold' }] },
               ],
             },
           ],
