@@ -69,9 +69,21 @@ export function createMarkdownClipboardPlugin(editor: Editor, isEnabled: () => b
           return false
         }
 
+        // Our handler short-circuits the core paste handler that normally emits this
+        editor.emit('paste', { editor, event, slice })
+
         view.dispatch(view.state.tr.replaceSelection(slice).setMeta('paste', true).scrollIntoView())
 
         return true
+      },
+
+      handleDOMEvents: {
+        // Scope the flag to this paste, drops can leave it set
+        paste: () => {
+          hasMarkdownSlice = false
+
+          return false
+        },
       },
     },
   })

@@ -83,6 +83,38 @@ describe('markdown paste event', () => {
     expect(marks).toContain('bold')
   })
 
+  it('does not delete the selection on an empty paste after a stale flag', () => {
+    editor = createEditor(true, true, true)
+    editor.commands.setContent('<p>word other</p>')
+    editor.commands.setTextSelection({ from: 1, to: 5 })
+
+    pasteText(editor, 'https://example.com')
+    editor.commands.setContent('<p>word other</p>')
+    editor.commands.setTextSelection({ from: 6, to: 11 })
+
+    editor.view.dom.dispatchEvent(
+      new ClipboardEvent('paste', {
+        clipboardData: new DataTransfer(),
+        bubbles: true,
+        cancelable: true,
+      }),
+    )
+
+    expect(editor.getText()).toBe('word other')
+  })
+
+  it('emits the editor paste event for a converted markdown paste', () => {
+    editor = createEditor(true)
+
+    const calls: { slice?: unknown }[] = []
+
+    editor.on('paste', props => calls.push(props))
+    pasteText(editor, '**bold**')
+
+    expect(calls).toHaveLength(1)
+    expect(calls[0].slice).toBeDefined()
+  })
+
   it('keeps escaped markdown literal instead of converting it again with paste rules', () => {
     editor = createEditor(true)
 
