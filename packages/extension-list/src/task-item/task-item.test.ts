@@ -249,6 +249,48 @@ describe('TaskItem', () => {
       expect(editor.getText()).toContain('A list item')
       expect(editor.getText()).not.toContain('Task item checkbox')
     })
+
+    it('keeps siblings of a stray div in hand-written task item HTML', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, TaskList, TaskItem],
+        content: `
+          <ul data-type="taskList">
+            <li data-type="taskItem"><p>lead</p><div>inner</div></li>
+          </ul>
+        `,
+      })
+
+      expect(editor.getText()).toContain('lead')
+      expect(editor.getText()).toContain('inner')
+    })
+
+    it('keeps all children when the task item has a non-checkbox label', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, TaskList, TaskItem],
+        content: `
+          <ul data-type="taskList">
+            <li data-type="taskItem"><label>Owner</label><p>lead</p><div>inner</div></li>
+          </ul>
+        `,
+      })
+
+      expect(editor.getText()).toContain('lead')
+      expect(editor.getText()).toContain('inner')
+    })
+
+    it('uses a nested content div when a checkbox label is present', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, TaskList, TaskItem],
+        content: `
+          <ul data-type="taskList">
+            <li data-type="taskItem"><label><input type="checkbox"><span>Checkbox label</span></label><section><div><p>Task body</p></div></section></li>
+          </ul>
+        `,
+      })
+
+      expect(editor.getText()).toContain('Task body')
+      expect(editor.getText()).not.toContain('Checkbox label')
+    })
   })
 
   it('preserves custom HTML attributes on node update', () => {
