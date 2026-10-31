@@ -1,7 +1,14 @@
-import type { PropType, Ref } from 'vue'
+import type { DefineComponent, HTMLAttributes, PropType, Ref } from 'vue'
 import { defineComponent, getCurrentInstance, h, nextTick, ref, watch } from 'vue'
 
 import type { Editor } from './Editor.js'
+
+export type EditorContentProps = {
+  /**
+   * The editor instance to render into this element.
+   */
+  editor?: Editor | null
+} & HTMLAttributes
 
 export const EditorContent = defineComponent({
   name: 'EditorContent',
@@ -66,4 +73,6 @@ export const EditorContent = defineComponent({
       },
     })
   },
-})
+  // Native attributes fall through to the root <div> at runtime; expose them
+  // on the public props type so vue-tsc strictTemplates accepts them (#8658).
+}) as DefineComponent<EditorContentProps>
