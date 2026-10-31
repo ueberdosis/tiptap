@@ -236,6 +236,32 @@ describe('TaskItem', () => {
       expect(editor.getText()).not.toContain('Task item checkbox')
     })
 
+    it('keeps task text that lives in a checkbox label', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, TaskList, TaskItem],
+        content: `
+          <ul data-type="taskList">
+            <li data-type="taskItem"><label><input type="checkbox">Buy milk</label></li>
+          </ul>
+        `,
+      })
+
+      expect(editor.getText()).toContain('Buy milk')
+    })
+
+    it('keeps span-wrapped task text in a checkbox label', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, TaskList, TaskItem],
+        content: `
+          <ul data-type="taskList">
+            <li data-type="taskItem"><label><input type="checkbox"><span>Buy milk</span></label></li>
+          </ul>
+        `,
+      })
+
+      expect(editor.getText()).toContain('Buy milk')
+    })
+
     it('still parses task items without a content wrapper', () => {
       editor = new Editor({
         extensions: [Document, Paragraph, Text, TaskList, TaskItem],
@@ -247,6 +273,85 @@ describe('TaskItem', () => {
       })
 
       expect(editor.getText()).toContain('A list item')
+      expect(editor.getText()).not.toContain('Task item checkbox')
+    })
+  })
+
+  describe('parseHTML', () => {
+    it('keeps content next to a div child', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, TaskList, TaskItem],
+        content: `
+          <ul data-type="taskList">
+            <li data-type="taskItem"><p>lead</p><div>inner</div></li>
+          </ul>
+        `,
+      })
+
+      const item = editor.getJSON().content?.[0]?.content?.[0]
+
+      expect(item?.content?.map(paragraph => paragraph.content?.[0]?.text)).toEqual([
+        'lead',
+        'inner',
+      ])
+    })
+
+    it('keeps a nested task list in a parsed item', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, TaskList, TaskItem.configure({ nested: true })],
+        content: `
+          <ul data-type="taskList">
+            <li data-type="taskItem">
+              <label><input type="checkbox"><span></span></label>
+              <div>
+                <p>parent</p>
+                <ul data-type="taskList">
+                  <li data-type="taskItem"><p>child</p></li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        `,
+      })
+
+      const item = editor.getJSON().content?.[0]?.content?.[0]
+
+      expect(item?.content?.map(node => node.type)).toEqual(['paragraph', 'taskList'])
+      expect(editor.getText()).not.toContain('Task item checkbox')
+    })
+
+    it('keeps the text of a label that carries no checkbox', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, TaskList, TaskItem],
+        content: `
+          <ul data-type="taskList">
+            <li data-type="taskItem"><label>Buy milk</label></li>
+          </ul>
+        `,
+      })
+
+      const item = editor.getJSON().content?.[0]?.content?.[0]
+
+      expect(item?.content?.[0]?.content?.[0]?.text).toBe('Buy milk')
+    })
+
+    it('skips a checkbox label that carries the accessibility text', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, TaskList, TaskItem],
+        content: `
+          <ul data-type="taskList">
+            <li data-type="taskItem">
+              <label><input type="checkbox"><span>Task item checkbox for Buy milk</span></label>
+              <div><p>Buy milk</p></div>
+            </li>
+          </ul>
+        `,
+      })
+
+      const item = editor.getJSON().content?.[0]?.content?.[0]
+
+      expect(item?.content?.map(node => node.type)).toEqual(['paragraph'])
+      expect(item?.content?.[0]?.content?.[0]?.text).toBe('Buy milk')
       expect(editor.getText()).not.toContain('Task item checkbox')
     })
   })
