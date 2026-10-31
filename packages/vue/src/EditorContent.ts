@@ -75,4 +75,4 @@ export const EditorContent = defineComponent({
   },
   // Native attributes fall through to the root <div> at runtime; expose them
   // on the public props type so vue-tsc strictTemplates accepts them (#8658).
-}) as DefineComponent<EditorContentProps>
+}) as DefineComponent<EditorContentProps, { rootEl: Ref<Element | undefined> }>
