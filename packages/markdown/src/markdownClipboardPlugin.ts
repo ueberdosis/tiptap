@@ -9,10 +9,15 @@ export const markdownClipboardPluginKey = new PluginKey('markdownClipboard')
  * Only runs when the clipboard has no HTML, so rich pastes are left alone.
  */
 export function createMarkdownClipboardPlugin(editor: Editor, isEnabled: () => boolean): Plugin {
+  // Set by clipboardTextParser, consumed by handlePaste in the same paste
+  let hasMarkdownSlice = false
+
   return new Plugin({
     key: markdownClipboardPluginKey,
     props: {
       clipboardTextParser: (text, $context, plainText) => {
+        hasMarkdownSlice = false
+
         if (plainText || !isEnabled() || !editor.markdown) {
           return null
         }
@@ -28,6 +33,8 @@ export function createMarkdownClipboardPlugin(editor: Editor, isEnabled: () => b
           const paragraph = content.firstChild
 
           if (content.childCount !== 1 || paragraph?.type.name !== 'paragraph') {
+            hasMarkdownSlice = true
+
             return new Slice(content, 0, 0)
           }
 
@@ -40,11 +47,31 @@ export function createMarkdownClipboardPlugin(editor: Editor, isEnabled: () => b
           )
 
           // Open a lone paragraph so it merges into the current text
+          hasMarkdownSlice = true
+
           return new Slice(Fragment.from(paragraph.copy(inlineContent)), 1, 1)
         } catch {
           // Fall back to the default plain text paste
           return null
         }
+      },
+
+      // Dispatch without the uiEvent meta so paste rules don't convert the text again
+      handlePaste: (view, event, slice) => {
+        const hadMarkdownSlice = hasMarkdownSlice
+
+        hasMarkdownSlice = false
+
+        // A flag left by an earlier paste must not capture an HTML paste
+        const html = (event as ClipboardEvent).clipboardData?.getData('text/html')
+
+        if (!hadMarkdownSlice || html) {
+          return false
+        }
+
+        view.dispatch(view.state.tr.replaceSelection(slice).setMeta('paste', true).scrollIntoView())
+
+        return true
       },
     },
   })

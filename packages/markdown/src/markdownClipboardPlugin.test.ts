@@ -45,6 +45,63 @@ const parseClipboardText = (
   return plugin?.props.clipboardTextParser?.call(plugin, text, $context, plainText, editor.view)
 }
 
+const pasteText = (editor: Editor, text: string) => {
+  const clipboardData = new DataTransfer()
+
+  clipboardData.setData('text/plain', text)
+  editor.view.dom.dispatchEvent(
+    new ClipboardEvent('paste', { clipboardData, bubbles: true, cancelable: true }),
+  )
+}
+
+const pasteHtml = (editor: Editor, text: string, html: string) => {
+  const clipboardData = new DataTransfer()
+
+  clipboardData.setData('text/plain', text)
+  clipboardData.setData('text/html', html)
+  editor.view.dom.dispatchEvent(
+    new ClipboardEvent('paste', { clipboardData, bubbles: true, cancelable: true }),
+  )
+}
+
+describe('markdown paste event', () => {
+  let editor: Editor
+
+  afterEach(() => editor?.destroy())
+
+  it('does not intercept an HTML paste after a text paste handled by another plugin', () => {
+    editor = createEditor(true, true, true)
+    editor.commands.setContent('<p>word</p>')
+    editor.commands.setTextSelection({ from: 1, to: 5 })
+
+    pasteText(editor, 'https://example.com')
+    editor.commands.setTextSelection(editor.state.doc.content.size - 1)
+    pasteHtml(editor, '**bold**', '<p>**bold**</p>')
+
+    const marks = editor.getJSON().content?.[0].content?.map(node => node.marks?.[0]?.type)
+
+    expect(marks).toContain('bold')
+  })
+
+  it('keeps escaped markdown literal instead of converting it again with paste rules', () => {
+    editor = createEditor(true)
+
+    pasteText(editor, '\\*\\*literal\\*\\*')
+
+    expect(editor.getText()).toBe('**literal**')
+    expect(editor.getJSON().content?.[0].content?.[0].marks).toBeUndefined()
+  })
+
+  it('still converts unescaped markdown', () => {
+    editor = createEditor(true)
+
+    pasteText(editor, '**bold**')
+
+    expect(editor.getText()).toBe('bold')
+    expect(editor.getJSON().content?.[0].content?.[0].marks?.[0].type).toBe('bold')
+  })
+})
+
 describe('markdown clipboard text parser', () => {
   let editor: Editor
 
