@@ -129,14 +129,22 @@ export const TaskItem = Node.create<TaskItemOptions>({
         tag: `li[data-type="${this.name}"]`,
         priority: 51,
         // renderHTML wraps the content in a div next to the checkbox label. Only
-        // use that wrapper when both children are present, so hand-written HTML
+        // use that wrapper when a checkbox label is present, so hand-written HTML
         // without it keeps all of its children.
         contentElement: element => {
-          const children = Array.from(element.children)
-          const hasLabel = children.some(child => child.tagName === 'LABEL')
-          const contentDiv = children.find(child => child.tagName === 'DIV')
+          const checkboxLabel = Array.from(element.children).find(
+            child => child.tagName === 'LABEL' && child.querySelector('input[type="checkbox"]'),
+          )
 
-          return hasLabel && contentDiv ? contentDiv : element
+          if (!checkboxLabel) {
+            return element
+          }
+
+          const contentDiv = Array.from(element.querySelectorAll('div')).find(
+            div => !checkboxLabel.contains(div),
+          )
+
+          return contentDiv ?? element
         },
       },
     ]
