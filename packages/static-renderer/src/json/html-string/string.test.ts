@@ -161,6 +161,33 @@ describe('static render json to string (no prosemirror)', () => {
     expect(html).toBe('<doc><p><strong>Example Text</strong></p></doc>')
   })
 
+  it('renders the first mark outermost', () => {
+    const json = {
+      type: 'doc',
+      content: [
+        {
+          type: 'text',
+          text: 'Example Text',
+          marks: [{ type: 'bold' }, { type: 'italic' }, { type: 'underline' }],
+        },
+      ],
+    }
+
+    const html = renderJSONContentToString({
+      nodeMapping: {
+        doc: ({ children }) => serializeChildrenToHTMLString(children),
+        text: ({ node }) => node.text ?? '',
+      },
+      markMapping: {
+        bold: ({ children }) => `<strong>${serializeChildrenToHTMLString(children)}</strong>`,
+        italic: ({ children }) => `<em>${serializeChildrenToHTMLString(children)}</em>`,
+        underline: ({ children }) => `<u>${serializeChildrenToHTMLString(children)}</u>`,
+      },
+    })({ content: json })
+
+    expect(html).toBe('<strong><em><u>Example Text</u></em></strong>')
+  })
+
   it('escapes serialized HTML attributes', () => {
     const attrs = serializeAttrsToHTMLString({
       href: 'x"><img src=x onerror=alert(document.cookie)>',
