@@ -47,3 +47,23 @@ it('accepts synchronized text', () => {
   assert.doesNotThrow(() => getPositionContent(fragment, createDocument('ABC')))
   document.destroy()
 })
+
+// A deletion under an empty prosemirror node never reaches the text check
+// above (there is no content to zip), so it must be caught where the empty
+// placeholders are collected
+it('throws when an empty prosemirror node holds nonempty fragment text', () => {
+  const { document, fragment } = createFragment('AB')
+  const emptyDoc = schema.node('doc', null, [schema.node('paragraph')])
+
+  assert.throws(() => getPositionContent(fragment, emptyDoc), /synchronized editor text/)
+  document.destroy()
+})
+
+it('records an empty fragment text as an empty placeholder', () => {
+  const { document, fragment } = createFragment('')
+  const emptyDoc = schema.node('doc', null, [schema.node('paragraph')])
+
+  const { emptyTexts } = getPositionContent(fragment, emptyDoc)
+  assert.equal(emptyTexts.length, 1)
+  document.destroy()
+})
