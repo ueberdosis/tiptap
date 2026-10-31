@@ -40,9 +40,19 @@ function isUnclosedFence(token: MarkdownToken) {
   }
 
   const closingFence = new RegExp(`^ {0,3}${opening[1][0]}{${opening[1].length},}[ \\t]*$`)
-  const lastLine = raw.trimEnd().split('\n').at(-1) || ''
+  const lines = raw.split('\n')
+  let lastContentLine = lines.length - 1
 
-  return !closingFence.test(lastLine)
+  // Trailing blank lines are the content of an unclosed fence, so skip them
+  // without trimming whitespace off the last line that has content. Trimming
+  // would also strip characters a closing fence does not allow, such as a
+  // non-breaking space.
+  while (lastContentLine > 0 && lines[lastContentLine].trim() === '') {
+    lastContentLine -= 1
+  }
+
+  // Only a line after the opener can close the block.
+  return lastContentLine === 0 || !closingFence.test(lines[lastContentLine])
 }
 
 /**

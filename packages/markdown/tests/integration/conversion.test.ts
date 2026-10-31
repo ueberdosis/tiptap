@@ -484,6 +484,30 @@ describe('Markdown Conversion Tests', () => {
       expect(once).toBe('```\na\n\n```')
       expect(twice).toBe(once)
     })
+
+    it('should keep a line ending in a non-breaking space inside an unclosed fence', () => {
+      const json = markdownManager.parse('```\na\n```\u00a0\n\n')
+
+      expect(json.content).toEqual([
+        {
+          type: 'codeBlock',
+          attrs: { language: null },
+          content: [{ type: 'text', text: 'a\n```\u00a0\n' }],
+        },
+      ])
+    })
+
+    it('should keep the blank lines of a fence that has no content', () => {
+      const json = markdownManager.parse('```\n\n\n')
+
+      expect(json.content).toEqual([
+        {
+          type: 'codeBlock',
+          attrs: { language: null },
+          content: [{ type: 'text', text: '\n' }],
+        },
+      ])
+    })
   })
 
   describe('HTML character escaping', () => {
