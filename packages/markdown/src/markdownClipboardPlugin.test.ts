@@ -3,14 +3,16 @@ import Bold from '@tiptap/extension-bold'
 import Document from '@tiptap/extension-document'
 import Heading from '@tiptap/extension-heading'
 import Italic from '@tiptap/extension-italic'
+import Link from '@tiptap/extension-link'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
+import type { Mark } from '@tiptap/pm/model'
 import type { Plugin } from '@tiptap/pm/state'
 import { afterEach, describe, expect, it } from 'vite-plus/test'
 
 import { Markdown } from './Extension.js'
 
-const createEditor = (transformPastedText?: boolean, withHeading = true) =>
+const createEditor = (transformPastedText?: boolean, withHeading = true, withLink = false) =>
   new Editor({
     extensions: [
       Document,
@@ -19,6 +21,7 @@ const createEditor = (transformPastedText?: boolean, withHeading = true) =>
       Bold,
       Italic,
       ...(withHeading ? [Heading] : []),
+      ...(withLink ? [Link] : []),
       Markdown.configure(transformPastedText === undefined ? {} : { transformPastedText }),
     ],
     content: '<p></p>',
@@ -29,12 +32,13 @@ const parseClipboardText = (
   text: string,
   plainText = false,
   markNames: string[] = [],
+  contextMarks?: Mark[],
 ) => {
   const plugin = editor.state.plugins.find(candidate => candidate.props.clipboardTextParser) as
     | Plugin
     | undefined
   const $context = editor.state.doc.resolve(1)
-  const marks = markNames.map(name => editor.schema.marks[name].create())
+  const marks = contextMarks ?? markNames.map(name => editor.schema.marks[name].create())
 
   $context.marks = () => marks
 
@@ -117,6 +121,22 @@ describe('markdown clipboard text parser', () => {
         ['b', ['bold', 'italic']],
         [' c', ['bold']],
       ])
+    })
+
+    it('keeps the pasted link href over the context link href', () => {
+      editor = createEditor(true, true, true)
+
+      const contextLink = editor.schema.marks.link.create({ href: 'https://old.example' })
+      const slice = parseClipboardText(
+        editor,
+        '[new](https://new.example)',
+        false,
+        [],
+        [contextLink],
+      )
+      const pasted = slice!.content.firstChild!.firstChild!
+
+      expect(pasted.marks.map(mark => mark.attrs.href)).toEqual(['https://new.example'])
     })
 
     it('adds no marks when the context has none', () => {

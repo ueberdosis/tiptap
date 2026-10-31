@@ -35,7 +35,7 @@ export function createMarkdownClipboardPlugin(editor: Editor, isEnabled: () => b
           const contextMarks = $context.marks()
           const inlineContent = Fragment.fromArray(
             paragraph.children.map(child =>
-              child.mark(contextMarks.reduce((set, mark) => mark.addToSet(set), child.marks)),
+              child.mark(child.marks.reduce((set, mark) => mark.addToSet(set), contextMarks)),
             ),
           )
 
