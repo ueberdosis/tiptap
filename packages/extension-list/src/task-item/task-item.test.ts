@@ -249,6 +249,19 @@ describe('TaskItem', () => {
       expect(editor.getText()).toContain('Buy milk')
     })
 
+    it('keeps span-wrapped task text in a checkbox label', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, TaskList, TaskItem],
+        content: `
+          <ul data-type="taskList">
+            <li data-type="taskItem"><label><input type="checkbox"><span>Buy milk</span></label></li>
+          </ul>
+        `,
+      })
+
+      expect(editor.getText()).toContain('Buy milk')
+    })
+
     it('still parses task items without a content wrapper', () => {
       editor = new Editor({
         extensions: [Document, Paragraph, Text, TaskList, TaskItem],
