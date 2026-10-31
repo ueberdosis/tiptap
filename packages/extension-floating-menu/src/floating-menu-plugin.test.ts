@@ -3,7 +3,7 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { PluginKey } from '@tiptap/pm/state'
-import { describe, expect, it, vi } from 'vite-plus/test'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test'
 
 import { FloatingMenu } from './floating-menu.js'
 import { FloatingMenuView } from './floating-menu-plugin.js'
@@ -246,5 +246,53 @@ describe('FloatingMenuView destroy safety', () => {
     } finally {
       view.destroy()
     }
+  })
+})
+
+describe('FloatingMenuView after destroy', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
+  it('should not show from a focus update that was pending when it was destroyed', () => {
+    const editor = createEditor()
+    const onShow = vi.fn()
+    let shouldShow = false
+    const view = createFloatingMenuView(editor, {
+      shouldShow: () => shouldShow,
+      options: { onShow },
+    })
+
+    view.focusHandler()
+    shouldShow = true
+    view.destroy()
+    vi.runAllTimers()
+
+    expect(onShow).not.toHaveBeenCalled()
+    expect(view.element.style.visibility).not.toBe('visible')
+
+    editor.destroy()
+  })
+
+  it('should not update from a focus event that reaches it after it was destroyed', () => {
+    const editor = createEditor()
+    const onShow = vi.fn()
+    const shouldShow = vi.fn(() => false)
+    const view = createFloatingMenuView(editor, { shouldShow, options: { onShow } })
+
+    view.destroy()
+    shouldShow.mockClear().mockReturnValue(true)
+    // An emit in progress still calls listeners that were removed during it
+    view.focusHandler()
+    vi.runAllTimers()
+
+    expect(shouldShow).not.toHaveBeenCalled()
+    expect(onShow).not.toHaveBeenCalled()
+
+    editor.destroy()
   })
 })

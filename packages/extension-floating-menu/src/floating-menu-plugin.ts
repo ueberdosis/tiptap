@@ -157,7 +157,11 @@ export class FloatingMenuView {
 
   private resizeDebounceTimer: number | undefined
 
+  private focusTimer: number | undefined
+
   private isVisible = false
+
+  private isDestroyed = false
 
   private scrollTarget: HTMLElement | Window = window
 
@@ -380,8 +384,13 @@ export class FloatingMenuView {
   }
 
   focusHandler = () => {
+    if (this.isDestroyed) {
+      return
+    }
+
     // we use `setTimeout` to make sure `selection` is already updated
-    setTimeout(() => this.update(this.editor.view))
+    clearTimeout(this.focusTimer)
+    this.focusTimer = window.setTimeout(() => this.update(this.editor.view))
   }
 
   blurHandler = ({ event }: { event: FocusEvent }) => {
@@ -521,7 +530,7 @@ export class FloatingMenuView {
   }
 
   show() {
-    if (this.isVisible) {
+    if (this.isVisible || this.isDestroyed) {
       return
     }
 
@@ -557,6 +566,9 @@ export class FloatingMenuView {
   }
 
   destroy() {
+    this.isDestroyed = true
+    clearTimeout(this.focusTimer)
+    clearTimeout(this.resizeDebounceTimer)
     this.hide()
     this.element.removeEventListener('mousedown', this.mousedownHandler, { capture: true })
     window.removeEventListener('resize', this.resizeHandler)
