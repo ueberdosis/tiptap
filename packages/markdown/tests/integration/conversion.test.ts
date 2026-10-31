@@ -452,6 +452,38 @@ describe('Markdown Conversion Tests', () => {
 
       expect(markdown).toBe('para\n\n```\ncode\n```')
     })
+
+    it('should keep a trailing blank line inside an unclosed fence', () => {
+      const json = markdownManager.parse('```\na\n\n')
+
+      expect(json.content).toEqual([
+        {
+          type: 'codeBlock',
+          attrs: { language: null },
+          content: [{ type: 'text', text: 'a\n' }],
+        },
+      ])
+    })
+
+    it('should keep a trailing blank line inside an unclosed indented tilde fence', () => {
+      const json = markdownManager.parse('  ~~~\n   a\n\n')
+
+      expect(json.content).toEqual([
+        {
+          type: 'codeBlock',
+          attrs: { language: null },
+          content: [{ type: 'text', text: ' a\n' }],
+        },
+      ])
+    })
+
+    it('should round-trip a trailing blank line in an unclosed fence without drifting', () => {
+      const once = markdownManager.serialize(markdownManager.parse('```\na\n\n'))
+      const twice = markdownManager.serialize(markdownManager.parse(once))
+
+      expect(once).toBe('```\na\n\n```')
+      expect(twice).toBe(once)
+    })
   })
 
   describe('HTML character escaping', () => {

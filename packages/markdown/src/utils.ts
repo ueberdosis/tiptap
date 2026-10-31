@@ -15,6 +15,37 @@ import type { ContentType } from './types.js'
 const TRAILING_BLANK_LINES = /\n[^\S\n]*(?:\n[^\S\n]*)+$/
 
 /**
+ * Matches the opening line of a fenced code block, capturing the fence marker.
+ */
+const FENCE_OPENING = /^ {0,3}(`{3,}|~{3,})/
+
+/**
+ * Checks whether a token is a fenced code block that is never closed.
+ *
+ * The blank lines at the end of an unclosed fence are part of the code
+ * content, not a gap between blocks, so they must stay in the token.
+ * @param token The marked token to check.
+ * @returns `true` when the token is a fenced code block without a closing fence.
+ */
+function isUnclosedFence(token: MarkdownToken) {
+  if (token.type !== 'code' || token.codeBlockStyle === 'indented') {
+    return false
+  }
+
+  const raw = token.raw || ''
+  const opening = raw.match(FENCE_OPENING)
+
+  if (!opening) {
+    return false
+  }
+
+  const closingFence = new RegExp(`^ {0,3}${opening[1][0]}{${opening[1].length},}[ \\t]*$`)
+  const lastLine = raw.trimEnd().split('\n').at(-1) || ''
+
+  return !closingFence.test(lastLine)
+}
+
+/**
  * Extracts blank lines absorbed into marked token `raw` back into explicit
  * `space` tokens so they're handled uniformly by the reconstruction path.
  * @param tokens The marked token stream to normalize.
@@ -24,6 +55,11 @@ export function extractAbsorbedBlankLines(tokens: MarkdownToken[]): MarkdownToke
   return tokens.flatMap((token, index) => {
     // A following `space` token already carries the blank lines for this gap.
     if (token.type === 'space' || tokens[index + 1]?.type === 'space') {
+      return [token]
+    }
+
+    // Unclosed fences keep their trailing blank lines as code content.
+    if (isUnclosedFence(token)) {
       return [token]
     }
 
