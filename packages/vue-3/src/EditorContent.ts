@@ -1,4 +1,4 @@
-import type { PropType, Ref } from 'vue'
+import type { DefineComponent, HTMLAttributes, PropType, Ref } from 'vue'
 import {
   defineComponent,
   getCurrentInstance,
@@ -11,6 +11,13 @@ import {
 } from 'vue'
 
 import type { Editor } from './Editor.js'
+
+export type EditorContentProps = {
+  /**
+   * The editor instance to render into this element.
+   */
+  editor?: Editor | null
+} & HTMLAttributes
 
 export const EditorContent = defineComponent({
   name: 'EditorContent',
@@ -83,4 +90,4 @@ export const EditorContent = defineComponent({
       },
     })
   },
-})
+}) as DefineComponent<EditorContentProps>
