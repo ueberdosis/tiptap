@@ -3,14 +3,31 @@ import { Plugin, PluginKey, Selection, TextSelection } from '@tiptap/pm/state'
 
 const DEFAULT_TAB_SIZE = 4
 
-const FENCE_REGEX = /^( {0,3})(```|~~~)/
+const FENCE_REGEX = /^( {0,3})(`{3,}|~{3,})/
 
-function removeFenceIndent(text: string, indent: number) {
-  const fenceIndent = ' '.repeat(indent)
+function getFenceContent(raw: string, indent: number, marker: string) {
+  const lines = raw.split('\n')
 
-  return text
-    .split('\n')
-    .map(line => (line.startsWith(fenceIndent) ? line.slice(indent) : line))
+  // A trailing newline is the block separator, not part of the code block.
+  if (lines.at(-1) === '') {
+    lines.pop()
+  }
+
+  const closingFence = new RegExp(`^ {0,3}${marker[0]}{${marker.length},}[ \\t]*$`)
+
+  if (lines.length > 1 && closingFence.test(lines.at(-1) as string)) {
+    lines.pop()
+  }
+
+  // CommonMark removes up to the opening fence's indentation from every content
+  // line, including lines that are indented less than the fence.
+  return lines
+    .slice(1)
+    .map(line => {
+      const leadingSpaces = line.match(/^ */)?.[0].length ?? 0
+
+      return line.slice(Math.min(indent, leadingSpaces))
+    })
     .join('\n')
 }
 
@@ -180,12 +197,12 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
       return []
     }
 
-    let text = token.text
-
-    // marked only strips the fence indent from backtick fences
-    if (text && fence?.[2] === '~~~') {
-      text = removeFenceIndent(text, fence[1].length)
-    }
+    // `marked` only strips the fence indent from backtick fences, and it skips
+    // content lines that are indented less than the fence. Rebuild the content
+    // from the raw block so both fence styles follow CommonMark.
+    const text = fence
+      ? getFenceContent(token.raw as string, fence[1].length, fence[2])
+      : token.text
 
     return helpers.createNode(
       'codeBlock',

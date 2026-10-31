@@ -419,12 +419,31 @@ describe('Markdown Conversion Tests', () => {
       expect(codeBlock?.content).toMatchObject([{ type: 'text', text: 'const a = 1' }])
     })
 
-    it('should remove the fence indent from tilde fence content like backtick fences', () => {
+    const fencesWithIndent: [string, number][] = [
+      ['```', 2],
+      ['~~~', 2],
+      ['```', 3],
+      ['~~~', 3],
+    ]
+
+    it.each(fencesWithIndent)(
+      'should strip up to the fence indentation from a %s block indented by %i spaces',
+      (fence, indent) => {
+        const pad = ' '.repeat(indent)
+        const codeBlock = parseCodeBlock(
+          `${pad}${fence}\n${pad}a\n${pad}${pad}b\n c\n${pad}${fence}`,
+        )
+
+        expect(codeBlock?.content).toMatchObject([{ type: 'text', text: `a\n${pad}b\nc` }])
+      },
+    )
+
+    it('should produce the same content for tilde and backtick fences', () => {
       const markdown = '  FENCE\n  a\n    b\n c\n  FENCE'
       const tilde = parseCodeBlock(markdown.replaceAll('FENCE', '~~~'))
       const backtick = parseCodeBlock(markdown.replaceAll('FENCE', '```'))
 
-      expect(tilde?.content).toMatchObject([{ type: 'text', text: 'a\n  b\n c' }])
+      expect(tilde?.content).toMatchObject([{ type: 'text', text: 'a\n  b\nc' }])
       expect(tilde).toEqual(backtick)
     })
 
