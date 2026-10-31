@@ -1,7 +1,7 @@
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { afterEach, describe, expect, it } from 'vite-plus/test'
+import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 
 import { Editor } from '../Editor.js'
 import { Node } from '../Node.js'
@@ -117,5 +117,34 @@ describe('ResizableNodeView', () => {
 
     expect(container).not.toBeNull()
     expect(container.style.display).toBe('flex')
+  })
+
+  it('stops creating custom resize handles after the node view is destroyed', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, BlockImage],
+      content: '<p>Text</p>',
+    })
+    const createCustomHandle = vi.fn(() => document.createElement('span'))
+    const nodeView = new ResizableNodeView({
+      element: document.createElement('img'),
+      node: editor.schema.nodes.blockImage.create(),
+      editor,
+      getPos: () => undefined,
+      onCommit: () => {},
+      onUpdate: () => true,
+      options: { directions: ['bottom-right'], createCustomHandle },
+    })
+
+    expect(createCustomHandle).toHaveBeenCalledTimes(1)
+    editor.setEditable(false)
+    editor.setEditable(true)
+    expect(createCustomHandle).toHaveBeenCalledTimes(2)
+
+    nodeView.destroy()
+    createCustomHandle.mockClear()
+
+    editor.setEditable(false)
+    editor.setEditable(true)
+    expect(createCustomHandle).not.toHaveBeenCalled()
   })
 })
