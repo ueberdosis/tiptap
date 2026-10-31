@@ -95,3 +95,56 @@ describe('CodeBlock ArrowUp exit', () => {
     expect(editor.getHTML()).toBe(before)
   })
 })
+
+describe('CodeBlock paste', () => {
+  let editor: Editor
+
+  afterEach(() => {
+    editor?.destroy()
+  })
+
+  it('drops the trailing newline of pasted HTML code blocks', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, CodeBlock],
+    })
+
+    editor.view.pasteHTML('<pre><code class="language-js">a\n  b\n</code></pre>')
+
+    expect(editor.getJSON().content).toEqual([
+      {
+        type: 'codeBlock',
+        attrs: { language: 'js' },
+        content: [{ type: 'text', text: 'a\n  b' }],
+      },
+    ])
+  })
+
+  it('drops the trailing newline of pasted HTML code blocks with uppercase tags', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, CodeBlock],
+    })
+
+    editor.view.pasteHTML('<PRE><CODE>a\n</CODE></PRE>')
+
+    expect(editor.state.doc.firstChild?.textContent).toBe('a')
+  })
+
+  it('keeps an empty last line that is visible in the pasted HTML', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, CodeBlock],
+    })
+
+    editor.view.pasteHTML('<pre><code>a\n\n</code></pre>')
+
+    expect(editor.state.doc.firstChild?.textContent).toBe('a\n')
+  })
+
+  it('keeps the trailing newline when content is set from HTML', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, CodeBlock],
+      content: '<pre><code>a\n</code></pre>',
+    })
+
+    expect(editor.state.doc.firstChild?.textContent).toBe('a\n')
+  })
+})
