@@ -2,4 +2,4 @@
 '@tiptap/vue': patch
 ---
 
-`EditorContent` and `NodeViewWrapper` now accept native HTML attributes such as `contenteditable`, `aria-*`, `href` and `download` under `vue-tsc` strict template checking.
+`EditorContent` accepts native HTML attributes such as `contenteditable` and `aria-*`. `NodeViewWrapper` also accepts anchor attributes such as `href` and `download`.
