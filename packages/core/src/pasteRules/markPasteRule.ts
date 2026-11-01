@@ -30,7 +30,7 @@ export function markPasteRule(config: {
       }
 
       const { tr } = state
-      const captureGroup = match[match.length - 1]
+      const captureGroup = match.at(-1)
       const fullMatch = match[0]
       let markEnd = range.to
 

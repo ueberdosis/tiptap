@@ -1,0 +1,16 @@
+{
+  "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
+  "notGrouped": "bottom",
+  "groupings": [
+    {
+      "title": "Consumers",
+      "description": "Integrate Tiptap into your application.",
+      "skills": ["tiptap"]
+    },
+    {
+      "title": "Contributors",
+      "description": "Contribute to the Tiptap repository.",
+      "skills": ["create-pr"]
+    }
+  ]
+}

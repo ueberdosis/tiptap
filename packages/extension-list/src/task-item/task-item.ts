@@ -183,7 +183,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
     const checkedChar = node.attrs?.checked ? 'x' : ' '
     const prefix = `- [${checkedChar}] `
 
-    return renderNestedMarkdownContent(node, h, prefix)
+    return renderNestedMarkdownContent(node, h, prefix, undefined, { indentMainContent: true })
   },
 
   addExtensions() {
@@ -351,7 +351,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
         find: inputRegex,
         type: this.type,
         getAttributes: match => ({
-          checked: match[match.length - 1] === 'x',
+          checked: match.at(-1) === 'x',
         }),
       }),
     ]

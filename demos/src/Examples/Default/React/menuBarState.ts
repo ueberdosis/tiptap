@@ -30,6 +30,7 @@ export function menuBarStateSelector(ctx: EditorStateSnapshot<Editor>) {
     // Lists and blocks
     isBulletList: ctx.editor.isActive('bulletList') ?? false,
     isOrderedList: ctx.editor.isActive('orderedList') ?? false,
+    isTaskList: ctx.editor.isActive('taskList') ?? false,
     isCodeBlock: ctx.editor.isActive('codeBlock') ?? false,
     isBlockquote: ctx.editor.isActive('blockquote') ?? false,
 

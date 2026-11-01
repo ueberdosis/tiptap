@@ -2,11 +2,24 @@ import './styles.scss'
 
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
-import { TableKit } from '@tiptap/extension-table'
+import { Table, TableKit } from '@tiptap/extension-table'
 import Text from '@tiptap/extension-text'
 import { Gapcursor } from '@tiptap/extensions'
 import { EditorContent, useEditor } from '@tiptap/react'
 import React from 'react'
+
+const CustomTable = Table.extend({
+  addAttributes() {
+    return {
+      ...this.parent?.(),
+      noBorder: {
+        default: false,
+        parseHTML: element => element.hasAttribute('data-no-border'),
+        renderHTML: attributes => (attributes.noBorder ? { 'data-no-border': 'true' } : {}),
+      },
+    }
+  },
+})
 
 export default () => {
   const editor = useEditor({
@@ -15,8 +28,9 @@ export default () => {
       Paragraph,
       Text,
       Gapcursor,
+      CustomTable.configure({ resizable: true }),
       TableKit.configure({
-        table: { resizable: true },
+        table: false,
       }),
     ],
     content: `
@@ -65,6 +79,20 @@ export default () => {
           <button onClick={() => editor.chain().focus().addRowAfter().run()}>Add row after</button>
           <button onClick={() => editor.chain().focus().deleteRow().run()}>Delete row</button>
           <button onClick={() => editor.chain().focus().deleteTable().run()}>Delete table</button>
+          <button
+            onClick={() =>
+              editor.chain().focus().updateAttributes('table', { noBorder: true }).run()
+            }
+          >
+            Remove table borders
+          </button>
+          <button
+            onClick={() =>
+              editor.chain().focus().updateAttributes('table', { noBorder: false }).run()
+            }
+          >
+            Restore table borders
+          </button>
           <button onClick={() => editor.chain().focus().mergeCells().run()}>Merge cells</button>
           <button onClick={() => editor.chain().focus().splitCell().run()}>Split cell</button>
           <button onClick={() => editor.chain().focus().toggleHeaderColumn().run()}>

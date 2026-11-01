@@ -386,7 +386,7 @@ describe('FindAndReplace', () => {
 
   it('replaces many results with one transaction step', () => {
     const resultCount = 20_000
-    const content = Array.from({ length: resultCount }, () => 'foo').join(' ')
+    const content = Array(resultCount).fill('foo').join(' ')
     const transactions: number[] = []
 
     editor.destroy()

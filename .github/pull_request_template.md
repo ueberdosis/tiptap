@@ -12,10 +12,10 @@
 - [ ] I have added a [changeset](https://github.com/changesets/changesets) if necessary.
 - [ ] I have added tests if possible.
 - [ ] I have made sure to test my changes myself.
-- [ ] This is a critical bug or security fix that also needs to land on the current stable release (see [Branching](../CONTRIBUTING.md#branching) in CONTRIBUTING.md).
+- [ ] This is a critical bug or security fix that also needs to land on the current stable release (see [Branching](https://github.com/ueberdosis/tiptap/blob/main/CONTRIBUTING.md#branching) in CONTRIBUTING.md).
 
 ### Responsibility
 
-<!-- This checkbox is checked by default on purpose. The PR author is responsible for reviewing and understanding the changes, even when an AI agent created them. -->
+<!-- Check this yourself after reviewing and understanding the changes, including any AI-generated code. -->
 
-- [x] I have reviewed and understand these changes, and I take responsibility for this PR, even if an AI agent created it.
+- [ ] I have reviewed and understand these changes, and I take responsibility for this PR, even if an AI agent created it.

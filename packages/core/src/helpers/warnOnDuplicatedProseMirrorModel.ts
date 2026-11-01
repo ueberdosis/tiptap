@@ -2,6 +2,8 @@ import type { Schema } from '@tiptap/pm/model'
 import { Fragment } from '@tiptap/pm/model'
 import { ReplaceStep } from '@tiptap/pm/transform'
 
+import { isProseMirrorReplaceStep } from './isProseMirrorReplaceStep.js'
+
 let hasChecked = false
 
 /**
@@ -22,9 +24,14 @@ export function warnOnDuplicatedProseMirrorModel(schema: Schema): void {
   let content
 
   try {
-    // prosemirror-transform fills this step with the prosemirror-model it resolved
-    // itself, so a foreign fragment means a second copy is loaded.
-    content = ReplaceStep.fromJSON(schema, { from: 0, to: 0 }).slice.content
+    // Read the fragment from the model copy resolved by prosemirror-transform.
+    const step = ReplaceStep.fromJSON(schema, { from: 0, to: 0 })
+
+    if (!isProseMirrorReplaceStep(step)) {
+      return
+    }
+
+    content = step.slice.content
   } catch {
     // A warning we cannot stand behind is worse than no warning.
     return

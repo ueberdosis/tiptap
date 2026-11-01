@@ -47,6 +47,14 @@ Have a look at the [examples to see Tiptap in action](https://tiptap.dev/example
 - [Collaboration ready Tiptap CodeSandbox](https://codesandbox.io/p/devbox/collaboration-4stk94)
 - React notion-like block editor template: [Demo](https://templates.tiptap.dev/)
 
+## Agent skill
+
+Install the Tiptap skill in your application project to help coding agents set up, extend, and debug your editor:
+
+```bash
+npx skills add ueberdosis/tiptap --skill tiptap
+```
+
 ## About Tiptap
 
 Tiptap is a collection of developer components based on open-source technology, forming the basis of our advanced, paid features. It includes the open-source editor component, collaboration features, Content AI, and Tiptap Cloud. We are developing open-source products that also shape our paid features. We're committed to improving both, ensuring quality and reliability in every update.

@@ -11,6 +11,9 @@ dist
 .agent
 
 docs
+!/docs/
+!/docs/package-documentation.md
+!/docs/package-references.md
 
 # Log files
 npm-debug.log*

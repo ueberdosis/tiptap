@@ -8,6 +8,8 @@ import Link from '@tiptap/extension-link'
 import Paragraph from '@tiptap/extension-paragraph'
 import { generateTocIds, TableOfContents } from '@tiptap/extension-table-of-contents'
 import Text from '@tiptap/extension-text'
+import { TextStyleKit } from '@tiptap/extension-text-style'
+import { Underline } from '@tiptap/extension-underline'
 import { generateUniqueIds, UniqueID } from '@tiptap/extension-unique-id'
 import Youtube from '@tiptap/extension-youtube'
 import type { DOMOutputSpec } from '@tiptap/pm/model'
@@ -158,6 +160,49 @@ describe('static render json to string (with prosemirror)', () => {
     const html = domOutputSpecToHTMLString('<img src=x onerror=alert(document.cookie)>')()
 
     expect(html).toBe('&lt;img src=x onerror=alert(document.cookie)&gt;')
+  })
+
+  it('supports underline and color spans', () => {
+    const json = {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          attrs: {
+            textAlign: null,
+          },
+          content: [
+            {
+              type: 'text',
+              marks: [
+                {
+                  type: 'textStyle',
+                  attrs: {
+                    backgroundColor: null,
+                    color: '#ED1F1F',
+                    fontFamily: null,
+                    fontSize: null,
+                    lineHeight: null,
+                  },
+                },
+                {
+                  type: 'underline',
+                },
+              ],
+              text: 'Underlined',
+            },
+          ],
+        },
+      ],
+      attrs: {},
+    }
+
+    const html = renderToHTMLString({
+      content: json,
+      extensions: [Document, Paragraph, Text, TextStyleKit, Underline],
+    })
+
+    expect(html).toBe('<p><span style="color: #ED1F1F"><u>Underlined</u></span></p>')
   })
 
   it('gives access to a prosemirror node or mark instance', () => {

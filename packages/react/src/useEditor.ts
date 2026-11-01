@@ -1,4 +1,9 @@
-import { type EditorOptions, Editor } from '@tiptap/core'
+import {
+  type EditorOptions,
+  type EditorRuntimeOptions,
+  Editor,
+  getEditorRuntimeOptions,
+} from '@tiptap/core'
 import type { DependencyList, MutableRefObject } from 'react'
 import { useDebugValue, useEffect, useRef, useState } from 'react'
 import { useSyncExternalStore } from 'use-sync-external-store/shim/index.js'
@@ -115,13 +120,9 @@ class EditorInstanceManager {
     return immediatelyRender ? this.createEditor() : null
   }
 
-  /**
-   * Create a new editor instance. And attach event listeners.
-   */
-  private createEditor(): Editor {
-    const optionsToApply: Partial<EditorOptions> = {
-      ...this.options.current,
-      // Always call the most recent version of the callback function by default
+  private getRuntimeOptions(): Partial<EditorRuntimeOptions> {
+    return {
+      ...getEditorRuntimeOptions(this.options.current),
       onBeforeCreate: (...args) => this.options.current.onBeforeCreate?.(...args),
       onBlur: (...args) => this.options.current.onBlur?.(...args),
       onCreate: (...args) => this.options.current.onCreate?.(...args),
@@ -137,11 +138,10 @@ class EditorInstanceManager {
       onMount: (...args) => this.options.current.onMount?.(...args),
       onUnmount: (...args) => this.options.current.onUnmount?.(...args),
     }
-    const editor = new Editor(optionsToApply)
+  }
 
-    // no need to keep track of the event listeners, they will be removed when the editor is destroyed
-
-    return editor
+  private createEditor(): Editor {
+    return new Editor({ element: null, ...this.options.current, ...this.getRuntimeOptions() })
   }
 
   /**
@@ -170,44 +170,9 @@ class EditorInstanceManager {
   }
 
   static compareOptions(a: UseEditorOptions, b: UseEditorOptions) {
-    return (Object.keys(a) as (keyof UseEditorOptions)[]).every(key => {
-      if (
-        [
-          'onCreate',
-          'onBeforeCreate',
-          'onDestroy',
-          'onUpdate',
-          'onTransaction',
-          'onFocus',
-          'onBlur',
-          'onSelectionUpdate',
-          'onContentError',
-          'onDrop',
-          'onPaste',
-        ].includes(key)
-      ) {
-        // we don't want to compare callbacks, they are always different and only registered once
-        return true
-      }
-
-      // We often encourage putting extensions inlined in the options object, so we will do a slightly deeper comparison here
-      if (key === 'extensions' && a.extensions && b.extensions) {
-        if (a.extensions.length !== b.extensions.length) {
-          return false
-        }
-        return a.extensions.every((extension, index) => {
-          if (extension !== b.extensions?.[index]) {
-            return false
-          }
-          return true
-        })
-      }
-      if (a[key] !== b[key]) {
-        // if any of the options have changed, we should update the editor options
-        return false
-      }
-      return true
-    })
+    return Object.entries(getEditorRuntimeOptions(a)).every(
+      ([key, value]) => key.startsWith('on') || value === Reflect.get(b, key),
+    )
   }
 
   /**
@@ -228,7 +193,7 @@ class EditorInstanceManager {
           // But, the options are different, so we need to update the editor options
           // Still, this is faster than re-creating the editor
           this.editor.setOptions({
-            ...this.options.current,
+            ...this.getRuntimeOptions(),
             editable: this.editor.isEditable,
           })
         }
@@ -295,7 +260,7 @@ class EditorInstanceManager {
         // If still mounted on the following tick, with the same instanceId, do not destroy the editor
         if (currentEditor) {
           // just re-apply options as they might have changed
-          currentEditor.setOptions(this.options.current)
+          currentEditor.setOptions(this.getRuntimeOptions())
         }
         return
       }

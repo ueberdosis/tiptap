@@ -88,7 +88,7 @@ describe('mergeAttributes', () => {
     const image = fragment.firstChild as HTMLImageElement
 
     expect(Object.getPrototypeOf(attributes)).toBe(Object.prototype)
-    expect(Object.prototype.hasOwnProperty.call(attributes, '__proto__')).toBe(true)
+    expect(Object.hasOwn(attributes, '__proto__')).toBe(true)
     expect(attributes['data-inherited-canary']).toBeUndefined()
     expect(attributes.src).toBeUndefined()
     expect(attributes.onerror).toBeUndefined()

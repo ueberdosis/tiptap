@@ -53,7 +53,8 @@
   "devDependencies": {
     "@tiptap/core": "workspace:^",
     "@tiptap/pm": "workspace:^",
-    "vue": "^3.5.13"
+    "vite-plus": "catalog:",
+    "vue": "^3.5.44"
   },
   "peerDependencies": {
     "@floating-ui/dom": "^1.0.0",

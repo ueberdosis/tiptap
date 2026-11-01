@@ -1,3 +1,8 @@
+import { Editor } from '@tiptap/core'
+import Document from '@tiptap/extension-document'
+import Image from '@tiptap/extension-image'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
 import type { Node as PMNode, ResolvedPos } from '@tiptap/pm/model'
 import type { EditorView } from '@tiptap/pm/view'
 import { describe, expect, it, vi } from 'vite-plus/test'
@@ -84,7 +89,7 @@ describe('findBestDragTarget', () => {
 
       const view = {
         posAtCoords: vi.fn(() => ({ pos: 1, inside: 0 })),
-        state: { doc: { resolve: vi.fn(() => mock$pos) } },
+        state: { doc: { resolve: vi.fn(() => mock$pos), nodeAt: vi.fn(() => mockParagraph) } },
         nodeDOM: vi.fn(() => mockDom),
       } as unknown as EditorView
 
@@ -123,7 +128,7 @@ describe('findBestDragTarget', () => {
       } as unknown as ResolvedPos
 
       const view = {
-        posAtCoords: vi.fn(() => ({ pos: 7 })),
+        posAtCoords: vi.fn(() => ({ pos: 7, inside: -1 })),
         state: { doc: { resolve: vi.fn(() => mock$pos) } },
         nodeDOM: vi.fn((pos: number) => (pos === 7 ? mockDom : null)),
       } as unknown as EditorView
@@ -157,7 +162,7 @@ describe('findBestDragTarget', () => {
       } as unknown as ResolvedPos
 
       const view = {
-        posAtCoords: vi.fn(() => ({ pos: 7 })),
+        posAtCoords: vi.fn(() => ({ pos: 7, inside: -1 })),
         state: { doc: { resolve: vi.fn(() => mock$pos) } },
         nodeDOM: vi.fn((pos: number) => (pos === 7 ? mockDom : null)),
       } as unknown as EditorView
@@ -190,7 +195,7 @@ describe('findBestDragTarget', () => {
       } as unknown as ResolvedPos
 
       const view = {
-        posAtCoords: vi.fn(() => ({ pos: 1 })),
+        posAtCoords: vi.fn(() => ({ pos: 1, inside: -1 })),
         state: { doc: { resolve: vi.fn(() => mock$pos) } },
         nodeDOM: vi.fn(() => null),
       } as unknown as EditorView
@@ -220,7 +225,7 @@ describe('findBestDragTarget', () => {
       } as unknown as ResolvedPos
 
       const view = {
-        posAtCoords: vi.fn(() => ({ pos: 7 })),
+        posAtCoords: vi.fn(() => ({ pos: 7, inside: -1 })),
         state: { doc: { resolve: vi.fn(() => mock$pos) } },
         nodeDOM: vi.fn(() => null),
       } as unknown as EditorView
@@ -229,6 +234,24 @@ describe('findBestDragTarget', () => {
       const result = findBestDragTarget(view, defaultCoords, options)
 
       expect(result).toBeNull()
+    })
+
+    it('should target the hovered atom, not the next block, over its lower half', () => {
+      const editor = new Editor({
+        element: document.createElement('div'),
+        extensions: [Document, Paragraph, Text, Image],
+        content: '<img src="first.png"><img src="second.png"><p>Text</p>',
+      })
+
+      // Below an atom's middle, browsers report the position after it, and the atom as `inside`
+      vi.spyOn(editor.view, 'posAtCoords').mockReturnValue({ pos: 1, inside: 0 })
+
+      const result = findBestDragTarget(editor.view, defaultCoords, createDefaultOptions())
+
+      expect(result?.pos).toBe(0)
+      expect(result?.node.attrs.src).toBe('first.png')
+
+      editor.destroy()
     })
   })
 
@@ -253,7 +276,7 @@ describe('findBestDragTarget', () => {
       } as unknown as ResolvedPos
 
       const view = {
-        posAtCoords: vi.fn(() => ({ pos: 7 })),
+        posAtCoords: vi.fn(() => ({ pos: 7, inside: -1 })),
         state: { doc: { resolve: vi.fn(() => mock$pos) } },
         nodeDOM: vi.fn(() => mockDom),
       } as unknown as EditorView
@@ -308,7 +331,7 @@ describe('findBestDragTarget', () => {
       } as unknown as ResolvedPos
 
       const view = {
-        posAtCoords: vi.fn(() => ({ pos: 10 })),
+        posAtCoords: vi.fn(() => ({ pos: 10, inside: -1 })),
         state: { doc: { resolve: vi.fn(() => mock$pos) } },
         nodeDOM: vi.fn((pos: number) => {
           if (pos === 10) {
@@ -375,7 +398,7 @@ describe('findBestDragTarget', () => {
       } as unknown as ResolvedPos
 
       const view = {
-        posAtCoords: vi.fn(() => ({ pos: 10 })),
+        posAtCoords: vi.fn(() => ({ pos: 10, inside: -1 })),
         state: { doc: { resolve: vi.fn(() => mock$pos) } },
         nodeDOM: vi.fn((pos: number) => {
           if (pos === 10) {
