@@ -118,7 +118,11 @@ export const Code = Mark.create<CodeOptions>({
     }
   },
 
-  excludes: '_',
+  // Allow other marks (bold, link, …) so CommonMark code spans nested in
+  // emphasis/links stay schema-valid after MarkdownManager.parse. Empty
+  // excludes still prevents a second overlapping code mark via ProseMirror's
+  // default same-type rules when combined with mark input behaviour.
+  excludes: '',
 
   code: true,
 
