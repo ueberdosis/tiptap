@@ -6,7 +6,7 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import React, { useEffect, useState } from 'react'
-import { afterEach, describe, expect, it } from 'vite-plus/test'
+import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 
 import { EditorContent } from './EditorContent.js'
 import { NodeViewContent } from './NodeViewContent.js'
@@ -529,12 +529,36 @@ describe('ReactNodeViewRenderer', () => {
     editor.destroy()
   })
 
-  it('keeps the editor intact when a component throws during the synchronous flush', async () => {
+  it('does not call flushSync when setContent runs inside a React effect', async () => {
+    const editor = createEditorWithWidget()
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {})
+
+    const Example = () => {
+      useEffect(() => {
+        editor.commands.setContent(
+          '<p>abc</p><div data-type="widget"></div><div data-type="widget"></div>',
+        )
+      }, [])
+
+      return React.createElement(EditorContent, { editor })
+    }
+
+    const { container } = render(React.createElement(Example))
+
+    await flushMicrotasks()
+
+    expect(error.mock.calls).toEqual([])
+    expect(container.querySelectorAll('[data-node-view-wrapper]')).toHaveLength(2)
+
+    error.mockRestore()
+    editor.destroy()
+  })
+
+  it('keeps the editor intact when a component throws after node views are replaced', async () => {
     const editor = createEditorWithContainers()
     await renderEditor(editor)
 
-    // Make container "a" throw on its next render and give it a pending
-    // update, so the new node view's flushSync renders it mid-transaction.
+    // Make container "a" throw on its next render and give it a pending update.
     beforeReplace = () => {
       explodingIds.add('a')
       bumpHandles.get('a')?.()
@@ -548,14 +572,12 @@ describe('ReactNodeViewRenderer', () => {
       clickError = error
     }
 
-    await flushMicrotasks()
+    await expect(flushMicrotasks()).rejects.toThrow('render bomb in container a')
 
-    // React 19 reports the render error via onUncaughtError instead of
-    // rethrowing, so nothing may propagate into the ProseMirror transaction.
+    // The render error must not propagate into the ProseMirror transaction.
     expect(clickError).toBeUndefined()
 
-    // The ProseMirror transaction must complete even though a component
-    // render threw during the flush.
+    // The ProseMirror transaction must complete even though a component render threw.
     expect(editor.state.doc.firstChild?.attrs.id).toBe('fresh')
     expect(
       editor.commands.insertContentAt(editor.state.doc.content.size, { type: 'paragraph' }),
