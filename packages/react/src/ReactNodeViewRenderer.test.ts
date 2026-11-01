@@ -64,10 +64,7 @@ const ContainerComponent = (props: ReactNodeViewProps) => {
       return
     }
 
-    // The first transaction destroys this node view while its component is
-    // still mounted. The second one constructs a new node view, whose
-    // ReactRenderer flushSync then re-renders pending components while
-    // ProseMirror's view tree is mid-update.
+    // Destroy this node view while mounted, then create a new one mid-update
     props.editor.commands.deleteRange({ from: pos, to: pos + props.node.nodeSize })
     props.editor.commands.insertContentAt(0, {
       type: 'container',
@@ -516,7 +513,7 @@ describe('ReactNodeViewRenderer', () => {
 
     await flushMicrotasks()
 
-    // getPos must not blow up inside the synchronous React flush.
+    // getPos must not throw while node views are replaced.
     expect(renderErrors).toEqual([])
 
     // The editor and the React tree must stay intact and usable.
@@ -529,7 +526,7 @@ describe('ReactNodeViewRenderer', () => {
     editor.destroy()
   })
 
-  it('does not call flushSync when setContent runs inside a React effect', async () => {
+  it('renders node views without React warnings when setContent runs inside an effect', async () => {
     const editor = createEditorWithWidget()
     const error = vi.spyOn(console, 'error').mockImplementation(() => {})
 

@@ -2,4 +2,4 @@
 '@tiptap/react': patch
 ---
 
-Fixed a React `flushSync` warning when a command creates React node views from inside a React effect.
+Fix a React warning when a command like `setContent` creates React node views from inside an effect.
