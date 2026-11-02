@@ -73,8 +73,9 @@ export const createNodeFromYElement = (
         prevSnapshot,
         computeYChange,
       )
-      if (node === null) hasSkippedChild = true
-      else children.push(node)
+      // Children with skipped content are not cached
+      if (node === null || meta.mapping.get(type) !== node) hasSkippedChild = true
+      if (node !== null) children.push(node)
       return
     }
 
