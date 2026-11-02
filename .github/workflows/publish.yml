@@ -16,7 +16,8 @@ permissions:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref_name }}
-  cancel-in-progress: true
+  # A cancelled run could publish to npm without creating its release
+  cancel-in-progress: false
 
 jobs:
   resolve-config:
@@ -32,7 +33,7 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v7
-      - name: Validate publish config
+      - name: Test release scripts
         run: node --test .github/scripts/__tests__/*.test.mjs
       - name: Look up branch in publish config
         id: resolve
@@ -84,6 +85,7 @@ jobs:
       dist_tag: ${{ needs.resolve-config.outputs.dist_tag }}
       label: ${{ needs.resolve-config.outputs.label }}
       published: ${{ steps.changesets.outputs.published }}
+      release_tag: ${{ steps.github-release.outputs.tag }}
     steps:
       - uses: actions/checkout@v7
 
@@ -127,25 +129,39 @@ jobs:
           NPM_CONFIG_PROVENANCE: true
           NPM_CONFIG_ACCESS: public
 
-      # The action lists every bumped package, so swap its list for the aggregated notes
       - name: Use aggregated changelog in version PR
         if: steps.changesets.outputs.pr-number != ''
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_NUMBER: ${{ steps.changesets.outputs.pr-number }}
-        run: |
-          {
-            gh pr view "$PR_NUMBER" --json body --jq .body | sed '/^# Releases/q'
-            echo
-            awk '/^## /{ if (found) exit; found=1 } found' CHANGELOG.md
-          } > version-pr-body.md
-          gh pr edit "$PR_NUMBER" --body-file version-pr-body.md
+        run: node .github/scripts/update-version-pr-body.mjs
+
+      - name: Create GitHub release
+        id: github-release
+        if: steps.changesets.outputs.published == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PUBLISHED_PACKAGES: ${{ steps.changesets.outputs.published-packages }}
+          DIST_TAG: ${{ needs.resolve-config.outputs.dist_tag }}
+        run: node .github/scripts/create-github-release.mjs
+
+  notify-release:
+    name: Announce GitHub release
+    needs: release
+    if: needs.release.outputs.release_tag != ''
+    permissions:
+      contents: read
+    uses: ./.github/workflows/notify.yml
+    with:
+      tag: ${{ needs.release.outputs.release_tag }}
+    secrets: inherit
 
   notify-slack:
     name: Send notification to Slack
     runs-on: ubuntu-latest
     needs: release
-    if: needs.release.outputs.published == 'true'
+    # Publishes with a GitHub release are announced by notify-release
+    if: needs.release.outputs.published == 'true' && needs.release.outputs.release_tag == ''
     timeout-minutes: 5
     permissions: {}
     steps:

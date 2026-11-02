@@ -2,77 +2,15 @@
 
 import { execFile as execFileCallback } from 'node:child_process'
 import { readFile, writeFile } from 'node:fs/promises'
-import { createRequire } from 'node:module'
 import path from 'node:path'
-import { pathToFileURL } from 'node:url'
 import { promisify } from 'node:util'
 import fg from 'fast-glob'
 import getReleasePlan from '@changesets/get-release-plan'
+import changelog from './changeset-changelog.cjs'
+import { getReleaseHeading } from './get-release-heading.js'
+import { replaceOrPrependVersionSection } from './replace-or-prepend-version-section.js'
 
 const execFile = promisify(execFileCallback)
-
-function normalizeChangelogOption(changelog) {
-  if (changelog === false) return false
-  if (typeof changelog === 'string') return [changelog, null]
-  return changelog
-}
-
-async function readChangesetConfig() {
-  const content = await readFile('.changeset/config.json', 'utf-8')
-  const json = JSON.parse(content)
-
-  return {
-    ...json,
-    changelog: normalizeChangelogOption(
-      json.changelog === undefined ? '@changesets/cli/changelog' : json.changelog,
-    ),
-  }
-}
-
-function resolveModuleFrom(fromDir, request) {
-  const fromRequire = createRequire(path.join(fromDir, '__changeset_resolver__.js'))
-  return fromRequire.resolve(request)
-}
-
-async function loadChangelogGenerator(cwd) {
-  const config = await readChangesetConfig()
-
-  if (!config.changelog) {
-    return {
-      config,
-      changelogFunctions: null,
-      changelogOpts: null,
-    }
-  }
-
-  const [modulePath, changelogOpts] = config.changelog
-  const changesetDir = path.join(cwd, '.changeset')
-
-  let resolvedPath
-
-  try {
-    resolvedPath = resolveModuleFrom(changesetDir, modulePath)
-  } catch {
-    resolvedPath = resolveModuleFrom(cwd, modulePath)
-  }
-
-  let mod = await import(pathToFileURL(resolvedPath).href)
-  mod = mod.default ?? mod
-  mod = mod.default ?? mod
-
-  if (
-    typeof mod.getReleaseLine !== 'function' ||
-    typeof mod.getDependencyReleaseLine !== 'function'
-  ) {
-    throw new Error(`Could not resolve changelog generation functions from ${modulePath}`)
-  }
-
-  return {
-    config,
-    changelogFunctions: mod,
-    changelogOpts,
-  }
-}
 
 async function getChangesetCommit(cwd, changesetId) {
   const candidates = [`.changeset/${changesetId}.md`, `.changeset/${changesetId}/changes.json`]
@@ -126,7 +64,7 @@ async function loadWorkspacePackages(cwd) {
   return packages
 }
 
-async function getPackageChangelogEntry(release, changesets, changelogFunctions, changelogOpts) {
+async function getPackageChangelogEntry(release, changesets) {
   if (release.type === 'none') return null
 
   const changelogLines = {
@@ -140,7 +78,7 @@ async function getPackageChangelogEntry(release, changesets, changelogFunctions,
 
     if (changesetRelease && changesetRelease.type !== 'none') {
       changelogLines[changesetRelease.type].push(
-        changelogFunctions.getReleaseLine(changeset, changesetRelease.type, changelogOpts),
+        changelog.getReleaseLine(changeset, changesetRelease.type),
       )
     }
   }
@@ -174,60 +112,18 @@ function renderPackageSection(name, entry) {
   return `### ${name}\n\n${body}`
 }
 
-function renderReleaseNotes(version, sections) {
+function renderReleaseNotes(heading, sections) {
   return (
     [
       '# Releases',
       '',
-      `## v${version}`,
+      `## ${heading}`,
       '',
       ...sections.flatMap((section, index) =>
         index === sections.length - 1 ? [section] : [section, ''],
       ),
     ].join('\n') + '\n'
   )
-}
-
-/**
- * Replace an existing `## v<version>` section in the changelog body, or prepend it.
- * The body passed in should not include the `# Releases` heading.
- *
- * @param {string} body - existing changelog body (without top heading)
- * @param {string} newSection - the section text starting with `## v...` and ending with a newline
- * @param {string} version - semantic version string (without leading 'v')
- * @returns {string} updated changelog body including the new or replaced section
- */
-function replaceOrPrependVersionSection(body, newSection, version) {
-  function escapeRegExp(string) {
-    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-  }
-
-  const existing = body || ''
-  const newTrim = newSection.trim()
-
-  if (!existing.trim()) {
-    return `${newTrim}\n\n`
-  }
-
-  const headerRe = new RegExp(`^## v${escapeRegExp(version)}\\b`, 'm')
-  const headerMatch = headerRe.exec(existing)
-
-  if (!headerMatch) {
-    return `${newTrim}\n\n${existing}`
-  }
-
-  const startIndex = headerMatch.index
-  const rest = existing.slice(startIndex + headerMatch[0].length)
-  const nextHeaderRe = /^#{1,2}\s.*$/m
-  const nextMatch = nextHeaderRe.exec(rest)
-
-  const endIndex = nextMatch
-    ? startIndex + headerMatch[0].length + nextMatch.index
-    : existing.length
-  const before = existing.slice(0, startIndex)
-  const after = existing.slice(endIndex)
-
-  return `${before}${newTrim}\n\n${after}`
 }
 
 /**
@@ -253,16 +149,6 @@ async function main() {
       return
     }
 
-    const version = plan.releases && plan.releases[0] ? plan.releases[0].newVersion : 'unreleased'
-    const { changelogFunctions, changelogOpts } = await loadChangelogGenerator(cwd)
-
-    if (!changelogFunctions) {
-      console.log(
-        'Changelog generation is disabled in .changeset/config.json — skipping aggregate changelog generation',
-      )
-      return
-    }
-
     const packageMap = await loadWorkspacePackages(cwd)
     const releasesWithPackages = plan.releases
       .filter(release => {
@@ -284,12 +170,7 @@ async function main() {
     const sections = []
 
     for (const release of releasesWithPackages) {
-      const entry = await getPackageChangelogEntry(
-        release,
-        changesetsWithCommits,
-        changelogFunctions,
-        changelogOpts,
-      )
+      const entry = await getPackageChangelogEntry(release, changesetsWithCommits)
 
       if (entry) {
         sections.push(renderPackageSection(release.name, entry))
@@ -303,10 +184,11 @@ async function main() {
       return
     }
 
-    const output = renderReleaseNotes(version, sections)
+    const heading = getReleaseHeading(releasesWithPackages)
+    const output = renderReleaseNotes(heading, sections)
     const existingBody = await readChangelogBody()
     const newSection = output.split('\n').slice(2).join('\n').trimEnd() + '\n'
-    const updatedBody = replaceOrPrependVersionSection(existingBody, newSection, version)
+    const updatedBody = replaceOrPrependVersionSection(existingBody, newSection, heading)
     await writeFile('CHANGELOG.md', `# Releases\n\n${updatedBody}`, 'utf-8')
 
     console.log('Release notes written to CHANGELOG.md')
