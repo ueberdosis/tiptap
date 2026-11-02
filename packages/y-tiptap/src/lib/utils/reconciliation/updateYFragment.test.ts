@@ -100,7 +100,13 @@ describe('updateYFragment', () => {
       throw new Error('Expected a blockquote element')
     }
 
-    const toArray = vi.spyOn(quoteElement.get(0), 'toArray')
+    const firstElement = quoteElement.get(0)
+
+    if (!(firstElement instanceof Y.XmlElement)) {
+      throw new Error('Expected a paragraph element')
+    }
+
+    const toArray = vi.spyOn(firstElement, 'toArray')
     const next = schema.node('doc', null, [quote.copy(quote.content.replaceChild(1, inserted))])
 
     updateYFragment(document, fragment, next, meta)
