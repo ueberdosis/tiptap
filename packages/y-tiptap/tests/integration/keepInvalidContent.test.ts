@@ -1,6 +1,6 @@
 import { Schema } from 'prosemirror-model'
 import type { Node } from 'prosemirror-model'
-import { EditorState } from 'prosemirror-state'
+import { EditorState, TextSelection } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import { nodes, marks } from 'prosemirror-schema-basic'
 import {
@@ -211,6 +211,21 @@ describe('keeping content that does not fit the schema', () => {
 
     expect(view.state.doc.toString()).toBe('doc(paragraph, blockquote(paragraph))')
     expect(view.editable).toBe(false)
+  })
+
+  it('pauses editing when content around the selection becomes invalid', () => {
+    const { document, fragment, onInvalidContent, view } = createView(
+      doc(paragraph('hello world')),
+      narrowSchema,
+    )
+    const text = (fragment.get(0) as Y.XmlElement).get(0) as Y.XmlText
+
+    view.dispatch(view.state.tr.setSelection(TextSelection.create(view.state.doc, 8)))
+    document.transact(() => text.format(0, 11, { secretMark: {} }))
+
+    expect(view.state.doc.toString()).toBe('doc(paragraph)')
+    expect(view.editable).toBe(false)
+    expect(onInvalidContent).toHaveBeenCalledOnce()
   })
 
   it('keeps invalid content while showing a snapshot', async () => {
