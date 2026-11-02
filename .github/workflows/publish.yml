@@ -127,6 +127,20 @@ jobs:
           NPM_CONFIG_PROVENANCE: true
           NPM_CONFIG_ACCESS: public
 
+      # The action lists every bumped package, so swap its list for the aggregated notes
+      - name: Use aggregated changelog in version PR
+        if: steps.changesets.outputs.pr-number != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ steps.changesets.outputs.pr-number }}
+        run: |
+          {
+            gh pr view "$PR_NUMBER" --json body --jq .body | sed '/^# Releases/q'
+            echo
+            awk '/^## /{ if (found) exit; found=1 } found' CHANGELOG.md
+          } > version-pr-body.md
+          gh pr edit "$PR_NUMBER" --body-file version-pr-body.md
+
   notify-slack:
     name: Send notification to Slack
     runs-on: ubuntu-latest

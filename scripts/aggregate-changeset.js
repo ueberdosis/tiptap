@@ -10,13 +10,6 @@ import fg from 'fast-glob'
 import getReleasePlan from '@changesets/get-release-plan'
 
 const execFile = promisify(execFileCallback)
-const require = createRequire(import.meta.url)
-const resolveFromWorkspace = request =>
-  require.resolve(request, {
-    paths: [process.cwd(), require.resolve('@changesets/cli/changelog')],
-  })
-const semverSatisfies = require(resolveFromWorkspace('semver/functions/satisfies'))
-const validRange = require(resolveFromWorkspace('semver/ranges/valid'))
 
 function normalizeChangelogOption(changelog) {
   if (changelog === false) return false
@@ -133,62 +126,7 @@ async function loadWorkspacePackages(cwd) {
   return packages
 }
 
-function getBumpLevel(type) {
-  const level = ['none', 'patch', 'minor', 'major'].indexOf(type)
-
-  if (level < 0) {
-    throw new Error(`Unrecognised bump type ${type}`)
-  }
-
-  return level
-}
-
-function shouldUpdateDependencyBasedOnConfig(cwd, release, dependency, config) {
-  let { depVersionRange } = dependency
-  const usesWorkspaceRange = depVersionRange.startsWith('workspace:')
-
-  if (usesWorkspaceRange) {
-    depVersionRange = depVersionRange.replace(/^workspace:/, '')
-
-    switch (depVersionRange) {
-      case '*':
-        return true
-      case '^':
-      case '~':
-        depVersionRange = `${depVersionRange}${release.oldVersion}`
-        break
-      default:
-        if (!validRange(depVersionRange)) {
-          return (
-            path.posix.normalize(depVersionRange) ===
-            path.relative(cwd, release.dir).replaceAll('\\', '/')
-          )
-        }
-    }
-  }
-
-  if (!semverSatisfies(release.version, depVersionRange)) {
-    return true
-  }
-
-  let shouldUpdate = getBumpLevel(release.type) >= getBumpLevel(config.minReleaseType)
-
-  if (dependency.depType === 'peerDependencies') {
-    shouldUpdate = !config.onlyUpdatePeerDependentsWhenOutOfRange
-  }
-
-  return shouldUpdate
-}
-
-async function getPackageChangelogEntry(
-  cwd,
-  release,
-  releases,
-  changesets,
-  changelogFunctions,
-  changelogOpts,
-  config,
-) {
+async function getPackageChangelogEntry(release, changesets, changelogFunctions, changelogOpts) {
   if (release.type === 'none') return null
 
   const changelogLines = {
@@ -206,53 +144,6 @@ async function getPackageChangelogEntry(
       )
     }
   }
-
-  const dependentReleases = releases.filter(otherRelease => {
-    const dependencyVersionRange = release.packageJson.dependencies?.[otherRelease.name]
-    const peerDependencyVersionRange = release.packageJson.peerDependencies?.[otherRelease.name]
-    const versionRange = dependencyVersionRange || peerDependencyVersionRange
-    const usesWorkspaceRange = versionRange?.startsWith('workspace:')
-
-    return (
-      versionRange &&
-      (usesWorkspaceRange || validRange(versionRange) !== null) &&
-      shouldUpdateDependencyBasedOnConfig(
-        cwd,
-        {
-          type: otherRelease.type,
-          version: otherRelease.newVersion,
-          oldVersion: otherRelease.oldVersion,
-          dir: otherRelease.dir,
-        },
-        {
-          depVersionRange: versionRange,
-          depType: dependencyVersionRange ? 'dependencies' : 'peerDependencies',
-        },
-        {
-          minReleaseType: config.updateInternalDependencies,
-          onlyUpdatePeerDependentsWhenOutOfRange: config.onlyUpdatePeerDependentsWhenOutOfRange,
-        },
-      )
-    )
-  })
-
-  const relevantChangesetIds = new Set()
-
-  for (const dependentRelease of dependentReleases) {
-    for (const changesetId of dependentRelease.changesets) {
-      relevantChangesetIds.add(changesetId)
-    }
-  }
-
-  const relevantChangesets = changesets.filter(changeset => relevantChangesetIds.has(changeset.id))
-
-  changelogLines.patch.push(
-    changelogFunctions.getDependencyReleaseLine(
-      relevantChangesets,
-      dependentReleases,
-      changelogOpts,
-    ),
-  )
 
   const sections = []
 
@@ -363,7 +254,7 @@ async function main() {
     }
 
     const version = plan.releases && plan.releases[0] ? plan.releases[0].newVersion : 'unreleased'
-    const { config, changelogFunctions, changelogOpts } = await loadChangelogGenerator(cwd)
+    const { changelogFunctions, changelogOpts } = await loadChangelogGenerator(cwd)
 
     if (!changelogFunctions) {
       console.log(
@@ -390,25 +281,14 @@ async function main() {
       .filter(release => release.type !== 'none' && !release.packageJson.private)
 
     const changesetsWithCommits = await addCommitsToChangesets(cwd, plan.changesets)
-    const aggregateConfig = {
-      updateInternalDependencies: config.updateInternalDependencies === 'minor' ? 'minor' : 'patch',
-      onlyUpdatePeerDependentsWhenOutOfRange: Boolean(
-        config.___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH
-          ?.onlyUpdatePeerDependentsWhenOutOfRange,
-      ),
-    }
-
     const sections = []
 
     for (const release of releasesWithPackages) {
       const entry = await getPackageChangelogEntry(
-        cwd,
         release,
-        releasesWithPackages,
         changesetsWithCommits,
         changelogFunctions,
         changelogOpts,
-        aggregateConfig,
       )
 
       if (entry) {
