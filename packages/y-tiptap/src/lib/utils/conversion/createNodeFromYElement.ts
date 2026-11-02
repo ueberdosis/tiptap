@@ -81,7 +81,8 @@ export const createNodeFromYElement = (
 
     if (!(type instanceof Y.XmlText)) return
 
-    mergeNextYText(type)
+    if (meta.deferTextMerge) meta.deferTextMerge(type)
+    else mergeNextYText(type)
     const textNodes = createTextNodesFromYText(
       type,
       schema,

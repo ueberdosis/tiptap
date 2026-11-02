@@ -21,6 +21,7 @@ import { restoreRelativeSelection } from '../positions/restoreRelativeSelection.
 import { getRelativeSelection } from '../positions/getRelativeSelection.js'
 
 import { createNodeFromYElement } from '../conversion/createNodeFromYElement.js'
+import { mergeNextYText } from '../conversion/mergeNextYText.js'
 import { updateYFragment } from '../reconciliation/updateYFragment.js'
 import { deleteMapping } from './deleteMapping.js'
 import { projectedMappings } from './projectedMappings.js'
@@ -41,10 +42,12 @@ export class ProsemirrorBinding {
   readonly afterAllTransactions: () => void
   _domSelectionInView: boolean | null = null
   readonly reportInvalidContent?: (error: Error) => void
+  readonly deferTextMerge?: (text: Y.XmlText) => void
   private readonly onInvalidContent?: (error: Error) => void
   private _invalidContentError: Error | null = null
   private projectionError: Error | null = null
   private hasSharedContent = false
+  private pendingTextMerges: Y.XmlText[] = []
 
   constructor(
     yXmlFragment: Y.XmlFragment,
@@ -59,6 +62,9 @@ export class ProsemirrorBinding {
       this.onInvalidContent = onInvalidContent
       this.reportInvalidContent = error => {
         this.projectionError ??= error
+      }
+      this.deferTextMerge = text => {
+        this.pendingTextMerges.push(text)
       }
     }
 
@@ -166,6 +172,7 @@ export class ProsemirrorBinding {
 
   private createDocumentContent(): PModel.Fragment {
     this.projectionError = null
+    this.pendingTextMerges = []
 
     const fragmentContent = this.type
       .toArray()
@@ -187,6 +194,9 @@ export class ProsemirrorBinding {
     if (this.reportInvalidContent && !isPlaceholder && !topNodeType.validContent(content)) {
       this.reportInvalidContent(new RangeError('Shared content does not fit the document schema'))
     }
+
+    // Keep shared text unchanged while content is invalid
+    if (this.projectionError === null) this.pendingTextMerges.forEach(mergeNextYText)
 
     return content
   }
@@ -348,8 +358,9 @@ export class ProsemirrorBinding {
                 {
                   mapping: new Map(),
                   isOMark: new Map(),
-                  // Never delete shared content while showing a snapshot
+                  // Never change shared content while showing a snapshot
                   reportInvalidContent: this.reportInvalidContent ? () => {} : undefined,
+                  deferTextMerge: this.reportInvalidContent ? () => {} : undefined,
                 },
                 currentSnapshot,
                 previousSnapshot,
