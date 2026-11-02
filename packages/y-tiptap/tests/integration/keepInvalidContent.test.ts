@@ -191,6 +191,28 @@ describe('keeping content that does not fit the schema', () => {
     expect(view.editable).toBe(false)
   })
 
+  it('keeps checking nodes that wrap skipped content', () => {
+    const { document, fragment, view } = createView(
+      doc(
+        richSchema.node(
+          'blockquote',
+          null,
+          richSchema.node(
+            'paragraph',
+            null,
+            richSchema.text('Hidden', [richSchema.mark('secretMark')]),
+          ),
+        ),
+      ),
+      narrowSchema,
+    )
+
+    document.transact(() => fragment.insert(0, [new Y.XmlElement('paragraph')]))
+
+    expect(view.state.doc.toString()).toBe('doc(paragraph, blockquote(paragraph))')
+    expect(view.editable).toBe(false)
+  })
+
   it('keeps invalid content while showing a snapshot', async () => {
     const { document, fragment, sharedContent, updates, view } = createView(
       doc(paragraph('Before'), richSchema.node('secret', null, richSchema.text('Hidden'))),
