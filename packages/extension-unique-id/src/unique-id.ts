@@ -13,7 +13,6 @@ import type { Transaction } from '@tiptap/pm/state'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { v4 as uuidv4 } from 'uuid'
 
-
 export type UniqueIDGenerationContext = {
   node: PMNode
   pos: number
