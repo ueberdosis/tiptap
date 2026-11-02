@@ -407,7 +407,8 @@ export class ProsemirrorBinding {
 
       newError = this.updateInvalidContentError()
 
-      restoreRelativeSelection(tr, selection, this, oldDoc)
+      // Skipped content has no place in the editor to restore the selection to
+      if (this._invalidContentError === null) restoreRelativeSelection(tr, selection, this, oldDoc)
       tr = tr.setMeta(ySyncPluginKey, {
         isChangeOrigin: true,
         isUndoRedoOperation,
