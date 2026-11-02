@@ -5,4 +5,6 @@ import type { ProsemirrorMapping } from './ProsemirrorMapping.js'
 export interface BindingMetadata {
   mapping: ProsemirrorMapping
   isOMark: Map<MarkType, boolean>
+  /** When set, content that does not fit the schema is skipped and reported instead of deleted. */
+  reportInvalidContent?: (error: Error) => void
 }
