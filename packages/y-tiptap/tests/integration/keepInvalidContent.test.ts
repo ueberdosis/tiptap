@@ -75,6 +75,12 @@ const cases: [string, Node, Schema, string][] = [
   ],
 ]
 
+const addTextAfterFirstText = (fragment: Y.XmlFragment) => {
+  const firstParagraph = fragment.get(0) as Y.XmlElement
+
+  firstParagraph.insert(1, [new Y.XmlText(' world')])
+}
+
 describe('keeping content that does not fit the schema', () => {
   const documents: Y.Doc[] = []
   const views: EditorView[] = []
@@ -86,7 +92,11 @@ describe('keeping content that does not fit the schema', () => {
     documents.length = 0
   })
 
-  const createView = (content: Node, schema: Schema) => {
+  const createView = (
+    content: Node,
+    schema: Schema,
+    prepare: (fragment: Y.XmlFragment) => void = () => {},
+  ) => {
     const document = new Y.Doc({ gc: false })
     const fragment = document.getXmlFragment('prosemirror')
     const onInvalidContent = vi.fn()
@@ -94,6 +104,7 @@ describe('keeping content that does not fit the schema', () => {
 
     documents.push(document)
     prosemirrorToYXmlFragment(content, fragment)
+    prepare(fragment)
     const sharedContent = fragment.toString()
     document.on('update', (update: Uint8Array) => updates.push(update))
 
@@ -242,6 +253,29 @@ describe('keeping content that does not fit the schema', () => {
     expect(onInvalidContent).toHaveBeenCalledOnce()
     expect(fragment.length).toBe(0)
     expect(updates).toHaveLength(updateCount)
+  })
+
+  it('does not merge text while content is invalid', () => {
+    const { fragment, sharedContent, updates, view } = createView(
+      doc(paragraph('Hello'), richSchema.node('secret', null, richSchema.text('Hidden'))),
+      narrowSchema,
+      addTextAfterFirstText,
+    )
+
+    expect(view.state.doc.toString()).toBe('doc(paragraph("Hello world"))')
+    expect(fragment.toString()).toBe(sharedContent)
+    expect(updates).toHaveLength(0)
+  })
+
+  it('merges text while content is valid', () => {
+    const { fragment, view } = createView(
+      doc(paragraph('Hello')),
+      narrowSchema,
+      addTextAfterFirstText,
+    )
+
+    expect(view.state.doc.toString()).toBe('doc(paragraph("Hello world"))')
+    expect((fragment.get(0) as Y.XmlElement).length).toBe(1)
   })
 
   it('keeps invalid content while showing a snapshot', async () => {
