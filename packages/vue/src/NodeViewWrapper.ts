@@ -1,16 +1,14 @@
-import type { AnchorHTMLAttributes, DefineComponent } from 'vue'
+import type { DefineComponent, NativeElements } from 'vue'
 import { defineComponent, h } from 'vue'
 
-export type NodeViewWrapperProps = {
+type NativeTag = keyof NativeElements
+
+export type NodeViewWrapperProps<T extends NativeTag = 'div'> = {
   /**
    * The element (or component) tag to render as the wrapper root.
    */
-  as?: string
-  /**
-   * Download hint, used when the wrapper renders as an anchor.
-   */
-  download?: boolean | string
-} & Omit<AnchorHTMLAttributes, 'download'>
+  as?: T
+} & NativeElements[T]
 
 const NodeViewWrapperComponent = defineComponent({
   name: 'NodeViewWrapper',
@@ -42,6 +40,11 @@ const NodeViewWrapperComponent = defineComponent({
   },
 })
 
-// Native attributes fall through to the root element at runtime; expose
-// them on the public props type so vue-tsc strictTemplates accepts them (#8658).
-export const NodeViewWrapper = NodeViewWrapperComponent as DefineComponent<NodeViewWrapperProps>
+// Native attributes fall through to the root element at runtime. Infer them
+// from `as` via Vue's NativeElements map so vue-tsc strictTemplates accepts
+// tag-specific attrs (href, disabled, colspan, …) (#8658).
+export const NodeViewWrapper = NodeViewWrapperComponent as unknown as {
+  new <T extends NativeTag = 'div'>(props: NodeViewWrapperProps<T>): {
+    $props: NodeViewWrapperProps<T>
+  }
+} & DefineComponent<NodeViewWrapperProps>
