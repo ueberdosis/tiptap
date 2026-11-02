@@ -48,6 +48,7 @@ export class ProsemirrorBinding {
   private readonly onInvalidContent?: (error: Error) => void
   private _invalidContentError: Error | null = null
   private projectionError: Error | null = null
+  private hasSharedContent = false
 
   constructor(
     yXmlFragment: Y.XmlFragment,
@@ -183,8 +184,11 @@ export class ProsemirrorBinding {
     const content = PModel.Fragment.from(fragmentContent)
     const { topNodeType } = this.view.state.schema
 
-    // Empty shared fragments use the editor's placeholder document.
-    if (this.reportInvalidContent && content.childCount > 0 && !topNodeType.validContent(content)) {
+    this.hasSharedContent ||= this.type.length > 0
+    // Only a fragment that never had content uses the editor's placeholder document
+    const isPlaceholder = content.childCount === 0 && !this.hasSharedContent
+
+    if (this.reportInvalidContent && !isPlaceholder && !topNodeType.validContent(content)) {
       this.reportInvalidContent(new RangeError('Shared content does not fit the document schema'))
     }
 
