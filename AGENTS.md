@@ -17,6 +17,14 @@ Published packages live in `packages/*`. `demos/` is a Vite app used as playgrou
   - scannable, no long or complex wording
   - assume the reader doesn't know what you're talking about
 
+## Before starting implementation
+
+- Fully automated implementations and fixes for issues or features are welcome. Agents must complete the checks below before changing any code.
+- Read the issue and its discussion. Verify that the issue is valid and still applies to the current code. For bugs, reproduce the reported behavior. For features, confirm that the requested behavior is missing and fits the project.
+- Check linked PRs and search open PRs, including drafts, for the issue number and related behavior. Do not rely only on explicit issue links. Another contributor may already be working on the same problem.
+- If an existing PR covers the work, stop and report it instead of starting a duplicate implementation.
+- If you cannot verify validity or check for existing PRs, stop and explain what is missing. Do not change code until both checks are complete.
+
 ## Before opening a PR
 
 ```bash
