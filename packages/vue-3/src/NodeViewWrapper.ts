@@ -44,7 +44,9 @@ const NodeViewWrapperComponent = defineComponent({
 // from `as` via Vue's NativeElements map so vue-tsc strictTemplates accepts
 // tag-specific attrs (href, disabled, colspan, …) (#8658).
 export const NodeViewWrapper = NodeViewWrapperComponent as unknown as {
-  new <T extends NativeTag = 'div'>(props: NodeViewWrapperProps<T>): {
+  new <T extends NativeTag = 'div'>(
+    props: NodeViewWrapperProps<T>,
+  ): {
     $props: NodeViewWrapperProps<T>
   }
 } & DefineComponent<NodeViewWrapperProps>
