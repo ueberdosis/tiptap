@@ -228,6 +228,22 @@ describe('keeping content that does not fit the schema', () => {
     expect(onInvalidContent).toHaveBeenCalledOnce()
   })
 
+  it('pauses editing when all shared content is deleted', () => {
+    const { document, fragment, onInvalidContent, updates, view } = createView(
+      doc(paragraph('Body')),
+      narrowSchema,
+    )
+
+    document.transact(() => fragment.delete(0))
+    const updateCount = updates.length
+    view.dispatch(view.state.tr.setMeta('test', true))
+
+    expect(view.editable).toBe(false)
+    expect(onInvalidContent).toHaveBeenCalledOnce()
+    expect(fragment.length).toBe(0)
+    expect(updates).toHaveLength(updateCount)
+  })
+
   it('keeps invalid content while showing a snapshot', async () => {
     const { document, fragment, sharedContent, updates, view } = createView(
       doc(paragraph('Before'), richSchema.node('secret', null, richSchema.text('Hidden'))),
