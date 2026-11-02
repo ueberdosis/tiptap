@@ -33,7 +33,7 @@ ySyncPlugin(fragment, {
 })
 ```
 
-While shared content does not fit the schema, the editor shows what it can, editing and undo pause, and no changes are written to the shared document. The callback runs each time shared content stops fitting the schema. Read the current error from `ySyncPluginKey.getState(state)?.binding.invalidContentError`. Editing resumes when a remote update brings compatible content.
+While shared content does not fit the schema, the editor shows what it can, editing and undo pause, and no content changes are written to the shared document. The callback runs each time shared content stops fitting the schema. Read the current error from `ySyncPluginKey.getState(state)?.binding.invalidContentError`. Editing resumes when a remote update brings compatible content.
 
 The Tiptap Collaboration extension sets this option when the editor has `enableContentCheck: true` and emits a `contentError` event.
 
