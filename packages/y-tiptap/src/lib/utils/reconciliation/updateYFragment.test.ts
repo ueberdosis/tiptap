@@ -16,12 +16,14 @@ const schema = new Schema({
       attrs: { id: { default: null }, ychange: { default: null } },
     },
     heading: { group: 'block', content: 'text*' },
+    image: { group: 'block', attrs: { src: { default: null } } },
     text: {},
   },
 })
 
 const paragraph = (text: string) => schema.node('paragraph', null, text ? schema.text(text) : [])
 const heading = (text: string) => schema.node('heading', null, schema.text(text))
+const image = (src: string) => schema.node('image', { src })
 const first = paragraph('First')
 const second = paragraph('Second')
 const inserted = paragraph('Inserted')
@@ -87,6 +89,18 @@ describe('updateYFragment', () => {
     expect(fragment.get(2)).toBe(secondElement)
     expect(meta.mapping.get(firstElement)).toBe(first)
     expect(meta.mapping.get(secondElement)).toBe(second)
+  })
+
+  it('keeps the element of the remaining atom when the atom before it is deleted', () => {
+    const { document, fragment, meta } = createFragment()
+    const a = image('a.png')
+    const b = image('b.png')
+    updateYFragment(document, fragment, schema.node('doc', null, [a, b]), meta)
+    const bElement = fragment.get(1)
+
+    updateYFragment(document, fragment, schema.node('doc', null, [b]), meta)
+
+    expect(fragment.get(0)).toBe(bElement)
   })
 
   it('groups direct mapped-child updates in one sync transaction', () => {

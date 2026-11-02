@@ -136,8 +136,11 @@ export const updateYFragment = (
         const equalityLeft = computeChildEqualityFactor(leftY, leftP, meta)
         const equalityRight = computeChildEqualityFactor(rightY, rightP, meta)
 
+        // An element already mapped to this node wins, as atoms have no children to compare.
         // Mapped child identity is stronger evidence than equal content when choosing a side.
-        if (equalityLeft.foundMappedChild && !equalityRight.foundMappedChild) {
+        if (mappedIdentity(meta.mapping.get(rightY), rightP)) {
+          updateLeft = false
+        } else if (equalityLeft.foundMappedChild && !equalityRight.foundMappedChild) {
           updateRight = false
         } else if (!equalityLeft.foundMappedChild && equalityRight.foundMappedChild) {
           updateLeft = false
