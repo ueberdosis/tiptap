@@ -46,6 +46,14 @@ export const defaultSelectionBuilder = (user: CursorUser) => {
     class: 'ProseMirror-yjs-selection',
   }
 }
+
+// Positions cannot be mapped while the editor skips shared content
+const getMappableSyncState = (state: EditorState) => {
+  const ystate = ySyncPluginKey.getState(state)
+
+  return ystate?.binding && ystate.binding.invalidContentError === null ? ystate : null
+}
+
 const rxValidColor = /^#[0-9a-fA-F]{6}$/
 const hasCursorUser = (user: Partial<CursorUser>): user is CursorUser =>
   typeof user.name === 'string' && typeof user.color === 'string'
@@ -192,9 +200,9 @@ export const yCursorPlugin = (
         }
       }
       const updateCursorInfo = (editorView: EditorView) => {
-        const ystate = ySyncPluginKey.getState(editorView.state)
+        const ystate = getMappableSyncState(editorView.state)
 
-        if (!ystate || !ystate.binding) {
+        if (!ystate) {
           return
         }
 
