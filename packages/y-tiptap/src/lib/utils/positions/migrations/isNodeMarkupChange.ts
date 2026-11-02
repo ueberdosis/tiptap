@@ -1,8 +1,14 @@
 import type { Node } from 'prosemirror-model'
 import type { Step } from 'prosemirror-transform'
 
+const stepJson = new WeakMap<Step, ReturnType<Step['toJSON']>>()
+
 export const isNodeMarkupChange = (step: Step, before: Node, after: Node, position: number) => {
-  const json = step.toJSON()
+  let json = stepJson.get(step)
+  if (json === undefined) {
+    json = step.toJSON()
+    stepJson.set(step, json)
+  }
 
   if (json.stepType !== 'replace' && json.stepType !== 'replaceAround') {
     return false
