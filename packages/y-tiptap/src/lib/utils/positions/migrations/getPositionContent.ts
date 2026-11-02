@@ -49,7 +49,9 @@ export const getPositionContent = (fragment: Y.XmlFragment, doc: Node) => {
       }
 
       const text = getTextCharacters(shared, offset)
-      characters.push(...text)
+      for (const character of text) {
+        characters.push(character)
+      }
       offset += text.length
     })
   }
