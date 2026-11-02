@@ -2,4 +2,4 @@
 '@tiptap/extension-code-block-lowlight': patch
 ---
 
-Moving the cursor or changing the selection no longer scans the whole document for code blocks.
+Fixed a performance issue where code highlighting updates were unnecessarily triggered by selection-only changes
