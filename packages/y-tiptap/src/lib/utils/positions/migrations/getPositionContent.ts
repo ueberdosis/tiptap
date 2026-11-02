@@ -21,6 +21,13 @@ export const getPositionContent = (fragment: Y.XmlFragment, doc: Node) => {
     if (node.content.size === 0) {
       children.forEach(child => {
         if (child instanceof Y.XmlText && child._item) {
+          // An empty prosemirror node must have an empty fragment text: a
+          // local deletion not yet reconciled leaves the text nonempty, and
+          // treating it as an empty placeholder would redirect its boundaries
+          // to the parent even though reconciliation keeps the text alive.
+          if (child.length > 0) {
+            throw new Error('Position tracking requires synchronized editor text')
+          }
           emptyTexts.push({ id: child._item.id, position: position - 1, end: position })
         }
       })
@@ -49,6 +56,20 @@ export const getPositionContent = (fragment: Y.XmlFragment, doc: Node) => {
       }
 
       const text = getTextCharacters(shared, offset)
+
+      // The walk below advances by the fragment's text length, so a fragment
+      // that diverges from the prosemirror document (an appended transaction
+      // running before the view flushed the preceding keystroke — an insert
+      // leaves the fragment short, a delete leaves it long) would silently
+      // mis-position every character after this one. Remote renders never
+      // reach this code (they carry isChangeOrigin), so the texts must match
+      // exactly.
+      if (
+        text.length !== child.reduce((total, textNode) => total + textNode.textContent.length, 0)
+      ) {
+        throw new Error('Position tracking requires synchronized editor text')
+      }
+
       characters.push(...text)
       offset += text.length
     })
