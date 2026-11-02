@@ -371,7 +371,7 @@ export class ProsemirrorBinding {
       updateYFragment(this.doc, this.type, doc, this)
 
       // Publish identity transfers with the content so peers receive both atomically.
-      if (plan?.doc === doc) {
+      if (plan?.doc === doc && !('transactions' in plan)) {
         applyPositionMigration(this.type, plan, this, getPositionMigrationStore(this.type))
       }
 
