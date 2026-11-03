@@ -64,9 +64,9 @@ export const createDecorations = (
   createCursor: (user: CursorUser, clientId: number) => Element,
   createSelection: NonNullable<CursorPluginOptions['selectionBuilder']>,
 ): DecorationSet => {
-  const ystate = ySyncPluginKey.getState(state)
+  const ystate = getMappableSyncState(state)
 
-  if (ystate == null || ystate.doc == null || ystate.binding == null) {
+  if (ystate == null || ystate.doc == null) {
     return DecorationSet.create(state.doc, [])
   }
 
