@@ -394,6 +394,34 @@ describe('keeping content that does not fit the schema', () => {
     awareness.destroy()
   })
 
+  it('does not restore a snapshot while content is invalid', async () => {
+    const { document, fragment, view } = createView(
+      doc(paragraph('Before'), richSchema.node('secret', null, richSchema.text('Hidden'))),
+      narrowSchema,
+    )
+    const snapshot = Y.snapshot(document)
+    const remoteParagraph = new Y.XmlElement('paragraph')
+
+    remoteParagraph.insert(0, [new Y.XmlText('Remote')])
+    document.transact(() => fragment.insert(0, [remoteParagraph]))
+    const sharedContent = fragment.toString()
+
+    view.dispatch(
+      view.state.tr.setMeta(ySyncPluginKey, {
+        snapshot,
+        prevSnapshot: snapshot,
+        restore: true,
+      }),
+    )
+    await new Promise(resolve => {
+      setTimeout(resolve, 10)
+    })
+
+    expect(view.state.doc.toString()).toBe('doc(paragraph("Remote"), paragraph("Before"))')
+    expect(ySyncPluginKey.getState(view.state)?.snapshot).toBeNull()
+    expect(fragment.toString()).toBe(sharedContent)
+  })
+
   it('keeps invalid content while showing a snapshot', async () => {
     const { document, fragment, sharedContent, updates, view } = createView(
       doc(paragraph('Before'), richSchema.node('secret', null, richSchema.text('Hidden'))),

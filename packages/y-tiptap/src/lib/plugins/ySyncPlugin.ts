@@ -91,6 +91,12 @@ export const ySyncPlugin = (
             return
           }
 
+          // A restore cannot be saved while shared content is invalid
+          if (binding.invalidContentError !== null) {
+            binding.unrenderSnapshot()
+            return
+          }
+
           binding._renderSnapshot(change.snapshot, change.snapshot, pluginState)
           binding.mux(() => {
             const activeView = binding.prosemirrorView
