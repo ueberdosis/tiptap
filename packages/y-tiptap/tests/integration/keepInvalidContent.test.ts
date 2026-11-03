@@ -6,11 +6,14 @@ import { nodes, marks } from 'prosemirror-schema-basic'
 import {
   prosemirrorToYXmlFragment,
   undo,
+  yCursorPlugin,
+  yCursorPluginKey,
   ySyncPlugin,
   ySyncPluginKey,
   yUndoPlugin,
 } from '@tiptap/y-tiptap'
 import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
+import { Awareness, applyAwarenessUpdate, encodeAwarenessUpdate } from 'y-protocols/awareness'
 import * as Y from 'yjs'
 
 const richSchema = new Schema({
@@ -276,6 +279,65 @@ describe('keeping content that does not fit the schema', () => {
 
     expect(view.state.doc.toString()).toBe('doc(paragraph("Hello world"))')
     expect((fragment.get(0) as Y.XmlElement).length).toBe(1)
+  })
+
+  it('hides remote cursors while content is invalid', async () => {
+    const document = new Y.Doc()
+    const publisherDocument = new Y.Doc()
+    const awareness = new Awareness(document)
+    const publisher = new Awareness(publisherDocument)
+    const fragment = document.getXmlFragment('prosemirror')
+
+    documents.push(document, publisherDocument)
+    prosemirrorToYXmlFragment(
+      doc(
+        richSchema.node(
+          'paragraph',
+          null,
+          richSchema.text('Hidden', [richSchema.mark('secretMark')]),
+        ),
+        paragraph('Visible'),
+      ),
+      fragment,
+    )
+    const view = new EditorView(null, {
+      state: EditorState.create({
+        schema: narrowSchema,
+        plugins: [ySyncPlugin(fragment, { onInvalidContent: () => {} }), yCursorPlugin(awareness)],
+      }),
+    })
+    views.push(view)
+    const hiddenText = (fragment.get(0) as Y.XmlElement).get(0) as Y.XmlText
+    const position = Y.createRelativePositionFromTypeIndex(hiddenText, 2)
+    const getCursorPositions = () =>
+      yCursorPluginKey
+        .getState(view.state)
+        ?.find()
+        .map(decoration => decoration.from)
+
+    publisher.setLocalState({
+      cursor: { anchor: position, head: position },
+      user: { name: 'Remote', color: '#000000' },
+    })
+    applyAwarenessUpdate(
+      awareness,
+      encodeAwarenessUpdate(publisher, [publisherDocument.clientID]),
+      'test',
+    )
+    await new Promise(resolve => {
+      setTimeout(resolve, 10)
+    })
+
+    expect(view.editable).toBe(false)
+    expect(getCursorPositions()).toEqual([])
+
+    document.transact(() => hiddenText.format(0, 6, { secretMark: null }))
+
+    expect(view.editable).toBe(true)
+    expect(getCursorPositions()).toEqual([3])
+
+    awareness.destroy()
+    publisher.destroy()
   })
 
   it('keeps invalid content while showing a snapshot', async () => {
