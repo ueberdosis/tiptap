@@ -199,10 +199,17 @@ export const yCursorPlugin = (
           setMeta(view, yCursorPluginKey, { awarenessUpdated: true })
         }
       }
+      const clearPublishedCursor = () => {
+        if (awareness.getLocalState()?.[cursorStateField] == null) return
+
+        awareness.setLocalStateField(cursorStateField, null)
+      }
       const updateCursorInfo = (editorView: EditorView) => {
         const ystate = getMappableSyncState(editorView.state)
 
         if (!ystate) {
+          // Peers should not see a cursor this user can no longer move
+          clearPublishedCursor()
           return
         }
 

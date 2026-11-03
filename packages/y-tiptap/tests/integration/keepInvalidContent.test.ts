@@ -363,6 +363,37 @@ describe('keeping content that does not fit the schema', () => {
     publisher.destroy()
   })
 
+  it('clears the published cursor while content is invalid', () => {
+    const document = new Y.Doc()
+    const awareness = new Awareness(document)
+    const fragment = document.getXmlFragment('prosemirror')
+
+    documents.push(document)
+    prosemirrorToYXmlFragment(doc(paragraph('Hello')), fragment)
+    const view = new EditorView(null, {
+      state: EditorState.create({
+        schema: narrowSchema,
+        plugins: [ySyncPlugin(fragment, { onInvalidContent: () => {} }), yCursorPlugin(awareness)],
+      }),
+    })
+    views.push(view)
+    // Publishing requires focus, which happy-dom does not provide
+    view.hasFocus = () => true
+
+    view.dispatch(view.state.tr.setSelection(TextSelection.create(view.state.doc, 3)))
+    expect(awareness.getLocalState()?.cursor).not.toBeNull()
+
+    document.transact(() => fragment.insert(1, [new Y.XmlElement('secret')]))
+    expect(view.editable).toBe(false)
+    expect(awareness.getLocalState()?.cursor).toBeNull()
+
+    document.transact(() => fragment.delete(1))
+    expect(view.editable).toBe(true)
+    expect(awareness.getLocalState()?.cursor).not.toBeNull()
+
+    awareness.destroy()
+  })
+
   it('keeps invalid content while showing a snapshot', async () => {
     const { document, fragment, sharedContent, updates, view } = createView(
       doc(paragraph('Before'), richSchema.node('secret', null, richSchema.text('Hidden'))),
