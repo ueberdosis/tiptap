@@ -75,7 +75,7 @@ jobs:
           webhook-type: webhook-trigger
           payload: |
             {
-              "message": ${{ toJSON(format('[Tiptap Editor {0}]: {1}\nRelease title: {2}\n{3}', needs.resolve-release.outputs.prerelease == 'true' && 'Pre-release' || 'Release', needs.resolve-release.outputs.name, needs.resolve-release.outputs.url, needs.resolve-release.outputs.body || 'No release notes provided.')) }}
+              "message": ${{ toJSON(format('[Tiptap Editor {0}]: {1}{4}Release title: {2}{4}{3}', needs.resolve-release.outputs.prerelease == 'true' && 'Pre-release' || 'Release', needs.resolve-release.outputs.name, needs.resolve-release.outputs.url, needs.resolve-release.outputs.body || 'No release notes provided.', fromJSON('"\n"'))) }}
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
