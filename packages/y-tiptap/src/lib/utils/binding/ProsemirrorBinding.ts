@@ -447,6 +447,7 @@ export class ProsemirrorBinding {
 
     this.doc.transact(() => {
       updateYFragment(this.doc, this.type, doc, this)
+      this.hasSharedContent ||= this.type.length > 0
 
       this.beforeTransactionSelection = getRelativeSelection(this, this.view.state)
     }, ySyncPluginKey)

@@ -258,6 +258,29 @@ describe('keeping content that does not fit the schema', () => {
     expect(updates).toHaveLength(updateCount)
   })
 
+  it('pauses editing when content typed in this editor is deleted', () => {
+    const document = new Y.Doc()
+    const fragment = document.getXmlFragment('prosemirror')
+    const onInvalidContent = vi.fn()
+
+    documents.push(document)
+    const view = new EditorView(null, {
+      state: EditorState.create({
+        schema: narrowSchema,
+        plugins: [ySyncPlugin(fragment, { onInvalidContent })],
+      }),
+    })
+    views.push(view)
+
+    view.dispatch(view.state.tr.insertText('Hello', 1))
+    document.transact(() => fragment.delete(0, fragment.length))
+    view.dispatch(view.state.tr.setMeta('test', true))
+
+    expect(view.editable).toBe(false)
+    expect(onInvalidContent).toHaveBeenCalledOnce()
+    expect(fragment.length).toBe(0)
+  })
+
   it('does not merge text while content is invalid', () => {
     const { fragment, sharedContent, updates, view } = createView(
       doc(paragraph('Hello'), richSchema.node('secret', null, richSchema.text('Hidden'))),
