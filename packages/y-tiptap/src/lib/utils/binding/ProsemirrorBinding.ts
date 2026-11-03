@@ -451,6 +451,7 @@ export class ProsemirrorBinding {
 
     this.doc.transact(() => {
       updateYFragment(this.doc, this.type, doc, this)
+      this.hasSharedContent ||= this.type.length > 0
 
       // Publish identity transfers with the content so peers receive both atomically.
       if (plan?.doc === doc && !('transactions' in plan)) {
