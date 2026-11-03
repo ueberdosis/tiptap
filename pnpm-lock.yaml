@@ -211,9 +211,6 @@ importers:
       '@changesets/cli':
         specifier: ^3.0.3
         version: 3.0.3
-      '@changesets/get-release-plan':
-        specifier: ^5.0.2
-        version: 5.0.2
       '@commitlint/cli':
         specifier: ^19.6.1
         version: 19.8.1(@types/node@22.20.1)(typescript@5.9.3)
@@ -1903,10 +1900,6 @@ packages:
 
   '@changesets/get-github-info@1.0.1':
     resolution: {integrity: sha512-ifLQCky/ZtDgZ4xCiUMjnLZSJ8xk52iIzMJbBBPlZWjr2CiTNTaTDddIVWKicrUAdWuLWL7PUw2fNa1yPwLpIg==}
-    engines: {node: ^22.11 || ^24 || >=26}
-
-  '@changesets/get-release-plan@5.0.2':
-    resolution: {integrity: sha512-laSJNxAH1EPiG20Z/Qxt10FnzXA7WarRulQvGHetoFzS2B7YDvkJIyoxDvoVk+M89astTC49ZS4wUrMe7PUD2g==}
     engines: {node: ^22.11 || ^24 || >=26}
 
   '@changesets/git@4.0.1':
@@ -6895,15 +6888,6 @@ snapshots:
   '@changesets/get-github-info@1.0.1':
     dependencies:
       dataloader: 2.2.3
-
-  '@changesets/get-release-plan@5.0.2':
-    dependencies:
-      '@changesets/assemble-release-plan': 7.0.0
-      '@changesets/config': 4.0.1
-      '@changesets/pre': 3.0.0
-      '@changesets/read': 1.0.1
-      '@changesets/types': 7.0.0
-      '@manypkg/get-packages': 3.1.0
 
   '@changesets/git@4.0.1':
     dependencies:
