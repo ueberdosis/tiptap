@@ -1,0 +1,62 @@
+name: Retry GitHub release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Wait for a running publish on this branch
+concurrency:
+  group: Publish-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Create GitHub release
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    outputs:
+      release_tag: ${{ steps.github-release.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Look up branch in publish config
+        id: config
+        env:
+          BRANCH: ${{ github.ref_name }}
+        run: node .github/scripts/resolve-publish-config.mjs "$BRANCH" >> "$GITHUB_OUTPUT"
+
+      - name: Stop on branches that do not publish
+        if: steps.config.outputs.configured != 'true'
+        run: exit 1
+
+      - name: Read latest version
+        id: version
+        run: echo "version=$(node -p "require('./packages/core/package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: Check version is on npm
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: npm view "@tiptap/core@$VERSION" version
+
+      - name: Create GitHub release
+        id: github-release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PUBLISHED_PACKAGES: '[{"name":"@tiptap/core","version":"${{ steps.version.outputs.version }}"}]'
+          DIST_TAG: ${{ steps.config.outputs.dist_tag }}
+        run: node .github/scripts/create-github-release.mjs
+
+  notify-release:
+    name: Announce GitHub release
+    needs: release
+    if: needs.release.outputs.release_tag != ''
+    permissions:
+      contents: read
+    uses: ./.github/workflows/notify.yml
+    with:
+      tag: ${{ needs.release.outputs.release_tag }}
+    secrets: inherit
