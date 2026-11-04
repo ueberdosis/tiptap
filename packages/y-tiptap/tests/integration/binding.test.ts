@@ -136,6 +136,48 @@ describe('Yjs binding', () => {
     expect(Y.encodeStateAsUpdate(client.document)).toEqual(before)
   })
 
+  it.each(['mark', 'content'] as const)(
+    'keeps live content when a snapshot has an unsupported %s',
+    async invalid => {
+      const document = new Y.Doc({ gc: false })
+      documents.push(document)
+      const paragraph = new Y.XmlElement('paragraph')
+      const text = new Y.XmlText('Important content')
+      document.getXmlFragment('prosemirror').insert(0, [paragraph])
+      paragraph.insert(0, [text])
+
+      if (invalid === 'mark') text.format(0, text.length, { unsupported: {} })
+      else paragraph.insert(1, [new Y.XmlElement('paragraph')])
+
+      const history = Y.snapshot(document)
+
+      if (invalid === 'mark') text.format(0, text.length, { unsupported: null })
+      else paragraph.delete(1, 1)
+
+      const view = new EditorView(null, {
+        state: EditorState.create({
+          schema,
+          plugins: [ySyncPlugin(document.getXmlFragment('prosemirror'))],
+        }),
+      })
+      views.push(view)
+      expect(view.state.doc.textContent).toBe('Important content')
+      const before = Y.encodeStateAsUpdate(document)
+      const update = vi.fn()
+      document.on('update', update)
+      const syncState = ySyncPluginKey.getState(view.state)
+      if (!syncState) throw new Error('Missing sync plugin state')
+
+      syncState.binding.renderSnapshot(history, history)
+      await vi.waitFor(() => expect(view.state.doc.textContent).toBe(''))
+
+      expect(update).not.toHaveBeenCalled()
+      expect(Y.encodeStateAsUpdate(document)).toEqual(before)
+      syncState.binding.unrenderSnapshot()
+      expect(view.state.doc.textContent).toBe('Important content')
+    },
+  )
+
   it.each(['snapshot', 'update'] as const)(
     'writes a restored historical %s to the shared document',
     async format => {

@@ -20,7 +20,7 @@ export const createTextNodesFromYText = (
       schema.text(delta.insert, attributesToMarks(delta.attributes, schema)),
     )
   } catch {
-    deleteYType(text)
+    if (snapshot === undefined && prevSnapshot === undefined) deleteYType(text)
     return null
   }
 }
