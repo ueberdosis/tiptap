@@ -1,6 +1,6 @@
 {
   "$schema": "https://unpkg.com/@changesets/config@4.0.1/schema.json",
-  "changelog": "@changesets/cli/changelog",
+  "changelog": "../scripts/changeset-changelog.cjs",
   "commit": false,
   "fixed": [["@tiptap/*", "!@tiptap/ai-toolkit", "!@tiptap/y-tiptap"]],
   "linked": [],

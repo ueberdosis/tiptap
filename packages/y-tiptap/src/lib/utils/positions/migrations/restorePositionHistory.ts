@@ -137,19 +137,27 @@ export const restorePositionHistory = (
 
   const flag = action === 'undo' ? 'undoing' : 'redoing'
   let result: ReturnType<Y.UndoManager['undo']> = null
+  const captureStackItem = ({ stackItem }: { stackItem: NonNullable<typeof result> }) => {
+    result = stackItem
+  }
 
+  manager.on('stack-item-popped', captureStackItem)
   try {
     manager.doc.transact(() => {
-      result = manager[action]()
+      // Yjs 13.6.13 returns null even when it pops a stack item.
+      manager[action]()
       // Keep the outer transaction classified as undo or redo through observer cleanup.
       manager[flag] = true
+      manager.currStackItem = result
 
       if (result) {
         restoreTransfers(fragment, store)
       }
     }, manager)
   } finally {
+    manager.off('stack-item-popped', captureStackItem)
     manager[flag] = false
+    manager.currStackItem = null
   }
 
   return result

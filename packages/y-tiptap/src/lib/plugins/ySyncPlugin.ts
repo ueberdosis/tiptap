@@ -24,16 +24,11 @@ export const ySyncPlugin = (
   let initialContentChanged = false
   const binding = new ProsemirrorBinding(yXmlFragment, mapping)
   const plugin = new Plugin<SyncPluginState>({
-    filterTransaction: transaction => binding.projectionError === null || !transaction.docChanged,
     props: {
       editable: state => {
         const syncState = getSyncPluginState(state)
 
-        return (
-          binding.projectionError === null &&
-          syncState.snapshot == null &&
-          syncState.prevSnapshot == null
-        )
+        return syncState.snapshot == null && syncState.prevSnapshot == null
       },
     },
     key: ySyncPluginKey,
@@ -73,7 +68,6 @@ export const ySyncPlugin = (
         pluginState = {
           ...pluginState,
           positionMigration:
-            binding.projectionError ||
             pluginState.isChangeOrigin ||
             pluginState.snapshot ||
             pluginState.prevSnapshot ||
@@ -102,8 +96,6 @@ export const ySyncPlugin = (
           }
 
           binding._renderSnapshot(change.snapshot, change.snapshot, pluginState)
-          if (binding.projectionError !== null) return
-
           binding.mux(() => {
             const activeView = binding.prosemirrorView
 
@@ -138,8 +130,6 @@ export const ySyncPlugin = (
       return {
         update: () => {
           const pluginState = getSyncPluginState(view.state)
-
-          if (binding.projectionError !== null) return
 
           if (pluginState.snapshot == null && pluginState.prevSnapshot == null) {
             const emptyDocument = view.state.doc.type.createAndFill()

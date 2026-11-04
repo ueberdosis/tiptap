@@ -12,12 +12,7 @@ import { restorePositionHistory } from '../utils/positions/migrations/restorePos
 
 const restoreHistory = (state: EditorState, direction: 'undo' | 'redo') => {
   const syncState = getSyncPluginState(state)
-  if (
-    syncState.binding.projectionError !== null ||
-    syncState.snapshot != null ||
-    syncState.prevSnapshot != null
-  )
-    return false
+  if (syncState.snapshot != null || syncState.prevSnapshot != null) return false
 
   const undoManager = getUndoPluginState(state).undoManager
 
@@ -107,15 +102,12 @@ export const yUndoPlugin = ({
         const binding = syncState.binding
 
         if (binding) {
-          stackItem.meta.set(binding, getUndoPluginState(view.state).prevSel)
-        }
-      })
-      manager.on('stack-item-popped', ({ stackItem }) => {
-        const binding = syncState.binding
-
-        if (binding) {
-          binding.beforeTransactionSelection =
-            stackItem.meta.get(binding) || binding.beforeTransactionSelection
+          // Capture the inverse selection before undo/redo changes the mapping.
+          const selection =
+            manager.undoing || manager.redoing
+              ? binding.beforeTransactionSelection
+              : getUndoPluginState(view.state).prevSel
+          stackItem.meta.set(binding, selection)
         }
       })
 

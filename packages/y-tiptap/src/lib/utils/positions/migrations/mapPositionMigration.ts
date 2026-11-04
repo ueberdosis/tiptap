@@ -1,12 +1,20 @@
 import type { Node } from 'prosemirror-model'
 import type { Transaction } from 'prosemirror-state'
-import type { Step } from 'prosemirror-transform'
-import type { PositionMigrationPlan, PositionNode } from '../../../../types/PositionMigration.js'
+import { AddMarkStep, RemoveMarkStep, type Step } from 'prosemirror-transform'
+import type {
+  PositionMigrationContent,
+  PositionMigrationPlan,
+  PositionNode,
+} from '../../../../types/PositionMigration.js'
 import type { ProsemirrorBinding } from '../../binding/ProsemirrorBinding.js'
 import { getPositionContent } from './getPositionContent.js'
 import { isNodeMarkupChange } from './isNodeMarkupChange.js'
 
-const isTextReplacement = (step: Step, doc: Node) => {
+const retainsYjsIdentities = (step: Step, doc: Node) => {
+  if (step instanceof AddMarkStep || step instanceof RemoveMarkStep) {
+    return true
+  }
+
   const json = step.toJSON()
   const slice = json.slice ?? { content: [] }
 
@@ -33,19 +41,22 @@ const indexNodes = (doc: Node) => {
   return nodes
 }
 
+type NodeIndexes = (step: number) => Map<Node, number[]>
+
 const findMovedNode = (
   node: Node,
   offset: number,
   step: number,
-  indexes: Map<Node, number[]>[],
+  docs: Node[],
+  indexes: NodeIndexes,
 ) => {
   // Equal content may be a copy. Only a unique node object identifies a move.
-  if (indexes[step].get(node)?.length !== 1) {
+  if (indexes(step).get(node)?.length !== 1) {
     return null
   }
 
-  for (let targetStep = step + 1; targetStep < indexes.length; targetStep += 1) {
-    const target = indexes[targetStep].get(node)
+  for (let targetStep = step + 1; targetStep < docs.length; targetStep += 1) {
+    const target = indexes(targetStep).get(node)
 
     if (target?.length === 1) {
       return { position: target[0] + offset, step: targetStep }
@@ -55,12 +66,7 @@ const findMovedNode = (
   return null
 }
 
-const findMovedPosition = (
-  position: number,
-  step: number,
-  docs: Node[],
-  indexes: Map<Node, number[]>[],
-) => {
+const findMovedPosition = (position: number, step: number, docs: Node[], indexes: NodeIndexes) => {
   const original = docs[step].resolve(position)
   const candidates: { node: Node; offset: number }[] = []
   const child = docs[step].nodeAt(position)
@@ -74,7 +80,7 @@ const findMovedPosition = (
   }
 
   for (const candidate of candidates) {
-    const moved = findMovedNode(candidate.node, candidate.offset, step, indexes)
+    const moved = findMovedNode(candidate.node, candidate.offset, step, docs, indexes)
 
     if (moved) {
       return moved
@@ -88,7 +94,7 @@ const mapCharacterPosition = (
   position: number,
   transaction: Transaction,
   docs: Node[],
-  indexes: Map<Node, number[]>[],
+  indexes: NodeIndexes,
 ) => {
   for (let step = 0; step < transaction.mapping.maps.length; step += 1) {
     const mapping = transaction.mapping.maps[step]
@@ -126,19 +132,35 @@ export const mapPositionMigration = (
   const pending =
     previous?.doc === transaction.before && previous.doc !== binding.syncedDoc ? previous : null
 
-  // Ordinary text edits retain Yjs character identities without structural migration.
-  if (
-    !transaction.docChanged ||
-    !binding.prosemirrorView ||
-    (!pending &&
-      transaction.steps.every((step, index) => isTextReplacement(step, transaction.docs[index])))
-  ) {
+  if (!transaction.docChanged || !binding.prosemirrorView) {
     return pending
   }
 
-  const source = pending ?? getPositionContent(binding.type, transaction.before)
+  const transactions =
+    pending && 'transactions' in pending ? [...pending.transactions, transaction] : [transaction]
+
+  if (
+    (!pending || 'transactions' in pending) &&
+    transaction.steps.every((step, index) => retainsYjsIdentities(step, transaction.docs[index]))
+  ) {
+    return { doc: transaction.doc, transactions }
+  }
+
+  const source =
+    pending && !('transactions' in pending)
+      ? pending
+      : { doc: transactions[0].before, ...getPositionContent(binding.type, transactions[0].before) }
+
+  return transactions.reduce(mapTransactionPositions, source)
+}
+
+const mapTransactionPositions = (
+  source: PositionMigrationContent,
+  transaction: Transaction,
+): PositionMigrationContent => {
   const docs = [...transaction.docs, transaction.doc]
-  const indexes = docs.map(indexNodes)
+  const cache: Map<Node, number[]>[] = []
+  const indexes = (step: number) => (cache[step] ??= indexNodes(docs[step]))
   const characters = source.characters.map(character => ({
     ...character,
     position:

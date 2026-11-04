@@ -21,12 +21,6 @@ These transfers are shared in a separate Y.Map in the same document. Persist the
 
 Native Yjs resolvers and direct XML changes do not use these transfers. Moves reconstructed from new ProseMirror nodes cannot be inferred from equal content. Root document boundaries remain attached to the document.
 
-## Schema compatibility
-
-When shared content cannot be rendered with the editor's schema, the binding keeps the last valid document and disables editing and shared writes. Read `ySyncPluginKey.getState(editor.state)?.binding.projectionError` for the error. Live editing resumes when a remote update provides compatible content. Historical snapshots remain read-only.
-
-Headless conversions throw on incompatible content and leave the shared Y.Doc unchanged.
-
 ## Official Documentation
 
 Documentation can be found on the [Tiptap website](https://tiptap.dev).
