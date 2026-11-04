@@ -2,4 +2,4 @@
 '@tiptap/y-tiptap': patch
 ---
 
-Deleting one of two atom nodes side by side, such as two images, no longer moves the remaining one into the deleted one's Yjs element.
+When one of two images or other atom nodes side by side is deleted, comments and relative positions on the remaining one now stay attached to it.

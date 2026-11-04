@@ -103,6 +103,30 @@ describe('updateYFragment', () => {
     expect(fragment.get(0)).toBe(bElement)
   })
 
+  it('keeps the element of the remaining atom when an identical atom before it is deleted', () => {
+    const { document, fragment, meta } = createFragment()
+    const a = image('a.png')
+    const copy = image('a.png')
+    updateYFragment(document, fragment, schema.node('doc', null, [a, copy]), meta)
+    const copyElement = fragment.get(1)
+
+    updateYFragment(document, fragment, schema.node('doc', null, [copy]), meta)
+
+    expect(fragment.get(0)).toBe(copyElement)
+  })
+
+  it('keeps the element of the remaining atom when an identical atom after it is deleted', () => {
+    const { document, fragment, meta } = createFragment()
+    const a = image('a.png')
+    const copy = image('a.png')
+    updateYFragment(document, fragment, schema.node('doc', null, [first, a, copy]), meta)
+    const aElement = fragment.get(1)
+
+    updateYFragment(document, fragment, schema.node('doc', null, [inserted, a]), meta)
+
+    expect(fragment.get(1)).toBe(aElement)
+  })
+
   it('groups direct mapped-child updates in one sync transaction', () => {
     const { document, fragment, meta } = createFragment()
     updateYFragment(document, fragment, schema.node('doc', null, [first, second]), meta)
