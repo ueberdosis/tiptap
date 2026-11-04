@@ -1,12 +1,5 @@
 import { afterEach, describe, expect, it } from 'vite-plus/test'
-import {
-  absolutePositionToRelativePosition,
-  redo,
-  relativePositionToAbsolutePosition,
-  undo,
-  ySyncPluginKey,
-  yUndoPluginKey,
-} from '@tiptap/y-tiptap'
+import { redo, undo, yUndoPluginKey } from '@tiptap/y-tiptap'
 import * as Y from 'yjs'
 import { createTestView } from '../utils/createTestView.js'
 import { schema } from '../utils/testSchema.js'
@@ -81,42 +74,5 @@ describe('collaboration without position migrations', () => {
 
     expect(view.state.doc.textContent).toBe('Replacement')
     expect(document.share.has(migrationKey)).toBe(false)
-  })
-
-  it('ignores persisted migrations after reload and leaves them unchanged during edits', () => {
-    const first = createClient()
-    first.view.dispatch(first.view.state.tr.insertText('Hello world', 1))
-    const sync = ySyncPluginKey.getState(first.view.state)!
-    const anchor = absolutePositionToRelativePosition(7, sync.type, sync.binding.mapping)
-    const store = first.document.getMap(migrationKey)
-    store.set('legacy', {
-      version: 1,
-      client: first.document.clientID,
-      clock: 0,
-      seen: [...Y.decodeStateVector(Y.encodeStateVector(first.document))],
-      transfers: [{ source: { ...anchor.item!, length: 1 }, target: null }],
-    })
-    const stored = store.toJSON()
-    const second = createClient(true)
-    Y.applyUpdate(second.document, Y.encodeStateAsUpdate(first.document))
-    const loaded = ySyncPluginKey.getState(second.view.state)!
-
-    expect(second.view.state.doc.toJSON()).toEqual(first.view.state.doc.toJSON())
-    expect(
-      relativePositionToAbsolutePosition(
-        second.document,
-        loaded.type,
-        anchor,
-        loaded.binding.mapping,
-      ),
-    ).toBe(7)
-    second.view.dispatch(second.view.state.tr.split(6))
-    expect(undo(second.view.state)).toBe(true)
-    expect(redo(second.view.state)).toBe(true)
-    syncDocuments(first.document, second.document)
-
-    expect(second.view.state.doc.toJSON()).toEqual(first.view.state.doc.toJSON())
-    expect(first.document.getMap(migrationKey).toJSON()).toEqual(stored)
-    expect(second.document.getMap(migrationKey).toJSON()).toEqual(stored)
   })
 })

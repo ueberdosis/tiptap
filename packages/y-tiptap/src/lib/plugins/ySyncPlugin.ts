@@ -7,6 +7,7 @@ import { ySyncPluginKey, yUndoPluginKey } from './keys.js'
 import * as Y from 'yjs'
 import * as eventloop from 'lib0/eventloop'
 import { ProsemirrorBinding } from '../utils/binding/ProsemirrorBinding.js'
+import { clearPositionMigrations } from '../utils/positions/clearPositionMigrations.js'
 
 const defaultColors: ColorDef[] = [{ light: '#ecd44433', dark: '#ecd444' }]
 /** Binds a Yjs XML fragment to the editor document. The fragment must belong to a Yjs document. */
@@ -104,6 +105,10 @@ export const ySyncPlugin = (
       },
     },
     view: view => {
+      const clearMigrations = (transaction: Y.Transaction) =>
+        clearPositionMigrations(binding.doc, transaction)
+      clearPositionMigrations(binding.doc)
+      binding.doc.on('afterTransaction', clearMigrations)
       binding.initView(view)
 
       if (mapping == null) {
@@ -149,6 +154,7 @@ export const ySyncPlugin = (
           }
         },
         destroy: () => {
+          binding.doc.off('afterTransaction', clearMigrations)
           binding.destroy()
         },
       }
