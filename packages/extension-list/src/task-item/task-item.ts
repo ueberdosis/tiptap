@@ -128,7 +128,23 @@ export const TaskItem = Node.create<TaskItemOptions>({
       {
         tag: `li[data-type="${this.name}"]`,
         priority: 51,
-        contentElement: element => element.querySelector('div') ?? element,
+      },
+      {
+        // renderHTML puts a checkbox label next to a direct-child content `div`. In that
+        // structure the label is checkbox chrome and may hold the generated accessibility
+        // text, so skip it. Any other label is parsed as content, because it can be the only
+        // place the task text lives (for example `<label><input type="checkbox">Buy milk</label>`).
+        tag: `li[data-type="${this.name}"] > label`,
+        priority: 52,
+        ignore: true,
+        getAttrs: element => {
+          const hasCheckbox = element.querySelector('input[type="checkbox"]') !== null
+          const hasContentDiv = Array.from(element.parentElement?.children ?? []).some(
+            child => child.tagName === 'DIV',
+          )
+
+          return hasCheckbox && hasContentDiv ? {} : false
+        },
       },
     ]
   },
