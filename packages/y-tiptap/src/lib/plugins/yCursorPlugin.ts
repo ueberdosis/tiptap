@@ -189,30 +189,20 @@ export const yCursorPlugin = (
       },
     },
     view: view => {
-      const isLocalCursorShown = () => {
-        const localState = awareness.getLocalState()
-        const document = ySyncPluginKey.getState(view.state)?.doc
-
-        return (
-          localState != null &&
-          document != null &&
-          awarenessStateFilter(document.clientID, awareness.clientID, localState)
-        )
-      }
-      let localCursorShown = isLocalCursorShown()
       const awarenessListener = ({ added, updated, removed }: AwarenessChange) => {
         if (view.isDestroyed) {
           return
         }
 
-        const wasShown = localCursorShown
-        localCursorShown = isLocalCursorShown()
         const onlyLocalChanged = [...added, ...updated, ...removed].every(
           id => id === awareness.clientID,
         )
+        // The default filter always hides our own cursor; a custom one may depend on our state
+        const localCursorAlwaysHidden =
+          awarenessStateFilter === defaultAwarenessStateFilter &&
+          ySyncPluginKey.getState(view.state)?.doc.clientID === awareness.clientID
 
-        // Our own cursor is usually hidden, so publishing it needs no redraw
-        if (onlyLocalChanged && !wasShown && !localCursorShown) {
+        if (onlyLocalChanged && localCursorAlwaysHidden) {
           return
         }
 

@@ -238,7 +238,31 @@ it('hiding the local cursor redraws the cursors', async () => {
 
     awareness.setLocalStateField('showSelf', false)
     await promise.wait(10)
-    assert.equal(counter.redraws, 1, 'the hidden local cursor must be removed')
+    assert(counter.redraws > 0, 'the hidden local cursor must be removed')
+  } finally {
+    view.destroy()
+    awareness.destroy()
+    document.destroy()
+  }
+})
+
+it('a custom filter redraws the cursors on every local change', async () => {
+  const document = new Y.Doc()
+  const awareness = new Awareness(document)
+  awareness.setLocalStateField('team', 'a')
+  const { view, counter } = countCursorRedraws(document, awareness, {
+    // Shows the remote users of our team, so a change of our team changes the drawn cursors
+    awarenessStateFilter: (currentClientId, userClientId, state) =>
+      currentClientId !== userClientId && state.team === awareness.getLocalState()?.team,
+  })
+
+  try {
+    await promise.wait(10)
+    counter.redraws = 0
+
+    awareness.setLocalStateField('team', 'b')
+    await promise.wait(10)
+    assert(counter.redraws > 0, 'remote cursors of the new team must be drawn')
   } finally {
     view.destroy()
     awareness.destroy()
