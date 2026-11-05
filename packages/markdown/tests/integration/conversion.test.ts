@@ -1,4 +1,4 @@
-import type { Extension } from '@tiptap/core'
+import { Editor, type Extension } from '@tiptap/core'
 import { Bold } from '@tiptap/extension-bold'
 import { Code } from '@tiptap/extension-code'
 import { CodeBlock } from '@tiptap/extension-code-block'
@@ -12,7 +12,7 @@ import { Mention } from '@tiptap/extension-mention'
 import { Paragraph } from '@tiptap/extension-paragraph'
 import { Text } from '@tiptap/extension-text'
 import { Youtube } from '@tiptap/extension-youtube'
-import { MarkdownManager } from '@tiptap/markdown'
+import { Markdown, MarkdownManager } from '@tiptap/markdown'
 import { describe, expect, it } from 'vite-plus/test'
 
 import * as conversionfiles from '../fixtures/markdown/index.js'
@@ -695,6 +695,40 @@ describe('Markdown Conversion Tests', () => {
         expect(markdown).toBe('\\_underscore\\_')
       })
 
+      it('should leave an underscore between two letters or digits unescaped', () => {
+        const cases: Array<[string, string]> = [
+          ['Ask @olivia_rhye about it', 'Ask @olivia_rhye about it'],
+          ['snake_case_name and v1_2', 'snake_case_name and v1_2'],
+          ['日本_語', '日本_語'],
+          ['𐐀_name', '𐐀_name'],
+          ['name_𐐀', 'name_𐐀'],
+          ['𐐀_𐐁', '𐐀_𐐁'],
+          ['𝟘_𝟙', '𝟘_𝟙'],
+          ['𠮷_野', '𠮷_野'],
+          ['😀_name', '😀\\_name'],
+          ['name_😀', 'name\\_😀'],
+          ['𐐀__𐐁', '𐐀__𐐁'],
+          ['_𐐀 and 𐐁_', '\\_𐐀 and 𐐁\\_'],
+          ['_lead and trail_', '\\_lead and trail\\_'],
+          ['foo_ _bar', 'foo\\_ \\_bar'],
+          ['a__b', 'a__b'],
+        ]
+
+        cases.forEach(([text, expected]) => {
+          const json = {
+            type: 'doc',
+            content: [{ type: 'paragraph', content: [{ type: 'text', text }] }],
+          }
+
+          const markdown = markdownManager.serialize(json)
+          expect(markdown).toBe(expected)
+          // The output must parse back to the same plain text, with no emphasis
+          expect(markdownManager.parse(markdown).content[0].content).toEqual([
+            { type: 'text', text },
+          ])
+        })
+      })
+
       it('should escape backticks in text nodes', () => {
         const json = {
           type: 'doc',
@@ -753,6 +787,82 @@ describe('Markdown Conversion Tests', () => {
 
         const markdown = markdownManager.serialize(json)
         expect(markdown).toBe('\\~strike\\~')
+      })
+    })
+
+    describe('intraword underscore runs', () => {
+      it.each(['a__b__c', 'a___b', 'v1____2', '日本__語', '𐐀__𐐁', '𝟘___𝟙'])(
+        'preserves the literal run in %s',
+        text => {
+          const json = {
+            type: 'doc',
+            content: [{ type: 'paragraph', content: [{ type: 'text', text }] }],
+          }
+
+          expect(markdownManager.serialize(json)).toBe(text)
+          expect(markdownManager.parse(text).content[0].content).toEqual([{ type: 'text', text }])
+        },
+      )
+
+      it.each(['__bold__', '___both___', 'a__ __b', 'a__!__b', '😀__b', 'a__😀', '__', 'a__\nb'])(
+        'still escapes runs outside words in %s',
+        text => {
+          const json = {
+            type: 'doc',
+            content: [{ type: 'paragraph', content: [{ type: 'text', text }] }],
+          }
+
+          expect(markdownManager.serialize(json)).toBe(text.replace(/_/g, '\\_'))
+        },
+      )
+
+      it.each([
+        ['https://x.example/a__b__c', 'https://x.example/a__b__c'],
+        ['https://x.example/a___b', 'https://x.example/a___b'],
+        ['first__last@x.example', 'mailto:first__last@x.example'],
+        ['first___last@x.example', 'mailto:first___last@x.example'],
+      ])('preserves the autolink destination for %s across saves', (text, href) => {
+        const editor = new Editor({ extensions: [Document, Paragraph, Text, Link, Markdown] })
+
+        try {
+          editor.commands.setContent(`<p>${text}</p>`)
+          let markdown = editor.getMarkdown()
+          expect(markdown).toBe(text)
+
+          for (let cycle = 0; cycle < 3; cycle += 1) {
+            editor.commands.setContent(markdown, { contentType: 'markdown' })
+            const rendered = document.createElement('div')
+            rendered.innerHTML = editor.getHTML()
+            expect(rendered.querySelector('a')?.getAttribute('href')).toBe(href)
+            expect(rendered.textContent?.trim()).toBe(text)
+
+            markdown = editor.getMarkdown()
+          }
+        } finally {
+          editor.destroy()
+        }
+      })
+
+      it.each([
+        {
+          content: [
+            { type: 'text', text: 'a__' },
+            { type: 'text', text: 'b', marks: [{ type: 'bold' }] },
+          ],
+          expected: 'a\\_\\_**b**',
+        },
+        {
+          content: [
+            { type: 'text', text: 'a', marks: [{ type: 'bold' }] },
+            { type: 'text', text: '__b' },
+          ],
+          expected: '**a**\\_\\_b',
+        },
+      ])('keeps underscores escaped at a mark boundary', ({ content, expected }) => {
+        const json = { type: 'doc', content: [{ type: 'paragraph', content }] }
+
+        expect(markdownManager.serialize(json)).toBe(expected)
+        expect(markdownManager.parse(expected).content[0].content).toEqual(content)
       })
     })
 
