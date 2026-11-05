@@ -2,4 +2,4 @@
 '@tiptap/core': patch
 ---
 
-`getStyleProperty` now keeps semicolons inside quotes and parentheses, so values like `font-family: "Times; New Roman", serif` are no longer truncated when inline styles are parsed.
+`getStyleProperty` now shares the declaration parser used by `mergeAttributes`, so semicolons inside quotes, parentheses, escapes and CSS comments no longer truncate inline style values.

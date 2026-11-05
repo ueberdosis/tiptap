@@ -10,6 +10,15 @@ export function splitStyleDeclarations(styles: string): string[] {
   const length = styles.length
   for (let i = 0; i < length; i += 1) {
     const char = styles[i]
+
+    // A CSS escape consumes the next character, whatever it is. Escaped quotes
+    // must not close a string and escaped parentheses must not change the depth.
+    if (char === '\\' && i + 1 < length) {
+      current += char + styles[i + 1]
+      i += 1
+      continue
+    }
+
     if (char === "'" && !inDoubleQuote) {
       inSingleQuote = !inSingleQuote
       current += char
@@ -21,6 +30,17 @@ export function splitStyleDeclarations(styles: string): string[] {
       continue
     }
     if (!inSingleQuote && !inDoubleQuote) {
+      // Copy CSS comments as plain text so quotes and semicolons inside them
+      // do not change the scanner state.
+      if (char === '/' && styles[i + 1] === '*') {
+        const commentEnd = styles.indexOf('*/', i + 2)
+        const end = commentEnd === -1 ? length : commentEnd + 2
+
+        current += styles.slice(i, end)
+        i = end - 1
+        continue
+      }
+
       if (char === '(') {
         parenDepth += 1
         current += char

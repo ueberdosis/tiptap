@@ -80,4 +80,25 @@ describe('getStyleProperty', () => {
     expect(getStyleProperty(el, 'background')).toBe('url(data:image/png;base64,AAA)')
     expect(getStyleProperty(el, 'font-size')).toBe('12px')
   })
+
+  it('keeps escaped quotes from closing a string', () => {
+    const el = document.createElement('span')
+    el.setAttribute('style', 'content: "a\\"; b"; color: red')
+
+    expect(getStyleProperty(el, 'color')).toBe('red')
+  })
+
+  it('keeps escaped parentheses from changing the depth', () => {
+    const el = document.createElement('span')
+    el.setAttribute('style', 'background: url(a\\(b); color: red')
+
+    expect(getStyleProperty(el, 'color')).toBe('red')
+  })
+
+  it('ignores quotes and semicolons inside CSS comments', () => {
+    const el = document.createElement('span')
+    el.setAttribute('style', 'color: red; /* font-size: 99px; " */; font-size: 12px')
+
+    expect(getStyleProperty(el, 'font-size')).toBe('12px')
+  })
 })
