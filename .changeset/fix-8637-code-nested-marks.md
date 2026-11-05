@@ -3,4 +3,4 @@
 '@tiptap/markdown': patch
 ---
 
-Allow other marks on inline code and keep markdown mark syntax outside code fences. Fixes #8637.
+Keep bold and link formatting around inline code when saving Markdown. Fixes #8637.

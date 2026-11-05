@@ -55,4 +55,25 @@ describe('Code nested in other marks (#8637)', () => {
 
     expect(out).toBe('`foo `**`bar`**')
   })
+
+  it('splits a bold+code run when only code continues (reverse partial mark)', () => {
+    const extensions = [Document, Paragraph, Text, Bold, Code]
+    const manager = new MarkdownManager({ extensions })
+
+    const out = manager.serialize({
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            { type: 'text', text: 'foo', marks: [{ type: 'bold' }, { type: 'code' }] },
+            { type: 'text', text: 'bar', marks: [{ type: 'code' }] },
+          ],
+        },
+      ],
+    })
+
+    expect(out).toBe('**`foo`**`bar`')
+  })
+
 })
