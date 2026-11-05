@@ -22,6 +22,11 @@ describe('htmlTagDetection', () => {
     it('returns an empty array when no tags are present', () => {
       expect(extractHtmlTagNames('plain text')).toEqual([])
     })
+
+    it('ignores tag-like text inside attributes and comments', () => {
+      expect(extractHtmlTagNames('<em title="Use <pod-name>">value</em>')).toEqual(['em', 'em'])
+      expect(extractHtmlTagNames('<!-- <pod-name> -->')).toEqual([])
+    })
   })
 
   describe('isHtmlUnknownTagName', () => {
@@ -38,6 +43,7 @@ describe('htmlTagDetection', () => {
     it('treats hyphenated tag names as known custom elements', () => {
       expect(isHtmlUnknownTagName('my-mention')).toBe(false)
       expect(isHtmlUnknownTagName('my-el')).toBe(false)
+      expect(isHtmlUnknownTagName('pod-name')).toBe(false)
     })
 
     it('treats common SVG child elements as known', () => {
@@ -64,8 +70,14 @@ describe('htmlTagDetection', () => {
       expect(htmlContainsUnrecognizedTag('<br>', emptySchema)).toBe(false)
     })
 
-    it('returns false for hyphenated custom elements', () => {
-      expect(htmlContainsUnrecognizedTag('<my-el></my-el>', emptySchema)).toBe(false)
+    it('returns true for hyphenated tags not declared in the schema', () => {
+      expect(htmlContainsUnrecognizedTag('<my-el></my-el>', emptySchema)).toBe(true)
+      expect(htmlContainsUnrecognizedTag('<pod-name>', emptySchema)).toBe(true)
+    })
+
+    it('returns false for hyphenated tags declared in the schema', () => {
+      const schemaTags = new Set(['my-el'])
+      expect(htmlContainsUnrecognizedTag('<my-el></my-el>', schemaTags)).toBe(false)
     })
 
     it('returns false when schema declares a non-standard tag', () => {
@@ -82,6 +94,24 @@ describe('htmlTagDetection', () => {
         htmlContainsUnrecognizedTag('<svg><circle cx="10" cy="10" r="5"/></svg>', emptySchema),
       ).toBe(false)
       expect(htmlContainsUnrecognizedTag('<svg><path d="M0 0"/></svg>', emptySchema)).toBe(false)
+    })
+
+    it('does not treat placeholders inside attributes or comments as unrecognized', () => {
+      expect(
+        htmlContainsUnrecognizedTag('<em title="Use <pod-name>">value</em>', emptySchema),
+      ).toBe(false)
+      expect(htmlContainsUnrecognizedTag('<!-- <pod-name> -->', emptySchema)).toBe(false)
+    })
+
+    it('recognizes elements matched only by schema attribute selectors', () => {
+      const schema = {
+        tagNames: new Set<string>(),
+        attrSelectors: ['[data-kind="widget"]'],
+      }
+      expect(
+        htmlContainsUnrecognizedTag('<custom-node data-kind="widget">value</custom-node>', schema),
+      ).toBe(false)
+      expect(htmlContainsUnrecognizedTag('<custom-node>value</custom-node>', schema)).toBe(true)
     })
   })
 })
