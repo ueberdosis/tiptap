@@ -23,9 +23,6 @@ import { getRelativeSelection } from '../positions/getRelativeSelection.js'
 import { createNodeFromYElement } from '../conversion/createNodeFromYElement.js'
 import { mergeNextYText } from '../conversion/mergeNextYText.js'
 import { updateYFragment } from '../reconciliation/updateYFragment.js'
-import type { PositionMigrationPlan } from '../../../types/PositionMigration.js'
-import { applyPositionMigration } from '../positions/migrations/applyPositionMigration.js'
-import { getPositionMigrationStore } from '../positions/migrations/getPositionMigrationStore.js'
 import { deleteMapping } from './deleteMapping.js'
 import { projectedMappings } from './projectedMappings.js'
 import { replaceChangedChildren } from './replaceChangedChildren.js'
@@ -44,7 +41,6 @@ export class ProsemirrorBinding {
   readonly beforeAllTransactions: () => void
   readonly afterAllTransactions: () => void
   _domSelectionInView: boolean | null = null
-  syncedDoc: PModel.Node | null = null
   readonly reportInvalidContent?: (error: Error) => void
   readonly deferTextMerge?: (text: Y.XmlText) => void
   private readonly onInvalidContent?: (error: Error) => void
@@ -443,7 +439,7 @@ export class ProsemirrorBinding {
     this.notifyInvalidContent(newError)
   }
 
-  _prosemirrorChanged(doc: PModel.Node, plan: PositionMigrationPlan | null = null) {
+  _prosemirrorChanged(doc: PModel.Node) {
     if (this._invalidContentError !== null) return
 
     const syncState = getSyncPluginState(this.view.state)
@@ -453,12 +449,6 @@ export class ProsemirrorBinding {
       updateYFragment(this.doc, this.type, doc, this)
       this.hasSharedContent ||= this.type.length > 0
 
-      // Publish identity transfers with the content so peers receive both atomically.
-      if (plan?.doc === doc && !('transactions' in plan)) {
-        applyPositionMigration(this.type, plan, this, getPositionMigrationStore(this.type))
-      }
-
-      this.syncedDoc = doc
       this.beforeTransactionSelection = getRelativeSelection(this, this.view.state)
     }, ySyncPluginKey)
   }
