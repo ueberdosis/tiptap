@@ -21,6 +21,22 @@ These transfers are shared in a separate Y.Map in the same document. Persist the
 
 Native Yjs resolvers and direct XML changes do not use these transfers. Moves reconstructed from new ProseMirror nodes cannot be inferred from equal content. Root document boundaries remain attached to the document.
 
+## Content that does not fit the schema
+
+By default, the sync plugin deletes shared content that the editor schema cannot show, and fills in missing required nodes. These repairs are written to the shared document.
+
+Set `onInvalidContent` to keep that content instead:
+
+```ts
+ySyncPlugin(fragment, {
+  onInvalidContent: error => console.warn(error),
+})
+```
+
+While shared content does not fit the schema, the editor shows what it can, editing and undo pause, and no changes are written to the shared document. The callback runs each time shared content stops fitting the schema. Read the current error from `ySyncPluginKey.getState(state)?.binding.invalidContentError`. Editing resumes when a remote update brings compatible content.
+
+The Tiptap Collaboration extension sets this option when the editor has `enableContentCheck: true` and emits a `contentError` event.
+
 ## Official Documentation
 
 Documentation can be found on the [Tiptap website](https://tiptap.dev).
