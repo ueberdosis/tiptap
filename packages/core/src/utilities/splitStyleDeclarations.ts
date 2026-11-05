@@ -13,10 +13,24 @@ export function splitStyleDeclarations(styles: string): string[] {
 
     // A CSS escape consumes the next character, whatever it is. Escaped quotes
     // must not close a string and escaped parentheses must not change the depth.
+    // A CRLF line continuation takes three characters, so its LF must not be
+    // mistaken for a bare newline below.
     if (char === '\\' && i + 1 < length) {
+      if (styles[i + 1] === '\r' && styles[i + 2] === '\n') {
+        current += char + styles[i + 1] + styles[i + 2]
+        i += 2
+        continue
+      }
+
       current += char + styles[i + 1]
       i += 1
       continue
+    }
+
+    // A bare newline ends an unterminated CSS string.
+    if ((inSingleQuote || inDoubleQuote) && (char === '\n' || char === '\r')) {
+      inSingleQuote = false
+      inDoubleQuote = false
     }
 
     if (char === "'" && !inDoubleQuote) {

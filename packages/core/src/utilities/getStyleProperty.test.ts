@@ -101,4 +101,18 @@ describe('getStyleProperty', () => {
 
     expect(getStyleProperty(el, 'font-size')).toBe('12px')
   })
+
+  it('closes an unterminated string at a bare newline', () => {
+    const el = document.createElement('span')
+    el.setAttribute('style', 'content: "bad\n; color: red')
+
+    expect(getStyleProperty(el, 'color')).toBe('red')
+  })
+
+  it('keeps an escaped CRLF as one line continuation', () => {
+    const el = document.createElement('span')
+    el.setAttribute('style', 'content: "a\\\r\nb"; color: red')
+
+    expect(getStyleProperty(el, 'color')).toBe('red')
+  })
 })
