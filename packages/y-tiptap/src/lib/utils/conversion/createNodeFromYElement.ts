@@ -9,6 +9,7 @@ import { projectedMappings } from '../binding/projectedMappings.js'
 import { createTextNodesFromYText } from './createTextNodesFromYText.js'
 import { deleteYType } from './deleteYType.js'
 import { mergeNextYText } from './mergeNextYText.js'
+import { toError } from './toError.js'
 
 const getYChange = (
   el: Y.XmlElement,
@@ -61,6 +62,7 @@ export const createNodeFromYElement = (
   }
 
   const children: PModel.Node[] = []
+  let hasSkippedChild = false
   const createChildren = (type: Y.XmlElement | Y.XmlText | Y.XmlHook) => {
     if (type instanceof Y.XmlElement) {
       const node = createNodeFromYElement(
@@ -71,13 +73,16 @@ export const createNodeFromYElement = (
         prevSnapshot,
         computeYChange,
       )
+      // Children with skipped content are not cached
+      if (node === null || meta.mapping.get(type) !== node) hasSkippedChild = true
       if (node !== null) children.push(node)
       return
     }
 
     if (!(type instanceof Y.XmlText)) return
 
-    mergeNextYText(type)
+    if (meta.deferTextMerge) meta.deferTextMerge(type)
+    else mergeNextYText(type)
     const textNodes = createTextNodesFromYText(
       type,
       schema,
@@ -86,6 +91,7 @@ export const createNodeFromYElement = (
       prevSnapshot,
       computeYChange,
     )
+    if (textNodes === null) hasSkippedChild = true
     // Avoid spreading, which overflows the call stack for many formatting runs
     textNodes?.forEach(textNode => children.push(textNode))
   }
@@ -106,12 +112,24 @@ export const createNodeFromYElement = (
       node = cachedSingleNode
     }
 
+    // Skipped content must be checked again on the next projection
+    if (hasSkippedChild && meta.reportInvalidContent) {
+      deleteMapping(meta.mapping, el)
+      return node
+    }
+
     setProjectedNode(meta, el, node)
     return node
-  } catch {
+  } catch (error) {
+    deleteMapping(meta.mapping, el)
+
+    if (meta.reportInvalidContent) {
+      meta.reportInvalidContent(toError(error))
+      return null
+    }
+
     // Remove unrenderable shared content so later projections do not repeat the failure.
     deleteYType(el)
-    deleteMapping(meta.mapping, el)
     return null
   }
 }

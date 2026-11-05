@@ -19,16 +19,26 @@ export const ySyncPlugin = (
     permanentUserData = null,
     onFirstRender = () => {},
     mapping,
+    onInvalidContent,
   }: SyncPluginOptions = {},
 ) => {
   let initialContentChanged = false
-  const binding = new ProsemirrorBinding(yXmlFragment, mapping)
+  const binding = new ProsemirrorBinding(yXmlFragment, mapping, onInvalidContent)
   const plugin = new Plugin<SyncPluginState>({
+    // Keep local changes out while the editor cannot show all shared content
+    filterTransaction: transaction =>
+      binding.invalidContentError === null ||
+      !transaction.docChanged ||
+      transaction.getMeta(ySyncPluginKey) !== undefined,
     props: {
       editable: state => {
         const syncState = getSyncPluginState(state)
 
-        return syncState.snapshot == null && syncState.prevSnapshot == null
+        return (
+          binding.invalidContentError === null &&
+          syncState.snapshot == null &&
+          syncState.prevSnapshot == null
+        )
       },
     },
     key: ySyncPluginKey,
@@ -78,6 +88,12 @@ export const ySyncPlugin = (
 
           if (change.restore == null) {
             binding._renderSnapshot(change.snapshot, change.prevSnapshot, pluginState)
+            return
+          }
+
+          // A restore cannot be saved while shared content is invalid
+          if (binding.invalidContentError !== null) {
+            binding.unrenderSnapshot()
             return
           }
 
