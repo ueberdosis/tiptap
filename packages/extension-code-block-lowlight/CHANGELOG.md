@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.32.3
+
+### Patch Changes
+
+- 96e074d: Fixed a performance issue where code highlighting updates were unnecessarily triggered by selection-only changes
+
 ## 3.32.2
 
 ### Patch Changes

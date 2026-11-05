@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.32.3
+
+### Patch Changes
+
+- bbe4d6e: Clearing formatting on a nested list now turns every level into paragraphs, and `clearNodes()` works in a chain with other node commands.
+- 88892f9: Stop removed resizable node views from responding to later editor updates.
+
 ## 3.32.2
 
 ### Patch Changes

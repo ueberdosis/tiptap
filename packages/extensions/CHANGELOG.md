@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.32.3
+
+### Patch Changes
+
+- c7e799b: The Placeholder extension no longer leaves placeholders behind on empty nodes after the cursor moves away when `includeChildren` is enabled.
+
 ## 3.32.2
 
 ### Patch Changes

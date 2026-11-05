@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.32.3
+
+### Patch Changes
+
+- 98251d3: Fix a React warning when a command like `setContent` creates React node views from inside an effect.
+- 83f647d: Fixed the cursor no longer following clicks after an editor inside a shadow root was unmounted and remounted.
+
 ## 3.32.2
 
 ### Patch Changes

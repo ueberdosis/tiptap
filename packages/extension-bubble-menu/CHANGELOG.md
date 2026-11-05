@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.32.3
+
+### Patch Changes
+
+- ec3df99: Bubble menus now update correctly after IME input, including Korean text
+
 ## 3.32.2
 
 ### Patch Changes

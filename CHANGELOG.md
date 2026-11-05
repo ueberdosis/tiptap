@@ -1,5 +1,73 @@
 # Releases
 
+## v3.32.3
+
+### @tiptap/core
+
+#### Patch Changes
+
+- bbe4d6e: Clearing formatting on a nested list now turns every level into paragraphs, and `clearNodes()` works in a chain with other node commands.
+- 88892f9: Stop removed resizable node views from responding to later editor updates.
+
+### @tiptap/extension-bubble-menu
+
+#### Patch Changes
+
+- ec3df99: Bubble menus now update correctly after IME input, including Korean text
+
+### @tiptap/extension-code-block-lowlight
+
+#### Patch Changes
+
+- 96e074d: Fixed a performance issue where code highlighting updates were unnecessarily triggered by selection-only changes
+
+### @tiptap/extension-floating-menu
+
+#### Patch Changes
+
+- ec3df99: Floating menus now update correctly after IME input, including Korean text
+
+### @tiptap/extension-link
+
+#### Patch Changes
+
+- f175baf: Pasting a link without a protocol now uses the `defaultProtocol` option instead of always falling back to `http`.
+
+### @tiptap/extensions
+
+#### Patch Changes
+
+- c7e799b: The Placeholder extension no longer leaves placeholders behind on empty nodes after the cursor moves away when `includeChildren` is enabled.
+
+### @tiptap/react
+
+#### Patch Changes
+
+- 98251d3: Fix a React warning when a command like `setContent` creates React node views from inside an effect.
+- 83f647d: Fixed the cursor no longer following clicks after an editor inside a shadow root was unmounted and remounted.
+
+### @tiptap/vue-2
+
+#### Patch Changes
+
+- 83f647d: Fixed the cursor no longer following clicks after an editor inside a shadow root was unmounted and remounted.
+
+### @tiptap/vue-3
+
+#### Patch Changes
+
+- 83f647d: Fixed the cursor no longer following clicks after an editor inside a shadow root was unmounted and remounted.
+
+### @tiptap/y-tiptap
+
+#### Minor Changes
+
+- c91966e: Remove persistent position migrations to stop structural edits and undo or redo from adding migration history to collaborative documents. Saved relative positions no longer follow content that structural edits replace or move.
+  
+  Existing migration entries are deleted when an editor opens and when later Yjs updates arrive. Yjs can reclaim their stored data when garbage collection is enabled. Document content and other shared data are unchanged. Upgrade all collaborating clients to stop older clients from writing new entries.
+  
+  Documents that the server refuses to load need cleanup on the server before a client can repair them. With Yjs garbage collection disabled, deleting entries does not reclaim their stored data.
+
 ## v3.32.2
 
 ### @tiptap/html

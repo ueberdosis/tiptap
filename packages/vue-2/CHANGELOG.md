@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.32.3
+
+### Patch Changes
+
+- 83f647d: Fixed the cursor no longer following clicks after an editor inside a shadow root was unmounted and remounted.
+
 ## 3.32.2
 
 ### Patch Changes
