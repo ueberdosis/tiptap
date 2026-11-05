@@ -61,6 +61,11 @@ export function addContinuedTextblocks(
   const found = new Map<number, TextblockRange>()
 
   textblocks.forEach(textblock => {
+    // Its whole chain was already added
+    if (found.has(textblock.pos)) {
+      return
+    }
+
     found.set(textblock.pos, textblock)
     addChain(doc, textblock, continuesNode, found)
   })
