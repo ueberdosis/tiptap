@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.0-next.0
+
+### Patch Changes
+
+- d99e02f: Typing spaces after a link no longer extends the link, including multiple spaces inserted in one transaction. Formatting changes and undo/redo preserve existing linked whitespace.
+- 60e0288: Pasting a link without a protocol now uses the `defaultProtocol` option instead of always falling back to `http`.
+
 ## 3.30.3
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @tiptap/extension-drag-handle
 
+## 4.0.0-next.0
+
+### Patch Changes
+
+- fa5f659: Fix the nested drag handle targeting the next block, or staying on the previous one, while the pointer is over the lower half of an image or other block atom.
+- dd62145: Keep collaborative editing, cursor presence, and drag handles compatible with the updated `@tiptap/y-tiptap` binding.
+
 ## 3.30.3
 
 ### Patch Changes

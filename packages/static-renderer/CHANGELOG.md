@@ -1,5 +1,15 @@
 # Change Log
 
+## 4.0.0-next.0
+
+### Patch Changes
+
+- 2affd48: Render `<audio>` and `<video>` with a closing tag instead of self-closing them, so browsers no longer nest the following content inside the first audio element.
+- dbecca4: Rendering a node whose `renderHTML` returns several nested child elements no longer adds stray commas between them in the HTML string output.
+- a47f028: Headings with bold, italic, or linked text now render to Markdown without extra commas between the words.
+- 6b2ef6c: Prevent attribute names, inline event handlers, and iframe srcdoc attributes from injecting executable HTML into static HTML output.
+- aaa3a50: Nest marks in the same order as the editor, so text with a color and an underline renders `<span style="color: …"><u>…</u></span>`.
+
 ## 3.30.3
 
 ### Patch Changes

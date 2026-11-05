@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.0-next.0
+
+### Patch Changes
+
+- a17677b: Escape `allowedPrefixes` when building the suggestion prefix regex so `-`, `]`, `^`, and `\` are treated as literals.
+
 ## 3.30.3
 
 ### Patch Changes
