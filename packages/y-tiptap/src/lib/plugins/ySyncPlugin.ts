@@ -1,3 +1,4 @@
+import type { Node as PMNode } from 'prosemirror-model'
 import { getSyncPluginState } from './getSyncPluginState.js'
 import type { ColorDef } from '../../types/ColorDef.js'
 import type { SyncPluginOptions } from '../../types/SyncPluginOptions.js'
@@ -23,6 +24,12 @@ export const ySyncPlugin = (
 ) => {
   let initialContentChanged = false
   const binding = new ProsemirrorBinding(yXmlFragment, mapping)
+  // The document the last view left, while it still matches Yjs
+  let detachedDoc: PMNode | null = null
+  const forgetDetachedDoc = () => {
+    detachedDoc = null
+    binding.doc.off('afterTransaction', forgetDetachedDoc)
+  }
   const plugin = new Plugin<SyncPluginState>({
     props: {
       editable: state => {
@@ -109,11 +116,15 @@ export const ySyncPlugin = (
         clearPositionMigrations(binding.doc, transaction)
       clearPositionMigrations(binding.doc)
       binding.doc.on('afterTransaction', clearMigrations)
+      binding.doc.off('afterTransaction', forgetDetachedDoc)
       binding.initView(view)
 
-      if (mapping == null) {
+      // Reconfiguring the state recreates this view on the same document, whose nodes are still mapped
+      if (mapping == null && view.state.doc !== detachedDoc) {
         binding._forceRerender()
       }
+
+      detachedDoc = null
 
       onFirstRender()
 
@@ -156,6 +167,8 @@ export const ySyncPlugin = (
         destroy: () => {
           binding.doc.off('afterTransaction', clearMigrations)
           binding.destroy()
+          detachedDoc = view.state.doc
+          binding.doc.on('afterTransaction', forgetDetachedDoc)
         },
       }
     },
