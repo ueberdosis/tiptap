@@ -86,7 +86,10 @@ describe('reconfiguring the editor state', () => {
     expect(newView.state.doc.textContent).toContain('remote block 0')
 
     newView.dispatch(newView.state.tr.insertText('local ', newView.state.doc.content.size - 1))
-    expect(remote.getXmlFragment('prosemirror').toString()).toContain('remote block 0')
+    const remoteContent = remote.getXmlFragment('prosemirror').toString()
+    expect(remoteContent).toContain('remote block 0')
+    expect(remoteContent).toContain('local ')
     expect(remoteView.state.doc.textContent).toContain('remote block 0')
+    expect(remoteView.state.doc.textContent).toContain('local ')
   })
 })
