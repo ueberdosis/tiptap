@@ -11,9 +11,13 @@ export default () => {
   const editor = useEditor({
     extensions: [Document, Paragraph, Text, OrderedList, ListItem],
     content: `
+        <p>Lift an item out of a numbered list and the items after it keep their numbers.</p>
         <ol>
-          <li>A list item</li>
-          <li>And another one</li>
+          <li>First item</li>
+          <li>Second item</li>
+          <li>Third item</li>
+          <li>Fourth item</li>
+          <li>Fifth item</li>
         </ol>
 
         <ol start="5">
