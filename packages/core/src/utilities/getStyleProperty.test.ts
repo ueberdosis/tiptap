@@ -50,4 +50,34 @@ describe('getStyleProperty', () => {
 
     expect(getStyleProperty(el, 'font-size')).toBe('16px')
   })
+
+  it('keeps semicolons inside double-quoted values', () => {
+    const el = document.createElement('span')
+    el.setAttribute('style', 'font-family: "Times; New Roman", serif; font-size: 16px')
+
+    expect(getStyleProperty(el, 'font-family')).toBe('"Times; New Roman", serif')
+    expect(getStyleProperty(el, 'font-size')).toBe('16px')
+  })
+
+  it('keeps semicolons inside single-quoted values', () => {
+    const el = document.createElement('span')
+    el.setAttribute('style', "font-family: 'Times; New Roman', serif")
+
+    expect(getStyleProperty(el, 'font-family')).toBe("'Times; New Roman', serif")
+  })
+
+  it('does not treat a quoted property-like string as a declaration', () => {
+    const el = document.createElement('span')
+    el.setAttribute('style', 'color: red; content: "a; color: blue"')
+
+    expect(getStyleProperty(el, 'color')).toBe('red')
+  })
+
+  it('ignores semicolons inside parentheses', () => {
+    const el = document.createElement('span')
+    el.setAttribute('style', 'color: red; background: url(data:image/png;base64,AAA); font-size: 12px')
+
+    expect(getStyleProperty(el, 'background')).toBe('url(data:image/png;base64,AAA)')
+    expect(getStyleProperty(el, 'font-size')).toBe('12px')
+  })
 })
