@@ -1,5 +1,21 @@
 # Releases
 
+## v3.33.0
+
+### @tiptap/extension-collaboration
+
+#### Minor Changes
+
+- 71e4c46: With `enableContentCheck: true`, shared content that does not fit the editor schema now emits `contentError` instead of being deleted. The editor pauses editing and sends no changes until compatible content arrives, so read-only users no longer send repairs that the server rejects.
+  
+  If you use `enableContentCheck` with collaboration and want the editor to keep repairing invalid content, turn the content check off.
+
+### @tiptap/y-tiptap
+
+#### Minor Changes
+
+- 71e4c46: Add the `onInvalidContent` sync option. When it is set, shared content that does not fit the editor schema stays in the shared document instead of being deleted. The editor shows what it can, pauses editing and sends no changes until compatible content arrives.
+
 ## v3.32.3
 
 ### @tiptap/core
