@@ -1,5 +1,350 @@
 # Releases
 
+## v4.0.0-next.0
+
+### @tiptap/ai-toolkit
+
+#### Patch Changes
+
+- 416749b: The Server AI Toolkit no longer adds `_hash` to inline nodes, including inline Image, Audio, YouTube and Twitch nodes.
+- dd62145: Keep collaborative editing, cursor presence, and drag handles compatible with the updated `@tiptap/y-tiptap` binding.
+
+### @tiptap/core
+
+#### Major Changes
+
+- 0c62b27: Keep unmounted editors alive and build React and Vue NodeViews once per mount. Unmounting preserves the document, selection, and plugins. Autofocus runs only on the first mount. Repeated mounts at the same element and repeated unmounts do nothing. Destroyed editors cannot mount again.
+  
+  Migration: use `editor.isMounted` before reading view DOM. `editor.isDestroyed` is true only after `destroy()`. React `useEditor` and Vue `Editor` now wait for `EditorContent` to mount the view by default. For a view without `EditorContent`, pass an `element` or call `editor.mount(element)`. Use `unmount()` for temporary removal and `destroy()` for final cleanup. Mount and unmount events now follow `EditorContent` attachment and removal.
+
+#### Minor Changes
+
+- b95679f: Add the `schemaSpec` editor option to use an external ProseMirror schema structure with local extension behavior.
+- 253b2a1: Allow `editor.registerPlugin` to register an array of plugins in one call, including when using a custom plugin merge callback. Single-plugin registration remains supported.
+
+#### Patch Changes
+
+- 8f46243: Clearing formatting on a nested list now turns every level into paragraphs, and `clearNodes()` works in a chain with other node commands.
+- 548216e: Nested lists exported to Markdown now keep their hierarchy when the file is read back by other Markdown tools.
+- 93e3727: Fix a `TypeError` thrown when the source editor is destroyed right after dragging content into another editor.
+- 8aea2ef: Fix a denial-of-service risk where crafted block or inline Markdown attributes could consume excessive CPU and block the browser or server event loop.
+- 2fab93e: `splitBlock` no longer throws `TransformError: Inserted content deeper than insertion position` when the selection spans block boundaries (for example from the start of one paragraph into another block, or across an isolating node). The command now returns `false` when the split is not possible.
+- 3451d10: Large transactions (for example a big paste with Link autolink enabled) are processed faster.
+- 17ec9ff: Prevent extra CSS declarations from being rendered from editor content.
+- 5c7200d: Atom block directives (`:::name {…} :::`) indented by up to 3 spaces are now tokenized, matching CommonMark indentation rules for block constructs.
+- a90921e: Numeric HTML entities (`&#39;`, `&#x27;`) are now decoded when parsing markdown, instead of showing up as literal text in the editor.
+- 6ec63ef: The editor element keeps `role="textbox"` after `setOptions()` when `editorProps.attributes` is set. Before, a re-render in React replaced the default role with the user attributes. Attributes passed as a function now get the default role as well.
+- 8cbeca3: Undoing an input rule restores the Markdown characters that triggered it when using Collaboration.
+- 77df9af: Keep indented Markdown task-item continuation lines in the same paragraph instead of turning them into separate paragraphs or code blocks.
+- 77df9af: Indent continuation lines when exporting Markdown task items so they stay inside the item when imported again.
+- 77df9af: Keep Markdown task-item continuation lines in the same paragraph when the opening text resembles a heading or list, including tasks nested inside bullet lists.
+- 77df9af: Preserve task-list continuation text with custom block tokenizers and tab indentation.
+- 73b8e59: Fix callback updates through `setOptions()`. Changes to initial options such as `content`, `extensions`, and `schemaSpec` are now ignored with a development warning.
+  
+  Use `editor.commands.setContent(content)` to replace content. Create a new editor to change extensions or the schema. Use `EditorRuntimeOptions` and `getEditorRuntimeOptions()` to select options supported by `setOptions()`.
+- bf45080: Pressing Enter with text selected inside a code block or heading in a list item no longer throws `TransformError: Inconsistent open depths` or leaves the selection deleted without splitting.
+- 9746fba: `deleteSelection` keeps the marks of the deleted text again, so typing after deleting bold text is bold, like in ProseMirror.
+- 75d7445: Stop removed resizable node views from responding to later editor updates.
+- b71ab87: Markdown lexer tokens for a task list at the end of the input now match the source text when it has no final newline.
+- 9aa59dd: Fix list toggling between list types that use different item nodes. Nested lists are recursively converted when the target item schema supports nesting, and flattened into sibling items when it does not.
+- fd086c5: Fix freezes in framework-based node views on iOS and Android
+- 6520e58: Bind `parseMarkdown` and `renderMarkdown` to the configured extension so hooks can read `this.options` and `this.name` without an Editor.
+- 32c048d: Prevent untrusted HTML attributes from changing an object's prototype when merged with `mergeAttributes`.
+- 73da270: Pressing Enter before the text of a checked task item now leaves the new empty item unchecked and the item with the text checked. Attributes declared with `keepOnSplit: false` now reset on the new item, not on the one that keeps the text.
+- 3f111e9: Stop joinItemForward and joinItemBackward from joining across isolating nodes.
+- ec29df8: Node views without a `contentDOM` no longer ignore selection mutations, so ProseMirror moves the caret back to a valid position when the browser places it inside the node view.
+
+### @tiptap/extension-bubble-menu
+
+#### Patch Changes
+
+- 4a3b8d1: Bubble menus now update correctly after IME input, including Korean text
+
+### @tiptap/extension-code-block-lowlight
+
+#### Patch Changes
+
+- 30df665: Fixed a performance issue where code highlighting updates were unnecessarily triggered by selection-only changes
+
+### @tiptap/extension-code
+
+#### Patch Changes
+
+- 7c8ad87: Fix Markdown serialization of inline code containing backticks
+
+### @tiptap/extension-collaboration-caret
+
+#### Patch Changes
+
+- f80cecf: Fixed a bug which allowed potentially unsafe color values being sent by other clients. Those unsafe colors received from collaboration users are now ignored.
+- 17ec9ff: Prevent extra CSS declarations from being rendered from editor content.
+- dd62145: Keep collaborative editing, cursor presence, and drag handles compatible with the updated `@tiptap/y-tiptap` binding.
+
+### @tiptap/extension-collaboration
+
+#### Minor Changes
+
+- 9c35ec3: With `enableContentCheck: true`, shared content that does not fit the editor schema now emits `contentError` instead of being deleted. The editor pauses editing and sends no changes until compatible content arrives, so read-only users no longer send repairs that the server rejects.
+  
+  If you use `enableContentCheck` with collaboration and want the editor to keep repairing invalid content, turn the content check off.
+
+#### Patch Changes
+
+- 8cbeca3: Undoing an input rule restores the Markdown characters that triggered it when using Collaboration.
+- dd62145: Keep collaborative editing, cursor presence, and drag handles compatible with the updated `@tiptap/y-tiptap` binding.
+
+### @tiptap/extension-drag-handle-vue
+
+#### Major Changes
+
+- dceb48f: Vue 2 support is removed. `@tiptap/vue-3` is now `@tiptap/vue`, and `@tiptap/extension-drag-handle-vue-3` is now `@tiptap/extension-drag-handle-vue`.
+  
+  Update imports and dependencies:
+  
+  ```diff
+  - import { EditorContent } from '@tiptap/vue-3'
+  + import { EditorContent } from '@tiptap/vue'
+  
+  - import DragHandle from '@tiptap/extension-drag-handle-vue-3'
+  + import DragHandle from '@tiptap/extension-drag-handle-vue'
+  ```
+  
+  Vue 2 users must migrate to Vue 3 before using the new packages. The planned Codemod Registry package `@tiptap/codemod-v3-to-v4` updates package imports and dependencies.
+
+### @tiptap/extension-drag-handle
+
+#### Patch Changes
+
+- fa5f659: Fix the nested drag handle targeting the next block, or staying on the previous one, while the pointer is over the lower half of an image or other block atom.
+- dd62145: Keep collaborative editing, cursor presence, and drag handles compatible with the updated `@tiptap/y-tiptap` binding.
+
+### @tiptap/extension-floating-menu
+
+#### Patch Changes
+
+- aad67d1: Floating menus now update correctly after IME input, including Korean text
+
+### @tiptap/extension-heading
+
+#### Patch Changes
+
+- 81c82b8: Ensure Markdown parsing respects the configured `levels` option by falling back to paragraphs for unconfigured heading levels.
+
+### @tiptap/extension-highlight
+
+#### Patch Changes
+
+- 17ec9ff: Prevent extra CSS declarations from being rendered from editor content.
+- 2f12969: Markdown like `a == b and c == d` is no longer imported as highlighted text.
+
+### @tiptap/extension-link
+
+#### Patch Changes
+
+- d99e02f: Typing spaces after a link no longer extends the link, including multiple spaces inserted in one transaction. Formatting changes and undo/redo preserve existing linked whitespace.
+- 60e0288: Pasting a link without a protocol now uses the `defaultProtocol` option instead of always falling back to `http`.
+
+### @tiptap/extension-list
+
+#### Patch Changes
+
+- 548216e: Nested lists exported to Markdown now keep their hierarchy when the file is read back by other Markdown tools.
+- 504260b: Parsing large Markdown documents that contain ordered lists is much faster. A 578KB document went from about 19s to about 160ms.
+- 8b37c2c: Courtesy titles such as "Ms." and "Dr." are no longer parsed as ordered-list markers. Numbered, lettered, and roman lists are unchanged.
+- 77df9af: Indent continuation lines when exporting Markdown task items so they stay inside the item when imported again.
+- dec32fa: Fixed Markdown list items that start with a heading, quote or other non-paragraph block, which produced invalid documents. They now parse with a leading paragraph. Empty nested list items are written as `- &nbsp;`, so they no longer turn the parent item into a heading when read back.
+- 09e691c: Pressing Delete on a selection that starts at the end of a list item now deletes the selected text instead of only joining the items.
+- 0a28144: Keep the cursor after tables on Backspace and join nested list text correctly on Delete.
+
+### @tiptap/extension-mathematics
+
+#### Patch Changes
+
+- bef6bc1: The mathematics extension no longer crashes the editor in older WebKit browsers and WKWebView.
+
+### @tiptap/extension-mention
+
+#### Patch Changes
+
+- 8aea2ef: Fix a denial-of-service risk where crafted block or inline Markdown attributes could consume excessive CPU and block the browser or server event loop.
+
+### @tiptap/extension-table-of-contents
+
+#### Patch Changes
+
+- 0c62b27: Skip table of contents updates until the editor is mounted.
+
+### @tiptap/extension-table
+
+#### Patch Changes
+
+- 6048bda: Table cells exported to Markdown now escape literal pipe characters, so the cell content survives when the output is read back.
+- cd7d7ab: Multi-block table cells no longer leak a U+001F control character into Markdown.
+- 3b6e387: Right-clicking a cell inside a multi-cell table selection no longer collapses that selection.
+- 17ec9ff: Prevent extra CSS declarations from being rendered from editor content.
+- 352dea4: Apply custom table attributes when resizing is enabled and keep them current after attribute changes.
+- 6c9c204: Table cells and headers no longer render the default `colspan="1"` and `rowspan="1"` attributes. Cells that actually span still render them, matching how prosemirror-tables serializes spans.
+
+### @tiptap/extension-text-align
+
+#### Patch Changes
+
+- 17ec9ff: Prevent extra CSS declarations from being rendered from editor content.
+
+### @tiptap/extension-text-style
+
+#### Patch Changes
+
+- 17ec9ff: Prevent extra CSS declarations from being rendered from editor content.
+
+### @tiptap/extension-underline
+
+#### Patch Changes
+
+- 4304bea: Export underlined text as `<u>text</u>` in Markdown. Treat `++` as plain text when parsing, so C++ mentions keep their plus signs.
+
+### @tiptap/extension-youtube
+
+#### Patch Changes
+
+- 4ec655c: Pasting a YouTube iframe without a `src` attribute no longer crashes the editor. The embed is kept without a source.
+
+### @tiptap/extensions
+
+#### Minor Changes
+
+- 73b8e59: Add `setPlaceholder(value)` and `setCharacterLimit(limit)` to change placeholders and character limits on a running editor. Lowering the limit keeps existing text. Pass `null` to remove the limit.
+
+#### Patch Changes
+
+- 9333f8a: The Placeholder extension no longer leaves placeholders behind on empty nodes after the cursor moves away when `includeChildren` is enabled.
+
+### @tiptap/html
+
+#### Patch Changes
+
+- 98c99c4: Support Happy DOM 21.0.4 and later in version 21 while keeping support for Happy DOM 20.
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- 496d53a: Fix Markdown serialization of whitespace-only marked text.
+- 7c8ad87: Fix Markdown serialization of inline code containing backticks
+- 13675ea: A literal `!` directly before a link is now escaped when serializing to Markdown, so the link is no longer parsed back as an image.
+- 77df9af: Keep Markdown task-item continuation lines in the same paragraph when the opening text resembles a heading or list, including tasks nested inside bullet lists.
+- 77df9af: Preserve task-list continuation text with custom block tokenizers and tab indentation.
+- 6520e58: Bind `parseMarkdown` and `renderMarkdown` to the configured extension so hooks can read `this.options` and `this.name` without an Editor.
+
+### @tiptap/pm
+
+#### Patch Changes
+
+- c4488ba: Bump `prosemirror-view` to `^1.42.3`, which fixes an XSS vulnerability where pasting crafted HTML could run arbitrary JavaScript (GHSA-c8x8-7fp4-3x9w).
+- c402400: Update ProseMirror dependencies to their latest versions.
+
+### @tiptap/react
+
+#### Major Changes
+
+- 0c62b27: Keep unmounted editors alive and build React and Vue NodeViews once per mount. Unmounting preserves the document, selection, and plugins. Autofocus runs only on the first mount. Repeated mounts at the same element and repeated unmounts do nothing. Destroyed editors cannot mount again.
+  
+  Migration: use `editor.isMounted` before reading view DOM. `editor.isDestroyed` is true only after `destroy()`. React `useEditor` and Vue `Editor` now wait for `EditorContent` to mount the view by default. For a view without `EditorContent`, pass an `element` or call `editor.mount(element)`. Use `unmount()` for temporary removal and `destroy()` for final cleanup. Mount and unmount events now follow `EditorContent` attachment and removal.
+
+#### Minor Changes
+
+- 92c6d73: Align `selected` with ProseMirror node selections by default, expose text selections through `selectionInside`, and keep `selectedOnTextSelection` compatible.
+
+#### Patch Changes
+
+- d02646b: Reduce overhead in React node views on documents with many nodes.
+- 69c2130: Fix a TypeScript error (TS2694) in the shipped type declarations when `skipLibCheck` is turned off.
+- 0859b12: Fix Enter and Shift-Enter inside React node views on iOS and Android.
+- 122d659: Fix `useEditorState` overflowing the stack when a selector returns a value with circular references, such as `editor.state` after one stored mark replaces another.
+- 73b8e59: Fix callback updates through `setOptions()`. Changes to initial options such as `content`, `extensions`, and `schemaSpec` are now ignored with a development warning.
+  
+  Use `editor.commands.setContent(content)` to replace content. Create a new editor to change extensions or the schema. Use `EditorRuntimeOptions` and `getEditorRuntimeOptions()` to select options supported by `setOptions()`.
+- 82e0c77: Fix a React warning when a command like `setContent` creates React node views from inside an effect.
+- de130d9: `@tiptap/react` and `@tiptap/vue` now pin their optional `@tiptap/extension-bubble-menu` and `@tiptap/extension-floating-menu` dependencies to the exact version they were released with, so installing a specific version gives you that version's menu extensions instead of the newest ones.
+
+### @tiptap/starter-kit
+
+#### Major Changes
+
+- 1d20516: StarterKit no longer installs the deprecated `@tiptap/extension-dropcursor`, `@tiptap/extension-gapcursor`, `@tiptap/extension-list-item`, and `@tiptap/extension-list-keymap` packages. We will not publish further updates to these packages. StarterKit still includes their extensions, so you do not need to change your configuration.
+  
+  If you import these extensions directly, switch to the new packages: `Dropcursor` and `Gapcursor` from `@tiptap/extensions`, and `ListItem` and `ListKeymap` from `@tiptap/extension-list`.
+
+### @tiptap/static-renderer
+
+#### Patch Changes
+
+- 2affd48: Render `<audio>` and `<video>` with a closing tag instead of self-closing them, so browsers no longer nest the following content inside the first audio element.
+- dbecca4: Rendering a node whose `renderHTML` returns several nested child elements no longer adds stray commas between them in the HTML string output.
+- a47f028: Headings with bold, italic, or linked text now render to Markdown without extra commas between the words.
+- 6b2ef6c: Prevent attribute names, inline event handlers, and iframe srcdoc attributes from injecting executable HTML into static HTML output.
+- aaa3a50: Nest marks in the same order as the editor, so text with a color and an underline renders `<span style="color: …"><u>…</u></span>`.
+
+### @tiptap/suggestion
+
+#### Patch Changes
+
+- a17677b: Escape `allowedPrefixes` when building the suggestion prefix regex so `-`, `]`, `^`, and `\` are treated as literals.
+
+### @tiptap/vue
+
+#### Major Changes
+
+- 0c62b27: Keep unmounted editors alive and build React and Vue NodeViews once per mount. Unmounting preserves the document, selection, and plugins. Autofocus runs only on the first mount. Repeated mounts at the same element and repeated unmounts do nothing. Destroyed editors cannot mount again.
+  
+  Migration: use `editor.isMounted` before reading view DOM. `editor.isDestroyed` is true only after `destroy()`. React `useEditor` and Vue `Editor` now wait for `EditorContent` to mount the view by default. For a view without `EditorContent`, pass an `element` or call `editor.mount(element)`. Use `unmount()` for temporary removal and `destroy()` for final cleanup. Mount and unmount events now follow `EditorContent` attachment and removal.
+- dceb48f: Vue 2 support is removed. `@tiptap/vue-3` is now `@tiptap/vue`, and `@tiptap/extension-drag-handle-vue-3` is now `@tiptap/extension-drag-handle-vue`.
+  
+  Update imports and dependencies:
+  
+  ```diff
+  - import { EditorContent } from '@tiptap/vue-3'
+  + import { EditorContent } from '@tiptap/vue'
+  
+  - import DragHandle from '@tiptap/extension-drag-handle-vue-3'
+  + import DragHandle from '@tiptap/extension-drag-handle-vue'
+  ```
+  
+  Vue 2 users must migrate to Vue 3 before using the new packages. The planned Codemod Registry package `@tiptap/codemod-v3-to-v4` updates package imports and dependencies.
+
+#### Minor Changes
+
+- 253b2a1: Allow `editor.registerPlugin` to register an array of plugins in one call, including when using a custom plugin merge callback. Single-plugin registration remains supported.
+
+#### Patch Changes
+
+- 73b8e59: Fix callback updates through `setOptions()`. Changes to initial options such as `content`, `extensions`, and `schemaSpec` are now ignored with a development warning.
+  
+  Use `editor.commands.setContent(content)` to replace content. Create a new editor to change extensions or the schema. Use `EditorRuntimeOptions` and `getEditorRuntimeOptions()` to select options supported by `setOptions()`.
+- de130d9: `@tiptap/react` and `@tiptap/vue` now pin their optional `@tiptap/extension-bubble-menu` and `@tiptap/extension-floating-menu` dependencies to the exact version they were released with, so installing a specific version gives you that version's menu extensions instead of the newest ones.
+
+### @tiptap/y-tiptap
+
+#### Minor Changes
+
+- 9c35ec3: Add the `onInvalidContent` sync option. When it is set, shared content that does not fit the editor schema stays in the shared document instead of being deleted. The editor shows what it can, pauses editing and sends no changes until compatible content arrives.
+- 0074302: Remove persistent position migrations to stop structural edits and undo or redo from adding migration history to collaborative documents. Saved relative positions no longer follow content that structural edits replace or move.
+  
+  Existing migration entries are deleted when an editor opens and when later Yjs updates arrive. Yjs can reclaim their stored data when garbage collection is enabled. Document content and other shared data are unchanged. Upgrade all collaborating clients to stop older clients from writing new entries.
+  
+  Documents that the server refuses to load need cleanup on the server before a client can repair them. With Yjs garbage collection disabled, deleting entries does not reclaim their stored data.
+
+#### Patch Changes
+
+- dd62145: Improve TypeScript definitions for document synchronization, shared cursors, undo, redo, and document conversions.
+- dd62145: Improve collaboration performance and keep comments, highlights, caret positions, and remote caret details intact during remote edits.
+- dd62145: Preserve shared content when a client cannot display its nodes or marks, and pause that client's editing until compatible content is available.
+  
+  Headless document creation rejects empty content when the schema requires child nodes.
+- a1a407d: Omit empty `attrs` objects when serializing marks to ProseMirror JSON.
+- 94da3af: Preserve cursor positions and selections when undoing and redoing list changes or deletions. Requires Yjs 13.6.13 or later.
+- 4800a32: Restore the behavior from 3.0.9 and earlier for shared content that does not fit the editor schema. The editor stays editable again and removes or adjusts the content it cannot display, instead of becoming read-only.
+
 ## v3.30.3
 
 ### @tiptap/extension-text-style

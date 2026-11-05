@@ -1,5 +1,12 @@
 # @tiptap/ai-toolkit
 
+## 0.4.1-next.0
+
+### Patch Changes
+
+- 416749b: The Server AI Toolkit no longer adds `_hash` to inline nodes, including inline Image, Audio, YouTube and Twitch nodes.
+- dd62145: Keep collaborative editing, cursor presence, and drag handles compatible with the updated `@tiptap/y-tiptap` binding.
+
 ## 0.4.0
 
 ### Minor Changes

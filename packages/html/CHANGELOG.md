@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.0-next.0
+
+### Patch Changes
+
+- 98c99c4: Support Happy DOM 21.0.4 and later in version 21 while keeping support for Happy DOM 20.
+
 ## 3.30.3
 
 ### Patch Changes

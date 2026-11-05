@@ -1,5 +1,16 @@
 # Change Log
 
+## 4.0.0-next.0
+
+### Patch Changes
+
+- 6048bda: Table cells exported to Markdown now escape literal pipe characters, so the cell content survives when the output is read back.
+- cd7d7ab: Multi-block table cells no longer leak a U+001F control character into Markdown.
+- 3b6e387: Right-clicking a cell inside a multi-cell table selection no longer collapses that selection.
+- 17ec9ff: Prevent extra CSS declarations from being rendered from editor content.
+- 352dea4: Apply custom table attributes when resizing is enabled and keep them current after attribute changes.
+- 6c9c204: Table cells and headers no longer render the default `colspan="1"` and `rowspan="1"` attributes. Cells that actually span still render them, matching how prosemirror-tables serializes spans.
+
 ## 3.30.3
 
 ### Patch Changes
