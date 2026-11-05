@@ -264,6 +264,14 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
    * If it is, call `selectNode`, otherwise call `deselectNode`.
    */
   handleSelectionUpdate() {
+    const { selection } = this.editor.state
+
+    // A collapsed selection never covers a node, so the position lookup,
+    // which is linear in the number of siblings, can be skipped.
+    if (selection.empty && !this.options.selectedOnTextSelection && !this.renderer.props.selected) {
+      return
+    }
+
     const pos = this.getPos()
 
     if (typeof pos !== 'number') {
