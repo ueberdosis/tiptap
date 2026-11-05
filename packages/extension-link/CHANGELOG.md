@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.32.3
+
+### Patch Changes
+
+- f175baf: Pasting a link without a protocol now uses the `defaultProtocol` option instead of always falling back to `http`.
+
 ## 3.32.2
 
 ### Patch Changes

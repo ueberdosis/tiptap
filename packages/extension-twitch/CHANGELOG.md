@@ -1,5 +1,9 @@
 # @tiptap/extension-twitch
 
+## 3.32.3
+
+No changes in this release.
+
 ## 3.32.2
 
 ### Patch Changes
