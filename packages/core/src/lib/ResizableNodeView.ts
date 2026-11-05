@@ -510,6 +510,11 @@ export class ResizableNodeView {
 
     this.node = node
 
+    if (!this.isResizing) {
+      this.element.style.width = node.attrs.width ? `${node.attrs.width}px` : ''
+      this.element.style.height = node.attrs.height ? `${node.attrs.height}px` : ''
+    }
+
     if (this.onUpdate) {
       return this.onUpdate(node, decorations, innerDecorations)
     }
