@@ -2,7 +2,8 @@ import { Editor, Node, mergeAttributes } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { afterEach, beforeEach, describe, expect, it } from 'vite-plus/test'
+import { NodeSelection } from '@tiptap/pm/state'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test'
 import { defineComponent } from 'vue'
 
 import { Editor as VueEditor } from './Editor.js'
@@ -183,5 +184,80 @@ describe('VueNodeViewRenderer contentDOM', () => {
     const contentDOM = wrapperDesc?.spec?.contentDOM as HTMLElement | undefined
     expect(contentDOM).toBeTruthy()
     expect(contentDOM!.tagName.toLowerCase()).toBe('custom-content-dom')
+  })
+})
+
+describe('VueNodeViewRenderer selection', () => {
+  let editor: Editor | null = null
+  let el: HTMLElement | null = null
+
+  async function withEditor(
+    options?: Partial<VueNodeViewRendererOptions>,
+    content = '<custom-block>First</custom-block><custom-block>Second</custom-block>',
+  ) {
+    editor = createVueEditor({
+      element: el!,
+      extensions: [Document, Paragraph, Text, createBlockNode(ComponentWithContent, options)],
+      content,
+    })
+    await new Promise(r => setTimeout(r, 10))
+    return [...el!.querySelectorAll('[data-node-view-wrapper]')].map(
+      dom => (dom as any).pmViewDesc.spec,
+    )
+  }
+
+  beforeEach(() => {
+    el = document.createElement('div')
+    document.body.appendChild(el)
+  })
+
+  afterEach(() => {
+    editor?.destroy()
+    editor = null
+    el?.parentNode?.removeChild(el)
+    el = null
+  })
+
+  it('does not look up its position when the cursor moves', async () => {
+    const [first, second] = await withEditor()
+    const getPos = vi.spyOn(second, 'getPos')
+
+    editor!.commands.setTextSelection(2)
+
+    expect(getPos).not.toHaveBeenCalled()
+    expect(first.renderer.props.selected).toBe(false)
+    expect(second.renderer.props.selected).toBe(false)
+  })
+
+  it('is deselected when the selection collapses', async () => {
+    const [first] = await withEditor()
+    editor!.view.dispatch(editor!.state.tr.setSelection(NodeSelection.create(editor!.state.doc, 0)))
+    expect(first.renderer.props.selected).toBe(true)
+
+    editor!.commands.setTextSelection(10)
+
+    expect(first.renderer.props.selected).toBe(false)
+  })
+
+  it('is selected when a text selection covers it', async () => {
+    const [first, second] = await withEditor(
+      {},
+      '<p>Intro</p><custom-block>First</custom-block><custom-block>Second</custom-block>',
+    )
+
+    // From inside the paragraph into the second node view
+    editor!.commands.setTextSelection({ from: 2, to: 15 })
+
+    expect(first.renderer.props.selected).toBe(true)
+    expect(second.renderer.props.selected).toBe(false)
+  })
+
+  it('is selected when the cursor is inside and selectedOnTextSelection is set', async () => {
+    const [first, second] = await withEditor({ selectedOnTextSelection: true })
+
+    editor!.commands.setTextSelection(2)
+
+    expect(first.renderer.props.selected).toBe(true)
+    expect(second.renderer.props.selected).toBe(false)
   })
 })
