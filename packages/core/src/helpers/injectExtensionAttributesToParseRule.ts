@@ -6,6 +6,8 @@ import { fromString } from '../utilities/fromString.js'
 /**
  * This function merges extension attributes into parserule attributes (`attrs` or `getAttrs`).
  * Cancels when `getAttrs` returned `false`.
+ * Ignored rules are returned unchanged, because they never create a node or mark
+ * and their matched element should not reach attribute parsers.
  * @param parseRule ProseMirror ParseRule
  * @param extensionAttributes List of attributes to inject
  */
@@ -13,7 +15,7 @@ export function injectExtensionAttributesToParseRule(
   parseRule: ParseRule,
   extensionAttributes: ExtensionAttribute[],
 ): ParseRule {
-  if ('style' in parseRule) {
+  if ('style' in parseRule || parseRule.ignore) {
     return parseRule
   }
 
