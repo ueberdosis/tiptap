@@ -96,7 +96,7 @@ describe('can', () => {
     expect(canSetMarkToBold).toBe(false)
   })
 
-  it('returns false for non-applicable marks when selection contains marks in conflict', () => {
+  it('returns true for bold on inline code when Code no longer excludes other marks', () => {
     editor = new Editor({
       extensions: [Document, Paragraph, Text, UndoRedo, Code, Bold],
     })
@@ -105,10 +105,10 @@ describe('can', () => {
 
     const canSetMarkToBold = editor.can().setMark('bold')
 
-    expect(canSetMarkToBold).toBe(false)
+    expect(canSetMarkToBold).toBe(true)
   })
 
-  it('returns false for non-applicable marks when stored marks in conflict', () => {
+  it('returns true for bold when stored marks sit on inline code that allows other marks', () => {
     editor = new Editor({
       extensions: [Document, Paragraph, Text, UndoRedo, Code, Bold],
     })
@@ -117,10 +117,10 @@ describe('can', () => {
 
     const canSetMarkToBold = editor.can().setMark('bold')
 
-    expect(canSetMarkToBold).toBe(false)
+    expect(canSetMarkToBold).toBe(true)
   })
 
-  it('returns false for non-applicable marks when selecting multiple nodes in conflict', () => {
+  it('returns true for bold across multiple inline code nodes that allow other marks', () => {
     editor = new Editor({
       extensions: [Document, Paragraph, Text, UndoRedo, Code, Bold],
     })
@@ -129,7 +129,7 @@ describe('can', () => {
 
     const canSetMarkToBold = editor.can().setMark('bold')
 
-    expect(canSetMarkToBold).toBe(false)
+    expect(canSetMarkToBold).toBe(true)
   })
 
   it('returns true for applicable marks when selection does not contain nodes in conflict', () => {
