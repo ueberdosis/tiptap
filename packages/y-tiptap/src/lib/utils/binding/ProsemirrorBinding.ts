@@ -22,9 +22,6 @@ import { getRelativeSelection } from '../positions/getRelativeSelection.js'
 
 import { createNodeFromYElement } from '../conversion/createNodeFromYElement.js'
 import { updateYFragment } from '../reconciliation/updateYFragment.js'
-import type { PositionMigrationPlan } from '../../../types/PositionMigration.js'
-import { applyPositionMigration } from '../positions/migrations/applyPositionMigration.js'
-import { getPositionMigrationStore } from '../positions/migrations/getPositionMigrationStore.js'
 import { deleteMapping } from './deleteMapping.js'
 import { projectedMappings } from './projectedMappings.js'
 import { replaceChangedChildren } from './replaceChangedChildren.js'
@@ -43,7 +40,6 @@ export class ProsemirrorBinding {
   readonly beforeAllTransactions: () => void
   readonly afterAllTransactions: () => void
   _domSelectionInView: boolean | null = null
-  syncedDoc: PModel.Node | null = null
 
   constructor(yXmlFragment: Y.XmlFragment, mapping: ProsemirrorMapping = new Map()) {
     this.type = yXmlFragment
@@ -363,19 +359,13 @@ export class ProsemirrorBinding {
     })
   }
 
-  _prosemirrorChanged(doc: PModel.Node, plan: PositionMigrationPlan | null = null) {
+  _prosemirrorChanged(doc: PModel.Node) {
     const syncState = getSyncPluginState(this.view.state)
     if (syncState.snapshot != null || syncState.prevSnapshot != null) return
 
     this.doc.transact(() => {
       updateYFragment(this.doc, this.type, doc, this)
 
-      // Publish identity transfers with the content so peers receive both atomically.
-      if (plan?.doc === doc && !('transactions' in plan)) {
-        applyPositionMigration(this.type, plan, this, getPositionMigrationStore(this.type))
-      }
-
-      this.syncedDoc = doc
       this.beforeTransactionSelection = getRelativeSelection(this, this.view.state)
     }, ySyncPluginKey)
   }
