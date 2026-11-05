@@ -13,6 +13,9 @@ import { relativePositionToAbsolutePosition } from '../utils/positions/relativeP
 import { setMeta } from './setMeta.js'
 import { yCursorPluginKey, ySyncPluginKey } from './keys.js'
 import * as math from 'lib0/math'
+
+type AwarenessChange = { added: number[]; updated: number[]; removed: number[] }
+
 export const defaultAwarenessStateFilter = (
   currentClientId: number,
   userClientId: number,
@@ -186,10 +189,24 @@ export const yCursorPlugin = (
       },
     },
     view: view => {
-      const awarenessListener = () => {
-        if (!view.isDestroyed) {
-          setMeta(view, yCursorPluginKey, { awarenessUpdated: true })
+      const awarenessListener = ({ added, updated, removed }: AwarenessChange) => {
+        if (view.isDestroyed) {
+          return
         }
+
+        const clientId = awareness.clientID
+        const document = ySyncPluginKey.getState(view.state)?.doc
+        const onlyLocalChanged = [...added, ...updated, ...removed].every(id => id === clientId)
+        const localCursorHidden =
+          document != null &&
+          !awarenessStateFilter(document.clientID, clientId, awareness.getLocalState() ?? {})
+
+        // Our own cursor is usually hidden, so publishing it needs no redraw
+        if (onlyLocalChanged && localCursorHidden) {
+          return
+        }
+
+        setMeta(view, yCursorPluginKey, { awarenessUpdated: true })
       }
       const updateCursorInfo = (editorView: EditorView) => {
         const ystate = ySyncPluginKey.getState(editorView.state)

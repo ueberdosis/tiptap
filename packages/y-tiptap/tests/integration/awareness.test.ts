@@ -3,8 +3,12 @@ import { getSyncPluginState } from '../../src/lib/plugins/getSyncPluginState.js'
 import * as Y from 'yjs'
 import * as promise from 'lib0/promise'
 import { Awareness, applyAwarenessUpdate, encodeAwarenessUpdate } from 'y-protocols/awareness'
-import { TextSelection } from 'prosemirror-state'
-import { absolutePositionToRelativePosition } from '@tiptap/y-tiptap'
+import { EditorState, TextSelection } from 'prosemirror-state'
+import type { Transaction } from 'prosemirror-state'
+import { EditorView } from 'prosemirror-view'
+import { absolutePositionToRelativePosition, yCursorPlugin, ySyncPlugin } from '@tiptap/y-tiptap'
+import type { CursorPluginOptions } from '../../src/types/CursorPluginOptions.js'
+import { yCursorPluginKey } from '../../src/lib/plugins/keys.js'
 import { createTestView } from '../utils/createTestView.js'
 import { schema } from '../utils/testSchema.js'
 import { syncDocuments as syncYDocs } from '../utils/syncDocuments.js'
@@ -114,5 +118,86 @@ it('cursor rendering preserves awareness user', async () => {
     publisher.destroy()
     readerDoc.destroy()
     publisherDoc.destroy()
+  }
+})
+
+const countCursorRedraws = (
+  document: Y.Doc,
+  awareness: Awareness,
+  options?: CursorPluginOptions,
+) => {
+  const counter = { redraws: 0 }
+  const view = new EditorView(null, {
+    state: EditorState.create({
+      schema,
+      plugins: [
+        ySyncPlugin(document.getXmlFragment('prosemirror')),
+        yCursorPlugin(awareness, options),
+      ],
+    }),
+    dispatchTransaction(this: EditorView, transaction: Transaction) {
+      if (transaction.getMeta(yCursorPluginKey)?.awarenessUpdated) counter.redraws++
+      this.updateState(this.state.apply(transaction))
+    },
+  })
+  // Publishing requires focus, which happy-dom does not provide.
+  view.hasFocus = () => true
+
+  return { view, counter }
+}
+
+it('moving the local cursor does not redraw the cursors', async () => {
+  const document = new Y.Doc()
+  const remoteDocument = new Y.Doc()
+  const awareness = new Awareness(document)
+  const remote = new Awareness(remoteDocument)
+  const { view, counter } = countCursorRedraws(document, awareness)
+
+  try {
+    view.dispatch(view.state.tr.insertText('hello world', 1))
+    await promise.wait(10)
+    counter.redraws = 0
+
+    view.dispatch(view.state.tr.setSelection(TextSelection.create(view.state.doc, 3)))
+    view.dispatch(view.state.tr.setSelection(TextSelection.create(view.state.doc, 6)))
+    await promise.wait(10)
+    assert.equal(counter.redraws, 0, 'the local cursor is not drawn')
+
+    remote.setLocalState({ user: { name: 'remote' }, cursor: null })
+    applyAwarenessUpdate(
+      awareness,
+      encodeAwarenessUpdate(remote, [remoteDocument.clientID]),
+      'test',
+    )
+    await promise.wait(10)
+    assert.equal(counter.redraws, 1, 'a remote awareness change still redraws the cursors')
+  } finally {
+    view.destroy()
+    awareness.destroy()
+    remote.destroy()
+    document.destroy()
+    remoteDocument.destroy()
+  }
+})
+
+it('moving the local cursor redraws when the filter shows it', async () => {
+  const document = new Y.Doc()
+  const awareness = new Awareness(document)
+  const { view, counter } = countCursorRedraws(document, awareness, {
+    awarenessStateFilter: () => true,
+  })
+
+  try {
+    view.dispatch(view.state.tr.insertText('hello world', 1))
+    await promise.wait(10)
+    counter.redraws = 0
+
+    view.dispatch(view.state.tr.setSelection(TextSelection.create(view.state.doc, 3)))
+    await promise.wait(10)
+    assert.equal(counter.redraws, 1)
+  } finally {
+    view.destroy()
+    awareness.destroy()
+    document.destroy()
   }
 })
