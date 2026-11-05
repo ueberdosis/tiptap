@@ -201,3 +201,47 @@ it('moving the local cursor redraws when the filter shows it', async () => {
     document.destroy()
   }
 })
+
+it('removing the local awareness state does not pass it to the filter', async () => {
+  const document = new Y.Doc()
+  const awareness = new Awareness(document)
+  awareness.setLocalStateField('user', { name: 'local' })
+  const { view } = countCursorRedraws(document, awareness, {
+    awarenessStateFilter: (currentClientId, userClientId, state) => {
+      if (!state.user) throw new Error('the filter got a state without user')
+      return currentClientId !== userClientId
+    },
+  })
+
+  try {
+    await promise.wait(10)
+    assert.doesNotThrow(() => awareness.setLocalState(null))
+  } finally {
+    view.destroy()
+    awareness.destroy()
+    document.destroy()
+  }
+})
+
+it('hiding the local cursor redraws the cursors', async () => {
+  const document = new Y.Doc()
+  const awareness = new Awareness(document)
+  awareness.setLocalStateField('showSelf', true)
+  const { view, counter } = countCursorRedraws(document, awareness, {
+    awarenessStateFilter: (currentClientId, userClientId, state) =>
+      currentClientId !== userClientId || state.showSelf === true,
+  })
+
+  try {
+    await promise.wait(10)
+    counter.redraws = 0
+
+    awareness.setLocalStateField('showSelf', false)
+    await promise.wait(10)
+    assert.equal(counter.redraws, 1, 'the hidden local cursor must be removed')
+  } finally {
+    view.destroy()
+    awareness.destroy()
+    document.destroy()
+  }
+})
