@@ -75,5 +75,4 @@ describe('Code nested in other marks (#8637)', () => {
 
     expect(out).toBe('**`foo`**`bar`')
   })
-
 })
