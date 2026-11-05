@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.33.0
+
+### Minor Changes
+
+- 71e4c46: With `enableContentCheck: true`, shared content that does not fit the editor schema now emits `contentError` instead of being deleted. The editor pauses editing and sends no changes until compatible content arrives, so read-only users no longer send repairs that the server rejects.
+  
+  If you use `enableContentCheck` with collaboration and want the editor to keep repairing invalid content, turn the content check off.
+
 ## 3.32.3
 
 No changes in this release.
