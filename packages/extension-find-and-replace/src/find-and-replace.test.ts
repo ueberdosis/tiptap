@@ -98,6 +98,28 @@ describe('result navigation', () => {
     expect(editor.storage.findAndReplace.currentIndex).toBe(2)
   })
 
+  it('keeps stepping forward after a search option changes', () => {
+    editor = createEditor('<p>one two one</p>')
+    editor.commands.setSearchTerm('one')
+    editor.commands.goToNextResult()
+    editor.commands.setCaseSensitive(true)
+    editor.commands.goToNextResult()
+
+    expect(editor.storage.findAndReplace.currentIndex).toBe(1)
+    expect(editor.state.selection.from).toBe(9)
+  })
+
+  it('goes to a new current result after a search option removes the visited one', () => {
+    editor = createEditor('<p>One one</p>')
+    editor.commands.setSearchTerm('one')
+    editor.commands.goToNextResult()
+    editor.commands.setCaseSensitive(true)
+    editor.commands.goToNextResult()
+
+    expect(editor.storage.findAndReplace.currentIndex).toBe(0)
+    expect(editor.state.selection.from).toBe(5)
+  })
+
   it('goes to a new current result after the visited one is removed', () => {
     editor = createEditor('<p>one two one two one</p>')
     editor.commands.setSearchTerm('one')

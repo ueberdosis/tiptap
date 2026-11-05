@@ -2,30 +2,17 @@ import type { Node as PMNode } from '@tiptap/pm/model'
 import type { Mapping } from '@tiptap/pm/transform'
 
 import type { FindAndReplaceMeta, FindAndReplacePluginState } from '../plugin/plugin-state.js'
-import type { SearchResult } from '../search/search.js'
 import { searchTextblocks } from '../search/search.js'
 
 import { getChangedTextblocks } from './getChangedTextblocks.js'
 import { hasCurrentIndex } from './hasCurrentIndex.js'
-import { isCurrentResult } from './isCurrentResult.js'
+import { keepsVisitedResult } from './keepsVisitedResult.js'
 import { mapResult } from './mapResult.js'
 import { mapResults } from './mapResults.js'
 import { mergeResults } from './mergeResults.js'
 import { refreshDecorations } from './refreshDecorations.js'
 import { resolveCurrentIndex } from './resolveCurrentIndex.js'
 import { resultInTextblocks } from './resultInTextblocks.js'
-
-function keepsVisitedResult(
-  previousState: FindAndReplacePluginState,
-  current: SearchResult | null,
-  previousCurrent: SearchResult | null,
-): boolean {
-  return (
-    previousState.currentResultVisited &&
-    current !== null &&
-    isCurrentResult(current, previousCurrent)
-  )
-}
 
 export function refreshDocumentState(
   previousState: FindAndReplacePluginState,
