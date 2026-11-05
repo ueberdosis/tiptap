@@ -197,7 +197,10 @@ export class ReactNodeView<
         }
 
         // The caret can already be inside here. Moving would lose it.
-        const restoreSelection = captureDOMSelection(this.contentDOMElement)
+        // Read the DOM selection only when the editor selection is here: it can force a layout.
+        const restoreSelection = this.containsEditorSelection()
+          ? captureDOMSelection(this.contentDOMElement)
+          : null
 
         element.appendChild(this.contentDOMElement)
 
@@ -392,6 +395,13 @@ export class ReactNodeView<
       typeof pos === 'number' &&
       getTextSelectionAncestorPositions(this.editor.state.selection).includes(pos)
     )
+  }
+
+  private containsEditorSelection() {
+    const pos = this.getPos()
+    const { from, to } = this.editor.state.selection
+
+    return typeof pos === 'number' && from > pos && to < pos + this.node.nodeSize
   }
 
   /**
