@@ -1,7 +1,29 @@
 import type { Node as PMNode } from '@tiptap/pm/model'
 
+import { hasBlockBetween } from '../search/has-block-between.js'
 import { findAdjacentTextblock } from './findAdjacentTextblock.js'
 import type { TextblockRange } from './types.js'
+
+function findJoinedTextblock(
+  doc: PMNode,
+  textblock: TextblockRange,
+  direction: 1 | -1,
+  continuesNode: (node: PMNode) => boolean,
+): TextblockRange | null {
+  const adjacent = findAdjacentTextblock(doc, textblock, direction)
+
+  if (!adjacent) {
+    return null
+  }
+
+  const [first, second] = direction === 1 ? [textblock, adjacent] : [adjacent, textblock]
+
+  if (!continuesNode(second.node) || hasBlockBetween(doc, first.to, second.from)) {
+    return null
+  }
+
+  return adjacent
+}
 
 function addChain(
   doc: PMNode,
@@ -9,21 +31,18 @@ function addChain(
   continuesNode: (node: PMNode) => boolean,
   found: Map<number, TextblockRange>,
 ): void {
-  let first: TextblockRange | null = textblock
+  let previous = findJoinedTextblock(doc, textblock, -1, continuesNode)
 
-  while (first && continuesNode(first.node)) {
-    first = findAdjacentTextblock(doc, first, -1)
-
-    if (first) {
-      found.set(first.pos, first)
-    }
+  while (previous) {
+    found.set(previous.pos, previous)
+    previous = findJoinedTextblock(doc, previous, -1, continuesNode)
   }
 
-  let next = findAdjacentTextblock(doc, textblock, 1)
+  let next = findJoinedTextblock(doc, textblock, 1, continuesNode)
 
-  while (next && continuesNode(next.node)) {
+  while (next) {
     found.set(next.pos, next)
-    next = findAdjacentTextblock(doc, next, 1)
+    next = findJoinedTextblock(doc, next, 1, continuesNode)
   }
 }
 

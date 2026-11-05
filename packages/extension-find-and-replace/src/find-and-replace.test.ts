@@ -1,6 +1,7 @@
 import type { JSONContent } from '@tiptap/core'
 import { Editor } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
+import HorizontalRule from '@tiptap/extension-horizontal-rule'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
@@ -126,6 +127,7 @@ describe('continued textblocks', () => {
         Document,
         ContinuedParagraph,
         Text,
+        HorizontalRule,
         FindAndReplace.configure({ searchDebounceMs: 0, continuesNode }),
       ],
       content: { type: 'doc', content: paragraphs },
@@ -223,5 +225,13 @@ describe('continued textblocks', () => {
     editor.view.dispatch(editor.state.tr.setNodeAttribute(11, 'continued', true))
 
     expect(editor.storage.findAndReplace.results).toEqual([{ from: 6, to: 18 }])
+  })
+
+  it('drops a result when a block is inserted between the textblocks', () => {
+    editor = createEditor([paragraph('find the '), paragraph('phrase here', true)])
+    editor.commands.setSearchTerm('the phrase')
+    editor.commands.insertContentAt(11, { type: 'horizontalRule' })
+
+    expect(editor.storage.findAndReplace.results).toEqual([])
   })
 })

@@ -43,7 +43,7 @@ export function refreshDocumentState(
   )
   const mappedResults = mapResults(previousState.results, mapping)
   const unaffectedResults = mappedResults.filter(result => !resultInTextblocks(result, textblocks))
-  const changedResults = searchTextblocks(textblocks, state.searchTerm, state)
+  const changedResults = searchTextblocks(textblocks, state.searchTerm, state, doc)
   const results = mergeResults(unaffectedResults, changedResults)
   const currentIndex = resolveCurrentIndex(previousState, results, meta, true, mapping)
   const previousCurrent =

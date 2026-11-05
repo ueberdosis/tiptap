@@ -10,16 +10,18 @@ export { createSearchRegex } from './regex.js'
 
 /**
  * Searches textblocks for a term and returns their matched ranges.
- * Textblocks joined by `continuesNode` are searched as one text.
+ * Textblocks joined by `continuesNode` are searched as one text when `doc` is given.
  * @param textblocks The textblocks and their document positions. Include every textblock of a continued chain.
  * @param term The search term, treated as regex source when `useRegex` is enabled.
  * @param options Case sensitivity, regex mode, whole word matching, and continued textblocks.
+ * @param doc The document the textblocks are in. Needed to join continued textblocks.
  * @returns The list of matched ranges in textblock order.
  */
 export function searchTextblocks(
   textblocks: readonly TextblockSearchTarget[],
   term: string,
   options: SearchOptions,
+  doc?: PMNode,
 ): SearchResult[] {
   const regex = createSearchRegex(term, options)
 
@@ -27,9 +29,11 @@ export function searchTextblocks(
     return []
   }
 
-  return groupContinuedTextblocks(textblocks, options.continuesNode).flatMap(group => {
-    return searchTextblockGroup(regex, group)
-  })
+  const groups = doc
+    ? groupContinuedTextblocks(doc, textblocks, options.continuesNode)
+    : textblocks.map(textblock => [textblock])
+
+  return groups.flatMap(group => searchTextblockGroup(regex, group))
 }
 
 /**
@@ -54,7 +58,7 @@ export function searchDocument(doc: PMNode, term: string, options: SearchOptions
     return false
   })
 
-  return searchTextblocks(textblocks, term, options)
+  return searchTextblocks(textblocks, term, options, doc)
 }
 
 /**

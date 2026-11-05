@@ -76,4 +76,25 @@ describe('searchDocument with continued textblocks', () => {
       { from: 7, to: 10 },
     ])
   })
+
+  it('does not join continued textblocks with a block between them', () => {
+    const blocked = createContinuedDoc([
+      paragraph('find the '),
+      { type: 'horizontalRule' },
+      paragraph('phrase here', true),
+    ])
+
+    expect(searchDocument(blocked, 'the phrase', { ...options, continuesNode })).toEqual([])
+  })
+
+  it('joins continued textblocks in different parents', () => {
+    const nested = createContinuedDoc([
+      { type: 'blockquote', content: [paragraph('find the ')] },
+      { type: 'blockquote', content: [paragraph('phrase here', true)] },
+    ])
+
+    expect(searchDocument(nested, 'the phrase', { ...options, continuesNode })).toEqual([
+      { from: 7, to: 21 },
+    ])
+  })
 })

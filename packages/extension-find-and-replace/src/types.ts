@@ -37,6 +37,7 @@ export interface FindAndReplaceOptions {
   /**
    * Whether a textblock continues the textblock before it.
    * Continued textblocks are searched as one text, so a match can start in one and end in the next.
+   * Textblocks with another block between them, like an image, are never joined.
    * @param node The textblock to check.
    * @returns `true` when the node continues the previous textblock.
    * @default () => false

@@ -80,4 +80,20 @@ describe('addContinuedTextblocks', () => {
 
     expect(first).toEqual({ node: nested.child(0).child(0), pos: 1, from: 1, to: 6 })
   })
+
+  it('stops a chain at a block between two textblocks', () => {
+    const blocked = createContinuedDoc([
+      paragraph('one'),
+      { type: 'horizontalRule' },
+      paragraph('two', true),
+    ])
+    const continued = blocked.child(2)
+    const textblocks = addContinuedTextblocks(
+      blocked,
+      [{ node: continued, pos: 6, from: 6, to: 6 + continued.nodeSize }],
+      continuesNode,
+    )
+
+    expect(texts(textblocks)).toEqual(['two'])
+  })
 })
