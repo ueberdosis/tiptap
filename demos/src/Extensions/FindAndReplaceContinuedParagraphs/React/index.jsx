@@ -12,6 +12,7 @@ const ContinuedParagraph = Paragraph.extend({
     return {
       continued: {
         default: false,
+        parseHTML: element => element.hasAttribute('data-continued'),
         renderHTML: attributes => (attributes.continued ? { 'data-continued': '' } : {}),
       },
     }
