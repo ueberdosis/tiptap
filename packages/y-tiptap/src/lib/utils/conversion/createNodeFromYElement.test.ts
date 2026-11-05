@@ -25,3 +25,22 @@ it('converts text with many formatting runs', () => {
     document.destroy()
   }
 })
+
+it('does not merge shared text while projecting a snapshot', () => {
+  const document = new Y.Doc({ gc: false })
+  try {
+    const paragraph = new Y.XmlElement('paragraph')
+    document.getXmlFragment('prosemirror').insert(0, [paragraph])
+    paragraph.insert(0, [new Y.XmlText('Hello'), new Y.XmlText(' world')])
+    const snapshot = Y.snapshot(document)
+    const before = Y.encodeStateAsUpdate(document)
+
+    const node = createNodeFromYElement(paragraph, schema, createEmptyMeta(), snapshot, snapshot)
+
+    expect(node?.textContent).toBe('Hello world')
+    expect(paragraph.length).toBe(2)
+    expect(Y.encodeStateAsUpdate(document)).toEqual(before)
+  } finally {
+    document.destroy()
+  }
+})

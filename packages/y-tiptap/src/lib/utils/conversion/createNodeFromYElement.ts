@@ -77,7 +77,7 @@ export const createNodeFromYElement = (
 
     if (!(type instanceof Y.XmlText)) return
 
-    mergeNextYText(type)
+    if (snapshot === undefined && prevSnapshot === undefined) mergeNextYText(type)
     const textNodes = createTextNodesFromYText(
       type,
       schema,
@@ -110,7 +110,7 @@ export const createNodeFromYElement = (
     return node
   } catch {
     // Remove unrenderable shared content so later projections do not repeat the failure.
-    deleteYType(el)
+    if (snapshot === undefined && prevSnapshot === undefined) deleteYType(el)
     deleteMapping(meta.mapping, el)
     return null
   }
