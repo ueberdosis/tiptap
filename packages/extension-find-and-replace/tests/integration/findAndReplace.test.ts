@@ -298,6 +298,12 @@ describe('FindAndReplace', () => {
     expect(currentResultPositions()).toEqual([1])
 
     editor.commands.goToNextResult()
+    expect(editor.storage.findAndReplace.currentIndex).toBe(0)
+    expect(editor.state.selection.from).toBe(1)
+    expect(editor.state.selection.to).toBe(4)
+    expect(currentResultPositions()).toEqual([1])
+
+    editor.commands.goToNextResult()
     expect(editor.storage.findAndReplace.currentIndex).toBe(1)
     expect(editor.state.selection.from).toBe(9)
     expect(editor.state.selection.to).toBe(12)
@@ -347,6 +353,7 @@ describe('FindAndReplace', () => {
     editor = createEditor('<p>foo bar foo</p>')
     editor.commands.setSearchTerm('foo')
     editor.commands.setReplaceTerm('foo')
+    editor.commands.goToNextResult()
     editor.commands.goToNextResult()
     editor.commands.replace()
 
@@ -503,6 +510,7 @@ describe('FindAndReplace', () => {
   it('keeps the active result when a new match is inserted before it', () => {
     editor.commands.setSearchTerm('hello')
     editor.commands.goToNextResult()
+    editor.commands.goToNextResult()
 
     expect(editor.storage.findAndReplace.currentIndex).toBe(1)
 
@@ -515,6 +523,7 @@ describe('FindAndReplace', () => {
 
   it('keeps the active result when a new match is inserted after it', () => {
     editor.commands.setSearchTerm('hello')
+    editor.commands.goToNextResult()
     editor.commands.goToNextResult()
 
     expect(editor.storage.findAndReplace.currentIndex).toBe(1)

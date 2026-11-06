@@ -21,6 +21,7 @@ export function createState(
     wholeWord: options.wholeWord,
     results,
     currentIndex,
+    currentResultVisited: false,
     decorations: createDecorations(doc, results, currentIndex),
   }
 }
