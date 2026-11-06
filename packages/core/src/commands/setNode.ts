@@ -1,5 +1,7 @@
 import { setBlockType } from '@tiptap/pm/commands'
 import type { NodeType } from '@tiptap/pm/model'
+import type { EditorState } from '@tiptap/pm/state'
+import { liftTarget } from '@tiptap/pm/transform'
 
 import { getNodeType } from '../helpers/getNodeType.js'
 import type { RawCommands } from '../types.js'
@@ -20,7 +22,7 @@ declare module '@tiptap/core' {
 
 export const setNode: RawCommands['setNode'] =
   (typeOrName, attributes = {}) =>
-  ({ state, dispatch, chain }) => {
+  ({ state, tr, dispatch, chain }) => {
     const type = getNodeType(typeOrName, state.schema)
 
     let attributesToCopy: Record<string, any> | undefined
@@ -37,11 +39,20 @@ export const setNode: RawCommands['setNode'] =
       return false
     }
 
+    const attributesToSet = { ...attributesToCopy, ...attributes }
+
+    if (!dispatch) {
+      // clearNodes only lifts when dispatching
+      return setBlockType(type, attributesToSet)(state) || canLiftSelection(state)
+    }
+
+    const docBefore = tr.doc
+
     return (
       chain()
         // try to convert node to default node if needed
         .command(({ commands }) => {
-          const canSetBlock = setBlockType(type, { ...attributesToCopy, ...attributes })(state)
+          const canSetBlock = setBlockType(type, attributesToSet)(state)
 
           if (canSetBlock) {
             return true
@@ -49,18 +60,19 @@ export const setNode: RawCommands['setNode'] =
 
           return commands.clearNodes()
         })
-        .command(({ state: updatedState, tr }) => {
-          const applied = setBlockType(type, { ...attributesToCopy, ...attributes })(
-            updatedState,
-            dispatch,
-          )
+        .command(({ state: updatedState }) => {
+          const applied = setBlockType(type, attributesToSet)(updatedState, dispatch)
 
-          // clearNodes may have lifted the block (e.g. out of a blockquote) even
-          // when setBlockType then reports false because the node is already the
-          // target type. Keep that lift so Mod-Alt-0 / setParagraph still works
-          // after CommandManager stopped dispatching failed top-level commands.
-          return applied || tr.docChanged
+          // Keep a lift done by clearNodes when the block already has the target type
+          return applied || !tr.doc.eq(docBefore)
         })
         .run()
     )
   }
+
+function canLiftSelection(state: EditorState): boolean {
+  const { $from, $to } = state.selection
+  const range = $from.blockRange($to)
+
+  return !!range && liftTarget(range) !== null
+}
