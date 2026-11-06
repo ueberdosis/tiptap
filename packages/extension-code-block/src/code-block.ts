@@ -179,17 +179,13 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
   },
 
   renderMarkdown: (node, h) => {
-    let output = ''
     const language = node.attrs?.language || ''
+    const content = node.content ? h.renderChildren(node.content) : ''
+    const longestBacktickRun =
+      content.match(/`+/g)?.reduce((longest, run) => Math.max(longest, run.length), 0) ?? 0
+    const fence = '`'.repeat(Math.max(3, longestBacktickRun + 1))
 
-    if (!node.content) {
-      output = `\`\`\`${language}\n\n\`\`\``
-    } else {
-      const lines = [`\`\`\`${language}`, h.renderChildren(node.content), '```']
-      output = lines.join('\n')
-    }
-
-    return output
+    return [`${fence}${language}`, content, fence].join('\n')
   },
 
   addCommands() {
