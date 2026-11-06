@@ -1,7 +1,7 @@
 import type { Node as PMNode } from '@tiptap/pm/model'
 import { Fragment } from '@tiptap/pm/model'
 import type { EditorState } from '@tiptap/pm/state'
-import { NodeSelection, Plugin } from '@tiptap/pm/state'
+import { Plugin } from '@tiptap/pm/state'
 
 import { CommandManager } from './CommandManager.js'
 import type { Editor } from './Editor.js'
@@ -265,24 +265,9 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
       // we register a global drag handler to track the current drag source element
       view(view) {
         const handleDragstart = (event: DragEvent) => {
-          const parent = view.dom.parentElement
-          const target = event.target as Element | null
-          const fromParent = !!(parent && target && parent.contains(target))
-          // Drag handles often sit beside EditorContent (outside parentElement)
-          // and select a node before starting the drag (#8585). Require the
-          // event target to share the editor's wrapper so a NodeSelection
-          // alone cannot mark this editor as the drag source for unrelated
-          // page drags.
-          const wrapper = parent?.parentElement
-          const fromExternalNodeDrag =
-            !fromParent &&
-            !!parent &&
-            !!wrapper &&
-            !!target &&
-            wrapper.contains(target) &&
-            view.state.selection instanceof NodeSelection
-
-          dragSourceElement = fromParent || fromExternalNodeDrag ? parent : null
+          dragSourceElement = view.dom.parentElement?.contains(event.target as Element)
+            ? view.dom.parentElement
+            : null
 
           if (dragSourceElement) {
             tiptapDragFromOtherEditor = editor
@@ -309,16 +294,12 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
       props: {
         handleDOMEvents: {
           drop: (view, event: Event) => {
+            // view.dragging also covers nodes dragged from a handle outside the parent element
+            isDroppedFromProseMirror =
+              dragSourceElement === view.dom.parentElement || !!view.dragging
             dropEvent = event as DragEvent
-            const html = dropEvent.dataTransfer?.getData('text/html') ?? ''
-            // Same-editor identity for cross-editor cleanup (do not use payload
-            // format alone — PM slices also appear when dragging A → B).
-            const isSameEditorDrop =
-              dragSourceElement === view.dom.parentElement || !!view.dragging?.move
-            // Skip paste rules for same-editor moves and for ProseMirror HTML.
-            isDroppedFromProseMirror = isSameEditorDrop || html.includes('data-pm-slice')
 
-            if (!isSameEditorDrop) {
+            if (!isDroppedFromProseMirror) {
               const dragFromOtherEditor = tiptapDragFromOtherEditor
 
               if (dragFromOtherEditor?.isEditable) {
