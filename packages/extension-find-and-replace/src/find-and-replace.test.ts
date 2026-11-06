@@ -109,6 +109,20 @@ describe('result navigation', () => {
     expect(editor.state.selection.from).toBe(9)
   })
 
+  it('stays on the visited result when a search option adds a result before it', () => {
+    editor = createEditor('<p>FOO foo</p>', { caseSensitive: true })
+    editor.commands.setSearchTerm('foo')
+    editor.commands.goToNextResult()
+    editor.commands.setCaseSensitive(false)
+
+    expect(editor.storage.findAndReplace.currentIndex).toBe(1)
+
+    editor.commands.goToNextResult()
+
+    expect(editor.storage.findAndReplace.currentIndex).toBe(0)
+    expect(editor.state.selection.from).toBe(1)
+  })
+
   it('goes to a new current result after a search option removes the visited one', () => {
     editor = createEditor('<p>One one</p>')
     editor.commands.setSearchTerm('one')
