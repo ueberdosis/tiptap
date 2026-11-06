@@ -2,7 +2,7 @@ import { Extension, Node } from '@tiptap/core'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import StarterKit from '@tiptap/starter-kit'
 import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
-import { createApp, defineComponent, h, nextTick, ref } from 'vue'
+import { createApp, defineComponent, h, nextTick, ref, shallowRef } from 'vue'
 
 import { Editor, EditorContent, NodeViewWrapper, VueNodeViewRenderer } from '../../src/index.js'
 
@@ -101,5 +101,34 @@ describe('EditorContent lifecycle', () => {
     expect(createNodeView).toHaveBeenCalledTimes(6)
     expect(element.textContent).toBe('NodeNodeNode')
     expect(mounts).toHaveBeenCalledTimes(2)
+  })
+
+  it('replaces the mounted view when the editor is replaced', async () => {
+    const firstEditor = new Editor({ extensions: [StarterKit], content: '<p>first</p>' })
+    const secondEditor = new Editor({ extensions: [StarterKit], content: '<p>second</p>' })
+    const editor = shallowRef(firstEditor)
+    const app = createApp({ render: () => h(EditorContent, { editor: editor.value }) })
+    const element = document.createElement('div')
+    document.body.append(element)
+    dispose.push(() => {
+      app.unmount()
+      firstEditor.destroy()
+      secondEditor.destroy()
+      element.remove()
+    })
+    app.mount(element)
+    await nextTick()
+    await nextTick()
+    expect(element.querySelectorAll('.ProseMirror')).toHaveLength(1)
+    editor.value = secondEditor
+    await nextTick()
+    await nextTick()
+    expect(element.querySelectorAll('.ProseMirror')).toHaveLength(1)
+    expect(element.textContent).toBe('second')
+    editor.value = firstEditor
+    await nextTick()
+    await nextTick()
+    expect(element.querySelectorAll('.ProseMirror')).toHaveLength(1)
+    expect(element.textContent).toBe('first')
   })
 })
