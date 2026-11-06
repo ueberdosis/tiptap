@@ -8,6 +8,7 @@ import type { PlaceholderOptions } from '../types.js'
  * Creates a ProseMirror node decoration that applies a placeholder
  * CSS class and data attribute to an empty node.
  * @param options.editor - The editor instance
+ * @param options.doc - The document being decorated
  * @param options.pos - The position of the node in the document
  * @param options.node - The ProseMirror node
  * @param options.isEmptyDoc - Whether the entire document is empty
@@ -19,6 +20,7 @@ import type { PlaceholderOptions } from '../types.js'
  */
 export function createPlaceholderDecoration(options: {
   editor: Editor
+  doc: PMNode
   pos: number
   node: PMNode
   isEmptyDoc: boolean
@@ -32,6 +34,7 @@ export function createPlaceholderDecoration(options: {
 }) {
   const {
     editor,
+    doc,
     placeholder,
     dataAttribute,
     pos,
@@ -52,6 +55,7 @@ export function createPlaceholderDecoration(options: {
       typeof placeholder === 'function'
         ? placeholder({
             editor,
+            doc,
             node,
             pos,
             hasAnchor,
