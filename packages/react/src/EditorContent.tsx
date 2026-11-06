@@ -47,7 +47,9 @@ export interface EditorContentProps extends HTMLProps<HTMLDivElement> {
 
 export function createContentComponent(): ContentComponent {
   const subscribers = new Set<() => void>()
+  const portals = new Map<string, React.ReactPortal>()
   let renderers: Record<string, React.ReactPortal> = {}
+  let hasPendingChanges = false
   let isNotificationQueued = false
 
   const notifySubscribers = () => {
@@ -63,6 +65,16 @@ export function createContentComponent(): ContentComponent {
     })
   }
 
+  // Copy the portals once per read, not once per node view change
+  const getRenderers = () => {
+    if (hasPendingChanges) {
+      renderers = Object.fromEntries(portals)
+      hasPendingChanges = false
+    }
+
+    return renderers
+  }
+
   return {
     /**
      * Subscribe to the editor instance's changes.
@@ -73,31 +85,25 @@ export function createContentComponent(): ContentComponent {
         subscribers.delete(callback)
       }
     },
-    getSnapshot() {
-      return renderers
-    },
-    getServerSnapshot() {
-      return renderers
-    },
+    getSnapshot: getRenderers,
+    getServerSnapshot: getRenderers,
     /**
      * Adds a new NodeView Renderer to the editor.
      */
     setRenderer(id: string, renderer: ReactRenderer) {
-      renderers = {
-        ...renderers,
-        [id]: ReactDOM.createPortal(renderer.reactElement, renderer.element, id),
-      }
-
+      portals.set(id, ReactDOM.createPortal(renderer.reactElement, renderer.element, id))
+      hasPendingChanges = true
       notifySubscribers()
     },
     /**
      * Removes a NodeView Renderer from the editor.
      */
     removeRenderer(id: string) {
-      const nextRenderers = { ...renderers }
+      if (!portals.delete(id)) {
+        return
+      }
 
-      delete nextRenderers[id]
-      renderers = nextRenderers
+      hasPendingChanges = true
       notifySubscribers()
     },
   }
