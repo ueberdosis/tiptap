@@ -24,7 +24,7 @@ import { inputRulesPlugin } from './InputRule.js'
 import { Mark, type MarkConfig } from './Mark.js'
 import { pasteRulesPlugin } from './PasteRule.js'
 import { getSchemaAttributes } from './schema/getSchemaAttributes.js'
-import type { AnyConfig, Extensions, RawCommands, Storage } from './types.js'
+import type { AnyConfig, ExtensionAttribute, Extensions, RawCommands, Storage } from './types.js'
 import { callOrReturn } from './utilities/callOrReturn.js'
 import { type NodeConfig } from './Node.js'
 
@@ -50,6 +50,12 @@ export class ExtensionManager {
   nonClearableMarks: string[] = []
 
   decorationManager: DecorationManager | null = null
+
+  private cachedAttributes: {
+    extensions: Extensions
+    schema: Schema
+    attributes: ExtensionAttribute[]
+  } | null = null
 
   constructor(extensions: Extensions, editor: Editor) {
     this.editor = editor
@@ -259,9 +265,22 @@ export class ExtensionManager {
    * @returns An array of attributes
    */
   get attributes() {
+    const cached = this.cachedAttributes
+
+    // Building them re-runs every extension's options and storage
+    if (cached && cached.extensions === this.extensions && cached.schema === this.schema) {
+      return cached.attributes
+    }
+
     const attributes = getAttributesFromExtensions(this.extensions)
 
-    return this.hasSchemaSpec ? getSchemaAttributes(attributes, this.schema) : attributes
+    this.cachedAttributes = {
+      extensions: this.extensions,
+      schema: this.schema,
+      attributes: this.hasSchemaSpec ? getSchemaAttributes(attributes, this.schema) : attributes,
+    }
+
+    return this.cachedAttributes.attributes
   }
 
   /**
@@ -489,6 +508,7 @@ export class ExtensionManager {
 
     this.extensions = []
     this.baseExtensions = []
+    this.cachedAttributes = null
     this.decorationManager = null
     this.schema = null as any
     this.editor = null as any
