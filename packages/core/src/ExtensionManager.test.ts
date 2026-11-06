@@ -1,3 +1,5 @@
+import type { SchemaSpec } from '@tiptap/pm/model'
+import { Schema } from '@tiptap/pm/model'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
@@ -904,6 +906,36 @@ describe('attributes', () => {
 
     expect(color?.attribute.default).toBe('red')
     expect(color?.attribute.keepOnSplit).toBe(false)
+
+    editor.destroy()
+  })
+
+  it('rebuilds the attributes when the schema is replaced', () => {
+    const schemaSpec = (defaultColor: string): SchemaSpec => ({
+      nodes: {
+        doc: { content: 'block+' },
+        text: { group: 'inline' },
+        paragraph: {
+          group: 'block',
+          content: 'inline*',
+          attrs: { color: { default: defaultColor } },
+        },
+      },
+    })
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text],
+      schemaSpec: schemaSpec('red'),
+    })
+    const colorDefault = () =>
+      editor.extensionManager.attributes.find(
+        attribute => attribute.type === 'paragraph' && attribute.name === 'color',
+      )?.attribute.default
+
+    expect(colorDefault()).toBe('red')
+
+    editor.extensionManager.schema = new Schema(schemaSpec('blue'))
+
+    expect(colorDefault()).toBe('blue')
 
     editor.destroy()
   })
