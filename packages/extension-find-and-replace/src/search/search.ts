@@ -1,7 +1,8 @@
 import type { Node as PMNode } from '@tiptap/pm/model'
 
+import { groupContinuedTextblocks } from './group-continued-textblocks.js'
 import { createSearchRegex } from './regex.js'
-import { searchTextblock } from './textblock-search.js'
+import { searchTextblockGroup } from './textblock-search.js'
 import type { SearchOptions, SearchResult, TextblockSearchTarget } from './types.js'
 
 export type { SearchOptions, SearchResult, TextblockSearchTarget } from './types.js'
@@ -9,15 +10,18 @@ export { createSearchRegex } from './regex.js'
 
 /**
  * Searches textblocks for a term and returns their matched ranges.
- * @param textblocks The textblocks and their document positions.
+ * Textblocks joined by `continuesNode` are searched as one text when `doc` is given.
+ * @param textblocks The textblocks and their document positions. Include every textblock of a continued chain.
  * @param term The search term, treated as regex source when `useRegex` is enabled.
- * @param options Case sensitivity, regex mode, and whole word matching.
+ * @param options Case sensitivity, regex mode, whole word matching, and continued textblocks.
+ * @param doc The document the textblocks are in. Needed to join continued textblocks.
  * @returns The list of matched ranges in textblock order.
  */
 export function searchTextblocks(
   textblocks: readonly TextblockSearchTarget[],
   term: string,
   options: SearchOptions,
+  doc?: PMNode,
 ): SearchResult[] {
   const regex = createSearchRegex(term, options)
 
@@ -25,15 +29,20 @@ export function searchTextblocks(
     return []
   }
 
-  return textblocks.flatMap(({ node, pos }) => searchTextblock(regex, node, pos))
+  const groups = doc
+    ? groupContinuedTextblocks(doc, textblocks, options.continuesNode)
+    : textblocks.map(textblock => [textblock])
+
+  return groups.flatMap(group => searchTextblockGroup(regex, group))
 }
 
 /**
  * Searches all textblocks of a document for a term and returns the matched ranges.
- * Matches may span multiple text nodes (e.g. across marks), but never leave a textblock.
+ * Matches may span multiple text nodes (e.g. across marks), but only leave a textblock
+ * when `continuesNode` joins it with the next one.
  * @param doc The document to search in.
  * @param term The search term, treated as regex source when `useRegex` is enabled.
- * @param options Case sensitivity, regex mode, and whole word matching.
+ * @param options Case sensitivity, regex mode, whole word matching, and continued textblocks.
  * @returns The list of matched ranges in document order.
  */
 export function searchDocument(doc: PMNode, term: string, options: SearchOptions): SearchResult[] {
@@ -49,7 +58,7 @@ export function searchDocument(doc: PMNode, term: string, options: SearchOptions
     return false
   })
 
-  return searchTextblocks(textblocks, term, options)
+  return searchTextblocks(textblocks, term, options, doc)
 }
 
 /**
