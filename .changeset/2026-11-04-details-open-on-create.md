@@ -2,4 +2,4 @@
 '@tiptap/extension-details': patch
 ---
 
-A Details created open no longer shows collapsed when its node view updates before the first timer runs.
+A Details node created open now stays open when its content changes right after it is created.
