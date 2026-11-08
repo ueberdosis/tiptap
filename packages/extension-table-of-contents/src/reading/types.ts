@@ -1,4 +1,5 @@
 import type { Range } from '@tiptap/core'
+import type { Node as PMNode } from '@tiptap/pm/model'
 
 /**
  * One heading in the outline of a document.
@@ -27,7 +28,24 @@ export type ResolveTableOfContentsOptions = {
    * @default the whole document
    */
   ranges?: Range[]
+  /**
+   * Leaves nodes out of the outline. Return `true` to skip a node and everything in it,
+   * `'descend'` to skip only the node and still read its content, or `false` to read it.
+   * @default every node is read
+   * @example
+   * // Skip headings the current reader may not see
+   * ignore: (node, pos) => !canRead({ from: pos, to: pos + node.nodeSize })
+   */
+  ignore?: TableOfContentsIgnore
 }
+
+/**
+ * Decides whether `resolveTableOfContents` skips a node.
+ * @param node A node of the document.
+ * @param pos The position of the node in the document.
+ * @returns `true` to skip the node and its content, `'descend'` to skip only the node, `false` to read it.
+ */
+export type TableOfContentsIgnore = (node: PMNode, pos: number) => boolean | 'descend'
 
 export type FilterTableOfContentsOptions = {
   /**

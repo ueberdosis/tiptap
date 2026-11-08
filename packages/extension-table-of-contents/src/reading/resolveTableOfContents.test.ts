@@ -10,6 +10,7 @@ import { describe, expect, it } from 'vite-plus/test'
 
 import { TableOfContents } from '../tableOfContents.js'
 import { resolveTableOfContents } from './resolveTableOfContents.js'
+import type { TableOfContentsIgnore } from './types.js'
 
 const schema = getSchema([Document, Paragraph, Text, Heading, Blockquote, TableOfContents])
 
@@ -75,6 +76,51 @@ describe('resolveTableOfContents', () => {
       { level: 1, depth: 1 },
       { level: 1, depth: 1 },
     ])
+  })
+
+  describe('ignore', () => {
+    const doc = createDoc(
+      heading(1, 'One'),
+      { type: 'blockquote', content: [heading(2, 'Quoted')] },
+      heading(2, 'Two'),
+    )
+    const readTexts = (ignore: TableOfContentsIgnore) =>
+      resolveTableOfContents(doc, { ignore }).map(entry => entry.textContent)
+
+    it('skips a heading when ignore returns true', () => {
+      expect(readTexts(node => node.textContent === 'Two')).toEqual(['One', 'Quoted'])
+    })
+
+    it('skips the content of a node when ignore returns true', () => {
+      expect(readTexts(node => node.type.name === 'blockquote')).toEqual(['One', 'Two'])
+    })
+
+    it('reads the content of a node when ignore returns descend', () => {
+      expect(readTexts(node => (node.type.name === 'blockquote' ? 'descend' : false))).toEqual([
+        'One',
+        'Quoted',
+        'Two',
+      ])
+    })
+
+    it('skips a heading itself when ignore returns descend', () => {
+      expect(readTexts(node => (node.textContent === 'One' ? 'descend' : false))).toEqual([
+        'Quoted',
+        'Two',
+      ])
+    })
+
+    it('passes the position of the node', () => {
+      const [, quoted] = resolveTableOfContents(doc)
+
+      expect(readTexts((_node, pos) => pos === quoted.pos)).toEqual(['One', 'Two'])
+    })
+
+    it('counts depths without the skipped headings', () => {
+      const result = resolveTableOfContents(doc, { ignore: node => node.textContent === 'One' })
+
+      expect(result.map(entry => entry.depth)).toEqual([1, 1])
+    })
   })
 
   describe('ranges', () => {

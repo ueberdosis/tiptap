@@ -7,7 +7,7 @@ import type { ResolveTableOfContentsOptions, TableOfContentsHeading } from './ty
  * Reads the outline of a document without an editor or a DOM.
  * Works on the server, in tests and on stored JSON.
  * @param doc The document node, for example `editor.state.doc` or `PMNode.fromJSON(schema, json)`.
- * @param options The node types and the parts of the document to read.
+ * @param options The node types, the parts of the document to read, and the nodes to skip.
  * @returns The headings in document order, without empty headings.
  * @example
  * const headings = resolveTableOfContents(editor.state.doc)
@@ -30,7 +30,13 @@ export function resolveTableOfContents(
     }
 
     doc.nodesBetween(from, to, (node, pos) => {
-      if (!anchorTypes.includes(node.type.name)) {
+      const ignored = options.ignore?.(node, pos) ?? false
+
+      if (ignored === true) {
+        return false
+      }
+
+      if (ignored === 'descend' || !anchorTypes.includes(node.type.name)) {
         return
       }
 

@@ -68,10 +68,11 @@ run [`generateTocIds`](heading-ids.md#ids-on-the-server) first, or the `id` of e
 resolveTableOfContents(doc: PMNode, options?: ResolveTableOfContentsOptions): TableOfContentsHeading[]
 ```
 
-| Option        | Type       | Default            | Value                                 |
-| ------------- | ---------- | ------------------ | ------------------------------------- |
-| `anchorTypes` | `string[]` | `['heading']`      | The node types that count as headings |
-| `ranges`      | `Range[]`  | the whole document | The parts of the document to read     |
+| Option        | Type                    | Default            | Value                                                       |
+| ------------- | ----------------------- | ------------------ | ----------------------------------------------------------- |
+| `anchorTypes` | `string[]`              | `['heading']`      | The node types that count as headings                       |
+| `ranges`      | `Range[]`               | the whole document | The parts of the document to read                           |
+| `ignore`      | `TableOfContentsIgnore` | every node is read | The nodes to leave out. [Leave nodes out](#leave-nodes-out) |
 
 It returns the headings in document order. Each heading is a `TableOfContentsHeading`:
 
@@ -106,6 +107,28 @@ With several ranges, the result is still one outline:
 
 Ranges outside the document are clamped to it. Positions change with every edit, so work out the
 ranges from the current document each time.
+
+## Leave nodes out
+
+Pass `ignore` to leave nodes out of the outline. It is called with each node and its position, and
+returns one of three answers:
+
+| Return      | Result                                                      |
+| ----------- | ----------------------------------------------------------- |
+| `true`      | The node and everything in it are left out                  |
+| `'descend'` | The node is left out, but headings inside it are still read |
+| `false`     | The node is read as usual                                   |
+
+For example, to leave out headings the current reader is not allowed to see:
+
+```js
+const headings = resolveTableOfContents(editor.state.doc, {
+  ignore: (node, pos) => !canRead({ from: pos, to: pos + node.nodeSize }),
+})
+```
+
+`canRead` is your own check. Depths are counted without the headings that were left out, so the
+headings after them move up where needed.
 
 ## Level and depth
 
