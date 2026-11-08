@@ -5,6 +5,7 @@ import type { EditorState, StateField, Transaction } from '@tiptap/pm/state'
 import type { Selection } from '@tiptap/pm/state'
 import { DecorationSet } from '@tiptap/pm/view'
 
+import { placeholderSettingsPluginKey } from '../placeholderSettingsPluginKey.js'
 import type { PlaceholderOptions } from '../types.js'
 import {
   buildPlaceholderDecorations,
@@ -22,6 +23,7 @@ export type CreatePlaceholderStateFieldOptions = {
   editor: Editor
   options: PlaceholderOptions
   dataAttribute: string
+  getOptions?: (state: EditorState) => PlaceholderOptions
 }
 
 /**
@@ -168,12 +170,13 @@ export function createPlaceholderStateField({
   editor,
   options,
   dataAttribute,
+  getOptions = () => options,
 }: CreatePlaceholderStateFieldOptions): StateField<DecorationSet> {
   return {
     init(_config, state: EditorState) {
       const decorations = buildPlaceholderDecorations({
         editor,
-        options,
+        options: getOptions(state),
         dataAttribute,
         doc: state.doc,
         selection: state.selection,
@@ -183,6 +186,20 @@ export function createPlaceholderStateField({
     },
 
     apply(tr: Transaction, prev: DecorationSet, oldState: EditorState, newState: EditorState) {
+      const currentOptions = getOptions(newState)
+
+      if (tr.getMeta(placeholderSettingsPluginKey) !== undefined) {
+        return (
+          buildPlaceholderDecorations({
+            editor,
+            options: currentOptions,
+            dataAttribute,
+            doc: newState.doc,
+            selection: newState.selection,
+          }) ?? DecorationSet.empty
+        )
+      }
+
       if (!tr.docChanged && !tr.selectionSet) {
         return prev
       }
@@ -194,7 +211,7 @@ export function createPlaceholderStateField({
         decorations: mapped,
         ranges,
         editor,
-        options,
+        options: currentOptions,
         dataAttribute,
         doc: newState.doc,
         selection: newState.selection,

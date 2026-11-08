@@ -21,6 +21,7 @@ import type { JSONContent } from '@tiptap/core'
  * @param options - Optional rendering options
  * @param options.alignNestedToPrefix - Indent nested content to the width of the prefix
  * instead of the configured indent size, when the configured one is narrower
+ * @param options.indentMainContent - Indent continuation lines in the opening paragraph
  * @returns The rendered markdown string
  *
  * @example
@@ -84,6 +85,8 @@ export function renderNestedMarkdownContent(
   options?: {
     /** See the `@param` note above. */
     alignNestedToPrefix?: boolean
+    /** Indent continuation lines in the opening paragraph. */
+    indentMainContent?: boolean
   },
 ): string {
   if (!node || !Array.isArray(node.content)) {
@@ -98,7 +101,13 @@ export function renderNestedMarkdownContent(
 
   // Render the main content (typically a paragraph)
   const mainContent = h.renderChildren([content])
-  let output = `${prefix}${mainContent}`
+  const indentedMain = options?.indentMainContent
+    ? mainContent
+        .split('\n')
+        .map((line, index) => (index === 0 ? line : h.indent(line)))
+        .join('\n')
+    : mainContent
+  let output = `${prefix}${indentedMain}`
 
   // Handle nested children with proper indentation
   if (children && children.length > 0) {

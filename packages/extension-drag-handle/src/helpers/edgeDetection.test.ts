@@ -219,7 +219,7 @@ describe('isNearEdge', () => {
   })
 
   describe('empty edges', () => {
-    const config = { edges: [] as const[], threshold: 12, strength: 500 }
+    const config = { edges: [], threshold: 12, strength: 500 }
 
     it('should return false when edges array is empty', () => {
       const result = isNearEdge({ x: 100, y: 50 }, mockElement, config)
@@ -264,7 +264,7 @@ describe('calculateEdgeDeduction', () => {
   })
 
   it('should return 0 when edges array is empty', () => {
-    const emptyConfig = { edges: [] as const[], threshold: 12, strength: 500 }
+    const emptyConfig = { edges: [], threshold: 12, strength: 500 }
     const result = calculateEdgeDeduction({ x: 105, y: 100 }, mockElement, emptyConfig, 2)
 
     expect(result).toBe(0)

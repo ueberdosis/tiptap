@@ -4,6 +4,13 @@ import { mergeAttributes, Node, renderNestedMarkdownContent } from '@tiptap/core
 import { createBranchingListDeleteKeymap } from '../helpers/createBranchingListDeleteKeymap.js'
 
 import { getListMarker } from '../ordered-list/roman.js'
+import { ensureLeadingParagraph } from './ensureLeadingParagraph.js'
+import { hasEmptyLeadingParagraph } from './hasEmptyLeadingParagraph.js'
+
+const EMPTY_ITEM_TEXT = '&nbsp;'
+const TOP_LEVEL = 1
+
+const isNested = (ctx: any) => (ctx?.level ?? TOP_LEVEL) > TOP_LEVEL
 
 export interface ListItemOptions {
   /**
@@ -108,6 +115,19 @@ export const ListItem = Node.create<ListItemOptions>({
         }
       }
 
+      const [firstToken, ...remainingTokens] = token.tokens
+
+      // A setext underline or "# " makes marked emit a heading, but the item text is a paragraph
+      if (firstToken.type === 'heading') {
+        return {
+          type: 'listItem',
+          content: [
+            { type: 'paragraph', content: helpers.parseInline(firstToken.tokens ?? []) },
+            ...(remainingTokens.length > 0 ? parseBlockChildren(remainingTokens) : []),
+          ],
+        }
+      }
+
       // Check if we have paragraph tokens (complex list items)
       const hasParagraphTokens = token.tokens.some(t => t.type === 'paragraph')
 
@@ -116,14 +136,7 @@ export const ListItem = Node.create<ListItemOptions>({
         content = parseBlockChildren(token.tokens)
       } else {
         // Check if the first token is a text token with nested inline tokens
-        const firstToken = token.tokens[0]
-
-        if (
-          firstToken &&
-          firstToken.type === 'text' &&
-          firstToken.tokens &&
-          firstToken.tokens.length > 0
-        ) {
+        if (firstToken.type === 'text' && firstToken.tokens && firstToken.tokens.length > 0) {
           // Parse the inline content from the text token
           const inlineContent = helpers.parseInline(firstToken.tokens)
 
@@ -161,30 +174,37 @@ export const ListItem = Node.create<ListItemOptions>({
 
     return {
       type: 'listItem',
-      content,
+      content: ensureLeadingParagraph(content),
     }
   },
 
   renderMarkdown: (node, h, ctx) => {
-    return renderNestedMarkdownContent(
-      node,
-      h,
-      (context: any) => {
-        if (context.parentType === 'bulletList') {
-          return '- '
-        }
-        if (context.parentType === 'orderedList') {
-          const start = context.meta?.parentAttrs?.start || 1
-          const type = context.meta?.parentAttrs?.type as string | undefined
-          const index = start - 1 + (context.index || 0)
-          return getListMarker(type, index, '. ')
-        }
-        // Fallback to bullet list for unknown parent types
+    const getPrefix = (context: any) => {
+      if (context.parentType === 'bulletList') {
         return '- '
-      },
-      ctx,
-      { alignNestedToPrefix: ctx?.parentType === 'orderedList' },
-    )
+      }
+      if (context.parentType === 'orderedList') {
+        const start = context.meta?.parentAttrs?.start || 1
+        const type = context.meta?.parentAttrs?.type as string | undefined
+        const index = start - 1 + (context.index || 0)
+        return getListMarker(type, index, '. ')
+      }
+      // Fallback to bullet list for unknown parent types
+      return '- '
+    }
+
+    const output = renderNestedMarkdownContent(node, h, getPrefix, ctx, {
+      alignNestedToPrefix: ctx?.parentType === 'orderedList',
+    })
+
+    if (!hasEmptyLeadingParagraph(node) || !isNested(ctx)) {
+      return output
+    }
+
+    // A bare nested marker is read as a heading underline
+    const prefix = getPrefix(ctx)
+
+    return `${prefix}${EMPTY_ITEM_TEXT}${output.slice(prefix.length)}`
   },
 
   addExtensions() {

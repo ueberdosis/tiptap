@@ -8,7 +8,6 @@ import type {
   RefAttributes,
 } from 'react'
 import { version as reactVersion } from 'react'
-import { flushSync } from 'react-dom'
 
 import type { EditorWithContentComponent } from './Editor.js'
 
@@ -188,11 +187,7 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
     }
 
     if (this.editor.isEditorContentInitialized) {
-      // If EditorContent is mounted, flush synchronously to maintain cursor positioning consistency.
-      // Subsequent renders can be async without affecting cursor behavior.
-      flushSync(() => {
-        this.render()
-      })
+      this.render()
     } else {
       queueMicrotask(() => {
         if (this.destroyed) {

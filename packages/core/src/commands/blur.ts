@@ -16,7 +16,7 @@ export const blur: RawCommands['blur'] =
   () =>
   ({ editor, view }) => {
     requestAnimationFrame(() => {
-      if (!editor.isDestroyed) {
+      if (editor.isMounted && !view.isDestroyed) {
         ;(view.dom as HTMLElement).blur()
 
         // Browsers should remove the caret on blur but safari does not.

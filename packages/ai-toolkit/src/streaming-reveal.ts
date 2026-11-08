@@ -1,8 +1,8 @@
 import { Extension } from '@tiptap/core'
-import type { Node as PMNode } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
 import { relativePositionToAbsolutePosition, ySyncPluginKey } from '@tiptap/y-tiptap'
+import type { SyncPluginState } from '@tiptap/y-tiptap'
 import * as Y from 'yjs'
 
 /**
@@ -41,7 +41,7 @@ const REVEAL_AGE_STEP = 100
 /** Above this, an update is a document sync, such as joining a room, not live streaming. */
 const MAX_BLOCKS_PER_UPDATE = 2
 
-/** Yjs relative positions so each run survives y-tiptap doc rebuilds. */
+/** Yjs relative positions so each run survives binding document rebuilds. */
 type RevealEntry = {
   start: Y.RelativePosition
   end: Y.RelativePosition
@@ -52,17 +52,10 @@ type RevealEntry = {
   client: number
 }
 
-/** Minimal shape of the y-sync plugin state we read. */
-type YSyncState = {
-  doc: Y.Doc
-  type: Y.XmlFragment
-  binding: { mapping: Map<Y.AbstractType<unknown>, PMNode | PMNode[]> } | null
-}
-
 const aiInsertRevealKey = new PluginKey('aiInsertReveal')
 
 function resolveRevealRange(
-  ystate: YSyncState,
+  ystate: SyncPluginState,
   entry: RevealEntry,
   now: number,
   durationMs: number,
@@ -76,7 +69,7 @@ function resolveRevealRange(
 }
 
 function resolveSpan(
-  ystate: YSyncState,
+  ystate: SyncPluginState,
   entry: RevealEntry,
   docSize: number,
 ): { from: number; to: number } | null {
@@ -276,7 +269,7 @@ export const AiInsertReveal = Extension.create<AiInsertRevealOptions>({
 
         props: {
           decorations: state => {
-            const ystate = ySyncPluginKey.getState(state) as YSyncState | undefined
+            const ystate = ySyncPluginKey.getState(state)
             if (entries.length === 0 || !ystate?.binding) return null
 
             const now = Date.now()
@@ -287,7 +280,7 @@ export const AiInsertReveal = Extension.create<AiInsertRevealOptions>({
               )
               .filter((range): range is NonNullable<typeof range> => range !== null)
 
-            // y-tiptap rebuilds the whole doc per token, restarting the CSS
+            // The binding rebuilds the whole doc per token, restarting the CSS
             // animation; offset by the run's age to resume the fade instead.
             const decorations = mergeRuns(ranges).map(range =>
               Decoration.inline(range.from, range.to, {
@@ -301,7 +294,7 @@ export const AiInsertReveal = Extension.create<AiInsertRevealOptions>({
         },
 
         view: view => {
-          const initialState = ySyncPluginKey.getState(view.state) as YSyncState | undefined
+          const initialState = ySyncPluginKey.getState(view.state)
           const fragment = initialState?.type ?? null
           const awareness = provider?.awareness ?? null
 

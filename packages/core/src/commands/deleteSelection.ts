@@ -84,6 +84,11 @@ export const deleteSelection: RawCommands['deleteSelection'] =
     if (dispatch) {
       const tr = state.tr
       const { ranges } = state.selection
+      // like ProseMirror's TextSelection.replace, keep the marks of the deleted text for the next input
+      const marks =
+        state.selection instanceof TextSelection
+          ? state.selection.$from.marksAcross(state.selection.$to)
+          : null
       const mapFrom = tr.steps.length
 
       ranges.forEach(range => {
@@ -99,6 +104,10 @@ export const deleteSelection: RawCommands['deleteSelection'] =
       // after the deletion (for example after deleting via Ctrl/Cmd+A)
       if (!tr.selection.empty) {
         tr.setSelection(TextSelection.near(tr.doc.resolve(tr.selection.from)))
+      }
+
+      if (marks) {
+        tr.ensureMarks(marks)
       }
 
       tr.scrollIntoView()

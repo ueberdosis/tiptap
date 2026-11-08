@@ -23,6 +23,7 @@ import { updateMarkViewAttributes } from './MarkView.js'
 import { inputRulesPlugin } from './InputRule.js'
 import { Mark, type MarkConfig } from './Mark.js'
 import { pasteRulesPlugin } from './PasteRule.js'
+import { getSchemaAttributes } from './schema/getSchemaAttributes.js'
 import type { AnyConfig, Extensions, RawCommands, Storage } from './types.js'
 import { callOrReturn } from './utilities/callOrReturn.js'
 import { type NodeConfig } from './Node.js'
@@ -31,6 +32,8 @@ export class ExtensionManager {
   editor: Editor
 
   schema: Schema
+
+  private readonly hasSchemaSpec: boolean
 
   /**
    * A flattened and sorted array of all extensions
@@ -52,7 +55,8 @@ export class ExtensionManager {
     this.editor = editor
     this.baseExtensions = extensions
     this.extensions = resolveExtensions(extensions)
-    this.schema = getSchemaByResolvedExtensions(this.extensions, editor)
+    this.hasSchemaSpec = editor.options.schemaSpec !== undefined
+    this.schema = getSchemaByResolvedExtensions(this.extensions, editor, editor.options.schemaSpec)
     this.setupExtensions()
   }
 
@@ -255,7 +259,9 @@ export class ExtensionManager {
    * @returns An array of attributes
    */
   get attributes() {
-    return getAttributesFromExtensions(this.extensions)
+    const attributes = getAttributesFromExtensions(this.extensions)
+
+    return this.hasSchemaSpec ? getSchemaAttributes(attributes, this.schema) : attributes
   }
 
   /**

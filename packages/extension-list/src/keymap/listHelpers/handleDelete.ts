@@ -1,5 +1,6 @@
 import type { Editor } from '@tiptap/core'
 import { isAtEndOfNode, isNodeActive } from '@tiptap/core'
+import { joinTextblockForward } from '@tiptap/pm/commands'
 
 import { nextListIsDeeper } from './nextListIsDeeper.js'
 import { nextListIsHigher } from './nextListIsHigher.js'
@@ -17,12 +18,9 @@ export const handleDelete = (editor: Editor, name: string) => {
     return false
   }
 
-  // if the selection is not collapsed, or not within a single node
-  // do nothing and proceed
-  const { selection } = editor.state
-  const { $from, $to } = selection
-
-  if (!selection.empty && $from.sameParent($to)) {
+  // if the selection is not collapsed
+  // we can rely on the default delete behavior
+  if (!editor.state.selection.empty) {
     return false
   }
 
@@ -37,7 +35,7 @@ export const handleDelete = (editor: Editor, name: string) => {
   }
 
   if (nextListIsHigher(name, editor.state)) {
-    return editor.chain().joinForward().joinBackward().run()
+    return editor.commands.command(({ state, dispatch }) => joinTextblockForward(state, dispatch))
   }
 
   return editor.commands.joinItemForward()

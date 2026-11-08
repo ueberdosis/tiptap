@@ -1,3 +1,4 @@
+import Bold from '@tiptap/extension-bold'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
@@ -57,6 +58,21 @@ describe('deleteSelection', () => {
     editor.chain().setTextSelection({ from: 1, to: 7 }).deleteSelection().run()
 
     expect(editor.getHTML()).toBe('<p>world</p>')
+    editor.destroy()
+  })
+
+  // https://github.com/ueberdosis/tiptap/issues/8575
+  it('keeps the marks of the deleted text for the next input', () => {
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, Bold],
+      content: '<p>a <strong>bold</strong> c</p>',
+    })
+
+    editor.chain().setTextSelection({ from: 3, to: 7 }).deleteSelection().run()
+    expect(editor.state.storedMarks?.map(mark => mark.type.name)).toEqual(['bold'])
+
+    editor.view.dispatch(editor.state.tr.insertText('x'))
+    expect(editor.getHTML()).toBe('<p>a <strong>x</strong> c</p>')
     editor.destroy()
   })
 

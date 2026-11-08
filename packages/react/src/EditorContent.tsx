@@ -125,22 +125,16 @@ export class PureEditorContent extends React.Component<
   init() {
     const editor = this.props.editor as EditorWithContentComponent | null
 
-    if (editor && !editor.isDestroyed && editor.view.dom?.parentNode) {
+    if (editor && !editor.isDestroyed) {
       if (editor.contentComponent) {
         return
       }
 
       const element = this.editorContentRef.current
 
-      element.append(...editor.view.dom.parentNode.childNodes)
-
-      editor.setOptions({
-        element,
-      })
-
+      editor.unmount()
       editor.contentComponent = createContentComponent()
-
-      editor.createNodeViews()
+      editor.mount(element)
 
       editor.registerPlugin(
         new Plugin({
@@ -170,31 +164,9 @@ export class PureEditorContent extends React.Component<
 
     if (!editor.isDestroyed) {
       editor.unregisterPlugin(mobileEnterPluginKey)
-      editor.view.setProps({
-        nodeViews: {},
-      })
     }
-
+    editor.unmount()
     editor.contentComponent = null
-
-    // try to reset the editor element
-    // may fail if this editor's view.dom was never initialized/mounted yet
-    try {
-      if (!editor.view.dom?.parentNode) {
-        return
-      }
-
-      // TODO using the new editor.mount method might allow us to remove this
-      const newElement = document.createElement('div')
-
-      newElement.append(...editor.view.dom.parentNode.childNodes)
-
-      editor.setOptions({
-        element: newElement,
-      })
-    } catch {
-      // do nothing, nothing to reset
-    }
   }
 
   render() {

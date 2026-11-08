@@ -5,10 +5,18 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { CharacterCount } from '@tiptap/extensions'
 import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
+import { useState } from 'react'
 
-const limit = 280
+import { CharacterCountOutput } from './CharacterCountOutput.jsx'
+
+const limits = [
+  { value: 140, label: '140 characters' },
+  { value: 280, label: '280 characters' },
+  { value: null, label: 'No limit' },
+]
 
 export default () => {
+  const [limit, setLimit] = useState(280)
   const editor = useEditor({
     extensions: [
       Document,
@@ -37,33 +45,32 @@ export default () => {
     return null
   }
 
-  const percentage = editor ? Math.round((100 / limit) * charactersCount) : 0
-
   return (
     <>
+      <div className="control-group">
+        <div className="button-group">
+          {limits.map(({ value, label }) => (
+            <button
+              key={label}
+              className={limit === value ? 'is-active' : ''}
+              onClick={() => {
+                editor.commands.setCharacterLimit(value)
+                setLimit(value)
+              }}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </div>
       <EditorContent editor={editor} />
 
-      <div
-        className={`character-count ${charactersCount === limit ? 'character-count--warning' : ''}`}
-      >
-        <svg height="20" width="20" viewBox="0 0 20 20">
-          <circle r="10" cx="10" cy="10" fill="#e9ecef" />
-          <circle
-            r="5"
-            cx="10"
-            cy="10"
-            fill="transparent"
-            stroke="currentColor"
-            strokeWidth="10"
-            strokeDasharray={`calc(${percentage} * 31.4 / 100) 31.4`}
-            transform="rotate(-90) translate(-20)"
-          />
-          <circle r="6" cx="10" cy="10" fill="white" />
-        </svg>
-        {charactersCount} / {limit} characters
-        <br />
-        {wordsCount} words
-      </div>
+      <CharacterCountOutput
+        charactersCount={charactersCount}
+        wordsCount={wordsCount}
+        limit={limit}
+        limitLabel={limit ?? 'unlimited'}
+      />
     </>
   )
 }

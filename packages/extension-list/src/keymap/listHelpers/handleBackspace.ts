@@ -1,6 +1,8 @@
 import type { Editor } from '@tiptap/core'
 import { isAtStartOfNode, isNodeActive } from '@tiptap/core'
+import { joinTextblockBackward } from '@tiptap/pm/commands'
 import type { Node as PMNode } from '@tiptap/pm/model'
+import { TextSelection } from '@tiptap/pm/state'
 
 import { hasListBefore } from './hasListBefore.js'
 
@@ -42,8 +44,19 @@ export const handleBackspace = (editor: Editor, name: string, parentListTypes: s
 
     return editor
       .chain()
-      .cut({ from: $anchor.start() - 1, to: $anchor.end() + 1 }, $lastItemPos.end())
-      .joinForward()
+      .command(({ tr }) => {
+        const target = $lastItemPos.end()
+
+        tr.delete($anchor.before(), $anchor.after()).insert(target, $anchor.parent)
+        tr.setSelection(TextSelection.create(tr.doc, target + 1))
+
+        return true
+      })
+      .command(({ state, dispatch }) => {
+        joinTextblockBackward(state, dispatch)
+
+        return true
+      })
       .run()
   }
 

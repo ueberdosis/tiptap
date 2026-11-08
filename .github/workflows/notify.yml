@@ -3,11 +3,52 @@ name: Notify
 on:
   release:
     types: [published]
+  # Releases created with GITHUB_TOKEN don't fire the release event
+  workflow_call:
+    inputs:
+      tag:
+        description: Tag of the GitHub release to announce
+        required: true
+        type: string
 
 jobs:
+  resolve-release:
+    name: Read release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      name: ${{ steps.release.outputs.name }}
+      url: ${{ steps.release.outputs.url }}
+      prerelease: ${{ steps.release.outputs.prerelease }}
+      body: ${{ steps.release.outputs.body }}
+      discord_body: ${{ steps.release.outputs.discord_body }}
+    steps:
+      - name: Read release
+        id: release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag || github.event.release.tag_name }}
+        run: |
+          release=$(gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json name,tagName,url,isPrerelease,body)
+          delimiter="EOF_$(uuidgen)"
+          {
+            echo "name=$(jq -r 'if .name != "" then .name else .tagName end' <<< "$release")"
+            echo "url=$(jq -r .url <<< "$release")"
+            echo "prerelease=$(jq -r .isPrerelease <<< "$release")"
+            echo "body<<$delimiter"
+            jq -r .body <<< "$release"
+            echo "$delimiter"
+            echo "discord_body<<$delimiter"
+            # Discord rejects embed descriptions over 4096 characters
+            jq -r 'if (.body | length) > 4000 then (.body[0:4000] | sub("\n[^\n]*$"; "")) + "\n\nSee the full notes on GitHub." else .body end' <<< "$release"
+            echo "$delimiter"
+          } >> "$GITHUB_OUTPUT"
+
   discord_notify:
     name: Send release to Discord
-    if: github.event_name == 'release'
+    needs: resolve-release
+    if: needs.resolve-release.outputs.prerelease != 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -16,14 +57,14 @@ jobs:
         uses: tsickert/discord-webhook@v7.0.0
         with:
           webhook-url: ${{ secrets.DISCORD_RELEASES_STABLE_WEBHOOK }}
-          embed-title: ${{ github.event.release.name || github.event.release.tag_name }}
-          embed-description: ${{ github.event.release.body }}
-          embed-url: ${{ github.event.release.html_url }}
+          embed-title: ${{ needs.resolve-release.outputs.name }}
+          embed-description: ${{ needs.resolve-release.outputs.discord_body }}
+          embed-url: ${{ needs.resolve-release.outputs.url }}
           wait: true
 
   slack_release_notify:
     name: Send release to Slack
-    if: github.event_name == 'release'
+    needs: resolve-release
     runs-on: ubuntu-latest
     permissions: {}
     steps:
@@ -34,7 +75,7 @@ jobs:
           webhook-type: webhook-trigger
           payload: |
             {
-              "message": ${{ toJSON(format('[Tiptap Editor {0}]: {1}\nRelease title: {2}\n{3}', github.event.release.prerelease && 'Pre-release' || 'Release', github.event.release.name || github.event.release.tag_name, github.event.release.html_url, github.event.release.body || 'No release notes provided.')) }}
+              "message": ${{ toJSON(format('[Tiptap Editor {0}]: {1}{4}Release title: {2}{4}{3}', needs.resolve-release.outputs.prerelease == 'true' && 'Pre-release' || 'Release', needs.resolve-release.outputs.name, needs.resolve-release.outputs.url, needs.resolve-release.outputs.body || 'No release notes provided.', fromJSON('"\n"'))) }}
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
