@@ -219,6 +219,8 @@ export const TableOfContents = Extension.create<TableOfContentsOptions, TableOfC
       scrollParent: defaultScrollParent,
 
       anchorTypes: ['heading'],
+
+      updateOnTransaction: true,
     }
   },
 
@@ -245,6 +247,10 @@ export const TableOfContents = Extension.create<TableOfContentsOptions, TableOfC
 
   onBeforeCreate() {
     this.editor.on('mount', () => {
+      if (!this.options.updateOnTransaction) {
+        return
+      }
+
       setTocData({
         editor: this.editor,
         storage: this.storage,
@@ -257,6 +263,10 @@ export const TableOfContents = Extension.create<TableOfContentsOptions, TableOfC
   },
 
   onTransaction({ transaction }) {
+    if (!this.options.updateOnTransaction) {
+      return
+    }
+
     if (transaction.docChanged && !transaction.getMeta('toc')) {
       setTocData({
         editor: this.editor,
@@ -317,6 +327,10 @@ export const TableOfContents = Extension.create<TableOfContentsOptions, TableOfC
       this.editor.view.dispatch(tr)
     }
 
+    if (!this.options.updateOnTransaction) {
+      return
+    }
+
     setTocData({
       editor: this.editor,
       storage: this.storage,
@@ -367,7 +381,7 @@ export const TableOfContents = Extension.create<TableOfContentsOptions, TableOfC
   },
 
   onDestroy() {
-    if (!this.options.scrollParent) {
+    if (!this.options.updateOnTransaction || !this.options.scrollParent) {
       return
     }
 

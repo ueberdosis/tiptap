@@ -19,6 +19,13 @@ export type TableOfContentsOptions = {
   getIndex?: GetTableOfContentIndexFunction
   scrollParent?: (() => HTMLElement | Window) | HTMLElement | Window
   anchorTypes?: Array<string>
+  /**
+   * Keep `editor.storage.tableOfContents` and `onUpdate` in sync on every document change.
+   * Set it to `false` when you read the outline with `resolveTableOfContents` instead.
+   * `updateTableOfContents()` still fills the storage on demand.
+   * @default true
+   */
+  updateOnTransaction?: boolean
 }
 
 export type TableOfContentsStorage = {
