@@ -160,8 +160,7 @@ const setTocData = (options: {
 
   options.storage.anchors = anchorEls
   options.storage.content = anchors
-  editor.state.tr.setMeta('toc', anchors)
-  editor.view.dispatch(editor.state.tr)
+  editor.view.dispatch(editor.state.tr.setMeta('toc', anchors))
 }
 
 export const TableOfContents = Extension.create<TableOfContentsOptions, TableOfContentsStorage>({
@@ -278,6 +277,7 @@ export const TableOfContents = Extension.create<TableOfContentsOptions, TableOfC
 
     const { tr } = this.editor.state
     const existingIds: string[] = []
+    let hasNewIds = false
 
     if (this.options.scrollParent && typeof this.options.scrollParent !== 'function') {
       console.warn(
@@ -307,12 +307,15 @@ export const TableOfContents = Extension.create<TableOfContentsOptions, TableOfC
           'data-toc-id': id,
           id,
         })
+        hasNewIds = true
       }
 
       existingIds.push(nodeId)
     })
 
-    this.editor.view.dispatch(tr)
+    if (hasNewIds) {
+      this.editor.view.dispatch(tr)
+    }
 
     setTocData({
       editor: this.editor,
