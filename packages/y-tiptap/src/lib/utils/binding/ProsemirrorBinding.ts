@@ -21,10 +21,8 @@ import { restoreRelativeSelection } from '../positions/restoreRelativeSelection.
 import { getRelativeSelection } from '../positions/getRelativeSelection.js'
 
 import { createNodeFromYElement } from '../conversion/createNodeFromYElement.js'
+import { mergeNextYText } from '../conversion/mergeNextYText.js'
 import { updateYFragment } from '../reconciliation/updateYFragment.js'
-import type { PositionMigrationPlan } from '../../../types/PositionMigration.js'
-import { applyPositionMigration } from '../positions/migrations/applyPositionMigration.js'
-import { getPositionMigrationStore } from '../positions/migrations/getPositionMigrationStore.js'
 import { deleteMapping } from './deleteMapping.js'
 import { projectedMappings } from './projectedMappings.js'
 import { replaceChangedChildren } from './replaceChangedChildren.js'
@@ -43,12 +41,32 @@ export class ProsemirrorBinding {
   readonly beforeAllTransactions: () => void
   readonly afterAllTransactions: () => void
   _domSelectionInView: boolean | null = null
-  syncedDoc: PModel.Node | null = null
+  readonly reportInvalidContent?: (error: Error) => void
+  readonly deferTextMerge?: (text: Y.XmlText) => void
+  private readonly onInvalidContent?: (error: Error) => void
+  private _invalidContentError: Error | null = null
+  private projectionError: Error | null = null
+  private hasSharedContent = false
+  private pendingTextMerges: Y.XmlText[] = []
 
-  constructor(yXmlFragment: Y.XmlFragment, mapping: ProsemirrorMapping = new Map()) {
+  constructor(
+    yXmlFragment: Y.XmlFragment,
+    mapping: ProsemirrorMapping = new Map(),
+    onInvalidContent?: (error: Error) => void,
+  ) {
     this.type = yXmlFragment
     this.mapping = mapping
     this._observeFunction = this._typeChanged.bind(this)
+
+    if (onInvalidContent) {
+      this.onInvalidContent = onInvalidContent
+      this.reportInvalidContent = error => {
+        this.projectionError ??= error
+      }
+      this.deferTextMerge = text => {
+        this.pendingTextMerges.push(text)
+      }
+    }
 
     if (yXmlFragment.doc === null) {
       throw new Error('The Yjs fragment must belong to a document')
@@ -57,13 +75,26 @@ export class ProsemirrorBinding {
     this.doc = yXmlFragment.doc
     // Capture against the old mapping before Yjs observers rebuild the editor document.
     this.beforeAllTransactions = () => {
-      if (this.beforeTransactionSelection === null && this.prosemirrorView != null) {
+      if (
+        this._invalidContentError === null &&
+        this.beforeTransactionSelection === null &&
+        this.prosemirrorView != null
+      ) {
         this.beforeTransactionSelection = getRelativeSelection(this, this.view.state)
       }
     }
     this.afterAllTransactions = () => {
       this.beforeTransactionSelection = null
     }
+  }
+
+  /**
+   * Returns the schema error that pauses editing and shared writes.
+   * Only set when the binding keeps invalid content.
+   * @returns The error, or null when the shared content fits the editor schema.
+   */
+  get invalidContentError(): Error | null {
+    return this._invalidContentError
   }
 
   private get view(): EditorView {
@@ -139,7 +170,10 @@ export class ProsemirrorBinding {
     this.view.dispatch(this._tr.setMeta(ySyncPluginKey, { snapshot, prevSnapshot }))
   }
 
-  private createDocumentTransaction(): Transaction {
+  private createDocumentContent(): PModel.Fragment {
+    this.projectionError = null
+    this.pendingTextMerges = []
+
     const fragmentContent = this.type
       .toArray()
       .map(type => {
@@ -150,31 +184,69 @@ export class ProsemirrorBinding {
         return createNodeFromYElement(type, this.view.state.schema, this)
       })
       .filter(node => node !== null)
+    const content = PModel.Fragment.from(fragmentContent)
+    const { topNodeType } = this.view.state.schema
 
-    return this._tr.replace(
-      0,
-      this.view.state.doc.content.size,
-      new PModel.Slice(PModel.Fragment.from(fragmentContent), 0, 0),
-    )
+    this.hasSharedContent ||= this.type.length > 0
+    // Only a fragment that never had content uses the editor's placeholder document
+    const isPlaceholder = content.childCount === 0 && !this.hasSharedContent
+
+    if (this.reportInvalidContent && !isPlaceholder && !topNodeType.validContent(content)) {
+      this.reportInvalidContent(new RangeError('Shared content does not fit the document schema'))
+    }
+
+    // Keep shared text unchanged while content is invalid
+    if (this.projectionError === null) this.pendingTextMerges.forEach(mergeNextYText)
+
+    return content
+  }
+
+  /** Returns the projection error only when the content just stopped fitting the schema. */
+  private updateInvalidContentError(): Error | null {
+    const error = this.projectionError
+    const isNewError = error !== null && this._invalidContentError === null
+
+    this._invalidContentError = error
+
+    return isNewError ? error : null
+  }
+
+  private notifyInvalidContent(error: Error | null) {
+    if (error) this.onInvalidContent?.(error)
+  }
+
+  private createDocumentTransaction(): Transaction {
+    const content = this.createDocumentContent()
+
+    return this._tr.replace(0, this.view.state.doc.content.size, new PModel.Slice(content, 0, 0))
   }
 
   unrenderSnapshot() {
     this.mapping.clear()
     projectedMappings.delete(this.mapping)
+    let newError: Error | null = null
+
     this.mux(() => {
       const tr = this.createDocumentTransaction()
 
+      newError = this.updateInvalidContentError()
       tr.setMeta(ySyncPluginKey, { snapshot: null, prevSnapshot: null })
       this.view.dispatch(tr)
     })
+
+    this.notifyInvalidContent(newError)
   }
 
   _forceRerender() {
     this.mapping.clear()
     projectedMappings.delete(this.mapping)
+    let newError: Error | null = null
+
     this.mux(() => {
       const sel = this.beforeTransactionSelection !== null ? null : this.view.state.selection
       const tr = this.createDocumentTransaction()
+
+      newError = this.updateInvalidContentError()
 
       if (sel) {
         const clampedAnchor = math.min(math.max(sel.anchor, 0), tr.doc.content.size)
@@ -185,6 +257,8 @@ export class ProsemirrorBinding {
 
       this.view.dispatch(tr.setMeta(ySyncPluginKey, { isChangeOrigin: true, binding: this }))
     })
+
+    this.notifyInvalidContent(newError)
   }
 
   _renderSnapshot(
@@ -281,7 +355,13 @@ export class ProsemirrorBinding {
               return createNodeFromYElement(
                 t,
                 this.view.state.schema,
-                { mapping: new Map(), isOMark: new Map() },
+                {
+                  mapping: new Map(),
+                  isOMark: new Map(),
+                  // Never change shared content while showing a snapshot
+                  reportInvalidContent: this.reportInvalidContent ? () => {} : undefined,
+                  deferTextMerge: this.reportInvalidContent ? () => {} : undefined,
+                },
                 currentSnapshot,
                 previousSnapshot,
                 computeYChange,
@@ -325,6 +405,7 @@ export class ProsemirrorBinding {
     const selection = undoSelection || this.beforeTransactionSelection
     // Historical absolute positions belong to the saved document.
     const oldDoc = undoSelection ? undefined : this.view.state.doc
+    let newError: Error | null = null
 
     this.mux(() => {
       const delType = (_: unknown, type: unknown) => deleteMapping(this.mapping, type)
@@ -337,19 +418,12 @@ export class ProsemirrorBinding {
       transaction.changed.forEach(delType)
       transaction.changedParentTypes.forEach(delType)
 
-      const fragmentContent = this.type
-        .toArray()
-        .map(t => {
-          if (!(t instanceof Y.XmlElement)) {
-            throw error.methodUnimplemented()
-          }
+      let tr = replaceChangedChildren(this._tr, this.createDocumentContent())
 
-          return createNodeFromYElement(t, this.view.state.schema, this)
-        })
-        .filter(n => n !== null)
-      let tr = replaceChangedChildren(this._tr, PModel.Fragment.from(fragmentContent))
+      newError = this.updateInvalidContentError()
 
-      restoreRelativeSelection(tr, selection, this, oldDoc)
+      // Skipped content has no place in the editor to restore the selection to
+      if (this._invalidContentError === null) restoreRelativeSelection(tr, selection, this, oldDoc)
       tr = tr.setMeta(ySyncPluginKey, {
         isChangeOrigin: true,
         isUndoRedoOperation,
@@ -361,21 +435,20 @@ export class ProsemirrorBinding {
 
       this.view.dispatch(tr)
     })
+
+    this.notifyInvalidContent(newError)
   }
 
-  _prosemirrorChanged(doc: PModel.Node, plan: PositionMigrationPlan | null = null) {
+  _prosemirrorChanged(doc: PModel.Node) {
+    if (this._invalidContentError !== null) return
+
     const syncState = getSyncPluginState(this.view.state)
     if (syncState.snapshot != null || syncState.prevSnapshot != null) return
 
     this.doc.transact(() => {
       updateYFragment(this.doc, this.type, doc, this)
+      this.hasSharedContent ||= this.type.length > 0
 
-      // Publish identity transfers with the content so peers receive both atomically.
-      if (plan?.doc === doc && !('transactions' in plan)) {
-        applyPositionMigration(this.type, plan, this, getPositionMigrationStore(this.type))
-      }
-
-      this.syncedDoc = doc
       this.beforeTransactionSelection = getRelativeSelection(this, this.view.state)
     }, ySyncPluginKey)
   }

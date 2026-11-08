@@ -46,6 +46,14 @@ export const defaultSelectionBuilder = (user: CursorUser) => {
     class: 'ProseMirror-yjs-selection',
   }
 }
+
+// Positions cannot be mapped while the editor skips shared content
+const getMappableSyncState = (state: EditorState) => {
+  const ystate = ySyncPluginKey.getState(state)
+
+  return ystate?.binding && ystate.binding.invalidContentError === null ? ystate : null
+}
+
 const rxValidColor = /^#[0-9a-fA-F]{6}$/
 const hasCursorUser = (user: Partial<CursorUser>): user is CursorUser =>
   typeof user.name === 'string' && typeof user.color === 'string'
@@ -56,9 +64,9 @@ export const createDecorations = (
   createCursor: (user: CursorUser, clientId: number) => Element,
   createSelection: NonNullable<CursorPluginOptions['selectionBuilder']>,
 ): DecorationSet => {
-  const ystate = ySyncPluginKey.getState(state)
+  const ystate = getMappableSyncState(state)
 
-  if (ystate == null || ystate.doc == null || ystate.binding == null) {
+  if (ystate == null || ystate.doc == null) {
     return DecorationSet.create(state.doc, [])
   }
 
@@ -191,10 +199,17 @@ export const yCursorPlugin = (
           setMeta(view, yCursorPluginKey, { awarenessUpdated: true })
         }
       }
-      const updateCursorInfo = (editorView: EditorView) => {
-        const ystate = ySyncPluginKey.getState(editorView.state)
+      const clearPublishedCursor = () => {
+        if (awareness.getLocalState()?.[cursorStateField] == null) return
 
-        if (!ystate || !ystate.binding) {
+        awareness.setLocalStateField(cursorStateField, null)
+      }
+      const updateCursorInfo = (editorView: EditorView) => {
+        const ystate = getMappableSyncState(editorView.state)
+
+        if (!ystate) {
+          // Peers should not see a cursor this user can no longer move
+          clearPublishedCursor()
           return
         }
 

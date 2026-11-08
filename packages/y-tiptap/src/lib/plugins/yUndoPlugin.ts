@@ -8,16 +8,20 @@ import { getSyncPluginState } from './getSyncPluginState.js'
 import { getUndoPluginState } from './getUndoPluginState.js'
 import { ySyncPluginKey, yUndoPluginKey } from './keys.js'
 import { getRelativeSelection } from '../utils/positions/getRelativeSelection.js'
-import { restorePositionHistory } from '../utils/positions/migrations/restorePositionHistory.js'
 
 const restoreHistory = (state: EditorState, direction: 'undo' | 'redo') => {
   const syncState = getSyncPluginState(state)
-  if (syncState.snapshot != null || syncState.prevSnapshot != null) return false
+  if (
+    syncState.binding.invalidContentError !== null ||
+    syncState.snapshot != null ||
+    syncState.prevSnapshot != null
+  )
+    return false
 
   const undoManager = getUndoPluginState(state).undoManager
 
   if (undoManager != null) {
-    restorePositionHistory(syncState.type, undoManager, direction)
+    undoManager[direction]()
 
     return true
   }
@@ -85,10 +89,11 @@ export const yUndoPlugin = ({
       },
       apply: (_, value, oldState, state) => {
         const binding = getSyncPluginState(state).binding
+        const canMapSelection = binding && binding.invalidContentError === null
 
         return {
           ...value,
-          prevSel: binding ? getRelativeSelection(binding, oldState) : value.prevSel,
+          prevSel: canMapSelection ? getRelativeSelection(binding, oldState) : value.prevSel,
           hasUndoOps: value.undoManager.undoStack.length > 0,
           hasRedoOps: value.undoManager.redoStack.length > 0,
         }
