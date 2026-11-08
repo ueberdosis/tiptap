@@ -4,9 +4,10 @@ import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import type { Transaction } from '@tiptap/pm/state'
-import { afterEach, describe, expect, it } from 'vite-plus/test'
+import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 
 import { TableOfContents } from './tableOfContents.js'
+import type { TableOfContentsOptions } from './types.js'
 
 describe('TableOfContents', () => {
   let editor: Editor | undefined
@@ -53,10 +54,11 @@ describe('TableOfContents', () => {
   const createEditor = async (
     content: ReturnType<typeof heading>[],
     onTransaction?: (transaction: Transaction) => void,
+    options: TableOfContentsOptions = {},
   ) => {
     editor = new Editor({
       element: document.createElement('div'),
-      extensions: [Document, Paragraph, Text, Heading, TableOfContents],
+      extensions: [Document, Paragraph, Text, Heading, TableOfContents.configure(options)],
       content: { type: 'doc', content },
       onTransaction: ({ transaction }) => onTransaction?.(transaction),
     })
@@ -103,5 +105,64 @@ describe('TableOfContents', () => {
 
     expect(ids.every(id => typeof id === 'string' && id.length > 0)).toBe(true)
     expect(new Set(ids).size).toBe(2)
+  })
+
+  describe('updateOnTransaction: false', () => {
+    const appendToLastHeading = (instance: Editor) => {
+      instance.commands.insertContentAt(instance.state.doc.content.size - 1, ' and more')
+    }
+
+    it('leaves the storage empty and does not call onUpdate', async () => {
+      const onUpdate = vi.fn()
+      const instance = await createEditor([heading(1, 'One')], undefined, {
+        updateOnTransaction: false,
+        onUpdate,
+      })
+
+      appendToLastHeading(instance)
+
+      expect(instance.storage.tableOfContents.content).toEqual([])
+      expect(onUpdate).not.toHaveBeenCalled()
+    })
+
+    it('fills the storage through updateTableOfContents', async () => {
+      const instance = await createEditor([heading(1, 'One'), heading(2, 'Two')], undefined, {
+        updateOnTransaction: false,
+      })
+
+      instance.commands.updateTableOfContents()
+
+      expect(instance.storage.tableOfContents.content.map(item => item.textContent)).toEqual([
+        'One',
+        'Two',
+      ])
+    })
+
+    it('still assigns ids on create', async () => {
+      const instance = await createEditor([heading(1, 'One'), heading(2, 'Two')], undefined, {
+        updateOnTransaction: false,
+      })
+      const ids: unknown[] = []
+
+      instance.state.doc.descendants(node => {
+        if (node.type.name === 'heading') {
+          ids.push(node.attrs['data-toc-id'])
+        }
+      })
+
+      expect(ids.every(id => typeof id === 'string' && id.length > 0)).toBe(true)
+    })
+
+    it('dispatches nothing on create when every heading has an id', async () => {
+      const transactions: Transaction[] = []
+
+      await createEditor(
+        [heading(1, 'One', 'one')],
+        transaction => transactions.push(transaction),
+        { updateOnTransaction: false },
+      )
+
+      expect(transactions).toEqual([])
+    })
   })
 })

@@ -1,0 +1,80 @@
+/* Basic editor styles */
+.tiptap {
+  :first-child {
+    margin-top: 0;
+  }
+}
+
+.col-group {
+  display: flex;
+  flex-direction: row;
+
+  @media (max-width: 540px) {
+    flex-direction: column-reverse;
+  }
+}
+
+.main {
+  width: 100%;
+}
+
+.sidebar {
+  border-left: 1px solid var(--gray-3);
+  flex-shrink: 0;
+  padding: 1rem;
+  width: 16rem;
+
+  @media (max-width: 540px) {
+    border-bottom: 1px solid var(--gray-3);
+    border-left: unset;
+    width: 100%;
+  }
+}
+
+.sidebar-options {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: sticky;
+  top: 1rem;
+}
+
+.empty-state {
+  color: var(--gray-5);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.outline {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+
+  li {
+    padding-left: calc(1rem * (var(--depth) - 1));
+
+    &::after {
+      color: var(--gray-5);
+      content: 'H' attr(data-level);
+      font-size: 0.75rem;
+      margin-left: 0.5rem;
+    }
+  }
+
+  button {
+    background: none;
+    color: var(--black);
+    font-size: 0.875rem;
+    padding: 0;
+    text-align: left;
+
+    &:hover {
+      color: var(--purple);
+    }
+  }
+}
