@@ -144,7 +144,7 @@ export const Image = Node.create<ImageOptions>({
   renderMarkdown: node => {
     const src = node.attrs?.src ?? ''
     const alt = node.attrs?.alt ?? ''
-    const title = node.attrs?.title ?? ''
+    const title = String(node.attrs?.title ?? '').replace(/["\\]/g, '\\$&')
 
     return title ? `![${alt}](${src} "${title}")` : `![${alt}](${src})`
   },
