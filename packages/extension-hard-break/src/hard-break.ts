@@ -64,7 +64,9 @@ export const HardBreak = Node.create<HardBreakOptions>({
     return '\n'
   },
 
-  renderMarkdown: () => `  \n`,
+  // A markdown heading can't span lines, so a break inside one is written as inline HTML.
+  renderMarkdown: (_node, _helpers, context) =>
+    context?.parentType === 'heading' ? '<br>' : `  \n`,
 
   parseMarkdown: () => {
     return {
