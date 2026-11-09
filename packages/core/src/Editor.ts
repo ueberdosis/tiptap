@@ -208,7 +208,11 @@ export class Editor extends EventEmitter<EditorEvents> {
       if (!this.hasCreated) {
         this.hasCreated = true
         if (this.options.autofocus !== false && this.options.autofocus !== null) {
-          this.commands.focus(this.options.autofocus)
+          try {
+            this.commands.focus(this.options.autofocus)
+          } catch (error) {
+            console.error('[tiptap error]: Autofocus failed.', error)
+          }
         }
         this.emit('create', { editor: this })
       }
