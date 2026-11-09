@@ -1,5 +1,6 @@
 import { Editor } from '@tiptap/core'
 import { Bold } from '@tiptap/extension-bold'
+import { Code } from '@tiptap/extension-code'
 import { Document } from '@tiptap/extension-document'
 import { HardBreak } from '@tiptap/extension-hard-break'
 import { Italic } from '@tiptap/extension-italic'
@@ -224,6 +225,24 @@ describe('Overlapping marks serialization', () => {
 
     expect(result).toBe('[**google**](https://google.com)')
     expect(normalizeMarks(markdownManager.parse(result))).toEqual(normalizeMarks(json))
+  })
+
+  it('keeps the code mark innermost when it has a higher priority', () => {
+    const markdownManagerWithCode = new MarkdownManager({
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Bold,
+        Strike,
+        Code.extend({ excludes: '', priority: 101 }),
+      ],
+    })
+    const markdown = '~~`x`~~ and **`y`**'
+
+    const result = markdownManagerWithCode.serialize(markdownManagerWithCode.parse(markdown))
+
+    expect(result).toBe(markdown)
   })
 
   it('keeps html-reopened italic open across later text nodes before closing', () => {

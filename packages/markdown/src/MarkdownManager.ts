@@ -1743,6 +1743,14 @@ export class MarkdownManager {
     // recorded rank fall back to MAX_SAFE_INTEGER so they sort innermost,
     // matching the implicit "registered last" assumption for ad-hoc marks.
     const byRankInnerFirst = (a: { type: string }, b: { type: string }) => {
+      // Markdown reads code spans as literal text, so code always goes innermost
+      const isCodeA = this.codeTypes.has(a.type)
+      const isCodeB = this.codeTypes.has(b.type)
+
+      if (isCodeA !== isCodeB) {
+        return isCodeA ? -1 : 1
+      }
+
       const rankA = this.extensionRanks.get(a.type) ?? Number.MAX_SAFE_INTEGER
       const rankB = this.extensionRanks.get(b.type) ?? Number.MAX_SAFE_INTEGER
 
