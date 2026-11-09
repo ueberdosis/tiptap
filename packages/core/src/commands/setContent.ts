@@ -29,7 +29,7 @@ declare module '@tiptap/core' {
       /**
        * Replace the whole document with new content.
        * @param content The new content.
-       * @param parseOptions Options for `setContent`.
+       * @param options Options for `setContent`.
        * @example editor.commands.setContent('<p>Example text</p>')
        */
       setContent: (
