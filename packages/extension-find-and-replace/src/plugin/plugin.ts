@@ -38,14 +38,7 @@ export const FindAndReplacePlugin = (
           return state
         }
 
-        return updateState(
-          state,
-          { ...state, ...meta },
-          newState.doc,
-          meta,
-          tr.docChanged,
-          tr.mapping,
-        )
+        return updateState(state, { ...state, ...meta }, newState.doc, meta, tr)
       },
     },
 
