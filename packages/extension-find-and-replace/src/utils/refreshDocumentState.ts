@@ -5,6 +5,8 @@ import type { FindAndReplaceMeta, FindAndReplacePluginState } from '../plugin/pl
 import { searchTextblocks } from '../search/search.js'
 
 import { getChangedTextblocks } from './getChangedTextblocks.js'
+import { hasCurrentIndex } from './hasCurrentIndex.js'
+import { keepsVisitedResult } from './keepsVisitedResult.js'
 import { mapResult } from './mapResult.js'
 import { mapResults } from './mapResults.js'
 import { mergeResults } from './mergeResults.js'
@@ -29,12 +31,15 @@ export function refreshDocumentState(
     previousState.currentIndex === null
       ? null
       : mapResult(previousState.results[previousState.currentIndex], mapping)
+  const current = currentIndex === null ? null : results[currentIndex]
   const decorations = previousState.decorations.map(mapping, doc)
 
   return {
     ...state,
     results,
     currentIndex,
+    currentResultVisited:
+      hasCurrentIndex(meta) || keepsVisitedResult(previousState, current, previousCurrent),
     decorations: refreshDecorations(
       decorations,
       doc,
