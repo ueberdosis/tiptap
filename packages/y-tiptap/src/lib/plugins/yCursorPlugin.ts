@@ -13,6 +13,9 @@ import { relativePositionToAbsolutePosition } from '../utils/positions/relativeP
 import { setMeta } from './setMeta.js'
 import { yCursorPluginKey, ySyncPluginKey } from './keys.js'
 import * as math from 'lib0/math'
+
+type AwarenessChange = { added: number[]; updated: number[]; removed: number[] }
+
 export const defaultAwarenessStateFilter = (
   currentClientId: number,
   userClientId: number,
@@ -194,10 +197,24 @@ export const yCursorPlugin = (
       },
     },
     view: view => {
-      const awarenessListener = () => {
-        if (!view.isDestroyed) {
-          setMeta(view, yCursorPluginKey, { awarenessUpdated: true })
+      const awarenessListener = ({ added, updated, removed }: AwarenessChange) => {
+        if (view.isDestroyed) {
+          return
         }
+
+        const onlyLocalChanged = [...added, ...updated, ...removed].every(
+          id => id === awareness.clientID,
+        )
+        // The default filter always hides our own cursor; a custom one may depend on our state
+        const localCursorAlwaysHidden =
+          awarenessStateFilter === defaultAwarenessStateFilter &&
+          ySyncPluginKey.getState(view.state)?.doc.clientID === awareness.clientID
+
+        if (onlyLocalChanged && localCursorAlwaysHidden) {
+          return
+        }
+
+        setMeta(view, yCursorPluginKey, { awarenessUpdated: true })
       }
       const clearPublishedCursor = () => {
         if (awareness.getLocalState()?.[cursorStateField] == null) return
