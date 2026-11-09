@@ -3,6 +3,7 @@ import type { Transform } from '@tiptap/pm/transform'
 import { AttrStep } from '@tiptap/pm/transform'
 
 import { findAdjacentTextblock } from './findAdjacentTextblock.js'
+import { findNearestTextblock } from './findNearestTextblock.js'
 import type { TextblockRange } from './types.js'
 
 function addTextblock(
@@ -52,8 +53,11 @@ export function getChangedTextblocks(doc: PMNode, transform: Transform): Textblo
     const remaining = mapping.slice(index + 1)
 
     stepMap.forEach((_oldStart, _oldEnd, newStart, newEnd) => {
-      const from = Math.max(0, remaining.map(newStart, -1) - 1)
-      const to = Math.min(doc.content.size, remaining.map(newEnd, 1) + 1)
+      // A change between two parents can join or split the textblocks inside them
+      const before = findNearestTextblock(doc, remaining.map(newStart, -1), -1)
+      const after = findNearestTextblock(doc, remaining.map(newEnd, 1), 1)
+      const from = before?.from ?? 0
+      const to = after?.to ?? doc.content.size
 
       doc.nodesBetween(from, to, (node, pos) => {
         if (!node.isTextblock) {

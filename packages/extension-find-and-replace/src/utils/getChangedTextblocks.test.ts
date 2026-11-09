@@ -14,6 +14,20 @@ describe('getChangedTextblocks', () => {
     expect(textblocks.map(textblock => textblock.node.textContent)).toEqual(['txwo'])
   })
 
+  it('finds the textblocks in other parents around an inserted block', () => {
+    const nested = createContinuedDoc([
+      { type: 'blockquote', content: [paragraph('hel')] },
+      { type: 'blockquote', content: [paragraph('lo', true)] },
+    ])
+    const transform = new Transform(nested).insert(
+      7,
+      nested.type.schema.nodes.horizontalRule.create(),
+    )
+    const textblocks = getChangedTextblocks(transform.doc, transform)
+
+    expect(textblocks.map(textblock => textblock.node.textContent)).toEqual(['hel', 'lo'])
+  })
+
   it('finds a textblock whose attributes changed and the one before it', () => {
     const transform = new Transform(doc).setNodeAttribute(5, 'continued', true)
     const textblocks = getChangedTextblocks(transform.doc, transform)

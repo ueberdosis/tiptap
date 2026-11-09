@@ -1,5 +1,6 @@
 import type { JSONContent } from '@tiptap/core'
 import { Editor } from '@tiptap/core'
+import Blockquote from '@tiptap/extension-blockquote'
 import Document from '@tiptap/extension-document'
 import HorizontalRule from '@tiptap/extension-horizontal-rule'
 import Paragraph from '@tiptap/extension-paragraph'
@@ -163,6 +164,7 @@ describe('continued textblocks', () => {
         Document,
         ContinuedParagraph,
         Text,
+        Blockquote,
         HorizontalRule,
         FindAndReplace.configure({ searchDebounceMs: 0, continuesNode }),
       ],
@@ -269,5 +271,23 @@ describe('continued textblocks', () => {
     editor.commands.insertContentAt(11, { type: 'horizontalRule' })
 
     expect(editor.storage.findAndReplace.results).toEqual([])
+  })
+
+  it('updates a result when a block between two parents is inserted or removed', () => {
+    editor = createEditor([
+      { type: 'blockquote', content: [paragraph('hel')] },
+      { type: 'blockquote', content: [paragraph('lo', true)] },
+    ])
+    editor.commands.setSearchTerm('hello')
+
+    expect(editor.storage.findAndReplace.results).toEqual([{ from: 2, to: 11 }])
+
+    editor.view.dispatch(editor.state.tr.insert(7, editor.schema.nodes.horizontalRule.create()))
+
+    expect(editor.storage.findAndReplace.results).toEqual([])
+
+    editor.view.dispatch(editor.state.tr.delete(7, 8))
+
+    expect(editor.storage.findAndReplace.results).toEqual([{ from: 2, to: 11 }])
   })
 })
