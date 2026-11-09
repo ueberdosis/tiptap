@@ -18,6 +18,7 @@ export function createState(doc: Node, options: FindAndReplaceOptions): FindAndR
     wholeWord: options.wholeWord,
     results,
     currentIndex,
+    currentResultVisited: false,
     decorations: createDecorations(doc, results, currentIndex),
   }
 }
