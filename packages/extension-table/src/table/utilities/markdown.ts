@@ -185,7 +185,7 @@ export function renderTableToMarkdown(
     }
   })
 
-  let out = '\n'
+  let out = ''
 
   // Render header: if the document has a header row (tableHeader cells) use it,
   // otherwise emit an empty header row so most Markdown parsers will recognize
@@ -227,7 +227,7 @@ export function renderTableToMarkdown(
       .join(' | ')} |\n`
   })
 
-  return out
+  return out.trimEnd()
 }
 
 export default renderTableToMarkdown

@@ -306,3 +306,46 @@ describe('table markdown — pipe escaping when serializing cells', () => {
     expect(serialized).toContain('`a \\|\\| b`')
   })
 })
+
+describe('table markdown — blank lines around tables', () => {
+  const manager = new MarkdownManager({
+    extensions: [Document, Paragraph, Text, TableKit],
+  })
+
+  const roundTrip = (markdown: string, passes: number) => {
+    let result = markdown
+
+    for (let pass = 0; pass < passes; pass += 1) {
+      result = manager.serialize(manager.parse(result))
+    }
+
+    return result
+  }
+
+  it('keeps two tables in a row stable across round trips', () => {
+    const markdown = '| a   |\n| --- |\n| b   |\n\n| c   |\n| --- |\n| d   |'
+
+    expect(roundTrip(markdown, 3)).toBe(markdown)
+    expect(manager.parse(roundTrip(markdown, 3)).content?.map(node => node.type)).toEqual([
+      'table',
+      'table',
+    ])
+  })
+
+  it('keeps an empty paragraph between two tables stable across round trips', () => {
+    const markdown = '| a   |\n| --- |\n| b   |\n\n\n\n| c   |\n| --- |\n| d   |'
+
+    expect(manager.parse(markdown).content?.map(node => node.type)).toEqual([
+      'table',
+      'paragraph',
+      'table',
+    ])
+    expect(roundTrip(markdown, 3)).toBe(markdown)
+  })
+
+  it('separates a table from the next paragraph with one blank line', () => {
+    const markdown = '| a   |\n| --- |\n| b   |\n\ntext'
+
+    expect(roundTrip(markdown, 3)).toBe(markdown)
+  })
+})
