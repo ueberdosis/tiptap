@@ -178,7 +178,6 @@ overrides:
   anymatch>picomatch: 2.3.2
   brace-expansion@>=2 <3: 2.1.7
   fast-uri@>=3 <4: 3.1.9
-  follow-redirects: 1.16.1
   glob: ^10.5.0
   js-yaml@>=4 <5: 4.3.2
   micromatch>picomatch: 2.3.2
@@ -212,9 +211,6 @@ importers:
       '@changesets/cli':
         specifier: ^3.0.3
         version: 3.0.3
-      '@changesets/get-release-plan':
-        specifier: ^5.0.2
-        version: 5.0.2
       '@commitlint/cli':
         specifier: ^19.6.1
         version: 19.8.1(@types/node@22.20.1)(typescript@5.9.3)
@@ -758,7 +754,7 @@ importers:
     dependencies:
       re2js:
         specifier: ^2.8.6
-        version: 2.8.6
+        version: 2.8.7
     devDependencies:
       '@tiptap/core':
         specifier: workspace:^
@@ -1904,10 +1900,6 @@ packages:
 
   '@changesets/get-github-info@1.0.1':
     resolution: {integrity: sha512-ifLQCky/ZtDgZ4xCiUMjnLZSJ8xk52iIzMJbBBPlZWjr2CiTNTaTDddIVWKicrUAdWuLWL7PUw2fNa1yPwLpIg==}
-    engines: {node: ^22.11 || ^24 || >=26}
-
-  '@changesets/get-release-plan@5.0.2':
-    resolution: {integrity: sha512-laSJNxAH1EPiG20Z/Qxt10FnzXA7WarRulQvGHetoFzS2B7YDvkJIyoxDvoVk+M89astTC49ZS4wUrMe7PUD2g==}
     engines: {node: ^22.11 || ^24 || >=26}
 
   '@changesets/git@4.0.1':
@@ -4326,8 +4318,8 @@ packages:
   flatted@3.4.4:
     resolution: {integrity: sha512-5+ybhBZANEJxaH3X5evAFatUxLfEHSr7n6kYJ+1Qd0mUqr4eu9gIf6GDbWHf8RJijHrjjO8G+la14SlL2SeS1Q==}
 
-  follow-redirects@1.16.1:
-    resolution: {integrity: sha512-FNvFGzoMLWmE6Yj9spb/zjd7yiNCHiAW9/Tg9CXrQ8wuu32HtlJOwWO11OJafl5FfY3DxTdQ0vj42zU1kvv5jg==}
+  follow-redirects@1.16.2:
+    resolution: {integrity: sha512-/kVP2U8z596Ia0gwFrwyIeo74ta5aVmSeU1FfAUMAmcEP5EP7zydmag3SLiN64NaRKef3lxsq7i/g7ltJQDGow==}
     engines: {node: '>=4.0'}
     peerDependencies:
       debug: '*'
@@ -5275,9 +5267,9 @@ packages:
   randombytes@2.1.0:
     resolution: {integrity: sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ==}
 
-  re2js@2.8.6:
-    resolution: {integrity: sha512-xLgQil4kIUCrAzVk9fRSkxkFNwmygLFjVxXrLc65aE1F0+Zsb8rxumFBy4XKyvgMCTL6kilDq3EZ0piE2dP/Dg==}
-    engines: {node: '>=18.0.0'}
+  re2js@2.8.7:
+    resolution: {integrity: sha512-bRSL/vn3KAmlGfGNoVpcsBXLaVvl6AbuvMMWbz0m3vBj60nj+p2/biozfBUOSBP+5XTduF6mr6IO/ZVjmqqkVQ==}
+    engines: {node: '>=20.0.0'}
 
   react-dom@19.2.8:
     resolution: {integrity: sha512-rVprimfGBG3DR+Tq0IQG2DT5PxKth1WIGDmj5yPmlzr4YBe7uyE+Du4oVqTDXZSHGGGXRtTJEGSSePyQCMBglQ==}
@@ -6896,15 +6888,6 @@ snapshots:
   '@changesets/get-github-info@1.0.1':
     dependencies:
       dataloader: 2.2.3
-
-  '@changesets/get-release-plan@5.0.2':
-    dependencies:
-      '@changesets/assemble-release-plan': 7.0.0
-      '@changesets/config': 4.0.1
-      '@changesets/pre': 3.0.0
-      '@changesets/read': 1.0.1
-      '@changesets/types': 7.0.0
-      '@manypkg/get-packages': 3.1.0
 
   '@changesets/git@4.0.1':
     dependencies:
@@ -9222,7 +9205,7 @@ snapshots:
 
   flatted@3.4.4: {}
 
-  follow-redirects@1.16.1(debug@4.4.3(supports-color@8.1.1)):
+  follow-redirects@1.16.2(debug@4.4.3(supports-color@8.1.1)):
     optionalDependencies:
       debug: 4.4.3(supports-color@8.1.1)
 
@@ -9382,7 +9365,7 @@ snapshots:
   http-proxy@1.18.1(debug@4.4.3(supports-color@8.1.1)):
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.16.1(debug@4.4.3(supports-color@8.1.1))
+      follow-redirects: 1.16.2(debug@4.4.3(supports-color@8.1.1))
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -10181,7 +10164,7 @@ snapshots:
     dependencies:
       safe-buffer: 5.2.1
 
-  re2js@2.8.6: {}
+  re2js@2.8.7: {}
 
   react-dom@19.2.8(react@19.2.8):
     dependencies:

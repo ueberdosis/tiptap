@@ -7,7 +7,7 @@ import { ySyncPluginKey, yUndoPluginKey } from './keys.js'
 import * as Y from 'yjs'
 import * as eventloop from 'lib0/eventloop'
 import { ProsemirrorBinding } from '../utils/binding/ProsemirrorBinding.js'
-import { mapPositionMigration } from '../utils/positions/migrations/mapPositionMigration.js'
+import { clearPositionMigrations } from '../utils/positions/clearPositionMigrations.js'
 
 const defaultColors: ColorDef[] = [{ light: '#ecd44433', dark: '#ecd444' }]
 /** Binds a Yjs XML fragment to the editor document. The fragment must belong to a Yjs document. */
@@ -19,18 +19,23 @@ export const ySyncPlugin = (
     permanentUserData = null,
     onFirstRender = () => {},
     mapping,
+    onInvalidContent,
   }: SyncPluginOptions = {},
 ) => {
   let initialContentChanged = false
-  const binding = new ProsemirrorBinding(yXmlFragment, mapping)
+  const binding = new ProsemirrorBinding(yXmlFragment, mapping, onInvalidContent)
   const plugin = new Plugin<SyncPluginState>({
-    filterTransaction: transaction => binding.projectionError === null || !transaction.docChanged,
+    // Keep local changes out while the editor cannot show all shared content
+    filterTransaction: transaction =>
+      binding.invalidContentError === null ||
+      !transaction.docChanged ||
+      transaction.getMeta(ySyncPluginKey) !== undefined,
     props: {
       editable: state => {
         const syncState = getSyncPluginState(state)
 
         return (
-          binding.projectionError === null &&
+          binding.invalidContentError === null &&
           syncState.snapshot == null &&
           syncState.prevSnapshot == null
         )
@@ -51,7 +56,6 @@ export const ySyncPlugin = (
           colors,
           colorMapping,
           permanentUserData,
-          positionMigration: null,
         }
       },
       apply: (tr, pluginState) => {
@@ -68,20 +72,6 @@ export const ySyncPlugin = (
         pluginState.isChangeOrigin = change !== undefined && !!change.isChangeOrigin
         pluginState.isUndoRedoOperation =
           change !== undefined && !!change.isChangeOrigin && !!change.isUndoRedoOperation
-
-        // Only local edits need transfers. Remote updates already carry their migration history.
-        pluginState = {
-          ...pluginState,
-          positionMigration:
-            binding.projectionError ||
-            pluginState.isChangeOrigin ||
-            pluginState.snapshot ||
-            pluginState.prevSnapshot ||
-            change?.snapshot !== undefined ||
-            change?.prevSnapshot !== undefined
-              ? null
-              : mapPositionMigration(tr, binding, pluginState.positionMigration ?? null),
-        }
 
         if (
           binding.prosemirrorView === null ||
@@ -101,9 +91,13 @@ export const ySyncPlugin = (
             return
           }
 
-          binding._renderSnapshot(change.snapshot, change.snapshot, pluginState)
-          if (binding.projectionError !== null) return
+          // A restore cannot be saved while shared content is invalid
+          if (binding.invalidContentError !== null) {
+            binding.unrenderSnapshot()
+            return
+          }
 
+          binding._renderSnapshot(change.snapshot, change.snapshot, pluginState)
           binding.mux(() => {
             const activeView = binding.prosemirrorView
 
@@ -127,6 +121,10 @@ export const ySyncPlugin = (
       },
     },
     view: view => {
+      const clearMigrations = (transaction: Y.Transaction) =>
+        clearPositionMigrations(binding.doc, transaction)
+      clearPositionMigrations(binding.doc)
+      binding.doc.on('afterTransaction', clearMigrations)
       binding.initView(view)
 
       if (mapping == null) {
@@ -138,8 +136,6 @@ export const ySyncPlugin = (
       return {
         update: () => {
           const pluginState = getSyncPluginState(view.state)
-
-          if (binding.projectionError !== null) return
 
           if (pluginState.snapshot == null && pluginState.prevSnapshot == null) {
             const emptyDocument = view.state.doc.type.createAndFill()
@@ -167,13 +163,14 @@ export const ySyncPlugin = (
               binding.mux(() => {
                 pluginState.doc.transact(tr => {
                   tr.meta.set('addToHistory', pluginState.addToHistory)
-                  binding._prosemirrorChanged(view.state.doc, pluginState.positionMigration ?? null)
+                  binding._prosemirrorChanged(view.state.doc)
                 }, ySyncPluginKey)
               })
             }
           }
         },
         destroy: () => {
+          binding.doc.off('afterTransaction', clearMigrations)
           binding.destroy()
         },
       }

@@ -452,7 +452,7 @@ export class ResizableNodeView {
     this.applyInitialSize()
     this.attachHandles()
 
-    this.editor.on('update', this.handleEditorUpdate.bind(this))
+    this.editor.on('update', this.handleEditorUpdate)
   }
 
   /**
@@ -471,7 +471,7 @@ export class ResizableNodeView {
     return this.contentElement ?? null
   }
 
-  private handleEditorUpdate() {
+  private handleEditorUpdate = () => {
     const isEditable = this.editor.isEditable
 
     // Only if state actually changed
@@ -540,7 +540,7 @@ export class ResizableNodeView {
       this.activeHandle = null
     }
 
-    this.editor.off('update', this.handleEditorUpdate.bind(this))
+    this.editor.off('update', this.handleEditorUpdate)
 
     this.container.remove()
   }

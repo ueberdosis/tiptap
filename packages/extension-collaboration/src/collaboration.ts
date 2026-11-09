@@ -219,6 +219,20 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
       onFirstRender: this.options.onFirstRender,
     }
 
+    // Keep shared content the schema cannot show and let the app decide what to do
+    if (this.editor.options.enableContentCheck) {
+      ySyncPluginOptions.onInvalidContent = error => {
+        this.editor.emit('contentError', {
+          error,
+          editor: this.editor,
+          disableCollaboration: () => {
+            this.storage.isDisabled = true
+            fragment.doc?.destroy()
+          },
+        })
+      }
+    }
+
     const ySyncPluginInstance = ySyncPlugin(fragment, ySyncPluginOptions)
 
     return [
