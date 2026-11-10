@@ -380,3 +380,41 @@ it('releasing an editor keeps a newer selection from another editor on the same 
     doc.destroy()
   }
 })
+
+it.each([false, true])(
+  'transfers ownership at the same selection when the previous editor is destroyed: %s',
+  async destroyPrevious => {
+    const doc = new Y.Doc()
+    const awareness = new Awareness(doc)
+    const first = createFieldView(doc, 'body', awareness)
+    const second = new EditorView(null, {
+      state: EditorState.create({
+        schema,
+        plugins: [ySyncPlugin(doc.getXmlFragment('body')), yCursorPlugin(awareness)],
+      }),
+    })
+
+    try {
+      focus(first, 1, 4)
+      await promise.wait(20)
+      first.hasFocus = () => false
+      focus(second, 1, 4)
+      const current = awareness.getLocalState()
+
+      if (destroyPrevious) first.destroy()
+      assert.deepEqual(awareness.getLocalState(), current)
+      assert.isNotNull(awareness.getLocalState()?.cursor)
+      assert.equal(awareness.getLocalState()?.lastSelection.body.focused, true)
+
+      blur(second)
+      await promise.wait(20)
+      assert.isNull(awareness.getLocalState()?.cursor)
+      assert.equal(awareness.getLocalState()?.lastSelection.body.focused, false)
+    } finally {
+      first.destroy()
+      second.destroy()
+      awareness.destroy()
+      doc.destroy()
+    }
+  },
+)

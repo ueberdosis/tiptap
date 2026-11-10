@@ -1,4 +1,5 @@
 import type {
+  CursorAwarenessLastSelection,
   CursorAwarenessSelection,
   CursorAwarenessState,
 } from '../../types/CursorAwarenessState.js'
@@ -221,6 +222,7 @@ export const yCursorPlugin = (
       const field = syncType && syncType._item === null ? Y.findRootTypeKey(syncType) : undefined
       // The cursor this view published, so only its owner clears it.
       let publishedCursor: CursorAwarenessSelection | null = null
+      let publishedEntry: CursorAwarenessLastSelection | null = null
 
       const awarenessListener = () => {
         if (!view.isDestroyed) {
@@ -240,25 +242,28 @@ export const yCursorPlugin = (
           }
           return
         }
+        publishedEntry = { ...selection, time: Date.now(), focused }
         awareness.setLocalState({
           ...current,
           [cursorStateField]: cursor,
           lastSelection: {
             ...current.lastSelection,
-            [field]: { ...selection, time: Date.now(), focused },
+            [field]: publishedEntry,
           },
         })
       }
       const releaseCursor = (current: CursorAwarenessState) => {
         if (publishedCursor === null) return
         const cursor = current[cursorStateField] as CursorAwarenessState['cursor']
-        const ownsCursor = isSameSelection(cursor, publishedCursor)
-        const ownsEntry =
-          field !== undefined && isSameSelection(current.lastSelection?.[field], publishedCursor)
-        if (ownsCursor || ownsEntry) {
+        const ownsCursor = cursor === publishedCursor
+        const ownsEntry = field !== undefined && current.lastSelection?.[field] === publishedEntry
+        if (ownsEntry) {
           publish(current, publishedCursor, false, ownsCursor ? null : cursor)
+        } else if (ownsCursor) {
+          awareness.setLocalStateField(cursorStateField, null)
         }
         publishedCursor = null
+        publishedEntry = null
       }
       const updateCursorInfo = (editorView: EditorView) => {
         const ystate = getMappableSyncState(editorView.state)
@@ -292,7 +297,7 @@ export const yCursorPlugin = (
           ystate.binding.mapping,
         )
         const cursor = current[cursorStateField] as CursorAwarenessState['cursor']
-        if (isSameSelection(cursor, { anchor, head })) return
+        if (cursor === publishedCursor && isSameSelection(cursor, { anchor, head })) return
 
         publishedCursor = { anchor, head }
         publish(current, publishedCursor, true, publishedCursor)
