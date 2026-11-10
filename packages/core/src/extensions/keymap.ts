@@ -8,6 +8,7 @@ import { isNodeEmpty } from '../helpers/isNodeEmpty.js'
 import { isiOS } from '../utilities/isiOS.js'
 import { isMacOS } from '../utilities/isMacOS.js'
 
+/** Checks if a non-empty selection spans the whole document. */
 function isWholeDocumentSelected(state: EditorState) {
   const { empty, from, to } = state.selection
 
