@@ -157,19 +157,42 @@ function getPendingAwarePluginState(
     searchTerm: pendingTerm,
     results,
     currentIndex: 0,
+    currentResultVisited: false,
   }
+}
+
+function flushPendingSearch(
+  editor: Editor,
+  tr: Transaction,
+  state: EditorState,
+  dispatch: boolean,
+): FindAndReplacePluginState | null {
+  const pendingTerm = dispatch ? consumePendingSearch(editor) : null
+
+  if (dispatch && pendingTerm !== null) {
+    mergePluginMeta(tr, { searchTerm: pendingTerm })
+  }
+
+  return getPendingAwarePluginState(state, pendingTerm)
 }
 
 function currentResult(pluginState: FindAndReplacePluginState): SearchResult | undefined {
   return pluginState.results[pluginState.currentIndex ?? 0]
 }
 
-function shiftIndex(currentIndex: number | null, length: number, direction: 1 | -1): number {
+function shiftIndex(pluginState: FindAndReplacePluginState, direction: 1 | -1): number {
+  const { currentIndex, currentResultVisited, results } = pluginState
+
   if (currentIndex === null) {
-    return direction === 1 ? 0 : length - 1
+    return direction === 1 ? 0 : results.length - 1
   }
 
-  return (currentIndex + direction + length) % length
+  // Go to the highlighted result first instead of skipping it
+  if (!currentResultVisited) {
+    return currentIndex
+  }
+
+  return (currentIndex + direction + results.length) % results.length
 }
 
 function selectResult(tr: Transaction, result: SearchResult, index: number): void {
@@ -293,6 +316,24 @@ export const FindAndReplace = Extension.create<FindAndReplaceOptions, FindAndRep
       return true
     }
 
+    const goToResult =
+      (direction: 1 | -1): Command =>
+      ({ tr, state, dispatch }) => {
+        const pluginState = flushPendingSearch(this.editor, tr, state, !!dispatch)
+
+        if (!pluginState) {
+          return false
+        }
+
+        const index = shiftIndex(pluginState, direction)
+
+        if (dispatch) {
+          selectResult(tr, pluginState.results[index], index)
+        }
+
+        return true
+      }
+
     return {
       setSearchTerm:
         term =>
@@ -329,13 +370,7 @@ export const FindAndReplace = Extension.create<FindAndReplaceOptions, FindAndRep
       replace:
         () =>
         ({ tr, state, dispatch }) => {
-          const pendingTerm = dispatch ? consumePendingSearch(this.editor) : null
-
-          if (dispatch && pendingTerm !== null) {
-            mergePluginMeta(tr, { searchTerm: pendingTerm })
-          }
-
-          const pluginState = getPendingAwarePluginState(state, pendingTerm)
+          const pluginState = flushPendingSearch(this.editor, tr, state, !!dispatch)
 
           if (!pluginState) {
             return false
@@ -357,13 +392,7 @@ export const FindAndReplace = Extension.create<FindAndReplaceOptions, FindAndRep
       replaceAll:
         () =>
         ({ tr, state, dispatch }) => {
-          const pendingTerm = dispatch ? consumePendingSearch(this.editor) : null
-
-          if (dispatch && pendingTerm !== null) {
-            mergePluginMeta(tr, { searchTerm: pendingTerm })
-          }
-
-          const pluginState = getPendingAwarePluginState(state, pendingTerm)
+          const pluginState = flushPendingSearch(this.editor, tr, state, !!dispatch)
 
           if (!pluginState) {
             return false
@@ -376,53 +405,8 @@ export const FindAndReplace = Extension.create<FindAndReplaceOptions, FindAndRep
           return true
         },
 
-      goToNextResult:
-        () =>
-        ({ tr, state, dispatch }) => {
-          const pendingTerm = dispatch ? consumePendingSearch(this.editor) : null
-
-          if (dispatch && pendingTerm !== null) {
-            mergePluginMeta(tr, { searchTerm: pendingTerm })
-          }
-
-          const pluginState = getPendingAwarePluginState(state, pendingTerm)
-
-          if (!pluginState) {
-            return false
-          }
-
-          const nextIndex = shiftIndex(pluginState.currentIndex, pluginState.results.length, 1)
-
-          if (dispatch) {
-            selectResult(tr, pluginState.results[nextIndex], nextIndex)
-          }
-
-          return true
-        },
-
-      goToPreviousResult:
-        () =>
-        ({ tr, state, dispatch }) => {
-          const pendingTerm = dispatch ? consumePendingSearch(this.editor) : null
-
-          if (dispatch && pendingTerm !== null) {
-            mergePluginMeta(tr, { searchTerm: pendingTerm })
-          }
-
-          const pluginState = getPendingAwarePluginState(state, pendingTerm)
-
-          if (!pluginState) {
-            return false
-          }
-
-          const previousIndex = shiftIndex(pluginState.currentIndex, pluginState.results.length, -1)
-
-          if (dispatch) {
-            selectResult(tr, pluginState.results[previousIndex], previousIndex)
-          }
-
-          return true
-        },
+      goToNextResult: () => goToResult(1),
+      goToPreviousResult: () => goToResult(-1),
     }
   },
 

@@ -5,6 +5,11 @@ import type { FindAndReplaceMeta, FindAndReplacePluginState } from '../plugin/pl
 import { searchDocument } from '../search/search.js'
 
 import { createDecorations } from './createDecorations.js'
+import { getPreviousCurrentResult } from './getPreviousCurrentResult.js'
+import { hasCurrentIndex } from './hasCurrentIndex.js'
+import { isNewSearch } from './isNewSearch.js'
+import { keepsVisitedResult } from './keepsVisitedResult.js'
+import { mapResult } from './mapResult.js'
 import { resolveCurrentIndex } from './resolveCurrentIndex.js'
 
 export function refreshState(
@@ -17,11 +22,18 @@ export function refreshState(
 ): FindAndReplacePluginState {
   const results = searchDocument(doc, state.searchTerm, state)
   const currentIndex = resolveCurrentIndex(previousState, results, meta, docChanged, mapping)
+  const current = currentIndex === null ? null : results[currentIndex]
+  const previousResult = getPreviousCurrentResult(previousState) ?? null
+  const previousCurrent =
+    previousResult && mapping ? mapResult(previousResult, mapping) : previousResult
 
   return {
     ...state,
     results,
     currentIndex,
+    currentResultVisited:
+      hasCurrentIndex(meta) ||
+      (!isNewSearch(meta) && keepsVisitedResult(previousState, current, previousCurrent)),
     decorations: createDecorations(doc, results, currentIndex),
   }
 }
