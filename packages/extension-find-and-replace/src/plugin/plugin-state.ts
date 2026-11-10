@@ -10,6 +10,8 @@ export interface FindAndReplacePluginState {
   wholeWord: boolean
   results: SearchResult[]
   currentIndex: number | null
+  /** Whether the current result was already selected by navigation. */
+  currentResultVisited: boolean
   decorations: DecorationSet
 }
 

@@ -21,11 +21,8 @@ import { restoreRelativeSelection } from '../positions/restoreRelativeSelection.
 import { getRelativeSelection } from '../positions/getRelativeSelection.js'
 
 import { createNodeFromYElement } from '../conversion/createNodeFromYElement.js'
-import { validateDocumentContent } from '../conversion/validateDocumentContent.js'
+import { mergeNextYText } from '../conversion/mergeNextYText.js'
 import { updateYFragment } from '../reconciliation/updateYFragment.js'
-import type { PositionMigrationPlan } from '../../../types/PositionMigration.js'
-import { applyPositionMigration } from '../positions/migrations/applyPositionMigration.js'
-import { getPositionMigrationStore } from '../positions/migrations/getPositionMigrationStore.js'
 import { deleteMapping } from './deleteMapping.js'
 import { projectedMappings } from './projectedMappings.js'
 import { replaceChangedChildren } from './replaceChangedChildren.js'
@@ -44,21 +41,32 @@ export class ProsemirrorBinding {
   readonly beforeAllTransactions: () => void
   readonly afterAllTransactions: () => void
   _domSelectionInView: boolean | null = null
-  syncedDoc: PModel.Node | null = null
-  private _projectionError: Error | null = null
+  readonly reportInvalidContent?: (error: Error) => void
+  readonly deferTextMerge?: (text: Y.XmlText) => void
+  private readonly onInvalidContent?: (error: Error) => void
+  private _invalidContentError: Error | null = null
+  private projectionError: Error | null = null
+  private hasSharedContent = false
+  private pendingTextMerges: Y.XmlText[] = []
 
-  /**
-   * Returns the last projection error. Shared writes stop until a compatible projection succeeds.
-   * @returns The projection error, or null when shared content can be rendered.
-   */
-  get projectionError(): Error | null {
-    return this._projectionError
-  }
-
-  constructor(yXmlFragment: Y.XmlFragment, mapping: ProsemirrorMapping = new Map()) {
+  constructor(
+    yXmlFragment: Y.XmlFragment,
+    mapping: ProsemirrorMapping = new Map(),
+    onInvalidContent?: (error: Error) => void,
+  ) {
     this.type = yXmlFragment
     this.mapping = mapping
     this._observeFunction = this._typeChanged.bind(this)
+
+    if (onInvalidContent) {
+      this.onInvalidContent = onInvalidContent
+      this.reportInvalidContent = error => {
+        this.projectionError ??= error
+      }
+      this.deferTextMerge = text => {
+        this.pendingTextMerges.push(text)
+      }
+    }
 
     if (yXmlFragment.doc === null) {
       throw new Error('The Yjs fragment must belong to a document')
@@ -68,7 +76,7 @@ export class ProsemirrorBinding {
     // Capture against the old mapping before Yjs observers rebuild the editor document.
     this.beforeAllTransactions = () => {
       if (
-        this.projectionError === null &&
+        this._invalidContentError === null &&
         this.beforeTransactionSelection === null &&
         this.prosemirrorView != null
       ) {
@@ -78,6 +86,15 @@ export class ProsemirrorBinding {
     this.afterAllTransactions = () => {
       this.beforeTransactionSelection = null
     }
+  }
+
+  /**
+   * Returns the schema error that pauses editing and shared writes.
+   * Only set when the binding keeps invalid content.
+   * @returns The error, or null when the shared content fits the editor schema.
+   */
+  get invalidContentError(): Error | null {
+    return this._invalidContentError
   }
 
   private get view(): EditorView {
@@ -153,38 +170,53 @@ export class ProsemirrorBinding {
     this.view.dispatch(this._tr.setMeta(ySyncPluginKey, { snapshot, prevSnapshot }))
   }
 
-  private createDocumentFragment(): PModel.Fragment | null {
-    try {
-      const fragmentContent = this.type.toArray().map(type => {
+  private createDocumentContent(): PModel.Fragment {
+    this.projectionError = null
+    this.pendingTextMerges = []
+
+    const fragmentContent = this.type
+      .toArray()
+      .map(type => {
         if (!(type instanceof Y.XmlElement)) {
           throw error.methodUnimplemented()
         }
 
         return createNodeFromYElement(type, this.view.state.schema, this)
       })
-      const content = PModel.Fragment.from(fragmentContent)
-      validateDocumentContent(content, this.view.state.schema)
-      this._projectionError = null
-      return content
-    } catch (error) {
-      this.handleProjectionError(error)
-      return null
+      .filter(node => node !== null)
+    const content = PModel.Fragment.from(fragmentContent)
+    const { topNodeType } = this.view.state.schema
+
+    this.hasSharedContent ||= this.type.length > 0
+    // Only a fragment that never had content uses the editor's placeholder document
+    const isPlaceholder = content.childCount === 0 && !this.hasSharedContent
+
+    if (this.reportInvalidContent && !isPlaceholder && !topNodeType.validContent(content)) {
+      this.reportInvalidContent(new RangeError('Shared content does not fit the document schema'))
     }
+
+    // Keep shared text unchanged while content is invalid
+    if (this.projectionError === null) this.pendingTextMerges.forEach(mergeNextYText)
+
+    return content
   }
 
-  private handleProjectionError(error: unknown) {
-    this._projectionError =
-      error instanceof Error ? error : new Error('Cannot project shared content')
-    this.mapping.clear()
-    projectedMappings.delete(this.mapping)
-    this.beforeTransactionSelection = null
-    this.view.dispatch(this._tr.setMeta(ySyncPluginKey, { isChangeOrigin: true }))
+  /** Returns the projection error only when the content just stopped fitting the schema. */
+  private updateInvalidContentError(): Error | null {
+    const error = this.projectionError
+    const isNewError = error !== null && this._invalidContentError === null
+
+    this._invalidContentError = error
+
+    return isNewError ? error : null
   }
 
-  private createDocumentTransaction(): Transaction | null {
-    const content = this.createDocumentFragment()
+  private notifyInvalidContent(error: Error | null) {
+    if (error) this.onInvalidContent?.(error)
+  }
 
-    if (content === null) return null
+  private createDocumentTransaction(): Transaction {
+    const content = this.createDocumentContent()
 
     return this._tr.replace(0, this.view.state.doc.content.size, new PModel.Slice(content, 0, 0))
   }
@@ -192,24 +224,29 @@ export class ProsemirrorBinding {
   unrenderSnapshot() {
     this.mapping.clear()
     projectedMappings.delete(this.mapping)
+    let newError: Error | null = null
+
     this.mux(() => {
       const tr = this.createDocumentTransaction()
 
-      if (tr === null) return
-
+      newError = this.updateInvalidContentError()
       tr.setMeta(ySyncPluginKey, { snapshot: null, prevSnapshot: null })
       this.view.dispatch(tr)
     })
+
+    this.notifyInvalidContent(newError)
   }
 
   _forceRerender() {
     this.mapping.clear()
     projectedMappings.delete(this.mapping)
+    let newError: Error | null = null
+
     this.mux(() => {
       const sel = this.beforeTransactionSelection !== null ? null : this.view.state.selection
       const tr = this.createDocumentTransaction()
 
-      if (tr === null) return
+      newError = this.updateInvalidContentError()
 
       if (sel) {
         const clampedAnchor = math.min(math.max(sel.anchor, 0), tr.doc.content.size)
@@ -220,6 +257,8 @@ export class ProsemirrorBinding {
 
       this.view.dispatch(tr.setMeta(ySyncPluginKey, { isChangeOrigin: true, binding: this }))
     })
+
+    this.notifyInvalidContent(newError)
   }
 
   _renderSnapshot(
@@ -276,71 +315,70 @@ export class ProsemirrorBinding {
     this.mapping.clear()
     projectedMappings.delete(this.mapping)
     this.mux(() => {
-      try {
-        historyDoc.transact(transaction => {
-          const pud = pluginState.permanentUserData
+      historyDoc.transact(transaction => {
+        const pud = pluginState.permanentUserData
 
-          if (pud) {
-            pud.dss.forEach(ds => {
-              Y.iterateDeletedStructs(transaction, ds, _item => {})
-            })
+        if (pud) {
+          pud.dss.forEach(ds => {
+            Y.iterateDeletedStructs(transaction, ds, _item => {})
+          })
+        }
+
+        const computeYChange: ComputeYChange = (type, id) => {
+          const user = pud
+            ? type === 'added'
+              ? pud.getUserByClientId(id.client)
+              : pud.getUserByDeletedId(id)
+            : null
+
+          return {
+            user,
+            type,
+            color: getUserColor(pluginState.colorMapping, pluginState.colors, user),
           }
-
-          const computeYChange: ComputeYChange = (type, id) => {
-            const user = pud
-              ? type === 'added'
-                ? pud.getUserByClientId(id.client)
-                : pud.getUserByDeletedId(id)
-              : null
-
-            return {
-              user,
-              type,
-              color: getUserColor(pluginState.colorMapping, pluginState.colors, user),
+        }
+        const fragmentContent = Y.typeListToArraySnapshot(
+          historyType,
+          // Include content deleted since the previous snapshot so removals remain visible.
+          new Y.Snapshot(previousSnapshot.ds, currentSnapshot.sv),
+        )
+          .map((t: unknown) => {
+            if (!(t instanceof Y.XmlElement) || !t._item) {
+              return null
             }
-          }
-          const fragmentContent = Y.typeListToArraySnapshot(
-            historyType,
-            // Include content deleted since the previous snapshot so removals remain visible.
-            new Y.Snapshot(previousSnapshot.ds, currentSnapshot.sv),
-          )
-            .map((t: unknown) => {
-              if (!(t instanceof Y.XmlElement) || !t._item) {
-                return null
-              }
 
-              if (
-                !t._item.deleted ||
-                isVisible(t._item, currentSnapshot) ||
-                isVisible(t._item, previousSnapshot)
-              ) {
-                return createNodeFromYElement(
-                  t,
-                  this.view.state.schema,
-                  { mapping: new Map(), isOMark: new Map() },
-                  currentSnapshot,
-                  previousSnapshot,
-                  computeYChange,
-                )
-              } else {
-                return null
-              }
-            })
-            .filter(n => n !== null)
-          const content = PModel.Fragment.from(fragmentContent)
-          validateDocumentContent(content, this.view.state.schema)
-          const tr = this._tr.replace(
-            0,
-            this.view.state.doc.content.size,
-            new PModel.Slice(content, 0, 0),
-          )
+            if (
+              !t._item.deleted ||
+              isVisible(t._item, currentSnapshot) ||
+              isVisible(t._item, previousSnapshot)
+            ) {
+              return createNodeFromYElement(
+                t,
+                this.view.state.schema,
+                {
+                  mapping: new Map(),
+                  isOMark: new Map(),
+                  // Never change shared content while showing a snapshot
+                  reportInvalidContent: this.reportInvalidContent ? () => {} : undefined,
+                  deferTextMerge: this.reportInvalidContent ? () => {} : undefined,
+                },
+                currentSnapshot,
+                previousSnapshot,
+                computeYChange,
+              )
+            } else {
+              return null
+            }
+          })
+          .filter(n => n !== null)
+        const tr = this._tr.replace(
+          0,
+          this.view.state.doc.content.size,
+          new PModel.Slice(PModel.Fragment.from(fragmentContent), 0, 0),
+        )
 
-          this._projectionError = null
-          this.view.dispatch(tr.setMeta(ySyncPluginKey, { isChangeOrigin: true }))
-        }, ySyncPluginKey)
-      } catch (error) {
-        this.handleProjectionError(error)
-      }
+        this.view.dispatch(tr.setMeta(ySyncPluginKey, { isChangeOrigin: true }))
+      }, ySyncPluginKey)
     })
   }
 
@@ -367,6 +405,7 @@ export class ProsemirrorBinding {
     const selection = undoSelection || this.beforeTransactionSelection
     // Historical absolute positions belong to the saved document.
     const oldDoc = undoSelection ? undefined : this.view.state.doc
+    let newError: Error | null = null
 
     this.mux(() => {
       const delType = (_: unknown, type: unknown) => deleteMapping(this.mapping, type)
@@ -379,13 +418,12 @@ export class ProsemirrorBinding {
       transaction.changed.forEach(delType)
       transaction.changedParentTypes.forEach(delType)
 
-      const content = this.createDocumentFragment()
+      let tr = replaceChangedChildren(this._tr, this.createDocumentContent())
 
-      if (content === null) return
+      newError = this.updateInvalidContentError()
 
-      let tr = replaceChangedChildren(this._tr, content)
-
-      restoreRelativeSelection(tr, selection, this, oldDoc)
+      // Skipped content has no place in the editor to restore the selection to
+      if (this._invalidContentError === null) restoreRelativeSelection(tr, selection, this, oldDoc)
       tr = tr.setMeta(ySyncPluginKey, {
         isChangeOrigin: true,
         isUndoRedoOperation,
@@ -397,26 +435,20 @@ export class ProsemirrorBinding {
 
       this.view.dispatch(tr)
     })
+
+    this.notifyInvalidContent(newError)
   }
 
-  _prosemirrorChanged(doc: PModel.Node, plan: PositionMigrationPlan | null = null) {
+  _prosemirrorChanged(doc: PModel.Node) {
+    if (this._invalidContentError !== null) return
+
     const syncState = getSyncPluginState(this.view.state)
-    if (
-      this.projectionError !== null ||
-      syncState.snapshot != null ||
-      syncState.prevSnapshot != null
-    )
-      return
+    if (syncState.snapshot != null || syncState.prevSnapshot != null) return
 
     this.doc.transact(() => {
       updateYFragment(this.doc, this.type, doc, this)
+      this.hasSharedContent ||= this.type.length > 0
 
-      // Publish identity transfers with the content so peers receive both atomically.
-      if (plan?.doc === doc) {
-        applyPositionMigration(this.type, plan, this, getPositionMigrationStore(this.type))
-      }
-
-      this.syncedDoc = doc
       this.beforeTransactionSelection = getRelativeSelection(this, this.view.state)
     }, ySyncPluginKey)
   }

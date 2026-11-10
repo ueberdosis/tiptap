@@ -69,11 +69,11 @@ export class Editor extends CoreEditor {
   }
 
   /**
-   * Register a ProseMirror plugin.
+   * Register one or more ProseMirror plugins.
    */
-  public registerPlugin(
-    plugin: Plugin,
-    handlePlugins?: (newPlugin: Plugin, plugins: Plugin[]) => Plugin[],
+  public registerPlugin<T extends Plugin | Plugin[]>(
+    plugin: T,
+    handlePlugins?: (newPlugin: T, plugins: Plugin[]) => Plugin[],
   ): EditorState {
     const nextState = super.registerPlugin(plugin, handlePlugins)
 
