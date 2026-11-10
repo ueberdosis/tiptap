@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.33.1
+
+### Patch Changes
+
+- 1005e79: Deleting a text selection that spans the whole document no longer leaves the deleted text's marks active, so text typed into the emptied editor is no longer bold, linked or otherwise marked.
+
 ## 3.33.0
 
 No changes in this release.

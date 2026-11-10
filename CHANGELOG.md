@@ -1,5 +1,25 @@
 # Releases
 
+## v3.33.1
+
+### @tiptap/core
+
+#### Patch Changes
+
+- 1005e79: Deleting a text selection that spans the whole document no longer leaves the deleted text's marks active, so text typed into the emptied editor is no longer bold, linked or otherwise marked.
+
+### @tiptap/extension-find-and-replace
+
+#### Patch Changes
+
+- 09e8df1: The first `goToNextResult()` or `goToPreviousResult()` after a new search now selects the highlighted first result instead of skipping it.
+
+### @tiptap/y-tiptap
+
+#### Minor Changes
+
+- eb65009: `yCursorPlugin` now publishes a `lastSelection` awareness field with each collaborative field's latest selection and whether its editor is focused. Unlike `cursor`, it stays after the editor loses focus, so other clients can still read the selection. `lastSelection` is now reserved and can't be used as the cursor field.
+
 ## v3.33.0
 
 ### @tiptap/extension-collaboration

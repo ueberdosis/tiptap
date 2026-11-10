@@ -1,5 +1,11 @@
 # @tiptap/extension-find-and-replace
 
+## 3.33.1
+
+### Patch Changes
+
+- 09e8df1: The first `goToNextResult()` or `goToPreviousResult()` after a new search now selects the highlighted first result instead of skipping it.
+
 ## 3.33.0
 
 No changes in this release.
