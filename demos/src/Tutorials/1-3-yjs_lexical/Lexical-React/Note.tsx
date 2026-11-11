@@ -18,6 +18,9 @@ class LexicalProvider extends HocuspocusProvider {
   constructor(configuration: HocuspocusProviderConfiguration) {
     super(configuration)
 
+    // Let Lexical register its sync listener before connecting
+    this.disconnect()
+
     this.on('synced', ({ state }) => {
       this.emit('sync', state)
     })

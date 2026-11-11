@@ -72,14 +72,19 @@ for (const demo of demos) {
     page.on('pageerror', error => errors.push(error.message))
     await page.goto(`/src/${demo.path}/`)
 
+    const selector = demo.lexical ? '[contenteditable="true"]' : '.tiptap'
+    const editor = page.locator(selector).first()
+
+    if (demo.lexical) {
+      await expect(editor.locator('p')).toHaveCount(1)
+    }
+
     const peer = demo.splitPane ? page : await context.newPage()
     if (peer !== page) {
       peer.on('pageerror', error => errors.push(error.message))
       await peer.goto(`/src/${demo.path}/`)
     }
 
-    const selector = demo.lexical ? '[contenteditable="true"]' : '.tiptap'
-    const editor = page.locator(selector).first()
     const peerEditor = peer.locator(selector).nth(demo.splitPane ? 1 : 0)
     const expectedConnections = demo.notes ? 4 : 2
 
