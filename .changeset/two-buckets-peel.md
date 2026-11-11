@@ -1,5 +1,5 @@
 ---
-"@tiptap/core": patch
+'@tiptap/core': patch
 ---
 
 Correct `setContent` documentation
