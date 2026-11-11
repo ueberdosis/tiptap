@@ -3,10 +3,17 @@ import { NodeSelection } from '@tiptap/pm/state'
 import { canSplit } from '@tiptap/pm/transform'
 
 import { defaultBlockAt } from '../helpers/defaultBlockAt.js'
+import { deleteSelectionOnTransaction } from '../helpers/deleteSelectionOnTransaction.js'
 import { getSplittedAttributes } from '../helpers/getSplittedAttributes.js'
 import { previewDeleteSelection } from '../helpers/previewDeleteSelection.js'
 import type { RawCommands } from '../types.js'
 
+/**
+ * Reapply splittable active marks onto `tr` from the state captured prior to splitting.
+ * @param tr - The transaction to update
+ * @param preSplitState - Stored marks and selection captured immediately before the split
+ * @param splittableMarks - Names of marks configured to carry across block splits
+ */
 function ensureMarks(
   tr: Transaction,
   preSplitState: Pick<EditorState, 'storedMarks' | 'selection'>,
@@ -38,7 +45,7 @@ declare module '@tiptap/core' {
 
 export const splitBlock: RawCommands['splitBlock'] =
   ({ keepMarks = true } = {}) =>
-  ({ tr, dispatch, editor }) => {
+  ({ tr, state, dispatch, editor }) => {
     const { selection, doc } = tr
     const { $from } = selection
     const extensionAttributes = editor.extensionManager.attributes
@@ -119,7 +126,7 @@ export const splitBlock: RawCommands['splitBlock'] =
       const preSplitState = { storedMarks: splitState.storedMarks, selection: splitSelection }
 
       if (deletedTr) {
-        tr.deleteSelection()
+        deleteSelectionOnTransaction(tr, state.schema)
       }
 
       const mapFrom = tr.steps.length

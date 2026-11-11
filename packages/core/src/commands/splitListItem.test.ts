@@ -4,7 +4,18 @@ import Text from '@tiptap/extension-text'
 import { describe, expect, it } from 'vite-plus/test'
 
 import { Editor } from '../Editor.js'
+import { Mark } from '../Mark.js'
 import { Node } from '../Node.js'
+
+const Bold = Mark.create({
+  name: 'bold',
+  parseHTML() {
+    return [{ tag: 'strong' }]
+  },
+  renderHTML() {
+    return ['strong', 0]
+  },
+})
 
 // A list item that has to start with a paragraph. Splitting such an item in front of a
 // non-paragraph child is not possible, which is what makes `canSplit` fail below.
@@ -211,5 +222,42 @@ describe('splitListItem', () => {
     })
 
     expect(editor.getHTML()).toBe(before)
+  })
+
+  it('lifts an item left empty after deleting a cross-item selection when another item follows', () => {
+    const editor = createEditor('<ul><li><p></p></li><li><p>two</p></li><li><p>three</p></li></ul>')
+
+    editor.commands.setTextSelection({ from: 3, to: 10 })
+
+    expect(editor.can().splitListItem('listItem')).toBe(true)
+    expect(editor.getHTML()).toBe(
+      '<ul><li><p></p></li><li><p>two</p></li><li><p>three</p></li></ul>',
+    )
+
+    expect(editor.commands.keyboardShortcut('Enter')).toBe(true)
+    expect(editor.getHTML()).toBe('<p></p><ul><li><p>three</p></li></ul>')
+  })
+
+  it('splits the wrapping outer item when deleting a selection leaves an empty nested item at the end', () => {
+    const editor = createEditor(
+      '<ul><li><p>outer</p><ul><li><p>a</p></li><li><p>b</p></li></ul></li></ul>',
+    )
+
+    editor.commands.setTextSelection({ from: 12, to: 18 })
+
+    expect(editor.commands.keyboardShortcut('Enter')).toBe(true)
+    expect(editor.getHTML()).toBe('<ul><li><p>outer</p></li><li><p></p></li></ul>')
+  })
+
+  it('preserves splittable marks when splitting across list items starting in marked text', () => {
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, BulletList, ListItem, Bold],
+      content: '<ul><li><p><strong>one</strong></p></li><li><p>two</p></li></ul>',
+    })
+
+    editor.commands.setTextSelection({ from: 3, to: 11 })
+
+    expect(editor.commands.splitListItem('listItem')).toBe(true)
+    expect(editor.state.storedMarks?.map(mark => mark.type.name)).toEqual(['bold'])
   })
 })

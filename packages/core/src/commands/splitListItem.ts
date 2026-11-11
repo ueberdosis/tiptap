@@ -1,8 +1,9 @@
 import type { Node as PMNode, NodeType } from '@tiptap/pm/model'
 import { Fragment, Slice } from '@tiptap/pm/model'
 import { TextSelection } from '@tiptap/pm/state'
-import { canSplit } from '@tiptap/pm/transform'
+import { canSplit, liftTarget } from '@tiptap/pm/transform'
 
+import { deleteSelectionOnTransaction } from '../helpers/deleteSelectionOnTransaction.js'
 import { getNodeType } from '../helpers/getNodeType.js'
 import { getSplittedAttributes } from '../helpers/getSplittedAttributes.js'
 import { previewDeleteSelection } from '../helpers/previewDeleteSelection.js'
@@ -50,23 +51,46 @@ export const splitListItem: RawCommands['splitListItem'] =
 
     const extensionAttributes = editor.extensionManager.attributes
 
-    if (
-      !deletedTr &&
-      $from.parent.content.size === 0 &&
-      $from.node(-1).childCount === $from.indexAfter(-1)
-    ) {
+    if ($from.parent.content.size === 0 && $from.node(-1).childCount === $from.indexAfter(-1)) {
       // In an empty block. If this is a nested list, the wrapping
       // list item should be split. Otherwise, bail out and let next
-      // command handle lifting.
-      if (
-        $from.depth === 2 ||
-        $from.node(-3).type !== type ||
-        $from.index(-2) !== $from.node(-2).childCount - 1
-      ) {
-        return false
+      // command handle lifting (or lift directly when a selection deletion
+      // collapsed the item to empty).
+      const canSplitOuterItem =
+        $from.depth > 2 &&
+        $from.node(-3).type === type &&
+        $from.index(-2) === $from.node(-2).childCount - 1
+
+      if (!canSplitOuterItem) {
+        if (!deletedTr || $from.parent.type.spec.code) {
+          return false
+        }
+
+        const range = $from.blockRange($from)
+
+        if (!range) {
+          return false
+        }
+
+        const target = liftTarget(range)
+
+        if (target === null || target === undefined) {
+          return false
+        }
+
+        if (dispatch) {
+          deleteSelectionOnTransaction(tr, state.schema)
+          tr.lift(range, target).scrollIntoView()
+        }
+
+        return true
       }
 
       if (dispatch) {
+        if (deletedTr) {
+          deleteSelectionOnTransaction(tr, state.schema)
+        }
+
         let wrap = Fragment.empty
         // oxlint-disable-next-line
         const depthBefore = $from.index(-1) ? 1 : $from.index(-2) ? 2 : 3
@@ -162,11 +186,10 @@ export const splitListItem: RawCommands['splitListItem'] =
 
     if (dispatch) {
       const { splittableMarks } = editor.extensionManager
-      const storedMarks = deletedTr ? deletedTr.storedMarks : state.storedMarks
-      const marks = storedMarks || ($to.parentOffset && $from.marks())
+      const marks = splitState.storedMarks || ($to.parentOffset && $from.marks())
 
       if (deletedTr) {
-        tr.deleteSelection()
+        deleteSelectionOnTransaction(tr, state.schema)
       }
 
       tr.split($from.pos, 2, types).scrollIntoView()
