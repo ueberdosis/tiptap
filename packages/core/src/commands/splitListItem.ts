@@ -1,10 +1,11 @@
 import type { Node as PMNode, NodeType } from '@tiptap/pm/model'
 import { Fragment, Slice } from '@tiptap/pm/model'
 import { TextSelection } from '@tiptap/pm/state'
-import { canSplit, Transform } from '@tiptap/pm/transform'
+import { canSplit } from '@tiptap/pm/transform'
 
 import { getNodeType } from '../helpers/getNodeType.js'
 import { getSplittedAttributes } from '../helpers/getSplittedAttributes.js'
+import { previewDeleteSelection } from '../helpers/previewDeleteSelection.js'
 import type { RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
@@ -28,11 +29,14 @@ export const splitListItem: RawCommands['splitListItem'] =
   (typeOrName, overrideAttrs = {}) =>
   ({ tr, state, dispatch, editor }) => {
     const type = getNodeType(typeOrName, state.schema)
-    const { $from, $to } = state.selection
+    const deletedTr = previewDeleteSelection(tr)
+    const splitState = deletedTr ?? tr
+    const { selection: splitSelection, doc: splitDoc } = splitState
+    const { $from, $to } = splitSelection
 
     // @ts-ignore
     // oxlint-disable-next-line
-    const node: PMNode = state.selection.node
+    const node: PMNode = splitSelection.node
 
     if ((node && node.isBlock) || $from.depth < 2 || !$from.sameParent($to)) {
       return false
@@ -46,7 +50,11 @@ export const splitListItem: RawCommands['splitListItem'] =
 
     const extensionAttributes = editor.extensionManager.attributes
 
-    if ($from.parent.content.size === 0 && $from.node(-1).childCount === $from.indexAfter(-1)) {
+    if (
+      !deletedTr &&
+      $from.parent.content.size === 0 &&
+      $from.node(-1).childCount === $from.indexAfter(-1)
+    ) {
       // In an empty block. If this is a nested list, the wrapping
       // list item should be split. Otherwise, bail out and let next
       // command handle lifting.
@@ -148,23 +156,20 @@ export const splitListItem: RawCommands['splitListItem'] =
     // on a scratch transform instead of mutating `tr`: the shared transaction is dispatched even
     // when a command returns `false`, so it must stay untouched until the split is known to be
     // possible.
-    const deletedTr =
-      $from.pos === $to.pos ? null : new Transform(tr.doc).delete($from.pos, $to.pos)
-    const splitDoc = deletedTr ? deletedTr.doc : tr.doc
-    const splitPos = deletedTr ? deletedTr.mapping.map($from.pos) : $from.pos
-
-    if (!canSplit(splitDoc, splitPos, 2)) {
+    if (!canSplit(splitDoc, $from.pos, 2)) {
       return false
     }
 
     if (dispatch) {
-      const { selection, storedMarks } = state
       const { splittableMarks } = editor.extensionManager
-      const marks = storedMarks || (selection.$to.parentOffset && selection.$from.marks())
-      const mapFrom = tr.steps.length
+      const storedMarks = deletedTr ? deletedTr.storedMarks : state.storedMarks
+      const marks = storedMarks || ($to.parentOffset && $from.marks())
 
-      tr.delete($from.pos, $to.pos)
-      tr.split(tr.mapping.slice(mapFrom).map($from.pos), 2, types).scrollIntoView()
+      if (deletedTr) {
+        tr.deleteSelection()
+      }
+
+      tr.split($from.pos, 2, types).scrollIntoView()
 
       if (splitsAtStartOfItem) {
         tr.setNodeMarkup(itemStart, undefined, newTypeAttributes)

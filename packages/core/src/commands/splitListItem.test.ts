@@ -78,6 +78,44 @@ describe('splitListItem', () => {
     expect(editor.getHTML()).toBe('<ul><li><p>a</p></li><li><p>c</p></li></ul>')
   })
 
+  it('splits into two list items when Enter is pressed with a selection spanning from the middle of one item into the next', () => {
+    const editor = createEditor('<ul><li><p>one</p></li><li><p>two</p></li></ul>')
+
+    editor.commands.setTextSelection({ from: 4, to: 11 })
+
+    expect(editor.commands.keyboardShortcut('Enter')).toBe(true)
+    expect(editor.getHTML()).toBe('<ul><li><p>o</p></li><li><p>wo</p></li></ul>')
+  })
+
+  it('splits into two list items when Enter is pressed from the start of one item to the start of the next', () => {
+    const editor = createEditor('<ul><li><p>one</p></li><li><p>two</p></li></ul>')
+
+    editor.commands.setTextSelection({ from: 3, to: 10 })
+
+    expect(editor.commands.keyboardShortcut('Enter')).toBe(true)
+    expect(editor.getHTML()).toBe('<ul><li><p></p></li><li><p>two</p></li></ul>')
+  })
+
+  it('falls back cleanly when a selection spanning out of a list item into a paragraph is split on Enter', () => {
+    const editor = createEditor('<ul><li><p>one</p></li></ul><p>two</p>')
+
+    editor.commands.setTextSelection({ from: 3, to: 10 })
+
+    expect(editor.commands.keyboardShortcut('Enter')).toBe(true)
+    expect(editor.getHTML()).toBe('<p></p><p>two</p>')
+  })
+
+  it('returns false and leaves the document unchanged when deleting the selection exits the list', () => {
+    const editor = createEditor('<ul><li><p>one</p></li></ul><p>two</p>')
+    const before = editor.getHTML()
+
+    editor.commands.setTextSelection({ from: 3, to: 10 })
+
+    expect(editor.commands.splitListItem('listItem')).toBe(false)
+    expect(editor.can().splitListItem('listItem')).toBe(false)
+    expect(editor.getHTML()).toBe(before)
+  })
+
   it('returns false and leaves the document unchanged when the item cannot be split', () => {
     // The code block is a direct child of the list item, so the item cannot be split in front
     // of it: the trailing item would start with a code block, and `listItem` requires a
