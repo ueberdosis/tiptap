@@ -1,11 +1,11 @@
 import './styles.scss'
 
-import { TiptapCollabProvider } from '@hocuspocus/provider'
+import { HocuspocusProvider } from '@hocuspocus/provider'
 import * as Y from 'yjs'
 
 import Editor from './Editor.jsx'
 
-const appId = '7j9y6m10'
+const url = 'wss://7j9y6m10.collab.tiptap.cloud'
 const room = `room.${new Date()
   .getFullYear()
   .toString()
@@ -13,16 +13,18 @@ const room = `room.${new Date()
 
 // ydoc and provider for Editor A
 const ydocA = new Y.Doc()
-const providerA = new TiptapCollabProvider({
-  appId,
+const providerA = new HocuspocusProvider({
+  url,
+  token: 'notoken',
   name: room,
   document: ydocA,
 })
 
 // ydoc and provider for Editor B
 const ydocB = new Y.Doc()
-const providerB = new TiptapCollabProvider({
-  appId,
+const providerB = new HocuspocusProvider({
+  url,
+  token: 'notoken',
   name: room,
   document: ydocB,
 })
