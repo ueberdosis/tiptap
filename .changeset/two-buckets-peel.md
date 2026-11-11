@@ -2,4 +2,4 @@
 "@tiptap/core": patch
 ---
 
-correct setContent documentation
+Correct `setContent` documentation
