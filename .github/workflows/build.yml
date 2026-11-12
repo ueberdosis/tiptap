@@ -21,26 +21,9 @@ on:
       - release/*
 
 jobs:
-  install-node-dependencies:
-    name: Install node dependencies
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-
-    steps:
-      - uses: actions/checkout@v7
-
-      - uses: ./.github/actions/setup-env
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'true'
-
-      - name: Install dependencies
-        run: vp install --frozen-lockfile -- --strict-peer-dependencies
-
   build-packages:
     name: Build packages
     runs-on: ubuntu-latest
-    needs: install-node-dependencies
     timeout-minutes: 20
 
     steps:
@@ -50,8 +33,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'true'
-
-      - uses: ./.github/actions/restore-dependencies
+          install: 'true'
 
       - name: Build packages
         run: vp run build && vp run build:demos
@@ -62,7 +44,6 @@ jobs:
   check-linting-formatting:
     name: Check linting & formatting
     runs-on: ubuntu-latest
-    needs: install-node-dependencies
     timeout-minutes: 15
 
     steps:
@@ -72,8 +53,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'true'
-
-      - uses: ./.github/actions/restore-dependencies
+          install: 'true'
 
       - name: Run linting and formatting checks
         run: vp check
@@ -81,7 +61,6 @@ jobs:
   run-unit-tests:
     name: Run unit tests
     runs-on: ubuntu-latest
-    needs: install-node-dependencies
     timeout-minutes: 20
 
     steps:
@@ -91,8 +70,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'true'
-
-      - uses: ./.github/actions/restore-dependencies
+          install: 'true'
 
       - name: Run unit tests
         run: vp test
@@ -100,7 +78,6 @@ jobs:
   run-e2e-tests:
     name: Run e2e tests (shard ${{ matrix.shard }}/${{ matrix.total }})
     runs-on: ubuntu-latest
-    needs: install-node-dependencies
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -115,8 +92,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'true'
-
-      - uses: ./.github/actions/restore-dependencies
+          install: 'true'
 
       - uses: ./.github/actions/setup-playwright
 
@@ -134,8 +110,8 @@ jobs:
   merge-e2e-reports:
     name: Merge e2e reports
     runs-on: ubuntu-latest
-    needs: [install-node-dependencies, run-e2e-tests]
-    if: always() && needs.install-node-dependencies.result == 'success'
+    needs: run-e2e-tests
+    if: always()
     timeout-minutes: 10
 
     steps:
@@ -145,8 +121,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'true'
-
-      - uses: ./.github/actions/restore-dependencies
+          install: 'true'
 
       - name: Download blob reports
         uses: actions/download-artifact@v8

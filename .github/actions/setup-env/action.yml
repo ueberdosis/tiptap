@@ -1,5 +1,5 @@
 name: Setup Vite+ environment
-description: Install Vite+ and set up Node.js and dependency caching
+description: Install Vite+, set up Node.js and dependency caching, and optionally install dependencies
 
 inputs:
   node-version:
@@ -7,6 +7,10 @@ inputs:
     required: true
   cache:
     description: Whether to cache package manager data
+    default: 'false'
+    required: false
+  install:
+    description: Whether to install dependencies with a frozen lockfile and strict peer dependencies
     default: 'false'
     required: false
 
@@ -17,4 +21,7 @@ runs:
       with:
         node-version: ${{ inputs.node-version }}
         cache: ${{ inputs.cache == 'true' && 'true' || 'false' }}
-        run-install: false
+        run-install: >-
+          ${{ inputs.install == 'true'
+          && '{ args: ["--prefer-offline", "--frozen-lockfile", "--", "--strict-peer-dependencies"] }'
+          || 'false' }}
