@@ -84,6 +84,30 @@ export const updateAttributes: RawCommands['updateAttributes'] =
             lastNode = node
           }
 
+          // Text (and other) nodes that start before the selection still overlap
+          // it. Update matching marks on the trimmed overlap, same as setMark.
+          if (pos < from && markType && node.marks.length) {
+            node.marks.forEach((mark: Mark) => {
+              if (markType === mark.type) {
+                canUpdate = true
+
+                if (dispatch) {
+                  const trimmedFrom2 = Math.max(pos, from)
+                  const trimmedTo2 = Math.min(pos + node.nodeSize, to)
+
+                  tr.addMark(
+                    trimmedFrom2,
+                    trimmedTo2,
+                    markType.create({
+                      ...mark.attrs,
+                      ...attributes,
+                    }),
+                  )
+                }
+              }
+            })
+          }
+
           if (pos >= from && pos <= to) {
             if (nodeType && nodeType === node.type) {
               canUpdate = true
