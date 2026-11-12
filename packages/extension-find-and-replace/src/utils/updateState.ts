@@ -1,5 +1,5 @@
 import type { Node as PMNode } from '@tiptap/pm/model'
-import type { Mapping } from '@tiptap/pm/transform'
+import type { Transform } from '@tiptap/pm/transform'
 
 import type { FindAndReplaceMeta, FindAndReplacePluginState } from '../plugin/plugin-state.js'
 
@@ -14,15 +14,14 @@ export function updateState(
   state: FindAndReplacePluginState,
   doc: PMNode,
   meta: FindAndReplaceMeta | undefined,
-  docChanged: boolean,
-  mapping: Mapping,
+  transform: Transform,
 ): FindAndReplacePluginState {
   if (touchesSearch(meta)) {
-    return refreshState(previousState, state, doc, meta, docChanged, mapping)
+    return refreshState(previousState, state, doc, meta, transform.docChanged, transform.mapping)
   }
 
-  if (docChanged) {
-    return refreshDocumentState(previousState, state, doc, meta, mapping)
+  if (transform.docChanged) {
+    return refreshDocumentState(previousState, state, doc, meta, transform)
   }
 
   if (hasCurrentIndex(meta)) {

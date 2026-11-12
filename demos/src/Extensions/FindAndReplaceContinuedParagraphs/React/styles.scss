@@ -1,0 +1,18 @@
+/* Basic editor styles */
+.tiptap {
+  :first-child {
+    margin-top: 0;
+  }
+
+  /* Show which paragraph continues the one before it */
+  p[data-continued] {
+    border-left: 2px dashed var(--purple);
+    padding-left: 0.5rem;
+  }
+}
+
+.control-group .result-count {
+  align-self: center;
+  color: var(--gray-5);
+  font-size: 0.875rem;
+}
