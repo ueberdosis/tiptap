@@ -1010,6 +1010,7 @@ export type RenderContext = {
   meta?: Record<string, any>
   parentType?: string | null
   previousNode?: JSONContent | null
+  nextNode?: JSONContent | null
 }
 
 /** Extension contract for markdown parsing/serialization. */
