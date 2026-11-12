@@ -151,9 +151,9 @@ test.describe(`${demoPath}/${demoName}`, () => {
         const editor = await getEditor(page)
         await placeCaretBefore(editor, '<blockquote><p>A</p></blockquote><p>B</p>', 'B')
         await editor.press('Backspace') // merges B into A -> "AB"
-        await editor.press('Backspace') // deletes 'B' -> "A"
+        await editor.press('Backspace') // deletes 'A' -> "B"
         const html = await editor.evaluate((el: any) => el.editor.getHTML())
-        expect(html).toBe('<blockquote><p>A</p></blockquote>')
+        expect(html).toBe('<blockquote><p>B</p></blockquote>')
       })
     })
   })
