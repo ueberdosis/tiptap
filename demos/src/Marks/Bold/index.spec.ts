@@ -27,7 +27,7 @@ test.describe(`${demoPath}/${demoName}`, () => {
           el.editor.commands.setContent('<p><b>Example Text</b></p>')
           return el.editor.getHTML()
         })
-        expect(html).toBe('<p><strong>Example Text</strong></p>')
+        expect(html).toBe('<p><strong>Deliberately failing</strong></p>')
       })
 
       test('omits b tags with normal font weight inline style', async ({ page }) => {
