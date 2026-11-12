@@ -1,4 +1,8 @@
-import type { CursorAwarenessState } from '../../types/CursorAwarenessState.js'
+import type {
+  CursorAwarenessLastSelection,
+  CursorAwarenessSelection,
+  CursorAwarenessState,
+} from '../../types/CursorAwarenessState.js'
 import type { EditorState } from 'prosemirror-state'
 import type { EditorView } from 'prosemirror-view'
 import type { CursorUser } from '../../types/CursorUser.js'
@@ -46,6 +50,14 @@ export const defaultSelectionBuilder = (user: CursorUser) => {
     class: 'ProseMirror-yjs-selection',
   }
 }
+
+// Positions cannot be mapped while the editor skips shared content
+const getMappableSyncState = (state: EditorState) => {
+  const ystate = ySyncPluginKey.getState(state)
+
+  return ystate?.binding && ystate.binding.invalidContentError === null ? ystate : null
+}
+
 const rxValidColor = /^#[0-9a-fA-F]{6}$/
 const hasCursorUser = (user: Partial<CursorUser>): user is CursorUser =>
   typeof user.name === 'string' && typeof user.color === 'string'
@@ -56,9 +68,9 @@ export const createDecorations = (
   createCursor: (user: CursorUser, clientId: number) => Element,
   createSelection: NonNullable<CursorPluginOptions['selectionBuilder']>,
 ): DecorationSet => {
-  const ystate = ySyncPluginKey.getState(state)
+  const ystate = getMappableSyncState(state)
 
-  if (ystate == null || ystate.doc == null || ystate.binding == null) {
+  if (ystate == null || ystate.doc == null) {
     return DecorationSet.create(state.doc, [])
   }
 
@@ -131,6 +143,21 @@ export const createDecorations = (
 
   return DecorationSet.create(state.doc, decorations)
 }
+
+const isSameSelection = (
+  cursor: CursorAwarenessSelection | null | undefined,
+  selection: CursorAwarenessSelection,
+) =>
+  cursor != null &&
+  Y.compareRelativePositions(
+    Y.createRelativePositionFromJSON(cursor.anchor),
+    Y.createRelativePositionFromJSON(selection.anchor),
+  ) &&
+  Y.compareRelativePositions(
+    Y.createRelativePositionFromJSON(cursor.head),
+    Y.createRelativePositionFromJSON(selection.head),
+  )
+
 /** Renders remote cursors and publishes the local selection through awareness. */
 export const yCursorPlugin = (
   awareness: Awareness,
@@ -141,8 +168,12 @@ export const yCursorPlugin = (
     getSelection = state => state.selection,
   }: CursorPluginOptions = {},
   cursorStateField: string = 'cursor',
-): Plugin<DecorationSet> =>
-  new Plugin<DecorationSet>({
+): Plugin<DecorationSet> => {
+  if (cursorStateField === 'lastSelection') {
+    throw new Error('yCursorPlugin: "lastSelection" is reserved and cannot be the cursor field')
+  }
+
+  return new Plugin<DecorationSet>({
     key: yCursorPluginKey,
     state: {
       init(_, state) {
@@ -186,57 +217,90 @@ export const yCursorPlugin = (
       },
     },
     view: view => {
+      const syncType = ySyncPluginKey.getState(view.state)?.type
+      // Only root fragments have a field name the server can address.
+      const field = syncType && syncType._item === null ? Y.findRootTypeKey(syncType) : undefined
+      // The cursor this view published, so only its owner clears it.
+      let publishedCursor: CursorAwarenessSelection | null = null
+      let publishedEntry: CursorAwarenessLastSelection | null = null
+
       const awarenessListener = () => {
         if (!view.isDestroyed) {
           setMeta(view, yCursorPluginKey, { awarenessUpdated: true })
         }
       }
+      // Write the cursor and its field entry in one update to avoid extra messages.
+      const publish = (
+        current: CursorAwarenessState,
+        selection: CursorAwarenessSelection,
+        focused: boolean,
+        cursor: CursorAwarenessSelection | null | undefined,
+      ) => {
+        if (field === undefined || typeof awareness.setLocalState !== 'function') {
+          if (cursor !== current[cursorStateField]) {
+            awareness.setLocalStateField(cursorStateField, cursor)
+          }
+          return
+        }
+        publishedEntry = { ...selection, time: Date.now(), focused }
+        awareness.setLocalState({
+          ...current,
+          [cursorStateField]: cursor,
+          lastSelection: {
+            ...current.lastSelection,
+            [field]: publishedEntry,
+          },
+        })
+      }
+      const releaseCursor = (current: CursorAwarenessState) => {
+        if (publishedCursor === null) return
+        const cursor = current[cursorStateField] as CursorAwarenessState['cursor']
+        const ownsCursor = cursor === publishedCursor
+        const ownsEntry = field !== undefined && current.lastSelection?.[field] === publishedEntry
+        if (ownsEntry) {
+          publish(current, publishedCursor, false, ownsCursor ? null : cursor)
+        } else if (ownsCursor) {
+          awareness.setLocalStateField(cursorStateField, null)
+        }
+        publishedCursor = null
+        publishedEntry = null
+      }
       const updateCursorInfo = (editorView: EditorView) => {
-        const ystate = ySyncPluginKey.getState(editorView.state)
+        const ystate = getMappableSyncState(editorView.state)
 
-        if (!ystate || !ystate.binding || ystate.binding.projectionError !== null) {
+        if (!ystate) {
+          // Peers should not see a cursor this user can no longer move
+          const localState: CursorAwarenessState | null = awareness.getLocalState()
+          if (localState !== null) releaseCursor(localState)
           return
         }
 
-        const current: CursorAwarenessState = awareness.getLocalState() || {}
+        const localState: CursorAwarenessState | null = awareness.getLocalState()
+        // Presence was disabled by the app
+        if (localState === null) return
+        const current: CursorAwarenessState = localState || {}
 
-        if (editorView.hasFocus()) {
-          const selection = getSelection(editorView.state)
-          const anchor: Y.RelativePosition = absolutePositionToRelativePosition(
-            selection.anchor,
-            ystate.type,
-            ystate.binding.mapping,
-          )
-          const head: Y.RelativePosition = absolutePositionToRelativePosition(
-            selection.head,
-            ystate.type,
-            ystate.binding.mapping,
-          )
-
-          if (
-            current.cursor == null ||
-            !Y.compareRelativePositions(
-              Y.createRelativePositionFromJSON(current.cursor.anchor),
-              anchor,
-            ) ||
-            !Y.compareRelativePositions(Y.createRelativePositionFromJSON(current.cursor.head), head)
-          ) {
-            awareness.setLocalStateField(cursorStateField, {
-              anchor,
-              head,
-            })
-          }
-        } else if (
-          current.cursor != null &&
-          relativePositionToAbsolutePosition(
-            ystate.doc,
-            ystate.type,
-            Y.createRelativePositionFromJSON(current.cursor.anchor),
-            ystate.binding.mapping,
-          ) !== null
-        ) {
-          awareness.setLocalStateField(cursorStateField, null)
+        if (!editorView.hasFocus()) {
+          releaseCursor(current)
+          return
         }
+
+        const selection = getSelection(editorView.state)
+        const anchor: Y.RelativePosition = absolutePositionToRelativePosition(
+          selection.anchor,
+          ystate.type,
+          ystate.binding.mapping,
+        )
+        const head: Y.RelativePosition = absolutePositionToRelativePosition(
+          selection.head,
+          ystate.type,
+          ystate.binding.mapping,
+        )
+        const cursor = current[cursorStateField] as CursorAwarenessState['cursor']
+        if (cursor === publishedCursor && isSameSelection(cursor, { anchor, head })) return
+
+        publishedCursor = { anchor, head }
+        publish(current, publishedCursor, true, publishedCursor)
       }
       const onFocusChange = () => updateCursorInfo(view)
 
@@ -250,8 +314,11 @@ export const yCursorPlugin = (
           view.dom.removeEventListener('focusin', onFocusChange)
           view.dom.removeEventListener('focusout', onFocusChange)
           awareness.off('change', awarenessListener)
-          awareness.setLocalStateField(cursorStateField, null)
+          if (publishedCursor === null) return
+          const localState: CursorAwarenessState | null = awareness.getLocalState()
+          if (localState !== null) releaseCursor(localState)
         },
       }
     },
   })
+}

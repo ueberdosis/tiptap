@@ -18,6 +18,7 @@ export function refreshCurrentIndexState(
   return {
     ...state,
     currentIndex,
+    currentResultVisited: true,
     decorations: refreshDecorations(
       previousState.decorations,
       doc,

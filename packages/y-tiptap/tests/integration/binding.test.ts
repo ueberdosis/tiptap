@@ -1,5 +1,5 @@
 import { Schema } from 'prosemirror-model'
-import { EditorState } from 'prosemirror-state'
+import { EditorState, Plugin } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import {
   prosemirrorJSONToYDoc,
@@ -39,13 +39,13 @@ describe('Yjs binding', () => {
     documents.length = 0
   })
 
-  const createClient = () => {
+  const createClient = (plugins: Plugin[] = []) => {
     const document = new Y.Doc({ gc: false })
     documents.push(document)
     const view = new EditorView(null, {
       state: EditorState.create({
         schema,
-        plugins: [ySyncPlugin(document.getXmlFragment('prosemirror')), yUndoPlugin()],
+        plugins: [ySyncPlugin(document.getXmlFragment('prosemirror')), yUndoPlugin(), ...plugins],
       }),
     })
     views.push(view)
@@ -61,6 +61,44 @@ describe('Yjs binding', () => {
     expect(updates).toHaveLength(0)
     expect(client.document.getXmlFragment('prosemirror').length).toBe(0)
   })
+
+  it.each(['', 'Hello'])(
+    'persists typing and an appended mark in a paragraph containing %j',
+    text => {
+      const appendBold = new Plugin({
+        appendTransaction(transactions, _oldState, state) {
+          if (!transactions.some(transaction => transaction.getMeta('appendBold'))) return null
+          return state.tr.addMark(1, 2, schema.marks.bold.create())
+        },
+      })
+      const client = createClient([appendBold])
+      const element = new Y.XmlElement('paragraph')
+      if (text) element.insert(0, [new Y.XmlText(text)])
+      client.document.getXmlFragment('prosemirror').insert(0, [element])
+
+      client.view.dispatch(client.view.state.tr.insertText('X', 1).setMeta('appendBold', true))
+
+      const expected = {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [
+              { type: 'text', text: 'X', marks: [{ type: 'bold' }] },
+              ...(text ? [{ type: 'text', text }] : []),
+            ],
+          },
+        ],
+      }
+      expect(client.view.state.doc.toJSON()).toEqual(expected)
+      expect(schema.nodeFromJSON(yDocToProsemirrorJSON(client.document)).toJSON()).toEqual(expected)
+
+      expect(undo(client.view.state)).toBe(true)
+      expect(client.view.state.doc.textContent).toBe(text)
+      expect(redo(client.view.state)).toBe(true)
+      expect(client.view.state.doc.toJSON()).toEqual(expected)
+    },
+  )
 
   it.each(['snapshot', 'update'] as const)('renders and restores a historical %s', async format => {
     const client = createClient()
@@ -79,6 +117,23 @@ describe('Yjs binding', () => {
     })
     syncState.binding.unrenderSnapshot()
     expect(client.view.state.doc.textContent).toBe('Hi')
+  })
+
+  it('blocks undo and redo while a snapshot is shown', async () => {
+    const client = createClient()
+    client.view.dispatch(client.view.state.tr.insertText('Hello', 1))
+    const history = Y.snapshot(client.document)
+    client.view.dispatch(client.view.state.tr.insertText('Hi', 1, 6))
+    const syncState = ySyncPluginKey.getState(client.view.state)
+    if (!syncState) throw new Error('Missing sync plugin state')
+    const before = Y.encodeStateAsUpdate(client.document)
+
+    syncState.binding.renderSnapshot(history, history)
+    await vi.waitFor(() => expect(client.view.state.doc.textContent).toBe('Hello'))
+
+    expect(undo(client.view.state)).toBe(false)
+    expect(redo(client.view.state)).toBe(false)
+    expect(Y.encodeStateAsUpdate(client.document)).toEqual(before)
   })
 
   it.each(['snapshot', 'update'] as const)(
@@ -107,6 +162,13 @@ describe('Yjs binding', () => {
         }),
       )
       expect(client.view.state.doc.textContent).toBe('Hello')
+      expect(client.view.editable).toBe(true)
+
+      client.view.dispatch(client.view.state.tr.insertText('!', 6))
+      expect(yDocToProsemirrorJSON(client.document)).toEqual({
+        type: 'doc',
+        content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Hello!' }] }],
+      })
     },
   )
 

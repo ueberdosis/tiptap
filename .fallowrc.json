@@ -2,5 +2,5 @@
   "$schema": "https://raw.githubusercontent.com/fallow-rs/fallow/main/schema.json",
   "ignorePatterns": ["**/*.spec.ts"],
   "ignoreExports": [{ "file": "**/*", "exports": ["default"] }],
-  "dynamicallyLoaded": ["demos/src/**/index.*"]
+  "dynamicallyLoaded": ["demos/src/**/index.*", "scripts/changeset-changelog.cjs"]
 }
