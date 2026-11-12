@@ -20,7 +20,7 @@ runs:
     - uses: voidzero-dev/setup-vp@v1.18.0
       with:
         node-version: ${{ inputs.node-version }}
-        cache: 'false'
+        cache: ${{ inputs.cache == 'true' && 'true' || 'false' }}
         run-install: >-
           ${{ inputs.install == 'true'
           && '{ args: ["--prefer-offline", "--frozen-lockfile", "--", "--strict-peer-dependencies"] }'
