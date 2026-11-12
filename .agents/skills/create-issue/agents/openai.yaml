@@ -1,0 +1,3 @@
+interface:
+  display_name: 'Create Issue'
+  short_description: 'Draft short GitHub issues from the current template'
