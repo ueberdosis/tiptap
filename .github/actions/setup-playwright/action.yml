@@ -1,5 +1,5 @@
 name: Setup Playwright
-description: Cache the Playwright Chromium headless shell and install its system dependencies
+description: Cache the Playwright Chromium headless shell and install it with system dependencies on a cache miss
 
 runs:
   using: composite
@@ -24,12 +24,8 @@ runs:
         # Keep shell-only caches apart from older full Chromium caches
         key: playwright-${{ runner.os }}-${{ steps.playwright-version.outputs.version }}-headless-shell
 
+    # The runner image already has Chromium's libraries, so a cache hit skips the slow apt install
     - name: Install Playwright browsers
       if: steps.playwright-cache.outputs.cache-hit != 'true'
       shell: bash
       run: vp exec playwright install --with-deps --only-shell chromium
-
-    - name: Install Playwright system deps
-      if: steps.playwright-cache.outputs.cache-hit == 'true'
-      shell: bash
-      run: vp exec playwright install-deps chromium
