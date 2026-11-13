@@ -294,7 +294,9 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
       props: {
         handleDOMEvents: {
           drop: (view, event: Event) => {
-            isDroppedFromProseMirror = dragSourceElement === view.dom.parentElement
+            // view.dragging also covers nodes dragged from a handle outside the parent element
+            isDroppedFromProseMirror =
+              dragSourceElement === view.dom.parentElement || !!view.dragging
             dropEvent = event as DragEvent
 
             if (!isDroppedFromProseMirror) {
