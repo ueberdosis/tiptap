@@ -22,7 +22,7 @@ export default defineConfig({
     outDir: 'dist',
     dts: { sourcemap: true },
     clean: true,
-    target: 'es2019',
+    target: 'es2022',
     format: ['esm', 'cjs'],
     outExtensions: tsupCompatibleExtensions,
   },
