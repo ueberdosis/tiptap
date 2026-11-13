@@ -1,5 +1,16 @@
 # @tiptap/markdown
 
+## 4.0.0-next.0
+
+### Patch Changes
+
+- 496d53a: Fix Markdown serialization of whitespace-only marked text.
+- 7c8ad87: Fix Markdown serialization of inline code containing backticks
+- 13675ea: A literal `!` directly before a link is now escaped when serializing to Markdown, so the link is no longer parsed back as an image.
+- 77df9af: Keep Markdown task-item continuation lines in the same paragraph when the opening text resembles a heading or list, including tasks nested inside bullet lists.
+- 77df9af: Preserve task-list continuation text with custom block tokenizers and tab indentation.
+- 6520e58: Bind `parseMarkdown` and `renderMarkdown` to the configured extension so hooks can read `this.options` and `this.name` without an Editor.
+
 ## 3.30.3
 
 ### Patch Changes

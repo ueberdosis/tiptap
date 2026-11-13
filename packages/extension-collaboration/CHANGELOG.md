@@ -1,5 +1,18 @@
 # Change Log
 
+## 4.0.0-next.0
+
+### Minor Changes
+
+- 9c35ec3: With `enableContentCheck: true`, shared content that does not fit the editor schema now emits `contentError` instead of being deleted. The editor pauses editing and sends no changes until compatible content arrives, so read-only users no longer send repairs that the server rejects.
+  
+  If you use `enableContentCheck` with collaboration and want the editor to keep repairing invalid content, turn the content check off.
+
+### Patch Changes
+
+- 8cbeca3: Undoing an input rule restores the Markdown characters that triggered it when using Collaboration.
+- dd62145: Keep collaborative editing, cursor presence, and drag handles compatible with the updated `@tiptap/y-tiptap` binding.
+
 ## 3.30.3
 
 ### Patch Changes

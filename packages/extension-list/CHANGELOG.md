@@ -1,5 +1,17 @@
 # Change Log
 
+## 4.0.0-next.0
+
+### Patch Changes
+
+- 548216e: Nested lists exported to Markdown now keep their hierarchy when the file is read back by other Markdown tools.
+- 504260b: Parsing large Markdown documents that contain ordered lists is much faster. A 578KB document went from about 19s to about 160ms.
+- 8b37c2c: Courtesy titles such as "Ms." and "Dr." are no longer parsed as ordered-list markers. Numbered, lettered, and roman lists are unchanged.
+- 77df9af: Indent continuation lines when exporting Markdown task items so they stay inside the item when imported again.
+- dec32fa: Fixed Markdown list items that start with a heading, quote or other non-paragraph block, which produced invalid documents. They now parse with a leading paragraph. Empty nested list items are written as `- &nbsp;`, so they no longer turn the parent item into a heading when read back.
+- 09e691c: Pressing Delete on a selection that starts at the end of a list item now deletes the selected text instead of only joining the items.
+- 0a28144: Keep the cursor after tables on Backspace and join nested list text correctly on Delete.
+
 ## 3.30.3
 
 ### Patch Changes
