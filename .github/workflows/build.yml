@@ -99,8 +99,9 @@ jobs:
       - name: Run Playwright tests
         run: vp exec playwright test --project=chromium --shard=${{ matrix.shard }}/${{ matrix.total }}
 
+      # Skipped on cancel or timeout: the run is stale or the blob incomplete
       - name: Upload blob report
-        if: always()
+        if: failure()
         uses: actions/upload-artifact@v7
         with:
           name: e2e-blob-report-${{ matrix.shard }}
@@ -111,7 +112,7 @@ jobs:
     name: Merge e2e reports
     runs-on: ubuntu-latest
     needs: run-e2e-tests
-    if: always()
+    if: ${{ !cancelled() && needs.run-e2e-tests.result == 'failure' }}
     timeout-minutes: 10
 
     steps:
