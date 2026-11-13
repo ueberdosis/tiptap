@@ -73,6 +73,8 @@ export const updateYFragment = (
     return
   }
 
+  // Equal content must not take a node that another element is already mapped to.
+  const mappedPChildren = new Set(yChildren.map(yChild => meta.mapping.get(yChild)))
   let left = 0
   let right = 0
 
@@ -84,7 +86,7 @@ export const updateYFragment = (
       continue
     }
 
-    if (!equalYTypePNode(leftY, leftP)) {
+    if (mappedPChildren.has(leftP) || !equalYTypePNode(leftY, leftP)) {
       break
     }
 
@@ -99,7 +101,7 @@ export const updateYFragment = (
       continue
     }
 
-    if (!equalYTypePNode(rightY, rightP)) {
+    if (mappedPChildren.has(rightP) || !equalYTypePNode(rightY, rightP)) {
       break
     }
 
@@ -136,8 +138,11 @@ export const updateYFragment = (
         const equalityLeft = computeChildEqualityFactor(leftY, leftP, meta)
         const equalityRight = computeChildEqualityFactor(rightY, rightP, meta)
 
+        // An element already mapped to this node wins, as atoms have no children to compare.
         // Mapped child identity is stronger evidence than equal content when choosing a side.
-        if (equalityLeft.foundMappedChild && !equalityRight.foundMappedChild) {
+        if (mappedIdentity(meta.mapping.get(rightY), rightP)) {
+          updateLeft = false
+        } else if (equalityLeft.foundMappedChild && !equalityRight.foundMappedChild) {
           updateRight = false
         } else if (!equalityLeft.foundMappedChild && equalityRight.foundMappedChild) {
           updateLeft = false
