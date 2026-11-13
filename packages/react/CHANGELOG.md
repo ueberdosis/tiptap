@@ -1,5 +1,29 @@
 # Change Log
 
+## 4.0.0-next.0
+
+### Major Changes
+
+- 0c62b27: Keep unmounted editors alive and build React and Vue NodeViews once per mount. Unmounting preserves the document, selection, and plugins. Autofocus runs only on the first mount. Repeated mounts at the same element and repeated unmounts do nothing. Destroyed editors cannot mount again.
+  
+  Migration: use `editor.isMounted` before reading view DOM. `editor.isDestroyed` is true only after `destroy()`. React `useEditor` and Vue `Editor` now wait for `EditorContent` to mount the view by default. For a view without `EditorContent`, pass an `element` or call `editor.mount(element)`. Use `unmount()` for temporary removal and `destroy()` for final cleanup. Mount and unmount events now follow `EditorContent` attachment and removal.
+
+### Minor Changes
+
+- 92c6d73: Align `selected` with ProseMirror node selections by default, expose text selections through `selectionInside`, and keep `selectedOnTextSelection` compatible.
+
+### Patch Changes
+
+- d02646b: Reduce overhead in React node views on documents with many nodes.
+- 69c2130: Fix a TypeScript error (TS2694) in the shipped type declarations when `skipLibCheck` is turned off.
+- 0859b12: Fix Enter and Shift-Enter inside React node views on iOS and Android.
+- 122d659: Fix `useEditorState` overflowing the stack when a selector returns a value with circular references, such as `editor.state` after one stored mark replaces another.
+- 73b8e59: Fix callback updates through `setOptions()`. Changes to initial options such as `content`, `extensions`, and `schemaSpec` are now ignored with a development warning.
+  
+  Use `editor.commands.setContent(content)` to replace content. Create a new editor to change extensions or the schema. Use `EditorRuntimeOptions` and `getEditorRuntimeOptions()` to select options supported by `setOptions()`.
+- 82e0c77: Fix a React warning when a command like `setContent` creates React node views from inside an effect.
+- de130d9: `@tiptap/react` and `@tiptap/vue` now pin their optional `@tiptap/extension-bubble-menu` and `@tiptap/extension-floating-menu` dependencies to the exact version they were released with, so installing a specific version gives you that version's menu extensions instead of the newest ones.
+
 ## 3.30.3
 
 ### Patch Changes

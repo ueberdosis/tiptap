@@ -1,5 +1,16 @@
 # @tiptap/ai-toolkit
 
+## 0.5.0-next.0
+
+### Minor Changes
+
+- 7104a24: `getEditorContext` now describes the charts and diagrams of `@tiptap-pro/extension-diagrams`, so the AI can read, add and change them.
+
+### Patch Changes
+
+- 416749b: The Server AI Toolkit no longer adds `_hash` to inline nodes, including inline Image, Audio, YouTube and Twitch nodes.
+- dd62145: Keep collaborative editing, cursor presence, and drag handles compatible with the updated `@tiptap/y-tiptap` binding.
+
 ## 0.4.0
 
 ### Minor Changes

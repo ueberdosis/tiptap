@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.0-next.0
+
+### Patch Changes
+
+- 7c8ad87: Fix Markdown serialization of inline code containing backticks
+
 ## 3.30.3
 
 ### Patch Changes

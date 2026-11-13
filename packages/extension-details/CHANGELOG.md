@@ -1,5 +1,11 @@
 # @tiptap/extension-details
 
+## 4.0.0-next.0
+
+### Patch Changes
+
+- 76d9821: A Details node created open now stays open when its content changes right after it is created.
+
 ## 3.30.3
 
 ### Patch Changes

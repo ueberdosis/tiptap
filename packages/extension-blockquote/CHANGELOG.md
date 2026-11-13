@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.0-next.0
+
+### Patch Changes
+
+- 6171b2e: Keep the caret at the join when Backspace merges a paragraph into the blockquote above it.
+
 ## 3.30.3
 
 ### Patch Changes
