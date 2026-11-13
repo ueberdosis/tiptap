@@ -15,12 +15,13 @@ import {
   decodeHtmlEntities,
   encodeHtmlEntities,
   flattenExtensions,
-  generateJSON,
+  elementFromString,
   getExtensionField,
   getSchema,
   marksEqual,
   sortExtensions,
 } from '@tiptap/core'
+import { DOMParser, type Schema } from '@tiptap/pm/model'
 import { type Lexer, type Token, type TokenizerExtension, type TokenizerThis, marked } from 'marked'
 
 import {
@@ -62,6 +63,8 @@ export class MarkdownManager {
   private schemaParseDomTagsCache: Set<string> | null = null
   /** Lazy cache of the names of the schema's inline node types. */
   private inlineNodeTypesCache: Set<string> | null = null
+  /** Lazy cache of the schema used to parse HTML tokens (baseExtensions never change). */
+  private htmlParseSchemaCache: Schema | null = null
 
   /**
    * Create a MarkdownManager.
@@ -1003,14 +1006,19 @@ export class MarkdownManager {
       return this.htmlAsLiteralText(html, !!token.block)
     }
 
-    // generateJSON requires window.DOMParser – treat recognized HTML as literal on the server
+    // HTML parsing requires window.DOMParser – treat recognized HTML as literal on the server
     if (typeof window === 'undefined' || typeof window.DOMParser === 'undefined') {
       return this.htmlAsLiteralText(html, !!token.block)
     }
 
-    // Use generateJSON to parse the HTML using extensions' parseHTML rules
+    // Same as generateJSON, but reuse one schema for every HTML token (#8525).
     try {
-      const parsed = generateJSON(html, this.baseExtensions)
+      if (!this.htmlParseSchemaCache) {
+        this.htmlParseSchemaCache = getSchema(this.baseExtensions)
+      }
+      const parsed = DOMParser.fromSchema(this.htmlParseSchemaCache)
+        .parse(elementFromString(html))
+        .toJSON()
 
       // If the result is a doc node, extract its content
       if (parsed.type === 'doc' && parsed.content) {
