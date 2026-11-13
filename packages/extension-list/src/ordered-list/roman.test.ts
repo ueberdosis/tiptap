@@ -15,6 +15,13 @@ describe('ordered list markers', () => {
       expect(getListMarker('1', 0, '. ')).toBe('1. ')
     })
 
+    it('stays numeric for a position below one, which alpha and roman cannot express', () => {
+      expect(getListMarker('a', -1, '. ')).toBe('0. ')
+      expect(getListMarker('A', -1, '. ')).toBe('0. ')
+      expect(getListMarker('i', -1, '. ')).toBe('0. ')
+      expect(getListMarker('a', -2, '. ')).toBe('-1. ')
+    })
+
     it('returns lowercase alpha markers for type "a"', () => {
       expect(getListMarker('a', 0, '. ')).toBe('a. ')
       expect(getListMarker('a', 1, '. ')).toBe('b. ')
