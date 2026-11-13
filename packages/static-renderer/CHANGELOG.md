@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.34.0
+
+### Patch Changes
+
+- 1e695bd: Fix React type resolution when using pnpm’s global virtual store.
+
 ## 3.33.1
 
 No changes in this release.

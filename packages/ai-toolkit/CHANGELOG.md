@@ -1,5 +1,11 @@
 # @tiptap/ai-toolkit
 
+## 0.5.0
+
+### Minor Changes
+
+- a188739: `getEditorContext` now describes the charts and diagrams of `@tiptap-pro/extension-diagrams`, so the AI can read, add and change them.
+
 ## 0.4.1
 
 ### Patch Changes

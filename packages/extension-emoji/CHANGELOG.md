@@ -1,5 +1,9 @@
 # @tiptap/extension-emoji
 
+## 3.34.0
+
+No changes in this release.
+
 ## 3.33.1
 
 No changes in this release.

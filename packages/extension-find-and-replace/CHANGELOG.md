@@ -1,5 +1,11 @@
 # @tiptap/extension-find-and-replace
 
+## 3.34.0
+
+### Minor Changes
+
+- 07828ef: Added a `continuesNode` option. Textblocks it marks as continuing the textblock before them are searched as one text, so a phrase that runs from one into the next is found, highlighted and replaced.
+
 ## 3.33.1
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.34.0
+
+### Patch Changes
+
+- fb349b4: Fix Backspace undo after automatic formatting when used with extensions such as UniqueID.
+- 004ff1b: Correct `setContent` documentation
+
 ## 3.33.1
 
 ### Patch Changes
