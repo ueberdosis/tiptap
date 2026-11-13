@@ -29,7 +29,7 @@ export const updateMatchingYChild = (
     !(pChild instanceof Array) &&
     matchNodeName(yChild, pChild)
   ) {
-    if (equalYTypePNode(yChild, pChild)) {
+    if (equalYTypePNode(yChild, pChild, meta.mapping)) {
       meta.mapping.set(yChild, pChild)
     } else {
       updateFragment(y, yChild, pChild, meta)

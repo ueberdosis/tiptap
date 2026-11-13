@@ -24,7 +24,7 @@ export const computeChildEqualityFactor = (
     const leftP = pChildren[left]
     if (mappedIdentity(meta.mapping.get(leftY), leftP)) {
       foundMappedChild = true
-    } else if (!equalYTypePNode(leftY, leftP)) {
+    } else if (!equalYTypePNode(leftY, leftP, meta.mapping)) {
       break
     }
   }
@@ -33,7 +33,7 @@ export const computeChildEqualityFactor = (
     const rightP = pChildren[pChildCnt - right - 1]
     if (mappedIdentity(meta.mapping.get(rightY), rightP)) {
       foundMappedChild = true
-    } else if (!equalYTypePNode(rightY, rightP)) {
+    } else if (!equalYTypePNode(rightY, rightP, meta.mapping)) {
       break
     }
   }
