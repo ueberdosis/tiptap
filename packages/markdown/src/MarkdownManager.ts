@@ -1209,7 +1209,17 @@ export class MarkdownManager {
    * (`encodeTextForMarkdown`) via the existing `isInsideCode` guard.
    */
   private escapeMarkdownSyntax(text: string): string {
-    return text.replace(/([\\`*_[\]~])/g, '\\$1')
+    // Escape markdown-significant characters, but leave an already-escaped
+    // sequence (backslash + a markdown special other than backslash) alone so
+    // serialize → HTML/plain → serialize does not keep adding backslashes (#8519).
+    // A lone or doubled backslash is still escaped so literal backslashes round-trip.
+    return text.replace(/\\([`*_[\]~])|([\\`*_[\]~])/g, (match, already, bare) => {
+      if (already !== undefined) {
+        return `\\${already}`
+      }
+
+      return `\\${bare}`
+    })
   }
 
   renderNodeToMarkdown(
