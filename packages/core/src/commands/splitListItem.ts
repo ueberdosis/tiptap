@@ -1,10 +1,12 @@
 import type { Node as PMNode, NodeType } from '@tiptap/pm/model'
 import { Fragment, Slice } from '@tiptap/pm/model'
 import { TextSelection } from '@tiptap/pm/state'
-import { canSplit, Transform } from '@tiptap/pm/transform'
+import { canSplit, liftTarget } from '@tiptap/pm/transform'
 
+import { deleteSelectionOnTransaction } from '../helpers/deleteSelectionOnTransaction.js'
 import { getNodeType } from '../helpers/getNodeType.js'
 import { getSplittedAttributes } from '../helpers/getSplittedAttributes.js'
+import { previewDeleteSelection } from '../helpers/previewDeleteSelection.js'
 import type { RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
@@ -28,11 +30,14 @@ export const splitListItem: RawCommands['splitListItem'] =
   (typeOrName, overrideAttrs = {}) =>
   ({ tr, state, dispatch, editor }) => {
     const type = getNodeType(typeOrName, state.schema)
-    const { $from, $to } = state.selection
+    const deletedTr = previewDeleteSelection(tr)
+    const splitState = deletedTr ?? tr
+    const { selection: splitSelection, doc: splitDoc } = splitState
+    const { $from, $to } = splitSelection
 
     // @ts-ignore
     // oxlint-disable-next-line
-    const node: PMNode = state.selection.node
+    const node: PMNode = splitSelection.node
 
     if ((node && node.isBlock) || $from.depth < 2 || !$from.sameParent($to)) {
       return false
@@ -49,16 +54,43 @@ export const splitListItem: RawCommands['splitListItem'] =
     if ($from.parent.content.size === 0 && $from.node(-1).childCount === $from.indexAfter(-1)) {
       // In an empty block. If this is a nested list, the wrapping
       // list item should be split. Otherwise, bail out and let next
-      // command handle lifting.
-      if (
-        $from.depth === 2 ||
-        $from.node(-3).type !== type ||
-        $from.index(-2) !== $from.node(-2).childCount - 1
-      ) {
-        return false
+      // command handle lifting (or lift directly when a selection deletion
+      // collapsed the item to empty).
+      const canSplitOuterItem =
+        $from.depth > 2 &&
+        $from.node(-3).type === type &&
+        $from.index(-2) === $from.node(-2).childCount - 1
+
+      if (!canSplitOuterItem) {
+        if (!deletedTr || $from.parent.type.spec.code) {
+          return false
+        }
+
+        const range = $from.blockRange($from)
+
+        if (!range) {
+          return false
+        }
+
+        const target = liftTarget(range)
+
+        if (target === null || target === undefined) {
+          return false
+        }
+
+        if (dispatch) {
+          deleteSelectionOnTransaction(tr, state.schema)
+          tr.lift(range, target).scrollIntoView()
+        }
+
+        return true
       }
 
       if (dispatch) {
+        if (deletedTr) {
+          deleteSelectionOnTransaction(tr, state.schema)
+        }
+
         let wrap = Fragment.empty
         // oxlint-disable-next-line
         const depthBefore = $from.index(-1) ? 1 : $from.index(-2) ? 2 : 3
@@ -148,23 +180,19 @@ export const splitListItem: RawCommands['splitListItem'] =
     // on a scratch transform instead of mutating `tr`: the shared transaction is dispatched even
     // when a command returns `false`, so it must stay untouched until the split is known to be
     // possible.
-    const deletedTr =
-      $from.pos === $to.pos ? null : new Transform(tr.doc).delete($from.pos, $to.pos)
-    const splitDoc = deletedTr ? deletedTr.doc : tr.doc
-    const splitPos = deletedTr ? deletedTr.mapping.map($from.pos) : $from.pos
-
-    if (!canSplit(splitDoc, splitPos, 2)) {
+    if (!canSplit(splitDoc, $from.pos, 2)) {
       return false
     }
 
     if (dispatch) {
-      const { selection, storedMarks } = state
       const { splittableMarks } = editor.extensionManager
-      const marks = storedMarks || (selection.$to.parentOffset && selection.$from.marks())
-      const mapFrom = tr.steps.length
+      const marks = splitState.storedMarks || ($to.parentOffset && $from.marks())
 
-      tr.delete($from.pos, $to.pos)
-      tr.split(tr.mapping.slice(mapFrom).map($from.pos), 2, types).scrollIntoView()
+      if (deletedTr) {
+        deleteSelectionOnTransaction(tr, state.schema)
+      }
+
+      tr.split($from.pos, 2, types).scrollIntoView()
 
       if (splitsAtStartOfItem) {
         tr.setNodeMarkup(itemStart, undefined, newTypeAttributes)
