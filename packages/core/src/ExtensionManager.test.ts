@@ -1,3 +1,5 @@
+import type { SchemaSpec } from '@tiptap/pm/model'
+import { Schema } from '@tiptap/pm/model'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
@@ -5,6 +7,7 @@ import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 
 import { Editor } from './Editor.js'
 import { Extension } from './Extension.js'
+import { Node } from './Node.js'
 
 describe('dispatchTransaction', () => {
   it('should call dispatchTransaction from an extension', () => {
@@ -848,5 +851,108 @@ describe('parent/child cleanup on destroy', () => {
 
     expect(root.child).toBeNull()
     expect(child.child).toBeNull()
+  })
+})
+
+describe('attributes', () => {
+  const Badge = Node.create<{ defaultColor: string }>({
+    name: 'badge',
+    group: 'inline',
+    inline: true,
+    atom: true,
+    addOptions() {
+      return { defaultColor: 'grey' }
+    },
+    addAttributes() {
+      return { color: { default: this.options.defaultColor, keepOnSplit: false } }
+    },
+  })
+
+  it('returns the same attributes on every read', () => {
+    const editor = new Editor({ extensions: [Document, Paragraph, Text, Badge] })
+
+    expect(editor.extensionManager.attributes).toBe(editor.extensionManager.attributes)
+
+    editor.destroy()
+  })
+
+  it('does not rebuild extension storage on every read', () => {
+    const addStorage = vi.fn(() => ({ items: [] }))
+    const WithStorage = Extension.create({ name: 'withStorage', addStorage })
+    const editor = new Editor({ extensions: [Document, Paragraph, Text, WithStorage] })
+
+    const readAttributes = () => editor.extensionManager.attributes
+
+    readAttributes()
+    const calls = addStorage.mock.calls.length
+
+    for (let index = 0; index < 10; index += 1) {
+      readAttributes()
+    }
+
+    expect(addStorage).toHaveBeenCalledTimes(calls)
+
+    editor.destroy()
+  })
+
+  it('keeps the configured attribute defaults', () => {
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, Badge.configure({ defaultColor: 'red' })],
+    })
+
+    const color = editor.extensionManager.attributes.find(
+      attribute => attribute.type === 'badge' && attribute.name === 'color',
+    )
+
+    expect(color?.attribute.default).toBe('red')
+    expect(color?.attribute.keepOnSplit).toBe(false)
+
+    editor.destroy()
+  })
+
+  it('rebuilds the attributes when the schema is replaced', () => {
+    const schemaSpec = (defaultColor: string): SchemaSpec => ({
+      nodes: {
+        doc: { content: 'block+' },
+        text: { group: 'inline' },
+        paragraph: {
+          group: 'block',
+          content: 'inline*',
+          attrs: { color: { default: defaultColor } },
+        },
+      },
+    })
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text],
+      schemaSpec: schemaSpec('red'),
+    })
+    const colorDefault = () =>
+      editor.extensionManager.attributes.find(
+        attribute => attribute.type === 'paragraph' && attribute.name === 'color',
+      )?.attribute.default
+
+    expect(colorDefault()).toBe('red')
+
+    editor.extensionManager.schema = new Schema(schemaSpec('blue'))
+
+    expect(colorDefault()).toBe('blue')
+
+    editor.destroy()
+  })
+
+  it('rebuilds the attributes when the extensions are replaced', () => {
+    const editor = new Editor({ extensions: [Document, Paragraph, Text, Badge] })
+    const before = editor.extensionManager.attributes
+
+    editor.extensionManager.extensions = editor.extensionManager.extensions.filter(
+      extension => extension.name !== 'badge',
+    )
+
+    expect(editor.extensionManager.attributes).not.toBe(before)
+    expect(editor.extensionManager.attributes.some(attribute => attribute.type === 'badge')).toBe(
+      false,
+    )
+
+    editor.destroy()
   })
 })
