@@ -1335,6 +1335,51 @@ export class MarkdownManager {
         let marksToOpen = this.getMarksToOpenForSerialization(activeMarks, currentMarks, nextNode)
         let marksToClose = findMarksToClose(currentMarks, nextNode)
 
+        // Markdown needs code spans innermost. Lifetime-based open order can put
+        // a continuing code mark outermost when a non-code mark ends here
+        // (bold+code then code-only). Move code to the front of marksToOpen so
+        // prepending emits **`foo`** instead of `**foo`**.
+        const codeOpenIdx = marksToOpen.findIndex(({ type }) => type === 'code')
+        if (codeOpenIdx > 0) {
+          const [codeMark] = marksToOpen.splice(codeOpenIdx, 1)
+          marksToOpen.unshift(codeMark)
+        }
+
+        // Keep mark syntax out of code spans: if code is already open and a
+        // non-code mark is about to open (or an active non-code mark ends while
+        // code continues), close the code run first and reopen it around the
+        // new mark boundaries so we emit `a`**`b`** instead of `a**b**`.
+        const codeIsActive = activeMarks.has('code')
+        const openingNonCode = marksToOpen.some(({ type }) => type !== 'code')
+        const closingNonCodeWhileCodeContinues =
+          codeIsActive &&
+          currentMarks.has('code') &&
+          marksToClose.some(markType => markType !== 'code' && activeMarks.has(markType))
+        if (codeIsActive && (openingNonCode || closingNonCodeWhileCodeContinues)) {
+          const codeMark = activeMarks.get('code')
+          const closeCode = this.getMarkClosing(
+            'code',
+            codeMark,
+            markOpeningModes.get('code'),
+            markSpanTexts[i - 1]?.get('code') ?? markSpanTexts[i]?.get('code'),
+          )
+          if (closeCode) {
+            // Close against the previous result entry when possible so the
+            // fence lands after the prior text node rather than before this one.
+            if (result.length > 0) {
+              result[result.length - 1] += closeCode
+            } else {
+              textContent = closeCode + textContent
+            }
+          }
+          activeMarks.delete('code')
+          markOpeningModes.delete('code')
+          // Recompute opens/closes now that code is no longer active so this
+          // node reopens code (innermost) around any newly opened marks.
+          marksToOpen = this.getMarksToOpenForSerialization(activeMarks, currentMarks, nextNode)
+          marksToClose = findMarksToClose(currentMarks, nextNode)
+        }
+
         // Whitespace-only text has nothing to wrap; drop marks that open and close here
         const isWhitespaceOnly = textContent.length > 0 && textContent.trim().length === 0
         if (isWhitespaceOnly && currentMarks.size > 0) {
@@ -1479,6 +1524,23 @@ export class MarkdownManager {
             nextNode,
             this.markSetsEqual.bind(this),
           )
+        }
+
+        // Reverse partial-mark case: bold+code on this node, then code-only on
+        // the next. Code is still active here and continues, so a naive close
+        // would emit the bold closer inside the code span. Close code first and
+        // let the next node reopen it: **`foo`**`bar` instead of **`foo**bar`.
+        const nextHasCode = !!nextNode?.marks?.some(
+          (mark: { type: string }) => mark.type === 'code',
+        )
+        if (
+          activeMarks.has('code') &&
+          currentMarks.has('code') &&
+          nextHasCode &&
+          marksToCloseAtEnd.some(markType => markType !== 'code') &&
+          !marksToCloseAtEnd.includes('code')
+        ) {
+          marksToCloseAtEnd = ['code', ...marksToCloseAtEnd]
         }
 
         // Extract trailing whitespace before closing marks to prevent invalid markdown like "**text **"
