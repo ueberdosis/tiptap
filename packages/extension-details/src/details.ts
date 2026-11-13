@@ -195,7 +195,7 @@ export const Details = Node.create<DetailsOptions>({
       })
 
       if (node.attrs.open) {
-        setTimeout(() => toggleDetailsContent())
+        setTimeout(() => toggleDetailsContent({ setToValue: true }))
       }
 
       toggle.addEventListener('click', () => {
