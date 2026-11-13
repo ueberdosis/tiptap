@@ -1,5 +1,11 @@
 # @tiptap/extension-drag-handle-react
 
+## 3.34.0
+
+### Patch Changes
+
+- 471dd64: Declare `@types/react` as an optional peer dependency so React types resolve under pnpm's global virtual store.
+
 ## 3.33.1
 
 No changes in this release.

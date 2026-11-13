@@ -1,5 +1,50 @@
 # Releases
 
+## v3.34.0
+
+### @tiptap/ai-toolkit
+
+#### Minor Changes
+
+- a188739: `getEditorContext` now describes the charts and diagrams of `@tiptap-pro/extension-diagrams`, so the AI can read, add and change them.
+
+### @tiptap/core
+
+#### Patch Changes
+
+- fb349b4: Fix Backspace undo after automatic formatting when used with extensions such as UniqueID.
+- 004ff1b: Correct `setContent` documentation
+
+### @tiptap/extension-blockquote
+
+#### Patch Changes
+
+- ee6553b: Keep the caret at the join when Backspace merges a paragraph into the blockquote above it.
+
+### @tiptap/extension-details
+
+#### Patch Changes
+
+- dd8cf4b: A Details node created open now stays open when its content changes right after it is created.
+
+### @tiptap/extension-drag-handle-react
+
+#### Patch Changes
+
+- 471dd64: Declare `@types/react` as an optional peer dependency so React types resolve under pnpm's global virtual store.
+
+### @tiptap/extension-find-and-replace
+
+#### Minor Changes
+
+- 07828ef: Added a `continuesNode` option. Textblocks it marks as continuing the textblock before them are searched as one text, so a phrase that runs from one into the next is found, highlighted and replaced.
+
+### @tiptap/static-renderer
+
+#### Patch Changes
+
+- 1e695bd: Fix React type resolution when using pnpm’s global virtual store.
+
 ## v3.33.1
 
 ### @tiptap/core

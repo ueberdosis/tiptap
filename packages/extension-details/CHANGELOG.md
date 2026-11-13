@@ -1,5 +1,11 @@
 # @tiptap/extension-details
 
+## 3.34.0
+
+### Patch Changes
+
+- dd8cf4b: A Details node created open now stays open when its content changes right after it is created.
+
 ## 3.33.1
 
 No changes in this release.
