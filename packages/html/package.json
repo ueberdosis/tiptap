@@ -39,7 +39,11 @@
         "node": "./dist/server/index.js",
         "default": "./dist/index.js"
       },
-      "require": "./dist/index.cjs"
+      "require": {
+        "browser": "./dist/index.cjs",
+        "node": "./dist/server/index.cjs",
+        "default": "./dist/index.cjs"
+      }
     },
     "./server": {
       "types": {
