@@ -20,6 +20,31 @@
   --shadow: 0px 12px 33px 0px rgba(0, 0, 0, 0.06), 0px 3.618px 9.949px 0px rgba(0, 0, 0, 0.04);
 }
 
+/* Dark, when the page around a demo asks for it (`?theme=dark`, see `applyTheme`) */
+:root.dark {
+  --white: #1c1917;
+  --black: #f5f5f4;
+  --black-contrast: #fff;
+  --gray-1: rgba(250, 245, 240, 0.06);
+  --gray-2: rgba(250, 245, 240, 0.1);
+  --gray-3: rgba(250, 245, 240, 0.16);
+  --gray-4: rgba(250, 245, 240, 0.35);
+  --gray-5: rgba(250, 245, 240, 0.65);
+  --purple-light: rgba(166, 117, 255, 0.12);
+  --yellow-light: #3a3108;
+  --red-light: #4a1d12;
+  --shadow: 0px 12px 33px 0px rgba(0, 0, 0, 0.4), 0px 3.618px 9.949px 0px rgba(0, 0, 0, 0.3);
+
+  background-color: #110f0e;
+  color: var(--black);
+}
+
+/* Text on purple stays white */
+:root.dark .is-active,
+:root.dark .is-active:hover {
+  color: #fff;
+}
+
 *,
 *::before,
 *::after {
