@@ -3,6 +3,7 @@ import { Fragment } from '@tiptap/pm/model'
 import { closeHistory } from '@tiptap/pm/history'
 import type { TextSelection } from '@tiptap/pm/state'
 import { EditorState, Plugin } from '@tiptap/pm/state'
+import { Transform } from '@tiptap/pm/transform'
 
 import { CommandManager } from './CommandManager.js'
 import type { Editor } from './Editor.js'
@@ -268,6 +269,17 @@ export function inputRulesPlugin(props: { editor: Editor; rules: InputRule[] }):
 
         if (stored) {
           return stored
+        }
+
+        if (prev && tr.getMeta('appendedTransaction')?.getMeta(plugin)) {
+          const transform = new Transform(prev.transform.before)
+
+          // Undo appended changes before reversing the input rule.
+          for (const step of [...prev.transform.steps, ...tr.steps]) {
+            transform.step(step)
+          }
+
+          return { ...prev, transform }
         }
 
         // if InputRule is triggered by insertContent()
