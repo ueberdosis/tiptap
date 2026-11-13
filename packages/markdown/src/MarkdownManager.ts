@@ -36,6 +36,11 @@ import {
 import { collectMarkSpanTexts } from './utils/collectMarkSpanTexts.js'
 import { htmlContainsUnrecognizedTag } from './utils/htmlTagDetection.js'
 
+// Written as an alternation instead of `[\p{L}\p{N}]`: V8 does not match a non-BMP
+// code point when property escapes share a character class that is `$`-anchored.
+const INTRAWORD_CHARACTER_BEFORE = /(?:\p{L}|\p{N})$/u
+const INTRAWORD_CHARACTER_AFTER = /^(?:\p{L}|\p{N})/u
+
 export class MarkdownManager {
   private markedInstance: typeof marked
   private activeParseLexer: Lexer | null = null
@@ -1209,7 +1214,20 @@ export class MarkdownManager {
    * (`encodeTextForMarkdown`) via the existing `isInsideCode` guard.
    */
   private escapeMarkdownSyntax(text: string): string {
-    return text.replace(/([\\`*_[\]~])/g, '\\$1')
+    return text.replace(/[\\`*[\]~]|_+/g, (characters, offset: number) => {
+      const end = offset + characters.length
+
+      // Include both code units of non-BMP letters and digits.
+      if (
+        characters[0] === '_' &&
+        INTRAWORD_CHARACTER_BEFORE.test(text.slice(Math.max(0, offset - 2), offset)) &&
+        INTRAWORD_CHARACTER_AFTER.test(text.slice(end, end + 2))
+      ) {
+        return characters
+      }
+
+      return characters.replace(/./g, char => `\\${char}`)
+    })
   }
 
   renderNodeToMarkdown(
