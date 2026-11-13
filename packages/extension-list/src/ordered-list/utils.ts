@@ -164,6 +164,7 @@ export function collectOrderedListItems(lines: string[]): [OrderedListItem[], nu
     const itemContentLines = [content]
     let nextLineIndex = currentLineIndex + 1
     const itemLines = [line]
+    const contentIndent = line.length - content.length
     let sawBlankLine = false
 
     // Collect continuation lines for this item (but NOT nested list items)
@@ -187,7 +188,6 @@ export function collectOrderedListItems(lines: string[]): [OrderedListItem[], nu
         // Strip the indentation only up to the whitespace that is actually present,
         // so an under-indented line (e.g. a single leading space) keeps its first character.
         const leadingWhitespace = nextLine.length - nextLine.trimStart().length
-        const contentIndent = indentLevel + marker.length + 1
         itemLines.push(nextLine)
         itemContentLines.push(nextLine.slice(Math.min(leadingWhitespace, contentIndent)))
         nextLineIndex += 1
