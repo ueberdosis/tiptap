@@ -5,6 +5,8 @@ import Text from '@tiptap/extension-text'
 import { Markdown } from '@tiptap/markdown'
 import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 
+import { UndoRedo } from '@tiptap/extensions/undo-redo'
+
 import { Image } from './image.js'
 
 describe('extension-image', () => {
@@ -553,4 +555,36 @@ describe('extension-image', () => {
       expect(container.style.visibility).toBe('')
     })
   })
+})
+
+it('restores rendered dimensions when a resize is undone and redone', () => {
+  const editor = new Editor({
+    extensions: [
+      Document,
+      Paragraph,
+      Text,
+      UndoRedo,
+      Image.configure({ resize: { enabled: true } }),
+    ],
+    content: '<img src="https://example.com/image.jpg" width="200" height="100" />',
+  })
+
+  try {
+    const image = editor.view.dom.querySelector('img') as HTMLImageElement
+    image.style.width = '400px'
+    image.style.height = '300px'
+    editor.commands.updateAttributes('image', { width: 400, height: 300 })
+
+    expect(editor.commands.undo()).toBe(true)
+    expect(editor.state.doc.firstChild?.attrs.width).toBe(200)
+    expect(image.style.width).toBe('200px')
+    expect(image.style.height).toBe('100px')
+
+    expect(editor.commands.redo()).toBe(true)
+    expect(editor.state.doc.firstChild?.attrs.width).toBe(400)
+    expect(image.style.width).toBe('400px')
+    expect(image.style.height).toBe('300px')
+  } finally {
+    editor.destroy()
+  }
 })
