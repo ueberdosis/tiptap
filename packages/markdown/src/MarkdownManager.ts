@@ -21,7 +21,14 @@ import {
   marksEqual,
   sortExtensions,
 } from '@tiptap/core'
-import { type Lexer, type Token, type TokenizerExtension, type TokenizerThis, marked } from 'marked'
+import {
+  type Lexer,
+  type Token,
+  type TokenizerExtension,
+  type TokenizerThis,
+  Marked,
+  marked,
+} from 'marked'
 
 import {
   closeMarksBeforeNode,
@@ -65,7 +72,9 @@ export class MarkdownManager {
 
   /**
    * Create a MarkdownManager.
-   * @param options.marked Optional marked instance to use (injected).
+   * @param options.marked Optional marked instance to use (injected). When omitted, a
+   * dedicated instance is created so tokenizers registered for this manager do not
+   * leak into the shared `marked` module state.
    * @param options.markedOptions Optional options to pass to marked.setOptions
    * @param options.indentation Indentation settings (style and size).
    * @param options.extensions An array of Tiptap extensions to register for markdown parsing and rendering.
@@ -76,7 +85,9 @@ export class MarkdownManager {
     indentation?: { style?: 'space' | 'tab'; size?: number }
     extensions: AnyExtension[]
   }) {
-    this.markedInstance = options?.marked ?? marked
+    // Each manager gets its own instance: tokenizers hold the manager, and the
+    // shared instance would keep every destroyed editor reachable.
+    this.markedInstance = options?.marked ?? (new Marked() as unknown as typeof marked)
     this.indentStyle = options?.indentation?.style ?? 'space'
     this.indentSize = options?.indentation?.size ?? 2
     this.baseExtensions = options?.extensions || []
