@@ -43,9 +43,18 @@ export const extensions = [
 
     group: 'inline',
 
+    inline: true,
+
     atom: true,
 
     markdownTokenName: 'custom-inline',
+
+    addAttributes() {
+      return {
+        type: { default: null },
+        id: { default: null },
+      }
+    },
 
     ...createInlineMarkdownSpec({
       nodeName: 'customInline',
@@ -70,6 +79,8 @@ export const extensions = [
     name: 'customInlineTag',
 
     group: 'inline',
+
+    inline: true,
 
     content: 'inline*',
 
