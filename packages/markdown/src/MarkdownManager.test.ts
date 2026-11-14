@@ -18,7 +18,7 @@ import { Text } from '@tiptap/extension-text'
 import Underline from '@tiptap/extension-underline'
 import { Youtube } from '@tiptap/extension-youtube'
 import { MarkdownManager } from './MarkdownManager.js'
-import { Marked } from 'marked'
+import { Marked, marked } from 'marked'
 import { beforeEach, describe, expect, it } from 'vite-plus/test'
 
 // Create test extensions
@@ -994,5 +994,49 @@ Some text with [@ id="user" label="User"].
       expect(parsed.content![0].attrs).toEqual({ url: 'https://example.com/asset.png' })
       expect(manager.serialize(parsed.content![0])).toBe('<https://example.com/asset.png>')
     })
+  })
+})
+
+describe('MarkdownManager marked instance isolation', () => {
+  const sharedExtensionCount = () => marked.defaults.extensions?.block?.length ?? 0
+
+  it('gives each manager its own marked instance by default', () => {
+    const first = new MarkdownManager({ extensions: [TestProbe] })
+    const second = new MarkdownManager({ extensions: [TestProbe] })
+
+    expect(first.instance).not.toBe(marked)
+    expect(second.instance).not.toBe(marked)
+    expect(first.instance).not.toBe(second.instance)
+  })
+
+  it('does not register tokenizers on the shared marked instance', () => {
+    const before = sharedExtensionCount()
+
+    const manager = new MarkdownManager({ extensions: [TestProbe] })
+
+    expect(manager.instance).not.toBe(marked)
+    expect(sharedExtensionCount()).toBe(before)
+  })
+
+  it('registers tokenizers on the manager instance so parsing still works', () => {
+    const plain = new MarkdownManager({ extensions: [] })
+    const manager = new MarkdownManager({ extensions: [TestProbe] })
+    const parsed = manager.parse(':::probe hello :::')
+
+    expect(parsed.content?.[0]?.type).toBe('paragraph')
+    expect(manager.instance.defaults.extensions?.block?.length ?? 0).toBe(
+      (plain.instance.defaults.extensions?.block?.length ?? 0) + 1,
+    )
+  })
+
+  it('keeps using an explicitly provided marked instance', () => {
+    const customMarked = new Marked()
+
+    const manager = new MarkdownManager({
+      extensions: [TestProbe],
+      marked: customMarked as unknown as typeof marked,
+    })
+
+    expect(manager.instance).toBe(customMarked)
   })
 })

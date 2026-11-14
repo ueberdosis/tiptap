@@ -75,7 +75,8 @@ export type MarkdownExtensionOptions = {
 
   /**
    * Use a custom version of `marked` for markdown parsing and serialization.
-   * If not provided, the default `marked` instance will be used.
+   * If not provided, a dedicated `marked` instance is created for each manager,
+   * so extensions registered for one editor do not affect other editors.
    */
   marked?: typeof marked
 
