@@ -1,7 +1,14 @@
 import './styles.scss'
 
 import Document from '@tiptap/extension-document'
-import { BulletList, ListItem, ListKeymap } from '@tiptap/extension-list'
+import {
+  BulletList,
+  ListItem,
+  ListKeymap,
+  OrderedList,
+  TaskItem,
+  TaskList,
+} from '@tiptap/extension-list'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
@@ -9,11 +16,27 @@ import React from 'react'
 
 export default () => {
   const editor = useEditor({
-    extensions: [Document, Paragraph, Text, BulletList, ListItem, ListKeymap],
+    extensions: [
+      Document,
+      Paragraph,
+      Text,
+      BulletList,
+      OrderedList,
+      ListItem,
+      TaskList,
+      TaskItem.configure({ nested: true }),
+      ListKeymap,
+    ],
     content: `
         <ul>
           <li>A list item</li>
-          <li>And another one</li>
+          <li>
+            And another one
+            <ul data-type="taskList">
+              <li data-type="taskItem" data-checked="false">A nested task</li>
+            </ul>
+          </li>
+          <li>Press Tab here to join the nested task list</li>
         </ul>
       `,
   })
