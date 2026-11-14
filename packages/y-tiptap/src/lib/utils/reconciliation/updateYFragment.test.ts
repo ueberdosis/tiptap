@@ -89,6 +89,25 @@ describe('updateYFragment', () => {
     expect(meta.mapping.get(secondElement)).toBe(second)
   })
 
+  it('keeps a changed paragraph when a heading is inserted before it', () => {
+    const { document, fragment, meta } = createFragment()
+    updateYFragment(
+      document,
+      fragment,
+      schema.node('doc', null, [first, paragraph('Target'), second]),
+      meta,
+    )
+    const targetElement = fragment.get(1)
+
+    const next = schema.node('doc', null, [first, heading('New'), paragraph('Target!'), second])
+    updateYFragment(document, fragment, next, meta)
+
+    expect(fragment.get(2)).toBe(targetElement)
+    expect(schema.nodeFromJSON(yXmlFragmentToProsemirrorJSON(fragment)).toJSON()).toEqual(
+      next.toJSON(),
+    )
+  })
+
   it('groups direct mapped-child updates in one sync transaction', () => {
     const { document, fragment, meta } = createFragment()
     updateYFragment(document, fragment, schema.node('doc', null, [first, second]), meta)

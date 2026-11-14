@@ -2,12 +2,13 @@ import type { FragmentUpdater } from '../../../types/FragmentUpdater.js'
 import type { BindingMetadata } from '../../../types/BindingMetadata.js'
 import type { NormalizedPNodeContent } from '../../../types/NormalizedPNodeContent.js'
 import type { TransactionSource } from '../../../types/TransactionSource.js'
-import * as math from 'lib0/math'
 import * as Y from 'yjs'
+import { chooseMatchingSide } from './chooseMatchingSide.js'
 import { deleteYChildren } from './deleteYChildren.js'
 import { insertPChildren } from './insertPChildren.js'
 import { updateMatchingYChild } from './updateMatchingYChild.js'
 
+/** Updates a range of Yjs children to match a range of ProseMirror children, keeping as many elements as it can. */
 export const reconcileUnanchoredChildren = (
   y: TransactionSource,
   yDomFragment: Y.XmlFragment,
@@ -20,29 +21,32 @@ export const reconcileUnanchoredChildren = (
   meta: BindingMetadata,
   updateFragment: FragmentUpdater,
 ) => {
-  const matchingChildren = math.min(yEnd - yStart, pEnd - pStart)
-  for (let index = 0; index < matchingChildren; index++) {
-    const yChild = yChildren[yStart + index]
-    const pChild = pChildren[pStart + index]
-    if (!updateMatchingYChild(y, yChild, pChild, meta, updateFragment)) {
-      deleteYChildren(yDomFragment, pStart + index, 1, meta)
-      insertPChildren(
-        yDomFragment,
-        pStart + index,
-        pChildren,
-        pStart + index,
-        pStart + index + 1,
-        meta,
-      )
+  while (yStart < yEnd && pStart < pEnd) {
+    const side = chooseMatchingSide(
+      yChildren[yStart],
+      pChildren[pStart],
+      yChildren[yEnd - 1],
+      pChildren[pEnd - 1],
+      meta,
+    )
+
+    if (side === 'right') {
+      updateMatchingYChild(y, yChildren[yEnd - 1], pChildren[pEnd - 1], meta, updateFragment)
+      yEnd -= 1
+      pEnd -= 1
+      continue
     }
+
+    if (side === 'left') {
+      updateMatchingYChild(y, yChildren[yStart], pChildren[pStart], meta, updateFragment)
+    } else {
+      deleteYChildren(yDomFragment, pStart, 1, meta)
+      insertPChildren(yDomFragment, pStart, pChildren, pStart, pStart + 1, meta)
+    }
+    yStart += 1
+    pStart += 1
   }
-  deleteYChildren(yDomFragment, pStart + matchingChildren, yEnd - yStart - matchingChildren, meta)
-  insertPChildren(
-    yDomFragment,
-    pStart + matchingChildren,
-    pChildren,
-    pStart + matchingChildren,
-    pEnd,
-    meta,
-  )
+
+  deleteYChildren(yDomFragment, pStart, yEnd - yStart, meta)
+  insertPChildren(yDomFragment, pStart, pChildren, pStart, pEnd, meta)
 }
