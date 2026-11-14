@@ -44,11 +44,12 @@ export function renderToMarkdown({
             return `- ${serializeChildrenToHTMLString(children).trim()}\n`
           }
           if (parent?.type.name === 'orderedList') {
-            let number = parent.attrs.start || 1
+            const start = parent.attrs.start || 1
+            let number = start
 
             parent.forEach((parentChild, _offset, index) => {
               if (node === parentChild) {
-                number = index + 1
+                number = start + index
               }
             })
 

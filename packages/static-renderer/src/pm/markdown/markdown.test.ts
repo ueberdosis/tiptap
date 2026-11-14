@@ -424,6 +424,61 @@ describe('static render json to string (no prosemirror)', () => {
     expect(md).toBe('## Hello **bold** and _it_\n')
   })
 
+  it('should start ordered list numbering at the start attribute', () => {
+    const json = {
+      type: 'doc',
+      content: [
+        {
+          type: 'orderedList',
+          attrs: { start: 5 },
+          content: [
+            {
+              type: 'listItem',
+              content: [{ type: 'paragraph', content: [{ type: 'text', text: 'a' }] }],
+            },
+            {
+              type: 'listItem',
+              content: [{ type: 'paragraph', content: [{ type: 'text', text: 'b' }] }],
+            },
+          ],
+        },
+      ],
+    }
+    const md = renderToMarkdown({
+      content: json,
+      extensions: [StarterKit],
+    })
+    expect(md).toContain('5. a')
+    expect(md).toContain('6. b')
+  })
+
+  it('should number an ordered list from 1 without a start attribute', () => {
+    const json = {
+      type: 'doc',
+      content: [
+        {
+          type: 'orderedList',
+          content: [
+            {
+              type: 'listItem',
+              content: [{ type: 'paragraph', content: [{ type: 'text', text: 'a' }] }],
+            },
+            {
+              type: 'listItem',
+              content: [{ type: 'paragraph', content: [{ type: 'text', text: 'b' }] }],
+            },
+          ],
+        },
+      ],
+    }
+    const md = renderToMarkdown({
+      content: json,
+      extensions: [StarterKit],
+    })
+    expect(md).toContain('1. a')
+    expect(md).toContain('2. b')
+  })
+
   it('accepts staticEditorOptions.textDirection without crashing', () => {
     const json = {
       type: 'doc',
