@@ -1,4 +1,4 @@
-import { mergeAttributes, Node } from '@tiptap/core'
+import { escapeBlockStart, mergeAttributes, Node } from '@tiptap/core'
 
 export interface ParagraphOptions {
   /**
@@ -118,7 +118,7 @@ export const Paragraph = Node.create<ParagraphOptions>({
       return previousNodeIsEmptyParagraph ? EMPTY_PARAGRAPH_MARKDOWN : ''
     }
 
-    return h.renderChildren(content)
+    return escapeBlockStart(h.renderChildren(content))
   },
 
   addCommands() {

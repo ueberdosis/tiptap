@@ -1,4 +1,10 @@
-import { mergeAttributes, Node, textblockTypeInputRule } from '@tiptap/core'
+import {
+  escapeBlockStart,
+  escapeTrailingHashes,
+  mergeAttributes,
+  Node,
+  textblockTypeInputRule,
+} from '@tiptap/core'
 
 /**
  * The heading level options.
@@ -104,7 +110,7 @@ export const Heading = Node.create<HeadingOptions>({
     }
 
     // Use current context for proper joining/spacing
-    return `${headingChars} ${h.renderChildren(node.content)}`
+    return `${headingChars} ${escapeTrailingHashes(escapeBlockStart(h.renderChildren(node.content)))}`
   },
 
   addCommands() {
