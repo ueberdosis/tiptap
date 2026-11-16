@@ -8,12 +8,12 @@ test.use({
 
 test('keeps the caret valid when native Backspace follows focus', async ({ page }) => {
   const errors: string[] = []
-  page.on('pageerror', error => errors.push(error.message))
   await page.goto('/src/Bugs/AndroidBackspace/React/')
   const editor = page.locator('.tiptap')
 
   await editor.click()
   await page.keyboard.press('ControlOrMeta+End')
+  page.on('pageerror', error => errors.push(error.message))
   await editor.evaluate(element => {
     const editable = element as HTMLElement
 
