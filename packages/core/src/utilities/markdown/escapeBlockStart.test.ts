@@ -53,6 +53,54 @@ describe('escapeBlockStart', () => {
     expect(escapeBlockStart('first\n1. second')).toBe('first\n1\\. second')
   })
 
+  it('escapes Setext underlines after a text line', () => {
+    expect(escapeBlockStart('Title\n===')).toBe('Title\n\\===')
+    expect(escapeBlockStart('Title\n=')).toBe('Title\n\\=')
+    expect(escapeBlockStart('Title\n===   ')).toBe('Title\n\\===   ')
+    expect(escapeBlockStart('Title\n  ===')).toBe('Title\n  \\===')
+    expect(escapeBlockStart('`x`\n===')).toBe('`x`\n\\===')
+  })
+
+  it('leaves equals runs that cannot be Setext underlines alone', () => {
+    expect(escapeBlockStart('===\nTitle')).toBe('===\nTitle')
+    expect(escapeBlockStart('Title\n\n===')).toBe('Title\n\n===')
+    expect(escapeBlockStart('a === b')).toBe('a === b')
+    expect(escapeBlockStart('Title\n= = =')).toBe('Title\n= = =')
+    expect(escapeBlockStart('Title\n=== x')).toBe('Title\n=== x')
+  })
+
+  it('escapes pipes in GFM table delimiter rows', () => {
+    expect(escapeBlockStart('a | b\n| --- | --- |\nc | d')).toBe(
+      'a | b\n\\| --- \\| --- \\|\nc | d',
+    )
+    expect(escapeBlockStart('a | b\n--- | ---\nc | d')).toBe('a | b\n--- \\| ---\nc | d')
+    expect(escapeBlockStart('a | b\n| :--- | ---: |\nc | d')).toBe(
+      'a | b\n\\| :--- \\| ---: \\|\nc | d',
+    )
+    expect(escapeBlockStart('ab\n| --- |\ncd')).toBe('ab\n\\| --- \\|\ncd')
+  })
+
+  it('leaves pipes alone outside table delimiter rows', () => {
+    expect(escapeBlockStart('| --- |')).toBe('| --- |')
+    expect(escapeBlockStart('a\n\n| --- |')).toBe('a\n\n| --- |')
+    expect(escapeBlockStart('a | b\nc | d')).toBe('a | b\nc | d')
+    expect(escapeBlockStart('a | b\n| --- | foo |\nc | d')).toBe('a | b\n| --- | foo |\nc | d')
+  })
+
+  it('leaves markers inside inline code spans alone', () => {
+    expect(escapeBlockStart('`a\n2. b`')).toBe('`a\n2. b`')
+    expect(escapeBlockStart('`# not a heading`')).toBe('`# not a heading`')
+    expect(escapeBlockStart('`Title\n===`')).toBe('`Title\n===`')
+    expect(escapeBlockStart('``a `b`\n1. d``')).toBe('``a `b`\n1. d``')
+    expect(escapeBlockStart('Title\n`===`')).toBe('Title\n`===`')
+    expect(escapeBlockStart('`x` - y')).toBe('`x` - y')
+  })
+
+  it('still escapes markers on lines around inline code spans', () => {
+    expect(escapeBlockStart('before\n`a\n2. b`\n- after')).toBe('before\n`a\n2. b`\n\\- after')
+    expect(escapeBlockStart('\\`not code\n- item')).toBe('\\`not code\n\\- item')
+  })
+
   it('leaves already escaped markers and plain text alone', () => {
     expect(escapeBlockStart('\\# escaped')).toBe('\\# escaped')
     expect(escapeBlockStart('plain text')).toBe('plain text')

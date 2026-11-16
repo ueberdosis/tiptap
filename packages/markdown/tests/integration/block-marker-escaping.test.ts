@@ -1,3 +1,4 @@
+import { Code } from '@tiptap/extension-code'
 import { Document } from '@tiptap/extension-document'
 import { Heading } from '@tiptap/extension-heading'
 import { BulletList, ListItem, OrderedList } from '@tiptap/extension-list'
@@ -88,6 +89,25 @@ describe('Block marker escaping on serialize', () => {
     )
   })
 
+  it('escapes a Setext underline in a paragraph', () => {
+    const markdown = markdownManager.serialize(paragraphDoc('Title\n==='))
+    const node = roundTrippedFirstNode(markdown)
+
+    expect(markdown).toBe('Title\n\\===')
+    expect(node?.type).toBe('paragraph')
+    expect(node?.content?.map(part => part.text).join('')).toBe('Title\n===')
+  })
+
+  it('escapes a GFM table delimiter row in a paragraph', () => {
+    const text = 'a | b\n| --- | --- |\nc | d'
+    const markdown = markdownManager.serialize(paragraphDoc(text))
+    const node = roundTrippedFirstNode(markdown)
+
+    expect(markdown).toBe('a | b\n\\| --- \\| --- \\|\nc | d')
+    expect(node?.type).toBe('paragraph')
+    expect(node?.content?.map(part => part.text).join('')).toBe(text)
+  })
+
   it('leaves ordinary text starting with similar characters alone', () => {
     expect(markdownManager.serialize(paragraphDoc('C# and 3.14, e-mail'))).toBe(
       'C# and 3.14, e-mail',
@@ -98,5 +118,31 @@ describe('Block marker escaping on serialize', () => {
     expect(markdownManager.serialize(paragraphDoc('2)nospace stays plain'))).toBe(
       '2)nospace stays plain',
     )
+  })
+})
+
+describe('Block marker escaping inside inline code spans', () => {
+  const codeManager = new MarkdownManager({
+    extensions: [Document, Paragraph, Text, Code],
+  })
+
+  it('does not escape a block marker inside a multiline code span', () => {
+    const doc = {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [{ type: 'text', text: 'a\n2. b', marks: [{ type: 'code' }] }],
+        },
+      ],
+    }
+
+    const markdown = codeManager.serialize(doc)
+    const node = codeManager.parse(markdown).content?.[0]
+
+    expect(markdown).toBe('`a\n2. b`')
+    expect(node?.type).toBe('paragraph')
+    // Marked folds the newline inside a code span to a space on parse.
+    expect(node?.content).toEqual([{ type: 'text', text: 'a 2. b', marks: [{ type: 'code' }] }])
   })
 })
