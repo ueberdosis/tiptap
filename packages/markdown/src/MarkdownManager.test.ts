@@ -213,7 +213,7 @@ Second paragraph.`
 
 **After** ordered list`
       const isolatedManager = new MarkdownManager({
-        marked: new Marked() as unknown as typeof import('marked').marked,
+        marked: new Marked(),
         extensions: basicExtensions,
       })
 
@@ -264,7 +264,7 @@ Second paragraph.`
       // Regression: custom tokenizers must still fire when a dedicated `marked`
       // instance is injected, not only on the default shared instance.
       const manager = new MarkdownManager({
-        marked: new Marked() as unknown as typeof import('marked').marked,
+        marked: new Marked(),
         extensions: [...basicExtensions, TestProbe],
       })
 
@@ -1024,6 +1024,8 @@ describe('MarkdownManager marked instance isolation', () => {
     const parsed = manager.parse(':::probe hello :::')
 
     expect(parsed.content?.[0]?.type).toBe('paragraph')
+    // Fallback parsing would keep the `:::probe` delimiters in the text.
+    expect(parsed.content?.[0]?.content?.[0]?.text).toBe('hello')
     expect(manager.instance.defaults.extensions?.block?.length ?? 0).toBe(
       (plain.instance.defaults.extensions?.block?.length ?? 0) + 1,
     )
@@ -1034,9 +1036,21 @@ describe('MarkdownManager marked instance isolation', () => {
 
     const manager = new MarkdownManager({
       extensions: [TestProbe],
-      marked: customMarked as unknown as typeof marked,
+      marked: customMarked,
     })
 
     expect(manager.instance).toBe(customMarked)
+  })
+
+  it('applies markedOptions only to the manager instance', () => {
+    const sharedBreaks = marked.defaults.breaks
+
+    const manager = new MarkdownManager({
+      extensions: [TestProbe],
+      markedOptions: { breaks: !sharedBreaks },
+    })
+
+    expect(manager.instance.defaults.breaks).toBe(!sharedBreaks)
+    expect(marked.defaults.breaks).toBe(sharedBreaks)
   })
 })

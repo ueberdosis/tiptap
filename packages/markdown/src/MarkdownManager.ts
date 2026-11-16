@@ -44,7 +44,7 @@ import { collectMarkSpanTexts } from './utils/collectMarkSpanTexts.js'
 import { htmlContainsUnrecognizedTag } from './utils/htmlTagDetection.js'
 
 export class MarkdownManager {
-  private markedInstance: typeof marked
+  private markedInstance: Marked | typeof marked
   private activeParseLexer: Lexer | null = null
   private registry: Map<string, MarkdownExtensionSpec[]>
   private nodeTypeRegistry: Map<string, MarkdownExtensionSpec[]>
@@ -80,14 +80,14 @@ export class MarkdownManager {
    * @param options.extensions An array of Tiptap extensions to register for markdown parsing and rendering.
    */
   constructor(options?: {
-    marked?: typeof marked
+    marked?: Marked | typeof marked
     markedOptions?: Parameters<typeof marked.setOptions>[0]
     indentation?: { style?: 'space' | 'tab'; size?: number }
     extensions: AnyExtension[]
   }) {
     // Each manager gets its own instance: tokenizers hold the manager, and the
     // shared instance would keep every destroyed editor reachable.
-    this.markedInstance = options?.marked ?? (new Marked() as unknown as typeof marked)
+    this.markedInstance = options?.marked ?? new Marked()
     this.indentStyle = options?.indentation?.style ?? 'space'
     this.indentSize = options?.indentation?.size ?? 2
     this.baseExtensions = options?.extensions || []
@@ -111,7 +111,7 @@ export class MarkdownManager {
   }
 
   /** Returns the underlying marked instance. */
-  get instance(): typeof marked {
+  get instance(): Marked | typeof marked {
     return this.markedInstance
   }
 
