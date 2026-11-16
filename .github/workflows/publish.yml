@@ -77,7 +77,10 @@ jobs:
           push-git-tags: false
           push-with-git-cli: true
           version-script: vp run version
-          publish-script: bash .github/scripts/publish.sh
+          publish-script: >-
+            bash -c "vp run build && vp run build:demos &&
+            bash ./scripts/check-package-dists.sh &&
+            vp run check:package-exports && vp exec changeset publish"
           pr-title: ${{ needs.resolve-config.outputs.title }}
           commit-message: ${{ needs.resolve-config.outputs.commit }}
         env:
