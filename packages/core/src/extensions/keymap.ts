@@ -5,8 +5,11 @@ import { CommandManager } from '../CommandManager.js'
 import { Extension } from '../Extension.js'
 import { createChainableState } from '../helpers/createChainableState.js'
 import { isNodeEmpty } from '../helpers/isNodeEmpty.js'
+import type { CommandProps } from '../types.js'
 import { isiOS } from '../utilities/isiOS.js'
 import { isMacOS } from '../utilities/isMacOS.js'
+
+import { createAndroidDeletePlugin } from './createAndroidDeletePlugin.js'
 
 /** Checks if a non-empty selection spans the whole document. */
 function isWholeDocumentSelected(state: EditorState) {
@@ -19,6 +22,29 @@ function isWholeDocumentSelected(state: EditorState) {
   return from === Selection.atStart(state.doc).from && to === Selection.atEnd(state.doc).to
 }
 
+function clearEmptyTextblock({ tr, commands }: CommandProps) {
+  const { selection, doc } = tr
+  const { empty, $anchor } = selection
+  const { pos, parent } = $anchor
+
+  if (!empty || !parent.isTextblock || parent.textContent.length) {
+    return false
+  }
+
+  const $parentPos = pos > 0 ? doc.resolve(pos - 1) : $anchor
+  const isOnlyIsolatedChild =
+    $parentPos.parent.type.spec.isolating && $parentPos.parent.childCount === 1
+  const isAtStart = isOnlyIsolatedChild
+    ? pos === $anchor.start()
+    : Selection.atStart(doc).from === pos
+
+  if (!isAtStart || parent.type.name === 'paragraph') {
+    return false
+  }
+
+  return commands.clearNodes()
+}
+
 export const Keymap = Extension.create({
   name: 'keymap',
 
@@ -27,35 +53,7 @@ export const Keymap = Extension.create({
       this.editor.commands.first(({ commands }) => [
         () => commands.undoInputRule(),
 
-        // maybe convert first text block node to default node
-        () =>
-          commands.command(({ tr }) => {
-            const { selection, doc } = tr
-            const { empty, $anchor } = selection
-            const { pos, parent } = $anchor
-            const $parentPos =
-              $anchor.parent.isTextblock && pos > 0 ? tr.doc.resolve(pos - 1) : $anchor
-            const parentIsIsolating = $parentPos.parent.type.spec.isolating
-
-            const parentPos = $anchor.pos - $anchor.parentOffset
-
-            const isAtStart =
-              parentIsIsolating && $parentPos.parent.childCount === 1
-                ? parentPos === $anchor.pos
-                : Selection.atStart(doc).from === pos
-
-            if (
-              !empty ||
-              !parent.type.isTextblock ||
-              parent.textContent.length ||
-              !isAtStart ||
-              (isAtStart && $anchor.parent.type.name === 'paragraph') // prevent clearNodes when no nodes to clear, otherwise history stack is appended
-            ) {
-              return false
-            }
-
-            return commands.clearNodes()
-          }),
+        () => commands.command(clearEmptyTextblock),
 
         () => commands.deleteSelection(),
         () => commands.joinBackward(),
@@ -114,6 +112,7 @@ export const Keymap = Extension.create({
 
   addProseMirrorPlugins() {
     return [
+      createAndroidDeletePlugin(),
       // With this plugin we check if the whole document was selected and deleted.
       // In this case we will additionally call `clearNodes()` to convert e.g. a heading
       // to a paragraph if necessary.
