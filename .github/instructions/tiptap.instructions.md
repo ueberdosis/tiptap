@@ -138,7 +138,7 @@ Playwright auto-starts the demo dev server (`pnpm -C demos run start:e2e` on por
 
 Browser setup:
 
-- CI installs Chromium only (cached between runs) and only runs the Chromium project.
+- CI installs only the Chromium headless shell (cached between runs) and only runs the Chromium project.
 - For local Firefox testing, install it once with `vp exec playwright install firefox` (~80MB).
 - UI mode (`--ui`) always opens its host window in Chromium — that's the Playwright UI app itself, not the browser running your tests. Tests still execute in the project you selected (check the trace metadata or `browserName` fixture if you need to confirm).
 

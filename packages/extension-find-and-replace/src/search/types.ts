@@ -14,4 +14,5 @@ export interface SearchOptions {
   caseSensitive: boolean
   useRegex: boolean
   wholeWord: boolean
+  continuesNode?: (node: PMNode) => boolean
 }
