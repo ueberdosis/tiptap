@@ -37,44 +37,12 @@ jobs:
         id: resolve
         run: node .github/scripts/resolve-publish-config.mjs "${{ github.ref_name }}" >> "$GITHUB_OUTPUT"
 
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    needs: resolve-config
-    if: needs.resolve-config.outputs.configured == 'true'
-    steps:
-      - uses: actions/checkout@v7
-
-      - uses: ./.github/actions/setup-env
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'true'
-
-      - name: Install dependencies
-        run: vp install --frozen-lockfile -- --strict-peer-dependencies
-
-      - name: Run build
-        run: vp run build && vp run build:demos
-
-      - name: Check package exports
-        run: vp run check:package-exports
-
-      - name: Archive package dist artifacts
-        run: tar -cf package-dist-artifacts.tar packages/*/dist packages-deprecated/*/dist
-
-      - name: Upload package dist artifacts
-        uses: actions/upload-artifact@v7
-        with:
-          name: package-dist-artifacts
-          if-no-files-found: error
-          path: package-dist-artifacts.tar
-
   release:
     name: Bump Versions OR Release to Registry
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    needs: [resolve-config, build]
+    needs: resolve-config
+    if: needs.resolve-config.outputs.configured == 'true'
     permissions:
       id-token: write
       contents: write
@@ -98,18 +66,6 @@ jobs:
       - name: Install dependencies
         run: vp install --frozen-lockfile -- --strict-peer-dependencies
 
-      - name: Download package dist artifacts
-        uses: actions/download-artifact@v8
-        with:
-          name: package-dist-artifacts
-          path: .
-
-      - name: Restore package dist artifacts
-        run: tar -xf package-dist-artifacts.tar
-
-      - name: Verify package dist artifacts
-        run: bash ./scripts/check-package-dists.sh && vp run check:package-exports
-
       - name: Run changesets release flow
         id: changesets
         uses: changesets/action@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
@@ -119,7 +75,10 @@ jobs:
           push-git-tags: false
           push-with-git-cli: true
           version-script: vp run version
-          publish-script: vp exec changeset publish --tag ${{ needs.resolve-config.outputs.dist_tag }}
+          publish-script: >-
+            bash -c "vp run build && vp run build:demos &&
+            bash ./scripts/check-package-dists.sh &&
+            vp run check:package-exports && vp exec changeset publish --tag ${{ needs.resolve-config.outputs.dist_tag }}"
           pr-title: ${{ needs.resolve-config.outputs.title }}
           commit-message: ${{ needs.resolve-config.outputs.commit }}
         env:
