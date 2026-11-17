@@ -78,6 +78,9 @@ export class MarkdownManager {
    * @param options.markedOptions Optional options to pass to marked.setOptions
    * @param options.indentation Indentation settings (style and size).
    * @param options.extensions An array of Tiptap extensions to register for markdown parsing and rendering.
+   * @example
+   *   const customMarked = new Marked()
+   *   const manager = new MarkdownManager({ marked: customMarked, extensions: [] })
    */
   constructor(options?: {
     marked?: Marked | typeof marked
@@ -110,7 +113,12 @@ export class MarkdownManager {
     }
   }
 
-  /** Returns the underlying marked instance. */
+  /**
+   * The marked instance this manager parses and serializes with.
+   * @returns The dedicated `Marked` instance, or the instance passed through the `marked` option.
+   * @example
+   *   manager.instance.parse('# hi') // → '<h1>hi</h1>\n'
+   */
   get instance(): Marked | typeof marked {
     return this.markedInstance
   }

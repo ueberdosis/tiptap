@@ -1,5 +1,5 @@
 ---
-'@tiptap/markdown': patch
+'@tiptap/markdown': major
 ---
 
 Destroyed editors no longer stay in memory through tokenizers registered on the shared `marked` instance. Each Markdown manager now uses its own `Marked` instance unless one is passed through the `marked` option. `markedOptions` now applies only to that instance, not to the shared `marked`.
