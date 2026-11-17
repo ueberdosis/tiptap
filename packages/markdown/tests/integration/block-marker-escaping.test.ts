@@ -1,6 +1,7 @@
 import { Code } from '@tiptap/extension-code'
 import { Document } from '@tiptap/extension-document'
 import { Heading } from '@tiptap/extension-heading'
+import { Link } from '@tiptap/extension-link'
 import { BulletList, ListItem, OrderedList } from '@tiptap/extension-list'
 import { Paragraph } from '@tiptap/extension-paragraph'
 import { Text } from '@tiptap/extension-text'
@@ -182,6 +183,56 @@ describe('Block marker escaping inside inline code spans', () => {
     expect(parsed.content?.[0]?.type).toBe('paragraph')
     expect(parsed.content?.[0]?.content).toEqual([
       { type: 'text', text: 'a - b', marks: [{ type: 'code' }] },
+    ])
+  })
+
+  it('flattens a CRLF line ending inside a multiline code span to one space', () => {
+    const markdown = codeManager.serialize(codeParagraphDoc('a\r\n# b'))
+    const parsed = codeManager.parse(markdown)
+
+    expect(markdown).toBe('`a # b`')
+    expect(parsed.content).toHaveLength(1)
+    expect(parsed.content?.[0]?.type).toBe('paragraph')
+    expect(parsed.content?.[0]?.content).toEqual([
+      { type: 'text', text: 'a # b', marks: [{ type: 'code' }] },
+    ])
+  })
+})
+
+describe('Block marker escaping with link titles', () => {
+  const linkManager = new MarkdownManager({
+    extensions: [Document, Paragraph, Text, Link],
+  })
+
+  it('preserves a newline inside a link title wrapped in backticks', () => {
+    const doc = {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'x',
+              marks: [{ type: 'link', attrs: { href: 'https://example.com', title: '`a\nb`' } }],
+            },
+          ],
+        },
+      ],
+    }
+
+    const markdown = linkManager.serialize(doc)
+    const parsed = linkManager.parse(markdown)
+
+    expect(markdown).toBe('[x](https://example.com "`a\nb`")')
+    expect(parsed.content).toHaveLength(1)
+    expect(parsed.content?.[0]?.type).toBe('paragraph')
+    expect(parsed.content?.[0]?.content).toEqual([
+      {
+        type: 'text',
+        text: 'x',
+        marks: [{ type: 'link', attrs: { href: 'https://example.com', title: '`a\nb`' } }],
+      },
     ])
   })
 })

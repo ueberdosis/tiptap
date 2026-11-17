@@ -110,6 +110,26 @@ describe('escapeBlockStart', () => {
     expect(escapeBlockStart('x `a\n# b` y')).toBe('x `a # b` y')
   })
 
+  it('flattens each CRLF or lone CR inside inline code spans to one space', () => {
+    expect(escapeBlockStart('`a\r\n2. b`')).toBe('`a 2. b`')
+    expect(escapeBlockStart('`a\r2. b`')).toBe('`a 2. b`')
+    expect(escapeBlockStart('`a\r\n# b`')).toBe('`a # b`')
+    expect(escapeBlockStart('`a\r\n\r\n# b`')).toBe('`a  # b`')
+  })
+
+  it('leaves newlines alone when no later line of a code span starts a block', () => {
+    expect(escapeBlockStart('`a\nb`')).toBe('`a\nb`')
+    expect(escapeBlockStart('`a\r\nb`')).toBe('`a\r\nb`')
+    expect(escapeBlockStart('[x](https://example.com "`a\nb`")')).toBe(
+      '[x](https://example.com "`a\nb`")',
+    )
+  })
+
+  it('flattens a code span split by a blank line', () => {
+    expect(escapeBlockStart('`a\n\n# b`')).toBe('`a  # b`')
+    expect(escapeBlockStart('`a\n\nb`')).toBe('`a  b`')
+  })
+
   it('still escapes markers on lines around inline code spans', () => {
     expect(escapeBlockStart('before\n`a\n2. b`\n- after')).toBe('before\n`a 2. b`\n\\- after')
     expect(escapeBlockStart('\\`not code\n- item')).toBe('\\`not code\n\\- item')

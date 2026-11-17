@@ -8,9 +8,11 @@
  * `.` or `)` and a space. Lines that are only a thematic break run are
  * escaped as well. A line of only `=` signs after a text line is escaped so
  * it is not read as a Setext underline, and the pipes of a GFM table
- * delimiter row are escaped so the text is not read as a table. Newlines
- * inside inline code spans become spaces, matching how a parser folds
- * them, so a marker on a later line cannot start a block. Other text
+ * delimiter row are escaped so the text is not read as a table. A line
+ * ending inside an inline code span becomes a space when a later line
+ * would otherwise start a block, matching how a parser folds it, so a
+ * marker on a later line cannot start a block. Other line endings inside
+ * backtick pairs are left alone, since link titles keep them. Other text
  * inside code spans is left alone, since backslashes there stay literal.
  * Emphasis delimiters and mid-text markers are left alone.
  *
@@ -42,12 +44,31 @@ type Segment = {
 }
 
 // Block parsing runs before inline code, so a marker on a later line of a
-// multiline code span would start a block. Parsers fold the newline to a
-// space, so flattening it keeps the parsed text unchanged.
+// multiline code span would start a block. Parsers fold the line ending to
+// a space, so flattening it keeps the parsed text unchanged. Backtick pairs
+// in link titles are not code spans and keep their line endings, so only
+// flatten a span whose later lines would start a block.
 function flattenCodeSpans(segments: Segment[]): Segment[] {
   return segments.map(segment =>
-    segment.code ? { ...segment, text: segment.text.replace(/\n/g, ' ') } : segment,
+    segment.code && codeSpanStartsBlock(segment.text)
+      ? { ...segment, text: segment.text.replace(/\r\n|\r|\n/g, ' ') }
+      : segment,
   )
+}
+
+function codeSpanStartsBlock(text: string): boolean {
+  const lines = text.split(/\r\n|\r|\n/)
+
+  // A blank line inside the span ends the paragraph
+  if (lines.slice(1, -1).some(line => line.trim() === '')) {
+    return true
+  }
+
+  return lines.slice(1).some(line => {
+    const rest = line.replace(/^[ \t]*/, '').replace(/`+$/, '')
+
+    return escapeMarker(rest) !== rest || /^=+[ \t]*$/.test(rest) || isTableDelimiterRow(rest)
+  })
 }
 
 function splitCodeSpans(text: string): Segment[] {
