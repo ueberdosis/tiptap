@@ -8,8 +8,10 @@
  * `.` or `)` and a space. Lines that are only a thematic break run are
  * escaped as well. A line of only `=` signs after a text line is escaped so
  * it is not read as a Setext underline, and the pipes of a GFM table
- * delimiter row are escaped so the text is not read as a table. Text inside
- * inline code spans is left alone, since backslashes there stay literal.
+ * delimiter row are escaped so the text is not read as a table. Newlines
+ * inside inline code spans become spaces, matching how a parser folds
+ * them, so a marker on a later line cannot start a block. Other text
+ * inside code spans is left alone, since backslashes there stay literal.
  * Emphasis delimiters and mid-text markers are left alone.
  *
  * @param text The rendered markdown to escape
@@ -22,7 +24,7 @@
  * ```
  */
 export function escapeBlockStart(text: string): string {
-  const lines = splitLines(splitCodeSpans(text))
+  const lines = splitLines(flattenCodeSpans(splitCodeSpans(text)))
 
   return lines
     .map((line, index) => {
@@ -37,6 +39,15 @@ export function escapeBlockStart(text: string): string {
 type Segment = {
   code: boolean
   text: string
+}
+
+// Block parsing runs before inline code, so a marker on a later line of a
+// multiline code span would start a block. Parsers fold the newline to a
+// space, so flattening it keeps the parsed text unchanged.
+function flattenCodeSpans(segments: Segment[]): Segment[] {
+  return segments.map(segment =>
+    segment.code ? { ...segment, text: segment.text.replace(/\n/g, ' ') } : segment,
+  )
 }
 
 function splitCodeSpans(text: string): Segment[] {
@@ -167,7 +178,7 @@ function escapeLine(line: Segment[], hasPreviousTextLine: boolean): string {
   const [, indent, rest] = match
 
   if (hasPreviousTextLine && isTableDelimiterRow(rest)) {
-    return indent + escapePipes(rest)
+    return indent + escapeMarker(escapePipes(rest))
   }
 
   if (hasPreviousTextLine && /^=+[ \t]*$/.test(rest)) {

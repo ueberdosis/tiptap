@@ -73,11 +73,17 @@ describe('escapeBlockStart', () => {
     expect(escapeBlockStart('a | b\n| --- | --- |\nc | d')).toBe(
       'a | b\n\\| --- \\| --- \\|\nc | d',
     )
-    expect(escapeBlockStart('a | b\n--- | ---\nc | d')).toBe('a | b\n--- \\| ---\nc | d')
+    expect(escapeBlockStart('a | b\n--- | ---\nc | d')).toBe('a | b\n\\--- \\| ---\nc | d')
     expect(escapeBlockStart('a | b\n| :--- | ---: |\nc | d')).toBe(
       'a | b\n\\| :--- \\| ---: \\|\nc | d',
     )
     expect(escapeBlockStart('ab\n| --- |\ncd')).toBe('ab\n\\| --- \\|\ncd')
+    expect(escapeBlockStart('a | b\n:--- | --- |\nc | d')).toBe('a | b\n:--- \\| --- \\|\nc | d')
+  })
+
+  it('escapes a leading list marker on a table delimiter row', () => {
+    expect(escapeBlockStart('a | b\n- | -\nc | d')).toBe('a | b\n\\- \\| -\nc | d')
+    expect(escapeBlockStart('a | b\n-- | --\nc | d')).toBe('a | b\n\\-- \\| --\nc | d')
   })
 
   it('leaves pipes alone outside table delimiter rows', () => {
@@ -88,16 +94,24 @@ describe('escapeBlockStart', () => {
   })
 
   it('leaves markers inside inline code spans alone', () => {
-    expect(escapeBlockStart('`a\n2. b`')).toBe('`a\n2. b`')
     expect(escapeBlockStart('`# not a heading`')).toBe('`# not a heading`')
-    expect(escapeBlockStart('`Title\n===`')).toBe('`Title\n===`')
-    expect(escapeBlockStart('``a `b`\n1. d``')).toBe('``a `b`\n1. d``')
     expect(escapeBlockStart('Title\n`===`')).toBe('Title\n`===`')
     expect(escapeBlockStart('`x` - y')).toBe('`x` - y')
   })
 
+  it('flattens newlines inside inline code spans to spaces', () => {
+    expect(escapeBlockStart('`a\n2. b`')).toBe('`a 2. b`')
+    expect(escapeBlockStart('`Title\n===`')).toBe('`Title ===`')
+    expect(escapeBlockStart('``a `b`\n1. d``')).toBe('``a `b` 1. d``')
+    expect(escapeBlockStart('`a\n# b`')).toBe('`a # b`')
+    expect(escapeBlockStart('`a\n- b`')).toBe('`a - b`')
+    expect(escapeBlockStart('`a\n1. b`')).toBe('`a 1. b`')
+    expect(escapeBlockStart('`a\n> b`')).toBe('`a > b`')
+    expect(escapeBlockStart('x `a\n# b` y')).toBe('x `a # b` y')
+  })
+
   it('still escapes markers on lines around inline code spans', () => {
-    expect(escapeBlockStart('before\n`a\n2. b`\n- after')).toBe('before\n`a\n2. b`\n\\- after')
+    expect(escapeBlockStart('before\n`a\n2. b`\n- after')).toBe('before\n`a 2. b`\n\\- after')
     expect(escapeBlockStart('\\`not code\n- item')).toBe('\\`not code\n\\- item')
   })
 

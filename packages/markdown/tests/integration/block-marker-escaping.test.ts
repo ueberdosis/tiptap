@@ -108,6 +108,17 @@ describe('Block marker escaping on serialize', () => {
     expect(node?.content?.map(part => part.text).join('')).toBe(text)
   })
 
+  it('escapes a leading list marker on a single-hyphen table delimiter row', () => {
+    const text = 'a | b\n- | -\nc | d'
+    const markdown = markdownManager.serialize(paragraphDoc(text))
+    const parsed = markdownManager.parse(markdown)
+
+    expect(markdown).toBe('a | b\n\\- \\| -\nc | d')
+    expect(parsed.content).toHaveLength(1)
+    expect(parsed.content?.[0]?.type).toBe('paragraph')
+    expect(parsed.content?.[0]?.content?.map(part => part.text).join('')).toBe(text)
+  })
+
   it('leaves ordinary text starting with similar characters alone', () => {
     expect(markdownManager.serialize(paragraphDoc('C# and 3.14, e-mail'))).toBe(
       'C# and 3.14, e-mail',
@@ -126,23 +137,51 @@ describe('Block marker escaping inside inline code spans', () => {
     extensions: [Document, Paragraph, Text, Code],
   })
 
+  const codeParagraphDoc = (text: string) => ({
+    type: 'doc',
+    content: [
+      {
+        type: 'paragraph',
+        content: [{ type: 'text', text, marks: [{ type: 'code' }] }],
+      },
+    ],
+  })
+
   it('does not escape a block marker inside a multiline code span', () => {
-    const doc = {
-      type: 'doc',
-      content: [
-        {
-          type: 'paragraph',
-          content: [{ type: 'text', text: 'a\n2. b', marks: [{ type: 'code' }] }],
-        },
-      ],
-    }
+    const markdown = codeManager.serialize(codeParagraphDoc('a\n2. b'))
+    const parsed = codeManager.parse(markdown)
 
-    const markdown = codeManager.serialize(doc)
-    const node = codeManager.parse(markdown).content?.[0]
+    // Serialize flattens the newline to the space Marked folds it to on parse,
+    // so the parsed text matches the serialized code span exactly.
+    expect(markdown).toBe('`a 2. b`')
+    expect(parsed.content).toHaveLength(1)
+    expect(parsed.content?.[0]?.type).toBe('paragraph')
+    expect(parsed.content?.[0]?.content).toEqual([
+      { type: 'text', text: 'a 2. b', marks: [{ type: 'code' }] },
+    ])
+  })
 
-    expect(markdown).toBe('`a\n2. b`')
-    expect(node?.type).toBe('paragraph')
-    // Marked folds the newline inside a code span to a space on parse.
-    expect(node?.content).toEqual([{ type: 'text', text: 'a 2. b', marks: [{ type: 'code' }] }])
+  it('keeps a heading marker inside a multiline code span from starting a heading', () => {
+    const markdown = codeManager.serialize(codeParagraphDoc('a\n# b'))
+    const parsed = codeManager.parse(markdown)
+
+    expect(markdown).toBe('`a # b`')
+    expect(parsed.content).toHaveLength(1)
+    expect(parsed.content?.[0]?.type).toBe('paragraph')
+    expect(parsed.content?.[0]?.content).toEqual([
+      { type: 'text', text: 'a # b', marks: [{ type: 'code' }] },
+    ])
+  })
+
+  it('keeps a bullet marker inside a multiline code span from starting a list', () => {
+    const markdown = codeManager.serialize(codeParagraphDoc('a\n- b'))
+    const parsed = codeManager.parse(markdown)
+
+    expect(markdown).toBe('`a - b`')
+    expect(parsed.content).toHaveLength(1)
+    expect(parsed.content?.[0]?.type).toBe('paragraph')
+    expect(parsed.content?.[0]?.content).toEqual([
+      { type: 'text', text: 'a - b', marks: [{ type: 'code' }] },
+    ])
   })
 })
