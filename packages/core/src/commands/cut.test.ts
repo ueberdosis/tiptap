@@ -1,7 +1,7 @@
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { describe, expect, it } from 'vite-plus/test'
+import { describe, expect, it, vi } from 'vite-plus/test'
 
 import { Editor } from '../Editor.js'
 
@@ -33,6 +33,35 @@ describe('cut command', () => {
 
     expect(editor.getHTML()).toBe('<p> world</p><p>Hello</p>')
 
+    editor.destroy()
+  })
+
+  it('puts the selection inside a textblock when cutting to position 0', () => {
+    const editor = createEditor()
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+
+    editor.commands.cut({ from: 7, to: 12 }, 0)
+
+    expect(editor.getHTML()).toBe('<p>world</p><p>Hello </p>')
+    expect(editor.state.selection.from).toBe(1)
+    expect(editor.state.selection.$from.parent.inlineContent).toBe(true)
+    expect(warn).not.toHaveBeenCalled()
+
+    warn.mockRestore()
+    editor.destroy()
+  })
+
+  it('puts the selection inside a textblock when cutting to position 1', () => {
+    const editor = createEditor()
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+
+    editor.commands.cut({ from: 7, to: 12 }, 1)
+
+    expect(editor.state.selection.from).toBe(1)
+    expect(editor.state.selection.$from.parent.inlineContent).toBe(true)
+    expect(warn).not.toHaveBeenCalled()
+
+    warn.mockRestore()
     editor.destroy()
   })
 })

@@ -30,7 +30,8 @@ export const cut: RawCommands['cut'] =
 
     tr.insert(newPos, contentSlice.content)
 
-    tr.setSelection(new TextSelection(tr.doc.resolve(Math.max(newPos - 1, 0))))
+    // Position 0 is outside any textblock, so pick the closest valid text position.
+    tr.setSelection(TextSelection.near(tr.doc.resolve(Math.max(newPos - 1, 0))))
 
     return true
   }
