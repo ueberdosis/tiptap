@@ -3,7 +3,7 @@
 Write user documentation in `packages/<name>/docs/`. These rules apply to contributors and agents.
 
 The documentation must let a user install the package, use it, and understand every public API without reading its source.
-Keep development context, plans, and historical decisions in [package references](package-references.md).
+Keep development context and decisions in [package references](package-references.md).
 
 ## Structure
 
@@ -33,7 +33,7 @@ Explain concepts where users need them to understand behavior. Link to separate 
 - Start examples with the common case. Explain advanced options separately.
 - Include imports and required setup in runnable examples. Identify any placeholders the user must replace.
 - Explain internal details only when they affect usage, behavior, or limitations.
-- Keep implementation history and future proposals in `references/`.
+- Keep development context and decisions in `references/`. Keep plans and proposals outside the repository.
 
 ## Document the API
 

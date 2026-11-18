@@ -181,7 +181,7 @@ The resolver job looks up the current branch by exact name. If it is missing, th
 
 Follow the [package documentation rules](docs/package-documentation.md) when writing installation, getting started, usage, configuration, and API documentation in `packages/<name>/docs/`.
 
-Follow the [package reference rules](docs/package-references.md) when recording development context, concepts, plans, decisions, investigations, or prototype results in `packages/<name>/references/`.
+Follow the [package reference rules](docs/package-references.md) when recording development context, concepts, or decisions in `packages/<name>/references/`.
 
 Before changing a package, read its `references/README.md` if it exists and follow links relevant to your task. Update affected user documentation with the code change.
 

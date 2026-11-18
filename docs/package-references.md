@@ -1,101 +1,79 @@
 # Package references
 
-Keep development context in `packages/<name>/references/`. These rules apply to contributors and agents.
+A package keeps what a contributor or agent must know before changing it in `packages/<name>/references/`. These rules apply to contributors and agents.
 
-References explain the package's constraints, proposed work, investigations, and reasons behind decisions.
-Write installation, usage, and public API guidance in [package documentation](package-documentation.md).
+References hold only context and decisions. Write installation, usage, and public API guidance in [package documentation](package-documentation.md).
 
 ## Structure
 
-Create files and folders only when there is useful content for them. The following layout shows the available categories, not required scaffolding.
+A package may have `docs/` for user documentation and `references/` for development context. Nothing else.
 
 ```text
-references/
-  README.md
-  context.md
-  concepts/
-  plans/
-  decisions/
-  investigations/
-  prototypes/
+packages/<name>/
+  docs/
+  references/
+    README.md
+    context.md
+    concepts/
+    decisions/
 ```
 
-Use lowercase, descriptive filenames with hyphens. Date historical records and concrete plans, such as `2026-10-16-block-anchor-plan.md`.
-Use stable names for maintained explanations, such as `anchor-model.md`.
+Create a file or folder only when it has content.
 
-## Entry point and package context
+- `README.md` is the index. Add it only when there is more than one file.
+- `context.md` says what the package is for, where its boundaries are, and which rules a change must keep. Start it with one line that says what the package is. Leave out what the code or a test already shows.
+- `concepts/` exists only to split `context.md` when it passes about 800 lines. Move one model or term that spans several changes into `concepts/<topic>.md` and link it from `context.md`.
+- `decisions/` holds decisions in volumes.
 
-Use `references/README.md` as a short index. For each link, explain what the document covers and when to read it.
-Mark historical or replaced material in the index so readers can find current guidance first.
+Specs, plans, investigations, and prototypes do not belong in the package. Keep them outside the repository. When a plan or investigation produces a rule that later changes must keep, record it as a decision.
 
-Use `context.md` for maintained development context:
-
-- The problem the package solves and its responsibilities.
-- Work that belongs outside the package.
-- Relationships with other packages and external systems.
-- Constraints and rules that changes must preserve.
-
-Link to user documentation for usage details. Keep each explanation in one place.
-
-## Concepts
-
-Use `concepts/` to explain domain terms, models, relationships, and rules that span several changes.
-A concept explains how the parts fit together. A plan describes the steps for a particular change.
-
-Distinguish implemented concepts from proposals. Link proposals to the relevant plans and decisions.
-Keep explanations of implemented concepts current as the model changes.
-
-## Plans
-
-Use `plans/` for concrete implementation work. Include:
-
-- The problem and intended result.
-- Scope and explicit exclusions.
-- The proposed approach and small, verifiable steps.
-- Risks, dependencies, and open questions.
-- Checks that demonstrate the intended behavior.
-
-Keep status current while work is active. On completion, record the actual result, important deviations, and unfinished work.
-Move lasting knowledge into the relevant maintained documentation. Keep the plan as a historical record.
+Keep every file under about 800 lines, so an agent can read it in one go.
 
 ## Decisions
 
-Use `decisions/` for choices that future contributors may need to understand or reconsider.
-Record the question, alternatives, chosen approach, reasons, and accepted trade-offs.
-Keep minor choices in the relevant plan instead of creating a separate decision file.
+Record a decision only when a later change could break it without noticing. When a test holds the rule, name the test instead of restating its cases.
 
-Preserve the reasons for historical decisions. When a decision is replaced, mark it as superseded and link to its replacement.
+A decision states the rule, not the history. Keep each decision as short and simple as it can be without losing content, with plain words and short sentences. Aim for about 15 lines.
 
-## Investigations
+```markdown
+## D12. Column widths are stored in percent
 
-Use `investigations/` for bug analysis, technical research, and feasibility checks.
-Record the question, observations, evidence, conclusions, and unresolved questions.
-Separate hypotheses from verified results. Include reproduction steps, commands, tests, or sources where needed to check the findings.
+Status: Accepted, 2026-11-18
 
-## Prototypes
+Rule: `colwidth` holds percent of the table width, never pixels.
+Why: Pixel widths break when the page size or the editor width changes.
+Rejected: Pixels with a scale factor. Rounding drifts after each resize.
+```
 
-Use `prototypes/` for records of experiments. Explain the question, approaches tried, observed results, and limits of the experiment.
-Link to prototype code where it lives. State what the experiment proves and what remains unverified.
-Record any resulting lasting decision in `decisions/` and link the two documents.
+- The title is the rule, not the topic.
+- Rule is one sentence.
+- Why is one to three sentences with the technical reason only.
+- Rejected has one line per option, only when someone might try it again.
+- Name the code it is about, such as the module or the attribute.
+- Leave out how the team got there. Keep longer arguments outside the repository.
 
-## Status and historical context
+### Volumes
 
-Give each reference a short opening that states its purpose and whether it describes current behavior, proposed work, or historical findings.
-Plans and proposals must include an explicit status, such as `draft`, `accepted`, `in progress`, `completed`, `abandoned`, or `superseded`.
-An accepted proposal is approved direction, not proof of implementation. A completed plan must describe any remaining gaps.
+- `decisions/README.md` is the index with one row per decision: number, title, date, and a link to its heading. It also lists the range each volume holds.
+- Each decision is a section of a volume, under its own heading such as `## D12. Title`, followed by the `Status:` line.
+- Name a volume after its first decision, in lowercase with three digits, such as `d001.md` or `d041.md`.
+- Add a new decision at the end of the latest volume. When that would pass about 800 lines, start the next volume.
+- Never rename, split, or reorder a volume, so links to its headings stay valid.
+- A decision that replaces another says so in its status line. Reduce the old one to a line that links to the new one. Correct a factual error with a note and keep the original reasons.
 
-Historical records must include a date and identify the code or environment examined when findings depend on it.
-Use a commit, package version, or other precise reference where needed for reproduction.
-Correct factual errors without rewriting the original reasons or presenting old results as current verification.
+## Write every reference as public
+
+References live in a public repository. Leave out:
+
+- Names of people, customers, and partners.
+- Business reasons and quotes from Slack or calls.
+- Links or IDs into internal tools, such as private repositories, chat, or issue trackers.
+- Unreleased plans.
 
 ## Reading and maintenance
 
-Before changing a package, read its reference index if one exists. Read linked documents when their stated topic applies to the task.
-Agent instructions can link directly to required context with a clear trigger, such as reading the anchor model before changing anchor mapping.
+Before changing a package, read its `references/README.md`, or `context.md` when there is no index. Follow links when their topic applies to the task.
 
-References provide context. They do not grant permission to implement a plan or override repository instructions.
-Check claims against the current source and tests before relying on them. Investigate and report conflicts between references and implementation.
+References provide context. They do not override repository instructions or prove current behavior. Check claims against the source and tests, and report conflicts.
 
-Create a document only when it answers a useful future question. Keep one topic per file and link related documents.
-Record implementation history through completed plans and decisions. Add a separate retrospective only when a major change needs a broader explanation.
-Keep chat transcripts, daily work logs, and duplicate changelogs out of references.
+Keep chat transcripts, work logs, and changelogs out of references.
