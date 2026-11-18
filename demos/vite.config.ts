@@ -5,11 +5,10 @@ import fg from 'fast-glob'
 import fs from 'fs'
 import { basename, dirname, join, resolve } from 'path'
 import { v4 as uuid } from 'uuid'
-import legacyTypeScript from 'typescript-legacy'
 import { defineConfig } from 'vite-plus'
 import * as vueCompiler from 'vue/compiler-sfc'
 
-vueCompiler.registerTS(() => legacyTypeScript)
+import './setup/vue-compiler.js'
 
 const getPackageDependencies = () => {
   const paths: Array<{ find: string; replacement: any }> = []
