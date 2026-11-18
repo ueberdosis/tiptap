@@ -15,7 +15,7 @@ minimumReleaseAgeExclude:
 overrides:
   '@rollup/pluginutils>picomatch': '2.3.2'
   'prosemirror-model': '^1.25.12'
-  'prosemirror-view': '^1.42.6'
+  'prosemirror-view': '^1.42.9'
   'anymatch>picomatch': '2.3.2'
   'brace-expansion@>=2 <3': '2.1.7'
   'fast-uri@>=3 <4': '3.1.9'

@@ -1,5 +1,5 @@
 ---
-'@tiptap/core': patch
+'@tiptap/pm': patch
 ---
 
-Prevent a selection error when pressing Backspace immediately after focusing an editor on Android.
+Fix a selection error and a misplaced caret when pressing Backspace right after focusing an editor on Android.

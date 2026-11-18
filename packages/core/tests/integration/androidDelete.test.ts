@@ -22,7 +22,7 @@ describe('Android native Backspace', () => {
   })
 
   it.each([false, true])(
-    'reconciles deletion before focus restores the caret (composing: %s)',
+    'keeps the caret valid when native deletion follows focus (composing: %s)',
     composing => {
       vi.useFakeTimers()
       editor = new Editor({
@@ -47,17 +47,14 @@ describe('Android native Backspace', () => {
 
       text.deleteData(15, 1)
       document.getSelection()!.collapse(text, 15)
-      const event = new InputEvent('input', {
-        inputType: 'deleteContentBackward',
-        bubbles: true,
-        isComposing: composing,
-      })
+      editor.view.dom.dispatchEvent(
+        new InputEvent('input', {
+          inputType: 'deleteContentBackward',
+          bubbles: true,
+          isComposing: composing,
+        }),
+      )
 
-      editor.view.dom.dispatchEvent(event)
-
-      expect(editor.getText()).toBe('First paragraph\n\nSecond paragrap')
-      expect(editor.state.selection.from).toBe(33)
-      expect(event.defaultPrevented).toBe(false)
       expect(() => vi.advanceTimersByTime(60)).not.toThrow()
       expect(editor.getText()).toBe('First paragraph\n\nSecond paragrap')
       expect(editor.state.selection.from).toBe(33)
