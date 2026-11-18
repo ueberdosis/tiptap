@@ -47,9 +47,6 @@
     "version:markdown": "vp exec changeset version --snapshot markdown"
   },
   "devDependencies": {
-    "@babel/core": "^7.29.6",
-    "@babel/preset-env": "^7.26.0",
-    "@babel/preset-react": "^7.26.3",
     "@changesets/changelog-github": "^1.0.1",
     "@changesets/cli": "^3.0.3",
     "@commitlint/cli": "^19.6.1",
@@ -58,7 +55,6 @@
     "@testing-library/react": "16.2.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "babel-loader": "^9.2.1",
     "cz-conventional-changelog": "^3.3.0",
     "fallow": "^3.34.0",
     "fast-glob": "^3.3.2",
