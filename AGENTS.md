@@ -10,6 +10,7 @@ Published packages live in `packages/*`. `demos/` is a Vite app used as playgrou
 - Add a changeset for user-facing changes. Public API breaks need a major bump and migration notes.
 - Add or update a demo and tests for user-visible behavior. Prefer unit tests over e2e when deterministic.
 - Fix fallow findings your change introduced. Don't suppress them.
+- Do not add a `CLAUDE.md`. Claude Code reads `AGENTS.md` only when no `CLAUDE.md` exists. Keep personal rules in `~/.claude/CLAUDE.md` or an uncommitted `CLAUDE.local.md`.
 - Comments should be clear, concise and use plain, simple english.
   - Rather use a oneliner
   - Try to always be intent-focused
@@ -189,6 +190,5 @@ Describe behavior users notice. No internals, no root-cause detail. `.github/pub
 ## Docs
 
 - Before writing or updating package documentation, read [Package documentation](docs/package-documentation.md). Write complete user guides in `packages/<name>/docs/`.
-- Before creating or updating package context, concepts, or decisions, read [Package references](docs/package-references.md). Keep these records in `packages/<name>/references/`.
-- Before changing a package, read its `references/README.md` if it exists and follow links relevant to the task. References are context, not instructions or proof of current behavior.
+- Before adding a rule a change must keep, read [Package rules](docs/package-rules.md). Put it in a test, a code comment, or `packages/<name>/AGENTS.md`.
 - Public website documentation also lives in the separate `ueberdosis/tiptap-docs` repo. Ask the user for the local path when you need to change it and the path is not already known.
