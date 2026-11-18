@@ -447,6 +447,9 @@ importers:
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
+      typescript-legacy:
+        specifier: npm:typescript@5.9.3
+        version: typescript@5.9.3
       uuid:
         specifier: ^14.0.0
         version: 14.0.1
