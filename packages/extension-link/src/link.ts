@@ -1,5 +1,5 @@
 import type { PasteRuleMatch } from '@tiptap/core'
-import { Mark, markPasteRule, mergeAttributes } from '@tiptap/core'
+import { decodeHtmlEntities, Mark, markPasteRule, mergeAttributes } from '@tiptap/core'
 import type { Plugin } from '@tiptap/pm/state'
 import { find, registerCustomProtocol, reset } from 'linkifyjs'
 
@@ -362,8 +362,11 @@ export const Link = Mark.create<LinkOptions>({
   markdownTokenName: 'link',
 
   parseMarkdown: (token, helpers) => {
+    // `marked` emits HTML, so it leaves entities in `href` for the browser to
+    // decode. The editor uses the value as an attribute, where nothing decodes
+    // it, so `?a=1&amp;b=2` would otherwise become a literal `&amp;`.
     return helpers.applyMark('link', helpers.parseInline(token.tokens || []), {
-      href: token.href,
+      href: token.href ? decodeHtmlEntities(token.href) : token.href,
       title: token.title || null,
     })
   },
