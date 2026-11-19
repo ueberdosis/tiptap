@@ -23,6 +23,21 @@ const isAbsentFromSnapshots = (
   !isVisible(type._item, snapshot) &&
   !isVisible(type._item, prevSnapshot)
 
+const getSnapshotChildren = (
+  el: Y.XmlElement,
+  snapshot?: Y.Snapshot,
+  prevSnapshot?: Y.Snapshot,
+  contentSnapshot?: Y.Snapshot,
+) => {
+  if (snapshot === undefined || prevSnapshot === undefined) return el.toArray()
+  if (contentSnapshot !== snapshot) {
+    return contentSnapshot === undefined
+      ? el.toArray()
+      : Y.typeListToArraySnapshot(el, contentSnapshot)
+  }
+  return Y.typeListToArraySnapshot(el, new Y.Snapshot(prevSnapshot.ds, snapshot.sv))
+}
+
 const getYChange = (
   el: Y.XmlElement,
   snapshot: Y.Snapshot,
@@ -74,7 +89,6 @@ export const createNodeFromYElement = (
   }
 
   const contentSnapshot = getContentSnapshot(el, snapshot, prevSnapshot)
-  const isRemoved = contentSnapshot !== snapshot
 
   const children: PModel.Node[] = []
   let hasSkippedChild = false
@@ -112,17 +126,7 @@ export const createNodeFromYElement = (
     // Avoid spreading, which overflows the call stack for many formatting runs
     textNodes?.forEach(textNode => children.push(textNode))
   }
-  if (snapshot === undefined || prevSnapshot === undefined) {
-    el.toArray().forEach(createChildren)
-  } else if (isRemoved) {
-    const removedChildren =
-      contentSnapshot === undefined ? el.toArray() : Y.typeListToArraySnapshot(el, contentSnapshot)
-    removedChildren.forEach(createChildren)
-  } else {
-    Y.typeListToArraySnapshot(el, new Y.Snapshot(prevSnapshot.ds, snapshot.sv)).forEach(
-      createChildren,
-    )
-  }
+  getSnapshotChildren(el, snapshot, prevSnapshot, contentSnapshot).forEach(createChildren)
   try {
     const attrs: Record<string, unknown> = el.getAttributes(contentSnapshot)
     const ychange = snapshot ? getYChange(el, snapshot, prevSnapshot, computeYChange) : undefined
