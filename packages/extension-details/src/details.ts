@@ -43,6 +43,8 @@ export interface DetailsOptions {
    * Show a details node that is created open as open as soon as it is drawn.
    * By default it is opened one tick later, so code that measures right after drawing
    * reads it closed. Only has an effect together with `persist`. Defaults to `false`.
+   * @example
+   * Details.configure({ persist: true, openWithoutDelay: true })
    */
   openWithoutDelay: boolean
   /**
