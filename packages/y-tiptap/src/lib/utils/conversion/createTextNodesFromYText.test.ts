@@ -31,3 +31,28 @@ it.each([{ length: 1, label: 'figure' }, { label: 'figure' }])(
     }
   },
 )
+
+it('preserves live text when a snapshot change callback throws', () => {
+  const document = new Y.Doc({ gc: false })
+  try {
+    const paragraph = new Y.XmlElement('paragraph')
+    const text = new Y.XmlText()
+    document.getXmlFragment('prosemirror').insert(0, [paragraph])
+    paragraph.insert(0, [text])
+    text.insert(0, 'a')
+    const previous = Y.snapshot(document)
+    text.insert(1, 'b')
+    const current = Y.snapshot(document)
+    const error = new Error('Change callback failed')
+
+    expect(() =>
+      createTextNodesFromYText(text, schema, createEmptyMeta(), current, previous, () => {
+        throw error
+      }),
+    ).toThrow(error)
+    expect(paragraph.toArray()).toEqual([text])
+    expect(text.toString()).toBe('ab')
+  } finally {
+    document.destroy()
+  }
+})

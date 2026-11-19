@@ -17,16 +17,17 @@ export const createTextNodesFromYText = (
   prevSnapshot?: Y.Snapshot,
   computeYChange?: ComputeYChange,
 ) => {
+  const contentSnapshot = getContentSnapshot(text, snapshot, prevSnapshot)
+  const isRemoved = contentSnapshot !== snapshot
+  const deltas: TextDelta[] =
+    isRemoved && contentSnapshot !== undefined
+      ? getRemovedTextDeltas(text, contentSnapshot, computeYChange)
+      : text.toDelta(snapshot, prevSnapshot, computeYChange)
   try {
-    const contentSnapshot = getContentSnapshot(text, snapshot, prevSnapshot)
-    const isRemoved = contentSnapshot !== snapshot
-    const deltas: TextDelta[] =
-      isRemoved && contentSnapshot !== undefined
-        ? getRemovedTextDeltas(text, contentSnapshot, computeYChange)
-        : text.toDelta(snapshot, prevSnapshot, computeYChange)
-    return deltas.map(delta =>
-      schema.text(delta.insert, attributesToMarks(delta.attributes, schema)),
-    )
+    return deltas.map(delta => {
+      if (typeof delta.insert !== 'string') throw new Error('Cannot project a Yjs text embed')
+      return schema.text(delta.insert, attributesToMarks(delta.attributes, schema))
+    })
   } catch (error) {
     if (meta.reportInvalidContent) {
       meta.reportInvalidContent(toError(error))

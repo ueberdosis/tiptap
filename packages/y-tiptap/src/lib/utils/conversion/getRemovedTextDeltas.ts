@@ -8,6 +8,7 @@ export const getRemovedTextDeltas = (
   computeYChange?: ComputeYChange,
 ): TextDelta[] => {
   const formatted: TextDelta[] = text.toDelta(snapshot)
+  if (formatted.some(delta => typeof delta.insert !== 'string')) return formatted
   // An empty snapshot marks every historical character as removed using its own ID.
   const removed: TextDelta[] = text.toDelta(Y.emptySnapshot, snapshot, computeYChange)
   const deltas: TextDelta[] = []
@@ -15,8 +16,6 @@ export const getRemovedTextDeltas = (
   let removedOffset = 0
 
   for (const delta of formatted) {
-    if (typeof delta.insert !== 'string') throw new Error('Cannot project a Yjs text embed')
-
     let offset = 0
     while (offset < delta.insert.length) {
       const removal = removed[removedIndex]
