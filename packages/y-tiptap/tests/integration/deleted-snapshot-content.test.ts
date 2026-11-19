@@ -83,3 +83,45 @@ it('handles an element added and deleted between snapshots', () => {
     document.destroy()
   }
 })
+
+it('skips a nested list added and deleted between snapshots', () => {
+  const document = new Y.Doc({ gc: false })
+  try {
+    const listSchema = new Schema({
+      nodes: schema.spec.nodes.append({
+        bulletList: { group: 'block', content: 'listItem+' },
+        listItem: { content: 'paragraph+' },
+      }),
+      marks: schema.spec.marks,
+    })
+    const fragment = document.getXmlFragment('prosemirror')
+    const blockquote = new Y.XmlElement('blockquote')
+    const paragraph = new Y.XmlElement('paragraph')
+    const text = new Y.XmlText()
+    fragment.insert(0, [blockquote])
+    blockquote.insert(0, [paragraph])
+    paragraph.insert(0, [text])
+    text.insert(0, 'Surviving text')
+    const previous = Y.snapshot(document)
+    const list = new Y.XmlElement('bulletList')
+    const item = new Y.XmlElement('listItem')
+    blockquote.insert(1, [list])
+    list.insert(0, [item])
+    item.insert(0, [new Y.XmlElement('paragraph')])
+    blockquote.delete(1, 1)
+
+    const node = createNodeFromYElement(
+      blockquote,
+      listSchema,
+      createEmptyMeta(),
+      Y.snapshot(document),
+      previous,
+      computeYChange,
+    )
+    expect(node.childCount).toBe(1)
+    expect(node.firstChild?.type.name).toBe('paragraph')
+    expect(node.textContent).toBe('Surviving text')
+  } finally {
+    document.destroy()
+  }
+})

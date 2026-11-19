@@ -8,6 +8,17 @@ import { projectedMappings } from '../binding/projectedMappings.js'
 import { getContentSnapshot } from './getContentSnapshot.js'
 import { createTextNodesFromYText } from './createTextNodesFromYText.js'
 
+const isAbsentFromSnapshots = (
+  type: Y.XmlElement | Y.XmlText | Y.XmlHook,
+  snapshot?: Y.Snapshot,
+  prevSnapshot?: Y.Snapshot,
+) =>
+  snapshot !== undefined &&
+  prevSnapshot !== undefined &&
+  type._item !== null &&
+  !isVisible(type._item, snapshot) &&
+  !isVisible(type._item, prevSnapshot)
+
 export const createNodeFromYElement = (
   el: Y.XmlElement<{ [key: string]: string }>,
   schema: PModel.Schema,
@@ -32,6 +43,8 @@ export const createNodeFromYElement = (
 
   const children: PModel.Node[] = []
   const createChildren = (type: Y.XmlElement | Y.XmlText | Y.XmlHook) => {
+    if (isAbsentFromSnapshots(type, snapshot, prevSnapshot)) return
+
     if (type instanceof Y.XmlElement) {
       children.push(
         createNodeFromYElement(type, schema, meta, snapshot, prevSnapshot, computeYChange),
