@@ -1,5 +1,3 @@
-import './styles.scss'
-
 import { Editor } from '@tiptap/core'
 import { Details, DetailsContent, DetailsSummary } from '@tiptap/extension-details'
 import StarterKit from '@tiptap/starter-kit'
