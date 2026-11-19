@@ -15,6 +15,8 @@ export const getRemovedTextDeltas = (
   let removedOffset = 0
 
   for (const delta of formatted) {
+    if (typeof delta.insert !== 'string') throw new Error('Cannot project a Yjs text embed')
+
     let offset = 0
     while (offset < delta.insert.length) {
       const removal = removed[removedIndex]

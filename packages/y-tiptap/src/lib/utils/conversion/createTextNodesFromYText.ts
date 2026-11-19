@@ -17,13 +17,13 @@ export const createTextNodesFromYText = (
   prevSnapshot?: Y.Snapshot,
   computeYChange?: ComputeYChange,
 ) => {
-  const contentSnapshot = getContentSnapshot(text, snapshot, prevSnapshot)
-  const isRemoved = contentSnapshot !== snapshot
-  const deltas: TextDelta[] =
-    isRemoved && contentSnapshot !== undefined
-      ? getRemovedTextDeltas(text, contentSnapshot, computeYChange)
-      : text.toDelta(snapshot, prevSnapshot, computeYChange)
   try {
+    const contentSnapshot = getContentSnapshot(text, snapshot, prevSnapshot)
+    const isRemoved = contentSnapshot !== snapshot
+    const deltas: TextDelta[] =
+      isRemoved && contentSnapshot !== undefined
+        ? getRemovedTextDeltas(text, contentSnapshot, computeYChange)
+        : text.toDelta(snapshot, prevSnapshot, computeYChange)
     return deltas.map(delta =>
       schema.text(delta.insert, attributesToMarks(delta.attributes, schema)),
     )
