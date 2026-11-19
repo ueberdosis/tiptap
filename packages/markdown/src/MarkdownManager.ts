@@ -36,6 +36,18 @@ import {
 import { collectMarkSpanTexts } from './utils/collectMarkSpanTexts.js'
 import { htmlContainsUnrecognizedTag } from './utils/htmlTagDetection.js'
 
+/**
+ * Where a text node sits in the line it is rendered on, so block syntax in it can be escaped.
+ */
+interface BlockLineContext {
+  /** Something already rendered on this line, so the first line of the node cannot start a block. */
+  startsMidLine: boolean
+  /** Earlier nodes already rendered a line, so the first line of the node can underline it. */
+  hasLineAbove: boolean
+  /** The paragraph is nested in a list item or a similar indenting block. */
+  isIndented: boolean
+}
+
 export class MarkdownManager {
   private markedInstance: typeof marked
   private activeParseLexer: Lexer | null = null
@@ -1187,7 +1199,12 @@ export class MarkdownManager {
    * Also backslash-escape markdown-significant characters in non-code text to
    * prevent them from being misinterpreted as formatting delimiters.
    */
-  private encodeTextForMarkdown(text: string, node: JSONContent, parentNode?: JSONContent): string {
+  private encodeTextForMarkdown(
+    text: string,
+    node: JSONContent,
+    parentNode?: JSONContent,
+    blockContext?: BlockLineContext,
+  ): string {
     const isInsideCode =
       (parentNode?.type != null && this.codeTypes.has(parentNode.type)) ||
       (node.marks || []).some(m => this.codeTypes.has(typeof m === 'string' ? m : m.type))
@@ -1196,7 +1213,8 @@ export class MarkdownManager {
       return text
     }
 
-    return this.escapeMarkdownSyntax(encodeHtmlEntities(text))
+    const escaped = this.escapeMarkdownSyntax(encodeHtmlEntities(text))
+    return blockContext ? this.escapeBlockSyntax(escaped, blockContext) : escaped
   }
 
   /**
@@ -1210,6 +1228,49 @@ export class MarkdownManager {
    */
   private escapeMarkdownSyntax(text: string): string {
     return text.replace(/([\\`*_[\]~])/g, '\\$1')
+  }
+
+  /**
+   * Backslash-escape leading block syntax so the text stays text when the markdown is parsed
+   * again. Runs per line, since a text node can contain literal `\n`.
+   */
+  private escapeBlockSyntax(
+    text: string,
+    { startsMidLine, hasLineAbove, isIndented }: BlockLineContext,
+  ): string {
+    const lines = text.split('\n')
+    const isTableDelimiter = (line = '') => /^ {0,3}\|?[\s:|-]*-[\s:|-]*$/.test(line)
+
+    return lines
+      .map((line, index) => {
+        // Earlier nodes already put text on this line, so it cannot start a block.
+        if (index === 0 && startsMidLine) {
+          return line
+        }
+
+        const isFirstLine = index === 0 && !hasLineAbove
+
+        // marked reads the line above a delimiter row as a table header, so break the row.
+        if (!isFirstLine && isTableDelimiter(line)) {
+          return line.replace('-', '\\-')
+        }
+
+        let escaped = line
+          .replace(/^( {0,3})(#{1,6})(\s|$)/, '$1\\$2$3')
+          .replace(/^( {0,3})([-+])(\s|$)/, '$1\\$2$3')
+
+        // Inside a list item a bare `1.` stays text, but `1. one` opens a nested list.
+        escaped = escaped.replace(
+          isIndented ? /^( {0,3})(\d{1,9})([.)])(?=\s+\S)/ : /^( {0,3})(\d{1,9})([.)])(?=\s|$)/,
+          '$1$2\\$3',
+        )
+
+        // The first line has nothing above it to underline, so only a break can start a block.
+        return isFirstLine
+          ? escaped.replace(/^( {0,3})(-{3,})(\s*)$/, '$1\\$2$3')
+          : escaped.replace(/^( {0,3})(={1,})(\s*)$/, '$1\\$2$3')
+      })
+      .join('\n')
   }
 
   renderNodeToMarkdown(
@@ -1328,7 +1389,24 @@ export class MarkdownManager {
       }
 
       if (node.type === 'text') {
-        let textContent = this.encodeTextForMarkdown(node.text || '', node, parentNode)
+        // Every paragraph starts a block, nested ones too, so its line starts carry block syntax.
+        const renderedSoFar = result.join(separator)
+        // An opening mark delimiter is written before the text, so the first line is mid-line.
+        const opensMark = (node.marks || []).some(mark => !activeMarks.has(mark.type))
+        const blockContext =
+          parentNode?.type === 'paragraph'
+            ? {
+                startsMidLine: opensMark || (renderedSoFar !== '' && !renderedSoFar.endsWith('\n')),
+                hasLineAbove: renderedSoFar !== '',
+                isIndented: level > 0,
+              }
+            : undefined
+        let textContent = this.encodeTextForMarkdown(
+          node.text || '',
+          node,
+          parentNode,
+          blockContext,
+        )
         let currentMarks = new Map((node.marks || []).map(mark => [mark.type, mark]))
 
         // Find marks that need to be closed and opened
