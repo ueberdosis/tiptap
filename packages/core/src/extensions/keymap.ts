@@ -1,3 +1,4 @@
+import type { EditorState } from '@tiptap/pm/state'
 import { Plugin, PluginKey, Selection } from '@tiptap/pm/state'
 
 import { CommandManager } from '../CommandManager.js'
@@ -6,6 +7,17 @@ import { createChainableState } from '../helpers/createChainableState.js'
 import { isNodeEmpty } from '../helpers/isNodeEmpty.js'
 import { isiOS } from '../utilities/isiOS.js'
 import { isMacOS } from '../utilities/isMacOS.js'
+
+/** Checks if a non-empty selection spans the whole document. */
+function isWholeDocumentSelected(state: EditorState) {
+  const { empty, from, to } = state.selection
+
+  if (empty) {
+    return false
+  }
+
+  return from === Selection.atStart(state.doc).from && to === Selection.atEnd(state.doc).to
+}
 
 export const Keymap = Extension.create({
   name: 'keymap',
@@ -126,12 +138,7 @@ export const Keymap = Extension.create({
             return
           }
 
-          const { empty, from, to } = oldState.selection
-          const allFrom = Selection.atStart(oldState.doc).from
-          const allEnd = Selection.atEnd(oldState.doc).to
-          const allWasSelected = from === allFrom && to === allEnd
-
-          if (empty || !allWasSelected) {
+          if (!isWholeDocumentSelected(oldState)) {
             return
           }
 
@@ -153,11 +160,12 @@ export const Keymap = Extension.create({
 
           commands.clearNodes()
 
-          if (!tr.steps.length) {
+          if (!tr.steps.length && !newState.storedMarks) {
             return
           }
 
-          return tr
+          // Don't carry marks of the deleted text into the empty document
+          return tr.setStoredMarks(null)
         },
       }),
     ]

@@ -248,3 +248,77 @@ describe('FloatingMenuView destroy safety', () => {
     }
   })
 })
+
+describe('FloatingMenuView IME composition', () => {
+  it('hides the menu once the composition ends', async () => {
+    const editor = createEditor('<p></p>')
+    const shouldShow = vi.fn(() => true)
+    const onHide = vi.fn()
+    const view = createFloatingMenuView(editor, { shouldShow, options: { onHide } })
+
+    view.show()
+
+    const oldState = editor.state
+
+    // Text is inserted while composing is still true.
+    editor.view.dispatch(editor.state.tr.insertText('\uAC00'))
+    const composing = vi.spyOn(editor.view, 'composing', 'get').mockReturnValue(true)
+
+    shouldShow.mockClear()
+    view.update(editor.view, oldState)
+    expect(shouldShow).not.toHaveBeenCalled()
+    expect(onHide).not.toHaveBeenCalled()
+
+    // The composition flush brings no further change, so only compositionend can trigger it.
+    shouldShow.mockReturnValue(false)
+    composing.mockReturnValue(false)
+    editor.view.dom.dispatchEvent(new Event('compositionend'))
+    await new Promise(resolve => {
+      setTimeout(resolve)
+    })
+
+    expect(shouldShow).toHaveBeenCalled()
+    expect(onHide).toHaveBeenCalled()
+
+    composing.mockRestore()
+    view.destroy()
+    editor.destroy()
+  })
+
+  it('removes the compositionend listener on destroy', async () => {
+    const editor = createEditor('<p></p>')
+    const shouldShow = vi.fn(() => false)
+    const view = createFloatingMenuView(editor, { shouldShow })
+
+    view.destroy()
+    shouldShow.mockClear()
+
+    editor.view.dom.dispatchEvent(new Event('compositionend'))
+    await new Promise(resolve => {
+      setTimeout(resolve)
+    })
+
+    expect(shouldShow).not.toHaveBeenCalled()
+
+    editor.destroy()
+  })
+
+  it('cancels a pending update when the view is destroyed while the editor lives on', async () => {
+    const editor = createEditor('<p></p>')
+    const shouldShow = vi.fn(() => false)
+    const view = createFloatingMenuView(editor, { shouldShow })
+
+    editor.view.dom.dispatchEvent(new Event('compositionend'))
+    shouldShow.mockClear()
+    view.destroy()
+
+    await new Promise(resolve => {
+      setTimeout(resolve)
+    })
+
+    expect(editor.isDestroyed).toBe(false)
+    expect(shouldShow).not.toHaveBeenCalled()
+
+    editor.destroy()
+  })
+})

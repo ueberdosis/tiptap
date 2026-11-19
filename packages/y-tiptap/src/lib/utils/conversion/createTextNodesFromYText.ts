@@ -6,11 +6,13 @@ import * as Y from 'yjs'
 import { getContentSnapshot } from './getContentSnapshot.js'
 import { getRemovedTextDeltas } from './getRemovedTextDeltas.js'
 import { attributesToMarks } from './attributesToMarks.js'
+import { deleteYType } from './deleteYType.js'
+import { toError } from './toError.js'
 
 export const createTextNodesFromYText = (
   text: Y.XmlText,
   schema: PModel.Schema,
-  _meta: BindingMetadata,
+  meta: BindingMetadata,
   snapshot?: Y.Snapshot,
   prevSnapshot?: Y.Snapshot,
   computeYChange?: ComputeYChange,
@@ -21,5 +23,16 @@ export const createTextNodesFromYText = (
     isRemoved && contentSnapshot !== undefined
       ? getRemovedTextDeltas(text, contentSnapshot, computeYChange)
       : text.toDelta(snapshot, prevSnapshot, computeYChange)
-  return deltas.map(delta => schema.text(delta.insert, attributesToMarks(delta.attributes, schema)))
+  try {
+    return deltas.map(delta =>
+      schema.text(delta.insert, attributesToMarks(delta.attributes, schema)),
+    )
+  } catch (error) {
+    if (meta.reportInvalidContent) {
+      meta.reportInvalidContent(toError(error))
+    } else {
+      deleteYType(text)
+    }
+    return null
+  }
 }
