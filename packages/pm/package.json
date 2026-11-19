@@ -161,6 +161,6 @@
     "prosemirror-state": "^1.4.4",
     "prosemirror-tables": "^1.8.5",
     "prosemirror-transform": "^1.12.2",
-    "prosemirror-view": "^1.42.9"
+    "prosemirror-view": "^1.42.6"
   }
 }

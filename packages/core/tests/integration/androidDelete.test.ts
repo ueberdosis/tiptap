@@ -57,6 +57,7 @@ describe('Android native Backspace', () => {
 
       expect(() => vi.advanceTimersByTime(60)).not.toThrow()
       expect(editor.getText()).toBe('First paragraph\n\nSecond paragrap')
+      expect(editor.state.selection.empty).toBe(true)
       expect(editor.state.selection.from).toBe(33)
     },
   )
