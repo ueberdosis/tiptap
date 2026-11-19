@@ -40,6 +40,12 @@ export interface DetailsOptions {
    */
   openClassName: string
   /**
+   * Show a details node that is created open as open as soon as it is drawn.
+   * By default it is opened one tick later, so code that measures right after drawing
+   * reads it closed. Only has an effect together with `persist`. Defaults to `false`.
+   */
+  openWithoutDelay: boolean
+  /**
    * Custom HTML attributes that should be added to the rendered HTML tag.
    */
   HTMLAttributes: {
@@ -84,6 +90,7 @@ export const Details = Node.create<DetailsOptions>({
     return {
       persist: false,
       openClassName: 'is-open',
+      openWithoutDelay: false,
       HTMLAttributes: {},
       renderToggleButton: ({ element, isOpen }) => {
         element.setAttribute(
@@ -195,7 +202,13 @@ export const Details = Node.create<DetailsOptions>({
       })
 
       if (node.attrs.open) {
-        setTimeout(() => toggleDetailsContent({ setToValue: true }))
+        if (this.options.openWithoutDelay) {
+          // The content node view reads the open state itself when it is created.
+          dom.classList.add(this.options.openClassName)
+        } else {
+          // The content node view does not exist yet, so the toggle event needs a tick.
+          setTimeout(() => toggleDetailsContent({ setToValue: true }))
+        }
       }
 
       toggle.addEventListener('click', () => {
