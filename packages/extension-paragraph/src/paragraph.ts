@@ -64,14 +64,8 @@ export const Paragraph = Node.create<ParagraphOptions>({
   parseMarkdown: (token, helpers) => {
     const tokens = token.tokens || []
 
-    // Special case: if paragraph contains only a single image token,
-    // unwrap it to avoid nesting block elements incorrectly
-    if (tokens.length === 1 && tokens[0].type === 'image') {
-      // Parse the image token directly as a block element
-      return helpers.parseChildren([tokens[0]])
-    }
-
-    // Parse the inline tokens
+    // Parse the inline tokens. The markdown manager moves block images out of
+    // the paragraph afterwards.
     const content = helpers.parseInline(tokens)
 
     // Special case: if paragraph contains only &nbsp; (non-breaking space),

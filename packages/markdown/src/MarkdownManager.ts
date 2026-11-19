@@ -21,6 +21,7 @@ import {
   marksEqual,
   sortExtensions,
 } from '@tiptap/core'
+import type { Schema } from '@tiptap/pm/model'
 import { type Lexer, type Token, type TokenizerExtension, type TokenizerThis, marked } from 'marked'
 
 import {
@@ -34,6 +35,7 @@ import {
   wrapInMarkdownBlock,
 } from './utils.js'
 import { collectMarkSpanTexts } from './utils/collectMarkSpanTexts.js'
+import { fitContentToSchema } from './utils/fitContentToSchema.js'
 import { htmlContainsUnrecognizedTag } from './utils/htmlTagDetection.js'
 
 export class MarkdownManager {
@@ -62,6 +64,8 @@ export class MarkdownManager {
   private schemaParseDomTagsCache: Set<string> | null = null
   /** Lazy cache of the names of the schema's inline node types. */
   private inlineNodeTypesCache: Set<string> | null = null
+  /** Lazy cache of the registered schema. `null` when it can't be built. */
+  private schemaCache: Schema | null | undefined = undefined
 
   /**
    * Create a MarkdownManager.
@@ -397,11 +401,12 @@ export class MarkdownManager {
       // Convert tokens to Tiptap JSON
       const content = this.parseTokens(tokens, true)
 
-      // Return a document node containing the parsed content
-      return {
-        type: 'doc',
-        content,
-      }
+      const doc: JSONContent = { type: 'doc', content }
+      const schema = this.getParseSchema()
+
+      // Move nodes that ended up in a place the schema doesn't allow,
+      // like a block image inside a paragraph.
+      return schema ? fitContentToSchema(doc, schema)[0] : doc
     } finally {
       this.activeParseLexer = previousParseLexer
     }
@@ -1081,6 +1086,24 @@ export class MarkdownManager {
 
     this.inlineNodeTypesCache = types
     return types
+  }
+
+  /**
+   * Build the schema of the registered extensions once.
+   * Returns `null` when the extensions can't form a schema.
+   */
+  private getParseSchema(): Schema | null {
+    if (this.schemaCache !== undefined) {
+      return this.schemaCache
+    }
+
+    try {
+      this.schemaCache = getSchema(this.baseExtensions)
+    } catch {
+      this.schemaCache = null
+    }
+
+    return this.schemaCache
   }
 
   /**
