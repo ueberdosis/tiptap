@@ -125,3 +125,49 @@ it('skips a nested list added and deleted between snapshots', () => {
     document.destroy()
   }
 })
+
+it('keeps each deletion author and the previous text formatting', () => {
+  const document = new Y.Doc({ gc: false })
+  try {
+    const fragment = document.getXmlFragment('prosemirror')
+    const element = new Y.XmlElement('paragraph')
+    const text = new Y.XmlText()
+    fragment.insert(0, [element])
+    element.insert(0, [text])
+    text.insert(0, 'Alice Bob')
+    text.format(0, 6, { strong: {} })
+    const previous = Y.snapshot(document)
+    text.delete(0, 6)
+    const aliceDeletions = Y.snapshot(document).ds
+    text.format(0, 3, { em: {} })
+    fragment.delete(0, 1)
+    const current = Y.snapshot(document)
+    const node = createNodeFromYElement(
+      element,
+      schema,
+      createEmptyMeta(),
+      current,
+      previous,
+      (type, id) => ({
+        ...computeYChange(type),
+        user: Y.isDeleted(aliceDeletions, id) ? 'Alice' : 'Bob',
+      }),
+    )
+    expect(node.textContent).toBe('Alice Bob')
+    expect(node.childCount).toBe(2)
+    expect(node.child(0).text).toBe('Alice ')
+    expect(node.child(0).marks.find(mark => mark.type.name === 'ychange')?.attrs).toMatchObject({
+      type: 'removed',
+      user: 'Alice',
+    })
+    expect(node.child(0).marks.some(mark => mark.type.name === 'strong')).toBe(true)
+    expect(node.child(1).text).toBe('Bob')
+    expect(node.child(1).marks.find(mark => mark.type.name === 'ychange')?.attrs).toMatchObject({
+      type: 'removed',
+      user: 'Bob',
+    })
+    expect(node.child(1).marks.some(mark => mark.type.name === 'em')).toBe(false)
+  } finally {
+    document.destroy()
+  }
+})

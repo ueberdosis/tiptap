@@ -4,6 +4,7 @@ import type { ComputeYChange } from '../../../types/YChange.js'
 import * as PModel from 'prosemirror-model'
 import * as Y from 'yjs'
 import { getContentSnapshot } from './getContentSnapshot.js'
+import { getRemovedTextDeltas } from './getRemovedTextDeltas.js'
 import { attributesToMarks } from './attributesToMarks.js'
 
 export const createTextNodesFromYText = (
@@ -16,14 +17,9 @@ export const createTextNodesFromYText = (
 ) => {
   const contentSnapshot = getContentSnapshot(text, snapshot, prevSnapshot)
   const isRemoved = contentSnapshot !== snapshot
-  const deltas: TextDelta[] = isRemoved
-    ? text.toDelta(contentSnapshot, undefined, computeYChange)
-    : text.toDelta(snapshot, prevSnapshot, computeYChange)
-  return deltas.map(delta => {
-    const attrs = { ...delta.attributes }
-    if (isRemoved && computeYChange && text._item !== null) {
-      attrs.ychange = { ...computeYChange('removed', text._item.id) }
-    }
-    return schema.text(delta.insert, attributesToMarks(attrs, schema))
-  })
+  const deltas: TextDelta[] =
+    isRemoved && contentSnapshot !== undefined
+      ? getRemovedTextDeltas(text, contentSnapshot, computeYChange)
+      : text.toDelta(snapshot, prevSnapshot, computeYChange)
+  return deltas.map(delta => schema.text(delta.insert, attributesToMarks(delta.attributes, schema)))
 }
