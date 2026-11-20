@@ -15,9 +15,9 @@ declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     backgroundColor: {
       /**
-       * Set the text color
+       * Set the text background color
        * @param backgroundColor The color to set
-       * @example editor.commands.setColor('red')
+       * @example editor.commands.setBackgroundColor('red')
        */
       setBackgroundColor: (backgroundColor: string) => ReturnType
 

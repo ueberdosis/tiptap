@@ -13,8 +13,8 @@ declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     paragraph: {
       /**
-       * Toggle a paragraph
-       * @example editor.commands.toggleParagraph()
+       * Set a paragraph
+       * @example editor.commands.setParagraph()
        */
       setParagraph: () => ReturnType
     }
