@@ -38,3 +38,17 @@ export function debug() {
     sendData('editor', editor)
   })
 }
+
+/** Shows a demo light or dark: `?theme=dark` on its address, or a message from the page around it. */
+export function applyTheme(doc: Document | null | undefined, theme: unknown, editor?: any) {
+  // A frame that is still loading has no document element yet; it reads `?theme` itself
+  const root = doc?.documentElement
+
+  if (!root || (theme !== 'light' && theme !== 'dark')) {
+    return
+  }
+
+  root.classList.toggle('dark', theme === 'dark')
+  root.style.colorScheme = theme
+  editor?.storage?.diagrams?.refresh?.()
+}
