@@ -66,6 +66,12 @@ const PARAGRAPH_INTERRUPTERS = {
  */
 export interface OrderedListItem {
   indent: number
+  /**
+   * Column at which the item content starts, i.e. just past the marker,
+   * the separator and the whitespace between them and the text. Items
+   * indented this far (or more) are nested inside the item above them.
+   */
+  contentColumn: number
   number: number
   type?: string
   content: string
@@ -133,6 +139,16 @@ function splitItemContent(contentLines: string[]): {
   }
 }
 
+function getMarkdownColumn(value: string): number {
+  let column = 0
+
+  for (const character of value) {
+    column += character === '\t' ? 4 - (column % 4) : 1
+  }
+
+  return column
+}
+
 /**
  * Collects all ordered list items from lines, parsing them into a flat array
  * with indentation information. Stops collecting continuation content when
@@ -156,6 +172,8 @@ export function collectOrderedListItems(lines: string[]): [OrderedListItem[], nu
 
     const [, indent, marker, _separator, content] = match
     const indentLevel = indent.length
+    const contentStart = match[0].length - content.length
+    const contentColumn = getMarkdownColumn(match[0].slice(0, contentStart))
     const number = parseInt(marker, 10)
 
     const markerType = isNaN(number) ? detectMarkerType(marker) : undefined
@@ -188,6 +206,7 @@ export function collectOrderedListItems(lines: string[]): [OrderedListItem[], nu
         // so an under-indented line (e.g. a single leading space) keeps its first character.
         const leadingWhitespace = nextLine.length - nextLine.trimStart().length
         const contentIndent = indentLevel + marker.length + 1
+
         itemLines.push(nextLine)
         itemContentLines.push(nextLine.slice(Math.min(leadingWhitespace, contentIndent)))
         nextLineIndex += 1
@@ -203,7 +222,8 @@ export function collectOrderedListItems(lines: string[]): [OrderedListItem[], nu
     }
 
     listItems.push({
-      indent: indentLevel,
+      indent: getMarkdownColumn(indent),
+      contentColumn,
       number: itemNumber,
       type: markerType,
       content: itemContentLines.join('\n').trim(),
@@ -271,18 +291,20 @@ export function parsePlainTextOrderedListPaste(text: string): JSONContent | null
 }
 
 /**
- * Recursively builds a nested structure from a flat array of list items
- * based on their indentation levels. Creates proper markdown tokens with
- * nested lists where appropriate.
+ * Recursively builds a nested structure from a flat array of list items.
+ * Creates proper markdown tokens with nested lists where appropriate.
+ *
+ * An item becomes a child of the item before it once its indentation reaches
+ * that item's content column, which is how CommonMark scopes list items.
+ * Anything shallower stays a sibling, so no item is ever dropped because its
+ * indentation is not the exact value the caller started with.
  *
  * @param items - Flat array of list items with indentation info
- * @param baseIndent - The indentation level to process at this recursion level
  * @param lexer - Markdown lexer for parsing inline and block content
  * @returns Array of list_item tokens with proper nesting
  */
 export function buildNestedStructure(
   items: OrderedListItem[],
-  baseIndent: number,
   lexer: MarkdownLexerConfiguration,
 ): unknown[] {
   const result: unknown[] = []
@@ -291,70 +313,59 @@ export function buildNestedStructure(
   while (currentIndex < items.length) {
     const item = items[currentIndex]
 
-    if (item.indent === baseIndent) {
-      // This item belongs at the current level
-      const { paragraphLines, blockLines } = splitItemContent(item.contentLines)
-      const mainText = paragraphLines.join('\n').trim()
+    const { paragraphLines, blockLines } = splitItemContent(item.contentLines)
+    const mainText = paragraphLines.join('\n').trim()
 
-      const tokens = []
+    const tokens = []
 
-      // Always wrap the main text in a paragraph token
-      if (mainText) {
-        tokens.push({
-          type: 'paragraph',
-          raw: mainText,
-          tokens: lexer.inlineTokens(mainText),
-        })
-      }
-
-      const additionalContent = blockLines.join('\n').trim()
-      if (additionalContent) {
-        const blockTokens = lexer.blockTokens(additionalContent)
-        tokens.push(...blockTokens)
-      }
-
-      // Look ahead to find nested items at deeper indent levels
-      let lookAheadIndex = currentIndex + 1
-      const nestedItems = []
-
-      while (lookAheadIndex < items.length && items[lookAheadIndex].indent > baseIndent) {
-        nestedItems.push(items[lookAheadIndex])
-        lookAheadIndex += 1
-      }
-
-      // If we have nested items, recursively build their structure
-      if (nestedItems.length > 0) {
-        // Find the next indent level (immediate children)
-        const nextIndent = Math.min(...nestedItems.map(nestedItem => nestedItem.indent))
-
-        // Build the nested list recursively with all nested items
-        // The recursive call will handle further nesting
-        const nestedListItems = buildNestedStructure(nestedItems, nextIndent, lexer)
-
-        // Create a nested list token
-        tokens.push({
-          type: 'list',
-          ordered: true,
-          start: nestedItems[0].number,
-          typeMarker: nestedItems[0].type,
-          items: nestedListItems,
-          raw: nestedItems.map(nestedItem => nestedItem.raw).join('\n'),
-        })
-      }
-
-      result.push({
-        type: 'list_item',
-        raw: item.raw,
-        tokens,
+    // Always wrap the main text in a paragraph token
+    if (mainText) {
+      tokens.push({
+        type: 'paragraph',
+        raw: mainText,
+        tokens: lexer.inlineTokens(mainText),
       })
-
-      // Skip the nested items we just processed
-      currentIndex = lookAheadIndex
-    } else {
-      // This item has deeper indent than we're currently processing
-      // It should be handled by a recursive call
-      currentIndex += 1
     }
+
+    const additionalContent = blockLines.join('\n').trim()
+    if (additionalContent) {
+      const blockTokens = lexer.blockTokens(additionalContent)
+      tokens.push(...blockTokens)
+    }
+
+    // Look ahead to find the items nested inside this one
+    let lookAheadIndex = currentIndex + 1
+    const nestedItems = []
+
+    while (lookAheadIndex < items.length && items[lookAheadIndex].indent >= item.contentColumn) {
+      nestedItems.push(items[lookAheadIndex])
+      lookAheadIndex += 1
+    }
+
+    // If we have nested items, recursively build their structure
+    if (nestedItems.length > 0) {
+      // The recursive call will handle further nesting
+      const nestedListItems = buildNestedStructure(nestedItems, lexer)
+
+      // Create a nested list token
+      tokens.push({
+        type: 'list',
+        ordered: true,
+        start: nestedItems[0].number,
+        typeMarker: nestedItems[0].type,
+        items: nestedListItems,
+        raw: nestedItems.map(nestedItem => nestedItem.raw).join('\n'),
+      })
+    }
+
+    result.push({
+      type: 'list_item',
+      raw: item.raw,
+      tokens,
+    })
+
+    // Skip the nested items we just processed
+    currentIndex = lookAheadIndex
   }
 
   return result
