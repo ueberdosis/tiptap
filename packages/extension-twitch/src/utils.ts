@@ -11,10 +11,10 @@
  * - https://www.twitch.tv/examplechannel
  */
 export const TWITCH_REGEX =
-  /^(https?:\/\/)?(www\.)?(twitch\.tv|clips\.twitch\.tv)\/(?:videos\/(\d+)|(\w+)\/clip\/([\w-]+)|([\w-]+)(?:\/)?)?(\?.*)?$/
+  /^(https?:\/\/)?(www\.)?(twitch\.tv|clips\.twitch\.tv)\/(?:videos\/(\d+)|(\w+)\/clip\/([\w-]+)|([\w-]+)(?:\/)?)(\?.*)?$/
 
 export const TWITCH_REGEX_GLOBAL =
-  /^(https?:\/\/)?(www\.)?(twitch\.tv|clips\.twitch\.tv)\/(?:videos\/(\d+)|(\w+)\/clip\/([\w-]+)|([\w-]+)(?:\/)?)?(\?.*)?$/g
+  /^(https?:\/\/)?(www\.)?(twitch\.tv|clips\.twitch\.tv)\/(?:videos\/(\d+)|(\w+)\/clip\/([\w-]+)|([\w-]+)(?:\/)?)(\?.*)?$/g
 
 /**
  * Validates if a URL is a valid Twitch video, clip or channel URL
@@ -28,6 +28,7 @@ export const TWITCH_REGEX_GLOBAL =
  * isValidTwitchUrl('https://www.twitch.tv/examplechannel/clip/ExampleClipName') // true
  * isValidTwitchUrl('https://www.twitch.tv/examplechannel') // true
  * isValidTwitchUrl('https://clips.twitch.tv/ExampleClipName') // true
+ * isValidTwitchUrl('https://www.twitch.tv/') // false
  * isValidTwitchUrl('invalid') // false
  * ```
  */

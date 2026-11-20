@@ -255,6 +255,23 @@ describe('extension-twitch', () => {
     getEditorEl()?.remove()
   })
 
+  it('does not insert a node for a Twitch URL without a video, clip or channel', () => {
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [Document, Text, Paragraph, Twitch],
+    })
+
+    const result = editor.commands.setTwitchVideo({
+      src: 'https://www.twitch.tv/',
+    })
+
+    expect(result).toBe(false)
+    expect(editor.getHTML()).not.toContain('Invalid Twitch URL')
+
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
+
   it('handles video URL with search parameters', () => {
     editor = new Editor({
       element: createEditorEl(),
