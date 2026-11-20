@@ -13,7 +13,7 @@ dist
 docs
 !/docs/
 !/docs/package-documentation.md
-!/docs/package-references.md
+!/docs/package-rules.md
 
 # Log files
 npm-debug.log*
