@@ -2,8 +2,9 @@ import { Editor } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { afterEach, describe, expect, it } from 'vite-plus/test'
+import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 
+import type { TaskItemOptions } from '../index.js'
 import { BulletList, ListItem, OrderedList, TaskItem, TaskList } from '../index.js'
 
 describe('TaskItem', () => {
@@ -1392,5 +1393,136 @@ describe('TaskItem', () => {
     expect(json.content[0].content[0].type).toBe('taskItem')
     expect(json.content[0].content[0].content[1].type).toBe('taskList')
     expect(json.content[0].content[0].content[1].content[0].type).toBe('taskItem')
+  })
+
+  describe('onReadOnlyChecked', () => {
+    afterEach(() => {
+      document.body.replaceChildren()
+      vi.unstubAllGlobals()
+    })
+
+    function createReadOnlyEditor(
+      onReadOnlyChecked: TaskItemOptions['onReadOnlyChecked'],
+      tabindex?: string,
+    ) {
+      // Checkbox clicks only fire change events when the element is in the document
+      const element = document.createElement('div')
+
+      document.body.append(element)
+
+      return new Editor({
+        element,
+        editable: false,
+        coreExtensionOptions: { tabindex: { value: tabindex } },
+        extensions: [
+          Document,
+          Paragraph,
+          Text,
+          TaskList,
+          TaskItem.configure({ onReadOnlyChecked }),
+        ],
+        content: {
+          type: 'doc',
+          content: [
+            {
+              type: 'taskList',
+              content: [
+                {
+                  type: 'taskItem',
+                  attrs: { checked: false },
+                  content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Task' }] }],
+                },
+              ],
+            },
+          ],
+        },
+      })
+    }
+
+    function getCheckbox(instance: Editor) {
+      return instance.view.dom.querySelector('input[type="checkbox"]') as HTMLInputElement
+    }
+
+    function isTaskItemChecked(instance: Editor) {
+      return instance.state.doc.firstChild?.firstChild?.attrs.checked
+    }
+
+    it('updates the document and emits an update when the callback returns true', () => {
+      editor = createReadOnlyEditor(() => true)
+
+      let updateCount = 0
+
+      editor.on('update', () => {
+        updateCount += 1
+      })
+
+      getCheckbox(editor).click()
+
+      expect(isTaskItemChecked(editor)).toBe(true)
+      expect(getCheckbox(editor).checked).toBe(true)
+      expect(updateCount).toBe(1)
+    })
+
+    it('passes the current node to the callback', () => {
+      const checkedStates: boolean[] = []
+
+      editor = createReadOnlyEditor(node => {
+        checkedStates.push(node.attrs.checked)
+
+        return true
+      })
+
+      getCheckbox(editor).click()
+      getCheckbox(editor).click()
+
+      expect(checkedStates).toEqual([false, true])
+      expect(isTaskItemChecked(editor)).toBe(false)
+    })
+
+    it('reverts the checkbox and keeps the document when the callback returns false', () => {
+      editor = createReadOnlyEditor(() => false)
+
+      let updateCount = 0
+
+      editor.on('update', () => {
+        updateCount += 1
+      })
+
+      getCheckbox(editor).click()
+
+      expect(getCheckbox(editor).checked).toBe(false)
+      expect(isTaskItemChecked(editor)).toBe(false)
+      expect(updateCount).toBe(0)
+    })
+
+    it('lets the callback change the document itself', () => {
+      editor = createReadOnlyEditor(() => {
+        editor.commands.insertContentAt(editor.state.doc.content.size, '<p>Saved</p>')
+
+        return true
+      })
+
+      expect(() => getCheckbox(editor).click()).not.toThrow()
+      expect(isTaskItemChecked(editor)).toBe(true)
+      expect(editor.getText()).toContain('Saved')
+    })
+
+    it('keeps focus on the checkbox in a focusable read-only editor in Safari', () => {
+      vi.stubGlobal('navigator', {
+        platform: 'MacIntel',
+        userAgent:
+          'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Safari/605.1.15',
+      })
+
+      editor = createReadOnlyEditor(() => true, '0')
+
+      const checkbox = getCheckbox(editor)
+
+      checkbox.focus()
+      checkbox.click()
+
+      expect(isTaskItemChecked(editor)).toBe(true)
+      expect(document.activeElement).toBe(checkbox)
+    })
   })
 })
