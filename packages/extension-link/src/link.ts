@@ -380,8 +380,15 @@ export const Link = Mark.create<LinkOptions>({
     const text = h.renderChildren(node)
     // Encode `&` so a destination that literally contains `&amp;` survives a
     // round trip: the parser decodes one level, so it has to be written as
-    // `&amp;amp;`.
-    const destination = href.replace(/&/g, '&amp;')
+    // `&amp;amp;`. Parentheses delimit the destination, so they are written as
+    // character references too; otherwise a `)` decoded by the parser would
+    // end the destination early on the next read.
+    const destination = href.replace(/[&()]/g, char => {
+      if (char === '&') {
+        return '&amp;'
+      }
+      return char === '(' ? '&#40;' : '&#41;'
+    })
 
     return title ? `[${text}](${destination} "${title}")` : `[${text}](${destination})`
   },

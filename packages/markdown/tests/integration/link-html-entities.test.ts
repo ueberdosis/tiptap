@@ -36,6 +36,7 @@ describe('Link hrefs with HTML entities', () => {
     ['a link', '[x](https://example.com/?a=1&amp;b=2)', 'https://example.com/?a=1&b=2'],
     ['a link with &apos;', '[x](https://example.com/it&apos;s)', "https://example.com/it's"],
     ['a link with &copy;', '[x](https://example.com/&copy;)', 'https://example.com/©'],
+    ['a link with &#41;', '[x](https://example.com/a&#41;b)', 'https://example.com/a)b'],
   ])('decodes %s', (_name, input, expected) => {
     expect(linkOf(markdownManager.parse(input))?.href).toBe(expected)
   })
@@ -51,6 +52,14 @@ describe('Link hrefs with HTML entities', () => {
     const output = markdownManager.serialize(json)
 
     expect(linkOf(markdownManager.parse(output))?.href).toBe('https://example.com/?a=1&b=2')
+    expect(markdownManager.parse(output)).toEqual(json)
+  })
+
+  it('round-trips a destination containing parentheses', () => {
+    const json = markdownManager.parse('[x](https://example.com/a&#40;b&#41;c)')
+    const output = markdownManager.serialize(json)
+
+    expect(output).toBe('[x](https://example.com/a&#40;b&#41;c)')
     expect(markdownManager.parse(output)).toEqual(json)
   })
 
