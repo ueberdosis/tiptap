@@ -10,6 +10,8 @@ import { schema } from '../utils/testSchema.js'
 
 const split = (view: EditorView) => expect(splitBlock(view.state, view.dispatch)).toBe(true)
 const paste = (html: string) => (view: EditorView) => expect(view.pasteHTML(html)).toBe(true)
+const heading = schema.node('heading', null, schema.text('Leading'))
+const withLeadingHeading = ['Leading', 'B!efore']
 
 it.each([
   { name: 'splitting at the start', edit: split, offset: 0, expected: ['', 't!arget'] },
@@ -33,6 +35,27 @@ it.each([
     edit: paste('<p>Pasted one</p><p><em>Prefix</em><br>target: </p>'),
     offset: 0,
     expected: ['Pasted one', 'Prefixtarget:t!arget'],
+  },
+  {
+    name: 'pasting when a plugin adds a heading and sets the markup of a horizontal rule',
+    edit: paste('<p>First</p><hr><p>Prefix:</p>'),
+    offset: 0,
+    expected: ['First', 'Leading', '', 'Prefix:t!arget'],
+    retainedOffset: 3,
+    configure: (view: EditorView) => {
+      const plugin = new Plugin({
+        appendTransaction: (transactions, _, state) => {
+          if (!transactions.some(transaction => transaction.getMeta('paste'))) {
+            return null
+          }
+          const position = state.doc.child(0).nodeSize + state.doc.child(1).nodeSize
+          return state.tr
+            .setNodeMarkup(position, schema.nodes.horizontal_rule)
+            .insert(position, heading)
+        },
+      })
+      view.updateState(view.state.reconfigure({ plugins: [...view.state.plugins, plugin] }))
+    },
   },
   {
     name: 'pasting a first paragraph identical to the original',
@@ -64,11 +87,53 @@ it.each([
       ).toBe(true),
     offset: 0,
     expected: ['', 't!arget'],
-    appendHeading: true,
+    expectedBefore: withLeadingHeading,
+    configure: (view: EditorView) => {
+      const plugin = new Plugin({
+        appendTransaction: (transactions, _, state) =>
+          transactions.some(transaction => transaction.getMeta('addHeading'))
+            ? state.tr.insert(0, heading)
+            : null,
+      })
+      view.updateState(view.state.reconfigure({ plugins: [...view.state.plugins, plugin] }))
+    },
+  },
+  {
+    name: 'splitting at the start after inserting a heading in the same transaction',
+    edit: (view: EditorView) => {
+      const transaction = view.state.tr.insert(0, heading)
+      view.dispatch(transaction.split(transaction.selection.from))
+    },
+    offset: 0,
+    expected: ['', 't!arget'],
+    expectedBefore: withLeadingHeading,
+  },
+  {
+    name: 'placing an existing paragraph between the split paragraphs in the same transaction',
+    edit: (view: EditorView) => {
+      const preceding = view.state.doc.child(0)
+      const transaction = view.state.tr.insert(0, heading)
+      transaction.split(transaction.selection.from)
+      transaction.delete(heading.nodeSize, heading.nodeSize + preceding.nodeSize)
+      const start = transaction.mapping.map(view.state.selection.from)
+      view.dispatch(transaction.insert(transaction.doc.resolve(start).before(), preceding))
+    },
+    offset: 0,
+    expected: ['t!arget'],
+    expectedBefore: ['Leading', '', 'B!efore'],
   },
 ])(
   'keeps concurrent typing with its text when $name',
-  ({ edit, offset, expected, surrounded = true, selectionLength = 0, appendHeading = false }) => {
+  ({
+    edit,
+    offset,
+    expected,
+    surrounded = true,
+    selectionLength = 0,
+    retainedOffset = Number(offset === 0),
+    configure,
+    expectedBefore,
+  }) => {
     const firstDoc = new Y.Doc()
     const secondDoc = new Y.Doc()
     const fragment = firstDoc.getXmlFragment('prosemirror')
@@ -87,16 +152,11 @@ it.each([
     const second = createTestView(secondDoc)
     const original = fragment.get(before.length)
     const start = surrounded ? initial.child(0).nodeSize + 1 : 1
+    const hasLeadingHeading = expectedBefore !== undefined
 
     try {
-      if (appendHeading) {
-        const heading = new Plugin({
-          appendTransaction: (transactions, _, state) =>
-            transactions.some(transaction => transaction.getMeta('addHeading'))
-              ? state.tr.insert(0, schema.node('heading', null, schema.text('Leading')))
-              : null,
-        })
-        first.updateState(first.state.reconfigure({ plugins: [...first.state.plugins, heading] }))
+      configure?.(first)
+      if (hasLeadingHeading) {
         second.dispatch(second.state.tr.insertText('!', 2))
       }
       first.dispatch(
@@ -105,7 +165,7 @@ it.each([
         ),
       )
       edit(first)
-      second.dispatch(second.state.tr.insertText('!', start + 1 + Number(appendHeading)))
+      second.dispatch(second.state.tr.insertText('!', start + 1 + Number(hasLeadingHeading)))
 
       const firstUpdate = Y.encodeStateAsUpdate(firstDoc)
       const secondUpdate = Y.encodeStateAsUpdate(secondDoc)
@@ -115,14 +175,10 @@ it.each([
       for (const view of [first, second]) {
         const blocks: string[] = []
         view.state.doc.forEach(node => blocks.push(node.textContent))
-        expect(blocks).toEqual([
-          ...(appendHeading ? ['Leading', 'B!efore'] : before),
-          ...expected,
-          ...after,
-        ])
+        expect(blocks).toEqual([...(expectedBefore ?? before), ...expected, ...after])
       }
       expect(first.state.doc.eq(second.state.doc)).toBe(true)
-      const originalIndex = before.length + (offset === 0 ? 1 : 0) + Number(appendHeading)
+      const originalIndex = before.length + retainedOffset + Number(hasLeadingHeading)
       expect(fragment.get(originalIndex)).toBe(original)
     } finally {
       first.destroy()
@@ -132,3 +188,63 @@ it.each([
     }
   },
 )
+
+it.each([
+  {
+    name: 'copied between the split paragraphs',
+    trailing: [],
+    edit: (view: EditorView) => {
+      const target = view.state.doc.child(0)
+      const sibling = view.state.doc.child(1)
+      const transaction = view.state.tr.insert(view.state.doc.content.size, heading).split(1)
+      const firstBlockSize = transaction.doc.child(0).nodeSize
+      const siblingStart = target.nodeSize + firstBlockSize
+      const copy = schema.node(sibling.type, sibling.attrs, sibling.content)
+      transaction.delete(siblingStart, siblingStart + sibling.nodeSize)
+      view.dispatch(transaction.insert(firstBlockSize, copy))
+    },
+    expected: ['', 'S!ibling', 'target', 'Leading'],
+  },
+  {
+    name: 'recreated before the split',
+    trailing: [schema.node('paragraph', null, schema.text('Last'))],
+    edit: (view: EditorView) => {
+      const target = view.state.doc.child(0)
+      const sibling = view.state.doc.child(1)
+      const copy = schema.node(sibling.type, sibling.attrs, sibling.content)
+      view.dispatch(
+        view.state.tr
+          .replaceWith(target.nodeSize, target.nodeSize + sibling.nodeSize, [heading, copy])
+          .split(1),
+      )
+    },
+    expected: ['', 'target', 'Leading', 'S!ibling', 'Last'],
+  },
+])('preserves concurrent typing in a sibling $name', ({ trailing, edit, expected }) => {
+  const firstDoc = new Y.Doc()
+  const secondDoc = new Y.Doc()
+  const fragment = firstDoc.getXmlFragment('prosemirror')
+  const target = schema.node('paragraph', null, schema.text('target'))
+  const sibling = schema.node('paragraph', null, schema.text('Sibling'))
+  prosemirrorToYXmlFragment(schema.node('doc', null, [target, sibling, ...trailing]), fragment)
+  syncDocuments(firstDoc, secondDoc)
+  const first = createTestView(firstDoc)
+  const second = createTestView(secondDoc)
+
+  try {
+    edit(first)
+    second.dispatch(second.state.tr.insertText('!', target.nodeSize + 2))
+    syncDocuments(firstDoc, secondDoc)
+
+    for (const view of [first, second]) {
+      const blocks: string[] = []
+      view.state.doc.forEach(node => blocks.push(node.textContent))
+      expect(blocks).toEqual(expected)
+    }
+  } finally {
+    first.destroy()
+    second.destroy()
+    firstDoc.destroy()
+    secondDoc.destroy()
+  }
+})
