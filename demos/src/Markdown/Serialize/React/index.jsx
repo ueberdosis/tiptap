@@ -17,6 +17,7 @@ export default () => {
     content: `
       <p>In this demo, you can serialize Tiptap content into Markdown on the client-side via <code>@tiptap/markdown</code>.</p>
       <p>Feel free to edit this document to see the live-changes.</p>
+      <p><strong>Bold and <em>italic</em> </strong>can end at the same word.</p>
       <p><u>Underlined text</u> exports as inline HTML. c++ is a good language, and c++ is nice.</p>
     `,
     onUpdate: updateMarkdown,
