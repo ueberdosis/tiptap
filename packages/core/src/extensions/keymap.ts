@@ -8,6 +8,8 @@ import { isNodeEmpty } from '../helpers/isNodeEmpty.js'
 import { isiOS } from '../utilities/isiOS.js'
 import { isMacOS } from '../utilities/isMacOS.js'
 
+import { createAndroidDeletePlugin } from './createAndroidDeletePlugin.js'
+
 /** Checks if a non-empty selection spans the whole document. */
 function isWholeDocumentSelected(state: EditorState) {
   const { empty, from, to } = state.selection
@@ -114,6 +116,7 @@ export const Keymap = Extension.create({
 
   addProseMirrorPlugins() {
     return [
+      createAndroidDeletePlugin(),
       // With this plugin we check if the whole document was selected and deleted.
       // In this case we will additionally call `clearNodes()` to convert e.g. a heading
       // to a paragraph if necessary.
