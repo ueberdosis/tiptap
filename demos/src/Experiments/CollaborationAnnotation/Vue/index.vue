@@ -1,5 +1,8 @@
 <template>
   <div class="annotation-demo">
+    <div class="control-group">
+      <button @click="toggleSync">{{ syncPaused ? 'Resume sync' : 'Pause sync' }}</button>
+    </div>
     <div class="annotation-clients">
       <section
         v-for="(client, index) in clients"
@@ -74,8 +77,23 @@ import AnnotationList from './AnnotationList.vue'
 
 const clients = shallowRef<DemoClient[]>([])
 const drafts = ref(['A text or image annotation', 'Another annotation'])
+const syncPaused = ref(false)
 const documents = [new Y.Doc(), new Y.Doc()]
 let disconnect = () => {}
+
+function toggleSync() {
+  if (syncPaused.value) {
+    const [first, second] = documents
+    const firstUpdate = Y.encodeStateAsUpdate(first, Y.encodeStateVector(second))
+    const secondUpdate = Y.encodeStateAsUpdate(second, Y.encodeStateVector(first))
+    Y.applyUpdate(first, secondUpdate)
+    Y.applyUpdate(second, firstUpdate)
+    disconnect = connectDocuments(first, second)
+  } else {
+    disconnect()
+  }
+  syncPaused.value = !syncPaused.value
+}
 
 function refreshClient(index: number, annotations?: ResolvedAnnotation[]) {
   clients.value = clients.value.map((client, current) =>
