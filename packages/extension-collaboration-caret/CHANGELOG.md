@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.0-next.0
+
+### Patch Changes
+
+- f80cecf: Fixed a bug which allowed potentially unsafe color values being sent by other clients. Those unsafe colors received from collaboration users are now ignored.
+- 17ec9ff: Prevent extra CSS declarations from being rendered from editor content.
+- dd62145: Keep collaborative editing, cursor presence, and drag handles compatible with the updated `@tiptap/y-tiptap` binding.
+
 ## 3.30.3
 
 ### Patch Changes
