@@ -835,6 +835,9 @@ importers:
 
   packages/extension-link:
     dependencies:
+      entities:
+        specifier: ^7.0.1
+        version: 7.0.1
       linkifyjs:
         specifier: ^4.3.3
         version: 4.3.3

@@ -42,6 +42,7 @@
     "build": "vp pack"
   },
   "dependencies": {
+    "entities": "^7.0.1",
     "linkifyjs": "^4.3.3"
   },
   "devDependencies": {

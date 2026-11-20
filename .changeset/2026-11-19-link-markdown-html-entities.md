@@ -2,4 +2,4 @@
 '@tiptap/extension-link': patch
 ---
 
-Markdown links whose URL contains an HTML entity, such as `?a=1&amp;b=2`, now open the decoded URL instead of one containing a literal `&amp;`.
+Markdown links now decode HTML5 entities in their destination, and write `&` back as `&amp;`, so URLs containing `&amp;` or a literal `&` survive a save-and-load round trip.

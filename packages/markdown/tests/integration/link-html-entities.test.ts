@@ -30,14 +30,14 @@ const linkOf = (json: any): { href: string } | undefined => {
 
 describe('Link hrefs with HTML entities', () => {
   it.each([
-    ['a bare URL', 'https://example.com/?a=1&b=2'],
-    ['a bare URL with &amp;', 'https://example.com/?a=1&amp;b=2'],
-    ['an autolink', '<https://example.com/?a=1&amp;b=2>'],
-    ['a link', '[x](https://example.com/?a=1&amp;b=2)'],
-  ])('decodes %s', (_name, input) => {
-    const json = markdownManager.parse(input)
-
-    expect(linkOf(json)?.href).toBe('https://example.com/?a=1&b=2')
+    ['a bare URL', 'https://example.com/?a=1&b=2', 'https://example.com/?a=1&b=2'],
+    ['a bare URL with &amp;', 'https://example.com/?a=1&amp;b=2', 'https://example.com/?a=1&b=2'],
+    ['an autolink', '<https://example.com/?a=1&amp;b=2>', 'https://example.com/?a=1&b=2'],
+    ['a link', '[x](https://example.com/?a=1&amp;b=2)', 'https://example.com/?a=1&b=2'],
+    ['a link with &apos;', '[x](https://example.com/it&apos;s)', "https://example.com/it's"],
+    ['a link with &copy;', '[x](https://example.com/&copy;)', 'https://example.com/©'],
+  ])('decodes %s', (_name, input, expected) => {
+    expect(linkOf(markdownManager.parse(input))?.href).toBe(expected)
   })
 
   it('decodes each entity once', () => {
@@ -51,6 +51,30 @@ describe('Link hrefs with HTML entities', () => {
     const output = markdownManager.serialize(json)
 
     expect(linkOf(markdownManager.parse(output))?.href).toBe('https://example.com/?a=1&b=2')
+    expect(markdownManager.parse(output)).toEqual(json)
+  })
+
+  it('round-trips a destination that literally contains &amp;', () => {
+    const json = {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'x',
+              marks: [
+                { type: 'link', attrs: { href: 'https://example.com/?a=1&amp;b=2', title: null } },
+              ],
+            },
+          ],
+        },
+      ],
+    }
+    const output = markdownManager.serialize(json)
+
+    expect(output).toBe('[x](https://example.com/?a=1&amp;amp;b=2)')
     expect(markdownManager.parse(output)).toEqual(json)
   })
 })

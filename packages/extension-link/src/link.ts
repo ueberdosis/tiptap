@@ -1,6 +1,7 @@
 import type { PasteRuleMatch } from '@tiptap/core'
-import { decodeHtmlEntities, Mark, markPasteRule, mergeAttributes } from '@tiptap/core'
+import { Mark, markPasteRule, mergeAttributes } from '@tiptap/core'
 import type { Plugin } from '@tiptap/pm/state'
+import { decodeHTMLStrict } from 'entities'
 import { find, registerCustomProtocol, reset } from 'linkifyjs'
 
 import { autolink } from './helpers/autolink.js'
@@ -365,18 +366,24 @@ export const Link = Mark.create<LinkOptions>({
     // `marked` emits HTML, so it leaves entities in `href` for the browser to
     // decode. The editor uses the value as an attribute, where nothing decodes
     // it, so `?a=1&amp;b=2` would otherwise become a literal `&amp;`.
+    // Decode the full HTML5 named set, not just the common ones: CommonMark
+    // resolves any valid named entity in a destination.
     return helpers.applyMark('link', helpers.parseInline(token.tokens || []), {
-      href: token.href ? decodeHtmlEntities(token.href) : token.href,
+      href: token.href ? decodeHTMLStrict(token.href) : token.href,
       title: token.title || null,
     })
   },
 
   renderMarkdown: (node, h) => {
-    const href = node.attrs?.href ?? ''
+    const href = String(node.attrs?.href ?? '')
     const title = node.attrs?.title ?? ''
     const text = h.renderChildren(node)
+    // Encode `&` so a destination that literally contains `&amp;` survives a
+    // round trip: the parser decodes one level, so it has to be written as
+    // `&amp;amp;`.
+    const destination = href.replace(/&/g, '&amp;')
 
-    return title ? `[${text}](${href} "${title}")` : `[${text}](${href})`
+    return title ? `[${text}](${destination} "${title}")` : `[${text}](${destination})`
   },
 
   addCommands() {
