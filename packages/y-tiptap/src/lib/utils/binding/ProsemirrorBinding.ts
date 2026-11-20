@@ -2,6 +2,7 @@ import { getSyncPluginState } from '../../plugins/getSyncPluginState.js'
 import type { SyncPluginState } from '../../../types/SyncPluginState.js'
 import type { RelativeSelection } from '../../../types/RelativeSelection.js'
 import type { ProsemirrorMapping } from '../../../types/ProsemirrorMapping.js'
+import type { PrependedBlock } from '../../../types/PrependedBlock.js'
 import type { Transaction } from 'prosemirror-state'
 import type { EditorView } from 'prosemirror-view'
 import type { ComputeYChange } from '../../../types/YChange.js'
@@ -23,6 +24,7 @@ import { getRelativeSelection } from '../positions/getRelativeSelection.js'
 import { createNodeFromYElement } from '../conversion/createNodeFromYElement.js'
 import { mergeNextYText } from '../conversion/mergeNextYText.js'
 import { updateYFragment } from '../reconciliation/updateYFragment.js'
+import { reconcilePrependedBlocks } from '../reconciliation/reconcilePrependedBlocks.js'
 import { deleteMapping } from './deleteMapping.js'
 import { projectedMappings } from './projectedMappings.js'
 import { replaceChangedChildren } from './replaceChangedChildren.js'
@@ -439,13 +441,16 @@ export class ProsemirrorBinding {
     this.notifyInvalidContent(newError)
   }
 
-  _prosemirrorChanged(doc: PModel.Node) {
+  _prosemirrorChanged(doc: PModel.Node, prependedBlock?: PrependedBlock) {
     if (this._invalidContentError !== null) return
 
     const syncState = getSyncPluginState(this.view.state)
     if (syncState.snapshot != null || syncState.prevSnapshot != null) return
 
     this.doc.transact(() => {
+      if (prependedBlock) {
+        reconcilePrependedBlocks(this.type, doc, prependedBlock, this)
+      }
       updateYFragment(this.doc, this.type, doc, this)
       this.hasSharedContent ||= this.type.length > 0
 

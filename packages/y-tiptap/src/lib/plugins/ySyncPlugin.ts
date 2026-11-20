@@ -2,12 +2,15 @@ import { getSyncPluginState } from './getSyncPluginState.js'
 import type { ColorDef } from '../../types/ColorDef.js'
 import type { SyncPluginOptions } from '../../types/SyncPluginOptions.js'
 import type { SyncPluginState } from '../../types/SyncPluginState.js'
-import { Plugin } from 'prosemirror-state'
+import type { PrependedBlock } from '../../types/PrependedBlock.js'
+import type { Node } from 'prosemirror-model'
+import { Plugin, type Transaction } from 'prosemirror-state'
 import { ySyncPluginKey, yUndoPluginKey } from './keys.js'
 import * as Y from 'yjs'
 import * as eventloop from 'lib0/eventloop'
 import { ProsemirrorBinding } from '../utils/binding/ProsemirrorBinding.js'
 import { clearPositionMigrations } from '../utils/positions/clearPositionMigrations.js'
+import { trackPrependedBlock } from '../utils/reconciliation/trackPrependedBlock.js'
 
 const defaultColors: ColorDef[] = [{ light: '#ecd44433', dark: '#ecd444' }]
 /** Binds a Yjs XML fragment to the editor document. The fragment must belong to a Yjs document. */
@@ -24,6 +27,28 @@ export const ySyncPlugin = (
 ) => {
   let initialContentChanged = false
   const binding = new ProsemirrorBinding(yXmlFragment, mapping, onInvalidContent)
+  const prependedBlocks = new WeakMap<Node, PrependedBlock>()
+
+  const rememberPrependedBlock = (transaction: Transaction, isChangeOrigin: boolean) => {
+    if (!transaction.docChanged || isChangeOrigin) {
+      return
+    }
+
+    const previous = transaction.getMeta('appendedTransaction')
+      ? prependedBlocks.get(transaction.before)
+      : undefined
+    const block = trackPrependedBlock(transaction, previous)
+    if (block) {
+      prependedBlocks.set(transaction.doc, block)
+    }
+  }
+
+  const takePrependedBlock = (document: Node, previous: Node) => {
+    const block = prependedBlocks.get(document)
+    prependedBlocks.delete(document)
+    return block?.before.doc === previous ? block : undefined
+  }
+
   const plugin = new Plugin<SyncPluginState>({
     // Keep local changes out while the editor cannot show all shared content
     filterTransaction: transaction =>
@@ -72,6 +97,8 @@ export const ySyncPlugin = (
         pluginState.isChangeOrigin = change !== undefined && !!change.isChangeOrigin
         pluginState.isUndoRedoOperation =
           change !== undefined && !!change.isChangeOrigin && !!change.isUndoRedoOperation
+
+        rememberPrependedBlock(tr, pluginState.isChangeOrigin)
 
         if (
           binding.prosemirrorView === null ||
@@ -134,8 +161,9 @@ export const ySyncPlugin = (
       onFirstRender()
 
       return {
-        update: () => {
+        update: (_view, previousState) => {
           const pluginState = getSyncPluginState(view.state)
+          const block = takePrependedBlock(view.state.doc, previousState.doc)
 
           if (pluginState.snapshot == null && pluginState.prevSnapshot == null) {
             const emptyDocument = view.state.doc.type.createAndFill()
@@ -163,7 +191,7 @@ export const ySyncPlugin = (
               binding.mux(() => {
                 pluginState.doc.transact(tr => {
                   tr.meta.set('addToHistory', pluginState.addToHistory)
-                  binding._prosemirrorChanged(view.state.doc)
+                  binding._prosemirrorChanged(view.state.doc, block)
                 }, ySyncPluginKey)
               })
             }
