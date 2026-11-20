@@ -998,6 +998,12 @@ export class MarkdownManager {
       return null
     }
 
+    const hardBreak = this.parseHardBreakHtml(html, !!token.block)
+
+    if (hardBreak) {
+      return hardBreak
+    }
+
     // If the HTML would parse to nothing meaningful, keep the original
     // characters as literal text instead of dropping them.
     if (this.isUnrecognizedHtml(html)) {
@@ -1082,6 +1088,26 @@ export class MarkdownManager {
 
     this.inlineNodeTypesCache = types
     return types
+  }
+
+  // `<br>` is a hard break. Parsing it here avoids DOMParser on the server.
+  private parseHardBreakHtml(html: string, isBlock: boolean): JSONContent | JSONContent[] | null {
+    if (!/^<br\s*\/?\s*>$/i.test(html.trim())) {
+      return null
+    }
+
+    // An empty result is not a match, so a later br handler can still run.
+    const parsed = this.parseToken({ type: 'br', raw: html })
+
+    if (!parsed || Array.isArray(parsed)) {
+      return parsed
+    }
+
+    if (!isBlock) {
+      return parsed
+    }
+
+    return { type: 'paragraph', content: [parsed] }
   }
 
   /**
@@ -1235,8 +1261,14 @@ export class MarkdownManager {
       return ''
     }
 
-    const previousNode =
-      Array.isArray(parentNode?.content) && index > 0 ? parentNode.content[index - 1] : undefined
+    // serialize() also accepts a bare node array and passes it as the parent
+    const siblings: JSONContent[] | undefined = Array.isArray(parentNode)
+      ? parentNode
+      : Array.isArray(parentNode?.content)
+        ? parentNode.content
+        : undefined
+    const previousNode = siblings && index > 0 ? siblings[index - 1] : undefined
+    const nextNode = siblings && index < siblings.length - 1 ? siblings[index + 1] : undefined
     const helpers: MarkdownRendererHelpers = {
       renderChildren: (nodes, separator) => {
         const childLevel = handler.isIndenting ? level + 1 : level
@@ -1269,6 +1301,7 @@ export class MarkdownManager {
       level,
       parentType: parentNode?.type,
       previousNode,
+      nextNode,
       meta: {
         parentAttrs: parentNode?.attrs,
         ...meta,
