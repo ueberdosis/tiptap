@@ -164,6 +164,19 @@ describe('markdown links', () => {
       expect(editor!.getHTML()).not.toContain('<a')
     })
 
+    it('decodes character references in the URL of a typed Markdown link', () => {
+      createEditor({
+        content: '<p>[Wiki](https://en.wikipedia.org/wiki/Node&#40;disambiguation&#41;</p>',
+      })
+
+      const handled = typeAtEnd(editor!, ')')
+
+      expect(handled).toBe(true)
+      expect(editor!.getHTML()).toContain(
+        'href="https://en.wikipedia.org/wiki/Node(disambiguation)"',
+      )
+    })
+
     it('converts only the trailing link when another link precedes it', () => {
       createEditor({
         content: '<p>[alpha](https://alpha.example.com)[beta](https://beta.example.com</p>',
@@ -501,6 +514,28 @@ describe('markdown links', () => {
       editor!.view.pasteText('[Tiptap](https://tiptap.dev)')
 
       expect(editor!.state.doc.textContent).toBe('[Tiptap](https://tiptap.dev)')
+    })
+
+    it('decodes character references in pasted Markdown destinations', () => {
+      createEditor()
+
+      editor!.view.pasteText(
+        'Read [Wiki](https://en.wikipedia.org/wiki/Node&#40;disambiguation&#41;) today',
+      )
+
+      expect(editor!.getHTML()).toContain(
+        'href="https://en.wikipedia.org/wiki/Node(disambiguation)"',
+      )
+      expect(editor!.getHTML()).toContain('>Wiki</a>')
+    })
+
+    it('decodes ampersands in pasted Markdown destinations', () => {
+      createEditor()
+
+      editor!.view.pasteText('See [query](https://example.com/?a=1&amp;b=2)')
+
+      expect(editor!.getHTML()).toContain('href="https://example.com/?a=1&amp;b=2"')
+      expect(editor!.state.doc.textContent).toBe('See query')
     })
   })
 })
