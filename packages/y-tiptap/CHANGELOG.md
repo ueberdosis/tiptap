@@ -1,5 +1,12 @@
 # @tiptap/y-tiptap
 
+## 3.3.1
+
+### Patch Changes
+
+- 2e7519a: Preserve deleted elements' original attributes and text when comparing collaboration snapshots.
+- 89ae1c9: Make typing in large collaborative documents faster by skipping unchanged content that comes before the edit.
+
 ## 3.3.0
 
 ### Minor Changes

@@ -1,5 +1,26 @@
 # Releases
 
+## v3.35.0
+
+### @tiptap/core
+
+#### Patch Changes
+
+- 5f8f50b: `nodeInputRule` with a capture group no longer inserts the last typed character twice when the rule runs on text input.
+
+### @tiptap/extension-details
+
+#### Minor Changes
+
+- 052f4d0: Added the `openWithoutDelay` option. With it, a Details created open shows its content as soon as it is drawn, instead of one tick later, so code that measures right after drawing reads the full height. It is off by default and only has an effect together with `persist`.
+
+### @tiptap/y-tiptap
+
+#### Patch Changes
+
+- 2e7519a: Preserve deleted elements' original attributes and text when comparing collaboration snapshots.
+- 89ae1c9: Make typing in large collaborative documents faster by skipping unchanged content that comes before the edit.
+
 ## v3.34.0
 
 ### @tiptap/ai-toolkit

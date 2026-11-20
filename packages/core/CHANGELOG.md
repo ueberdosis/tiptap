@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.35.0
+
+### Patch Changes
+
+- 5f8f50b: `nodeInputRule` with a capture group no longer inserts the last typed character twice when the rule runs on text input.
+
 ## 3.34.0
 
 ### Patch Changes
