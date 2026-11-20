@@ -46,7 +46,7 @@ export interface DetailsOptions {
    * @example
    * Details.configure({ persist: true, openWithoutDelay: true })
    */
-  openWithoutDelay: boolean
+  openWithoutDelay?: boolean
   /**
    * Custom HTML attributes that should be added to the rendered HTML tag.
    */
