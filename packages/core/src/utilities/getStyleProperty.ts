@@ -1,3 +1,5 @@
+import { splitStyleDeclarations } from './splitStyleDeclarations.js'
+
 /**
  * Read a CSS property value directly from an element's raw inline `style`
  * attribute, bypassing the CSSOM (e.g. `element.style.fontFamily`) which
@@ -26,8 +28,7 @@ export function getStyleProperty(element: HTMLElement, propertyName: string): st
     return null
   }
 
-  const decls = styleAttr
-    .split(';')
+  const decls = splitStyleDeclarations(styleAttr)
     .map(decl => decl.trim())
     .filter(Boolean)
 
