@@ -1,5 +1,15 @@
 # @tiptap/extension-details
 
+## 4.0.0-next.0
+
+### Minor Changes
+
+- c86e21e: Added the `openWithoutDelay` option. With it, a Details created open shows its content as soon as it is drawn, instead of one tick later, so code that measures right after drawing reads the full height. It is off by default and only has an effect together with `persist`.
+
+### Patch Changes
+
+- 76d9821: A Details node created open now stays open when its content changes right after it is created.
+
 ## 3.30.3
 
 ### Patch Changes

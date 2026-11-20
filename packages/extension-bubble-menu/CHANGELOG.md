@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.0-next.0
+
+### Patch Changes
+
+- 4a3b8d1: Bubble menus now update correctly after IME input, including Korean text
+
 ## 3.30.3
 
 ### Patch Changes

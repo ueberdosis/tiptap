@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.0-next.0
+
+### Patch Changes
+
+- 17ec9ff: Prevent extra CSS declarations from being rendered from editor content.
+- 2f12969: Markdown like `a == b and c == d` is no longer imported as highlighted text.
+
 ## 3.30.3
 
 ### Patch Changes

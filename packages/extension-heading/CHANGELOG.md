@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.0-next.0
+
+### Patch Changes
+
+- 81c82b8: Ensure Markdown parsing respects the configured `levels` option by falling back to paragraphs for unconfigured heading levels.
+
 ## 3.30.3
 
 ### Patch Changes
