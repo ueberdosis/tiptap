@@ -1,4 +1,4 @@
-import type { Extension } from '@tiptap/core'
+import type { Extension, JSONContent } from '@tiptap/core'
 import { Bold } from '@tiptap/extension-bold'
 import { Code } from '@tiptap/extension-code'
 import { CodeBlock } from '@tiptap/extension-code-block'
@@ -387,6 +387,126 @@ describe('Markdown Conversion Tests', () => {
       const tildeJSON = markdownManager.parse(tildeMarkdown)
       const backtickJSON = markdownManager.parse(backtickMarkdown)
       expect(tildeJSON).toEqual(backtickJSON)
+    })
+  })
+
+  describe('fenced code blocks indented by 1-3 spaces', () => {
+    const parseCodeBlock = (markdown: string) => {
+      const json = markdownManager.parse(`para\n\n${markdown}\n\nafter`)
+
+      expect(json.content?.map((node: JSONContent) => node.type)).toEqual([
+        'paragraph',
+        'codeBlock',
+        'paragraph',
+      ])
+
+      return json.content?.[1]
+    }
+
+    it.each([' ```', '  ```', '   ```', ' ~~~', '   ~~~'])(
+      'should parse a code block opened by "%s"',
+      fence => {
+        const codeBlock = parseCodeBlock(`${fence}\n${fence.replace(/\S+/, '')}code\n${fence}`)
+
+        expect(codeBlock?.content).toMatchObject([{ type: 'text', text: 'code' }])
+      },
+    )
+
+    it('should keep the language of an indented fence', () => {
+      const codeBlock = parseCodeBlock('  ```js\n  const a = 1\n  ```')
+
+      expect(codeBlock?.attrs).toEqual({ language: 'js' })
+      expect(codeBlock?.content).toMatchObject([{ type: 'text', text: 'const a = 1' }])
+    })
+
+    const fencesWithIndent: [string, number][] = [
+      ['```', 2],
+      ['~~~', 2],
+      ['```', 3],
+      ['~~~', 3],
+    ]
+
+    it.each(fencesWithIndent)(
+      'should strip up to the fence indentation from a %s block indented by %i spaces',
+      (fence, indent) => {
+        const pad = ' '.repeat(indent)
+        const codeBlock = parseCodeBlock(
+          `${pad}${fence}\n${pad}a\n${pad}${pad}b\n c\n${pad}${fence}`,
+        )
+
+        expect(codeBlock?.content).toMatchObject([{ type: 'text', text: `a\n${pad}b\nc` }])
+      },
+    )
+
+    it('should produce the same content for tilde and backtick fences', () => {
+      const markdown = '  FENCE\n  a\n    b\n c\n  FENCE'
+      const tilde = parseCodeBlock(markdown.replaceAll('FENCE', '~~~'))
+      const backtick = parseCodeBlock(markdown.replaceAll('FENCE', '```'))
+
+      expect(tilde?.content).toMatchObject([{ type: 'text', text: 'a\n  b\nc' }])
+      expect(tilde).toEqual(backtick)
+    })
+
+    it('should keep an indented code block when serializing', () => {
+      const markdown = markdownManager.serialize(markdownManager.parse('para\n\n ```\n code\n ```'))
+
+      expect(markdown).toBe('para\n\n```\ncode\n```')
+    })
+
+    it('should keep a trailing blank line inside an unclosed fence', () => {
+      const json = markdownManager.parse('```\na\n\n')
+
+      expect(json.content).toEqual([
+        {
+          type: 'codeBlock',
+          attrs: { language: null },
+          content: [{ type: 'text', text: 'a\n' }],
+        },
+      ])
+    })
+
+    it('should keep a trailing blank line inside an unclosed indented tilde fence', () => {
+      const json = markdownManager.parse('  ~~~\n   a\n\n')
+
+      expect(json.content).toEqual([
+        {
+          type: 'codeBlock',
+          attrs: { language: null },
+          content: [{ type: 'text', text: ' a\n' }],
+        },
+      ])
+    })
+
+    it('should round-trip a trailing blank line in an unclosed fence without drifting', () => {
+      const once = markdownManager.serialize(markdownManager.parse('```\na\n\n'))
+      const twice = markdownManager.serialize(markdownManager.parse(once))
+
+      expect(once).toBe('```\na\n\n```')
+      expect(twice).toBe(once)
+    })
+
+    it('should keep a line ending in a non-breaking space inside an unclosed fence', () => {
+      const json = markdownManager.parse('```\na\n```\u00a0\n\n')
+
+      expect(json.content).toEqual([
+        {
+          type: 'codeBlock',
+          attrs: { language: null },
+          content: [{ type: 'text', text: 'a\n```\u00a0\n' }],
+        },
+      ])
+    })
+
+    it('should keep the blank lines of a fence that has no content', () => {
+      const json = markdownManager.parse('```\n\n\n')
+
+      expect(json.content).toEqual([
+        {
+          type: 'codeBlock',
+          attrs: { language: null },
+          content: [{ type: 'text', text: '\n' }],
+        },
+      ])
     })
   })
 
