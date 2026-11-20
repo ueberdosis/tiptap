@@ -9,7 +9,7 @@ export default defineConfig({
     dts: { sourcemap: true },
     clean: true,
     sourcemap: true,
-    target: 'es2019',
+    target: 'es2022',
     format: ['esm', 'cjs'],
     outExtensions: tsupCompatibleExtensions,
   },

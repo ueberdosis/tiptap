@@ -10,7 +10,7 @@ export default defineConfig({
     outDir: `dist${entry.replace('src', '').split('/').slice(0, -1).join('/')}`,
     dts: { sourcemap: true },
     sourcemap: true,
-    target: 'es2019',
+    target: 'es2022',
     format: ['esm', 'cjs'],
     outExtensions: tsupCompatibleExtensions,
   })),
