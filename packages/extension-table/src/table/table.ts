@@ -39,7 +39,9 @@ import { createTable } from './utilities/createTable.js'
 import { deleteTableWhenAllCellsSelected } from './utilities/deleteTableWhenAllCellsSelected.js'
 import { keepCursorInTable } from './utilities/keepCursorInTable.js'
 import renderTableToMarkdown, { preprocessTablePipes } from './utilities/markdown.js'
+import { parseTableWidth } from './utilities/parseTableWidth.js'
 import { preserveCellSelectionOnContextMenu } from './utilities/preserveCellSelectionOnContextMenu.js'
+import { relativeColumnResizing } from './utilities/relativeColumnResizing.js'
 
 type MarkdownTableToken = {
   align?: Array<TableCellAlign | null>
@@ -120,11 +122,17 @@ declare module '@tiptap/core' {
        * @param options The table attributes
        * @returns True if the command was successful, otherwise false
        * @example editor.commands.insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+       * @example editor.commands.insertTable({ rows: 3, cols: 3, width: 100 })
        */
       insertTable: (options?: {
         rows?: number
         cols?: number
         withHeaderRow?: boolean
+        /**
+         * The table's width in percent of its container. Leave it out for a table
+         * as wide as its columns.
+         */
+        width?: number
       }) => ReturnType
 
       /**
@@ -289,6 +297,21 @@ export const Table = Node.create<TableOptions>({
 
   group: 'block',
 
+  addAttributes() {
+    return {
+      /**
+       * The table's width in percent of its container, or `null` for a table as wide as
+       * its columns. With a width, each column's `colwidth` acts as its share of the sum.
+       */
+      width: {
+        default: null,
+        parseHTML: parseTableWidth,
+        // Rendered with the table's style in `renderHTML` and `TableView`.
+        rendered: false,
+      },
+    }
+  },
+
   parseHTML() {
     return [{ tag: 'table' }]
   },
@@ -303,7 +326,9 @@ export const Table = Node.create<TableOptions>({
         return userStyles
       }
 
-      return tableWidth ? `width: ${tableWidth}` : `min-width: ${tableMinWidth}`
+      return [tableWidth && `width: ${tableWidth}`, tableMinWidth && `min-width: ${tableMinWidth}`]
+        .filter(Boolean)
+        .join('; ')
     }
 
     const table: DOMOutputSpec = [
@@ -421,9 +446,9 @@ export const Table = Node.create<TableOptions>({
   addCommands() {
     return {
       insertTable:
-        ({ rows = 3, cols = 3, withHeaderRow = true } = {}) =>
+        ({ rows = 3, cols = 3, withHeaderRow = true, width } = {}) =>
         ({ tr, dispatch, editor }) => {
-          const node = createTable(editor.schema, rows, cols, withHeaderRow)
+          const node = createTable(editor.schema, rows, cols, withHeaderRow, undefined, { width })
 
           if (dispatch) {
             const offset = tr.selection.from + 1
@@ -600,6 +625,8 @@ export const Table = Node.create<TableOptions>({
     return [
       ...(isResizable
         ? [
+            // Before `columnResizing`, so it takes over the drag in tables with a relative width.
+            relativeColumnResizing({ cellMinWidth: this.options.cellMinWidth }),
             columnResizing({
               handleWidth: this.options.handleWidth,
               cellMinWidth: this.options.cellMinWidth,
