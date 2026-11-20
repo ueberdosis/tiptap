@@ -3,6 +3,7 @@ import { findChildren, getSchema } from '@tiptap/core'
 import { Node as PMNode } from '@tiptap/pm/model'
 import { EditorState } from '@tiptap/pm/state'
 
+import { canSetNodeAttributes } from './helpers/canSetNodeAttributes.js'
 import type { UniqueID } from './unique-id.js'
 
 /**
@@ -60,10 +61,10 @@ export function generateUniqueIds(doc: JSONContent, extensions: Extensions): JSO
       : configuredTypes
   const contentNode = PMNode.fromJSON(schema, doc)
 
-  // Find nodes that don't have a unique ID
+  // Find nodes that don't have a unique ID, skipping those whose content breaks the schema
   const nodesWithoutId = findChildren(contentNode, node => {
     return !node.attrs[attributeName] && types.includes(node.type.name)
-  })
+  }).filter(({ pos }) => canSetNodeAttributes(contentNode, pos))
 
   // Edit the document to add unique IDs to the nodes that don't have a unique ID
   let tr = EditorState.create({
