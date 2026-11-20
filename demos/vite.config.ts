@@ -6,6 +6,9 @@ import fs from 'fs'
 import { basename, dirname, join, resolve } from 'path'
 import { v4 as uuid } from 'uuid'
 import { defineConfig } from 'vite-plus'
+import * as vueCompiler from 'vue/compiler-sfc'
+
+import './setup/vue-compiler.js'
 
 const getPackageDependencies = () => {
   const paths: Array<{ find: string; replacement: any }> = []
@@ -109,7 +112,7 @@ export default defineConfig({
     // checker({ typescript: { tsconfigPath: './tsconfig.base.json' } }),
     // checker({ typescript: { tsconfigPath: './tsconfig.react.json' } }),
     // @ts-ignore
-    vue(),
+    vue({ compiler: vueCompiler }),
     // @ts-ignore
     react(),
     // @ts-ignore

@@ -1,8 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "allowJs": false,
-    "baseUrl": "../.."
+    "allowJs": false
   },
   "include": ["src/**/*.ts", "tests/**/*.ts"]
 }
