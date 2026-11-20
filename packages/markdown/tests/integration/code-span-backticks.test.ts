@@ -76,4 +76,45 @@ describe('Code spans containing backticks', () => {
 
     expect(markdown).toBe('``a`b``![](x.png)``c`d``')
   })
+
+  describe('with whitespace at the edge', () => {
+    const insideParagraph = (text: string) => ({
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            { type: 'text', text: 'x ' },
+            { type: 'text', text, marks: [{ type: 'code' }] },
+            { type: 'text', text: ' y' },
+          ],
+        },
+      ],
+    })
+
+    // The edge whitespace is written outside the fence
+    it.each([
+      [' `a', 'x  `` `a `` y'],
+      ['a` ', 'x `` a` ``  y'],
+      [' `a` ', 'x  `` `a` ``  y'],
+      [' a`b ', 'x  ``a`b``  y'],
+      ['`a', 'x `` `a `` y'],
+    ])('serializes %j with a fence for the text inside it', (text, expected) => {
+      expect(markdownManager.serialize(insideParagraph(text))).toBe(expected)
+    })
+
+    it.each([
+      [' `a', '`a'],
+      ['a` ', 'a`'],
+      [' `a` ', '`a`'],
+      [' a`b ', 'a`b'],
+      ['`a', '`a'],
+    ])('keeps %j as a code span through serialize and parse', (text, expected) => {
+      const parsed = markdownManager.parse(markdownManager.serialize(insideParagraph(text)))
+
+      expect(parsed.content?.[0].content?.filter(node => node.marks?.length)).toEqual([
+        { type: 'text', text: expected, marks: [{ type: 'code' }] },
+      ])
+    })
+  })
 })

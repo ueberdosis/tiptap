@@ -995,4 +995,54 @@ Some text with [@ id="user" label="User"].
       expect(manager.serialize(parsed.content![0])).toBe('<https://example.com/asset.png>')
     })
   })
+
+  describe('markText for mark delimiters', () => {
+    // Shows the text its delimiters are sized from
+    const Wrapped = Bold.extend({
+      name: 'wrapped',
+      renderMarkdown: (node, helpers, context) => {
+        const markText = context?.meta?.markText
+
+        return `[${markText}]${helpers.renderChildren(node.content ?? [])}[/${markText}]`
+      },
+    })
+    // Writes no delimiters, so it only splits the text nodes
+    const Quiet = Italic.extend({
+      name: 'quiet',
+      renderMarkdown: (node, helpers) => helpers.renderChildren(node.content ?? []),
+    })
+
+    const manager = new MarkdownManager({ extensions: [Document, Paragraph, Text, Wrapped, Quiet] })
+
+    it('leaves out the edge whitespace that is written outside the delimiters', () => {
+      const markdown = manager.serialize({
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [{ type: 'text', text: ' a ', marks: [{ type: 'wrapped' }] }],
+          },
+        ],
+      })
+
+      expect(markdown).toBe(' [a]a[/a] ')
+    })
+
+    it('keeps the whitespace inside a mark run that spans text nodes', () => {
+      const markdown = manager.serialize({
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [
+              { type: 'text', text: ' a', marks: [{ type: 'wrapped' }] },
+              { type: 'text', text: ' b ', marks: [{ type: 'wrapped' }, { type: 'quiet' }] },
+            ],
+          },
+        ],
+      })
+
+      expect(markdown).toBe(' [a b]a b[/a b] ')
+    })
+  })
 })
