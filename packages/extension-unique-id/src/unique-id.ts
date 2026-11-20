@@ -13,8 +13,6 @@ import type { Transaction } from '@tiptap/pm/state'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { v4 as uuidv4 } from 'uuid'
 
-import { findDuplicates } from './helpers/findDuplicates.js'
-
 export type UniqueIDGenerationContext = {
   node: PMNode
   pos: number
@@ -296,6 +294,18 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
               .map(({ node }) => node.attrs[attributeName])
               .filter(id => id !== null)
 
+            const idCounts = new Map<unknown, number>()
+            const count = (id: unknown, change: number) =>
+              idCounts.set(id, (idCounts.get(id) ?? 0) + change)
+            newIds.forEach(id => count(id, 1))
+            const setNewId = (index: number, id: unknown) => {
+              if (newIds[index] !== undefined) {
+                count(newIds[index], -1)
+              }
+              newIds[index] = id
+              count(id, 1)
+            }
+
             newNodes.forEach(({ node, pos }, i) => {
               // instead of checking `node.attrs[attributeName]` directly
               // we look at the current state of the node within `tr.doc`.
@@ -327,7 +337,7 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
                   ...nextNode.node.attrs,
                   [attributeName]: id,
                 })
-                newIds[i + 1] = id
+                setNewId(i + 1, id)
 
                 const generatedId = generateID({ node, pos })
 
@@ -335,17 +345,15 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
                   ...node.attrs,
                   [attributeName]: generatedId,
                 })
-                newIds[i] = generatedId
+                setNewId(i, generatedId)
 
                 return tr
               }
 
-              const duplicatedNewIds = findDuplicates(newIds)
-
               // check if the node doesn’t exist in the old state
               const { deleted } = mapping.invert().mapResult(pos)
 
-              const newNode = deleted && duplicatedNewIds.includes(id)
+              const newNode = deleted && (idCounts.get(id) ?? 0) > 1
 
               if (newNode) {
                 tr.setNodeMarkup(pos, undefined, {
