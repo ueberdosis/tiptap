@@ -607,4 +607,83 @@ describe('Ordered list lazy continuation parsing', () => {
       ],
     })
   })
+
+  it.each(['1.', '10.'])('does not add a space to a code block inside a "%s" item', marker => {
+    const markdownManager = new MarkdownManager({ extensions: blockExtensions })
+    const pad = ' '.repeat(marker.length + 1)
+
+    const markdown = [
+      `${marker} item:`,
+      '',
+      `${pad}\`\`\``,
+      `${pad}code line`,
+      `${pad}\`\`\``,
+    ].join('\n')
+
+    expect(markdownManager.parse(markdown)).toMatchObject({
+      type: 'doc',
+      content: [
+        {
+          type: 'orderedList',
+          content: [
+            {
+              type: 'listItem',
+              content: [
+                { type: 'paragraph', content: [{ type: 'text', text: 'item:' }] },
+                {
+                  type: 'codeBlock',
+                  attrs: { language: null },
+                  content: [{ type: 'text', text: 'code line' }],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    })
+  })
+
+  it.each(['1.', '10.'])('keeps a code block after a second paragraph in a "%s" item', marker => {
+    const markdownManager = new MarkdownManager({ extensions: blockExtensions })
+    const pad = ' '.repeat(marker.length + 1)
+
+    const markdown = [
+      `${marker} first:`,
+      '',
+      `${pad}second:`,
+      '',
+      `${pad}\`\`\``,
+      `${pad}code line`,
+      `${pad}\`\`\``,
+      '',
+      '2. next',
+    ].join('\n')
+
+    expect(markdownManager.parse(markdown)).toMatchObject({
+      type: 'doc',
+      content: [
+        {
+          type: 'orderedList',
+          content: [
+            {
+              type: 'listItem',
+              content: [
+                { type: 'paragraph', content: [{ type: 'text', text: 'first:' }] },
+                { type: 'paragraph', content: [{ type: 'text', text: 'second:' }] },
+                {
+                  type: 'codeBlock',
+                  attrs: { language: null },
+                  content: [{ type: 'text', text: 'code line' }],
+                },
+              ],
+            },
+            {
+              type: 'listItem',
+              content: [{ type: 'paragraph', content: [{ type: 'text', text: 'next' }] }],
+            },
+          ],
+        },
+      ],
+    })
+  })
 })
