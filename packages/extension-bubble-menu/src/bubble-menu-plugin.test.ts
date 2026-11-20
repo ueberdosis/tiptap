@@ -1,8 +1,8 @@
-import { Editor } from '@tiptap/core'
+import { Editor, Node } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { PluginKey } from '@tiptap/pm/state'
+import { NodeSelection, PluginKey } from '@tiptap/pm/state'
 import { describe, expect, it, vi } from 'vite-plus/test'
 
 import { BubbleMenuView } from './bubble-menu-plugin.js'
@@ -399,5 +399,57 @@ describe('BubbleMenuView IME composition', () => {
     expect(shouldShow).not.toHaveBeenCalled()
 
     editor.destroy()
+  })
+})
+
+describe('BubbleMenuView node selection', () => {
+  it('shows over a selected node that has no DOM', () => {
+    // Its children get no DOM, like a React node view's content once its NodeViews are removed
+    const Section = Node.create({
+      name: 'section',
+      group: 'block',
+      content: 'paragraph',
+      renderHTML: () => ['div'],
+    })
+    const Label = Node.create({
+      name: 'label',
+      group: 'inline',
+      inline: true,
+      atom: true,
+      renderHTML: () => ['span'],
+    })
+
+    const element = document.createElement('div')
+    document.body.append(element)
+    const editor = new Editor({
+      element,
+      extensions: [Document, Paragraph, Text, Section, Label],
+      content: {
+        type: 'doc',
+        content: [
+          { type: 'section', content: [{ type: 'paragraph', content: [{ type: 'label' }] }] },
+        ],
+      },
+    })
+    editor.view.dispatch(editor.state.tr.setSelection(NodeSelection.create(editor.state.doc, 2)))
+    expect(editor.view.nodeDOM(2)).toBeNull()
+
+    computePositionMock.mockResolvedValue({
+      x: 0,
+      y: 0,
+      strategy: 'absolute',
+      placement: 'top',
+      middlewareData: {},
+    })
+
+    // A menu that shows right away measures its position in the constructor
+    const view = createBubbleMenuView(editor, { shouldShow: () => true })
+
+    expect(computePositionMock).toHaveBeenCalledTimes(1)
+
+    computePositionMock.mockReset()
+    view.destroy()
+    editor.destroy()
+    element.remove()
   })
 })

@@ -321,20 +321,23 @@ export class BubbleMenuView implements PluginView {
     }
 
     if (selection instanceof NodeSelection) {
-      let node = this.view.nodeDOM(selection.from) as HTMLElement
+      let node = this.view.nodeDOM(selection.from) as HTMLElement | null
 
-      const nodeViewWrapper = node.dataset.nodeViewWrapper
+      // The node can have no DOM, e.g. inside a parent rendered without a content hole
+      const nodeViewWrapper = node?.dataset.nodeViewWrapper
         ? node
-        : node.querySelector('[data-node-view-wrapper]')
+        : node?.querySelector('[data-node-view-wrapper]')
 
       if (nodeViewWrapper) {
         node = nodeViewWrapper as HTMLElement
       }
 
       if (node) {
+        const element = node
+
         virtualElement = {
-          getBoundingClientRect: () => node.getBoundingClientRect(),
-          getClientRects: () => [node.getBoundingClientRect()],
+          getBoundingClientRect: () => element.getBoundingClientRect(),
+          getClientRects: () => [element.getBoundingClientRect()],
         }
       }
     }
