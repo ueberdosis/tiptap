@@ -283,12 +283,12 @@ export const Mention = Node.create<MentionOptions>({
     allowedAttributes: ['id', 'label', { name: 'mentionSuggestionChar', skipIfDefault: '@' }],
     parseAttributes: (attrString: string) => {
       const attrs: Record<string, any> = {}
-      const regex = /(?:^|\s)(\w+)=(?:"([^"]*)"|'([^']*)')/g
+      const regex = /(?:^|\s)(\w+)=(?:"((?:[^"\\]|\\.)*)"|'([^']*)')/g
       let match = regex.exec(attrString)
 
       while (match !== null) {
         const [, key, doubleQuoted, singleQuoted] = match
-        const value = doubleQuoted ?? singleQuoted
+        const value = doubleQuoted?.replace(/\\(["\\])/g, '$1') ?? singleQuoted
         attrs[key === 'char' ? 'mentionSuggestionChar' : key] = value
         match = regex.exec(attrString)
       }
@@ -300,7 +300,8 @@ export const Mention = Node.create<MentionOptions>({
         .filter(([, value]) => value !== undefined && value !== null)
         .map(([key, value]) => {
           const serializedKey = key === 'mentionSuggestionChar' ? 'char' : key
-          return `${serializedKey}="${value}"`
+          const escapedValue = String(value).replace(/["\\]/g, '\\$&')
+          return `${serializedKey}="${escapedValue}"`
         })
         .join(' ')
     },
