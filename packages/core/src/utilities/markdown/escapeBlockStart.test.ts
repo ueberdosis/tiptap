@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vite-plus/test'
 
-import { escapeBlockStart } from './escapeBlockStart.js'
+import { escapeBlockStart, escapeLinkTitle } from './escapeBlockStart.js'
 
 describe('escapeBlockStart', () => {
   it('escapes heading markers', () => {
@@ -123,6 +123,34 @@ describe('escapeBlockStart', () => {
     expect(escapeBlockStart('[x](https://example.com "`a\nb`")')).toBe(
       '[x](https://example.com "`a\nb`")',
     )
+  })
+
+  it('flattens newlines before HTML block starts inside inline code spans', () => {
+    expect(escapeBlockStart('`a\n<div>\nb`')).toBe('`a <div> b`')
+    expect(escapeBlockStart('`a\n</div>\nb`')).toBe('`a </div> b`')
+    expect(escapeBlockStart('`a\n<table>\nb`')).toBe('`a <table> b`')
+    expect(escapeBlockStart('`a\n<!-- note -->\nb`')).toBe('`a <!-- note --> b`')
+  })
+
+  it('flattens newlines before fence starts inside inline code spans', () => {
+    expect(escapeBlockStart('`a\n~~~\nb`')).toBe('`a ~~~ b`')
+    expect(escapeBlockStart('`a\n```\nb`')).toBe('`a ``` b`')
+    expect(escapeBlockStart('`a\n```js\nb`')).toBe('`a ```js b`')
+    expect(escapeBlockStart('`a\n~~~\n# b`')).toBe('`a ~~~ # b`')
+  })
+
+  it('leaves lines that cannot start a block alone inside inline code spans', () => {
+    expect(escapeBlockStart('`a\n``\nb`')).toBe('`a\n``\nb`')
+  })
+
+  it('escapes block markers on later lines of a link title', () => {
+    expect(escapeLinkTitle('`a\n# b`')).toBe('`a\n\\# b`')
+    expect(escapeLinkTitle('`a\n- b`')).toBe('`a\n\\- b`')
+    expect(escapeLinkTitle('`a\n<div>`')).toBe('`a\n\\<div>`')
+    expect(escapeLinkTitle('`a\n~~~\nb`')).toBe('`a\n\\~~~\nb`')
+    expect(escapeLinkTitle('`a | b\n| --- | --- |`')).toBe('`a | b\n\\| --- \\| --- \\|`')
+    expect(escapeLinkTitle('`a\nb`')).toBe('`a\nb`')
+    expect(escapeLinkTitle('a\n# b')).toBe('a\n\\# b')
   })
 
   it('flattens a code span split by a blank line', () => {

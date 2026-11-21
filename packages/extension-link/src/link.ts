@@ -1,5 +1,5 @@
 import type { PasteRuleMatch } from '@tiptap/core'
-import { Mark, markPasteRule, mergeAttributes } from '@tiptap/core'
+import { escapeLinkTitle, Mark, markPasteRule, mergeAttributes } from '@tiptap/core'
 import type { Plugin } from '@tiptap/pm/state'
 import { find, registerCustomProtocol, reset } from 'linkifyjs'
 
@@ -373,7 +373,7 @@ export const Link = Mark.create<LinkOptions>({
     const title = node.attrs?.title ?? ''
     const text = h.renderChildren(node)
 
-    return title ? `[${text}](${href} "${title}")` : `[${text}](${href})`
+    return title ? `[${text}](${href} "${escapeLinkTitle(title)}")` : `[${text}](${href})`
   },
 
   addCommands() {

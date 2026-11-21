@@ -43,6 +43,56 @@ type Segment = {
   text: string
 }
 
+/**
+ * Escape block markers at the start of each line of a link title, so the
+ * title keeps its line breaks when parsed back. Marked unescapes these
+ * backslashes in titles, so the title round-trips unchanged.
+ *
+ * @param title The link title to escape
+ * @returns The title with block-start markers escaped
+ * @example
+ * ```ts
+ * escapeLinkTitle('`a\n# b`') // '`a\n\\# b`'
+ * ```
+ */
+export function escapeLinkTitle(title: string): string {
+  return title
+    .split('\n')
+    .map((line, index) => {
+      if (index === 0) {
+        return line
+      }
+
+      const match = /^([ \t]*)(.*)$/.exec(line)
+
+      if (!match) {
+        return line
+      }
+
+      const [, indent, rest] = match
+
+      // The title's closing backtick sits at the end of the last line
+      const check = rest.replace(/`+$/, '')
+
+      if (isTableDelimiterRow(check)) {
+        return indent + escapeMarker(escapePipes(rest))
+      }
+
+      if (/^=+[ \t]*$/.test(check)) {
+        return `${indent}\\${rest}`
+      }
+
+      if (/^(?:`{3,}|~{3,})/.test(rest) || rest.startsWith('<')) {
+        return `${indent}\\${rest}`
+      }
+
+      const escaped = escapeMarker(rest)
+
+      return escaped === rest ? line : indent + escaped
+    })
+    .join('\n')
+}
+
 // Block parsing runs before inline code, so a marker on a later line of a
 // multiline code span would start a block. Parsers fold the line ending to
 // a space, so flattening it keeps the parsed text unchanged. Backtick pairs
@@ -67,7 +117,14 @@ function codeSpanStartsBlock(text: string): boolean {
   return lines.slice(1).some(line => {
     const rest = line.replace(/^[ \t]*/, '').replace(/`+$/, '')
 
-    return escapeMarker(rest) !== rest || /^=+[ \t]*$/.test(rest) || isTableDelimiterRow(rest)
+    return (
+      // Check the original line: a fence line ends in backticks
+      /^(?:`{3,}|~{3,})/.test(line.trimStart()) ||
+      escapeMarker(rest) !== rest ||
+      /^=+[ \t]*$/.test(rest) ||
+      isTableDelimiterRow(rest) ||
+      rest.startsWith('<')
+    )
   })
 }
 

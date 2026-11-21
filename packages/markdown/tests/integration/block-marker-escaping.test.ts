@@ -197,6 +197,42 @@ describe('Block marker escaping inside inline code spans', () => {
       { type: 'text', text: 'a # b', marks: [{ type: 'code' }] },
     ])
   })
+
+  it('keeps an HTML block start inside a multiline code span from starting an HTML block', () => {
+    const markdown = codeManager.serialize(codeParagraphDoc('a\n<div>\nb'))
+    const parsed = codeManager.parse(markdown)
+
+    expect(markdown).toBe('`a <div> b`')
+    expect(parsed.content).toHaveLength(1)
+    expect(parsed.content?.[0]?.type).toBe('paragraph')
+    expect(parsed.content?.[0]?.content).toEqual([
+      { type: 'text', text: 'a <div> b', marks: [{ type: 'code' }] },
+    ])
+  })
+
+  it('keeps a tilde fence inside a multiline code span from starting a fenced block', () => {
+    const markdown = codeManager.serialize(codeParagraphDoc('a\n~~~\nb'))
+    const parsed = codeManager.parse(markdown)
+
+    expect(markdown).toBe('`a ~~~ b`')
+    expect(parsed.content).toHaveLength(1)
+    expect(parsed.content?.[0]?.type).toBe('paragraph')
+    expect(parsed.content?.[0]?.content).toEqual([
+      { type: 'text', text: 'a ~~~ b', marks: [{ type: 'code' }] },
+    ])
+  })
+
+  it('keeps a backtick fence inside a multiline code span from starting a fenced block', () => {
+    const markdown = codeManager.serialize(codeParagraphDoc('a\n```\nb'))
+    const parsed = codeManager.parse(markdown)
+
+    expect(markdown).toBe('`a ``` b`')
+    expect(parsed.content).toHaveLength(1)
+    expect(parsed.content?.[0]?.type).toBe('paragraph')
+    expect(parsed.content?.[0]?.content).toEqual([
+      { type: 'text', text: 'a ``` b', marks: [{ type: 'code' }] },
+    ])
+  })
 })
 
 describe('Block marker escaping with link titles', () => {
@@ -232,6 +268,72 @@ describe('Block marker escaping with link titles', () => {
         type: 'text',
         text: 'x',
         marks: [{ type: 'link', attrs: { href: 'https://example.com', title: '`a\nb`' } }],
+      },
+    ])
+  })
+
+  it('preserves a newline in a link title when the next line starts with a heading marker', () => {
+    const doc = {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'x',
+              marks: [{ type: 'link', attrs: { href: 'https://example.com', title: '`a\n# b`' } }],
+            },
+          ],
+        },
+      ],
+    }
+
+    const markdown = linkManager.serialize(doc)
+    const parsed = linkManager.parse(markdown)
+
+    expect(markdown).toBe('[x](https://example.com "`a\n\\# b`")')
+    expect(parsed.content).toHaveLength(1)
+    expect(parsed.content?.[0]?.type).toBe('paragraph')
+    expect(parsed.content?.[0]?.content).toEqual([
+      {
+        type: 'text',
+        text: 'x',
+        marks: [{ type: 'link', attrs: { href: 'https://example.com', title: '`a\n# b`' } }],
+      },
+    ])
+  })
+
+  it('preserves a newline in a link title when the next line starts with an HTML block', () => {
+    const doc = {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'x',
+              marks: [
+                { type: 'link', attrs: { href: 'https://example.com', title: '`a\n<div>`' } },
+              ],
+            },
+          ],
+        },
+      ],
+    }
+
+    const markdown = linkManager.serialize(doc)
+    const parsed = linkManager.parse(markdown)
+
+    expect(markdown).toBe('[x](https://example.com "`a\n\\<div>`")')
+    expect(parsed.content).toHaveLength(1)
+    expect(parsed.content?.[0]?.type).toBe('paragraph')
+    expect(parsed.content?.[0]?.content).toEqual([
+      {
+        type: 'text',
+        text: 'x',
+        marks: [{ type: 'link', attrs: { href: 'https://example.com', title: '`a\n<div>`' } }],
       },
     ])
   })
