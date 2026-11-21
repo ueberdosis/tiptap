@@ -1,55 +1,103 @@
 import type { Editor } from '@tiptap/core'
-import { Fragment, Slice } from '@tiptap/pm/model'
+import { Fragment, type ResolvedPos, Slice } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 
-export const markdownClipboardPluginKey = new PluginKey('markdownClipboard')
+import { defaultShouldTransformPastedText } from './defaultShouldTransformPastedText.js'
+import type { MarkdownExtensionOptions } from './Extension.js'
+
+const markdownClipboardPluginKey = new PluginKey('markdownClipboard')
+
+type PasteState = 'idle' | 'pasting' | 'parsed'
+
+type ClipboardOptions = Pick<
+  MarkdownExtensionOptions,
+  'transformPastedText' | 'shouldTransformPastedText'
+>
+
+function shouldTransformText(
+  editor: Editor,
+  text: string,
+  shouldTransformPastedText: ClipboardOptions['shouldTransformPastedText'],
+): boolean {
+  const tokens = editor.markdown!.instance.lexer(text)
+  const defaultShouldTransform = defaultShouldTransformPastedText(tokens)
+
+  if (!shouldTransformPastedText) {
+    return defaultShouldTransform
+  }
+
+  return shouldTransformPastedText(text, { tokens, editor, defaultShouldTransform })
+}
+
+function createSlice(content: Fragment, $context: ResolvedPos): Slice {
+  const paragraph = content.firstChild
+
+  if (content.childCount !== 1 || paragraph?.type.name !== 'paragraph') {
+    return new Slice(content, 0, 0)
+  }
+
+  // Inherit the marks at the insertion point, like a plain text paste
+  const contextMarks = $context.marks()
+  const inlineContent = Fragment.fromArray(
+    paragraph.children.map(child =>
+      child.mark(child.marks.reduce((set, mark) => mark.addToSet(set), contextMarks)),
+    ),
+  )
+
+  // Open a lone paragraph so it merges into the current text
+  return new Slice(Fragment.from(paragraph.copy(inlineContent)), 1, 1)
+}
+
+function parseMarkdownSlice(
+  editor: Editor,
+  text: string,
+  $context: ResolvedPos,
+  shouldTransformPastedText: ClipboardOptions['shouldTransformPastedText'],
+): Slice | null {
+  if (!shouldTransformText(editor, text, shouldTransformPastedText)) {
+    return null
+  }
+
+  const json = editor.markdown!.parse(text)
+
+  if (!json.content?.length) {
+    return null
+  }
+
+  return createSlice(editor.schema.nodeFromJSON(json).content, $context)
+}
 
 /**
  * Parses pasted plain text as markdown.
  * Only runs when the clipboard has no HTML, so rich pastes are left alone.
  */
-export function createMarkdownClipboardPlugin(editor: Editor, isEnabled: () => boolean): Plugin {
-  // Set by clipboardTextParser, consumed by handlePaste in the same paste
-  let hasMarkdownSlice = false
+export function createMarkdownClipboardPlugin(
+  editor: Editor,
+  getOptions: () => ClipboardOptions,
+): Plugin {
+  let state: PasteState = 'idle'
+  let parsedSlice: Slice | null = null
+  let pasteEvent: Event | null = null
 
   return new Plugin({
     key: markdownClipboardPluginKey,
     props: {
       clipboardTextParser: (text, $context, plainText) => {
-        hasMarkdownSlice = false
+        const { transformPastedText, shouldTransformPastedText } = getOptions()
 
-        if (plainText || !isEnabled() || !editor.markdown) {
+        if (state !== 'pasting' || plainText || !transformPastedText || !editor.markdown) {
           return null
         }
 
         try {
-          const json = editor.markdown.parse(text)
+          const slice = parseMarkdownSlice(editor, text, $context, shouldTransformPastedText)
 
-          if (!json.content?.length) {
-            return null
+          if (slice) {
+            parsedSlice = slice
+            state = 'parsed'
           }
 
-          const { content } = editor.schema.nodeFromJSON(json)
-          const paragraph = content.firstChild
-
-          if (content.childCount !== 1 || paragraph?.type.name !== 'paragraph') {
-            hasMarkdownSlice = true
-
-            return new Slice(content, 0, 0)
-          }
-
-          // Inherit the marks at the insertion point, like a plain text paste
-          const contextMarks = $context.marks()
-          const inlineContent = Fragment.fromArray(
-            paragraph.children.map(child =>
-              child.mark(child.marks.reduce((set, mark) => mark.addToSet(set), contextMarks)),
-            ),
-          )
-
-          // Open a lone paragraph so it merges into the current text
-          hasMarkdownSlice = true
-
-          return new Slice(Fragment.from(paragraph.copy(inlineContent)), 1, 1)
+          return slice
         } catch {
           // Fall back to the default plain text paste
           return null
@@ -57,15 +105,18 @@ export function createMarkdownClipboardPlugin(editor: Editor, isEnabled: () => b
       },
 
       // Dispatch without the uiEvent meta so paste rules don't convert the text again
-      handlePaste: (view, event, slice) => {
-        const hadMarkdownSlice = hasMarkdownSlice
+      handlePaste: (view, event) => {
+        // Programmatic pastes create a new event, so a stale slice never matches
+        const wasParsed = state === 'parsed' && event === pasteEvent
+        const slice = parsedSlice
 
-        hasMarkdownSlice = false
+        state = 'idle'
+        parsedSlice = null
+        pasteEvent = null
 
-        // A flag left by an earlier paste must not capture an HTML paste
         const html = (event as ClipboardEvent).clipboardData?.getData('text/html')
 
-        if (!hadMarkdownSlice || html) {
+        if (!wasParsed || !slice || html) {
           return false
         }
 
@@ -78,9 +129,19 @@ export function createMarkdownClipboardPlugin(editor: Editor, isEnabled: () => b
       },
 
       handleDOMEvents: {
-        // Scope the flag to this paste, drops can leave it set
-        paste: () => {
-          hasMarkdownSlice = false
+        paste: (_view, event) => {
+          state = 'pasting'
+          parsedSlice = null
+          pasteEvent = event
+
+          return false
+        },
+
+        // Drops run the text parser too, but must stay plain text
+        drop: () => {
+          state = 'idle'
+          parsedSlice = null
+          pasteEvent = null
 
           return false
         },

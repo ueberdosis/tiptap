@@ -16,7 +16,7 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
   return new Plugin({
     key: new PluginKey('handlePasteLink'),
     props: {
-      handlePaste: (view, _event, slice) => {
+      handlePaste: (view, event, slice) => {
         const { shouldAutoLink } = options
         const { state } = view
         const { selection } = state
@@ -41,6 +41,26 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
           !link ||
           (shouldAutoLink !== undefined && !shouldAutoLink(link.value))
         ) {
+          return false
+        }
+
+        const hasHtml = !!(event as ClipboardEvent).clipboardData?.getData('text/html')
+        let hasConflictingLink = false
+
+        if (!hasHtml) {
+          // A link mark on a plain-text paste was added by a text parser, keep it
+          slice.content.descendants(node => {
+            const href = node.marks.find(mark => mark.type === options.type)?.attrs.href
+
+            if (href && href !== link.href && href !== link.value) {
+              hasConflictingLink = true
+            }
+
+            return !hasConflictingLink
+          })
+        }
+
+        if (hasConflictingLink) {
           return false
         }
 

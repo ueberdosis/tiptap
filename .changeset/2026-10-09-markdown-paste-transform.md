@@ -2,4 +2,4 @@
 '@tiptap/markdown': patch
 ---
 
-Added a `transformPastedText` option that parses pasted plain text as markdown.
+Added `transformPastedText` and `shouldTransformPastedText` options to parse pasted plain text as markdown.
