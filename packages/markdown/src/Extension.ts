@@ -1,14 +1,16 @@
 import {
+  type Editor,
   type InsertContentAtOptions as MarkdownInsertContentAtOptions,
   type InsertContentOptions as MarkdownInsertContentOptions,
   type SetContentOptions as MarkdownSetContentOptions,
   commands,
   Extension,
 } from '@tiptap/core'
-import type { marked } from 'marked'
+import type { marked, Token } from 'marked'
 
 import MarkdownManager from './MarkdownManager.js'
 import type { ContentType } from './types.js'
+import { createMarkdownClipboardPlugin } from './markdownClipboardPlugin.js'
 import { assumeContentType } from './utils.js'
 
 declare module '@tiptap/core' {
@@ -84,6 +86,36 @@ export type MarkdownExtensionOptions = {
    * See the [marked documentation](https://marked.js.org/using_advanced#options) for available options.
    */
   markedOptions?: Parameters<typeof marked.setOptions>[0]
+
+  /**
+   * Parse pasted plain text as markdown. Pastes with HTML use the normal HTML paste,
+   * Shift+paste stays raw, and text without markdown syntax is pasted as usual.
+   * @default false
+   * @example
+   * Markdown.configure({ transformPastedText: true })
+   */
+  transformPastedText?: boolean
+
+  /**
+   * Decides whether pasted text is parsed as markdown.
+   * Only runs when `transformPastedText` is enabled, and not for HTML pastes or Shift+paste.
+   * @param text - The pasted plain text.
+   * @param context - Extra information about the paste.
+   * @param context.tokens - The markdown tokens of the text.
+   * @param context.editor - The editor instance.
+   * @param context.defaultShouldTransform - The built-in decision, `true` when the text has markdown syntax.
+   * @returns `true` to parse the text as markdown.
+   * @example
+   * Markdown.configure({
+   *   transformPastedText: true,
+   *   shouldTransformPastedText: (text, { defaultShouldTransform }) =>
+   *     !text.includes('@') && defaultShouldTransform,
+   * })
+   */
+  shouldTransformPastedText?: (
+    text: string,
+    context: { tokens: Token[]; editor: Editor; defaultShouldTransform: boolean },
+  ) => boolean
 }
 
 export type MarkdownExtensionStorage = {
@@ -98,7 +130,14 @@ export const Markdown = Extension.create<MarkdownExtensionOptions, MarkdownExten
       indentation: { style: 'space', size: 2 },
       marked: undefined,
       markedOptions: {},
+      // TODO: consider enabling this by default in the next major version
+      transformPastedText: false,
+      shouldTransformPastedText: undefined,
     }
+  },
+
+  addProseMirrorPlugins() {
+    return [createMarkdownClipboardPlugin(this.editor, () => this.options)]
   },
 
   addCommands() {
