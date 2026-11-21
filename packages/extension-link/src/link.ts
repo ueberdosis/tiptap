@@ -1,11 +1,14 @@
 import type { PasteRuleMatch } from '@tiptap/core'
-import { Mark, markPasteRule, mergeAttributes } from '@tiptap/core'
+import { escapeMarkdownDestination, Mark, markPasteRule, mergeAttributes } from '@tiptap/core'
 import type { Plugin } from '@tiptap/pm/state'
-import { decodeHTMLStrict } from 'entities'
 import { find, registerCustomProtocol, reset } from 'linkifyjs'
 
 import { autolink } from './helpers/autolink.js'
 import { clickHandler } from './helpers/clickHandler.js'
+import {
+  decodeMarkdownDestination,
+  extractMarkdownDestination,
+} from './helpers/markdownDestination.js'
 import { markdownLinkInputRule, markdownLinkPasteRule } from './helpers/markdownLink.js'
 import { pasteHandler } from './helpers/pasteHandler.js'
 import { UNICODE_WHITESPACE_REGEX_GLOBAL } from './helpers/whitespace.js'
@@ -366,10 +369,19 @@ export const Link = Mark.create<LinkOptions>({
     // `marked` emits HTML, so it leaves entities in `href` for the browser to
     // decode. The editor uses the value as an attribute, where nothing decodes
     // it, so `?a=1&amp;b=2` would otherwise become a literal `&amp;`.
-    // Decode the full HTML5 named set, not just the common ones: CommonMark
-    // resolves any valid named entity in a destination.
+    // Read the destination from the raw source so backslash escapes and
+    // character references are resolved in CommonMark order. Reference links
+    // are not inline links, so they fall back to the token value.
+    const source = token.raw ? extractMarkdownDestination(token.raw) : null
+    const href =
+      source !== null
+        ? decodeMarkdownDestination(source)
+        : token.href
+          ? decodeMarkdownDestination(token.href)
+          : token.href
+
     return helpers.applyMark('link', helpers.parseInline(token.tokens || []), {
-      href: token.href ? decodeHTMLStrict(token.href) : token.href,
+      href,
       title: token.title || null,
     })
   },
@@ -378,17 +390,10 @@ export const Link = Mark.create<LinkOptions>({
     const href = String(node.attrs?.href ?? '')
     const title = node.attrs?.title ?? ''
     const text = h.renderChildren(node)
-    // Encode `&` so a destination that literally contains `&amp;` survives a
-    // round trip: the parser decodes one level, so it has to be written as
-    // `&amp;amp;`. Parentheses delimit the destination, so they are written as
-    // character references too; otherwise a `)` decoded by the parser would
-    // end the destination early on the next read.
-    const destination = href.replace(/[&()]/g, char => {
-      if (char === '&') {
-        return '&amp;'
-      }
-      return char === '(' ? '&#40;' : '&#41;'
-    })
+    // Escape the destination so it survives a round trip: the parser decodes
+    // one level, so a literal `&amp;` has to be written as `&amp;amp;`, and a
+    // decoded `)` cannot be allowed to end the destination early.
+    const destination = escapeMarkdownDestination(href)
 
     return title ? `[${text}](${destination} "${title}")` : `[${text}](${destination})`
   },

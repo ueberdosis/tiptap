@@ -47,6 +47,24 @@ describe('Link hrefs with HTML entities', () => {
     expect(linkOf(json)?.href).toBe('https://example.com/?a=1&amp;b=2')
   })
 
+  it('keeps an escaped ampersand literal', () => {
+    const json = markdownManager.parse('[x](https://example.com/?a=1\\&amp;b=2)')
+
+    expect(linkOf(json)?.href).toBe('https://example.com/?a=1&amp;b=2')
+  })
+
+  it('resolves backslash escapes in a destination', () => {
+    const json = markdownManager.parse('[x](https://example.com/a\\.b)')
+
+    expect(linkOf(json)?.href).toBe('https://example.com/a.b')
+  })
+
+  it('keeps a backslash that is not an escape', () => {
+    const json = markdownManager.parse('[x](https://example.com/a\\b)')
+
+    expect(linkOf(json)?.href).toBe('https://example.com/a\\b')
+  })
+
   it('round-trips a URL with a query string', () => {
     const json = markdownManager.parse('https://example.com/?a=1&b=2')
     const output = markdownManager.serialize(json)
@@ -60,6 +78,44 @@ describe('Link hrefs with HTML entities', () => {
     const output = markdownManager.serialize(json)
 
     expect(output).toBe('[x](https://example.com/a&#40;b&#41;c)')
+    expect(markdownManager.parse(output)).toEqual(json)
+  })
+
+  it('round-trips a destination containing whitespace', () => {
+    const json = markdownManager.parse('[x](https://example.com/a&#32;b)')
+
+    expect(linkOf(json)?.href).toBe('https://example.com/a b')
+
+    const output = markdownManager.serialize(json)
+
+    expect(output).toBe('[x](https://example.com/a&#32;b)')
+    expect(markdownManager.parse(output)).toEqual(json)
+  })
+
+  it('round-trips a destination containing a backslash', () => {
+    const json = {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'x',
+              marks: [
+                {
+                  type: 'link',
+                  attrs: { href: 'https://example.com/a\\b', title: null },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    }
+    const output = markdownManager.serialize(json)
+
+    expect(output).toBe('[x](https://example.com/a\\\\b)')
     expect(markdownManager.parse(output)).toEqual(json)
   })
 

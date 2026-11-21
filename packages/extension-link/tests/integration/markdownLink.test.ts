@@ -166,7 +166,7 @@ describe('markdown links', () => {
 
     it('decodes character references in the URL of a typed Markdown link', () => {
       createEditor({
-        content: '<p>[Wiki](https://en.wikipedia.org/wiki/Node&#40;disambiguation&#41;</p>',
+        content: '<p>[Wiki](https://en.wikipedia.org/wiki/Node&amp;#40;disambiguation&amp;#41;</p>',
       })
 
       const handled = typeAtEnd(editor!, ')')
@@ -536,6 +536,22 @@ describe('markdown links', () => {
 
       expect(editor!.getHTML()).toContain('href="https://example.com/?a=1&amp;b=2"')
       expect(editor!.state.doc.textContent).toBe('See query')
+    })
+
+    it('keeps an escaped ampersand literal in a pasted Markdown destination', () => {
+      createEditor()
+
+      editor!.view.pasteText('See [query](https://example.com/?a=1\\&amp;b=2)')
+
+      expect(editor!.getHTML()).toContain('href="https://example.com/?a=1&amp;amp;b=2"')
+    })
+
+    it('decodes whitespace references in pasted Markdown destinations', () => {
+      createEditor()
+
+      editor!.view.pasteText('See [path](https://example.com/a&#32;b)')
+
+      expect(editor!.getHTML()).toContain('href="https://example.com/a b"')
     })
   })
 })
