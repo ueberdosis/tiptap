@@ -5,7 +5,7 @@ export const expectedInput = `
   - 123
   - 123
 - 123
-- 123.
+- 123\\.
 `.trim()
 
 export const expectedOutput = {
