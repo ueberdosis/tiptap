@@ -65,6 +65,18 @@ describe('Link hrefs with HTML entities', () => {
     expect(linkOf(json)?.href).toBe('https://example.com/a\\b')
   })
 
+  it('decodes a reference link destination once', () => {
+    const json = markdownManager.parse('[x][ref]\n\n[ref]: https://example.com/a\\\\_b?x=1&amp;y=2')
+
+    expect(linkOf(json)?.href).toBe('https://example.com/a\\_b?x=1&y=2')
+  })
+
+  it('reads the destination after a code span in the label', () => {
+    const json = markdownManager.parse('[a `x](https://wrong.test)` b](https://right.test)')
+
+    expect(linkOf(json)?.href).toBe('https://right.test')
+  })
+
   it('round-trips a URL with a query string', () => {
     const json = markdownManager.parse('https://example.com/?a=1&b=2')
     const output = markdownManager.serialize(json)

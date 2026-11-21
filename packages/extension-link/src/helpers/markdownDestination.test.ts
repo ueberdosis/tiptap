@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vite-plus/test'
 
-import { decodeMarkdownDestination, extractMarkdownDestination } from './markdownDestination.js'
+import {
+  decodeCharacterReferences,
+  decodeMarkdownDestination,
+  extractMarkdownDestination,
+} from './markdownDestination.js'
 
 describe('decodeMarkdownDestination', () => {
   it('decodes named character references', () => {
@@ -43,6 +47,18 @@ describe('decodeMarkdownDestination', () => {
   })
 })
 
+describe('decodeCharacterReferences', () => {
+  it('decodes references without touching backslashes', () => {
+    expect(decodeCharacterReferences('https://example.com/a\\_b?x=1&amp;y=2')).toBe(
+      'https://example.com/a\\_b?x=1&y=2',
+    )
+  })
+
+  it('leaves plain text unchanged', () => {
+    expect(decodeCharacterReferences('https://example.com/docs')).toBe('https://example.com/docs')
+  })
+})
+
 describe('extractMarkdownDestination', () => {
   it('reads a bare destination', () => {
     expect(extractMarkdownDestination('[x](https://example.com/docs)')).toBe(
@@ -74,6 +90,18 @@ describe('extractMarkdownDestination', () => {
 
   it('handles a label with nested brackets', () => {
     expect(extractMarkdownDestination('[a [b] c](https://example.com)')).toBe('https://example.com')
+  })
+
+  it('ignores brackets inside a code span in the label', () => {
+    expect(extractMarkdownDestination('[a `x](https://wrong.test)` b](https://right.test)')).toBe(
+      'https://right.test',
+    )
+  })
+
+  it('keeps non-breaking spaces inside a bare destination', () => {
+    expect(extractMarkdownDestination('[x](https://example.com/a\u00a0b)')).toBe(
+      'https://example.com/a\u00a0b',
+    )
   })
 
   it('returns null for reference links', () => {

@@ -15,6 +15,84 @@ function isAsciiPunctuation(character: string): boolean {
 }
 
 /**
+ * A destination ends at ASCII whitespace. Other Unicode spaces, such as a
+ * non-breaking space, are valid inside one.
+ */
+function isAsciiWhitespace(character: string): boolean {
+  return character === ' ' || character === '\t' || character === '\n' || character === '\r'
+}
+
+function countBacktickRun(text: string, start: number): number {
+  let index = start
+
+  while (text[index] === '`') {
+    index += 1
+  }
+
+  return index - start
+}
+
+/**
+ * Returns the index just past a code span that starts at `start`. An unmatched
+ * run is plain text, so the scan resumes right after it.
+ */
+function skipCodeSpan(text: string, start: number): number {
+  const runLength = countBacktickRun(text, start)
+  let index = start + runLength
+
+  while (index < text.length) {
+    if (text[index] !== '`') {
+      index += 1
+      continue
+    }
+
+    const length = countBacktickRun(text, index)
+
+    if (length === runLength) {
+      return index + length
+    }
+
+    index += length
+  }
+
+  return start + runLength
+}
+
+/**
+ * Decodes the character references in a Markdown link destination that has
+ * already had its backslash escapes resolved, such as `marked`'s `token.href`
+ * for a reference link.
+ *
+ * @param source - The destination with escapes already resolved
+ * @returns The destination with one level of character references decoded
+ */
+export function decodeCharacterReferences(source: string): string {
+  let result = ''
+  let index = 0
+
+  while (index < source.length) {
+    if (source[index] === '&') {
+      const reference = CHARACTER_REFERENCE.exec(source.slice(index))?.[0]
+
+      if (reference) {
+        const decoded = decodeHTMLStrict(reference)
+
+        if (decoded !== reference) {
+          result += decoded
+          index += reference.length
+          continue
+        }
+      }
+    }
+
+    result += source[index]
+    index += 1
+  }
+
+  return result
+}
+
+/**
  * Decodes the destination part of a Markdown link, as written in the source.
  *
  * The order matters: a backslash escape is resolved first, so `\&amp;` keeps
@@ -86,6 +164,12 @@ export function extractMarkdownDestination(raw: string): string | null {
       continue
     }
 
+    // a code span may contain brackets that do not close the label
+    if (character === '`') {
+      index = skipCodeSpan(raw, index)
+      continue
+    }
+
     if (character === '[') {
       depth += 1
     } else if (character === ']') {
@@ -104,7 +188,7 @@ export function extractMarkdownDestination(raw: string): string | null {
     return null
   }
 
-  while (raw[index] === ' ' || raw[index] === '\t' || raw[index] === '\n') {
+  while (isAsciiWhitespace(raw[index])) {
     index += 1
   }
 
@@ -114,7 +198,7 @@ export function extractMarkdownDestination(raw: string): string | null {
 
   index += 1
 
-  while (raw[index] === ' ' || raw[index] === '\t' || raw[index] === '\n') {
+  while (isAsciiWhitespace(raw[index])) {
     index += 1
   }
 
@@ -163,7 +247,7 @@ export function extractMarkdownDestination(raw: string): string | null {
       }
 
       parentheses -= 1
-    } else if (/\s/.test(character)) {
+    } else if (isAsciiWhitespace(character)) {
       break
     }
 

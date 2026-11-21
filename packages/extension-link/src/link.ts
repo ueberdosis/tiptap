@@ -6,6 +6,7 @@ import { find, registerCustomProtocol, reset } from 'linkifyjs'
 import { autolink } from './helpers/autolink.js'
 import { clickHandler } from './helpers/clickHandler.js'
 import {
+  decodeCharacterReferences,
   decodeMarkdownDestination,
   extractMarkdownDestination,
 } from './helpers/markdownDestination.js'
@@ -371,13 +372,14 @@ export const Link = Mark.create<LinkOptions>({
     // it, so `?a=1&amp;b=2` would otherwise become a literal `&amp;`.
     // Read the destination from the raw source so backslash escapes and
     // character references are resolved in CommonMark order. Reference links
-    // are not inline links, so they fall back to the token value.
+    // are not inline links, so they fall back to the token value, which marked
+    // has already unescaped.
     const source = token.raw ? extractMarkdownDestination(token.raw) : null
     const href =
       source !== null
         ? decodeMarkdownDestination(source)
         : token.href
-          ? decodeMarkdownDestination(token.href)
+          ? decodeCharacterReferences(token.href)
           : token.href
 
     return helpers.applyMark('link', helpers.parseInline(token.tokens || []), {
