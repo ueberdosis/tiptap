@@ -8,6 +8,7 @@
 export * from './createAtomBlockMarkdownSpec.js'
 export * from './createBlockMarkdownSpec.js'
 export * from './createInlineMarkdownSpec.js'
+export * from './escapeMarkdownDestination.js'
 export * from './parseAttributes.js'
 export * from './parseIndentedBlocks.js'
 export * from './renderNestedMarkdownContent.js'

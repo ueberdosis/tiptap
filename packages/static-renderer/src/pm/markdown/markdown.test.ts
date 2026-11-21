@@ -438,4 +438,34 @@ describe('static render json to string (no prosemirror)', () => {
 
     expect(md).toBe('\nhello\n')
   })
+
+  it('escapes link destinations that would otherwise end the link early', () => {
+    const json = {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'Wiki',
+              marks: [
+                {
+                  type: 'link',
+                  attrs: { href: 'https://en.wikipedia.org/wiki/Node_(disambiguation)' },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    }
+
+    const md = renderToMarkdown({
+      content: json,
+      extensions: [StarterKit, TableKit],
+    })
+
+    expect(md).toBe('\n[Wiki](https://en.wikipedia.org/wiki/Node_&#40;disambiguation&#41;)\n')
+  })
 })

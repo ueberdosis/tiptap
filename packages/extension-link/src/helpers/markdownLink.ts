@@ -2,6 +2,8 @@ import type { InputRuleMatch, PasteRuleMatch } from '@tiptap/core'
 import { InputRule, markInputRule, markPasteRule, PasteRule } from '@tiptap/core'
 import type { MarkType } from '@tiptap/pm/model'
 
+import { decodeMarkdownDestination } from './markdownDestination.js'
+
 /**
  * Matches a Markdown link with an optional quoted title.
  * for ex: [Tiptap](https://tiptap.dev) or [Tiptap](https://tiptap.dev "some title")
@@ -99,12 +101,13 @@ function isConvertibleLink(
     return false
   }
 
-  return !!linkText.trim() && isAllowedHref(href)
+  return !!linkText.trim() && isAllowedHref(decodeMarkdownDestination(href))
 }
 
 function toRuleMatch(match: RegExpMatchArray): InputRuleMatch & PasteRuleMatch {
-  const [linkSyntax, linkText, href, , straightQuotedTitle, curlyDoubleTitle, curlySingleTitle] =
+  const [linkSyntax, linkText, rawHref, , straightQuotedTitle, curlyDoubleTitle, curlySingleTitle] =
     match
+  const href = decodeMarkdownDestination(rawHref)
   const title = straightQuotedTitle ?? curlyDoubleTitle ?? curlySingleTitle
 
   return {

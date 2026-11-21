@@ -1,10 +1,15 @@
 import type { PasteRuleMatch } from '@tiptap/core'
-import { Mark, markPasteRule, mergeAttributes } from '@tiptap/core'
+import { escapeMarkdownDestination, Mark, markPasteRule, mergeAttributes } from '@tiptap/core'
 import type { Plugin } from '@tiptap/pm/state'
 import { find, registerCustomProtocol, reset } from 'linkifyjs'
 
 import { autolink } from './helpers/autolink.js'
 import { clickHandler } from './helpers/clickHandler.js'
+import {
+  decodeCharacterReferences,
+  decodeMarkdownDestination,
+  extractMarkdownDestination,
+} from './helpers/markdownDestination.js'
 import { markdownLinkInputRule, markdownLinkPasteRule } from './helpers/markdownLink.js'
 import { pasteHandler } from './helpers/pasteHandler.js'
 import { UNICODE_WHITESPACE_REGEX_GLOBAL } from './helpers/whitespace.js'
@@ -362,18 +367,37 @@ export const Link = Mark.create<LinkOptions>({
   markdownTokenName: 'link',
 
   parseMarkdown: (token, helpers) => {
+    // `marked` emits HTML, so it leaves entities in `href` for the browser to
+    // decode. The editor uses the value as an attribute, where nothing decodes
+    // it, so `?a=1&amp;b=2` would otherwise become a literal `&amp;`.
+    // Read the destination from the raw source so backslash escapes and
+    // character references are resolved in CommonMark order. Reference links
+    // are not inline links, so they fall back to the token value, which marked
+    // has already unescaped.
+    const source = token.raw ? extractMarkdownDestination(token.raw) : null
+    const href =
+      source !== null
+        ? decodeMarkdownDestination(source)
+        : token.href
+          ? decodeCharacterReferences(token.href)
+          : token.href
+
     return helpers.applyMark('link', helpers.parseInline(token.tokens || []), {
-      href: token.href,
+      href,
       title: token.title || null,
     })
   },
 
   renderMarkdown: (node, h) => {
-    const href = node.attrs?.href ?? ''
+    const href = String(node.attrs?.href ?? '')
     const title = node.attrs?.title ?? ''
     const text = h.renderChildren(node)
+    // Escape the destination so it survives a round trip: the parser decodes
+    // one level, so a literal `&amp;` has to be written as `&amp;amp;`, and a
+    // decoded `)` cannot be allowed to end the destination early.
+    const destination = escapeMarkdownDestination(href)
 
-    return title ? `[${text}](${href} "${title}")` : `[${text}](${href})`
+    return title ? `[${text}](${destination} "${title}")` : `[${text}](${destination})`
   },
 
   addCommands() {

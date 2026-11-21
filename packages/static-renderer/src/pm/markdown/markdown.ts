@@ -1,4 +1,5 @@
 import type { Extensions, JSONContent } from '@tiptap/core'
+import { escapeMarkdownDestination } from '@tiptap/core'
 import type { Mark, Node as PMNode } from '@tiptap/pm/model'
 import { TableMap } from '@tiptap/pm/tables'
 
@@ -176,7 +177,7 @@ export function renderToMarkdown({
           return `<sup>${serializeChildrenToHTMLString(children)}</sup>`
         },
         link({ mark, children }) {
-          return `[${serializeChildrenToHTMLString(children)}](${mark.attrs.href})`
+          return `[${serializeChildrenToHTMLString(children)}](${escapeMarkdownDestination(String(mark.attrs.href ?? ''))})`
         },
         highlight({ children }) {
           return `==${serializeChildrenToHTMLString(children)}==`
