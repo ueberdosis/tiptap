@@ -126,7 +126,8 @@ export const Highlight = Mark.create<HighlightOptions>({
     level: 'inline',
     start: (src: string) => src.indexOf('=='),
     tokenize(src, _, h) {
-      const rule = /^(==)([^=]+)(==)/ // ==highlighted text==
+      // Delimiters must hug the text, like ~~strike~~.
+      const rule = /^(==)(?!\s)([^=]*[^=\s])(==)/
       const match = rule.exec(src)
 
       if (match) {

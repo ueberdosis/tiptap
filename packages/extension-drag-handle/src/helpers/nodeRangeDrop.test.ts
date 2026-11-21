@@ -5,6 +5,7 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { TextSelection } from '@tiptap/pm/state'
 import { afterEach, describe, expect, it } from 'vite-plus/test'
+import { RelativePosition } from 'yjs'
 
 import {
   createDroppedNodeRangeSelection,
@@ -111,7 +112,7 @@ describe('nodeRangeDrop helpers', () => {
         anchorPos: 10,
         nodeCount: 2,
         depth: 0,
-        relativeAnchorPos: { type: 'mock' },
+        relativeAnchorPos: new RelativePosition(null, null, null),
       }
 
       const tr = {
@@ -137,7 +138,7 @@ describe('nodeRangeDrop helpers', () => {
         anchorPos: 10,
         nodeCount: 2,
         depth: 0,
-        relativeAnchorPos: { type: 'mock' },
+        relativeAnchorPos: new RelativePosition(null, null, null),
       }
 
       const tr = {
@@ -160,7 +161,7 @@ describe('nodeRangeDrop helpers', () => {
         anchorPos: 10,
         nodeCount: 2,
         depth: 0,
-        relativeAnchorPos: { type: 'mock' },
+        relativeAnchorPos: new RelativePosition(null, null, null),
       }
 
       const tr = {

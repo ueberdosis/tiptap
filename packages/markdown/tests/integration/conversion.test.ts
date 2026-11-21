@@ -841,5 +841,33 @@ describe('Markdown Conversion Tests', () => {
         expect(markdown).toBe('`*not bold*`')
       })
     })
+
+    describe('Heading levels in markdown parsing', () => {
+      it('should parse heading as paragraph if level is not configured in levels', () => {
+        const customManager = new MarkdownManager({
+          extensions: [
+            Document,
+            Paragraph,
+            Text,
+            Heading.configure({
+              levels: [1, 2, 3, 4],
+            }),
+          ],
+        })
+
+        const parsedAllowed = customManager.parse('### Allowed Heading')
+        expect(parsedAllowed.content[0]).toEqual({
+          type: 'heading',
+          attrs: { level: 3 },
+          content: [{ type: 'text', text: 'Allowed Heading' }],
+        })
+
+        const parsedDisallowed = customManager.parse('##### Disallowed Heading')
+        expect(parsedDisallowed.content[0]).toEqual({
+          type: 'paragraph',
+          content: [{ type: 'text', text: 'Disallowed Heading' }],
+        })
+      })
+    })
   })
 })

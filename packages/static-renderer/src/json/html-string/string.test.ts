@@ -5,6 +5,77 @@ import {
 } from './string.js'
 import { describe, expect, it } from 'vite-plus/test'
 
+describe('serializeAttrsToHTMLString', () => {
+  it.each([
+    'onerror',
+    'ONERROR',
+    'onError',
+    'onclick',
+    'onload',
+    'onbegin',
+    'onunknown',
+    'http://www.w3.org/1999/xhtml onerror',
+    'http://www.w3.org/1999/xhtml OnLoad',
+    'srcdoc',
+    'SRCDOC',
+    'http://www.w3.org/1999/xhtml srcdoc',
+  ])('omits executable attribute %s', key => {
+    expect(serializeAttrsToHTMLString({ [key]: 'alert(1)', alt: 'safe' })).toBe(' alt="safe"')
+  })
+
+  it.each([
+    '',
+    'title"',
+    "title'",
+    'title=onerror',
+    'title/onerror',
+    'title\tonerror',
+    'title\nonerror',
+    'title\ronerror',
+    'title\fonerror',
+    'on\0error',
+    'title><svg/onload=alert(1)>',
+    'http://www.w3.org/1999/xhtml title"',
+  ])('omits malformed attribute %j', key => {
+    expect(serializeAttrsToHTMLString({ [key]: 'attack', alt: 'safe' })).toBe(' alt="safe"')
+  })
+
+  it('preserves safe attributes and namespace local names', () => {
+    expect(
+      serializeAttrsToHTMLString({
+        class: 'image',
+        'data-onerror': 'text',
+        'aria-label': 'Image',
+        'http://www.w3.org/1999/xlink xlink:href': '#image',
+        viewBox: '0 0 10 10',
+        contenteditable: false,
+        width: 0,
+        title: '',
+        absent: null,
+        missing: undefined,
+      }),
+    ).toBe(
+      ' class="image" data-onerror="text" aria-label="Image" xlink:href="#image" viewBox="0 0 10 10" contenteditable="false" width="0" title=""',
+    )
+  })
+
+  it('returns no whitespace when all attributes are omitted', () => {
+    expect(serializeAttrsToHTMLString({ onerror: 'alert(1)', title: null })).toBe('')
+    expect(serializeAttrsToHTMLString(null)).toBe('')
+    expect(serializeAttrsToHTMLString(undefined)).toBe('')
+  })
+
+  it('keeps attribute values as data when parsed as HTML', () => {
+    const value = "\"><svg onload=alert(1)> & &#34; 'test'"
+    const container = document.createElement('div')
+    container.innerHTML = `<img${serializeAttrsToHTMLString({ title: value })}/>`
+
+    expect(container.children).toHaveLength(1)
+    expect(container.firstElementChild?.getAttribute('title')).toBe(value)
+    expect(container.querySelector('svg')).toBeNull()
+  })
+})
+
 describe('static render json to string (no prosemirror)', () => {
   it('generate an HTML string from JSON without an editor instance', () => {
     const json = {
@@ -88,6 +159,33 @@ describe('static render json to string (no prosemirror)', () => {
     })({ content: json })
 
     expect(html).toBe('<doc><p><strong>Example Text</strong></p></doc>')
+  })
+
+  it('renders the first mark outermost', () => {
+    const json = {
+      type: 'doc',
+      content: [
+        {
+          type: 'text',
+          text: 'Example Text',
+          marks: [{ type: 'bold' }, { type: 'italic' }, { type: 'underline' }],
+        },
+      ],
+    }
+
+    const html = renderJSONContentToString({
+      nodeMapping: {
+        doc: ({ children }) => serializeChildrenToHTMLString(children),
+        text: ({ node }) => node.text ?? '',
+      },
+      markMapping: {
+        bold: ({ children }) => `<strong>${serializeChildrenToHTMLString(children)}</strong>`,
+        italic: ({ children }) => `<em>${serializeChildrenToHTMLString(children)}</em>`,
+        underline: ({ children }) => `<u>${serializeChildrenToHTMLString(children)}</u>`,
+      },
+    })({ content: json })
+
+    expect(html).toBe('<strong><em><u>Example Text</u></em></strong>')
   })
 
   it('escapes serialized HTML attributes', () => {

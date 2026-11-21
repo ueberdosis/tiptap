@@ -5,6 +5,8 @@ import type { SearchResult } from '../search/search.js'
 
 import { getFallbackCurrentIndex } from './getFallbackCurrentIndex.js'
 import { getMappedCurrentIndex } from './getMappedCurrentIndex.js'
+import { getPreviousCurrentResult } from './getPreviousCurrentResult.js'
+import { isCurrentResult } from './isCurrentResult.js'
 import { isNewSearch } from './isNewSearch.js'
 
 export function getSearchCurrentIndex(
@@ -20,5 +22,20 @@ export function getSearchCurrentIndex(
 
   const mappedIndex = getMappedCurrentIndex(previousState, results, docChanged, mapping)
 
-  return mappedIndex ?? getFallbackCurrentIndex(previousState, results.length)
+  return (
+    mappedIndex ??
+    findPreviousCurrentIndex(previousState, results) ??
+    getFallbackCurrentIndex(previousState, results.length)
+  )
+}
+
+// Stay on the same match when an option adds or removes results before it
+function findPreviousCurrentIndex(
+  previousState: FindAndReplacePluginState,
+  results: SearchResult[],
+): number | null {
+  const previousCurrent = getPreviousCurrentResult(previousState) ?? null
+  const index = results.findIndex(result => isCurrentResult(result, previousCurrent))
+
+  return index === -1 ? null : index
 }

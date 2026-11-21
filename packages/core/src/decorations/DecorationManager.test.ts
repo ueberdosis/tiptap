@@ -766,7 +766,7 @@ describe('DecorationManager remounts', () => {
     })
   }
 
-  it('replaces the decoration manager instead of stacking listeners', () => {
+  it('reuses the decoration manager without stacking listeners', () => {
     const element = document.createElement('div')
     const editor = new Editor({
       element,
@@ -784,12 +784,12 @@ describe('DecorationManager remounts', () => {
     editor.mount(element)
 
     expect(beforeTransactionListeners(editor)).toBe(1)
-    expect(editor.extensionManager.decorationManager).not.toBe(firstManager)
+    expect(editor.extensionManager.decorationManager).toBe(firstManager)
 
     editor.destroy()
   })
 
-  it('does not warn from orphaned managers after remounting', () => {
+  it('does not repeat duplicate widget warnings after remounting', () => {
     const element = document.createElement('div')
     const editor = new Editor({
       element,
@@ -812,9 +812,7 @@ describe('DecorationManager remounts', () => {
 
     warn.mockRestore()
 
-    // Only the live manager warns. Each orphaned manager used to add one more
-    // warning per transaction, so this grew with every remount.
-    expect(duplicateWarnings).toHaveLength(1)
+    expect(duplicateWarnings).toHaveLength(0)
 
     editor.destroy()
   })

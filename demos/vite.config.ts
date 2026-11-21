@@ -12,12 +12,15 @@ const getPackageDependencies = () => {
 
   function collectPackageInformation(path: string) {
     const packagesPath = resolve(import.meta.dirname, '..', path)
+    // Windows absolute paths contain backslashes; normalize them before appending wildcards.
+    const packagesGlob = (suffix: string) =>
+      fg.sync(`${fg.convertPathToPattern(packagesPath)}${suffix}`, { onlyDirectories: true })
 
-    fg.sync(`${packagesPath}/*`, { onlyDirectories: true })
+    packagesGlob('/*')
       .map(name => basename(name))
       .forEach(name => {
         if (name === 'pm') {
-          fg.sync(`${packagesPath}/${name}/*`, { onlyDirectories: true }).forEach(subName => {
+          packagesGlob(`/${name}/*`).forEach(subName => {
             const subPkgName = basename(subName)
 
             if (subPkgName === 'dist' || subPkgName === 'node_modules') {
@@ -37,7 +40,7 @@ const getPackageDependencies = () => {
           name === 'react' ||
           name === 'vue'
         ) {
-          fg.sync(`${packagesPath}/${name}/src/*`, { onlyDirectories: true }).forEach(subName => {
+          packagesGlob(`/${name}/src/*`).forEach(subName => {
             const subPkgName = basename(subName)
 
             paths.push({
