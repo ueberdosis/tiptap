@@ -215,6 +215,19 @@ describe('Android stored mark boundaries', () => {
     expect(editor.getHTML()).toBe('<p>prase<strong>mirror</strong></p>')
   })
 
+  it('keeps the toggle boundary at the end of a word that composition shortens', () => {
+    createEditor()
+    editor.commands.toggleItalic()
+    reconcile('rose')
+    reconcile('roses')
+
+    expect(editor.getHTML()).toBe('<p>rose<em>s</em></p>')
+
+    reconcile('rosesx')
+
+    expect(editor.getHTML()).toBe('<p>rose<em>sx</em></p>')
+  })
+
   it('preserves the boundary while a keyboard deletes and restores its word', () => {
     createEditor()
     editor.commands.toggleBold()

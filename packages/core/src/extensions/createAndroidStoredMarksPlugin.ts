@@ -31,10 +31,11 @@ function mapBoundary(pending: MarkBoundary, transaction: Transaction): MarkBound
 
       if (containsBoundary || restoresBoundary) {
         const offset = from - oldStart + deletedOffset
-        const available = Math.min(offset, Math.max(newEnd, caret) - newStart)
+        const available = Math.max(newEnd, caret) - newStart
 
-        nextFrom = newStart + available
-        deletedOffset = offset - available
+        nextFrom = newStart + Math.min(offset, available)
+        // Only a fully deleted composition is inserted again by the keyboard
+        deletedOffset = available ? 0 : offset
       }
     })
     from = nextFrom
