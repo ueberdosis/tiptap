@@ -2,10 +2,9 @@ import { type Editor, isAndroid } from '@tiptap/core'
 import type { Fragment, Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { Slice } from '@tiptap/pm/model'
 import { TextSelection } from '@tiptap/pm/state'
-import type { EditorView } from '@tiptap/pm/view'
 
 import { dispatchEnterKey } from './dispatchEnterKey.js'
-import { flushDOMChanges } from './flushDOMChanges.js'
+import { type FlushingEditorView, flushDOMChanges } from './flushDOMChanges.js'
 import { getSelectionContentDOM } from './getSelectionContentDOM.js'
 
 /** The document and the text after the caret, saved before the browser splits the content natively. */
@@ -15,8 +14,6 @@ export interface CompositionEnter {
   position: number
   tail: Fragment
 }
-
-type ComposingEditorView = EditorView & { domObserver: { forceFlush: () => void } }
 
 const endsWithNewline = (data: string | null) => data?.endsWith('\n') ?? false
 
@@ -40,7 +37,7 @@ export function captureCompositionEnter(
     return null
   }
 
-  const view = editor.view as ComposingEditorView
+  const view = editor.view as FlushingEditorView
   const contentDOM = getSelectionContentDOM(view)
 
   if (!contentDOM) {

@@ -1,6 +1,7 @@
 import type { EditorView } from '@tiptap/pm/view'
 
-type FlushingEditorView = EditorView & {
+/** `EditorView` with the DOM observer that prosemirror-view does not expose in its types. */
+export type FlushingEditorView = EditorView & {
   domObserver: { forceFlush: () => void; flush: () => void }
 }
 

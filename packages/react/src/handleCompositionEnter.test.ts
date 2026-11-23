@@ -7,13 +7,6 @@ import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 
 import { createMobileEnterPlugin } from './createMobileEnterPlugin.js'
 
-vi.hoisted(() => {
-  Object.defineProperty(navigator, 'userAgent', {
-    configurable: true,
-    value: 'Mozilla/5.0 (Linux; Android 14) Chrome/113.0.0.0',
-  })
-})
-
 const ReactParagraph = Paragraph.extend({
   addNodeView() {
     return () => {
@@ -110,9 +103,15 @@ describe('Android Enter inside a composition', () => {
     splitNatively(11)
     await endComposition('line\n')
 
+    expect(editor.getHTML()).toBe('<p>Second line</p><p> of text here</p>')
+
     editor.commands.undo()
 
     expect(editor.getHTML()).toBe('<p>Second line of text here</p>')
+
+    editor.commands.redo()
+
+    expect(editor.getHTML()).toBe('<p>Second line</p><p> of text here</p>')
   })
 
   it('leaves a split that is already in the document alone', async () => {
