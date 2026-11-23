@@ -1,9 +1,10 @@
 import { type Editor, getExtensionField, Mark } from '@tiptap/core'
+import type { Schema } from '@tiptap/pm/model'
 import { z } from 'zod'
 
 import type { EditorContext } from './types/editor-context.js'
 import type { AddJsonSchemaAwareness, JsonItem } from './types/json-item.js'
-import { defaultJsonItems } from './utils/default-json-items.js'
+import { defaultJsonItemRequiredAttributes, defaultJsonItems } from './utils/default-json-items.js'
 import { mergeJsonItems } from './utils/merge-json-items.js'
 import { serializeSchema } from './utils/serialize-schema.js'
 
@@ -19,6 +20,27 @@ export interface GetEditorContextOptions {
    * @default []
    */
   customNodes?: JsonItem[]
+}
+
+interface DeclaresRequiredAttributesOptions {
+  schema: Schema
+  extensionName: string
+}
+
+/** Whether the node of a default item has the attributes that item needs. */
+function declaresRequiredAttributes({
+  schema,
+  extensionName,
+}: DeclaresRequiredAttributesOptions): boolean {
+  const required = defaultJsonItemRequiredAttributes.get(extensionName)
+  if (!required) {
+    return true
+  }
+  const attrs = schema.nodes[extensionName]?.spec.attrs
+  if (!attrs) {
+    return false
+  }
+  return required.every(name => Object.hasOwn(attrs, name))
 }
 
 /**
@@ -59,7 +81,11 @@ export function getEditorContext(
     return []
   })
 
-  const items = [defaultJsonItems, customNodesFromExtensions, options.customNodes ?? []]
+  const defaultItems = defaultJsonItems.filter(item =>
+    declaresRequiredAttributes({ schema: editor.schema, extensionName: item.extensionName }),
+  )
+
+  const items = [defaultItems, customNodesFromExtensions, options.customNodes ?? []]
     .reduce(mergeJsonItems, [])
     .filter((item: JsonItem) => extensionNamesSet.has(item.extensionName))
 
