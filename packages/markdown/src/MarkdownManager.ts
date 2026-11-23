@@ -21,7 +21,14 @@ import {
   marksEqual,
   sortExtensions,
 } from '@tiptap/core'
-import { type Lexer, type Token, type TokenizerExtension, type TokenizerThis, marked } from 'marked'
+import {
+  type Lexer,
+  type Token,
+  type TokenizerExtension,
+  type TokenizerThis,
+  Marked,
+  marked,
+} from 'marked'
 
 import {
   closeMarksBeforeNode,
@@ -38,7 +45,7 @@ import { expelMarkWhitespace } from './utils/expelMarkWhitespace.js'
 import { htmlContainsUnrecognizedTag } from './utils/htmlTagDetection.js'
 
 export class MarkdownManager {
-  private markedInstance: typeof marked
+  private markedInstance: Marked | typeof marked
   private activeParseLexer: Lexer | null = null
   private registry: Map<string, MarkdownExtensionSpec[]>
   private nodeTypeRegistry: Map<string, MarkdownExtensionSpec[]>
@@ -66,18 +73,25 @@ export class MarkdownManager {
 
   /**
    * Create a MarkdownManager.
-   * @param options.marked Optional marked instance to use (injected).
+   * @param options.marked Optional marked instance to use (injected). When omitted, a
+   * dedicated instance is created so tokenizers registered for this manager do not
+   * leak into the shared `marked` module state.
    * @param options.markedOptions Optional options to pass to marked.setOptions
    * @param options.indentation Indentation settings (style and size).
    * @param options.extensions An array of Tiptap extensions to register for markdown parsing and rendering.
+   * @example
+   *   const customMarked = new Marked()
+   *   const manager = new MarkdownManager({ marked: customMarked, extensions: [] })
    */
   constructor(options?: {
-    marked?: typeof marked
+    marked?: Marked | typeof marked
     markedOptions?: Parameters<typeof marked.setOptions>[0]
     indentation?: { style?: 'space' | 'tab'; size?: number }
     extensions: AnyExtension[]
   }) {
-    this.markedInstance = options?.marked ?? marked
+    // Each manager gets its own instance: tokenizers hold the manager, and the
+    // shared instance would keep every destroyed editor reachable.
+    this.markedInstance = options?.marked ?? new Marked()
     this.indentStyle = options?.indentation?.style ?? 'space'
     this.indentSize = options?.indentation?.size ?? 2
     this.baseExtensions = options?.extensions || []
@@ -100,8 +114,13 @@ export class MarkdownManager {
     }
   }
 
-  /** Returns the underlying marked instance. */
-  get instance(): typeof marked {
+  /**
+   * The marked instance this manager parses and serializes with.
+   * @returns The dedicated `Marked` instance, or the instance passed through the `marked` option.
+   * @example
+   *   manager.instance.parse('# hi') // → '<h1>hi</h1>\n'
+   */
+  get instance(): Marked | typeof marked {
     return this.markedInstance
   }
 
