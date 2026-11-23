@@ -9,6 +9,7 @@ import { isAndroid } from '../utilities/isAndroid.js'
 import { isiOS } from '../utilities/isiOS.js'
 import { isMacOS } from '../utilities/isMacOS.js'
 
+import { createAndroidDeletePlugin } from './createAndroidDeletePlugin.js'
 import { createAndroidStoredMarksPlugin } from './createAndroidStoredMarksPlugin.js'
 
 /** Checks if a non-empty selection spans the whole document. */
@@ -117,6 +118,7 @@ export const Keymap = Extension.create({
 
   addProseMirrorPlugins() {
     return [
+      createAndroidDeletePlugin(),
       ...(isAndroid() ? [createAndroidStoredMarksPlugin()] : []),
       // With this plugin we check if the whole document was selected and deleted.
       // In this case we will additionally call `clearNodes()` to convert e.g. a heading

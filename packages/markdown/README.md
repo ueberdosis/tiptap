@@ -13,6 +13,8 @@ Tiptap is a headless wrapper around [ProseMirror](https://ProseMirror.net) – a
 
 Documentation can be found on the [Tiptap website](https://tiptap.dev).
 
+When you export Markdown, spaces at the start or end of formatted text move outside its delimiters. The spaces and formatting survive reloading.
+
 ## License
 
 Tiptap is open sourced software licensed under the [MIT license](https://github.com/ueberdosis/tiptap/blob/main/LICENSE.md).
