@@ -1,12 +1,11 @@
 import type { Transaction } from 'prosemirror-state'
 import type { ResolvedPos } from 'prosemirror-model'
-import { ReplaceStep } from 'prosemirror-transform'
+import { type Mapping, ReplaceStep } from 'prosemirror-transform'
 import type { PrependedBlock } from '../../../types/PrependedBlock.js'
 
-const getInsertedBlocks = (
-  first: ResolvedPos,
-  retained: ResolvedPos,
-): NonNullable<PrependedBlock['insertedChildren']> => {
+type InsertedChildren = NonNullable<PrependedBlock['insertedChildren']>
+
+const getInsertedBlocks = (first: ResolvedPos, retained: ResolvedPos): InsertedChildren => {
   if (
     first.depth === 0 ||
     first.depth !== retained.depth ||
@@ -15,7 +14,43 @@ const getInsertedBlocks = (
     return []
   }
 
-  return first.node(-1).content.content.slice(first.index(-1), retained.index(-1))
+  const parent = first.node(-1)
+  let position = first.before()
+  return parent.content.content.slice(first.index(-1), retained.index(-1)).map(child => {
+    const from = position
+    position += child.nodeSize
+    return { from, to: position }
+  })
+}
+
+const mapInsertedChildren = (children: InsertedChildren, mapping: Mapping) => {
+  const mapped = []
+  for (const child of children) {
+    // A replacement of either outer token invalidates the tracked child.
+    const from = mapping.mapResult(child.from, 1)
+    const to = mapping.mapResult(child.to, -1)
+    if (from.deleted || to.deleted) {
+      return undefined
+    }
+    mapped.push({ from: from.pos, to: to.pos })
+  }
+  return mapped
+}
+
+const mapPrependedBlock = (block: PrependedBlock, mapping: Mapping): PrependedBlock | undefined => {
+  const insertedChildren =
+    block.insertedChildren && mapInsertedChildren(block.insertedChildren, mapping)
+  if (block.insertedChildren && !insertedChildren) {
+    return undefined
+  }
+
+  return {
+    ...block,
+    insertedChildren,
+    inserted: mapping.map(block.inserted, -1),
+    start: mapping.map(block.start, 1),
+    end: mapping.map(block.end, -1),
+  }
 }
 
 const findOriginalBlock = (transaction: Transaction, index: number, atStep: ResolvedPos) => {
@@ -40,12 +75,7 @@ export const trackPrependedBlock = (
   previous?: PrependedBlock,
 ): PrependedBlock | undefined => {
   if (previous) {
-    return {
-      ...previous,
-      inserted: transaction.mapping.map(previous.inserted, -1),
-      start: transaction.mapping.map(previous.start, 1),
-      end: transaction.mapping.map(previous.end, -1),
-    }
+    return mapPrependedBlock(previous, transaction.mapping)
   }
 
   for (const [index, step] of transaction.steps.entries()) {
@@ -64,25 +94,25 @@ export const trackPrependedBlock = (
     }
 
     const mapping = transaction.mapping
-    const remaining = mapping.slice(index)
+    const stepMap = mapping.maps[index]
+    const remaining = mapping.slice(index + 1)
     const block: PrependedBlock = {
       before,
-      inserted: remaining.map(atStep.pos, -1),
-      start: remaining.map(atStep.pos, 1),
-      end: remaining.map(atStep.end(), -1),
+      inserted: stepMap.map(atStep.pos, -1),
+      start: stepMap.map(atStep.pos, 1),
+      end: stepMap.map(atStep.end(), -1),
     }
     if (index === 0) {
-      return block
+      return mapPrependedBlock(block, remaining)
     }
 
-    const stepMap = mapping.maps[index]
     const afterStep = transaction.docs[index + 1] ?? transaction.doc
     const insertedChildren = getInsertedBlocks(
-      afterStep.resolve(stepMap.map(atStep.pos, -1)),
-      afterStep.resolve(stepMap.map(atStep.pos, 1)),
+      afterStep.resolve(block.inserted),
+      afterStep.resolve(block.start),
     )
     if (insertedChildren.length > 0) {
-      return { ...block, insertedChildren }
+      return mapPrependedBlock({ ...block, insertedChildren }, remaining)
     }
   }
 

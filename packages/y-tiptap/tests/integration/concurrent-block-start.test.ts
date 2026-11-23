@@ -109,6 +109,40 @@ it.each([
     expectedBefore: withLeadingHeading,
   },
   {
+    name: 'typing into the new paragraph in the same transaction as a split',
+    edit: (view: EditorView) => {
+      view.dispatch(
+        view.state.tr.insert(view.state.doc.content.size, heading).split(1).insertText('target', 1),
+      )
+    },
+    offset: 0,
+    expected: ['target', 't!arget', 'Leading'],
+    surrounded: false,
+  },
+  {
+    name: 'typing into the new paragraph in a transaction appended by a plugin',
+    edit: (view: EditorView) => {
+      view.dispatch(
+        view.state.tr
+          .insert(view.state.doc.content.size, heading)
+          .split(1)
+          .setMeta('fillSplit', true),
+      )
+    },
+    offset: 0,
+    expected: ['target', 't!arget', 'Leading'],
+    surrounded: false,
+    configure: (view: EditorView) => {
+      const plugin = new Plugin({
+        appendTransaction: (transactions, _, state) =>
+          transactions.some(transaction => transaction.getMeta('fillSplit'))
+            ? state.tr.insertText('target', 1)
+            : null,
+      })
+      view.updateState(view.state.reconfigure({ plugins: [...view.state.plugins, plugin] }))
+    },
+  },
+  {
     name: 'placing an existing paragraph between the split paragraphs in the same transaction',
     edit: (view: EditorView) => {
       const preceding = view.state.doc.child(0)

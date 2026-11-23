@@ -33,6 +33,7 @@ const retainsOriginalSiblings = (before: ResolvedPos, after: ResolvedPos) => {
 
 const canReconcileLaterStep = (
   children: readonly Node[],
+  firstPosition: number,
   block: PrependedBlock,
   after: ResolvedPos,
 ) => {
@@ -41,11 +42,17 @@ const canReconcileLaterStep = (
     return true
   }
 
-  return (
-    insertedChildren.length === children.length &&
-    children.every((child, index) => child === insertedChildren[index]) &&
-    retainsOriginalSiblings(before, after)
-  )
+  if (insertedChildren.length !== children.length || !retainsOriginalSiblings(before, after)) {
+    return false
+  }
+
+  let position = firstPosition
+  return children.every((child, index) => {
+    const { from, to } = insertedChildren[index]
+    const start = position
+    position += child.nodeSize
+    return from === start && to === position
+  })
 }
 
 export const reconcilePrependedBlocks = (
@@ -93,7 +100,7 @@ export const reconcilePrependedBlocks = (
   }
 
   const children = after.node(-1).content.content.slice(firstInserted, end)
-  if (!canReconcileLaterStep(children, block, after)) {
+  if (!canReconcileLaterStep(children, inserted.before(), block, after)) {
     return
   }
 
