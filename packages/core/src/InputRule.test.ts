@@ -1,5 +1,6 @@
 import Code from '@tiptap/extension-code'
 import Document from '@tiptap/extension-document'
+import HardBreak from '@tiptap/extension-hard-break'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { afterEach, describe, expect, it } from 'vite-plus/test'
@@ -32,7 +33,7 @@ const InlineAtomWithText = Node.create({
 
 const createEditor = (content: string) =>
   new Editor({
-    extensions: [Document, Paragraph, Text, InlineAtom, InlineAtomWithText, Code],
+    extensions: [Document, Paragraph, Text, InlineAtom, InlineAtomWithText, Code, HardBreak],
     content,
   })
 
@@ -100,6 +101,15 @@ describe('input rules with inline atom nodes', () => {
 
     expect(handled).toBe(true)
     expect(editor.getHTML()).toContain('<code>code</code>')
+  })
+
+  it('still applies input rules when the match spans a hard break (#8813)', () => {
+    editor = createEditor('<p>`a<br>b</p>')
+
+    const handled = typeAtEndOfParagraph(editor, '`')
+
+    expect(handled).toBe(true)
+    expect(editor.getHTML()).toBe('<p><code>a<br>b</code></p>')
   })
 
   it('still applies input rules when an atom precedes the match', () => {

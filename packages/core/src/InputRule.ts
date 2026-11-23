@@ -9,7 +9,9 @@ import { CommandManager } from './CommandManager.js'
 import type { Editor } from './Editor.js'
 import { createChainableState } from './helpers/createChainableState.js'
 import { getHTMLFromFragment } from './helpers/getHTMLFromFragment.js'
+import { getTextBetween } from './helpers/getTextBetween.js'
 import { getTextContentFromNodes } from './helpers/getTextContentFromNodes.js'
+import { getTextSerializersFromSchema } from './helpers/getTextSerializersFromSchema.js'
 import type {
   CanCommands,
   ChainedCommands,
@@ -201,11 +203,17 @@ function matchesDocument($from: ResolvedPos, match: ExtendedRegExpMatchArray, te
 
   const matchStartOffset = $from.parentOffset - matchedDocLength
 
-  return (
-    matchStartOffset >= 0 &&
-    $from.parent.textBetween(matchStartOffset, $from.parentOffset) ===
-      match[0].slice(0, matchedDocLength)
+  if (matchStartOffset < 0) {
+    return false
+  }
+
+  const matchedDocText = getTextBetween(
+    $from.parent,
+    { from: matchStartOffset, to: $from.parentOffset },
+    { textSerializers: getTextSerializersFromSchema($from.parent.type.schema) },
   )
+
+  return matchedDocText === match[0].slice(0, matchedDocLength)
 }
 
 function run(config: {
