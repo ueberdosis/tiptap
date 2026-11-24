@@ -249,6 +249,14 @@ describe('Android stored mark boundaries', () => {
     expect(editor.getHTML()).toBe('<p>hello<strong>!</strong></p>')
   })
 
+  it('keeps the toggle boundary after an emoji in rewritten text', () => {
+    createEditor('<p><strong>a</strong>😀</p>')
+    editor.commands.toggleItalic()
+    reconcile('a😀b')
+
+    expect(editor.getHTML()).toBe('<p><strong>a</strong>😀<em>b</em></p>')
+  })
+
   it('preserves the boundary while a keyboard deletes and restores its word', () => {
     createEditor()
     editor.commands.toggleBold()

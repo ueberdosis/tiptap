@@ -16,7 +16,8 @@ const pluginKey = new PluginKey<PendingMarks | null>('androidStoredMarks')
 function commonLengthsByPrefix(oldText: string, newText: string): number[] {
   let lengths: number[] = Array.from({ length: newText.length + 1 }, () => 0)
 
-  for (const character of oldText) {
+  // Read UTF-16 units like document positions, so emoji halves line up
+  for (const character of oldText.split('')) {
     const next = [0]
 
     for (let index = 1; index <= newText.length; index += 1) {
