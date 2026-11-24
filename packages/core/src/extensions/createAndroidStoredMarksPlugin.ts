@@ -12,6 +12,8 @@ type PendingMarks = readonly MarkBoundary[]
 
 const pluginKey = new PluginKey<PendingMarks | null>('androidStoredMarks')
 
+const isHighSurrogate = (code: number) => code >= 0xd800 && code <= 0xdbff
+
 /** Returns the length of the longest common subsequence of `oldText` and each prefix of `newText`. */
 function commonLengthsByPrefix(oldText: string, newText: string): number[] {
   let lengths: number[] = Array.from({ length: newText.length + 1 }, () => 0)
@@ -37,7 +39,14 @@ function findRewrittenEnd(oldText: string, newText: string): number | null {
   const lengths = commonLengthsByPrefix(oldText, newText)
   const common = lengths[newText.length]
 
-  return common ? lengths.indexOf(common) : null
+  if (!common) {
+    return null
+  }
+
+  const end = lengths.indexOf(common)
+
+  // Never split an emoji between its two UTF-16 halves
+  return isHighSurrogate(newText.charCodeAt(end - 1)) ? end + 1 : end
 }
 
 /** Places a boundary inside text the keyboard rewrote, following corrections that change its length. */
