@@ -228,6 +228,27 @@ describe('Android stored mark boundaries', () => {
     expect(editor.getHTML()).toBe('<p>rose<em>sx</em></p>')
   })
 
+  it('follows an autocorrection that adds a character before the toggle', () => {
+    createEditor('<p>helo</p>')
+    editor.commands.toggleBold()
+    editor.view.dom.dispatchEvent(new CompositionEvent('compositionupdate'))
+    // Gboard sends the correction and the typed space as one change
+    const transaction = editor.state.tr.insertText('lo ', 4, 5)
+
+    transaction.setSelection(TextSelection.create(transaction.doc, 7))
+    editor.view.dispatch(transaction.setMeta('composition', 1))
+
+    expect(editor.getHTML()).toBe('<p>hello<strong> </strong></p>')
+  })
+
+  it('follows an autocorrection when the keyboard replaces the whole word', () => {
+    createEditor('<p>helo</p>')
+    editor.commands.toggleBold()
+    reconcile('hello!')
+
+    expect(editor.getHTML()).toBe('<p>hello<strong>!</strong></p>')
+  })
+
   it('preserves the boundary while a keyboard deletes and restores its word', () => {
     createEditor()
     editor.commands.toggleBold()

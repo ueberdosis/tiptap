@@ -12,6 +12,51 @@ type PendingMarks = readonly MarkBoundary[]
 
 const pluginKey = new PluginKey<PendingMarks | null>('androidStoredMarks')
 
+/** Returns the length of the longest common subsequence of `oldText` and each prefix of `newText`. */
+function commonLengthsByPrefix(oldText: string, newText: string): number[] {
+  let lengths: number[] = Array.from({ length: newText.length + 1 }, () => 0)
+
+  for (const character of oldText) {
+    const next = [0]
+
+    for (let index = 1; index <= newText.length; index += 1) {
+      next[index] =
+        character === newText[index - 1]
+          ? lengths[index - 1] + 1
+          : Math.max(lengths[index], next[index - 1])
+    }
+    lengths = next
+  }
+
+  return lengths
+}
+
+/** Finds where `oldText` ends inside its rewritten `newText`, or `null` when they share no characters. */
+function findRewrittenEnd(oldText: string, newText: string): number | null {
+  const lengths = commonLengthsByPrefix(oldText, newText)
+  const common = lengths[newText.length]
+
+  return common ? lengths.indexOf(common) : null
+}
+
+/** Places a boundary inside text the keyboard rewrote, following corrections that change its length. */
+function findRewrittenOffset(
+  transaction: Transaction,
+  index: number,
+  range: { oldStart: number; from: number; newStart: number; offset: number; available: number },
+): number | null {
+  const oldText = transaction.docs[index].textBetween(range.oldStart, range.from)
+  const newDoc = transaction.docs[index + 1] ?? transaction.doc
+  const newText = newDoc.textBetween(range.newStart, range.newStart + range.available)
+
+  // Positions only match characters in plain text
+  if (oldText.length !== range.offset || newText.length !== range.available) {
+    return null
+  }
+
+  return findRewrittenEnd(oldText, newText)
+}
+
 function mapBoundary(pending: MarkBoundary, transaction: Transaction): MarkBoundary {
   let { from, deletedOffset } = pending
 
@@ -32,8 +77,10 @@ function mapBoundary(pending: MarkBoundary, transaction: Transaction): MarkBound
       if (containsBoundary || restoresBoundary) {
         const offset = from - oldStart + deletedOffset
         const available = Math.max(newEnd, caret) - newStart
+        const range = { oldStart, from, newStart, offset, available }
 
-        nextFrom = newStart + Math.min(offset, available)
+        nextFrom =
+          newStart + (findRewrittenOffset(transaction, index, range) ?? Math.min(offset, available))
         // Only a fully deleted composition is inserted again by the keyboard
         deletedOffset = available ? 0 : offset
       }
