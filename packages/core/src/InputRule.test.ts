@@ -31,9 +31,28 @@ const InlineAtomWithText = Node.create({
   renderText: () => '@mention',
 })
 
+const ShortInlineAtom = Node.create({
+  name: 'shortInlineAtom',
+  group: 'inline',
+  inline: true,
+  atom: true,
+  parseHTML: () => [{ tag: 'span[data-short-atom]' }],
+  renderHTML: () => ['span', { 'data-short-atom': '' }],
+  renderText: () => '@a',
+})
+
 const createEditor = (content: string) =>
   new Editor({
-    extensions: [Document, Paragraph, Text, InlineAtom, InlineAtomWithText, Code, HardBreak],
+    extensions: [
+      Document,
+      Paragraph,
+      Text,
+      InlineAtom,
+      InlineAtomWithText,
+      ShortInlineAtom,
+      Code,
+      HardBreak,
+    ],
     content,
   })
 
@@ -119,5 +138,28 @@ describe('input rules with inline atom nodes', () => {
 
     expect(handled).toBe(true)
     expect(editor.getHTML()).toContain('<code>code</code>')
+  })
+
+  it('does not apply the rule when atoms shift the match start', () => {
+    const content = '<p><span data-atom=""></span>`<span data-short-atom=""></span></p>'
+
+    editor = createEditor(content)
+
+    const handled = typeAtEndOfParagraph(editor, '`')
+
+    expect(handled).toBeFalsy()
+    expect(editor.getHTML()).toBe(content)
+  })
+
+  it('still applies input rules when text nodes have a text serializer', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text.extend({ renderText: ({ node }) => node.text }), Code],
+      content: '<p>prefix `code</p>',
+    })
+
+    const handled = typeAtEndOfParagraph(editor, '`')
+
+    expect(handled).toBe(true)
+    expect(editor.getHTML()).toBe('<p>prefix <code>code</code></p>')
   })
 })

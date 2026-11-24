@@ -9,9 +9,7 @@ import { CommandManager } from './CommandManager.js'
 import type { Editor } from './Editor.js'
 import { createChainableState } from './helpers/createChainableState.js'
 import { getHTMLFromFragment } from './helpers/getHTMLFromFragment.js'
-import { getTextBetween } from './helpers/getTextBetween.js'
 import { getTextContentFromNodes } from './helpers/getTextContentFromNodes.js'
-import { getTextSerializersFromSchema } from './helpers/getTextSerializersFromSchema.js'
 import type {
   CanCommands,
   ChainedCommands,
@@ -207,13 +205,26 @@ function matchesDocument($from: ResolvedPos, match: ExtendedRegExpMatchArray, te
     return false
   }
 
-  const matchedDocText = getTextBetween(
-    $from.parent,
-    { from: matchStartOffset, to: $from.parentOffset },
-    { textSerializers: getTextSerializersFromSchema($from.parent.type.schema) },
-  )
+  let matchedDocText = ''
+  let positionsMatch = true
 
-  return matchedDocText === match[0].slice(0, matchedDocLength)
+  $from.parent.nodesBetween(matchStartOffset, $from.parentOffset, (node, pos, parent, index) => {
+    if (node.isText) {
+      matchedDocText += node.text!.slice(
+        Math.max(0, matchStartOffset - pos),
+        $from.parentOffset - pos,
+      )
+      return
+    }
+
+    // Each leaf must take as many characters as positions, like a hard break.
+    const nodeText = node.type.spec.toText?.({ node, pos, parent, index }) ?? ''
+
+    positionsMatch &&= nodeText.length === node.nodeSize
+    matchedDocText += nodeText
+  })
+
+  return positionsMatch && matchedDocText === match[0].slice(0, matchedDocLength)
 }
 
 function run(config: {
