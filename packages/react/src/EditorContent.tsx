@@ -1,11 +1,15 @@
 import type { Editor } from '@tiptap/core'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
 import type { ForwardedRef, HTMLProps, LegacyRef, MutableRefObject } from 'react'
 import React, { forwardRef } from 'react'
 import ReactDOM from 'react-dom'
 import { useSyncExternalStore } from 'use-sync-external-store/shim/index.js'
 
 import type { ContentComponent, EditorWithContentComponent } from './Editor.js'
+import { handleMobileEnter } from './handleMobileEnter.js'
 import type { ReactRenderer } from './ReactRenderer.js'
+
+const mobileEnterPluginKey = new PluginKey('reactMobileEnter')
 
 const mergeRefs = <T extends HTMLDivElement>(
   ...refs: Array<MutableRefObject<T> | LegacyRef<T> | undefined>
@@ -121,22 +125,27 @@ export class PureEditorContent extends React.Component<
   init() {
     const editor = this.props.editor as EditorWithContentComponent | null
 
-    if (editor && !editor.isDestroyed && editor.view.dom?.parentNode) {
+    if (editor && !editor.isDestroyed) {
       if (editor.contentComponent) {
         return
       }
 
       const element = this.editorContentRef.current
 
-      element.append(...editor.view.dom.parentNode.childNodes)
-
-      editor.setOptions({
-        element,
-      })
-
+      editor.unmount()
       editor.contentComponent = createContentComponent()
+      editor.mount(element)
 
-      editor.createNodeViews()
+      editor.registerPlugin(
+        new Plugin({
+          key: mobileEnterPluginKey,
+          props: {
+            handleDOMEvents: {
+              beforeinput: (_view, event) => handleMobileEnter(editor, event),
+            },
+          },
+        }),
+      )
 
       editor.isEditorContentInitialized = true
 
@@ -154,31 +163,10 @@ export class PureEditorContent extends React.Component<
     editor.isEditorContentInitialized = false
 
     if (!editor.isDestroyed) {
-      editor.view.setProps({
-        nodeViews: {},
-      })
+      editor.unregisterPlugin(mobileEnterPluginKey)
     }
-
+    editor.unmount()
     editor.contentComponent = null
-
-    // try to reset the editor element
-    // may fail if this editor's view.dom was never initialized/mounted yet
-    try {
-      if (!editor.view.dom?.parentNode) {
-        return
-      }
-
-      // TODO using the new editor.mount method might allow us to remove this
-      const newElement = document.createElement('div')
-
-      newElement.append(...editor.view.dom.parentNode.childNodes)
-
-      editor.setOptions({
-        element: newElement,
-      })
-    } catch {
-      // do nothing, nothing to reset
-    }
   }
 
   render() {

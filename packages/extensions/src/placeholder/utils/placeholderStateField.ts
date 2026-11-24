@@ -1,10 +1,11 @@
 import type { Editor } from '@tiptap/core'
 import { getChangedRanges } from '@tiptap/core'
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import type { EditorState, StateField, Transaction } from '@tiptap/pm/state'
 import type { Selection } from '@tiptap/pm/state'
 import { DecorationSet } from '@tiptap/pm/view'
 
+import { placeholderSettingsPluginKey } from '../placeholderSettingsPluginKey.js'
 import type { PlaceholderOptions } from '../types.js'
 import {
   buildPlaceholderDecorations,
@@ -22,6 +23,7 @@ export type CreatePlaceholderStateFieldOptions = {
   editor: Editor
   options: PlaceholderOptions
   dataAttribute: string
+  getOptions?: (state: EditorState) => PlaceholderOptions
 }
 
 /**
@@ -30,7 +32,7 @@ export type CreatePlaceholderStateFieldOptions = {
  * adjacent empty nodes (e.g. a new paragraph after Enter).
  */
 function collectBlocksForChange(
-  doc: Node,
+  doc: PMNode,
   change: { from: number; to: number },
 ): Array<{ from: number; to: number }> {
   const ranges = getTopLevelBlocksInRange(doc, change.from, change.to)
@@ -94,7 +96,7 @@ function collectRescanRanges(
 }
 
 /** Clamps a content-relative range to `[0, doc.content.size]`. */
-function clampRange(from: number, to: number, doc: Node): { from: number; to: number } {
+function clampRange(from: number, to: number, doc: PMNode): { from: number; to: number } {
   const clampedFrom = Math.max(0, Math.min(from, doc.content.size))
   const clampedTo = Math.max(clampedFrom, Math.min(to, doc.content.size))
 
@@ -120,7 +122,7 @@ function updateDecorationsInRanges({
   editor: Editor
   options: PlaceholderOptions
   dataAttribute: string
-  doc: Node
+  doc: PMNode
   selection: Selection
 }): DecorationSet {
   let next = decorations
@@ -168,12 +170,13 @@ export function createPlaceholderStateField({
   editor,
   options,
   dataAttribute,
+  getOptions = () => options,
 }: CreatePlaceholderStateFieldOptions): StateField<DecorationSet> {
   return {
     init(_config, state: EditorState) {
       const decorations = buildPlaceholderDecorations({
         editor,
-        options,
+        options: getOptions(state),
         dataAttribute,
         doc: state.doc,
         selection: state.selection,
@@ -183,6 +186,20 @@ export function createPlaceholderStateField({
     },
 
     apply(tr: Transaction, prev: DecorationSet, oldState: EditorState, newState: EditorState) {
+      const currentOptions = getOptions(newState)
+
+      if (tr.getMeta(placeholderSettingsPluginKey) !== undefined) {
+        return (
+          buildPlaceholderDecorations({
+            editor,
+            options: currentOptions,
+            dataAttribute,
+            doc: newState.doc,
+            selection: newState.selection,
+          }) ?? DecorationSet.empty
+        )
+      }
+
       if (!tr.docChanged && !tr.selectionSet) {
         return prev
       }
@@ -194,7 +211,7 @@ export function createPlaceholderStateField({
         decorations: mapped,
         ranges,
         editor,
-        options,
+        options: currentOptions,
         dataAttribute,
         doc: newState.doc,
         selection: newState.selection,

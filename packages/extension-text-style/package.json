@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/extension-text-style",
-  "version": "3.28.0",
+  "version": "3.30.3",
   "description": "text style extension for tiptap",
   "keywords": [
     "tiptap",
@@ -95,7 +95,7 @@
     }
   },
   "scripts": {
-    "build": "tsup"
+    "build": "vp pack"
   },
   "devDependencies": {
     "@tiptap/core": "workspace:^"

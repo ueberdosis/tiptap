@@ -1,5 +1,62 @@
 # Change Log
 
+## 3.30.3
+
+### Patch Changes
+
+- Updated dependencies [965a880]
+  - @tiptap/core@3.30.3
+
+## 3.30.2
+
+### Patch Changes
+
+- Updated dependencies [3dffed5]
+- Updated dependencies [214a140]
+  - @tiptap/core@3.30.2
+
+## 3.30.1
+
+### Patch Changes
+
+- Updated dependencies [abc8828]
+  - @tiptap/core@3.30.1
+
+## 3.30.0
+
+### Patch Changes
+
+- Updated dependencies [0247d39]
+- Updated dependencies [51909d3]
+- Updated dependencies [3099eef]
+  - @tiptap/core@3.30.0
+
+## 3.29.2
+
+### Patch Changes
+
+- @tiptap/core@3.29.2
+
+## 3.29.1
+
+### Patch Changes
+
+- @tiptap/core@3.29.1
+
+## 3.29.0
+
+### Patch Changes
+
+- c999bd6: Fixed a bug where inserted hard breaks would not scroll the view on insertion via commands.
+- Updated dependencies [d26840f]
+- Updated dependencies [935e63f]
+- Updated dependencies [b4c5a2d]
+- Updated dependencies [a963d48]
+- Updated dependencies [51f45b6]
+- Updated dependencies [0f63969]
+- Updated dependencies [9acaa65]
+  - @tiptap/core@3.29.0
+
 ## 3.28.0
 
 ### Patch Changes

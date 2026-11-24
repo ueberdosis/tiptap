@@ -1,6 +1,6 @@
 import type { Editor } from '@tiptap/core'
 import { getSelectionRanges, NodeRangeSelection } from '@tiptap/extension-node-range'
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import { type SelectionRange, NodeSelection } from '@tiptap/pm/state'
 
 import type { NormalizedNestedOptions } from '../types/options.js'
@@ -10,7 +10,7 @@ import { getDraggedBlockDir, getDraggedBlockElement } from './getDraggedBlockDir
 import { removeNode } from './removeNode.js'
 
 export interface DragContext {
-  node: Node | null
+  node: PMNode | null
   pos: number
 }
 

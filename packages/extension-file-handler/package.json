@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/extension-file-handler",
-  "version": "3.28.0",
+  "version": "3.30.3",
   "description": "file handler extension for tiptap",
   "keywords": [
     "tiptap",
@@ -39,7 +39,7 @@
     }
   },
   "scripts": {
-    "build": "tsup"
+    "build": "vp pack"
   },
   "devDependencies": {
     "@tiptap/core": "workspace:^",

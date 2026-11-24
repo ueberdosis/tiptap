@@ -1,0 +1,403 @@
+import { Editor } from '@tiptap/core'
+import Document from '@tiptap/extension-document'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
+import { PluginKey } from '@tiptap/pm/state'
+import { describe, expect, it, vi } from 'vite-plus/test'
+
+import { BubbleMenuView } from './bubble-menu-plugin.js'
+
+const { computePositionMock } = vi.hoisted(() => ({
+  computePositionMock: vi.fn(),
+}))
+
+vi.mock('@floating-ui/dom', async importOriginal => {
+  const actual = await importOriginal<typeof import('@floating-ui/dom')>()
+
+  return {
+    ...actual,
+    computePosition: computePositionMock,
+  }
+})
+
+const virtualElement = {
+  getBoundingClientRect: () => new DOMRect(0, 0, 10, 10),
+  getClientRects: () => [new DOMRect(0, 0, 10, 10)],
+}
+
+function createEditor(content = '<p>Hello world</p>') {
+  return new Editor({
+    extensions: [Document, Paragraph, Text],
+    content,
+  })
+}
+
+function createBubbleMenuView(
+  editor: Editor,
+  overrides: Partial<ConstructorParameters<typeof BubbleMenuView>[0]> = {},
+) {
+  return new BubbleMenuView({
+    editor,
+    element: document.createElement('div'),
+    pluginKey: 'bubbleMenu',
+    view: editor.view,
+    shouldShow: () => false,
+    ...overrides,
+  })
+}
+
+describe('BubbleMenuView cross-contamination', () => {
+  it('should only process updateOptions for its own pluginKey (string)', () => {
+    const editor = createEditor()
+
+    const view1 = createBubbleMenuView(editor, { pluginKey: 'bubbleMenu1' })
+    const view2 = createBubbleMenuView(editor, { pluginKey: 'bubbleMenu2' })
+
+    const spy1 = vi.spyOn(view1, 'updateOptions')
+    const spy2 = vi.spyOn(view2, 'updateOptions')
+
+    const newOptions = { updateDelay: 999 }
+
+    editor.view.dispatch(
+      editor.state.tr.setMeta('bubbleMenu1', {
+        type: 'updateOptions',
+        options: newOptions,
+      }),
+    )
+
+    expect(spy1).toHaveBeenCalledTimes(1)
+    expect(spy1).toHaveBeenCalledWith(newOptions)
+    expect(spy2).not.toHaveBeenCalled()
+
+    view1.destroy()
+    view2.destroy()
+    editor.destroy()
+  })
+  it('should only process updateOptions for its own pluginKey (PluginKey instance)', () => {
+    const editor = createEditor()
+
+    const key1 = new PluginKey('customBubbleA')
+    const key2 = new PluginKey('customBubbleB')
+
+    const view1 = createBubbleMenuView(editor, { pluginKey: key1 })
+    const view2 = createBubbleMenuView(editor, { pluginKey: key2 })
+
+    const spy1 = vi.spyOn(view1, 'updateOptions')
+    const spy2 = vi.spyOn(view2, 'updateOptions')
+
+    const newOptions = { updateDelay: 500 }
+
+    editor.view.dispatch(
+      editor.state.tr.setMeta('customBubbleA$', {
+        type: 'updateOptions',
+        options: newOptions,
+      }),
+    )
+
+    expect(spy1).toHaveBeenCalledTimes(1)
+    expect(spy1).toHaveBeenCalledWith(newOptions)
+    expect(spy2).not.toHaveBeenCalled()
+
+    view1.destroy()
+    view2.destroy()
+    editor.destroy()
+  })
+  it('should only process updatePosition for its own pluginKey', () => {
+    const editor = createEditor()
+
+    const view1 = createBubbleMenuView(editor, { pluginKey: 'bubbleMenu1' })
+    const view2 = createBubbleMenuView(editor, { pluginKey: 'bubbleMenu2' })
+
+    const spy1 = vi.spyOn(view1, 'updatePosition')
+    const spy2 = vi.spyOn(view2, 'updatePosition')
+
+    editor.view.dispatch(editor.state.tr.setMeta('bubbleMenu1', 'updatePosition'))
+
+    expect(spy1).toHaveBeenCalledTimes(1)
+    expect(spy2).not.toHaveBeenCalled()
+
+    view1.destroy()
+    view2.destroy()
+    editor.destroy()
+  })
+  it('should not cross-contaminate options between two instances', () => {
+    const editor = createEditor()
+
+    const view1 = createBubbleMenuView(editor, {
+      pluginKey: 'bubbleMenu1',
+      updateDelay: 100,
+    })
+    const view2 = createBubbleMenuView(editor, {
+      pluginKey: 'bubbleMenu2',
+      updateDelay: 200,
+    })
+
+    editor.view.dispatch(
+      editor.state.tr.setMeta('bubbleMenu1', {
+        type: 'updateOptions',
+        options: { updateDelay: 999 },
+      }),
+    )
+
+    expect(view1.updateDelay).toBe(999)
+    expect(view2.updateDelay).toBe(200)
+
+    editor.view.dispatch(
+      editor.state.tr.setMeta('bubbleMenu2', {
+        type: 'updateOptions',
+        options: { updateDelay: 777 },
+      }),
+    )
+
+    expect(view1.updateDelay).toBe(999)
+    expect(view2.updateDelay).toBe(777)
+
+    view1.destroy()
+    view2.destroy()
+    editor.destroy()
+  })
+  it('should maintain backward compatibility with default "bubbleMenu" pluginKey', () => {
+    const editor = createEditor()
+
+    const view = createBubbleMenuView(editor)
+
+    const spy = vi.spyOn(view, 'updateOptions')
+    const newOptions = { updateDelay: 500 }
+
+    editor.view.dispatch(
+      editor.state.tr.setMeta('bubbleMenu', {
+        type: 'updateOptions',
+        options: newOptions,
+      }),
+    )
+
+    expect(spy).toHaveBeenCalledTimes(1)
+    expect(spy).toHaveBeenCalledWith(newOptions)
+
+    view.destroy()
+    editor.destroy()
+  })
+
+  it('should not make a hidden menu visible when updating its position', async () => {
+    const editor = createEditor()
+    const view = createBubbleMenuView(editor, {
+      getReferencedVirtualElement: () => virtualElement,
+    })
+
+    computePositionMock.mockResolvedValue({
+      x: 10,
+      y: 20,
+      strategy: 'absolute',
+      placement: 'top',
+      middlewareData: {},
+    })
+
+    view.element.style.visibility = 'hidden'
+
+    view.updatePosition()
+    await Promise.resolve()
+
+    expect(view.element.style.visibility).toBe('hidden')
+    expect(view.element.style.left).toBe('')
+    expect(view.element.style.top).toBe('')
+
+    computePositionMock.mockReset()
+    view.destroy()
+    editor.destroy()
+  })
+
+  it('should ignore late position updates after the menu is hidden', async () => {
+    const editor = createEditor()
+    const view = createBubbleMenuView(editor, {
+      getReferencedVirtualElement: () => virtualElement,
+    })
+
+    let resolvePosition:
+      | ((value: {
+          x: number
+          y: number
+          strategy: 'absolute'
+          placement: 'top'
+          middlewareData: Record<string, never>
+        }) => void)
+      | undefined
+
+    computePositionMock.mockImplementation(
+      () =>
+        new Promise(resolve => {
+          resolvePosition = resolve
+        }),
+    )
+
+    view.show()
+    view.updatePosition()
+    view.hide()
+
+    resolvePosition?.({
+      x: 10,
+      y: 20,
+      strategy: 'absolute',
+      placement: 'top',
+      middlewareData: {},
+    })
+    await Promise.resolve()
+
+    expect(view.element.style.visibility).toBe('hidden')
+    expect(view.element.style.left).toBe('')
+    expect(view.element.style.top).toBe('')
+
+    computePositionMock.mockReset()
+    view.destroy()
+  })
+
+  it('should only process show for its own pluginKey', () => {
+    const editor = createEditor()
+
+    const view1 = createBubbleMenuView(editor, { pluginKey: 'bubbleMenu1' })
+    const view2 = createBubbleMenuView(editor, { pluginKey: 'bubbleMenu2' })
+
+    const spy1 = vi.spyOn(view1, 'show')
+    const spy2 = vi.spyOn(view2, 'show')
+
+    editor.view.dispatch(editor.state.tr.setMeta('bubbleMenu1', 'show'))
+
+    expect(spy1).toHaveBeenCalledTimes(1)
+    expect(spy2).not.toHaveBeenCalled()
+
+    view1.destroy()
+    view2.destroy()
+    editor.destroy()
+  })
+  it('should only process hide for its own pluginKey', () => {
+    const editor = createEditor()
+
+    const view1 = createBubbleMenuView(editor, { pluginKey: 'bubbleMenu1' })
+    const view2 = createBubbleMenuView(editor, { pluginKey: 'bubbleMenu2' })
+
+    const spy1 = vi.spyOn(view1, 'hide')
+    const spy2 = vi.spyOn(view2, 'hide')
+
+    editor.view.dispatch(editor.state.tr.setMeta('bubbleMenu1', 'hide'))
+
+    expect(spy1).toHaveBeenCalledTimes(1)
+    expect(spy2).not.toHaveBeenCalled()
+
+    view1.destroy()
+    view2.destroy()
+    editor.destroy()
+  })
+})
+
+describe('BubbleMenuView IME composition', () => {
+  it('hides the menu once the composition ends', async () => {
+    const editor = createEditor('<p></p>')
+    const shouldShow = vi.fn(() => true)
+    const onHide = vi.fn()
+
+    // shouldShow is true, so the constructor positions the menu right away.
+    computePositionMock.mockResolvedValue({
+      x: 0,
+      y: 0,
+      strategy: 'absolute',
+      placement: 'top',
+      middlewareData: {},
+    })
+
+    const view = createBubbleMenuView(editor, {
+      shouldShow,
+      updateDelay: 0,
+      options: { onHide },
+    })
+
+    view.show()
+
+    const oldState = editor.state
+
+    // Text is inserted while composing is still true.
+    editor.view.dispatch(editor.state.tr.insertText('가'))
+    const composing = vi.spyOn(editor.view, 'composing', 'get').mockReturnValue(true)
+
+    shouldShow.mockClear()
+    view.update(editor.view, oldState)
+    expect(shouldShow).not.toHaveBeenCalled()
+    expect(onHide).not.toHaveBeenCalled()
+
+    // The composition flush brings no further change, so only compositionend can trigger it.
+    shouldShow.mockReturnValue(false)
+    composing.mockReturnValue(false)
+    editor.view.dom.dispatchEvent(new Event('compositionend'))
+    await new Promise(resolve => {
+      setTimeout(resolve)
+    })
+
+    expect(shouldShow).toHaveBeenCalled()
+    expect(onHide).toHaveBeenCalled()
+
+    composing.mockRestore()
+    computePositionMock.mockReset()
+    view.destroy()
+    editor.destroy()
+  })
+
+  it('removes the compositionend listener on destroy', async () => {
+    const editor = createEditor('<p></p>')
+    const shouldShow = vi.fn(() => false)
+    const view = createBubbleMenuView(editor, { shouldShow, updateDelay: 0 })
+
+    view.destroy()
+    shouldShow.mockClear()
+
+    editor.view.dom.dispatchEvent(new Event('compositionend'))
+    await new Promise(resolve => {
+      setTimeout(resolve)
+    })
+
+    expect(shouldShow).not.toHaveBeenCalled()
+
+    editor.destroy()
+  })
+
+  it('cancels the debounced update when the view is destroyed', async () => {
+    const editor = createEditor('<p>Hello world</p>')
+    // A non-empty selection sends update() down the debounced path instead of running inline.
+    editor.commands.setTextSelection({ from: 1, to: 6 })
+
+    const shouldShow = vi.fn(() => false)
+    const view = createBubbleMenuView(editor, { shouldShow, updateDelay: 20 })
+
+    editor.view.dom.dispatchEvent(new Event('compositionend'))
+    await new Promise(resolve => {
+      setTimeout(resolve)
+    })
+
+    shouldShow.mockClear()
+    view.destroy()
+
+    await new Promise(resolve => {
+      setTimeout(resolve, 40)
+    })
+
+    expect(shouldShow).not.toHaveBeenCalled()
+
+    editor.destroy()
+  })
+
+  it('cancels a pending update when the view is destroyed while the editor lives on', async () => {
+    const editor = createEditor('<p></p>')
+    const shouldShow = vi.fn(() => false)
+    const view = createBubbleMenuView(editor, { shouldShow, updateDelay: 0 })
+
+    editor.view.dom.dispatchEvent(new Event('compositionend'))
+    shouldShow.mockClear()
+    view.destroy()
+
+    await new Promise(resolve => {
+      setTimeout(resolve)
+    })
+
+    expect(editor.isDestroyed).toBe(false)
+    expect(shouldShow).not.toHaveBeenCalled()
+
+    editor.destroy()
+  })
+})

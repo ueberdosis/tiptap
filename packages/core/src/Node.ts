@@ -1,4 +1,4 @@
-import type { DOMOutputSpec, Node as ProseMirrorNode, NodeSpec, NodeType } from '@tiptap/pm/model'
+import type { DOMOutputSpec, Node as PMNode, NodeSpec, NodeType } from '@tiptap/pm/model'
 
 import type { Editor } from './Editor.js'
 import type { ExtendableConfig } from './Extendable.js'
@@ -295,7 +295,7 @@ export interface NodeConfig<Options = any, Storage = any> extends ExtendableConf
           editor?: Editor
         },
         props: {
-          node: ProseMirrorNode
+          node: PMNode
           HTMLAttributes: Record<string, any>
         },
       ) => DOMOutputSpec)
@@ -315,9 +315,9 @@ export interface NodeConfig<Options = any, Storage = any> extends ExtendableConf
           editor?: Editor
         },
         props: {
-          node: ProseMirrorNode
+          node: PMNode
           pos: number
-          parent: ProseMirrorNode
+          parent: PMNode
           index: number
         },
       ) => string)

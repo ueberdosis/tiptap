@@ -1,4 +1,4 @@
-import { VueRenderer } from '@tiptap/vue-3'
+import { VueRenderer } from '@tiptap/vue'
 
 import { updatePosition } from '../../../utils/updatePosition.js'
 import MentionList from './MentionList.vue'
@@ -62,10 +62,6 @@ export default {
         }
 
         component = new VueRenderer(MentionList, {
-          // using vue 2:
-          // parent: this,
-          // propsData: props,
-          // using vue 3:
           props,
           editor: props.editor,
         })

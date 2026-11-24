@@ -1,0 +1,58 @@
+import type { Node as PMNode } from '@tiptap/pm/model'
+import type { Transform } from '@tiptap/pm/transform'
+
+import type { FindAndReplaceMeta, FindAndReplacePluginState } from '../plugin/plugin-state.js'
+import { searchTextblocks } from '../search/search.js'
+
+import { addContinuedTextblocks } from './addContinuedTextblocks.js'
+import { getChangedTextblocks } from './getChangedTextblocks.js'
+import { hasCurrentIndex } from './hasCurrentIndex.js'
+import { keepsVisitedResult } from './keepsVisitedResult.js'
+import { mapResult } from './mapResult.js'
+import { mapResults } from './mapResults.js'
+import { mergeResults } from './mergeResults.js'
+import { refreshDecorations } from './refreshDecorations.js'
+import { resolveCurrentIndex } from './resolveCurrentIndex.js'
+import { resultInTextblocks } from './resultInTextblocks.js'
+
+export function refreshDocumentState(
+  previousState: FindAndReplacePluginState,
+  state: FindAndReplacePluginState,
+  doc: PMNode,
+  meta: FindAndReplaceMeta | undefined,
+  transform: Transform,
+): FindAndReplacePluginState {
+  const { mapping } = transform
+  const textblocks = addContinuedTextblocks(
+    doc,
+    getChangedTextblocks(doc, transform),
+    state.continuesNode,
+  )
+  const mappedResults = mapResults(previousState.results, mapping)
+  const unaffectedResults = mappedResults.filter(result => !resultInTextblocks(result, textblocks))
+  const changedResults = searchTextblocks(textblocks, state.searchTerm, state, doc)
+  const results = mergeResults(unaffectedResults, changedResults)
+  const currentIndex = resolveCurrentIndex(previousState, results, meta, true, mapping)
+  const previousCurrent =
+    previousState.currentIndex === null
+      ? null
+      : mapResult(previousState.results[previousState.currentIndex], mapping)
+  const current = currentIndex === null ? null : results[currentIndex]
+  const decorations = previousState.decorations.map(mapping, doc)
+
+  return {
+    ...state,
+    results,
+    currentIndex,
+    currentResultVisited:
+      hasCurrentIndex(meta) || keepsVisitedResult(previousState, current, previousCurrent),
+    decorations: refreshDecorations(
+      decorations,
+      doc,
+      results,
+      currentIndex,
+      textblocks,
+      previousCurrent,
+    ),
+  }
+}

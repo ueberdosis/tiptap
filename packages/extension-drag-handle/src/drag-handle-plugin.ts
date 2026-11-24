@@ -1,7 +1,7 @@
 import { type ComputePositionConfig, type VirtualElement, computePosition } from '@floating-ui/dom'
 import { type Editor, isFirefox } from '@tiptap/core'
 import { isChangeOrigin } from '@tiptap/extension-collaboration'
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import { type EditorState, type Transaction, Plugin, PluginKey } from '@tiptap/pm/state'
 import type { EditorView } from '@tiptap/pm/view'
 import {
@@ -9,18 +9,19 @@ import {
   relativePositionToAbsolutePosition,
   ySyncPluginKey,
 } from '@tiptap/y-tiptap'
+import type { RelativePosition } from '@tiptap/y-tiptap'
 
 import { dragHandler } from './helpers/dragHandler.js'
 import { findElementNextToCoords } from './helpers/findNextElementFromCursor.js'
 import { getOuterNode, getOuterNodePos } from './helpers/getOuterNode.js'
 import {
-  type ActiveDragRange,
   createDroppedNodeRangeSelection,
   getActiveDragRange,
   mapPendingRestoreAnchor,
 } from './helpers/nodeRangeDrop.js'
 import { removeNode } from './helpers/removeNode.js'
 import type { NormalizedNestedOptions } from './types/options.js'
+import type { ActiveDragRange } from './types/activeDragRange.js'
 
 type PluginState = {
   locked: boolean
@@ -36,13 +37,13 @@ const getRelativePos = (state: EditorState, absolutePos: number) => {
   return absolutePositionToRelativePosition(absolutePos, ystate.type, ystate.binding.mapping)
 }
 
-// biome-ignore lint/suspicious/noExplicitAny: y-prosemirror (and y-tiptap by extension) does not have types for relative positions
-const getAbsolutePos = (state: EditorState, relativePos: any) => {
+const getAbsolutePos = (state: EditorState, relativePos: RelativePosition | null) => {
   const ystate = ySyncPluginKey.getState(state)
 
   if (!ystate) {
     return -1
   }
+  if (relativePos === null) return 0
 
   return (
     relativePositionToAbsolutePosition(
@@ -73,7 +74,7 @@ export interface DragHandlePluginProps {
   pluginKey?: PluginKey | string
   editor: Editor
   element: HTMLElement
-  onNodeChange?: (data: { editor: Editor; node: Node | null; pos: number }) => void
+  onNodeChange?: (data: { editor: Editor; node: PMNode | null; pos: number }) => void
   onElementDragStart?: (e: DragEvent) => void
   onElementDragEnd?: (e: DragEvent) => void
   computePositionConfig?: ComputePositionConfig
@@ -98,10 +99,9 @@ export const DragHandlePlugin = ({
 }: DragHandlePluginProps) => {
   const wrapper = document.createElement('div')
   let locked = false
-  let currentNode: Node | null = null
+  let currentNode: PMNode | null = null
   let currentNodePos = -1
-  // biome-ignore lint/suspicious/noExplicitAny: See above - relative positions in y-prosemirror are not typed
-  let currentNodeRelPos: any
+  let currentNodeRelPos: RelativePosition | null = null
   let rafId: number | null = null
   let pendingMouseCoords: { x: number; y: number } | null = null
   let activeDragRange: ActiveDragRange | null = null

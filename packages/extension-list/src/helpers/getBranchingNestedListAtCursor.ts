@@ -1,12 +1,12 @@
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import type { EditorState } from '@tiptap/pm/state'
 
 export type BranchingNestedListAtCursor = {
   listItemDepth: number
-  nestedList: Node
+  nestedList: PMNode
   nestedListPos: number
   insertPos: number
-  items: Node[]
+  items: PMNode[]
 }
 
 /**
@@ -96,7 +96,7 @@ export const getBranchingNestedListAtCursor = (
     return null
   }
 
-  const items: Node[] = []
+  const items: PMNode[] = []
 
   nodeAfter.forEach(child => {
     items.push(child)

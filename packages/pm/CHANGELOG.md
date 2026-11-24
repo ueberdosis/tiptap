@@ -1,5 +1,27 @@
 # Change Log
 
+## 3.30.3
+
+## 3.30.2
+
+## 3.30.1
+
+## 3.30.0
+
+### Patch Changes
+
+- 58a8953: Fix the `./schema-list` export map pointing `types` at `dist/schema/`, which is not emitted. Tools that read the `types` condition directly could not resolve `@tiptap/pm/schema-list`.
+
+## 3.29.2
+
+## 3.29.1
+
+## 3.29.0
+
+### Patch Changes
+
+- e150ee0: Bump `prosemirror-model` to `^1.25.11`, fixing pasting content copied from the editor inserting extra empty paragraphs (a regression introduced in `prosemirror-view` 1.42.0).
+
 ## 3.28.0
 
 ## 3.27.4

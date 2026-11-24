@@ -1,4 +1,4 @@
-import type { Node as ProseMirrorNode, NodeType } from '@tiptap/pm/model'
+import type { Node as PMNode, NodeType } from '@tiptap/pm/model'
 import { canJoin, findWrapping } from '@tiptap/pm/transform'
 
 import type { Editor } from '../Editor.js'
@@ -34,7 +34,7 @@ export function wrappingInputRule(config: {
     | ((match: ExtendedRegExpMatchArray) => Record<string, any>)
     | false
     | null
-  joinPredicate?: (match: ExtendedRegExpMatchArray, node: ProseMirrorNode) => boolean
+  joinPredicate?: (match: ExtendedRegExpMatchArray, node: PMNode) => boolean
 }) {
   return new InputRule({
     find: config.find,

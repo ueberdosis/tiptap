@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core'
+import { Extension, isValidCSSStyleValue } from '@tiptap/core'
 
 export interface TextAlignOptions {
   /**
@@ -77,7 +77,10 @@ export const TextAlign = Extension.create<TextAlignOptions>({
                 : this.options.defaultAlignment
             },
             renderHTML: attributes => {
-              if (!attributes.textAlign) {
+              if (
+                !isValidCSSStyleValue(attributes.textAlign) ||
+                !this.options.alignments.includes(attributes.textAlign)
+              ) {
                 return {}
               }
 

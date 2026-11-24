@@ -1,6 +1,7 @@
-import type { Fragment, Node as ProseMirrorNode, ParseOptions } from '@tiptap/pm/model'
+import type { Fragment, Node as PMNode, ParseOptions } from '@tiptap/pm/model'
 
 import { createDocument } from '../helpers/createDocument.js'
+import { isFragment } from '../helpers/isFragment.js'
 import type { Content, RawCommands } from '../types.js'
 
 export interface SetContentOptions {
@@ -28,15 +29,14 @@ declare module '@tiptap/core' {
       /**
        * Replace the whole document with new content.
        * @param content The new content.
-       * @param emitUpdate Whether to emit an update event.
-       * @param parseOptions Options for parsing the content.
+       * @param options Options for `setContent`.
        * @example editor.commands.setContent('<p>Example text</p>')
        */
       setContent: (
         /**
          * The new content.
          */
-        content: Content | Fragment | ProseMirrorNode,
+        content: Content | Fragment | PMNode,
 
         /**
          * Options for `setContent`.
@@ -60,7 +60,9 @@ export const setContent: RawCommands['setContent'] =
       })
 
       if (dispatch) {
-        tr.replaceWith(0, doc.content.size, document).setMeta('preventUpdate', !emitUpdate)
+        const nodes = isFragment(document) ? document.content : [document]
+
+        tr.replaceWith(0, doc.content.size, nodes).setMeta('preventUpdate', !emitUpdate)
       }
       return true
     }

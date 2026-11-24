@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/extension-color",
-  "version": "3.28.0",
+  "version": "3.30.3",
   "description": "text color extension for tiptap",
   "keywords": [
     "tiptap",
@@ -39,7 +39,7 @@
     }
   },
   "scripts": {
-    "build": "tsup"
+    "build": "vp pack"
   },
   "devDependencies": {
     "@tiptap/extension-text-style": "workspace:^"

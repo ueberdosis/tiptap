@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/extension-link",
-  "version": "3.28.0",
+  "version": "3.30.3",
   "description": "link extension for tiptap",
   "keywords": [
     "tiptap",
@@ -39,14 +39,15 @@
     }
   },
   "scripts": {
-    "build": "tsup"
+    "build": "vp pack"
   },
   "dependencies": {
     "linkifyjs": "^4.3.3"
   },
   "devDependencies": {
     "@tiptap/core": "workspace:^",
-    "@tiptap/pm": "workspace:^"
+    "@tiptap/pm": "workspace:^",
+    "vite-plus": "catalog:"
   },
   "peerDependencies": {
     "@tiptap/core": "workspace:*",

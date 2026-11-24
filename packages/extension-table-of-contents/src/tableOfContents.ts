@@ -30,7 +30,7 @@ const addTocActiveStatesAndGetItems = (
   const scrolledOverIds: string[] = []
   let activeId: string | null = null
 
-  if (editor.isDestroyed) {
+  if (!editor.isMounted) {
     return content
   }
 
@@ -81,7 +81,7 @@ const setTocData = (options: {
 }) => {
   const { editor } = options
 
-  if (editor.isDestroyed) {
+  if (!editor.isMounted) {
     return
   }
 
@@ -242,6 +242,19 @@ export const TableOfContents = Extension.create<TableOfContentsOptions, TableOfC
           return true
         },
     }
+  },
+
+  onBeforeCreate() {
+    this.editor.on('mount', () => {
+      setTocData({
+        editor: this.editor,
+        storage: this.storage,
+        onUpdate: this.options.onUpdate?.bind(this),
+        getIndexFn: this.options.getIndex || getLinearIndexes,
+        getLevelFn: this.options.getLevel || getHeadlineLevel,
+        anchorTypes: this.options.anchorTypes,
+      })
+    })
   },
 
   onTransaction({ transaction }) {

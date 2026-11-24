@@ -7,7 +7,7 @@ import {
   mergeAttributes,
   Node,
 } from '@tiptap/core'
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import { Plugin, PluginKey, Selection, TextSelection } from '@tiptap/pm/state'
 import type { ViewMutationRecord } from '@tiptap/pm/view'
 
@@ -27,7 +27,7 @@ export interface DetailsRenderToggleButtonOptions {
   /**
    * The current node used to derive toggle button state.
    */
-  node: ProseMirrorNode
+  node: PMNode
 }
 
 export interface DetailsOptions {
@@ -39,6 +39,14 @@ export interface DetailsOptions {
    * Specifies a CSS class that is set when toggling the content. Defaults to `is-open`.
    */
   openClassName: string
+  /**
+   * Show a details node that is created open as open as soon as it is drawn.
+   * By default it is opened one tick later, so code that measures right after drawing
+   * reads it closed. Only has an effect together with `persist`. Defaults to `false`.
+   * @example
+   * Details.configure({ persist: true, openWithoutDelay: true })
+   */
+  openWithoutDelay?: boolean
   /**
    * Custom HTML attributes that should be added to the rendered HTML tag.
    */
@@ -84,6 +92,7 @@ export const Details = Node.create<DetailsOptions>({
     return {
       persist: false,
       openClassName: 'is-open',
+      openWithoutDelay: false,
       HTMLAttributes: {},
       renderToggleButton: ({ element, isOpen }) => {
         element.setAttribute(
@@ -157,7 +166,7 @@ export const Details = Node.create<DetailsOptions>({
 
       dom.append(content)
 
-      const toggleDetailsContent = (options?: { setToValue?: boolean; node?: ProseMirrorNode }) => {
+      const toggleDetailsContent = (options?: { setToValue?: boolean; node?: PMNode }) => {
         const { setToValue, node: currentNode = node } = options || {}
 
         if (setToValue !== undefined) {
@@ -195,7 +204,13 @@ export const Details = Node.create<DetailsOptions>({
       })
 
       if (node.attrs.open) {
-        setTimeout(() => toggleDetailsContent())
+        if (this.options.openWithoutDelay) {
+          // The content node view reads the open state itself when it is created.
+          dom.classList.add(this.options.openClassName)
+        } else {
+          // The content node view does not exist yet, so the toggle event needs a tick.
+          setTimeout(() => toggleDetailsContent({ setToValue: true }))
+        }
       }
 
       toggle.addEventListener('click', () => {

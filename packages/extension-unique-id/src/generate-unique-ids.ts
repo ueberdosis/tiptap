@@ -1,6 +1,6 @@
 import type { Extensions, JSONContent } from '@tiptap/core'
 import { findChildren, getSchema } from '@tiptap/core'
-import { Node } from '@tiptap/pm/model'
+import { Node as PMNode } from '@tiptap/pm/model'
 import { EditorState } from '@tiptap/pm/state'
 
 import type { UniqueID } from './unique-id.js'
@@ -58,7 +58,7 @@ export function generateUniqueIds(doc: JSONContent, extensions: Extensions): JSO
     configuredTypes === 'all'
       ? Object.keys(schema.nodes).filter(type => type !== 'doc' && type !== 'text')
       : configuredTypes
-  const contentNode = Node.fromJSON(schema, doc)
+  const contentNode = PMNode.fromJSON(schema, doc)
 
   // Find nodes that don't have a unique ID
   const nodesWithoutId = findChildren(contentNode, node => {

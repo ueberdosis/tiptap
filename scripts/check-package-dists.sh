@@ -11,7 +11,7 @@ declare -a missing_paths=()
 declare -a package_dirs=()
 declare -a empty_paths=()
 
-for package_json in "$REPO_ROOT"/packages/*/package.json "$REPO_ROOT"/packages-deprecated/*/package.json; do
+for package_json in "$REPO_ROOT"/packages/*/package.json; do
   package_dirs+=("${package_json%/package.json}")
 done
 

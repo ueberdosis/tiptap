@@ -1,0 +1,21 @@
+schema_version: '1.0'
+
+name: '@tiptap/codemod-v3-to-v4'
+version: '0.1.0'
+description: 'Migrate Tiptap projects from v3 to v4'
+author: 'Tiptap'
+license: 'MIT'
+
+workflows:
+  - name: main
+    default: true
+    path: workflow.yaml
+
+targets:
+  languages: ['javascript', 'typescript', 'tsx', 'json', 'vue']
+
+keywords: ['migration', 'tiptap', 'v3-to-v4']
+
+registry:
+  access: 'public'
+  visibility: 'public'

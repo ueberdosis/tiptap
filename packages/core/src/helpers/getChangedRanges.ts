@@ -38,6 +38,7 @@ function simplifyChangedRanges(changes: ChangedRange[]): ChangedRange[] {
 export function getChangedRanges(transform: Transform): ChangedRange[] {
   const { mapping, steps } = transform
   const changes: ChangedRange[] = []
+  const inverted = mapping.invert()
 
   mapping.maps.forEach((stepMap, index) => {
     const ranges: Range[] = []
@@ -62,11 +63,13 @@ export function getChangedRanges(transform: Transform): ChangedRange[] {
       })
     }
 
+    const rest = mapping.slice(index)
+
     ranges.forEach(({ from, to }) => {
-      const newStart = mapping.slice(index).map(from, -1)
-      const newEnd = mapping.slice(index).map(to)
-      const oldStart = mapping.invert().map(newStart, -1)
-      const oldEnd = mapping.invert().map(newEnd)
+      const newStart = rest.map(from, -1)
+      const newEnd = rest.map(to)
+      const oldStart = inverted.map(newStart, -1)
+      const oldEnd = inverted.map(newEnd)
 
       changes.push({
         oldRange: {

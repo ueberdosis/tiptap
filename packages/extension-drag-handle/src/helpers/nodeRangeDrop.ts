@@ -1,19 +1,12 @@
 import { isNodeRangeSelection, NodeRangeSelection } from '@tiptap/extension-node-range'
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 import type { Selection } from '@tiptap/pm/state'
-
-export interface ActiveDragRange {
-  anchorPos: number
-  nodeCount: number
-  depth: number
-  // Yjs relative position for remapping the drop anchor across isChangeOrigin rebuilds.
-  // biome-ignore lint/suspicious/noExplicitAny: y-prosemirror relative positions are untyped
-  relativeAnchorPos?: any
-}
+import type { RelativePosition } from '@tiptap/y-tiptap'
+import type { ActiveDragRange } from '../types/activeDragRange.js'
 
 interface MapPendingRestoreAnchorOptions {
   isChangeOrigin: boolean
-  getAbsolutePos: (relativePos: unknown) => number
+  getAbsolutePos: (relativePos: RelativePosition) => number
 }
 
 // Remaps the drop anchor while a restore is pending. Returns null when the anchor
@@ -61,7 +54,7 @@ interface DroppedBlockRange {
   count: number
 }
 
-function sumNodeSizes(parent: ProseMirrorNode, from: number, to: number): number {
+function sumNodeSizes(parent: PMNode, from: number, to: number): number {
   let size = 0
 
   for (let i = from; i < to; i += 1) {
@@ -89,7 +82,7 @@ export function getActiveDragRange(selection: Selection): ActiveDragRange | null
  * `NodeRangeSelection` can be restored over them after a drag-and-drop.
  */
 function getDroppedBlockRange(
-  doc: ProseMirrorNode,
+  doc: PMNode,
   anchorPos: number,
   nodeCount: number,
   depth: number,
@@ -117,7 +110,7 @@ function getDroppedBlockRange(
 
 // Rebuilds the dragged node range over the dropped blocks, or null when unsafe.
 export function createDroppedNodeRangeSelection(
-  doc: ProseMirrorNode,
+  doc: PMNode,
   anchorPos: number,
   nodeCount: number,
   depth: number,

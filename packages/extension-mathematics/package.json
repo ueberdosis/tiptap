@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/extension-mathematics",
-  "version": "3.28.0",
+  "version": "3.30.3",
   "description": "latex math extension for tiptap",
   "keywords": [
     "tiptap",
@@ -39,7 +39,7 @@
     }
   },
   "scripts": {
-    "build": "tsup"
+    "build": "vp pack"
   },
   "devDependencies": {
     "@tiptap/core": "workspace:^",
@@ -49,6 +49,6 @@
   "peerDependencies": {
     "@tiptap/core": "workspace:*",
     "@tiptap/pm": "workspace:*",
-    "katex": "^0.16.4 || ^0.17.0"
+    "katex": "^0.16.4 || ^0.17.0 || ^0.18.0"
   }
 }

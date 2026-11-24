@@ -1,4 +1,4 @@
-import type { Node, ResolvedPos } from '@tiptap/pm/model'
+import type { Node as PMNode, ResolvedPos } from '@tiptap/pm/model'
 import type { EditorView } from '@tiptap/pm/view'
 
 /**
@@ -22,7 +22,7 @@ import type { EditorView } from '@tiptap/pm/view'
  */
 export interface RuleContext {
   /** The ProseMirror node being evaluated as a potential drag target */
-  node: Node
+  node: PMNode
 
   /** Absolute position of the node in the document */
   pos: number
@@ -37,7 +37,7 @@ export interface RuleContext {
    * Parent node of the node being evaluated.
    * `null` if the node is the document root (depth 0).
    */
-  parent: Node | null
+  parent: PMNode | null
 
   /** This node's index among its parent's children (0-based) */
   index: number

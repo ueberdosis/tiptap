@@ -1,10 +1,11 @@
 /* oslint-disableno-empty-object-type */
-import type { MarkType, Node as ProseMirrorNode, NodeType, Schema } from '@tiptap/pm/model'
+import type { MarkType, Node as PMNode, NodeType, Schema } from '@tiptap/pm/model'
 import type { Plugin, PluginKey, Transaction } from '@tiptap/pm/state'
 import { EditorState } from '@tiptap/pm/state'
 import { type DirectEditorProps, EditorView } from '@tiptap/pm/view'
 
 import { CommandManager } from './CommandManager.js'
+import { isInDecorationApplyScope } from './decorations/decorationApplyScope.js'
 import { EventEmitter } from './EventEmitter.js'
 import { ExtensionManager } from './ExtensionManager.js'
 import {
@@ -28,6 +29,7 @@ import { isActive } from './helpers/isActive.js'
 import { isNodeEmpty } from './helpers/isNodeEmpty.js'
 import { createMappablePosition, getUpdatedPosition } from './helpers/MappablePosition.js'
 import { resolveFocusPosition } from './helpers/resolveFocusPosition.js'
+import { warnOnDuplicatedProseMirrorModel } from './helpers/warnOnDuplicatedProseMirrorModel.js'
 import type { Storage } from './index.js'
 import { NodePos } from './NodePos.js'
 import { style } from './style.js'
@@ -44,6 +46,8 @@ import type {
   Utils,
 } from './types.js'
 import { createStyleTag } from './utilities/createStyleTag.js'
+import { getEditorRuntimeOptions } from './utilities/getEditorRuntimeOptions.js'
+import { isDev } from './utilities/isDev.js'
 import { isFunction } from './utilities/isFunction.js'
 
 export * as extensions from './extensions/index.js'
@@ -70,6 +74,10 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   private destroyed = false
 
+  private hasMounted = false
+
+  private hasCreated = false
+
   private editorState!: EditorState
 
   /**
@@ -83,6 +91,8 @@ export class Editor extends EventEmitter<EditorEvents> {
    * A unique ID for this editor instance.
    */
   public instanceId = Math.random().toString(36).slice(2, 9)
+
+  private hasWarnedStaleDecorationRead = false
 
   public options: EditorOptions = {
     element: typeof document !== 'undefined' ? document.createElement('div') : null,
@@ -122,25 +132,25 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   constructor(options: Partial<EditorOptions> = {}) {
     super()
-    this.setOptions(options)
+    this.options = { ...this.options, ...options }
     this.createExtensionManager()
     this.createCommandManager()
     this.createSchema()
-    this.on('beforeCreate', this.options.onBeforeCreate)
+    this.on('beforeCreate', props => this.options.onBeforeCreate.call(this, props))
     this.emit('beforeCreate', { editor: this })
-    this.on('mount', this.options.onMount)
-    this.on('unmount', this.options.onUnmount)
-    this.on('contentError', this.options.onContentError)
-    this.on('create', this.options.onCreate)
-    this.on('update', this.options.onUpdate)
-    this.on('selectionUpdate', this.options.onSelectionUpdate)
-    this.on('transaction', this.options.onTransaction)
-    this.on('focus', this.options.onFocus)
-    this.on('blur', this.options.onBlur)
-    this.on('destroy', this.options.onDestroy)
+    this.on('mount', props => this.options.onMount.call(this, props))
+    this.on('unmount', props => this.options.onUnmount.call(this, props))
+    this.on('contentError', props => this.options.onContentError.call(this, props))
+    this.on('create', props => this.options.onCreate.call(this, props))
+    this.on('update', props => this.options.onUpdate.call(this, props))
+    this.on('selectionUpdate', props => this.options.onSelectionUpdate.call(this, props))
+    this.on('transaction', props => this.options.onTransaction.call(this, props))
+    this.on('focus', props => this.options.onFocus.call(this, props))
+    this.on('blur', props => this.options.onBlur.call(this, props))
+    this.on('destroy', props => this.options.onDestroy.call(this, props))
     this.on('drop', ({ event, slice, moved }) => this.options.onDrop(event, slice, moved))
     this.on('paste', ({ event, slice }) => this.options.onPaste(event, slice))
-    this.on('delete', this.options.onDelete)
+    this.on('delete', props => this.options.onDelete.call(this, props))
 
     const initialDoc = this.createDoc()
 
@@ -154,6 +164,8 @@ export class Editor extends EventEmitter<EditorEvents> {
         selection: selection || undefined,
       })
     }
+
+    warnOnDuplicatedProseMirrorModel(this.schema)
 
     if (this.options.element) {
       this.mount(this.options.element)
@@ -169,7 +181,19 @@ export class Editor extends EventEmitter<EditorEvents> {
         `[tiptap error]: The editor cannot be mounted because there is no 'document' defined in this environment.`,
       )
     }
+    if (this.isDestroyed) {
+      throw new Error('[tiptap error]: A destroyed editor cannot be mounted.')
+    }
+
+    if (this.isMounted && this.options.element === el) {
+      return
+    }
+
+    this.unmount()
+    this.options.element = el
     this.createView(el)
+    const view = this.editorView
+
     this.emit('mount', { editor: this })
 
     if (this.css && !document.head.contains(this.css)) {
@@ -177,15 +201,18 @@ export class Editor extends EventEmitter<EditorEvents> {
     }
 
     window.setTimeout(() => {
-      if (this.isDestroyed) {
+      if (this.isDestroyed || this.editorView !== view) {
         return
       }
 
-      if (this.options.autofocus !== false && this.options.autofocus !== null) {
-        this.commands.focus(this.options.autofocus)
+      if (!this.hasCreated) {
+        this.hasCreated = true
+        if (this.options.autofocus !== false && this.options.autofocus !== null) {
+          this.commands.focus(this.options.autofocus)
+        }
+        this.emit('create', { editor: this })
       }
-      this.emit('create', { editor: this })
-      this.isInitialized = true
+      this.isInitialized = !this.isDestroyed && this.editorView === view
     }, 0)
   }
 
@@ -193,18 +220,18 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Remove the editor from the DOM, but still allow remounting at a different point in time
    */
   public unmount() {
-    if (this.editorView) {
-      // Cleanup our reference to prevent circular references which caused memory leaks
-      // @ts-ignore
-      const dom = this.editorView.dom as TiptapEditorHTMLElement
-
-      if (dom?.editor) {
-        delete dom.editor
-      }
-      this.editorView.destroy()
+    if (!this.editorView) {
+      return
     }
+
+    this.editorState = this.editorView.state
+    const dom = this.editorView.dom as TiptapEditorHTMLElement
+
+    delete dom.editor
+    this.editorView.destroy()
     this.editorView = null
     this.isInitialized = false
+    this.isFocused = false
 
     // Safely remove CSS element with fallback for test environments
     // Only remove CSS if no other editors exist in the document after unmount
@@ -242,6 +269,10 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Create a command chain to call multiple commands at once.
    */
   public chain(): ChainedCommands {
+    if (!this.commandManager) {
+      return CommandManager.createFakeChain()
+    }
+
     return this.commandManager.chain()
   }
 
@@ -249,6 +280,10 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Check if a command or a command chain can be executed. Without executing it.
    */
   public can(): CanCommands {
+    if (!this.commandManager) {
+      return CommandManager.createFallbackCan()
+    }
+
     return this.commandManager.can()
   }
 
@@ -262,22 +297,37 @@ export class Editor extends EventEmitter<EditorEvents> {
   }
 
   /**
-   * Update editor options.
+   * Update runtime options. Initial options are ignored with a warning.
    *
-   * @param options A list of options
+   * @param options Runtime options to update.
    */
   public setOptions(options: Partial<EditorOptions> = {}): void {
-    this.options = {
-      ...this.options,
-      ...options,
+    const runtimeOptions = getEditorRuntimeOptions(options)
+
+    if (isDev) {
+      for (const key of Object.keys(options)) {
+        if (
+          !Object.hasOwn(runtimeOptions, key) &&
+          Reflect.get(options, key) !== Reflect.get(this.options, key)
+        ) {
+          console.warn(
+            `[tiptap warn]: "${key}" is an initial option and cannot be updated with setOptions(). Use setContent() for content changes or create a new editor for other initial options.`,
+          )
+        }
+      }
     }
+
+    this.options = { ...this.options, ...runtimeOptions }
 
     if (!this.editorView || !this.state || this.isDestroyed) {
       return
     }
 
     if (this.options.editorProps) {
-      this.view.setProps(this.options.editorProps)
+      this.view.setProps({
+        ...this.options.editorProps,
+        attributes: this.getEditorViewAttributes(),
+      })
     }
 
     this.view.updateState(this.state)
@@ -298,10 +348,7 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Returns whether the editor is editable.
    */
   public get isEditable(): boolean {
-    // since plugins are applied after creating the view
-    // `editable` is always `true` for one tick.
-    // that’s why we also have to check for `options.editable`
-    return this.options.editable && this.view && this.view.editable
+    return this.options.editable && (this.editorView?.editable ?? true)
   }
 
   /**
@@ -326,7 +373,7 @@ export class Editor extends EventEmitter<EditorEvents> {
         composing: false,
         dragging: null,
         editable: true,
-        isDestroyed: false,
+        isDestroyed: this.isDestroyed,
       } as EditorView,
       {
         get: (obj, key) => {
@@ -335,7 +382,9 @@ export class Editor extends EventEmitter<EditorEvents> {
             // Just return what the editor view has.
             return this.editorView[key as keyof EditorView]
           }
-          // Specifically always return the most recent editorState
+          if (key === 'isDestroyed') {
+            return this.isDestroyed
+          }
           if (key === 'state') {
             return this.editorState
           }
@@ -356,6 +405,19 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Returns the editor state.
    */
   public get state(): EditorState {
+    if (isDev && !this.hasWarnedStaleDecorationRead && isInDecorationApplyScope(this)) {
+      // Warn once per editor. The same read repeats on every transaction, and
+      // a decoration that dispatches from `create()` would flood the console.
+      this.hasWarnedStaleDecorationRead = true
+
+      console.warn(
+        '[tiptap warn]: `editor.state` was read while decoration `create()` was running. ' +
+          'It returns the pre-transaction document. Use the `state` argument passed to ' +
+          '`create()` instead. Helpers like `editor.isActive()` read `editor.state` too, ' +
+          'so pass `state` to their standalone versions instead of calling them on the editor.',
+      )
+    }
+
     if (this.editorView) {
       this.editorState = this.view.state
     }
@@ -364,19 +426,19 @@ export class Editor extends EventEmitter<EditorEvents> {
   }
 
   /**
-   * Register a ProseMirror plugin.
+   * Register one or more ProseMirror plugins.
    *
-   * @param plugin A ProseMirror plugin
-   * @param handlePlugins Control how to merge the plugin into the existing plugins.
+   * @param plugin A ProseMirror plugin or an array of plugins
+   * @param handlePlugins Control how to merge the plugin or plugins into the existing plugins.
    * @returns The new editor state
    */
-  public registerPlugin(
-    plugin: Plugin,
-    handlePlugins?: (newPlugin: Plugin, plugins: Plugin[]) => Plugin[],
+  public registerPlugin<T extends Plugin | Plugin[]>(
+    plugin: T,
+    handlePlugins?: (newPlugin: T, plugins: Plugin[]) => Plugin[],
   ): EditorState {
     const plugins = isFunction(handlePlugins)
       ? handlePlugins(plugin, [...this.state.plugins])
-      : [...this.state.plugins, plugin]
+      : [...this.state.plugins, ...(Array.isArray(plugin) ? plugin : [plugin])]
 
     const state = this.state.reconfigure({ plugins })
 
@@ -483,8 +545,8 @@ export class Editor extends EventEmitter<EditorEvents> {
   /**
    * Creates the initial document.
    */
-  private createDoc(): ProseMirrorNode {
-    let doc: ProseMirrorNode
+  private createDoc(): PMNode {
+    let doc: PMNode
 
     try {
       doc = createDocument(this.options.content, this.schema, this.options.parseOptions, {
@@ -545,6 +607,27 @@ export class Editor extends EventEmitter<EditorEvents> {
   }
 
   /**
+   * Returns the attributes for the editor element.
+   * Merges the default `role="textbox"` with the attributes from `editorProps`,
+   * so the role is kept no matter when the props are applied.
+   */
+  private getEditorViewAttributes(): NonNullable<DirectEditorProps['attributes']> {
+    const attributes = this.options.editorProps?.attributes
+
+    if (isFunction(attributes)) {
+      return state => ({
+        role: 'textbox',
+        ...attributes(state),
+      })
+    }
+
+    return {
+      role: 'textbox',
+      ...attributes,
+    }
+  }
+
+  /**
    * Creates a ProseMirror view.
    */
   private createView(element: NonNullable<EditorOptions['element']>): void {
@@ -564,25 +647,24 @@ export class Editor extends EventEmitter<EditorEvents> {
 
     this.editorView = new EditorView(element, {
       ...editorProps,
-      attributes: {
-        // add `role="textbox"` to the editor element
-        role: 'textbox',
-        ...editorProps?.attributes,
-      },
+      attributes: this.getEditorViewAttributes(),
       dispatchTransaction: dispatch,
       transformPastedHTML,
-      state: this.editorState,
+      state: this.editorState.reconfigure({ plugins: [] }),
+    })
+
+    const state = this.hasMounted
+      ? this.editorState
+      : this.editorState.reconfigure({
+          plugins: [...this.extensionManager.plugins, ...this.editorState.plugins],
+        })
+
+    this.hasMounted = true
+    this.view.setProps({
+      state,
       markViews: this.extensionManager.markViews,
       nodeViews: this.extensionManager.nodeViews,
     })
-
-    // `editor.view` is not yet available at this time.
-    // Therefore we will add all plugins and node views directly afterwards.
-    const newState = this.state.reconfigure({
-      plugins: this.extensionManager.plugins,
-    })
-
-    this.view.updateState(newState)
 
     this.prependClass()
     this.injectCSS()
@@ -599,7 +681,7 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Creates all node and mark views.
    */
   public createNodeViews(): void {
-    if (this.view.isDestroyed) {
+    if (!this.isMounted) {
       return
     }
 
@@ -638,9 +720,7 @@ export class Editor extends EventEmitter<EditorEvents> {
    * @param transaction An editor state transaction
    */
   private dispatchTransaction(transaction: Transaction): void {
-    // if the editor / the view of the editor was destroyed
-    // the transaction should not be dispatched as there is no view anymore.
-    if (this.view.isDestroyed) {
+    if (this.isDestroyed) {
       return
     }
 
@@ -805,15 +885,13 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.destroyed = true
 
     this.emit('destroy')
-
     this.unmount()
-
     this.removeAllListeners()
 
     this.extensionManager.destroy()
     this.extensionManager = null as any
     this.schema = null as any
-    this.commandManager = null as any
+    this.commandManager = null as unknown as CommandManager
     this.extensionStorage = {} as Storage
   }
 
@@ -821,7 +899,14 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Check if the editor is already destroyed.
    */
   public get isDestroyed(): boolean {
-    return this.editorView?.isDestroyed ?? true
+    return this.destroyed
+  }
+
+  /**
+   * Check if the editor has an active view.
+   */
+  public get isMounted(): boolean {
+    return !this.destroyed && this.editorView !== null && !this.editorView.isDestroyed
   }
 
   public $node(selector: string, attributes?: { [key: string]: any }): NodePos | null {

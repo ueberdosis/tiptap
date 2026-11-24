@@ -19,7 +19,7 @@ import {
   splitExtensions,
 } from '@tiptap/core'
 import type { DOMOutputSpec, Mark } from '@tiptap/pm/model'
-import { Node, Schema } from '@tiptap/pm/model'
+import { Node as PMNode, Schema } from '@tiptap/pm/model'
 
 import { getHTMLAttributes } from '../helpers.js'
 import type { MarkProps, NodeProps, TiptapStaticRendererOptions } from '../json/renderer.js'
@@ -78,8 +78,8 @@ export function mapNodeExtensionToReactNode<T>(
   domOutputSpecToElement: DomOutputSpecToElement<T>,
   extension: NodeExtension,
   extensionAttributes: ExtensionAttribute[],
-  options?: Partial<Pick<TiptapStaticRendererOptions<T, Mark, Node>, 'unhandledNode'>>,
-): [string, (props: NodeProps<Node, T | T[]>) => T] {
+  options?: Partial<Pick<TiptapStaticRendererOptions<T, Mark, PMNode>, 'unhandledNode'>>,
+): [string, (props: NodeProps<PMNode, T | T[]>) => T] {
   const context = {
     name: extension.name,
     options: extension.options,
@@ -135,7 +135,7 @@ export function mapMarkExtensionToReactNode<T>(
   domOutputSpecToElement: DomOutputSpecToElement<T>,
   extension: MarkExtension,
   extensionAttributes: ExtensionAttribute[],
-  options?: Partial<Pick<TiptapStaticRendererOptions<T, Mark, Node>, 'unhandledMark'>>,
+  options?: Partial<Pick<TiptapStaticRendererOptions<T, Mark, PMNode>, 'unhandledMark'>>,
 ): [string, (props: MarkProps<Mark, T | T[]>) => T] {
   const context = {
     name: extension.name,
@@ -287,21 +287,21 @@ function withPlaceholderTypes(schema: Schema): Schema {
  * types without a fallback, and genuinely malformed content, still throw.
  */
 function resolveRenderContent(
-  content: Node | JSONContent,
+  content: PMNode | JSONContent,
   extensions: Extensions,
   options?: { unhandledNode?: unknown; unhandledMark?: unknown },
-): Node {
-  if (content instanceof Node) {
+): PMNode {
+  if (content instanceof PMNode) {
     return content
   }
 
   const schema = getSchemaByResolvedExtensions(extensions)
 
   if (!hasUnknownType(content, schema)) {
-    return Node.fromJSON(schema, content)
+    return PMNode.fromJSON(schema, content)
   }
 
-  return Node.fromJSON(
+  return PMNode.fromJSON(
     withPlaceholderTypes(schema),
     substituteUnknownTypes(content, schema, options),
   )
@@ -365,15 +365,15 @@ function withOriginalIdentity<T extends { attrs: Record<string, any>; toJSON: ()
 
 /** Maps the placeholder node type to the caller's `unhandledNode`, restoring identity. */
 function placeholderNodeRenderer<T>(
-  unhandledNode: (props: NodeProps<Node, T | T[]>) => T,
-): (props: NodeProps<Node, T | T[]>) => T {
+  unhandledNode: (props: NodeProps<PMNode, T | T[]>) => T,
+): (props: NodeProps<PMNode, T | T[]>) => T {
   return props => unhandledNode({ ...props, node: withOriginalIdentity(props.node) })
 }
 
 /** Maps the placeholder mark type to the caller's `unhandledMark`, restoring identity. */
 function placeholderMarkRenderer<T>(
-  unhandledMark: (props: MarkProps<Mark, T | T[], Node>) => T,
-): (props: MarkProps<Mark, T | T[], Node>) => T {
+  unhandledMark: (props: MarkProps<Mark, T | T[], PMNode>) => T,
+): (props: MarkProps<Mark, T | T[], PMNode>) => T {
   return props => unhandledMark({ ...props, mark: withOriginalIdentity(props.mark) })
 }
 
@@ -395,15 +395,17 @@ export function renderToElement<T>({
   extensions,
   options,
 }: {
-  renderer: (options: TiptapStaticRendererOptions<T, Mark, Node>) => (ctx: { content: Node }) => T
+  renderer: (
+    options: TiptapStaticRendererOptions<T, Mark, PMNode>,
+  ) => (ctx: { content: PMNode }) => T
   domOutputSpecToElement: DomOutputSpecToElement<T>
   mapDefinedTypes: {
-    doc: (props: NodeProps<Node, T | T[]>) => T
-    text: (props: NodeProps<Node, T | T[]>) => T
+    doc: (props: NodeProps<PMNode, T | T[]>) => T
+    text: (props: NodeProps<PMNode, T | T[]>) => T
   }
-  content: Node | JSONContent
+  content: PMNode | JSONContent
   extensions: Extensions
-  options?: Partial<TiptapStaticRendererOptions<T, Mark, Node>>
+  options?: Partial<TiptapStaticRendererOptions<T, Mark, PMNode>>
 }): T {
   // get all extensions in order & split them into nodes and marks
   extensions = resolveExtensions(extensions)

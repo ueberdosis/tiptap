@@ -5,10 +5,8 @@ import type {
   MarkdownToken,
   MarkdownTokenizer,
 } from '../../types.js'
-import {
-  parseAttributes as defaultParseAttributes,
-  serializeAttributes as defaultSerializeAttributes,
-} from './attributeUtils.js'
+import { parseAttributes as defaultParseAttributes } from './parseAttributes.js'
+import { serializeAttributes as defaultSerializeAttributes } from './serializeAttributes.js'
 
 export interface AtomBlockMarkdownSpecOptions {
   /** The Tiptap node name this spec is for */
@@ -98,14 +96,17 @@ export function createAtomBlockMarkdownSpec(options: AtomBlockMarkdownSpecOption
       name: nodeName,
       level: 'block' as const,
       start(src: string) {
-        const regex = new RegExp(`^:::${blockName}(?:\\s|$)`, 'm')
+        // Allow up to 3 leading spaces, matching how CommonMark treats indentation
+        // before block constructs (4+ spaces is an indented code block)
+        const regex = new RegExp(`^ {0,3}:::${blockName}(?:\\s|$)`, 'm')
         const index = src.match(regex)?.index
         return index !== undefined ? index : -1
       },
       tokenize(src, _tokens, _lexer) {
         // Use non-global regex to match from the start of the string
         // Include optional newline to ensure we consume the entire line
-        const regex = new RegExp(`^:::${blockName}(?:\\s+\\{([^}]*)\\})?\\s*:::(?:\\n|$)`)
+        // Allow up to 3 leading spaces; match[0] keeps them in `raw`
+        const regex = new RegExp(`^ {0,3}:::${blockName}(?:\\s+\\{([^}]*)\\})?\\s*:::(?:\\n|$)`)
         const match = src.match(regex)
 
         if (!match) {

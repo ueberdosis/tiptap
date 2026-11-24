@@ -1,4 +1,4 @@
-import type { Node, ResolvedPos } from '@tiptap/pm/model'
+import type { Node as PMNode, ResolvedPos } from '@tiptap/pm/model'
 import type { EditorView } from '@tiptap/pm/view'
 
 import type { NormalizedNestedOptions } from '../types/options.js'
@@ -11,7 +11,7 @@ import { calculateScore } from './scoring.js'
  */
 export interface DragTarget {
   /** The ProseMirror node */
-  node: Node
+  node: PMNode
 
   /** The absolute position in the document */
   pos: number
@@ -32,6 +32,17 @@ function hasAncestorOfType($pos: ResolvedPos, depth: number, allowedTypes: strin
   const ancestorDepths = Array.from({ length: depth }, (_, i) => depth - 1 - i)
 
   return ancestorDepths.some(d => allowedTypes.includes($pos.node(d).type.name))
+}
+
+// Over the lower half of a block atom, `pos` is the position after it, so use the atom itself
+function getHoveredPos(doc: PMNode, posInfo: { pos: number; inside: number }): number {
+  if (posInfo.inside < 0) {
+    return posInfo.pos
+  }
+
+  const insideNode = doc.nodeAt(posInfo.inside)
+
+  return insideNode?.isAtom && !insideNode.isInline ? posInfo.inside : posInfo.pos
 }
 
 /**
@@ -60,7 +71,8 @@ export function findBestDragTarget(
   }
 
   const { doc } = view.state
-  const $pos = doc.resolve(posInfo.pos)
+  const hoveredPos = getHoveredPos(doc, posInfo)
+  const $pos = doc.resolve(hoveredPos)
 
   const rules: DragHandleRule[] = []
 
@@ -120,7 +132,7 @@ export function findBestDragTarget(
   const nodeAfter = $pos.nodeAfter
 
   if (nodeAfter && nodeAfter.isAtom && !nodeAfter.isInline) {
-    const nodePos = posInfo.pos
+    const nodePos = hoveredPos
     const depth = $pos.depth + 1
     const parent = $pos.parent
     const index = $pos.index()

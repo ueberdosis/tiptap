@@ -103,6 +103,10 @@ export function LowlightPlugin({
           defaultLanguage,
         }),
       apply: (transaction, decorationSet, oldState, newState) => {
+        if (!transaction.docChanged) {
+          return decorationSet
+        }
+
         const oldNodeName = oldState.selection.$head.parent.type.name
         const newNodeName = newState.selection.$head.parent.type.name
         const oldNodes = findChildren(oldState.doc, node => node.type.name === name)

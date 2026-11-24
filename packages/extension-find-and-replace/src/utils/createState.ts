@@ -1,0 +1,28 @@
+import type { Node as PMNode } from '@tiptap/pm/model'
+
+import type { FindAndReplaceOptions } from '../types.js'
+import type { FindAndReplacePluginState } from '../plugin/plugin-state.js'
+import { searchDocument } from '../search/search.js'
+
+import { createDecorations } from './createDecorations.js'
+
+export function createState(
+  doc: PMNode,
+  options: FindAndReplaceOptions,
+): FindAndReplacePluginState {
+  const results = searchDocument(doc, options.searchTerm, options)
+  const currentIndex = results.length > 0 ? 0 : null
+
+  return {
+    searchTerm: options.searchTerm,
+    replaceTerm: options.replaceTerm,
+    caseSensitive: options.caseSensitive,
+    useRegex: options.useRegex,
+    wholeWord: options.wholeWord,
+    continuesNode: options.continuesNode,
+    results,
+    currentIndex,
+    currentResultVisited: false,
+    decorations: createDecorations(doc, results, currentIndex),
+  }
+}

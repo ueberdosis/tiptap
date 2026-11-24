@@ -24,7 +24,7 @@ export function marksEqual(a: readonly MarkLike[], b: readonly MarkLike[]): bool
   }
 
   // Marks are matched by (type, attrs) identity, so greedy first-match works.
-  const consumed = Array.from({ length: b.length }, () => false)
+  const consumed = Array<boolean>(b.length).fill(false)
 
   return a.every(markA => {
     const nameA = markTypeName(markA)

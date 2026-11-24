@@ -78,6 +78,18 @@ export function mergeAttributes(...objects: Record<string, any>[]): Record<strin
       const mergedAttributes = { ...items }
 
       Object.entries(item).forEach(([key, value]) => {
+        // Define a data property so untrusted input cannot change the merged object's prototype.
+        if (key === '__proto__') {
+          Object.defineProperty(mergedAttributes, key, {
+            configurable: true,
+            enumerable: true,
+            value,
+            writable: true,
+          })
+
+          return
+        }
+
         const exists = mergedAttributes[key]
 
         if (!exists) {

@@ -2,8 +2,7 @@ name: Verify
 
 env:
   NODE_VERSION: 24
-  PNPM_VERSION: 11.2.2
-  PNPM_STORE_DIR: .pnpm-store
+  VP_GIT_HOOKS: 0
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -22,37 +21,9 @@ on:
       - release/*
 
 jobs:
-  install-node-dependencies:
-    name: Install node dependencies
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-
-    steps:
-      - uses: actions/checkout@v7
-
-      - uses: ./.github/actions/setup-env
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          pnpm-version: ${{ env.PNPM_VERSION }}
-          store-dir: ${{ env.PNPM_STORE_DIR }}
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile --strict-peer-dependencies
-
-      - name: Pack dependency artifacts
-        run: tar -czf /tmp/pnpm-store.tar.gz ${{ env.PNPM_STORE_DIR }}
-
-      - name: Upload dependency artifacts
-        uses: actions/upload-artifact@v7
-        with:
-          name: node-dependencies
-          path: /tmp/pnpm-store.tar.gz
-          retention-days: 1
-
   build-packages:
     name: Build packages
     runs-on: ubuntu-latest
-    needs: install-node-dependencies
     timeout-minutes: 20
 
     steps:
@@ -61,28 +32,18 @@ jobs:
       - uses: ./.github/actions/setup-env
         with:
           node-version: ${{ env.NODE_VERSION }}
-          pnpm-version: ${{ env.PNPM_VERSION }}
-          store-dir: ${{ env.PNPM_STORE_DIR }}
-
-      - uses: ./.github/actions/restore-dependencies
+          cache: 'true'
+          install: 'true'
 
       - name: Build packages
-        run: pnpm run build && pnpm run build:demos
+        run: vp run build && vp run build:demos
 
-      - name: Pack build artifacts
-        run: tar -czf /tmp/build-output.tar.gz packages/*/dist packages-deprecated/*/dist demos/dist
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v7
-        with:
-          name: build-output
-          path: /tmp/build-output.tar.gz
-          retention-days: 1
+      - name: Check package exports
+        run: vp run check:package-exports
 
   check-linting-formatting:
     name: Check linting & formatting
     runs-on: ubuntu-latest
-    needs: build-packages
     timeout-minutes: 15
 
     steps:
@@ -91,18 +52,15 @@ jobs:
       - uses: ./.github/actions/setup-env
         with:
           node-version: ${{ env.NODE_VERSION }}
-          pnpm-version: ${{ env.PNPM_VERSION }}
-          store-dir: ${{ env.PNPM_STORE_DIR }}
-
-      - uses: ./.github/actions/restore-dependencies
+          cache: 'true'
+          install: 'true'
 
       - name: Run linting and formatting checks
-        run: pnpm run lint
+        run: vp check
 
   run-unit-tests:
     name: Run unit tests
     runs-on: ubuntu-latest
-    needs: build-packages
     timeout-minutes: 20
 
     steps:
@@ -111,20 +69,15 @@ jobs:
       - uses: ./.github/actions/setup-env
         with:
           node-version: ${{ env.NODE_VERSION }}
-          pnpm-version: ${{ env.PNPM_VERSION }}
-          store-dir: ${{ env.PNPM_STORE_DIR }}
-
-      - uses: ./.github/actions/restore-dependencies
-
-      - uses: ./.github/actions/restore-build
+          cache: 'true'
+          install: 'true'
 
       - name: Run unit tests
-        run: pnpm run test:unit
+        run: vp test
 
   run-e2e-tests:
     name: Run e2e tests (shard ${{ matrix.shard }}/${{ matrix.total }})
     runs-on: ubuntu-latest
-    needs: build-packages
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -138,20 +91,17 @@ jobs:
       - uses: ./.github/actions/setup-env
         with:
           node-version: ${{ env.NODE_VERSION }}
-          pnpm-version: ${{ env.PNPM_VERSION }}
-          store-dir: ${{ env.PNPM_STORE_DIR }}
-
-      - uses: ./.github/actions/restore-dependencies
-
-      - uses: ./.github/actions/restore-build
+          cache: 'true'
+          install: 'true'
 
       - uses: ./.github/actions/setup-playwright
 
       - name: Run Playwright tests
-        run: pnpm exec playwright test --project=chromium --shard=${{ matrix.shard }}/${{ matrix.total }}
+        run: vp exec playwright test --project=chromium --shard=${{ matrix.shard }}/${{ matrix.total }}
 
+      # Skipped on cancel or timeout: the run is stale or the blob incomplete
       - name: Upload blob report
-        if: always()
+        if: failure()
         uses: actions/upload-artifact@v7
         with:
           name: e2e-blob-report-${{ matrix.shard }}
@@ -162,7 +112,7 @@ jobs:
     name: Merge e2e reports
     runs-on: ubuntu-latest
     needs: run-e2e-tests
-    if: always()
+    if: ${{ !cancelled() && needs.run-e2e-tests.result == 'failure' }}
     timeout-minutes: 10
 
     steps:
@@ -171,10 +121,8 @@ jobs:
       - uses: ./.github/actions/setup-env
         with:
           node-version: ${{ env.NODE_VERSION }}
-          pnpm-version: ${{ env.PNPM_VERSION }}
-          store-dir: ${{ env.PNPM_STORE_DIR }}
-
-      - uses: ./.github/actions/restore-dependencies
+          cache: 'true'
+          install: 'true'
 
       - name: Download blob reports
         uses: actions/download-artifact@v8
@@ -185,7 +133,7 @@ jobs:
 
       - name: Merge into HTML report
         if: ${{ hashFiles('all-blob-reports/**') != '' }}
-        run: pnpm exec playwright merge-reports --reporter html ./all-blob-reports
+        run: vp exec playwright merge-reports --reporter html ./all-blob-reports
 
       - name: Upload merged HTML report
         uses: actions/upload-artifact@v7

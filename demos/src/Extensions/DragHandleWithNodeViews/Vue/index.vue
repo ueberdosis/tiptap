@@ -14,9 +14,9 @@
 </template>
 
 <script>
-import { DragHandle } from '@tiptap/extension-drag-handle-vue-3'
+import { DragHandle } from '@tiptap/extension-drag-handle-vue'
 import StarterKit from '@tiptap/starter-kit'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 
 import { Recommendation } from './extensions/recommendation/Recommendation.js'
 

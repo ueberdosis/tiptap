@@ -6,7 +6,7 @@
 import Document from '@tiptap/extension-document'
 import { Placeholder } from '@tiptap/extensions'
 import StarterKit from '@tiptap/starter-kit'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 
 const CustomDocument = Document.extend({
   content: 'heading block*',

@@ -1,0 +1,193 @@
+import { Editor } from '@tiptap/core'
+import Document from '@tiptap/extension-document'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
+import { describe, expect, it } from 'vite-plus/test'
+
+import { TableCell } from '../cell/table-cell.js'
+import { TableRow } from '../row/table-row.js'
+import { Table } from '../table/table.js'
+import { TableHeader } from './table-header.js'
+
+describe('extension table header', () => {
+  const editorElClass = 'tiptap'
+  let editor: Editor | null = null
+
+  const createEditorEl = () => {
+    const editorEl = document.createElement('div')
+
+    editorEl.classList.add(editorElClass)
+    document.body.appendChild(editorEl)
+    return editorEl
+  }
+  const getEditorEl = () => document.querySelector(`.${editorElClass}`)
+
+  it('should start with a Table', () => {
+    const content =
+      '<table style="width:100%"><tr><th>Firstname</th><th>Lastname</th><th>Age</th></tr><tr><td>Jill</td><td>Smith</td><td>50</td></tr><tr><td>Eve</td><td>Jackson</td><td>94</td></tr><tr><td>John</td><td>Doe</td><td>80</td></tr></table>'
+
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [
+        Document,
+        Text,
+        Paragraph,
+        TableCell,
+        TableHeader,
+        TableRow,
+        Table.configure({
+          resizable: true,
+        }),
+      ],
+      content,
+    })
+
+    expect(editor.getHTML()).toContain('Jackson')
+
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
+
+  it('should parse a single colWidth', () => {
+    const content =
+      '<table><tbody><tr><th colwidth="200">Name</th><th>Description</th></tr><tr><td>Cyndi Lauper</td><td>Singer</td><td>Songwriter</td><td>Actress</td></tr><tr><td>Marie Curie</td><td>Scientist</td><td>Chemist</td><td>Physicist</td></tr><tr><td>Indira Gandhi</td><td>Prime minister</td><td colspan="2">Politician</td></tr></tbody></table>'
+
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [
+        Document,
+        Text,
+        Paragraph,
+        TableCell,
+        TableHeader,
+        TableRow,
+        Table.configure({
+          resizable: true,
+        }),
+      ],
+      content,
+    })
+
+    // @ts-expect-error content is not guaranteed to be this shape
+    expect(editor.getJSON().content[0].content[0].content[0].attrs.colwidth[0]).toBe(200)
+
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
+
+  it('should parse multiple colWidths', () => {
+    const content =
+      '<table><tbody><tr><th colwidth="200">Name</th><th colspan="3" colwidth="150,100">Description</th></tr><tr><td>Cyndi Lauper</td><td>Singer</td><td>Songwriter</td><td>Actress</td></tr><tr><td>Marie Curie</td><td>Scientist</td><td>Chemist</td><td>Physicist</td></tr><tr><td>Indira Gandhi</td><td>Prime minister</td><td colspan="2">Politician</td></tr></tbody></table>'
+
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [
+        Document,
+        Text,
+        Paragraph,
+        TableCell,
+        TableHeader,
+        TableRow,
+        Table.configure({
+          resizable: true,
+        }),
+      ],
+      content,
+    })
+
+    // @ts-expect-error content is not guaranteed to be this shape
+    expect(editor.getJSON().content[0].content[0].content[1].attrs.colwidth).toEqual([150, 100])
+
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
+
+  it('should parse the colgroup col widths for a header row', () => {
+    const content =
+      '<table><colgroup><col width="64" /><col width="128" /></colgroup><tbody><tr><th>Name</th><th>Description</th></tr><tr><td>Cyndi Lauper</td><td>Singer</td></tr></tbody></table>'
+
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [
+        Document,
+        Text,
+        Paragraph,
+        TableCell,
+        TableHeader,
+        TableRow,
+        Table.configure({
+          resizable: true,
+        }),
+      ],
+      content,
+    })
+
+    const headerRow = editor.getJSON().content?.[0].content?.[0]
+
+    expect(headerRow?.content?.[0].attrs?.colwidth).toEqual([64])
+    expect(headerRow?.content?.[1].attrs?.colwidth).toEqual([128])
+
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
+
+  it('should not serialize the default colspan and rowspan', () => {
+    const content = '<table><tbody><tr><th>Cell</th></tr></tbody></table>'
+
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [Document, Text, Paragraph, TableCell, TableHeader, TableRow, Table],
+      content,
+    })
+
+    const html = editor.getHTML()
+
+    expect(html).toContain('<th><p>Cell</p></th>')
+    expect(html).not.toContain('colspan="1"')
+    expect(html).not.toContain('rowspan="1"')
+
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
+
+  it('should not render configured spans for a header with default spans', () => {
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [
+        Document,
+        Text,
+        Paragraph,
+        TableCell,
+        TableHeader.configure({ HTMLAttributes: { colspan: 2, rowspan: 2 } }),
+        TableRow,
+        Table,
+      ],
+      content: '<table><tr><th>Cell</th></tr></table>',
+    })
+
+    expect(editor.getHTML()).toContain('<th><p>Cell</p></th>')
+    expect(editor.view.dom.querySelector('th')?.hasAttribute('colspan')).toBe(false)
+    expect(editor.view.dom.querySelector('th')?.hasAttribute('rowspan')).toBe(false)
+
+    editor.destroy()
+    getEditorEl()?.remove()
+  })
+
+  it('should keep colspan and rowspan when a header actually spans', () => {
+    const content = '<table><tbody><tr><th colspan="2" rowspan="3">Cell</th></tr></tbody></table>'
+
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [Document, Text, Paragraph, TableCell, TableHeader, TableRow, Table],
+      content,
+    })
+
+    const html = editor.getHTML()
+
+    expect(html).toContain('colspan="2"')
+    expect(html).toContain('rowspan="3"')
+
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
+})

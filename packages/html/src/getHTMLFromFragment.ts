@@ -1,4 +1,4 @@
-import type { Node, Schema } from '@tiptap/pm/model'
+import type { Node as PMNode, Schema } from '@tiptap/pm/model'
 import { DOMSerializer } from '@tiptap/pm/model'
 
 /**
@@ -14,7 +14,7 @@ import { DOMSerializer } from '@tiptap/pm/model'
  * ```
  */
 export function getHTMLFromFragment(
-  doc: Node,
+  doc: PMNode,
   schema: Schema,
   options?: { document?: Document },
 ): string {

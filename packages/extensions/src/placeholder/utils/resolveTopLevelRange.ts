@@ -1,10 +1,10 @@
-import type { Node } from '@tiptap/pm/model'
+import type { Node as PMNode } from '@tiptap/pm/model'
 
 /**
  * Resolves a document position to the `[from, to)` range of its containing
  * top-level block node in absolute document positions.
  */
-export function resolveTopLevelRange(doc: Node, pos: number): { from: number; to: number } {
+export function resolveTopLevelRange(doc: PMNode, pos: number): { from: number; to: number } {
   const resolved = doc.resolve(pos)
 
   if (resolved.depth === 0) {
@@ -26,16 +26,21 @@ export function resolveTopLevelRange(doc: Node, pos: number): { from: number; to
 }
 
 /**
- * Converts an absolute document range to content-relative positions used by
- * `Node#nodesBetween` and `Node#forEach` offsets.
+ * Clamps a top-level block range from `resolveTopLevelRange` to the document
+ * content, giving the positions used by `Node#nodesBetween` and `Node#forEach`
+ * offsets.
+ *
+ * A top-level node at `Node#forEach` offset `n` already sits at document
+ * position `n`, so the range must not be shifted: a node decoration spans
+ * exactly `[n, n + nodeSize]` and has to stay inside the range to be replaced.
  */
 export function toContentRelativeRange(
-  doc: Node,
+  doc: PMNode,
   range: { from: number; to: number },
 ): { from: number; to: number } {
   return {
-    from: Math.max(0, range.from - 1),
-    to: Math.min(doc.content.size, range.to - 1),
+    from: Math.max(0, range.from),
+    to: Math.min(doc.content.size, range.to),
   }
 }
 
@@ -45,7 +50,7 @@ export function toContentRelativeRange(
  * Returned ranges are content-relative, matching `Node#forEach` offsets.
  */
 export function getTopLevelBlocksInRange(
-  doc: Node,
+  doc: PMNode,
   from: number,
   to: number,
 ): Array<{ from: number; to: number }> {
