@@ -218,7 +218,10 @@ function matchesDocument($from: ResolvedPos, match: ExtendedRegExpMatchArray, te
     }
 
     // Each leaf must take as many characters as positions, like a hard break.
-    const nodeText = node.type.spec.toText?.({ node, pos, parent, index }) ?? ''
+    const nodeText =
+      node.type.spec.toText?.({ node, pos, parent, index }) ??
+      (node.isLeaf ? node.type.spec.leafText?.(node) : undefined) ??
+      ''
 
     positionsMatch &&= nodeText.length === node.nodeSize
     matchedDocText += nodeText

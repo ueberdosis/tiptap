@@ -151,6 +151,27 @@ describe('input rules with inline atom nodes', () => {
     expect(editor.getHTML()).toBe(content)
   })
 
+  it('still applies input rules when a leaf only has leafText', () => {
+    const LeafTextBreak = Node.create({
+      name: 'leafTextBreak',
+      group: 'inline',
+      inline: true,
+      parseHTML: () => [{ tag: 'span[data-leaf-text]' }],
+      renderHTML: () => ['span', { 'data-leaf-text': '' }],
+      extendNodeSchema: () => ({ leafText: () => '\n' }),
+    })
+
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, LeafTextBreak, Code],
+      content: '<p>`a<span data-leaf-text=""></span>b</p>',
+    })
+
+    const handled = typeAtEndOfParagraph(editor, '`')
+
+    expect(handled).toBe(true)
+    expect(editor.getHTML()).toBe('<p><code>a<span data-leaf-text=""></span>b</code></p>')
+  })
+
   it('still applies input rules when text nodes have a text serializer', () => {
     editor = new Editor({
       extensions: [Document, Paragraph, Text.extend({ renderText: ({ node }) => node.text }), Code],
