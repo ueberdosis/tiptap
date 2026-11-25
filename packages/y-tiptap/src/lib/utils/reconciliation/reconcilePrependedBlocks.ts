@@ -7,7 +7,11 @@ import { normalizePNodeContent } from '../conversion/normalizePNodeContent.js'
 import { equalYTypePNode } from './equalYTypePNode.js'
 import { insertPChildren } from './insertPChildren.js'
 
-const retainsOriginalSiblings = (before: ResolvedPos, after: ResolvedPos) => {
+const retainsOriginalSiblings = (
+  before: ResolvedPos,
+  after: ResolvedPos,
+  firstInserted: number,
+) => {
   for (let depth = 0; depth < before.depth; depth += 1) {
     const previous = before.node(depth).content.content
     const current = after.node(depth).content.content
@@ -19,6 +23,13 @@ const retainsOriginalSiblings = (before: ResolvedPos, after: ResolvedPos) => {
     expected[before.index(depth)] = current[retained]
 
     const originalNodes = new Set(previous)
+    if (
+      depth === before.depth - 1 &&
+      current.slice(firstInserted, retained).some(node => originalNodes.has(node))
+    ) {
+      return false
+    }
+
     const present = current.filter((node, index) => index === retained || originalNodes.has(node))
     if (
       present.length !== expected.length ||
@@ -31,18 +42,13 @@ const retainsOriginalSiblings = (before: ResolvedPos, after: ResolvedPos) => {
   return true
 }
 
-const canReconcileLaterStep = (
+const matchesInsertedChildren = (
   children: readonly Node[],
   firstPosition: number,
   block: PrependedBlock,
-  after: ResolvedPos,
 ) => {
-  const { before, insertedChildren } = block
-  if (!insertedChildren) {
-    return true
-  }
-
-  if (insertedChildren.length !== children.length || !retainsOriginalSiblings(before, after)) {
+  const { insertedChildren } = block
+  if (!insertedChildren || insertedChildren.length !== children.length) {
     return false
   }
 
@@ -53,6 +59,23 @@ const canReconcileLaterStep = (
     position += child.nodeSize
     return from === start && to === position
   })
+}
+
+const canReconcileChildren = (
+  children: readonly Node[],
+  inserted: ResolvedPos,
+  after: ResolvedPos,
+  block: PrependedBlock,
+) => {
+  const matches = matchesInsertedChildren(children, inserted.before(), block)
+  if (block.startsTransaction && matches) {
+    return true
+  }
+
+  return (
+    (matches || block.startsTransaction) &&
+    retainsOriginalSiblings(block.before, after, inserted.index(-1))
+  )
 }
 
 export const reconcilePrependedBlocks = (
@@ -100,7 +123,7 @@ export const reconcilePrependedBlocks = (
   }
 
   const children = after.node(-1).content.content.slice(firstInserted, end)
-  if (!canReconcileLaterStep(children, inserted.before(), block, after)) {
+  if (!canReconcileChildren(children, inserted, after, block)) {
     return
   }
 

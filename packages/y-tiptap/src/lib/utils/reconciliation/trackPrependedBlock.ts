@@ -40,7 +40,7 @@ const mapInsertedChildren = (children: InsertedChildren, mapping: Mapping) => {
 const mapPrependedBlock = (block: PrependedBlock, mapping: Mapping): PrependedBlock | undefined => {
   const insertedChildren =
     block.insertedChildren && mapInsertedChildren(block.insertedChildren, mapping)
-  if (block.insertedChildren && !insertedChildren) {
+  if (!block.startsTransaction && !insertedChildren) {
     return undefined
   }
 
@@ -96,22 +96,19 @@ export const trackPrependedBlock = (
     const mapping = transaction.mapping
     const stepMap = mapping.maps[index]
     const remaining = mapping.slice(index + 1)
+    const afterStep = transaction.docs[index + 1] ?? transaction.doc
     const block: PrependedBlock = {
       before,
       inserted: stepMap.map(atStep.pos, -1),
+      startsTransaction: index === 0,
       start: stepMap.map(atStep.pos, 1),
       end: stepMap.map(atStep.end(), -1),
     }
-    if (index === 0) {
-      return mapPrependedBlock(block, remaining)
-    }
-
-    const afterStep = transaction.docs[index + 1] ?? transaction.doc
     const insertedChildren = getInsertedBlocks(
       afterStep.resolve(block.inserted),
       afterStep.resolve(block.start),
     )
-    if (insertedChildren.length > 0) {
+    if (block.startsTransaction || insertedChildren.length > 0) {
       return mapPrependedBlock({ ...block, insertedChildren }, remaining)
     }
   }

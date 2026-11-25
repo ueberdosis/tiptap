@@ -143,11 +143,26 @@ it.each([
     },
   },
   {
-    name: 'placing an existing paragraph between the split paragraphs in the same transaction',
+    name: 'editing another paragraph after splitting at the start',
+    edit: (view: EditorView) => {
+      const start = view.state.selection.from
+      const transaction = view.state.tr.split(start).insertText('target', start)
+      view.dispatch(transaction.insertText('!', transaction.doc.content.size - 1))
+    },
+    offset: 0,
+    expected: ['target', 't!arget'],
+    expectedAfter: ['After', 'Last!'],
+  },
+  ...[true, false].map(splitFirst => ({
+    name: `moving an existing paragraph between the split halves with the split ${splitFirst ? 'first' : 'second'}`,
     edit: (view: EditorView) => {
       const preceding = view.state.doc.child(0)
-      const transaction = view.state.tr.insert(0, heading)
-      transaction.split(transaction.selection.from)
+      const transaction = view.state.tr
+      if (splitFirst) {
+        transaction.split(transaction.selection.from).insert(0, heading)
+      } else {
+        transaction.insert(0, heading).split(transaction.selection.from)
+      }
       transaction.delete(heading.nodeSize, heading.nodeSize + preceding.nodeSize)
       const start = transaction.mapping.map(view.state.selection.from)
       view.dispatch(transaction.insert(transaction.doc.resolve(start).before(), preceding))
@@ -155,7 +170,7 @@ it.each([
     offset: 0,
     expected: ['t!arget'],
     expectedBefore: ['Leading', '', 'B!efore'],
-  },
+  })),
 ])(
   'keeps concurrent typing with its text when $name',
   ({
@@ -167,6 +182,7 @@ it.each([
     retainedOffset = Number(offset === 0),
     configure,
     expectedBefore,
+    expectedAfter,
   }) => {
     const firstDoc = new Y.Doc()
     const secondDoc = new Y.Doc()
@@ -209,7 +225,11 @@ it.each([
       for (const view of [first, second]) {
         const blocks: string[] = []
         view.state.doc.forEach(node => blocks.push(node.textContent))
-        expect(blocks).toEqual([...(expectedBefore ?? before), ...expected, ...after])
+        expect(blocks).toEqual([
+          ...(expectedBefore ?? before),
+          ...expected,
+          ...(expectedAfter ?? after),
+        ])
       }
       expect(first.state.doc.eq(second.state.doc)).toBe(true)
       const originalIndex = before.length + retainedOffset + Number(hasLeadingHeading)
@@ -224,13 +244,18 @@ it.each([
 )
 
 it.each([
-  {
-    name: 'copied between the split paragraphs',
+  ...[true, false].map(splitFirst => ({
+    name: `copied between the split halves with the split ${splitFirst ? 'first' : 'second'}`,
     trailing: [],
     edit: (view: EditorView) => {
       const target = view.state.doc.child(0)
       const sibling = view.state.doc.child(1)
-      const transaction = view.state.tr.insert(view.state.doc.content.size, heading).split(1)
+      const transaction = view.state.tr
+      if (splitFirst) {
+        transaction.split(1).insert(transaction.doc.content.size, heading)
+      } else {
+        transaction.insert(transaction.doc.content.size, heading).split(1)
+      }
       const firstBlockSize = transaction.doc.child(0).nodeSize
       const siblingStart = target.nodeSize + firstBlockSize
       const copy = schema.node(sibling.type, sibling.attrs, sibling.content)
@@ -238,7 +263,7 @@ it.each([
       view.dispatch(transaction.insert(firstBlockSize, copy))
     },
     expected: ['', 'S!ibling', 'target', 'Leading'],
-  },
+  })),
   {
     name: 'recreated before the split',
     trailing: [schema.node('paragraph', null, schema.text('Last'))],
