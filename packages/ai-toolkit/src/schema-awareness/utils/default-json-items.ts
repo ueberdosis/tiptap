@@ -1,6 +1,7 @@
 import { z } from 'zod'
 
 import type { JsonItem } from '../types/json-item.js'
+import { diagramsJsonItems } from './diagrams-json-items.js'
 
 export const defaultJsonItems: JsonItem[] = [
   // Core nodes
@@ -270,6 +271,7 @@ export const defaultJsonItems: JsonItem[] = [
       'data-thread-id': z.string(),
     },
   },
+  ...diagramsJsonItems,
   // tiptap-pro marks
   {
     extensionName: 'inlineThread',
@@ -281,3 +283,12 @@ export const defaultJsonItems: JsonItem[] = [
     },
   },
 ]
+
+/**
+ * Attributes a node must declare for its default item to apply. A node of the same name without
+ * them belongs to another extension, such as an app's own `chart` node.
+ */
+export const defaultJsonItemRequiredAttributes: ReadonlyMap<string, readonly string[]> = new Map([
+  ['chart', ['data', 'spec']],
+  ['flowDiagram', ['format', 'source']],
+])

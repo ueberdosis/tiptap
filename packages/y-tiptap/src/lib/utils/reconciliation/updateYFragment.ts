@@ -86,7 +86,7 @@ export const updateYFragment = (
       continue
     }
 
-    if (mappedPChildren.has(leftP) || !equalYTypePNode(leftY, leftP)) {
+    if (mappedPChildren.has(leftP) || !equalYTypePNode(leftY, leftP, meta.mapping)) {
       break
     }
 
@@ -101,7 +101,7 @@ export const updateYFragment = (
       continue
     }
 
-    if (mappedPChildren.has(rightP) || !equalYTypePNode(rightY, rightP)) {
+    if (mappedPChildren.has(rightP) || !equalYTypePNode(rightY, rightP, meta.mapping)) {
       break
     }
 

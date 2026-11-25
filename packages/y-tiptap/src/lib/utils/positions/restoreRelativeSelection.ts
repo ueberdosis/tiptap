@@ -6,7 +6,6 @@ import { findAbsolutePositionAfterStructuralChange } from './findAbsolutePositio
 import { isMisresolvedAfterStructuralChange } from './isMisresolvedAfterStructuralChange.js'
 import { relativePositionToAbsolutePosition } from './relativePositionToAbsolutePosition.js'
 import type { ProsemirrorBinding } from '../binding/ProsemirrorBinding.js'
-import { resolvePositionMigration } from './migrations/resolvePositionMigration.js'
 
 const recoverSelectionEndpoint = (
   newDoc: PModel.Node,
@@ -77,14 +76,8 @@ export const restoreRelativeSelection = (
         binding.mapping,
       )
       if (oldDoc != null) {
-        // Content-based recovery must not override an identity transfer or its conflict result.
-        if (resolvePositionMigration(binding.type, relSel.anchor) === relSel.anchor) {
-          anchor = recoverSelectionEndpoint(tr.doc, oldDoc, relSel.absAnchor, anchor)
-        }
-
-        if (resolvePositionMigration(binding.type, relSel.head) === relSel.head) {
-          head = recoverSelectionEndpoint(tr.doc, oldDoc, relSel.absHead, head)
-        }
+        anchor = recoverSelectionEndpoint(tr.doc, oldDoc, relSel.absAnchor, anchor)
+        head = recoverSelectionEndpoint(tr.doc, oldDoc, relSel.absHead, head)
       }
       if (anchor === null) {
         anchor = head

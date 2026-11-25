@@ -4,7 +4,7 @@ import { Document } from '@tiptap/extension-document'
 import { Paragraph } from '@tiptap/extension-paragraph'
 import { Text } from '@tiptap/extension-text'
 import { all, createLowlight } from 'lowlight'
-import { afterEach, beforeEach, describe, expect, it } from 'vite-plus/test'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test'
 
 const lowlight = createLowlight(all)
 
@@ -78,5 +78,13 @@ describe('code block highlight', () => {
   it('executes lowlight plugin in extensions that inherit from code-block-lowlight', () => {
     expect(getEditorEl()?.querySelector('.language-javascript .hljs-string')).not.toBe(null)
     expect(getEditorEl()?.querySelector('.language-yaml .hljs-string')).not.toBe(null)
+  })
+
+  it('does not walk the document on selection-only transactions', () => {
+    const descendants = vi.spyOn(editor.state.doc, 'descendants')
+
+    editor.commands.setTextSelection(3)
+
+    expect(descendants).not.toHaveBeenCalled()
   })
 })

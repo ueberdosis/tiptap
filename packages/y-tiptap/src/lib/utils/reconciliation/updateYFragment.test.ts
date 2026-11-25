@@ -1,5 +1,5 @@
 import { Schema } from 'prosemirror-model'
-import { afterEach, describe, expect, it } from 'vite-plus/test'
+import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 import * as Y from 'yjs'
 
 import { ySyncPluginKey } from '../../plugins/keys.js'
@@ -17,6 +17,7 @@ const schema = new Schema({
     },
     heading: { group: 'block', content: 'text*' },
     image: { group: 'block', attrs: { src: { default: null } } },
+    blockquote: { group: 'block', content: 'block+' },
     text: {},
   },
 })
@@ -125,6 +126,33 @@ describe('updateYFragment', () => {
     updateYFragment(document, fragment, schema.node('doc', null, [inserted, a]), meta)
 
     expect(fragment.get(1)).toBe(aElement)
+  })
+
+  it('skips mapped children when comparing an edited parent', () => {
+    const { document, fragment, meta } = createFragment()
+    const quote = schema.node('blockquote', null, [first, second])
+    updateYFragment(document, fragment, schema.node('doc', null, [quote]), meta)
+    const quoteElement = fragment.get(0)
+
+    if (!(quoteElement instanceof Y.XmlElement)) {
+      throw new Error('Expected a blockquote element')
+    }
+
+    const firstElement = quoteElement.get(0)
+
+    if (!(firstElement instanceof Y.XmlElement)) {
+      throw new Error('Expected a paragraph element')
+    }
+
+    const toArray = vi.spyOn(firstElement, 'toArray')
+    const next = schema.node('doc', null, [quote.copy(quote.content.replaceChild(1, inserted))])
+
+    updateYFragment(document, fragment, next, meta)
+
+    expect(toArray).not.toHaveBeenCalled()
+    expect(schema.nodeFromJSON(yXmlFragmentToProsemirrorJSON(fragment)).toJSON()).toEqual(
+      next.toJSON(),
+    )
   })
 
   it('groups direct mapped-child updates in one sync transaction', () => {
