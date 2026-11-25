@@ -153,6 +153,22 @@ it.each([
     expected: ['target', 't!arget'],
     expectedAfter: ['After', 'Last!'],
   },
+  {
+    name: 'changing another paragraph into a heading after splitting at the start',
+    edit: (view: EditorView) => {
+      const start = view.state.selection.from
+      const transaction = view.state.tr.split(start).insertText('target', start)
+      const last = transaction.doc.child(transaction.doc.childCount - 1)
+      view.dispatch(
+        transaction.setNodeMarkup(
+          transaction.doc.content.size - last.nodeSize,
+          schema.nodes.heading,
+        ),
+      )
+    },
+    offset: 0,
+    expected: ['target', 't!arget'],
+  },
   ...[true, false].map(splitFirst => ({
     name: `moving an existing paragraph between the split halves with the split ${splitFirst ? 'first' : 'second'}`,
     edit: (view: EditorView) => {
@@ -264,21 +280,26 @@ it.each([
     },
     expected: ['', 'S!ibling', 'target', 'Leading'],
   })),
-  {
-    name: 'recreated before the split',
+  ...[true, false].map(splitFirst => ({
+    name: `recreated ${splitFirst ? 'after' : 'before'} the split`,
     trailing: [schema.node('paragraph', null, schema.text('Last'))],
     edit: (view: EditorView) => {
       const target = view.state.doc.child(0)
       const sibling = view.state.doc.child(1)
       const copy = schema.node(sibling.type, sibling.attrs, sibling.content)
-      view.dispatch(
-        view.state.tr
-          .replaceWith(target.nodeSize, target.nodeSize + sibling.nodeSize, [heading, copy])
-          .split(1),
-      )
+      const transaction = view.state.tr
+      if (splitFirst) {
+        transaction.split(1)
+      }
+      const siblingStart = target.nodeSize + (splitFirst ? transaction.doc.child(0).nodeSize : 0)
+      transaction.replaceWith(siblingStart, siblingStart + sibling.nodeSize, [heading, copy])
+      if (!splitFirst) {
+        transaction.split(1)
+      }
+      view.dispatch(transaction)
     },
     expected: ['', 'target', 'Leading', 'S!ibling', 'Last'],
-  },
+  })),
 ])('preserves concurrent typing in a sibling $name', ({ trailing, edit, expected }) => {
   const firstDoc = new Y.Doc()
   const secondDoc = new Y.Doc()

@@ -68,7 +68,7 @@ const canReconcileChildren = (
   block: PrependedBlock,
 ) => {
   const matches = matchesInsertedChildren(children, inserted.before(), block)
-  if (block.startsTransaction && matches) {
+  if (matches && block.originalSiblings) {
     return true
   }
 
