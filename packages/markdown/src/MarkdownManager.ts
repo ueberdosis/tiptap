@@ -1330,7 +1330,7 @@ export class MarkdownManager {
 
       if (node.type === 'text') {
         let textContent = this.encodeTextForMarkdown(node.text || '', node, parentNode)
-        const currentMarks = new Map((node.marks || []).map(mark => [mark.type, mark]))
+        let currentMarks = new Map((node.marks || []).map(mark => [mark.type, mark]))
 
         // Find marks that need to be closed and opened
         let marksToOpen = this.getMarksToOpenForSerialization(activeMarks, currentMarks, nextNode)
