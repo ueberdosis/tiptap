@@ -10,17 +10,28 @@ export const findMappedChildAnchors = (
   pChildren: NormalizedPNodeContent,
   meta: BindingMetadata,
 ) => {
-  const pChildIndices = new Map<PModel.Node | PModel.Node[], number>()
+  const pChildIndices = new Map<PModel.Node | PModel.Node[], { indices: number[]; next: number }>()
   pChildren.forEach((pChild, index) => {
-    if (!pChildIndices.has(pChild)) {
-      pChildIndices.set(pChild, index)
+    const positions = pChildIndices.get(pChild)
+    if (positions) {
+      positions.indices.push(index)
+    } else {
+      pChildIndices.set(pChild, { indices: [index], next: 0 })
     }
   })
   const candidates: MappedChildAnchor[] = []
   yChildren.forEach((yChild, yIndex) => {
     const mapped = meta.mapping.get(yChild)
-    const pIndex = mapped === undefined ? undefined : pChildIndices.get(mapped)
+    const positions = mapped === undefined ? undefined : pChildIndices.get(mapped)
+    if (!positions) {
+      return
+    }
+    const pIndex = positions.indices[positions.next]
     if (pIndex !== undefined && mappedIdentity(mapped, pChildren[pIndex])) {
+      // Shared nodes can represent distinct child positions.
+      if (positions.indices.length > 1) {
+        positions.next += 1
+      }
       candidates.push({ yIndex, pIndex, yChild })
     }
   })

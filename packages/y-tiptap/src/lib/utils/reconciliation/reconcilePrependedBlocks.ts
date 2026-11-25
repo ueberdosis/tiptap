@@ -11,10 +11,15 @@ const retainsOriginalSiblings = (
   before: ResolvedPos,
   after: ResolvedPos,
   firstInserted: number,
+  recreated?: ReadonlyMap<number, Node>,
 ) => {
   for (let depth = 0; depth < before.depth; depth += 1) {
     const previous = before.node(depth).content.content
-    const current = after.node(depth).content.content
+    const children = after.node(depth).content.content
+    const current =
+      recreated && depth === before.depth - 1
+        ? children.map((node, index) => recreated.get(index) ?? node)
+        : children
     const retained = after.index(depth)
     const expected = previous.slice()
     if (!expected[before.index(depth)].sameMarkup(current[retained])) {
@@ -61,21 +66,67 @@ const matchesInsertedChildren = (
   })
 }
 
-const canReconcileChildren = (
+const prepareSiblingsForReconciliation = (
   children: readonly Node[],
   inserted: ResolvedPos,
   after: ResolvedPos,
   block: PrependedBlock,
+  parent: Y.XmlFragment,
+  meta: BindingMetadata,
 ) => {
   const matches = matchesInsertedChildren(children, inserted.before(), block)
   if (matches && block.originalSiblings) {
     return true
   }
 
-  return (
+  if (
     (matches || block.startsTransaction) &&
     retainsOriginalSiblings(block.before, after, inserted.index(-1))
-  )
+  ) {
+    return true
+  }
+
+  return matches && retainRecreatedSiblings(parent, block.before, after, inserted.index(-1), meta)
+}
+
+const retainRecreatedSiblings = (
+  parent: Y.XmlFragment,
+  before: ResolvedPos,
+  after: ResolvedPos,
+  firstInserted: number,
+  meta: BindingMetadata,
+) => {
+  const original = before.node(-1).content.content
+  const current = after.node(-1).content.content
+  const firstSibling = before.index(-1) + 1
+  const shift = current.length - original.length
+  const recreated = new Map<number, Node>()
+  const anchors = new Map<Y.XmlElement, Node>()
+
+  for (let index = firstSibling; index < original.length; index += 1) {
+    const replacement = current[index + shift]
+    if (replacement === original[index]) {
+      continue
+    }
+    const element = parent.get(index)
+    if (
+      index + shift <= after.index(-1) ||
+      !replacement?.eq(original[index]) ||
+      !(element instanceof Y.XmlElement) ||
+      meta.mapping.get(element) !== original[index]
+    ) {
+      return false
+    }
+    recreated.set(index + shift, original[index])
+    anchors.set(element, replacement)
+  }
+
+  if (anchors.size === 0 || !retainsOriginalSiblings(before, after, firstInserted, recreated)) {
+    return false
+  }
+
+  anchors.forEach((node, element) => meta.mapping.set(element, node))
+  return true
 }
 
 export const reconcilePrependedBlocks = (
@@ -123,7 +174,7 @@ export const reconcilePrependedBlocks = (
   }
 
   const children = after.node(-1).content.content.slice(firstInserted, end)
-  if (!canReconcileChildren(children, inserted, after, block)) {
+  if (!prepareSiblingsForReconciliation(children, inserted, after, block, parent, meta)) {
     return
   }
 

@@ -298,14 +298,34 @@ it.each([
       }
       view.dispatch(transaction)
     },
-    expected: ['', 'target', 'Leading', 'S!ibling', 'Last'],
+    typeInTarget: true,
+    expected: ['', 't?arget', 'Leading', 'S!ibling', 'Last'],
   })),
-])('preserves concurrent typing in a sibling $name', ({ trailing, edit, expected }) => {
+  {
+    name: 'recreated with the retained paragraph node',
+    trailing: [schema.node('paragraph', null, schema.text('Last'))],
+    siblingText: 'target',
+    typeInTarget: true,
+    edit: (view: EditorView) => {
+      const transaction = view.state.tr.split(1)
+      const retained = transaction.doc.child(1)
+      const siblingStart = transaction.doc.child(0).nodeSize + retained.nodeSize
+      view.dispatch(
+        transaction.replaceWith(siblingStart, siblingStart + retained.nodeSize, [
+          heading,
+          retained,
+        ]),
+      )
+    },
+    expected: ['', 't?arget', 'Leading', 't!arget', 'Last'],
+  },
+])('keeps typing in a sibling $name', scenario => {
+  const { trailing, edit, expected, typeInTarget, siblingText } = scenario
   const firstDoc = new Y.Doc()
   const secondDoc = new Y.Doc()
   const fragment = firstDoc.getXmlFragment('prosemirror')
   const target = schema.node('paragraph', null, schema.text('target'))
-  const sibling = schema.node('paragraph', null, schema.text('Sibling'))
+  const sibling = schema.node('paragraph', null, schema.text(siblingText ?? 'Sibling'))
   prosemirrorToYXmlFragment(schema.node('doc', null, [target, sibling, ...trailing]), fragment)
   syncDocuments(firstDoc, secondDoc)
   const first = createTestView(firstDoc)
@@ -314,6 +334,9 @@ it.each([
   try {
     edit(first)
     second.dispatch(second.state.tr.insertText('!', target.nodeSize + 2))
+    if (typeInTarget) {
+      second.dispatch(second.state.tr.insertText('?', 2))
+    }
     syncDocuments(firstDoc, secondDoc)
 
     for (const view of [first, second]) {
