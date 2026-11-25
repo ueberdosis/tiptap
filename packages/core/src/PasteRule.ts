@@ -300,6 +300,11 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
             if (!isDroppedFromProseMirror) {
               const dragFromOtherEditor = tiptapDragFromOtherEditor
 
+              // Every paste rule registers this handler, so only the first one may delete.
+              // A node range selection still spans a block after deletion, so a second
+              // delete would remove the next block too.
+              tiptapDragFromOtherEditor = null
+
               if (dragFromOtherEditor?.isEditable) {
                 // setTimeout to avoid the wrong content after drop, timeout arg can't be empty or 0
                 setTimeout(() => {

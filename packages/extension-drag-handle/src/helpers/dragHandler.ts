@@ -158,6 +158,14 @@ export function dragHandler(
   document.body.append(wrapper)
 
   event.dataTransfer.clearData()
+
+  // `view.dragging` only reaches drops into this editor. Another editor reads the
+  // dragged content from the data transfer, as with ProseMirror's own dragstart.
+  const { dom, text } = view.serializeForClipboard(slice)
+
+  event.dataTransfer.setData('text/html', dom.innerHTML)
+  event.dataTransfer.setData('text/plain', text)
+
   const wrapperRect = wrapper.getBoundingClientRect()
   const dragImageX = getDragImageOffset(direction, wrapperRect.width)
 
