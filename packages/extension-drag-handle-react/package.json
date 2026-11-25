@@ -54,7 +54,13 @@
     "@tiptap/extension-drag-handle": "workspace:*",
     "@tiptap/pm": "workspace:*",
     "@tiptap/react": "workspace:*",
+    "@types/react": "^16.8 || ^17 || ^18 || ^19",
     "react": "^16.8 || ^17 || ^18 || ^19",
     "react-dom": "^16.8 || ^17 || ^18 || ^19"
+  },
+  "peerDependenciesMeta": {
+    "@types/react": {
+      "optional": true
+    }
   }
 }

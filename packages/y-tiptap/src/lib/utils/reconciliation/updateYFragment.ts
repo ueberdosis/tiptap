@@ -84,7 +84,7 @@ export const updateYFragment = (
       continue
     }
 
-    if (!equalYTypePNode(leftY, leftP)) {
+    if (!equalYTypePNode(leftY, leftP, meta.mapping)) {
       break
     }
 
@@ -99,7 +99,7 @@ export const updateYFragment = (
       continue
     }
 
-    if (!equalYTypePNode(rightY, rightP)) {
+    if (!equalYTypePNode(rightY, rightP, meta.mapping)) {
       break
     }
 

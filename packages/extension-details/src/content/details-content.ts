@@ -49,7 +49,7 @@ export const DetailsContent = Node.create<DetailsContentOptions>({
   },
 
   addNodeView() {
-    return ({ HTMLAttributes }) => {
+    return ({ HTMLAttributes, getPos, editor }) => {
       const dom = document.createElement('div')
       const attributes = mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, {
         'data-type': this.name,
@@ -57,6 +57,23 @@ export const DetailsContent = Node.create<DetailsContentOptions>({
       })
 
       Object.entries(attributes).forEach(([key, value]) => dom.setAttribute(key, value))
+
+      // With `openWithoutDelay` on the Details extension, a Details created open is visible
+      // when it is drawn, so anything that measures right after drawing reads its full height.
+      const pos = typeof getPos === 'function' ? getPos() : undefined
+      const parent =
+        typeof pos === 'number' && pos <= editor.state.doc.content.size
+          ? editor.state.doc.resolve(pos).parent
+          : undefined
+      // Looked up by the parent's type name, so a renamed Details works too.
+      const openWithoutDelay = parent
+        ? editor.extensionManager.extensions.find(extension => extension.name === parent.type.name)
+            ?.options.openWithoutDelay
+        : undefined
+
+      if (openWithoutDelay && parent?.attrs.open) {
+        dom.removeAttribute('hidden')
+      }
 
       dom.addEventListener('toggleDetailsContent', () => {
         dom.toggleAttribute('hidden')

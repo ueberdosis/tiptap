@@ -6,9 +6,37 @@ import { isVisible } from '../binding/isVisible.js'
 import { deleteMapping } from '../binding/deleteMapping.js'
 import { projectedMappings } from '../binding/projectedMappings.js'
 
+import { getContentSnapshot } from './getContentSnapshot.js'
 import { createTextNodesFromYText } from './createTextNodesFromYText.js'
 import { deleteYType } from './deleteYType.js'
 import { mergeNextYText } from './mergeNextYText.js'
+import { toError } from './toError.js'
+
+const isAbsentFromSnapshots = (
+  type: Y.XmlElement | Y.XmlText | Y.XmlHook,
+  snapshot?: Y.Snapshot,
+  prevSnapshot?: Y.Snapshot,
+) =>
+  snapshot !== undefined &&
+  prevSnapshot !== undefined &&
+  type._item !== null &&
+  !isVisible(type._item, snapshot) &&
+  !isVisible(type._item, prevSnapshot)
+
+const getSnapshotChildren = (
+  el: Y.XmlElement,
+  snapshot?: Y.Snapshot,
+  prevSnapshot?: Y.Snapshot,
+  contentSnapshot?: Y.Snapshot,
+) => {
+  if (snapshot === undefined || prevSnapshot === undefined) return el.toArray()
+  if (contentSnapshot !== snapshot) {
+    return contentSnapshot === undefined
+      ? el.toArray()
+      : Y.typeListToArraySnapshot(el, contentSnapshot)
+  }
+  return Y.typeListToArraySnapshot(el, new Y.Snapshot(prevSnapshot.ds, snapshot.sv))
+}
 
 const getYChange = (
   el: Y.XmlElement,
@@ -60,8 +88,13 @@ export const createNodeFromYElement = (
     return cachedSingleNode
   }
 
+  const contentSnapshot = getContentSnapshot(el, snapshot, prevSnapshot)
+
   const children: PModel.Node[] = []
+  let hasSkippedChild = false
   const createChildren = (type: Y.XmlElement | Y.XmlText | Y.XmlHook) => {
+    if (isAbsentFromSnapshots(type, snapshot, prevSnapshot)) return
+
     if (type instanceof Y.XmlElement) {
       const node = createNodeFromYElement(
         type,
@@ -71,13 +104,16 @@ export const createNodeFromYElement = (
         prevSnapshot,
         computeYChange,
       )
+      // Children with skipped content are not cached
+      if (node === null || meta.mapping.get(type) !== node) hasSkippedChild = true
       if (node !== null) children.push(node)
       return
     }
 
     if (!(type instanceof Y.XmlText)) return
 
-    mergeNextYText(type)
+    if (meta.deferTextMerge) meta.deferTextMerge(type)
+    else mergeNextYText(type)
     const textNodes = createTextNodesFromYText(
       type,
       schema,
@@ -86,18 +122,13 @@ export const createNodeFromYElement = (
       prevSnapshot,
       computeYChange,
     )
+    if (textNodes === null) hasSkippedChild = true
     // Avoid spreading, which overflows the call stack for many formatting runs
     textNodes?.forEach(textNode => children.push(textNode))
   }
-  if (snapshot === undefined || prevSnapshot === undefined) {
-    el.toArray().forEach(createChildren)
-  } else {
-    Y.typeListToArraySnapshot(el, new Y.Snapshot(prevSnapshot.ds, snapshot.sv)).forEach(
-      createChildren,
-    )
-  }
+  getSnapshotChildren(el, snapshot, prevSnapshot, contentSnapshot).forEach(createChildren)
   try {
-    const attrs: Record<string, unknown> = el.getAttributes(snapshot)
+    const attrs: Record<string, unknown> = el.getAttributes(contentSnapshot)
     const ychange = snapshot ? getYChange(el, snapshot, prevSnapshot, computeYChange) : undefined
     if (ychange !== undefined) attrs.ychange = ychange
 
@@ -106,12 +137,24 @@ export const createNodeFromYElement = (
       node = cachedSingleNode
     }
 
+    // Skipped content must be checked again on the next projection
+    if (hasSkippedChild && meta.reportInvalidContent) {
+      deleteMapping(meta.mapping, el)
+      return node
+    }
+
     setProjectedNode(meta, el, node)
     return node
-  } catch {
+  } catch (error) {
+    deleteMapping(meta.mapping, el)
+
+    if (meta.reportInvalidContent) {
+      meta.reportInvalidContent(toError(error))
+      return null
+    }
+
     // Remove unrenderable shared content so later projections do not repeat the failure.
     deleteYType(el)
-    deleteMapping(meta.mapping, el)
     return null
   }
 }

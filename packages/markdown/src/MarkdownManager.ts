@@ -34,6 +34,7 @@ import {
   wrapInMarkdownBlock,
 } from './utils.js'
 import { collectMarkSpanTexts } from './utils/collectMarkSpanTexts.js'
+import { expelMarkWhitespace } from './utils/expelMarkWhitespace.js'
 import { htmlContainsUnrecognizedTag } from './utils/htmlTagDetection.js'
 
 export class MarkdownManager {
@@ -1313,15 +1314,15 @@ export class MarkdownManager {
     separator = '',
     level = 0,
   ): string {
-    const result: string[] = []
+    const result = new Map<number, string>()
+    const pieces = expelMarkWhitespace(nodes)
     const activeMarks: Map<string, any> = new Map()
     const reopenWithHtmlOnNextOpen = new Set<string>()
     const markOpeningModes = new Map<string, 'markdown' | 'html'>()
     // Delimiters can depend on the whole mark run, not just one text node
-    const markSpanTexts = collectMarkSpanTexts(nodes)
-    nodes.forEach((node, i) => {
-      // Lookahead to the next node to determine if marks need to be closed
-      const nextNode = i < nodes.length - 1 ? nodes[i + 1] : null
+    const markSpanTexts = collectMarkSpanTexts(pieces.map(piece => piece.node))
+    pieces.forEach(({ node, index }, i) => {
+      const nextNode = pieces[i + 1]?.node
 
       if (!node.type) {
         return
@@ -1329,7 +1330,7 @@ export class MarkdownManager {
 
       if (node.type === 'text') {
         let textContent = this.encodeTextForMarkdown(node.text || '', node, parentNode)
-        let currentMarks = new Map((node.marks || []).map(mark => [mark.type, mark]))
+        const currentMarks = new Map((node.marks || []).map(mark => [mark.type, mark]))
 
         // Find marks that need to be closed and opened
         let marksToOpen = this.getMarksToOpenForSerialization(activeMarks, currentMarks, nextNode)
@@ -1366,8 +1367,9 @@ export class MarkdownManager {
           if (closeCode) {
             // Close against the previous result entry when possible so the
             // fence lands after the prior text node rather than before this one.
-            if (result.length > 0) {
-              result[result.length - 1] += closeCode
+            const previousIndex = pieces[i - 1]?.index
+            if (previousIndex !== undefined && result.has(previousIndex)) {
+              result.set(previousIndex, (result.get(previousIndex) ?? '') + closeCode)
             } else {
               textContent = closeCode + textContent
             }
@@ -1410,17 +1412,6 @@ export class MarkdownManager {
         const activeMarksClosingHere = marksToClose.filter(markType => activeMarks.has(markType))
         const hasCrossedBoundary = activeMarksClosingHere.length > 0 && marksToOpen.length > 0
 
-        let middleTrailingWhitespace = ''
-
-        if (marksToClose.length > 0 && !hasCrossedBoundary) {
-          // Extract trailing whitespace before closing marks to prevent invalid markdown like "**text **"
-          const middleTrailingMatch = textContent.match(/(\s+)$/)
-          if (middleTrailingMatch) {
-            middleTrailingWhitespace = middleTrailingMatch[1]
-            textContent = textContent.slice(0, -middleTrailingWhitespace.length)
-          }
-        }
-
         if (!hasCrossedBoundary) {
           // Normal path: close marks that are ending here (no new marks opening simultaneously).
           // Reverse so the last-opened mark closes first (LIFO), preserving valid nesting.
@@ -1449,21 +1440,11 @@ export class MarkdownManager {
             })
         }
 
-        // Open new marks (should be at the beginning)
-        // Extract leading whitespace before opening marks to prevent invalid markdown like "** text**"
-        let leadingWhitespace = ''
-        if (marksToOpen.length > 0) {
-          const leadingMatch = textContent.match(/^(\s+)/)
-          if (leadingMatch) {
-            leadingWhitespace = leadingMatch[1]
-            textContent = textContent.slice(leadingWhitespace.length)
-          }
-        }
+        // An overlap can reopen a continuing mark at the start of a whitespace piece.
+        const leadingWhitespace =
+          marksToOpen.length > 0 ? (textContent.match(/^\s+/)?.[0] ?? '') : ''
+        textContent = textContent.slice(leadingWhitespace.length)
 
-        // Snapshot active mark types before opening new marks, so each new mark's delimiter
-        // is chosen based on what is already active (not including itself).
-        // When crossing a boundary, old marks are still in activeMarks here (not yet removed),
-        // so new marks correctly see them as active context.
         marksToOpen.forEach(({ type, mark }) => {
           const openingMode = reopenWithHtmlOnNextOpen.has(type) ? 'html' : 'markdown'
           const openMarkdown = this.getMarkOpening(
@@ -1487,9 +1468,6 @@ export class MarkdownManager {
               activeMarks.set(type, mark)
             })
         }
-
-        // Add leading whitespace before the mark opening
-        textContent = leadingWhitespace + textContent
 
         // Determine marks to close at the end of this node.
         // On a crossed boundary, we close new marks (inner) first, then old marks (outer),
@@ -1543,16 +1521,6 @@ export class MarkdownManager {
           marksToCloseAtEnd = ['code', ...marksToCloseAtEnd]
         }
 
-        // Extract trailing whitespace before closing marks to prevent invalid markdown like "**text **"
-        let trailingWhitespace = ''
-        if (marksToCloseAtEnd.length > 0) {
-          const trailingMatch = textContent.match(/(\s+)$/)
-          if (trailingMatch) {
-            trailingWhitespace = trailingMatch[1]
-            textContent = textContent.slice(0, -trailingWhitespace.length)
-          }
-        }
-
         marksToCloseAtEnd.forEach(markType => {
           const mark = activeMarks.get(markType) ?? currentMarks.get(markType)
           const closeMarkdown = this.getMarkClosing(
@@ -1568,11 +1536,7 @@ export class MarkdownManager {
           markOpeningModes.delete(markType)
         })
 
-        // Add trailing whitespace after the mark closing
-        textContent += trailingWhitespace
-        textContent += middleTrailingWhitespace
-
-        result.push(textContent)
+        result.set(index, (result.get(index) ?? '') + leadingWhitespace + textContent)
       } else {
         // For non-text nodes, close all active marks before rendering, then reopen after
         // Only reopen marks that the node itself carries — marks don't skip over inline atoms.
@@ -1580,7 +1544,12 @@ export class MarkdownManager {
         const marksToReopen = new Map<string, { type: string; attrs?: Record<string, any> }>()
         const openingModesToReopen = new Map<string, 'markdown' | 'html'>()
         activeMarks.forEach((mark, type) => {
-          if (nodeMarkTypes.has(type)) {
+          if (
+            nodeMarkTypes.has(type) &&
+            nextNode?.marks?.some(
+              nextMark => nextMark.type === type && attrsEqual(nextMark.attrs, mark.attrs),
+            )
+          ) {
             marksToReopen.set(type, mark)
             openingModesToReopen.set(type, markOpeningModes.get(type) ?? 'markdown')
           }
@@ -1599,7 +1568,7 @@ export class MarkdownManager {
         markOpeningModes.clear()
 
         // Render the node
-        const nodeContent = this.renderNodeToMarkdown(node, parentNode, i, level)
+        const nodeContent = this.renderNodeToMarkdown(node, parentNode, index, level)
 
         // Reopen marks after the node, but NOT after a hard break
         // Hard breaks should terminate marks (they create a line break where marks don't continue)
@@ -1617,28 +1586,38 @@ export class MarkdownManager {
                 )
               })
 
-        result.push(beforeMarkdown + nodeContent + afterMarkdown)
+        result.set(index, beforeMarkdown + nodeContent + afterMarkdown)
       }
     })
 
+    const rendered = Array.from(result.values())
     // A literal "!" directly before a link would be reparsed as an image, so escape it
     if (separator === '') {
       let previous = -1
-      result.forEach((piece, i) => {
+      rendered.forEach((piece, i) => {
         if (!piece) {
           return
         }
         if (previous >= 0 && piece.startsWith('[')) {
-          const trailing = /(\\*)!$/.exec(result[previous])
+          const trailing = /(\\*)!$/.exec(rendered[previous])
           if (trailing && trailing[1].length % 2 === 0) {
-            result[previous] = `${result[previous].slice(0, -1)}\\!`
+            rendered[previous] = `${rendered[previous].slice(0, -1)}\\!`
           }
         }
         previous = i
       })
     }
 
-    return result.join(separator)
+    const markdown = rendered.join(separator)
+    if (parentNode?.type === 'paragraph' && /^(?: {4}| {0,3}\t)/.test(markdown)) {
+      const firstContent = pieces.find(({ node }) => node.type !== 'text' || node.text?.trim())
+      if (firstContent?.node.marks?.length) {
+        // Keep leading whitespace from turning the marked paragraph into a code block.
+        return `&#${markdown.charCodeAt(0)};${markdown.slice(1)}`
+      }
+    }
+
+    return markdown
   }
 
   /**
