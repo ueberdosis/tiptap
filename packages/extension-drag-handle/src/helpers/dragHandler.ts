@@ -159,8 +159,7 @@ export function dragHandler(
 
   event.dataTransfer.clearData()
 
-  // `view.dragging` only reaches drops into this editor. Another editor reads the
-  // dragged content from the data transfer, as with ProseMirror's own dragstart.
+  // Other editors read the dropped content from the data transfer
   const { dom, text } = view.serializeForClipboard(slice)
 
   event.dataTransfer.setData('text/html', dom.innerHTML)
