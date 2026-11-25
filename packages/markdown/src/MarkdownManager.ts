@@ -1206,11 +1206,13 @@ export class MarkdownManager {
    * misinterpreted as formatting delimiters when the output is parsed again.
    *
    * The set covers the most common inline markdown syntax characters.
+   * `$` is included so a literal dollar (parsed from `\$`) is written back
+   * as `\$` and is not reparsed as math (`$...$` / `$$...$$`).
    * Characters inside code blocks/code marks are skipped by the caller
    * (`encodeTextForMarkdown`) via the existing `isInsideCode` guard.
    */
   private escapeMarkdownSyntax(text: string): string {
-    return text.replace(/([\\`*_[\]~])/g, '\\$1')
+    return text.replace(/([\\`*_[\]~$])/g, '\\$1')
   }
 
   renderNodeToMarkdown(
