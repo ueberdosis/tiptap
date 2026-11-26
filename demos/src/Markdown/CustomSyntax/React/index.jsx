@@ -68,7 +68,8 @@ const CustomAtom = Node.create({
   },
 
   ...createAtomBlockMarkdownSpec({
-    nodeName: 'atom',
+    nodeName: 'customAtom',
+    name: 'atom',
   }),
 })
 
@@ -189,6 +190,19 @@ export default () => {
 
   return (
     <>
+      <div className="button-group">
+        <button
+          type="button"
+          disabled={!editor}
+          onClick={() =>
+            editor.commands.setContent('A paragraph\n  :::atom :::\n\nAnother paragraph.', {
+              contentType: 'markdown',
+            })
+          }
+        >
+          Load Markdown atom example
+        </button>
+      </div>
       <div className="grid">
         <EditorContent className="editor-wrapper" editor={editor} />
         <div className="preview">
