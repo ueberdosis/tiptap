@@ -43,16 +43,43 @@ export interface SerializedSchema {
 }
 
 /**
+ * Adds `null` to a validate string that allows `undefined`.
+ *
+ * @param validate - A ProseMirror type list such as `string|undefined`
+ * @returns The type list with `null` added when it allows `undefined`
+ */
+function allowNullWhereUndefinedIsAllowed(validate: string): string {
+  const types = validate.split('|')
+  if (!types.includes('undefined') || types.includes('null')) {
+    return validate
+  }
+  return `${validate}|null`
+}
+
+/**
  * Serializes an AttributeSpec by converting the validate function to a string if it exists.
  * This makes the attribute specification JSON-serializable.
+ *
+ * A `default` of `undefined` becomes `null`. JSON drops `undefined`, and an attribute without
+ * a default is required, so the attribute would no longer be optional.
  *
  * @param attributeSpec - The AttributeSpec to serialize
  * @returns A SerializedAttributeSpec with validate as a string or undefined
  */
 function serializeAttributeSpec(attributeSpec: AttributeSpec): SerializedAttributeSpec {
+  const validate = typeof attributeSpec.validate === 'string' ? attributeSpec.validate : undefined
+  const serialized = { ...omit(attributeSpec, ['validate']), validate }
+
+  const hasUndefinedDefault =
+    Object.hasOwn(attributeSpec, 'default') && attributeSpec.default === undefined
+  if (!hasUndefinedDefault) {
+    return serialized
+  }
+
   return {
-    ...omit(attributeSpec, ['validate']),
-    validate: typeof attributeSpec.validate === 'string' ? attributeSpec.validate : undefined,
+    ...serialized,
+    default: null,
+    validate: validate === undefined ? undefined : allowNullWhereUndefinedIsAllowed(validate),
   }
 }
 
