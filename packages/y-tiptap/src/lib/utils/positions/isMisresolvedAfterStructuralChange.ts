@@ -1,6 +1,8 @@
 import { Node } from 'prosemirror-model'
 import { attrsEqual } from './attrsEqual.js'
 import { findAbsolutePositionAfterStructuralChange } from './findAbsolutePositionAfterStructuralChange.js'
+import { hasDistinctiveAttrs } from './hasDistinctiveAttrs.js'
+import { isUniqueBlock } from './isUniqueBlock.js'
 
 /** Detects a position that moved into a different block. */
 export const isMisresolvedAfterStructuralChange = (
@@ -19,6 +21,17 @@ export const isMisresolvedAfterStructuralChange = (
   }
   if (!$new.parent.isTextblock) {
     return true
+  }
+  // Still the same block (same type and attrs no other block has, e.g. a unique id):
+  // its text changed because of a remote edit, which is not a misresolution.
+  if (
+    $old.parent.type === $new.parent.type &&
+    hasDistinctiveAttrs($old.parent) &&
+    attrsEqual($old.parent.attrs, $new.parent.attrs) &&
+    isUniqueBlock(oldDoc, $old.parent) &&
+    isUniqueBlock(newDoc, $new.parent)
+  ) {
+    return false
   }
   if ($old.parent.textContent !== $new.parent.textContent) {
     return true
