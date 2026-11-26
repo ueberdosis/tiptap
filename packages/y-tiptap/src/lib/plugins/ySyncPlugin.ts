@@ -3,6 +3,8 @@ import type { ColorDef } from '../../types/ColorDef.js'
 import type { SyncPluginOptions } from '../../types/SyncPluginOptions.js'
 import type { SyncPluginState } from '../../types/SyncPluginState.js'
 import { Plugin } from 'prosemirror-state'
+import type { Transaction } from 'prosemirror-state'
+import type { Node } from 'prosemirror-model'
 import { ySyncPluginKey, yUndoPluginKey } from './keys.js'
 import * as Y from 'yjs'
 import * as eventloop from 'lib0/eventloop'
@@ -24,6 +26,15 @@ export const ySyncPlugin = (
 ) => {
   let initialContentChanged = false
   const binding = new ProsemirrorBinding(yXmlFragment, mapping, onInvalidContent)
+  const localChanges = new WeakMap<Node, readonly Transaction[]>()
+  const rememberLocalChange = (transaction: Transaction, remote: boolean) => {
+    if (!transaction.docChanged || remote) {
+      return
+    }
+    const earlier =
+      transaction.getMeta('appendedTransaction') && localChanges.get(transaction.before)
+    localChanges.set(transaction.doc, earlier ? [...earlier, transaction] : [transaction])
+  }
   const plugin = new Plugin<SyncPluginState>({
     // Keep local changes out while the editor cannot show all shared content
     filterTransaction: transaction =>
@@ -72,6 +83,8 @@ export const ySyncPlugin = (
         pluginState.isChangeOrigin = change !== undefined && !!change.isChangeOrigin
         pluginState.isUndoRedoOperation =
           change !== undefined && !!change.isChangeOrigin && !!change.isUndoRedoOperation
+
+        rememberLocalChange(tr, pluginState.isChangeOrigin)
 
         if (
           binding.prosemirrorView === null ||
@@ -134,7 +147,7 @@ export const ySyncPlugin = (
       onFirstRender()
 
       return {
-        update: () => {
+        update: (_, previousState) => {
           const pluginState = getSyncPluginState(view.state)
 
           if (pluginState.snapshot == null && pluginState.prevSnapshot == null) {
@@ -163,7 +176,13 @@ export const ySyncPlugin = (
               binding.mux(() => {
                 pluginState.doc.transact(tr => {
                   tr.meta.set('addToHistory', pluginState.addToHistory)
-                  binding._prosemirrorChanged(view.state.doc)
+                  const document = view.state.doc
+                  const changes = localChanges.get(document)
+                  localChanges.delete(document)
+                  binding._prosemirrorChanged(
+                    document,
+                    changes?.[0].before === previousState.doc ? changes : undefined,
+                  )
                 }, ySyncPluginKey)
               })
             }
