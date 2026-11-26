@@ -18,6 +18,15 @@ export const findMappedChildAnchors = (
   })
   const candidates: MappedChildAnchor[] = []
   yChildren.forEach((yChild, yIndex) => {
+    // A text type that shares its run with siblings only holds part of it,
+    // so it never stands for the whole run on its own.
+    if (
+      yChild instanceof Y.XmlText &&
+      (yChildren[yIndex - 1] instanceof Y.XmlText || yChildren[yIndex + 1] instanceof Y.XmlText)
+    ) {
+      return
+    }
+
     const mapped = meta.mapping.get(yChild)
     const pIndex = mapped === undefined ? undefined : pChildIndices.get(mapped)
     if (pIndex !== undefined && mappedIdentity(mapped, pChildren[pIndex])) {
