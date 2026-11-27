@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.35.1
+
+### Patch Changes
+
+- 6d1fefd: Courtesy titles such as "Ms." and "Dr." are no longer parsed as ordered-list markers. Numbered, lettered, and roman lists are unchanged.
+
 ## 3.35.0
 
 No changes in this release.

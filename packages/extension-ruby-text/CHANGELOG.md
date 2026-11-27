@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.35.1
+
+### Patch Changes
+
+- ed287e8: Fix unsafe HTML parsing in the RubyText extension.
+
 ## 3.35.0
 
 No changes in this release.

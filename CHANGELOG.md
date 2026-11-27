@@ -1,5 +1,31 @@
 # Releases
 
+## v3.35.1
+
+### @tiptap/core
+
+#### Patch Changes
+
+- 208701d: Fix a selection error and a misplaced caret when pressing Backspace right after focusing an editor on Android.
+
+### @tiptap/extension-list
+
+#### Patch Changes
+
+- 6d1fefd: Courtesy titles such as "Ms." and "Dr." are no longer parsed as ordered-list markers. Numbered, lettered, and roman lists are unchanged.
+
+### @tiptap/extension-ruby-text
+
+#### Patch Changes
+
+- ed287e8: Fix unsafe HTML parsing in the RubyText extension.
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- 819a354: Move leading and trailing spaces outside Markdown mark delimiters so nested formatting survives saving and reloading.
+
 ## v3.35.0
 
 ### @tiptap/core
