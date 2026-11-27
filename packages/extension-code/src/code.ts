@@ -118,7 +118,11 @@ export const Code = Mark.create<CodeOptions>({
     }
   },
 
-  excludes: '_',
+  // Allow other marks (bold, link, …) so CommonMark code spans nested in
+  // emphasis/links stay schema-valid after MarkdownManager.parse. Exclude
+  // other code marks so attributed Code extensions cannot stack two code
+  // marks that the Markdown serializer would collapse by type.
+  excludes: 'code',
 
   code: true,
 
