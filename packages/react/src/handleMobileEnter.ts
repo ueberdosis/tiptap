@@ -1,8 +1,11 @@
 import { type Editor, isAndroid, isiOS } from '@tiptap/core'
 import type { EditorView } from '@tiptap/pm/view'
 
+import { dispatchEnterKey } from './dispatchEnterKey.js'
+import { flushDOMChanges } from './flushDOMChanges.js'
+import { getSelectionContentDOM } from './getSelectionContentDOM.js'
+
 type MobileEditorView = EditorView & {
-  domObserver: { forceFlush: () => void; flush: () => void }
   input: { lastKeyCode: number | null; lastIOSEnter: number; lastIOSEnterFallbackTimeout: number }
 }
 
@@ -19,13 +22,8 @@ export function handleMobileEnter(editor: Editor, event: InputEvent): void {
   }
 
   const view = editor.view as MobileEditorView
-  const root = view.root as (Document | ShadowRoot) & { getSelection?: () => Selection | null }
-  const selection = root.getSelection?.() ?? view.dom.ownerDocument.getSelection()
-  const anchor = selection?.anchorNode
-  const element = anchor?.nodeType === 1 ? (anchor as Element) : anchor?.parentElement
-  const contentDOM = element?.closest('[data-node-view-content-react]')
 
-  if (!contentDOM || !view.dom.contains(contentDOM)) {
+  if (!getSelectionContentDOM(view)) {
     return
   }
 
@@ -37,19 +35,9 @@ export function handleMobileEnter(editor: Editor, event: InputEvent): void {
   }
 
   // Commit pending text before the Enter handler reads the selection.
-  view.domObserver.forceFlush()
-  view.domObserver.flush()
+  flushDOMChanges(view)
 
-  const keyEvent = new KeyboardEvent('keydown', {
-    key: 'Enter',
-    code: 'Enter',
-    keyCode: 13,
-    shiftKey: event.inputType === 'insertLineBreak',
-    bubbles: true,
-    cancelable: true,
-  })
-
-  if (view.someProp('handleKeyDown', handleKeyDown => handleKeyDown(view, keyEvent))) {
+  if (dispatchEnterKey(view, event.inputType === 'insertLineBreak')) {
     event.preventDefault()
     // Prevent the iOS fallback from handling this Enter a second time.
     view.input.lastIOSEnter = 0

@@ -1,15 +1,12 @@
 import type { Editor } from '@tiptap/core'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
 import type { ForwardedRef, HTMLProps, LegacyRef, MutableRefObject } from 'react'
 import React, { forwardRef } from 'react'
 import ReactDOM from 'react-dom'
 import { useSyncExternalStore } from 'use-sync-external-store/shim/index.js'
 
+import { createMobileEnterPlugin, mobileEnterPluginKey } from './createMobileEnterPlugin.js'
 import type { ContentComponent, EditorWithContentComponent } from './Editor.js'
-import { handleMobileEnter } from './handleMobileEnter.js'
 import type { ReactRenderer } from './ReactRenderer.js'
-
-const mobileEnterPluginKey = new PluginKey('reactMobileEnter')
 
 const mergeRefs = <T extends HTMLDivElement>(
   ...refs: Array<MutableRefObject<T> | LegacyRef<T> | undefined>
@@ -136,16 +133,7 @@ export class PureEditorContent extends React.Component<
       editor.contentComponent = createContentComponent()
       editor.mount(element)
 
-      editor.registerPlugin(
-        new Plugin({
-          key: mobileEnterPluginKey,
-          props: {
-            handleDOMEvents: {
-              beforeinput: (_view, event) => handleMobileEnter(editor, event),
-            },
-          },
-        }),
-      )
+      editor.registerPlugin(createMobileEnterPlugin(editor))
 
       editor.isEditorContentInitialized = true
 
