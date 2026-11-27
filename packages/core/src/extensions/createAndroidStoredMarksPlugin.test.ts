@@ -31,6 +31,14 @@ function reconcile(text: string, from = 1, to = editor.state.doc.content.size - 
   editor.view.dispatch(transaction)
 }
 
+function replaceComposition(from: number, to: number, text: string, caret: number) {
+  editor.view.dom.dispatchEvent(new CompositionEvent('compositionupdate'))
+  const transaction = editor.state.tr.insertText(text, from, to).setMeta('composition', 1)
+
+  transaction.setSelection(TextSelection.create(transaction.doc, caret))
+  editor.view.dispatch(transaction)
+}
+
 afterEach(() => {
   editor?.destroy()
   vi.unstubAllGlobals()
@@ -263,6 +271,51 @@ describe('Android stored mark boundaries', () => {
     reconcile('a😁b')
 
     expect(editor.getHTML()).toBe('<p><strong>a</strong>😁<em>b</em></p>')
+  })
+
+  it.each([
+    ['the whole word', 1, 4, 'the!'],
+    ['the changed letters', 2, 4, 'he!'],
+  ])('keeps letters that a correction moves before the toggle (%s)', (_label, from, to, text) => {
+    createEditor('<p>teh</p>')
+    editor.commands.toggleBold()
+    replaceComposition(from, to, text, 5)
+
+    expect(editor.getHTML()).toBe('<p>the<strong>!</strong></p>')
+  })
+
+  it.each([
+    ['ba!', 'ba'],
+    ['bxa!', 'bxa'],
+  ])('keeps formatting boundaries in order when a correction rewrites %s', (text, plain) => {
+    createEditor('<p>a<em>b</em></p>')
+    editor.commands.toggleBold()
+    replaceComposition(1, 3, text, text.length + 1)
+
+    // The toggle after italic text requests both marks
+    expect(editor.getHTML()).toBe(`<p>${plain}<strong><em>!</em></strong></p>`)
+  })
+
+  it('formats new text typed after the composition deletes its word', () => {
+    createEditor()
+    editor.commands.toggleBold()
+    editor.view.dom.dispatchEvent(new CompositionEvent('compositionupdate'))
+    editor.view.dispatch(editor.state.tr.delete(1, 6).setMeta('composition', 1))
+    reconcile('x', 1, 1)
+
+    expect(editor.getHTML()).toBe('<p><strong>x</strong></p>')
+  })
+
+  it.each([
+    ['the whole word', 1, 5, 'abXcd'],
+    ['only the new letter', 3, 3, 'X'],
+  ])('keeps the formatting of text after the caret (%s)', (_label, from, to, text) => {
+    createEditor('<p>ab<em>cd</em></p>')
+    editor.commands.setTextSelection(3)
+    editor.commands.toggleBold()
+    replaceComposition(from, to, text, 4)
+
+    expect(editor.getHTML()).toBe('<p>ab<strong>X</strong><em>cd</em></p>')
   })
 
   it('preserves the boundary while a keyboard deletes and restores its word', () => {

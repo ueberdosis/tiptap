@@ -1,81 +1,75 @@
+import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { Mark } from '@tiptap/pm/model'
 import type { EditorState, Transaction } from '@tiptap/pm/state'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
+
+import { findRestoredLength, findRewrittenEnd, findRewrittenStart } from './rewrittenText.js'
 
 interface MarkBoundary {
   marks: readonly Mark[]
   from: number
   deletedOffset: number
+  /** Text that a composition deleted before the boundary, in case the keyboard inserts it again. */
+  deletedText: string
+  /** Formatting of existing text after the caret, which stays at the end of rewritten text. */
+  afterCaret: boolean
 }
+
+type BoundaryPosition = Pick<MarkBoundary, 'from' | 'deletedOffset' | 'deletedText'>
 
 type PendingMarks = readonly MarkBoundary[]
 
 const pluginKey = new PluginKey<PendingMarks | null>('androidStoredMarks')
 
-const isHighSurrogate = (code: number) => code >= 0xd800 && code <= 0xdbff
-
-/** Returns the length of the longest common subsequence of `oldText` and each prefix of `newText`. */
-function commonLengthsByPrefix(oldText: string, newText: string): number[] {
-  let lengths: number[] = Array.from({ length: newText.length + 1 }, () => 0)
-
-  // Read UTF-16 units like document positions, so emoji halves line up
-  for (const character of oldText.split('')) {
-    const next = [0]
-
-    for (let index = 1; index <= newText.length; index += 1) {
-      next[index] =
-        character === newText[index - 1]
-          ? lengths[index - 1] + 1
-          : Math.max(lengths[index], next[index - 1])
-    }
-    lengths = next
-  }
-
-  return lengths
+/** Places a boundary inside text that the keyboard rewrote or inserted again after deleting it. */
+function findRewrittenOffset(oldText: string, newText: string, restoring: boolean): number | null {
+  return restoring ? findRestoredLength(oldText, newText) : findRewrittenEnd(oldText, newText)
 }
 
-/** Finds where `oldText` ends inside its rewritten `newText`, or `null` when they share no characters. */
-function findRewrittenEnd(oldText: string, newText: string): number | null {
-  const lengths = commonLengthsByPrefix(oldText, newText)
-  const common = lengths[newText.length]
-
-  if (!common) {
-    return null
-  }
-
-  const end = lengths.indexOf(common)
-
-  // Never split an emoji between its two UTF-16 halves
-  return isHighSurrogate(newText.charCodeAt(end - 1)) ? end + 1 : end
+function textAfter(transaction: Transaction, index: number, from: number, to: number): string {
+  return (transaction.docs[index + 1] ?? transaction.doc).textBetween(from, to)
 }
 
-/** Places a boundary inside text the keyboard rewrote, following corrections that change its length. */
-function findRewrittenOffset(
+/** Moves a boundary through text that a composition replaced, deleted or inserted again. */
+function placeBoundary(
   transaction: Transaction,
   index: number,
-  range: { oldStart: number; from: number; newStart: number; offset: number; available: number },
-): number | null {
-  const oldText = transaction.docs[index].textBetween(range.oldStart, range.from)
-  const newDoc = transaction.docs[index + 1] ?? transaction.doc
-  const newText = newDoc.textBetween(range.newStart, range.newStart + range.available)
+  boundary: BoundaryPosition,
+  range: { oldStart: number; newStart: number; available: number },
+): BoundaryPosition {
+  const oldText =
+    transaction.docs[index].textBetween(range.oldStart, boundary.from) + boundary.deletedText
+  const offset = boundary.from - range.oldStart + boundary.deletedOffset
 
-  // Positions only match characters in plain text
-  if (oldText.length !== range.offset || newText.length !== range.available) {
-    return null
+  // Only a fully deleted composition is inserted again by the keyboard
+  if (!range.available) {
+    return { from: range.newStart, deletedOffset: offset, deletedText: oldText }
   }
 
-  return findRewrittenEnd(oldText, newText)
+  const newText = textAfter(transaction, index, range.newStart, range.newStart + range.available)
+  // Positions only match characters in plain text
+  const isPlainText = oldText.length === offset && newText.length === range.available
+  const rewritten = isPlainText
+    ? findRewrittenOffset(oldText, newText, boundary.deletedOffset > 0)
+    : null
+
+  return {
+    from: range.newStart + (rewritten ?? Math.min(offset, range.available)),
+    deletedOffset: 0,
+    deletedText: '',
+  }
 }
 
 function mapBoundary(pending: MarkBoundary, transaction: Transaction): MarkBoundary {
-  let { from, deletedOffset } = pending
+  let position: BoundaryPosition = pending
 
   for (const [index, map] of transaction.mapping.maps.entries()) {
-    let nextFrom = map.map(from, -1)
+    const { from, deletedOffset } = position
+    let next: BoundaryPosition = { ...position, from: map.map(from, -1) }
     const caret = transaction.mapping.maps
       .slice(index + 1)
       .reduceRight(
-        (position, nextMap) => nextMap.invert().map(position),
+        (caretPosition, nextMap) => nextMap.invert().map(caretPosition),
         transaction.selection.from,
       )
 
@@ -85,20 +79,74 @@ function mapBoundary(pending: MarkBoundary, transaction: Transaction): MarkBound
       const restoresBoundary = deletedOffset > 0 && from === oldStart
 
       if (containsBoundary || restoresBoundary) {
-        const offset = from - oldStart + deletedOffset
         const available = Math.max(newEnd, caret) - newStart
-        const range = { oldStart, from, newStart, offset, available }
 
-        nextFrom =
-          newStart + (findRewrittenOffset(transaction, index, range) ?? Math.min(offset, available))
-        // Only a fully deleted composition is inserted again by the keyboard
-        deletedOffset = available ? 0 : offset
+        next = placeBoundary(transaction, index, position, { oldStart, newStart, available })
       }
+    })
+    position = next
+  }
+
+  return { ...pending, ...position }
+}
+
+/** Maps formatting after the caret, measuring its place in rewritten text from the end. */
+function mapBoundaryAfterCaret(boundary: MarkBoundary, transaction: Transaction): MarkBoundary {
+  let { from } = boundary
+
+  for (const [index, map] of transaction.mapping.maps.entries()) {
+    let nextFrom = map.map(from, 1)
+
+    map.forEach((oldStart, oldEnd, newStart, newEnd) => {
+      if (from < oldStart || from >= oldEnd) {
+        return
+      }
+
+      const oldText = transaction.docs[index].textBetween(from, oldEnd)
+      const newText = textAfter(transaction, index, newStart, newEnd)
+      const isPlainText = oldText.length === oldEnd - from && newText.length === newEnd - newStart
+      const start = isPlainText ? findRewrittenStart(oldText, newText) : null
+
+      nextFrom = newStart + (start ?? Math.max(0, newText.length - oldText.length))
     })
     from = nextFrom
   }
 
-  return { ...pending, from, deletedOffset }
+  return { ...boundary, from }
+}
+
+/** Keeps every boundary at or after the previous one, so each range of marks stays valid. */
+function keepBoundaryOrder(boundaries: PendingMarks): PendingMarks {
+  let previous = 0
+
+  return boundaries.map(boundary => {
+    const from = Math.max(boundary.from, previous - boundary.deletedOffset)
+
+    previous = from + boundary.deletedOffset
+    return { ...boundary, from }
+  })
+}
+
+function createBoundary(marks: readonly Mark[], from: number, afterCaret: boolean): MarkBoundary {
+  return { marks, from, deletedOffset: 0, deletedText: '', afterCaret }
+}
+
+/** Saves the formatting of the existing text between `from` and `to`. */
+function captureTextBoundaries(
+  doc: ProseMirrorNode,
+  from: number,
+  to: number,
+  afterCaret: boolean,
+): MarkBoundary[] {
+  const boundaries: MarkBoundary[] = []
+
+  doc.nodesBetween(from, to, (node, position) => {
+    if (node.isText) {
+      boundaries.push(createBoundary(node.marks, Math.max(position, from), afterCaret))
+    }
+  })
+
+  return boundaries
 }
 
 function capturePendingMarks(
@@ -109,20 +157,17 @@ function capturePendingMarks(
     return null
   }
 
-  const from = transaction.selection.from
-  const earlier = pending?.filter(boundary => boundary.from + boundary.deletedOffset < from) ?? []
+  const { $from, from } = transaction.selection
+  const { doc } = transaction
+  const before =
+    pending?.filter(
+      boundary => !boundary.afterCaret && boundary.from + boundary.deletedOffset < from,
+    ) ?? captureTextBoundaries(doc, $from.start(), from, false)
+  const after =
+    pending?.filter(boundary => boundary.afterCaret) ??
+    captureTextBoundaries(doc, from, $from.end(), true)
 
-  if (!pending) {
-    const { $from } = transaction.selection
-
-    transaction.doc.nodesBetween($from.start(), from, (node, position) => {
-      if (node.isText) {
-        earlier.push({ marks: node.marks, from: position, deletedOffset: 0 })
-      }
-    })
-  }
-
-  return [...earlier, { marks: transaction.storedMarks, from, deletedOffset: 0 }]
+  return [...before, createBoundary(transaction.storedMarks, from, false), ...after]
 }
 
 function shouldClearPendingMarks(transaction: Transaction, compositionEvent: boolean): boolean {
@@ -156,7 +201,13 @@ function applyPendingMarks(
     return null
   }
 
-  return pending.map(boundary => mapBoundary(boundary, transaction))
+  return keepBoundaryOrder(
+    pending.map(boundary =>
+      boundary.afterCaret
+        ? mapBoundaryAfterCaret(boundary, transaction)
+        : mapBoundary(boundary, transaction),
+    ),
+  )
 }
 
 function applyMarkBoundary(
