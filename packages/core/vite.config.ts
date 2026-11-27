@@ -5,9 +5,7 @@ export default defineConfig({
   pack: [
     {
       entry: ['src/index.ts'],
-      // Use a local tsconfig with a wider rootDir so monorepo-only @tiptap/pm path
-      // aliases can resolve without pulling external workspace files outside the program.
-      tsconfig: './tsconfig.build.json',
+      tsconfig: '../../tsconfig.build.json',
       outDir: 'dist',
       dts: { sourcemap: true },
       clean: true,
