@@ -5,7 +5,7 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { UndoRedo } from '@tiptap/extensions'
-import { afterEach, describe, expect, it } from 'vite-plus/test'
+import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 
 import { Editor } from './Editor.js'
 
@@ -216,5 +216,55 @@ describe('can', () => {
 
     expect(capturedOuterDispatch).toBe(undefined)
     expect(capturedInnerDispatch).toBe(undefined)
+  })
+})
+
+describe('commands dispatch', () => {
+  let editor: Editor
+
+  afterEach(() => {
+    editor?.destroy()
+  })
+
+  it('does not dispatch when a command returns false', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text],
+    })
+
+    const dispatch = vi.spyOn(editor.view, 'dispatch')
+
+    const handled = editor.commands.command(() => false)
+
+    expect(handled).toBe(false)
+    expect(dispatch).not.toHaveBeenCalled()
+  })
+
+  it('dispatches when a command returns true', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text],
+    })
+
+    const dispatch = vi.spyOn(editor.view, 'dispatch')
+
+    const handled = editor.commands.command(({ tr }) => {
+      tr.insertText('x')
+      return true
+    })
+
+    expect(handled).toBe(true)
+    expect(dispatch).toHaveBeenCalled()
+  })
+
+  it('does not dispatch when first() finds no matching command', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text],
+    })
+
+    const dispatch = vi.spyOn(editor.view, 'dispatch')
+
+    const handled = editor.commands.first(() => [() => false, () => false])
+
+    expect(handled).toBe(false)
+    expect(dispatch).not.toHaveBeenCalled()
   })
 })
