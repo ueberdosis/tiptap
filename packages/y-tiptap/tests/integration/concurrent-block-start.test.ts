@@ -76,6 +76,21 @@ it.each([
     expected: ['', 't!arget'],
     leading: ['Title'],
   },
+  {
+    name: 'splitting in an appended transaction',
+    edit: (view: EditorView) =>
+      view.dispatch(
+        view.state.tr
+          .insert(0, schema.node('heading', null, schema.text('Title')))
+          .setMeta('split', true),
+      ),
+    append: (state: EditorState) => {
+      const start = state.selection.from
+      return state.tr.split(start).insertText('target', start)
+    },
+    expected: ['target', 't!arget'],
+    leading: ['Title'],
+  },
 ])('keeps typing in the original paragraph after $name at its start', scenario => {
   const { append, edit, expected, insideQuote, leading = [] } = scenario
   const firstDoc = new Y.Doc()
@@ -131,5 +146,31 @@ it.each([
     second.destroy()
     firstDoc.destroy()
     secondDoc.destroy()
+  }
+})
+
+it('applies local insertions when a pending Yjs deletion changes the parent length', () => {
+  const document = new Y.Doc()
+  const fragment = document.getXmlFragment('prosemirror')
+  const paragraphs = ['Before', 'target', 'After', 'Last'].map(text =>
+    schema.node('paragraph', null, schema.text(text)),
+  )
+  prosemirrorToYXmlFragment(schema.node('doc', null, paragraphs), fragment)
+  const view = createTestView(document)
+  const heading = schema.node('heading', null, schema.text('Title'))
+
+  try {
+    document.transact(() => {
+      fragment.delete(3, 1)
+      const transaction = view.state.tr.split(paragraphs[0].nodeSize + 1)
+      view.dispatch(transaction.insert(transaction.doc.content.size, heading))
+    })
+
+    expect(view.state.doc.child(1).textContent).toBe('')
+    expect(view.state.doc.child(2).textContent).toBe('target')
+    expect(view.state.doc.lastChild?.eq(heading)).toBe(true)
+  } finally {
+    view.destroy()
+    document.destroy()
   }
 })

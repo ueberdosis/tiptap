@@ -51,24 +51,29 @@ const findStepTextblockStart = (transaction: Transaction, index: number) => {
   return before
 }
 
-const findTextblockStart = (transaction: Transaction) => {
-  const mapping = transaction.mapping
+const findTextblockStart = (
+  transaction: Transaction,
+  originalDocument: Node,
+  mapping: Mapping,
+  stepsBefore: number,
+) => {
   for (let index = 0; index < transaction.steps.length; index += 1) {
     const before = findStepTextblockStart(transaction, index)
     if (!before?.parent.content.size) {
       continue
     }
-    if (index === 0) {
+    const stepIndex = stepsBefore + index
+    if (stepIndex === 0) {
       return before
     }
     const position = mapping
       .invert()
-      .slice(mapping.maps.length - index)
+      .slice(mapping.maps.length - stepIndex)
       .mapResult(before.pos, 1)
     if (position.deleted) {
       continue
     }
-    const original = transaction.before.resolve(position.pos)
+    const original = originalDocument.resolve(position.pos)
     if (original.parentOffset === 0 && original.parent.eq(before.parent)) {
       return original
     }
@@ -76,13 +81,30 @@ const findTextblockStart = (transaction: Transaction) => {
   return undefined
 }
 
+const findBatchTextblockStart = (transactions: readonly Transaction[], mapping: Mapping) => {
+  const originalDocument = transactions[0]?.before
+  if (!originalDocument) {
+    return undefined
+  }
+
+  let stepsBefore = 0
+  for (const transaction of transactions) {
+    const before = findTextblockStart(transaction, originalDocument, mapping, stepsBefore)
+    if (before) {
+      return before
+    }
+    stepsBefore += transaction.steps.length
+  }
+  return undefined
+}
+
 const findRetainedTextblock = (document: Node, transactions: readonly Transaction[]) => {
-  const before = findTextblockStart(transactions[0])
+  const mapping = new Mapping()
+  transactions.forEach(change => mapping.appendMapping(change.mapping))
+  const before = findBatchTextblockStart(transactions, mapping)
   if (!before) {
     return undefined
   }
-  const mapping = new Mapping()
-  transactions.forEach(change => mapping.appendMapping(change.mapping))
   const startResult = mapping.mapResult(before.pos, 1)
   const endResult = mapping.mapResult(before.end(), -1)
   if (startResult.deleted || endResult.deleted) {
@@ -111,16 +133,21 @@ const planInsertions = (
   let original: Y.XmlElement | undefined
   const plans = []
   for (let depth = 0; depth < before.depth; depth += 1) {
+    const previous = before.node(depth)
+    const children = parent.toArray()
+    if (
+      children.length !== previous.childCount ||
+      children.some((child, index) => meta.mapping.get(child) !== previous.child(index))
+    ) {
+      return undefined
+    }
+
     const oldIndex = before.index(depth)
     const newIndex = after.index(depth)
     const next = after.node(depth)
-    const additions = findAddedChildren(before.node(depth), next, oldIndex, newIndex)
-    const child = parent.get(oldIndex)
-    if (
-      !additions ||
-      !(child instanceof Y.XmlElement) ||
-      meta.mapping.get(child) !== before.node(depth + 1)
-    ) {
+    const additions = findAddedChildren(previous, next, oldIndex, newIndex)
+    const child = children[oldIndex]
+    if (!additions || !(child instanceof Y.XmlElement)) {
       return undefined
     }
     plans.push({ parent, next, additions })
