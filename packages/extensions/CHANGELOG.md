@@ -1,5 +1,16 @@
 # Change Log
 
+## 4.0.0-next.0
+
+### Minor Changes
+
+- 73b8e59: Add `setPlaceholder(value)` and `setCharacterLimit(limit)` to change placeholders and character limits on a running editor. Lowering the limit keeps existing text. Pass `null` to remove the limit.
+
+### Patch Changes
+
+- 9333f8a: The Placeholder extension no longer leaves placeholders behind on empty nodes after the cursor moves away when `includeChildren` is enabled.
+- 643792f: Reduce bundle size by targeting ES2022. Environments without ES2022 syntax support must transpile the packages.
+
 ## 3.30.3
 
 ### Patch Changes

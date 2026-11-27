@@ -1,5 +1,12 @@
 # @tiptap/extension-mathematics
 
+## 4.0.0-next.0
+
+### Patch Changes
+
+- bef6bc1: The mathematics extension no longer crashes the editor in older WebKit browsers and WKWebView.
+- 643792f: Reduce bundle size by targeting ES2022. Environments without ES2022 syntax support must transpile the packages.
+
 ## 3.30.3
 
 ### Patch Changes

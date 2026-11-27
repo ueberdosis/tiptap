@@ -1,5 +1,16 @@
 # @tiptap/extension-find-and-replace
 
+## 4.0.0-next.0
+
+### Minor Changes
+
+- 7a7a635: Added a `continuesNode` option. Textblocks it marks as continuing the textblock before them are searched as one text, so a phrase that runs from one into the next is found, highlighted and replaced.
+
+### Patch Changes
+
+- 31e64fd: The first `goToNextResult()` or `goToPreviousResult()` after a new search now selects the highlighted first result instead of skipping it.
+- 643792f: Reduce bundle size by targeting ES2022. Environments without ES2022 syntax support must transpile the packages.
+
 ## 3.30.3
 
 ### Patch Changes
