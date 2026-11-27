@@ -37,17 +37,21 @@ export interface BlockParserConfig {
   customNestedParser?: (dedentedContent: string) => any[] | undefined
 }
 
+function getIndentColumns(line: string) {
+  const tabSize = 4
+  let columns = 0
+
+  for (const character of line.match(/^\s*/)?.[0] ?? '') {
+    columns += character === '\t' ? tabSize - (columns % tabSize) : 1
+  }
+
+  return columns
+}
+
 function dedentLine(line: string, indentSize: number) {
-  return line.replace(/^[ \t]*/, whitespace => {
-    const tabSize = 4
-    let columns = 0
-
-    for (const character of whitespace) {
-      columns += character === '\t' ? tabSize - (columns % tabSize) : 1
-    }
-
-    return ' '.repeat(Math.max(0, columns - indentSize))
-  })
+  return line.replace(/^\s*/, whitespace =>
+    ' '.repeat(Math.max(0, getIndentColumns(whitespace) - indentSize)),
+  )
 }
 
 function continuesParagraph(line: string, blockTokens: (src: string) => any[]) {
@@ -165,7 +169,8 @@ export function parseIndentedBlocks(
     }
 
     const itemData = config.extractItemData(itemMatch)
-    const { indentLevel, mainContent } = itemData
+    const { mainContent } = itemData
+    const indentLevel = getIndentColumns(currentLine)
     totalRaw = `${totalRaw}${currentLine}\n`
 
     // Collect content for this item (including nested items)
@@ -185,7 +190,7 @@ export function parseIndentedBlocks(
         }
 
         const nextNonEmpty = lines[i + 1 + nextNonEmptyIndex]
-        const nextIndent = nextNonEmpty.match(/^(\s*)/)?.[1]?.length || 0
+        const nextIndent = getIndentColumns(nextNonEmpty)
 
         if (nextIndent > indentLevel) {
           // Nested content continues after empty line
@@ -199,7 +204,7 @@ export function parseIndentedBlocks(
         }
       }
 
-      const nextIndent = nextLine.match(/^(\s*)/)?.[1]?.length || 0
+      const nextIndent = getIndentColumns(nextLine)
 
       if (nextIndent > indentLevel) {
         // This is nested content for the current item
