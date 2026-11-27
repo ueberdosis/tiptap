@@ -340,6 +340,17 @@ describe('Android stored mark boundaries', () => {
     expect(editor.getHTML()).toBe('<p>ab<strong>X</strong><em>cd</em></p>')
   })
 
+  it('keeps formatting after the caret in place while the text before it is deleted', () => {
+    createEditor('<p>ab<em>c</em><strong>d</strong></p>')
+    editor.commands.setTextSelection(3)
+    editor.commands.toggleBold()
+    editor.view.dom.dispatchEvent(new CompositionEvent('compositionupdate'))
+    editor.view.dispatch(editor.state.tr.delete(1, 3).setMeta('composition', 1))
+    replaceComposition(1, 3, 'abXcd', 4)
+
+    expect(editor.getHTML()).toBe('<p>ab<strong>X</strong><em>c</em><strong>d</strong></p>')
+  })
+
   it('preserves the boundary while a keyboard deletes and restores its word', () => {
     createEditor()
     editor.commands.toggleBold()

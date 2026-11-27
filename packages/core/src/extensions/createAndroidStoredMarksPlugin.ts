@@ -171,6 +171,7 @@ function mapBoundaryAfterCaret(boundary: MarkBoundary, transaction: Transaction)
 /** Keeps every boundary at or after the previous one, so each range of marks stays valid. */
 function keepBoundaryOrder(boundaries: PendingMarks): PendingMarks {
   let previous = 0
+  let previousInDocument = 0
 
   return boundaries.map(boundary => {
     // Deleted text after the caret has no place until the keyboard inserts it again
@@ -178,9 +179,12 @@ function keepBoundaryOrder(boundaries: PendingMarks): PendingMarks {
       return boundary
     }
 
-    const from = Math.max(boundary.from, previous - boundary.deletedOffset)
+    // Text after the caret is still in the document, so deleted text before it does not count
+    const floor = boundary.afterCaret ? previousInDocument : previous - boundary.deletedOffset
+    const from = Math.max(boundary.from, floor)
 
     previous = from + boundary.deletedOffset
+    previousInDocument = from
     return { ...boundary, from }
   })
 }
