@@ -293,15 +293,17 @@ describe('keeping content that does not fit the schema', () => {
     expect(updates).toHaveLength(0)
   })
 
-  it('merges text while content is valid', () => {
-    const { fragment, view } = createView(
+  it('keeps sibling text types while content is valid', () => {
+    const { fragment, sharedContent, updates, view } = createView(
       doc(paragraph('Hello')),
       narrowSchema,
       addTextAfterFirstText,
     )
 
     expect(view.state.doc.toString()).toBe('doc(paragraph("Hello world"))')
-    expect((fragment.get(0) as Y.XmlElement).length).toBe(1)
+    expect((fragment.get(0) as Y.XmlElement).length).toBe(2)
+    expect(fragment.toString()).toBe(sharedContent)
+    expect(updates).toHaveLength(0)
   })
 
   it('hides remote cursors while content is invalid', async () => {

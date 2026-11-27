@@ -6,6 +6,7 @@ import * as Y from 'yjs'
 import { findMappedChildAnchors } from './findMappedChildAnchors.js'
 import { updateMatchingYChild } from './updateMatchingYChild.js'
 import { reconcileUnanchoredChildren } from './reconcileUnanchoredChildren.js'
+import { updateSiblingTextRuns } from './updateSiblingTextRuns.js'
 
 export const reconcileMappedChildren = (
   y: TransactionSource,
@@ -15,6 +16,13 @@ export const reconcileMappedChildren = (
   meta: BindingMetadata,
   updateFragment: FragmentUpdater,
 ) => {
+  // Sibling text types are updated in place first: a mapped sibling only
+  // holds part of its run, so anchor reconciliation would update it as if
+  // it held the whole run.
+  if (updateSiblingTextRuns(y, pChildren, yChildren, meta, updateFragment)) {
+    return true
+  }
+
   const anchors = findMappedChildAnchors(yChildren, pChildren, meta)
   if (
     anchors.length < 2 ||
