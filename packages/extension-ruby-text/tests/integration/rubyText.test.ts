@@ -2,7 +2,7 @@ import { Editor } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { afterEach, describe, expect, it } from 'vite-plus/test'
+import { afterEach, assert, describe, expect, it } from 'vite-plus/test'
 
 import { RubyText, type RubyTextOptions } from '../../src/ruby-text.js'
 
@@ -471,6 +471,25 @@ describe('RubyText', () => {
         },
       ],
     })
+  })
+
+  it('keeps cloned ruby content in the parser document', () => {
+    editor = createEditor()
+    const parsedDocument = new DOMParser().parseFromString(
+      '<ruby>東京<img alt=""><rp>(</rp><rt>とうきょう</rt><rp>)</rp></ruby>',
+      'text/html',
+    )
+    const ruby = parsedDocument.querySelector('ruby')
+    const rule = editor.schema.marks.rubyText.spec.parseDOM?.find(
+      candidate => 'tag' in candidate && candidate.tag === 'ruby',
+    )
+
+    assert(ruby && rule && 'contentElement' in rule && typeof rule.contentElement === 'function')
+    const content = rule.contentElement(ruby)
+
+    expect(content.ownerDocument === parsedDocument).toBe(true)
+    expect(content.querySelector('img')?.ownerDocument === parsedDocument).toBe(true)
+    expect(content.textContent).toBe('東京')
   })
 
   it('does not parse ruby HTML without an annotation as a mark', () => {

@@ -16,11 +16,9 @@ test.describe(`${demoPath}/${demoName}`, () => {
       })
 
       test('renders the annotation as non-editable text', async ({ page }) => {
-        await setEditorContent(page, '<p><ruby>漢字<rt>かんじ</rt></ruby></p>')
-
         const rt = page.locator('.tiptap rt').first()
 
-        await expect(rt).toHaveText('かんじ')
+        await expect(rt).toHaveText('とうきょう')
         await expect(rt).toHaveAttribute('contenteditable', 'false')
       })
 
@@ -44,18 +42,7 @@ test.describe(`${demoPath}/${demoName}`, () => {
 
         const editor = await getEditor(page)
 
-        await editor.click()
-        await page.keyboard.press('Home')
-        await page.keyboard.press('Shift+ArrowRight')
-        await page.keyboard.press('Shift+ArrowRight')
-
-        await expect
-          .poll(() =>
-            editor.evaluate(
-              (el: any) => el.editor.state.selection.to - el.editor.state.selection.from,
-            ),
-          )
-          .toBe(2)
+        await editor.evaluate((el: any) => el.editor.commands.setTextSelection({ from: 1, to: 3 }))
 
         const rubyTextInput = page.locator('[data-test-id="ruby-text-input"]')
 
