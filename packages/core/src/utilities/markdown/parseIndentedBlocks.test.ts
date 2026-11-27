@@ -29,4 +29,12 @@ describe('parseIndentedBlocks', () => {
     expect(result?.items).toHaveLength(2)
     expect(result?.raw).toBe('- [ ] first\n- [ ] second')
   })
+
+  it.each(['\t', '    '])('measures %j indentation in columns', indent => {
+    const result = parseIndentedBlocks(`${indent}- [ ] task\n  outside`, config, lexer)
+
+    expect(result?.items).toHaveLength(1)
+    expect(result?.items[0].mainContent).toBe('task')
+    expect(result?.raw).toBe(`${indent}- [ ] task\n`)
+  })
 })
