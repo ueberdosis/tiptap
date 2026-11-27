@@ -90,6 +90,20 @@ describe('updateYFragment', () => {
     expect(meta.mapping.get(secondElement)).toBe(second)
   })
 
+  it('keeps an unchanged child when two shared nodes move past it', () => {
+    const { document, fragment, meta } = createFragment()
+    const third = paragraph('Third')
+    const fourth = paragraph('Fourth')
+    const before = schema.node('doc', null, [first, first, second, third, fourth])
+    updateYFragment(document, fragment, before, meta)
+    const unchanged = fragment.get(2)
+
+    const next = schema.node('doc', null, [second, first, first, third, fourth])
+    updateYFragment(document, fragment, next, meta)
+
+    expect(fragment.get(0)).toBe(unchanged)
+  })
+
   it('skips mapped children when comparing an edited parent', () => {
     const { document, fragment, meta } = createFragment()
     const quote = schema.node('blockquote', null, [first, second])

@@ -23,6 +23,7 @@ import { getRelativeSelection } from '../positions/getRelativeSelection.js'
 import { createNodeFromYElement } from '../conversion/createNodeFromYElement.js'
 import { mergeNextYText } from '../conversion/mergeNextYText.js'
 import { updateYFragment } from '../reconciliation/updateYFragment.js'
+import { preservePrependedTextblock } from '../reconciliation/preservePrependedTextblock.js'
 import { deleteMapping } from './deleteMapping.js'
 import { projectedMappings } from './projectedMappings.js'
 import { replaceChangedChildren } from './replaceChangedChildren.js'
@@ -439,14 +440,16 @@ export class ProsemirrorBinding {
     this.notifyInvalidContent(newError)
   }
 
-  _prosemirrorChanged(doc: PModel.Node) {
+  _prosemirrorChanged(doc: PModel.Node, changes?: readonly Transaction[]) {
     if (this._invalidContentError !== null) return
 
     const syncState = getSyncPluginState(this.view.state)
     if (syncState.snapshot != null || syncState.prevSnapshot != null) return
 
     this.doc.transact(() => {
-      updateYFragment(this.doc, this.type, doc, this)
+      if (!changes || !preservePrependedTextblock(this.type, doc, changes, this)) {
+        updateYFragment(this.doc, this.type, doc, this)
+      }
       this.hasSharedContent ||= this.type.length > 0
 
       this.beforeTransactionSelection = getRelativeSelection(this, this.view.state)

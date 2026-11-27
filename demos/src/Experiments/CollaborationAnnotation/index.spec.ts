@@ -71,6 +71,33 @@ test.describe(`${demoPath}/${demoName}`, () => {
         await before.dispose()
       })
 
+      test('keeps concurrent typing in the original paragraph after Enter at its start', async ({
+        page,
+      }) => {
+        const first = page.locator('.editor-1 .tiptap')
+        const second = page.locator('.editor-2 .tiptap')
+        await expect(second.locator('p').first()).toContainText('Select some text')
+        await page.getByRole('button', { name: 'Pause sync' }).click()
+
+        await first.focus()
+        await first.evaluate(element =>
+          (element as HTMLElement & { editor: Editor }).editor.commands.setTextSelection(1),
+        )
+        await first.press('Enter')
+        await second.focus()
+        await second.evaluate(element =>
+          (element as HTMLElement & { editor: Editor }).editor.commands.setTextSelection(2),
+        )
+        await second.pressSequentially('!')
+        await expect(second.locator('p').first()).toContainText('S!elect some text')
+        await page.getByRole('button', { name: 'Resume sync' }).click()
+
+        for (const editor of [first, second]) {
+          await expect(editor.locator('p').first()).toHaveText('')
+          await expect(editor.locator('p').nth(1)).toContainText('S!elect some text')
+        }
+      })
+
       test('leaves a comment unresolved when a paragraph split replaces its text', async ({
         page,
       }) => {
