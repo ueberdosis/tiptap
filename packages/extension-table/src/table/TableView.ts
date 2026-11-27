@@ -1,8 +1,21 @@
 import type { Node as PMNode } from '@tiptap/pm/model'
 import type { EditorView, NodeView, ViewMutationRecord } from '@tiptap/pm/view'
 
-import { getColStyleDeclaration } from './utilities/colStyle.js'
+import { applyColumnStyles } from './utilities/applyColumnStyles.js'
+import { getColumnStyles } from './utilities/getColumnStyles.js'
+import { getColumnWidths } from './utilities/getColumnWidths.js'
+import { hasUserWidth } from './utilities/hasUserWidth.js'
 
+/**
+ * Brings the `<colgroup>` and the width of a table's DOM in line with the table node.
+ *
+ * @param node - The table node.
+ * @param colgroup - The table's `<colgroup>`.
+ * @param table - The `<table>` element.
+ * @param cellMinWidth - The minimum width of a cell.
+ * @param overrideCol - (Optional) The index of a column whose width is replaced.
+ * @param overrideValue - (Optional) The width to use for that column.
+ */
 export function updateColumns(
   node: PMNode,
   colgroup: HTMLTableColElement, // <colgroup> has the same prototype as <col>
@@ -11,67 +24,10 @@ export function updateColumns(
   overrideCol?: number,
   overrideValue?: number,
 ) {
-  let totalWidth = 0
-  let fixedWidth = true
-  let nextDOM = colgroup.firstChild
-  const row = node.firstChild
+  const widths = getColumnWidths(node, overrideCol, overrideValue)
+  const styles = getColumnStyles(widths, cellMinWidth, node.attrs.width ?? null)
 
-  if (row !== null) {
-    for (let i = 0, col = 0; i < row.childCount; i += 1) {
-      const { colspan, colwidth } = row.child(i).attrs
-
-      for (let j = 0; j < colspan; j += 1, col += 1) {
-        const hasWidth =
-          overrideCol === col ? overrideValue : ((colwidth && colwidth[j]) as number | undefined)
-        const cssWidth = hasWidth ? `${hasWidth}px` : ''
-
-        totalWidth += hasWidth || cellMinWidth
-
-        if (!hasWidth) {
-          fixedWidth = false
-        }
-
-        if (!nextDOM) {
-          const colElement = document.createElement('col')
-
-          const [propertyKey, propertyValue] = getColStyleDeclaration(cellMinWidth, hasWidth)
-
-          colElement.style.setProperty(propertyKey, propertyValue)
-
-          colgroup.appendChild(colElement)
-        } else {
-          if ((nextDOM as HTMLTableColElement).style.width !== cssWidth) {
-            const [propertyKey, propertyValue] = getColStyleDeclaration(cellMinWidth, hasWidth)
-
-            ;(nextDOM as HTMLTableColElement).style.setProperty(propertyKey, propertyValue)
-          }
-
-          nextDOM = nextDOM.nextSibling
-        }
-      }
-    }
-  }
-
-  while (nextDOM) {
-    const after = nextDOM.nextSibling
-
-    nextDOM.parentNode?.removeChild(nextDOM)
-    nextDOM = after
-  }
-
-  // Check if user has set a width style on the table node
-  const hasUserWidth =
-    node.attrs.style &&
-    typeof node.attrs.style === 'string' &&
-    /\bwidth\s*:/i.test(node.attrs.style)
-
-  if (fixedWidth && !hasUserWidth) {
-    table.style.width = `${totalWidth}px`
-    table.style.minWidth = ''
-  } else {
-    table.style.width = ''
-    table.style.minWidth = `${totalWidth}px`
-  }
+  applyColumnStyles(colgroup, table, styles, hasUserWidth(node))
 }
 
 export class TableView implements NodeView {

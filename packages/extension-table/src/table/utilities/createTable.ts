@@ -9,6 +9,7 @@ export function createTable(
   colsCount: number,
   withHeaderRow: boolean,
   cellContent?: Fragment | ProsemirrorNode | Array<ProsemirrorNode>,
+  attrs?: Record<string, unknown>,
 ): ProsemirrorNode {
   const types = getTableNodeTypes(schema)
   const headerCells: ProsemirrorNode[] = []
@@ -36,5 +37,5 @@ export function createTable(
     rows.push(types.row.createChecked(null, withHeaderRow && index === 0 ? headerCells : cells))
   }
 
-  return types.table.createChecked(null, rows)
+  return types.table.createChecked(attrs, rows)
 }
