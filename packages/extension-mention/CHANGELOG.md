@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.0-next.0
+
+### Patch Changes
+
+- 8aea2ef: Fix a denial-of-service risk where crafted block or inline Markdown attributes could consume excessive CPU and block the browser or server event loop.
+- 643792f: Reduce bundle size by targeting ES2022. Environments without ES2022 syntax support must transpile the packages.
+
 ## 3.30.3
 
 ### Patch Changes

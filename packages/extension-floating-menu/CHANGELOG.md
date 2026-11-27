@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.0-next.0
+
+### Patch Changes
+
+- 643792f: Reduce bundle size by targeting ES2022. Environments without ES2022 syntax support must transpile the packages.
+- aad67d1: Floating menus now update correctly after IME input, including Korean text
+
 ## 3.30.3
 
 ### Patch Changes
