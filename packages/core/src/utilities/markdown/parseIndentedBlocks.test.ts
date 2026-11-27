@@ -44,4 +44,22 @@ describe('parseIndentedBlocks', () => {
     expect(result?.items).toHaveLength(1)
     expect(result?.raw).toBe('\u00a0- [ ] task\n')
   })
+
+  it('removes non-breaking space indentation from nested content', () => {
+    const nestedSources: string[] = []
+
+    parseIndentedBlocks(
+      '- [ ] task\n\u00a0\u00a0- [ ] child',
+      {
+        ...config,
+        customNestedParser: source => {
+          nestedSources.push(source)
+          return []
+        },
+      },
+      { ...lexer, isParagraphContinuation: () => false },
+    )
+
+    expect(nestedSources).toEqual(['- [ ] child'])
+  })
 })

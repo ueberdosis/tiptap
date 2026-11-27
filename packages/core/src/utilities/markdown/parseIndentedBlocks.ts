@@ -49,7 +49,7 @@ function getIndentColumns(line: string) {
 }
 
 function dedentLine(line: string, indentSize: number) {
-  return line.replace(/^[ \t]*/, whitespace =>
+  return line.replace(/^\s*/, whitespace =>
     ' '.repeat(Math.max(0, getIndentColumns(whitespace) - indentSize)),
   )
 }
