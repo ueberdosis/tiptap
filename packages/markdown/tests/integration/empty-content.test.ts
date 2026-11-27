@@ -1,5 +1,6 @@
 import { Editor } from '@tiptap/core'
 import { Bold } from '@tiptap/extension-bold'
+import { CodeBlock } from '@tiptap/extension-code-block'
 import { Document } from '@tiptap/extension-document'
 import { Paragraph } from '@tiptap/extension-paragraph'
 import { Text } from '@tiptap/extension-text'
@@ -96,5 +97,23 @@ describe('empty markdown content', () => {
 
     expect(editor.isEmpty).toBe(false)
     expect(editor.getMarkdown()).toBe(' ')
+  })
+
+  it('should keep the fence and language of an empty code block', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, CodeBlock, Markdown],
+      content: { type: 'doc', content: [{ type: 'codeBlock', attrs: { language: 'js' } }] },
+    })
+
+    expect(editor.getMarkdown()).toBe('```js\n\n```')
+  })
+
+  it('should return an empty string for a document of empty paragraphs', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, Markdown],
+      content: { type: 'doc', content: [{ type: 'paragraph' }, { type: 'paragraph' }] },
+    })
+
+    expect(editor.getMarkdown()).toBe('')
   })
 })

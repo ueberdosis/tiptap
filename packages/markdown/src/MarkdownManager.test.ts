@@ -8,6 +8,7 @@ import {
 import { Bold } from '@tiptap/extension-bold'
 import { Document } from '@tiptap/extension-document'
 import { Heading } from '@tiptap/extension-heading'
+import { HorizontalRule } from '@tiptap/extension-horizontal-rule'
 import { Italic } from '@tiptap/extension-italic'
 import { Link } from '@tiptap/extension-link'
 import { BulletList, ListItem, OrderedList, TaskItem, TaskList } from '@tiptap/extension-list'
@@ -485,6 +486,26 @@ Final paragraph.`
 
       expect(() => markdownManager.serialize(bareContent as any)).not.toThrow()
       expect(markdownManager.serialize(bareContent as any)).toBe('Hello world')
+    })
+
+    it('should render a bare node that is not a document', () => {
+      expect(markdownManager.serialize({ type: 'text', text: 'Hello' })).toBe('Hello')
+      expect(
+        markdownManager.serialize({ type: 'paragraph', content: [{ type: 'text', text: 'Hi' }] }),
+      ).toBe('Hi')
+    })
+
+    it('should render a document whose default block is a leaf', () => {
+      const manager = new MarkdownManager({
+        extensions: [
+          Document.extend({ content: '(horizontalRule | paragraph)+' }),
+          Paragraph,
+          Text,
+          HorizontalRule,
+        ],
+      })
+
+      expect(manager.serialize({ type: 'doc', content: [{ type: 'horizontalRule' }] })).toBe('---')
     })
 
     it('should preserve blank lines between paragraphs with content', () => {

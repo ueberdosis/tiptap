@@ -18,7 +18,6 @@ import {
   generateJSON,
   getExtensionField,
   getSchema,
-  isNodeEmpty,
   marksEqual,
   sortExtensions,
 } from '@tiptap/core'
@@ -368,13 +367,27 @@ export class MarkdownManager {
   }
 
   /**
-   * Check emptiness structurally (before rendering), using the same rules as
-   * `editor.isEmpty`. This avoids the previous string-based heuristic, which
-   * treated a real non-breaking space as empty output and discarded it.
+   * Empty only when every top-level block is an empty default textblock, so an empty code block,
+   * list, blockquote or rule still renders its markup.
    */
   private isStructurallyEmpty(docOrContent: JSONContent): boolean {
     try {
-      return isNodeEmpty(this.getCachedSchema().nodeFromJSON(docOrContent))
+      const doc = this.getCachedSchema().nodeFromJSON(docOrContent)
+
+      if (doc.type !== doc.type.schema.topNodeType) {
+        return false
+      }
+
+      const defaultType = doc.type.contentMatch.defaultType
+      let isEmpty = true
+
+      doc.forEach(child => {
+        if (child.type !== defaultType || !child.isTextblock || child.content.size > 0) {
+          isEmpty = false
+        }
+      })
+
+      return isEmpty
     } catch {
       return false
     }
