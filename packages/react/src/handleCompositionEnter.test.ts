@@ -6,6 +6,7 @@ import { UndoRedo } from '@tiptap/extensions'
 import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 
 import { createMobileEnterPlugin } from './createMobileEnterPlugin.js'
+import { flushDOMChanges } from './flushDOMChanges.js'
 
 const ReactParagraph = Paragraph.extend({
   addNodeView() {
@@ -38,8 +39,8 @@ describe('Android Enter inside a composition', () => {
     editor.view.focus()
   }
 
-  function contentDOM() {
-    return editor.view.dom.querySelector<HTMLElement>('[data-node-view-content-react]')!
+  function contentDOM(index = 0) {
+    return editor.view.dom.querySelectorAll<HTMLElement>('[data-node-view-content-react]')[index]
   }
 
   function composeEnter(word: string) {
@@ -50,13 +51,13 @@ describe('Android Enter inside a composition', () => {
   }
 
   // Chrome moves the text after the caret into a copy of the content element
-  function splitNatively(offset: number) {
-    const original = contentDOM()
+  function splitNatively(offset: number, index = 0, head?: string) {
+    const original = contentDOM(index)
     const copy = original.cloneNode(false) as HTMLElement
     const text = original.firstChild as Text
 
     copy.textContent = text.data.slice(offset)
-    text.deleteData(offset, text.data.length - offset)
+    text.data = head ?? text.data.slice(0, offset)
     original.after(copy)
   }
 
@@ -112,6 +113,65 @@ describe('Android Enter inside a composition', () => {
     editor.commands.redo()
 
     expect(editor.getHTML()).toBe('<p>Second line</p><p> of text here</p>')
+  })
+
+  it('keeps the text after the caret when another paragraph changes during the composition', async () => {
+    createEditor('<p>Other</p><p>Second line of text here</p>', 19)
+    composeEnter('line')
+    splitNatively(11, 1)
+    flushDOMChanges(editor.view)
+    // Like a collaboration update that arrives during the composition
+    editor.commands.insertContentAt(6, '!')
+
+    await endComposition('line\n')
+
+    expect(editor.getHTML()).toBe('<p>Other!</p><p>Second line</p><p> of text here</p>')
+    expect(editor.state.selection.from).toBe(22)
+    expect(editor.view.dom.querySelectorAll('[data-node-view-content-react]')).toHaveLength(3)
+  })
+
+  it('keeps the text after the caret when the keyboard also corrects the word', async () => {
+    createEditor('<p>Second taht of text here</p>', 12)
+    composeEnter('taht')
+    splitNatively(11, 0, 'Second that')
+
+    await endComposition('that\n')
+
+    expect(editor.getHTML()).toBe('<p>Second that</p><p> of text here</p>')
+    expect(editor.state.selection.from).toBe(14)
+  })
+
+  it('splits after a word the keyboard corrects at the end of a paragraph', async () => {
+    createEditor('<p>I taht</p>', 7)
+    composeEnter('taht')
+    ;(contentDOM().firstChild as Text).data = 'I that'
+
+    await endComposition('that\n')
+
+    expect(editor.getHTML()).toBe('<p>I that</p><p></p>')
+    expect(editor.state.selection.from).toBe(9)
+  })
+
+  it('does not split twice at the end of a paragraph', async () => {
+    createEditor('<p>Hello</p>', 6)
+    composeEnter('Hello')
+    editor.commands.splitBlock()
+
+    await endComposition('Hello\n')
+
+    expect(editor.getHTML()).toBe('<p>Hello</p><p></p>')
+  })
+
+  it('does not restore text when its paragraph is deleted during the composition', async () => {
+    createEditor('<p>Other</p><p>Second line of text here</p>', 19)
+    composeEnter('line')
+    splitNatively(11, 1)
+    flushDOMChanges(editor.view)
+    editor.commands.deleteRange({ from: 7, to: editor.state.doc.content.size })
+
+    await endComposition('line\n')
+
+    expect(editor.getHTML()).toBe('<p>Other</p>')
   })
 
   it('leaves a split that is already in the document alone', async () => {
