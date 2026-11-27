@@ -1,5 +1,5 @@
 import type { OrderedListItem } from './utils.js'
-import { collectOrderedListItems, ORDERED_LIST_ITEM_REGEX } from './utils.js'
+import { collectOrderedListItems, matchOrderedListItemLine } from './utils.js'
 
 const ORDERED_LIST_SCAN_WINDOW = 64
 
@@ -39,7 +39,7 @@ export function collectOrderedListItemsFromSource(
   const firstLine = firstLineEnd === -1 ? source : source.slice(0, firstLineEnd)
 
   // Every block start is offered here, so reject non-lists before reading further.
-  if (!ORDERED_LIST_ITEM_REGEX.test(firstLine)) {
+  if (!matchOrderedListItemLine(firstLine)) {
     return [[], 0, []]
   }
 
