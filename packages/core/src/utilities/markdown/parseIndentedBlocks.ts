@@ -41,7 +41,7 @@ function getIndentColumns(line: string) {
   const tabSize = 4
   let columns = 0
 
-  for (const character of line.match(/^[ \t]*/)?.[0] ?? '') {
+  for (const character of line.match(/^\s*/)?.[0] ?? '') {
     columns += character === '\t' ? tabSize - (columns % tabSize) : 1
   }
 

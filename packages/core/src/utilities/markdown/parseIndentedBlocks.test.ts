@@ -37,4 +37,11 @@ describe('parseIndentedBlocks', () => {
     expect(result?.items[0].mainContent).toBe('task')
     expect(result?.raw).toBe(`${indent}- [ ] task\n`)
   })
+
+  it('counts a non-breaking space as indentation', () => {
+    const result = parseIndentedBlocks('\u00a0- [ ] task\n outside', config, lexer)
+
+    expect(result?.items).toHaveLength(1)
+    expect(result?.raw).toBe('\u00a0- [ ] task\n')
+  })
 })
