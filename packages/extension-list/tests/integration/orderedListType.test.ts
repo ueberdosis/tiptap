@@ -263,6 +263,20 @@ describe('OrderedList type attribute', () => {
       expect(json.content[0].type).not.toBe('orderedList')
     })
 
+    it.each(['Ms. Smith arrived today.', 'Mr. Jones arrived today.', 'Dr. House said hello.'])(
+      'does not parse a courtesy title as an ordered list (%s)',
+      input => {
+        const markdownManager = new MarkdownManager({
+          extensions: [Document, Paragraph, Text, ListItem, OrderedList],
+        })
+
+        const json = markdownManager.parse(input)
+
+        expect(json.content[0].type).toBe('paragraph')
+        expect(json.content[0].content?.[0]).toMatchObject({ type: 'text', text: input })
+      },
+    )
+
     it('round-trips multi-letter alpha markers beyond 26 items', () => {
       const markdownManager = new MarkdownManager({
         extensions: [Document, Paragraph, Text, ListItem, OrderedList],
