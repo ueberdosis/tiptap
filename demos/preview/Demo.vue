@@ -1,5 +1,14 @@
 <template>
-  <div class="overflow-hidden antialiased rounded-lg">
+  <iframe
+    v-if="embed"
+    ref="frame"
+    class="block w-full h-screen border-0 bg-transparent"
+    :src="currentIframeUrl"
+    :key="currentIframeUrl"
+    :title="name"
+    @load="onFrameLoad"
+  />
+  <div class="overflow-hidden antialiased rounded-lg" v-else>
     <div class="px-3 py-1 bg-black flex items-center gap-0.5">
       <button
         v-for="(language, index) in sortedTabs"
@@ -73,8 +82,25 @@
 <script>
 import { getDebugJSON } from '@tiptap/core'
 
+import { applyTheme } from '../setup/helper.js'
 import DemoFrame from './DemoFrame.vue'
 import Shiki from './Shiki.vue'
+
+/**
+ * A page that embeds this preview (the Tiptap docs) talks to it with `postMessage`.
+ * The preview sends `{ channel: 'tiptap-demo', type }` with `ready`, `source`, `document`
+ * and `height`; the page sends `{ channel: 'tiptap-docs', type }` with `hello`, `theme` and `content`.
+ */
+const isEmbedded = window.parent !== window
+
+const post = (type, data = {}) => {
+  if (isEmbedded) {
+    window.parent.postMessage({ channel: 'tiptap-demo', type, ...data }, '*')
+  }
+}
+
+const usesCollaboration = editor =>
+  editor.extensionManager.extensions.some(extension => extension.name === 'collaboration')
 
 export default {
   components: {
@@ -103,12 +129,18 @@ export default {
       tabOrder: ['React', 'Vue', 'Svelte', 'JS'],
       debugJSON: null,
       showDebug: false,
+      editor: null,
+      theme: null,
+      pendingContent: null,
+      postTimeout: null,
     }
   },
 
   computed: {
     currentIframeUrl() {
-      return `/src/${this.name}/${this.currentTab}/`
+      const search = new URL(this.$route.fullPath, window.location.origin).search
+
+      return `/src/${this.name}/${this.currentTab}/${search}`
     },
 
     firstTabSelected() {
@@ -129,6 +161,11 @@ export default {
 
     inline() {
       return this.query.inline || false
+    },
+
+    // The demo alone, filling the frame: the embedding page sets its size and shows the code.
+    embed() {
+      return this.query.embed || false
     },
 
     hideSource() {
@@ -169,10 +206,13 @@ export default {
     onSource(event) {
       this.sources[this.currentTab] = event.detail
       this.setFile(this.source[0].name)
+      post('source', { tab: this.currentTab, files: event.detail })
     },
 
     onEditor(event) {
       const editor = event.detail
+
+      this.editor = editor
 
       if (!editor) {
         this.debugJSON = null
@@ -180,11 +220,99 @@ export default {
         return
       }
 
+      // A theme that came while the demo was loading
+      applyTheme(this.$refs.frame?.contentDocument, this.theme, editor)
+      this.restoreContent()
       this.debugJSON = JSON.stringify(getDebugJSON(editor.state.doc), null, '  ')
+      post('document', { tab: this.currentTab, json: editor.getJSON() })
 
       editor.on('update', () => {
         this.debugJSON = JSON.stringify(getDebugJSON(editor.state.doc), null, '  ')
+
+        clearTimeout(this.postTimeout)
+        this.postTimeout = setTimeout(() => {
+          post('document', { tab: this.currentTab, json: editor.getJSON() })
+        }, 250)
       })
+    },
+
+    // A document the page kept from the other framework's demo; a collaborative demo keeps its own.
+    restoreContent() {
+      if (!this.editor || !this.pendingContent || usesCollaboration(this.editor)) {
+        return
+      }
+
+      this.editor.commands.setContent(this.pendingContent, { emitUpdate: false })
+      this.pendingContent = null
+    },
+
+    // The demo's height, for a page that sizes its frame to the demo
+    onFrameLoad() {
+      this.heightObserver?.disconnect()
+      clearTimeout(this.heightFallback)
+
+      const win = this.$refs.frame?.contentWindow
+      const root = win?.document.getElementById('app') ?? win?.document.body
+
+      if (!win || !root) {
+        return
+      }
+
+      const loadedAt = Date.now()
+
+      const report = () => {
+        // Not the empty page before the demo rendered its editor; a demo without one after 3s
+        if (!root.querySelector('.ProseMirror, .tiptap') && Date.now() - loadedAt < 3000) {
+          return
+        }
+
+        // The bottom, so the margins of the first and last element count; 24px for the last one's
+        const height = Math.ceil(root.getBoundingClientRect().bottom + win.scrollY + 24)
+
+        if (height !== this.lastHeight) {
+          this.lastHeight = height
+          post('height', { height })
+        }
+      }
+
+      // Once it settles: a demo that draws its charts in steps reports one height, not each step
+      const settle = () => {
+        clearTimeout(this.heightTimeout)
+        this.heightTimeout = setTimeout(report, 150)
+      }
+
+      this.heightObserver = new win.ResizeObserver(settle)
+      this.heightObserver.observe(root)
+      settle()
+      this.heightFallback = setTimeout(report, 3000)
+    },
+
+    postReady() {
+      post('ready', { tabs: this.sortedTabs.map(({ name }) => name), tab: this.currentTab })
+    },
+
+    onMessage(event) {
+      const message = event.data
+
+      if (event.source !== window.parent || message?.channel !== 'tiptap-docs') {
+        return
+      }
+
+      // The page may start listening after this preview loaded: it says hello, and gets `ready` again
+      if (message.type === 'hello') {
+        this.postReady()
+      }
+
+      if (message.type === 'theme') {
+        this.theme = message.theme
+        applyTheme(document, message.theme)
+        applyTheme(this.$refs.frame?.contentDocument, message.theme, this.editor)
+      }
+
+      if (message.type === 'content') {
+        this.pendingContent = message.json
+        this.restoreContent()
+      }
     },
 
     fromString(value) {
@@ -213,19 +341,34 @@ export default {
   },
 
   mounted() {
-    // TODO: load language from url params
-    const intitialTab =
-      localStorage.tab && this.tabs.some(tab => tab.name === localStorage.tab)
-        ? localStorage.tab
-        : this.sortedTabs[0]?.name
+    // `?tab=Vue` from the page first, then the tab this browser chose last
+    const intitialTab = [this.query.tab, localStorage.tab].find(name =>
+      this.tabs.some(tab => tab.name === name),
+    )
 
-    this.setTab(intitialTab, false)
+    this.setTab(intitialTab ?? this.sortedTabs[0]?.name, false)
+    applyTheme(document, this.query.theme)
 
     window.document.addEventListener('editor', this.onEditor, false)
     window.document.addEventListener('source', this.onSource, false)
+    window.addEventListener('message', this.onMessage, false)
+
+    this.postReady()
+  },
+
+  created() {
+    this.heightObserver = null
+    this.lastHeight = 0
+    this.heightTimeout = null
+    this.heightFallback = null
   },
 
   beforeUnmount() {
+    this.heightObserver?.disconnect()
+    clearTimeout(this.heightTimeout)
+    clearTimeout(this.heightFallback)
+    clearTimeout(this.postTimeout)
+    window.removeEventListener('message', this.onMessage)
     window.document.removeEventListener('editor', this.onEditor)
     window.document.removeEventListener('source', this.onSource)
   },
