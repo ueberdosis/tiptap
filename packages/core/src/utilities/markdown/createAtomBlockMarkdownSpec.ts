@@ -70,6 +70,10 @@ export function createAtomBlockMarkdownSpec(options: AtomBlockMarkdownSpecOption
 
   // Use markdownName for syntax, fallback to nodeName
   const blockName = markdownName || nodeName
+  const startPattern = new RegExp(
+    `^ {0,3}:::${blockName}(?:\\s|$)|(?<paragraphEnd>\\n(?: *\\r?\\n| {0,3}#{1,6}(?:\\s|$)))`,
+    'm',
+  )
 
   // Helper function to filter attributes based on allowlist
   const filterAttributes = (attrs: Record<string, any>) => {
@@ -96,11 +100,9 @@ export function createAtomBlockMarkdownSpec(options: AtomBlockMarkdownSpecOption
       name: nodeName,
       level: 'block' as const,
       start(src: string) {
-        // Allow up to 3 leading spaces, matching how CommonMark treats indentation
-        // before block constructs (4+ spaces is an indented code block)
-        const regex = new RegExp(`^ {0,3}:::${blockName}(?:\\s|$)`, 'm')
-        const index = src.match(regex)?.index
-        return index !== undefined ? index : -1
+        // Blank lines and ATX headings already end the paragraph
+        const match = startPattern.exec(src)
+        return match && !match.groups?.paragraphEnd ? match.index : -1
       },
       tokenize(src, _tokens, _lexer) {
         // Use non-global regex to match from the start of the string

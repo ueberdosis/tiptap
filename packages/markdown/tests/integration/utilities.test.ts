@@ -9,6 +9,7 @@ import { Document } from '@tiptap/extension-document'
 import { Paragraph } from '@tiptap/extension-paragraph'
 import { Text } from '@tiptap/extension-text'
 import { MarkdownManager } from '@tiptap/markdown'
+import { Marked } from 'marked'
 import { describe, expect, it } from 'vite-plus/test'
 
 function measure(run: () => unknown): number {
@@ -466,6 +467,39 @@ describe('Markdown Utilities', () => {
       const start = spec.markdownTokenizer.start as (src: string) => number
       expect(start('  :::youtube {src="test"} :::')).toBe(0)
       expect(start('text\n   :::youtube {src="test"} :::')).toBe(5)
+    })
+
+    it('stops looking for a directive at a paragraph break', () => {
+      const { markdownTokenizer } = createAtomBlockMarkdownSpec({ nodeName: 'youtube' })
+      const start = markdownTokenizer.start as (src: string) => number
+
+      expect(start('text\n\n:::youtube :::')).toBe(-1)
+      expect(start('text\r\n  \r\n:::youtube :::')).toBe(-1)
+      expect(start('text\n## Heading\n:::youtube :::')).toBe(-1)
+      expect(start('\n  :::youtube :::\n\ntext')).toBe(1)
+      expect(start('text\n\t\n:::youtube :::')).toBe(7)
+      expect(start('text\n#hashtag\n:::youtube :::')).toBe(14)
+    })
+
+    it('keeps earlier paragraphs separate when an atom follows a blank line', () => {
+      const Atom = Node.create({
+        name: 'atom',
+        group: 'block',
+        atom: true,
+        ...createAtomBlockMarkdownSpec({ nodeName: 'atom' }),
+      })
+      const manager = new MarkdownManager({
+        marked: new Marked() as unknown as typeof import('marked').marked,
+        extensions: [Document, Paragraph, Text, Atom],
+      })
+
+      const prefix = 'A paragraph\n| a | b |\n| - | - | - |'
+      const paragraphs = manager.parse(prefix).content
+      const withAtom = manager.parse(`${prefix}\n\n:::atom :::`).content
+
+      expect(paragraphs).toHaveLength(2)
+      expect(withAtom?.slice(0, -1)).toEqual(paragraphs)
+      expect(withAtom?.at(-1)?.type).toBe('atom')
     })
 
     it('should tokenize a directive indented up to 3 spaces and keep the indent in raw', () => {
