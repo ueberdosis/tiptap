@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.35.1
+
+### Patch Changes
+
+- 208701d: Fix a selection error and a misplaced caret when pressing Backspace right after focusing an editor on Android.
+
 ## 3.35.0
 
 ### Patch Changes

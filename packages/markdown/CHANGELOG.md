@@ -1,5 +1,11 @@
 # @tiptap/markdown
 
+## 3.35.1
+
+### Patch Changes
+
+- 819a354: Move leading and trailing spaces outside Markdown mark delimiters so nested formatting survives saving and reloading.
+
 ## 3.35.0
 
 No changes in this release.
