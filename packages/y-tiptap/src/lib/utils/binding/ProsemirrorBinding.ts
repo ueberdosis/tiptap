@@ -8,6 +8,7 @@ import type { ComputeYChange } from '../../../types/YChange.js'
 import { createMutex } from 'lib0/mutex'
 import * as PModel from 'prosemirror-model'
 import { TextSelection } from 'prosemirror-state'
+import { ReplaceStep } from 'prosemirror-transform'
 import * as math from 'lib0/math'
 import * as error from 'lib0/error'
 import { ySyncPluginKey } from '../../plugins/keys.js'
@@ -26,6 +27,9 @@ import { updateYFragment } from '../reconciliation/updateYFragment.js'
 import { deleteMapping } from './deleteMapping.js'
 import { projectedMappings } from './projectedMappings.js'
 import { replaceChangedChildren } from './replaceChangedChildren.js'
+
+// Remote changes wait at most this long while a composition is running.
+const maxCompositionDelay = 1000
 
 /** Synchronizes one integrated Yjs XML fragment with a ProseMirror editor view. */
 export class ProsemirrorBinding {
@@ -48,6 +52,10 @@ export class ProsemirrorBinding {
   private projectionError: Error | null = null
   private hasSharedContent = false
   private pendingTextMerges: Y.XmlText[] = []
+  private hasPendingRemoteChanges = false
+  private pendingRemoteTransactions: Y.Transaction[] = []
+  private pendingRemoteSelection: RelativeSelection | null = null
+  private pendingRemoteBaseDoc: PModel.Node | null = null
 
   constructor(
     yXmlFragment: Y.XmlFragment,
@@ -390,6 +398,15 @@ export class ProsemirrorBinding {
       return
     }
 
+    // Hold remote changes while a composition runs, so the browser keeps its composition node.
+    if (this.view.composing) {
+      this.deferRemoteChange(transaction)
+
+      return
+    }
+
+    this.clearPendingRemoteChanges()
+
     const syncState = getSyncPluginState(this.view.state)
 
     if (events.length === 0 || syncState.snapshot != null || syncState.prevSnapshot != null) {
@@ -408,15 +425,7 @@ export class ProsemirrorBinding {
     let newError: Error | null = null
 
     this.mux(() => {
-      const delType = (_: unknown, type: unknown) => deleteMapping(this.mapping, type)
-
-      Y.iterateDeletedStructs(transaction, transaction.deleteSet, struct => {
-        if (struct instanceof Y.Item && struct.content instanceof Y.ContentType) {
-          deleteMapping(this.mapping, struct.content.type)
-        }
-      })
-      transaction.changed.forEach(delType)
-      transaction.changedParentTypes.forEach(delType)
+      this.clearDeletedMappings(transaction)
 
       let tr = replaceChangedChildren(this._tr, this.createDocumentContent())
 
@@ -439,8 +448,212 @@ export class ProsemirrorBinding {
     this.notifyInvalidContent(newError)
   }
 
+  /** Hold a remote change until the running composition ends. */
+  private deferRemoteChange(transaction: Y.Transaction) {
+    if (!this.hasPendingRemoteChanges) {
+      this.hasPendingRemoteChanges = true
+      this.pendingRemoteSelection = this.beforeTransactionSelection
+      this.pendingRemoteBaseDoc = this.view.state.doc
+      eventloop.timeout(maxCompositionDelay, () => this.flushPendingRemoteChanges(true))
+    }
+
+    this.pendingRemoteTransactions.push(transaction)
+  }
+
+  /** Drop held remote changes after they were rendered another way. */
+  private clearPendingRemoteChanges() {
+    if (!this.hasPendingRemoteChanges) {
+      return
+    }
+
+    this.hasPendingRemoteChanges = false
+    this.pendingRemoteTransactions.forEach(transaction => this.clearDeletedMappings(transaction))
+    this.pendingRemoteTransactions = []
+    this.pendingRemoteSelection = null
+    this.pendingRemoteBaseDoc = null
+  }
+
+  private clearDeletedMappings(transaction: Y.Transaction) {
+    const delType = (_: unknown, type: unknown) => deleteMapping(this.mapping, type)
+
+    Y.iterateDeletedStructs(transaction, transaction.deleteSet, struct => {
+      if (struct instanceof Y.Item && struct.content instanceof Y.ContentType) {
+        deleteMapping(this.mapping, struct.content.type)
+      }
+    })
+    transaction.changed.forEach(delType)
+    transaction.changedParentTypes.forEach(delType)
+  }
+
+  // Whether held remote changes can be rendered now.
+  private canFlushPendingRemoteChanges(force: boolean): boolean {
+    if (!this.hasPendingRemoteChanges || this.prosemirrorView == null) {
+      return false
+    }
+
+    if (!force && this.view.composing) {
+      return false
+    }
+
+    const syncState = getSyncPluginState(this.view.state)
+
+    return syncState.snapshot == null && syncState.prevSnapshot == null
+  }
+
+  // Take held remote changes out of the binding so they render exactly once.
+  private takePendingRemoteChanges() {
+    const pending = {
+      transactions: this.pendingRemoteTransactions,
+      selection: this.pendingRemoteSelection,
+      baseDoc: this.pendingRemoteBaseDoc,
+    }
+    this.hasPendingRemoteChanges = false
+    this.pendingRemoteTransactions = []
+    this.pendingRemoteSelection = null
+    this.pendingRemoteBaseDoc = null
+
+    return pending
+  }
+
+  // Build the transaction rendering held remote changes, merging them with
+  // local edits made while composing when possible.
+  private buildPendingRemoteTransaction(
+    baseDoc: PModel.Node | null,
+    remoteContent: PModel.Fragment,
+  ) {
+    const mergedTr =
+      baseDoc == null || this.projectionError !== null
+        ? null
+        : this.mergeHeldRemoteChanges(baseDoc, this.view.state.doc, remoteContent)
+
+    return {
+      tr: mergedTr ?? replaceChangedChildren(this._tr, remoteContent),
+      merged: mergedTr != null,
+    }
+  }
+
+  // Render held remote changes into the editor.
+  flushPendingRemoteChanges(force = false): boolean {
+    if (!this.canFlushPendingRemoteChanges(force)) {
+      return false
+    }
+
+    const pending = this.takePendingRemoteChanges()
+    pending.transactions.forEach(transaction => this.clearDeletedMappings(transaction))
+
+    const remoteContent = this.createDocumentContent()
+    const { tr, merged } = this.buildPendingRemoteTransaction(pending.baseDoc, remoteContent)
+    const newError = this.dispatchPendingRemoteChanges(pending.transactions, pending.selection, tr)
+
+    // The flush dispatch runs inside the mutex, so the plugin's own sync call
+    // for it is dropped. Sync the merged text to the shared document here.
+    if (merged) {
+      this._prosemirrorChanged(this.view.state.doc)
+    }
+
+    this.notifyInvalidContent(newError)
+
+    return true
+  }
+
+  // Dispatch a transaction rendering held remote changes.
+  private dispatchPendingRemoteChanges(
+    transactions: Y.Transaction[],
+    selection: RelativeSelection | null,
+    tr: Transaction,
+  ): Error | null {
+    let newError: Error | null = null
+
+    this.mux(() => {
+      newError = this.updateInvalidContentError()
+
+      // Skipped content has no place in the editor to restore the selection to
+      if (this._invalidContentError === null) {
+        restoreRelativeSelection(tr, selection, this, this.view.state.doc)
+      }
+      tr.setMeta(ySyncPluginKey, {
+        isChangeOrigin: true,
+        isUndoRedoOperation: transactions.some(
+          transaction => transaction.origin instanceof Y.UndoManager,
+        ),
+      })
+
+      if (selection !== null && this._isLocalCursorInView()) {
+        tr.scrollIntoView()
+      }
+
+      this.view.dispatch(tr)
+    })
+
+    return newError
+  }
+
+  /** Render held remote changes once the running composition ends. */
+  schedulePendingFlush() {
+    if (this.prosemirrorView == null || !this.hasPendingRemoteChanges || this.view.composing) {
+      return
+    }
+
+    eventloop.timeout(0, () => this.flushPendingRemoteChanges())
+  }
+
+  // One replace step turning one document into another, or null when identical.
+  private diffStep(fromDoc: PModel.Node, toDoc: PModel.Node): ReplaceStep | null {
+    const start = fromDoc.content.findDiffStart(toDoc.content)
+
+    if (start == null) {
+      return null
+    }
+
+    const end = fromDoc.content.findDiffEnd(toDoc.content)
+
+    if (end == null) {
+      return null
+    }
+
+    return new ReplaceStep(start, end.a, toDoc.slice(start, end.b))
+  }
+
+  // Apply held remote changes on top of local edits made while composing.
+  // Replacing the paragraph would drop those edits, so the remote change is
+  // applied as a step mapped past the local edits instead. Returns null when
+  // the two changes overlap and cannot be merged cleanly.
+  private mergeHeldRemoteChanges(
+    baseDoc: PModel.Node,
+    localDoc: PModel.Node,
+    remoteContent: PModel.Fragment,
+  ): Transaction | null {
+    const remoteDoc = this.view.state.schema.topNodeType.create(null, remoteContent)
+    const remoteStep = this.diffStep(baseDoc, remoteDoc)
+
+    if (remoteStep == null) {
+      return null
+    }
+
+    const localStep = this.diffStep(baseDoc, localDoc)
+
+    if (localStep == null) {
+      return null
+    }
+
+    const mappedRemoteStep = remoteStep.map(localStep.getMap())
+
+    if (mappedRemoteStep == null) {
+      return null
+    }
+
+    const tr = this._tr
+
+    tr.step(mappedRemoteStep)
+
+    return tr
+  }
+
   _prosemirrorChanged(doc: PModel.Node) {
     if (this._invalidContentError !== null) return
+
+    // Never diff against shared content that holds changes not shown yet
+    if (this.hasPendingRemoteChanges) return
 
     const syncState = getSyncPluginState(this.view.state)
     if (syncState.snapshot != null || syncState.prevSnapshot != null) return
@@ -470,6 +683,10 @@ export class ProsemirrorBinding {
     }
 
     this.prosemirrorView = null
+    this.hasPendingRemoteChanges = false
+    this.pendingRemoteTransactions = []
+    this.pendingRemoteSelection = null
+    this.pendingRemoteBaseDoc = null
     this.type.unobserveDeep(this._observeFunction)
     this.doc.off('beforeAllTransactions', this.beforeAllTransactions)
     this.doc.off('afterAllTransactions', this.afterAllTransactions)

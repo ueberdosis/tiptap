@@ -135,6 +135,8 @@ export const ySyncPlugin = (
 
       return {
         update: () => {
+          binding.schedulePendingFlush()
+
           const pluginState = getSyncPluginState(view.state)
 
           if (pluginState.snapshot == null && pluginState.prevSnapshot == null) {
