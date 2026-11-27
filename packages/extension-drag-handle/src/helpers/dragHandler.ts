@@ -158,6 +158,13 @@ export function dragHandler(
   document.body.append(wrapper)
 
   event.dataTransfer.clearData()
+
+  // Other editors read the dropped content from the data transfer
+  const { dom, text } = view.serializeForClipboard(slice)
+
+  event.dataTransfer.setData('text/html', dom.innerHTML)
+  event.dataTransfer.setData('text/plain', text)
+
   const wrapperRect = wrapper.getBoundingClientRect()
   const dragImageX = getDragImageOffset(direction, wrapperRect.width)
 
