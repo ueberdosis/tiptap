@@ -91,7 +91,7 @@ export const RubyText = Mark.create<RubyTextOptions>({
             return rb
           }
 
-          const surrogate = document.createElement('span')
+          const surrogate = node.ownerDocument.createElement('span')
 
           Array.from(node.childNodes).forEach(child => {
             if (child.nodeName !== 'RT' && child.nodeName !== 'RP') {

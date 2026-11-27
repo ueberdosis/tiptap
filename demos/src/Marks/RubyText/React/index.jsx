@@ -14,7 +14,7 @@ export default () => {
   const editor = useEditor({
     extensions: [Document, Paragraph, Text, RubyText],
     content: `
-        <p><ruby>東京<rt>とうきょう</rt></ruby>は日本の首都です。</p>
+        <p><ruby>東京<rp>(</rp><rt>とうきょう</rt><rp>)</rp></ruby>は日本の首都です。</p>
         <p><ruby>漢字<rt>かんじ</rt></ruby>の上にルビを表示できます。</p>
       `,
     onSelectionUpdate: ({ editor: currentEditor }) => {
