@@ -17,6 +17,7 @@ import * as dom from 'lib0/dom'
 import * as eventloop from 'lib0/eventloop'
 import { isVisible } from './isVisible.js'
 import { getUserColor } from './getUserColor.js'
+import { getDOMObserver } from '../view/domObserver.js'
 import { restoreRelativeSelection } from '../positions/restoreRelativeSelection.js'
 import { getRelativeSelection } from '../positions/getRelativeSelection.js'
 
@@ -80,7 +81,8 @@ export class ProsemirrorBinding {
         this.beforeTransactionSelection === null &&
         this.prosemirrorView != null
       ) {
-        this.beforeTransactionSelection = getRelativeSelection(this, this.view.state)
+        const selection = this.selectionFromDOM() ?? this.view.state.selection
+        this.beforeTransactionSelection = getRelativeSelection(this, { selection })
       }
     }
     this.afterAllTransactions = () => {
@@ -157,6 +159,45 @@ export class ProsemirrorBinding {
       bounding.left <= (window.innerWidth || documentElement.clientWidth || 0) &&
       bounding.top <= (window.innerHeight || documentElement.clientHeight || 0)
     )
+  }
+
+  // Returns the live DOM selection when the editor can trust it: focused, not
+  // composing, no unread DOM changes, and a selection inside the editor.
+  private trustedDOMSelection(): Selection | null {
+    const view = this.view
+
+    if (!view.hasFocus() || view.composing) return null
+    if (getDOMObserver(view).pendingRecords().length > 0) return null
+
+    const root = view.root
+    const selection =
+      'getSelection' in root && typeof root.getSelection === 'function'
+        ? root.getSelection()
+        : view.dom.ownerDocument.getSelection()
+
+    if (selection == null || selection.anchorNode == null || selection.focusNode == null) {
+      return null
+    }
+
+    return selection
+  }
+
+  // A keyboard caret move reaches the DOM before ProseMirror reads it, so a
+  // remote update in between would restore the stale caret. Returns the DOM
+  // selection when it is ahead of the editor state, null otherwise.
+  private selectionFromDOM(): TextSelection | null {
+    const view = this.view
+    const selection = this.trustedDOMSelection()
+
+    if (selection === null) return null
+    if (getDOMObserver(view).currentSelection.eq(selection)) return null
+
+    const anchor = view.posAtDOM(selection.anchorNode, selection.anchorOffset, 1)
+    const head = view.posAtDOM(selection.focusNode, selection.focusOffset, 1)
+
+    if (anchor < 0 || head < 0) return null
+
+    return TextSelection.create(view.state.doc, anchor, head)
   }
 
   renderSnapshot(

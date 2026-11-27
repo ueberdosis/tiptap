@@ -6,7 +6,7 @@ import type { ProsemirrorBinding } from '../binding/ProsemirrorBinding.js'
 /** Captures the current selection as Yjs relative positions and absolute fallback positions. */
 export const getRelativeSelection = (
   pmbinding: ProsemirrorBinding,
-  state: EditorState,
+  state: Pick<EditorState, 'selection'>,
 ): RelativeSelection => {
   const selection = state.selection
   const json: Record<string, unknown> = selection.toJSON()

@@ -15,6 +15,7 @@ import { absolutePositionToRelativePosition } from '../utils/positions/absoluteP
 import { isStructuralTransaction } from '../utils/positions/isStructuralTransaction.js'
 import { relativePositionToAbsolutePosition } from '../utils/positions/relativePositionToAbsolutePosition.js'
 import { setMeta } from './setMeta.js'
+import { getDOMObserver } from '../utils/view/domObserver.js'
 import { yCursorPluginKey, ySyncPluginKey } from './keys.js'
 import * as math from 'lib0/math'
 export const defaultAwarenessStateFilter = (
@@ -226,6 +227,9 @@ export const yCursorPlugin = (
 
       const awarenessListener = () => {
         if (!view.isDestroyed) {
+          // Read a pending keyboard caret move before the decoration update,
+          // or the update writes the stale caret back to the DOM.
+          getDOMObserver(view).flush()
           setMeta(view, yCursorPluginKey, { awarenessUpdated: true })
         }
       }
