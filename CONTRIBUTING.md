@@ -177,13 +177,15 @@ The resolver job looks up the current branch by exact name. If it is missing, th
 
 ## Requirements
 
-### Documentation and references
+### Documentation and package rules
 
 Follow the [package documentation rules](docs/package-documentation.md) when writing installation, getting started, usage, configuration, and API documentation in `packages/<name>/docs/`.
 
-Follow the [package reference rules](docs/package-references.md) when recording development context, concepts, plans, decisions, investigations, or prototype results in `packages/<name>/references/`.
+Follow the [package rules](docs/package-rules.md) when recording a rule that later changes must keep. Put it in a test, a code comment, or `packages/<name>/AGENTS.md`.
 
-Before changing a package, read its `references/README.md` if it exists and follow links relevant to your task. Update affected user documentation with the code change.
+If you use Claude Code and keep a personal `CLAUDE.local.md`, set `pluginConfigs` > `cc-plugin-agents-md@builtin` > `options.instructionFiles` to `"claude-md-and-agents-md"` in `~/.claude/settings.json`, so it reads both files.
+
+Update affected user documentation with the code change.
 
 If the project maintainer has any additional requirements, you will find them listed here.
 
