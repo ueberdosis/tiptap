@@ -59,7 +59,7 @@ function captureCompositionEnter(editor: Editor, event: InputEvent): Composition
   }
 }
 
-/** Checks that the paragraph still exists and that nothing was inserted at the caret, like a split. */
+/** Checks that the paragraph still exists and that nothing was inserted at the caret. */
 function isCaretUnhandled({ blockStart, mapping, position }: CompositionEnter): boolean {
   const caret = mapping.mapResult(position, 1)
   const insertedAtCaret = !caret.deleted && mapping.map(position, -1) !== caret.pos

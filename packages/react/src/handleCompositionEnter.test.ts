@@ -120,7 +120,6 @@ describe('Android Enter inside a composition', () => {
     composeEnter('line')
     splitNatively(11, 1)
     flushDOMChanges(editor.view)
-    // Like a collaboration update that arrives during the composition
     editor.commands.insertContentAt(6, '!')
 
     await endComposition('line\n')
