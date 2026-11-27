@@ -17,6 +17,8 @@ interface MarkBoundary {
 
 type BoundaryPosition = Pick<MarkBoundary, 'from' | 'deletedOffset' | 'deletedText'>
 
+type CaretSuffixPosition = Pick<MarkBoundary, 'from' | 'deletedText'>
+
 type PendingMarks = readonly MarkBoundary[]
 
 const pluginKey = new PluginKey<PendingMarks | null>('androidStoredMarks')
@@ -28,6 +30,24 @@ function findRewrittenOffset(oldText: string, newText: string, restoring: boolea
 
 function textAfter(transaction: Transaction, index: number, from: number, to: number): string {
   return (transaction.docs[index + 1] ?? transaction.doc).textBetween(from, to)
+}
+
+/** Keeps the rest of a deleted word while the keyboard inserts only its beginning again. */
+function keepRestoring(
+  deletedText: string,
+  insertedText: string,
+  newStart: number,
+  restored: number | null,
+): BoundaryPosition | null {
+  if (restored !== insertedText.length || restored >= deletedText.length) {
+    return null
+  }
+
+  return {
+    from: newStart + restored,
+    deletedOffset: deletedText.length - restored,
+    deletedText: deletedText.slice(restored),
+  }
 }
 
 /** Moves a boundary through text that a composition replaced, deleted or inserted again. */
@@ -47,17 +67,21 @@ function placeBoundary(
   }
 
   const newText = textAfter(transaction, index, range.newStart, range.newStart + range.available)
+  const restoring = boundary.deletedOffset > 0
   // Positions only match characters in plain text
   const isPlainText = oldText.length === offset && newText.length === range.available
-  const rewritten = isPlainText
-    ? findRewrittenOffset(oldText, newText, boundary.deletedOffset > 0)
+  const rewritten = isPlainText ? findRewrittenOffset(oldText, newText, restoring) : null
+  const partlyRestored = restoring
+    ? keepRestoring(oldText, newText, range.newStart, rewritten)
     : null
 
-  return {
-    from: range.newStart + (rewritten ?? Math.min(offset, range.available)),
-    deletedOffset: 0,
-    deletedText: '',
-  }
+  return (
+    partlyRestored ?? {
+      from: range.newStart + (rewritten ?? Math.min(offset, range.available)),
+      deletedOffset: 0,
+      deletedText: '',
+    }
+  )
 }
 
 function mapBoundary(pending: MarkBoundary, transaction: Transaction): MarkBoundary {
@@ -90,29 +114,58 @@ function mapBoundary(pending: MarkBoundary, transaction: Transaction): MarkBound
   return { ...pending, ...position }
 }
 
-/** Maps formatting after the caret, measuring its place in rewritten text from the end. */
-function mapBoundaryAfterCaret(boundary: MarkBoundary, transaction: Transaction): MarkBoundary {
-  let { from } = boundary
+/** Moves formatting after the caret through text that a composition replaced, deleted or inserted again. */
+function placeBoundaryAfterCaret(
+  transaction: Transaction,
+  index: number,
+  boundary: CaretSuffixPosition,
+  range: { oldEnd: number; newStart: number; newEnd: number },
+): CaretSuffixPosition {
+  const keptText = transaction.docs[index].textBetween(boundary.from, range.oldEnd)
+  const oldText = boundary.deletedText + keptText
+  const newText = textAfter(transaction, index, range.newStart, range.newEnd)
 
-  for (const [index, map] of transaction.mapping.maps.entries()) {
-    let nextFrom = map.map(from, 1)
-
-    map.forEach((oldStart, oldEnd, newStart, newEnd) => {
-      if (from < oldStart || from >= oldEnd) {
-        return
-      }
-
-      const oldText = transaction.docs[index].textBetween(from, oldEnd)
-      const newText = textAfter(transaction, index, newStart, newEnd)
-      const isPlainText = oldText.length === oldEnd - from && newText.length === newEnd - newStart
-      const start = isPlainText ? findRewrittenStart(oldText, newText) : null
-
-      nextFrom = newStart + (start ?? Math.max(0, newText.length - oldText.length))
-    })
-    from = nextFrom
+  // Remember the deleted text until the keyboard inserts it again
+  if (!newText) {
+    return { from: range.newStart, deletedText: oldText }
   }
 
-  return { ...boundary, from }
+  // Positions only match characters in plain text
+  const isPlainText =
+    keptText.length === range.oldEnd - boundary.from &&
+    newText.length === range.newEnd - range.newStart
+  const start = isPlainText ? findRewrittenStart(oldText, newText) : null
+
+  if (start === null && boundary.deletedText) {
+    return { from: range.newEnd, deletedText: oldText }
+  }
+
+  return {
+    from: range.newStart + (start ?? Math.max(0, newText.length - oldText.length)),
+    deletedText: '',
+  }
+}
+
+/** Maps formatting after the caret, measuring its place in rewritten text from the end. */
+function mapBoundaryAfterCaret(boundary: MarkBoundary, transaction: Transaction): MarkBoundary {
+  let position: CaretSuffixPosition = boundary
+
+  for (const [index, map] of transaction.mapping.maps.entries()) {
+    const { from, deletedText } = position
+    let next: CaretSuffixPosition = { ...position, from: map.map(from, 1) }
+
+    map.forEach((oldStart, oldEnd, newStart, newEnd) => {
+      const containsBoundary = from >= oldStart && from < oldEnd
+      const restoresBoundary = deletedText !== '' && from === oldStart
+
+      if (containsBoundary || restoresBoundary) {
+        next = placeBoundaryAfterCaret(transaction, index, position, { oldEnd, newStart, newEnd })
+      }
+    })
+    position = next
+  }
+
+  return { ...boundary, ...position }
 }
 
 /** Keeps every boundary at or after the previous one, so each range of marks stays valid. */
@@ -120,6 +173,11 @@ function keepBoundaryOrder(boundaries: PendingMarks): PendingMarks {
   let previous = 0
 
   return boundaries.map(boundary => {
+    // Deleted text after the caret has no place until the keyboard inserts it again
+    if (boundary.afterCaret && boundary.deletedText) {
+      return boundary
+    }
+
     const from = Math.max(boundary.from, previous - boundary.deletedOffset)
 
     previous = from + boundary.deletedOffset
