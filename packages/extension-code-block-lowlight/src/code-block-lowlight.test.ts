@@ -87,4 +87,47 @@ describe('code block highlight', () => {
 
     expect(descendants).not.toHaveBeenCalled()
   })
+
+  describe('with text outside of code blocks', () => {
+    const codeBlock = {
+      type: 'codeBlock',
+      attrs: { language: 'javascript' },
+      content: [{ type: 'text', text: 'alert("Hello world");' }],
+    }
+
+    beforeEach(() => {
+      editor.commands.setContent({
+        type: 'doc',
+        content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Text' }] }, codeBlock],
+      })
+      editor.commands.setTextSelection(2)
+    })
+
+    const strings = () => getEditorEl()?.querySelectorAll('.language-javascript .hljs-string')
+
+    it('does not walk the document when typing outside of code blocks', () => {
+      const descendants = vi.spyOn(editor.state.doc, 'descendants')
+
+      editor.commands.insertContent('x')
+
+      expect(descendants).not.toHaveBeenCalled()
+      expect(strings()).toHaveLength(1)
+    })
+
+    it('highlights a code block inserted outside of the selection', () => {
+      const { tr, doc, schema } = editor.state
+      editor.view.dispatch(tr.insert(doc.content.size, schema.nodeFromJSON(codeBlock)))
+
+      expect(strings()).toHaveLength(2)
+    })
+
+    it('updates highlighting when the language changes outside of the selection', () => {
+      const position = editor.state.doc.firstChild!.nodeSize
+      editor.view.dispatch(
+        editor.state.tr.setNodeMarkup(position, undefined, { language: 'plaintext' }),
+      )
+
+      expect(getEditorEl()?.querySelector('.hljs-string')).toBe(null)
+    })
+  })
 })

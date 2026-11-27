@@ -1,5 +1,6 @@
-import { findChildren } from '@tiptap/core'
+import { findChildren, getChangedRanges } from '@tiptap/core'
 import type { Node as ProsemirrorNode } from '@tiptap/pm/model'
+import type { Transaction } from '@tiptap/pm/state'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
 // @ts-ignore
@@ -71,6 +72,37 @@ function getDecorations({
   return DecorationSet.create(doc, decorations)
 }
 
+function hasNodeBetween(doc: ProsemirrorNode, from: number, to: number, name: string) {
+  let found = false
+
+  doc.nodesBetween(from, to, node => {
+    if (found) {
+      return false
+    }
+
+    if (node.type.name === name) {
+      found = true
+      return false
+    }
+
+    return !node.isTextblock
+  })
+
+  return found
+}
+
+/**
+ * Checks whether a transaction changed a node with the given name,
+ * or content around it, in the document before or after the transaction.
+ */
+function changesNode(transaction: Transaction, name: string) {
+  return getChangedRanges(transaction).some(
+    ({ oldRange, newRange }) =>
+      hasNodeBetween(transaction.before, oldRange.from, oldRange.to, name) ||
+      hasNodeBetween(transaction.doc, newRange.from, newRange.to, name),
+  )
+}
+
 // oxlint-disable-next-lineno-unsafe-function-type
 function isFunction(param: any): param is Function {
   return typeof param === 'function'
@@ -109,37 +141,16 @@ export function LowlightPlugin({
 
         const oldNodeName = oldState.selection.$head.parent.type.name
         const newNodeName = newState.selection.$head.parent.type.name
-        const oldNodes = findChildren(oldState.doc, node => node.type.name === name)
-        const newNodes = findChildren(newState.doc, node => node.type.name === name)
 
         if (
-          transaction.docChanged &&
-          // Apply decorations if:
-          // selection includes named node,
-          ([oldNodeName, newNodeName].includes(name) ||
-            // OR transaction adds/removes named node,
-            newNodes.length !== oldNodes.length ||
-            // OR transaction has changes that completely encapsulte a node
-            // (for example, a transaction that affects the entire document).
-            // Such transactions can happen during collab syncing via y-prosemirror, for example.
-            transaction.steps.some(step => {
-              // @ts-ignore
-              return (
-                // @ts-ignore
-                step.from !== undefined &&
-                // @ts-ignore
-                step.to !== undefined &&
-                oldNodes.some(node => {
-                  // @ts-ignore
-                  return (
-                    // @ts-ignore
-                    node.pos >= step.from &&
-                    // @ts-ignore
-                    node.pos + node.node.nodeSize <= step.to
-                  )
-                })
-              )
-            }))
+          (transaction.docChanged &&
+            // Apply decorations if:
+            // selection includes named node,
+            [oldNodeName, newNodeName].includes(name)) ||
+          // OR transaction adds, removes or changes a named node.
+          // This also covers changes to the entire document, for example
+          // during collab synching via y-prosemirror.
+          changesNode(transaction, name)
         ) {
           return getDecorations({
             doc: transaction.doc,
