@@ -13,6 +13,7 @@ import type { Transaction } from '@tiptap/pm/state'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { v4 as uuidv4 } from 'uuid'
 
+import { canSetNodeAttributes } from './helpers/canSetNodeAttributes.js'
 import { findDuplicates } from './helpers/findDuplicates.js'
 
 export type UniqueIDGenerationContext = {
@@ -142,9 +143,10 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
       const { tr, doc } = state
       const types = resolveTypes(this.options.types, this.editor.extensionManager.extensions)
       const { attributeName, generateID } = this.options
+      // Skip nodes ProseMirror won't let us change, so invalid content can't crash the editor
       const nodesWithoutId = findChildren(doc, node => {
         return types.includes(node.type.name) && node.attrs[attributeName] === null
-      })
+      }).filter(({ pos }) => canSetNodeAttributes(doc, pos))
 
       nodesWithoutId.forEach(({ node, pos }) => {
         tr.setNodeMarkup(pos, undefined, {
@@ -248,12 +250,14 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
               allNodes.forEach(({ node, pos }) => {
                 const currentId = node.attrs[attributeName]
 
-                if (currentId === null || seen.has(currentId)) {
+                const needsId = currentId === null || seen.has(currentId)
+
+                if (needsId && canSetNodeAttributes(newState.doc, pos)) {
                   tr.setNodeMarkup(pos, undefined, {
                     ...node.attrs,
                     [attributeName]: generateID({ node, pos }),
                   })
-                } else {
+                } else if (!needsId) {
                   seen.add(currentId)
                 }
               })
@@ -304,6 +308,10 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
               const id = tr.doc.nodeAt(pos)?.attrs[attributeName]
 
               if (id === null) {
+                if (!canSetNodeAttributes(newState.doc, pos)) {
+                  return
+                }
+
                 tr.setNodeMarkup(pos, undefined, {
                   ...node.attrs,
                   [attributeName]: generateID({ node, pos }),
@@ -319,6 +327,13 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
                 if (
                   nextNodeInTr?.attrs[attributeName] &&
                   nextNodeInTr.attrs[attributeName] !== id
+                ) {
+                  return
+                }
+
+                if (
+                  !canSetNodeAttributes(newState.doc, nextNode.pos) ||
+                  !canSetNodeAttributes(newState.doc, pos)
                 ) {
                   return
                 }
@@ -347,7 +362,7 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
 
               const newNode = deleted && duplicatedNewIds.includes(id)
 
-              if (newNode) {
+              if (newNode && canSetNodeAttributes(newState.doc, pos)) {
                 tr.setNodeMarkup(pos, undefined, {
                   ...node.attrs,
                   [attributeName]: generateID({ node, pos }),
