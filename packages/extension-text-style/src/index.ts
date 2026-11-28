@@ -7,6 +7,7 @@ export * from './font-size/index.js'
 export * from './line-height/index.js'
 export * from './text-style/index.js'
 export * from './text-style-kit/index.js'
+export { normalizeColor } from './utilities/normalize-color.js'
 
 /**
  * The available text style attributes.
