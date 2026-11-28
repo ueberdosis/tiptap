@@ -998,6 +998,9 @@ importers:
       '@tiptap/core':
         specifier: workspace:^
         version: link:../core
+      '@tiptap/extension-table':
+        specifier: workspace:^
+        version: link:../extension-table
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm

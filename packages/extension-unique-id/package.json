@@ -46,6 +46,7 @@
   },
   "devDependencies": {
     "@tiptap/core": "workspace:^",
+    "@tiptap/extension-table": "workspace:^",
     "@tiptap/pm": "workspace:^"
   },
   "peerDependencies": {

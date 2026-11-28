@@ -5,6 +5,7 @@ import {
   findChildren,
   findChildrenInRange,
   getChangedRanges,
+  isProseMirrorCellSelection,
   splitExtensions,
 } from '@tiptap/core'
 import type { Node as PMNode } from '@tiptap/pm/model'
@@ -66,6 +67,10 @@ const resolveTypes = (types: UniqueIDOptions['types'], extensions: Extensions): 
     .filter(type => type !== 'doc' && type !== 'text')
 }
 
+// The default id generator. Kept as a reference so transformPasted can tell
+// it apart from a custom generateID, which may read pos.
+const defaultGenerateID: UniqueIDOptions['generateID'] = () => uuidv4()
+
 export const UniqueID = Extension.create<UniqueIDOptions>({
   name: 'uniqueID',
 
@@ -77,7 +82,7 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
     return {
       attributeName: 'id',
       types: [],
-      generateID: () => uuidv4(),
+      generateID: defaultGenerateID,
       filterTransaction: null,
       updateDocument: true,
     }
@@ -415,14 +420,23 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
             },
           },
 
-          // we’ll remove ids for every pasted node
-          // so we can create a new one within `appendTransaction`
-          transformPasted: slice => {
+          // Give pasted nodes fresh ids right away, so appendTransaction
+          // doesn’t add one step per node afterwards.
+          transformPasted: (slice, view) => {
             if (!transformPasted) {
               return slice
             }
 
-            const { attributeName } = this.options
+            // reset check
+            transformPasted = false
+
+            // Pasting into a cell selection repeats the slice to fill it,
+            // so ids given here would repeat. Let appendTransaction assign them.
+            if (isProseMirrorCellSelection(view.state.selection)) {
+              return slice
+            }
+
+            const { attributeName, generateID } = this.options
             const removeId = (fragment: Fragment): Fragment => {
               const list: PMNode[] = []
 
@@ -457,10 +471,59 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
               return Fragment.from(list)
             }
 
-            // reset check
-            transformPasted = false
+            // Give every pasted node a fresh id. The position is the paste
+            // position plus the node’s offset in the slice: exact when the
+            // slice is not open at the start, approximate when it is.
+            const giveIds = (fragment: Fragment, pos: number): Fragment => {
+              const list: PMNode[] = []
 
-            return new Slice(removeId(slice.content), slice.openStart, slice.openEnd)
+              fragment.forEach((node, offset) => {
+                const nodePos = pos + offset
+
+                // don’t touch text nodes
+                if (node.isText) {
+                  list.push(node)
+
+                  return
+                }
+
+                const content = giveIds(node.content, nodePos + 1)
+
+                // check for any other child nodes
+                if (!types.includes(node.type.name)) {
+                  list.push(node.copy(content))
+
+                  return
+                }
+
+                // give the node a new id
+                const nodeWithId = node.type.create(
+                  {
+                    ...node.attrs,
+                    [attributeName]: generateID({ node, pos: nodePos }),
+                  },
+                  content,
+                  node.marks,
+                )
+
+                list.push(nodeWithId)
+              })
+
+              return Fragment.from(list)
+            }
+
+            // A custom generateID may read pos, and a slice has no final
+            // positions yet, so keep stripping ids and let appendTransaction
+            // assign them once the nodes are in the document.
+            if (generateID !== defaultGenerateID) {
+              return new Slice(removeId(slice.content), slice.openStart, slice.openEnd)
+            }
+
+            return new Slice(
+              giveIds(slice.content, view.state.selection.from),
+              slice.openStart,
+              slice.openEnd,
+            )
           },
         },
       }),
