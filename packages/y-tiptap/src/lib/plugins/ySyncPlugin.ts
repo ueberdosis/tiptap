@@ -65,13 +65,15 @@ export const ySyncPlugin = (
           pluginState = Object.assign({}, pluginState, change)
         }
 
-        if (tr.docChanged) {
+        const isChangeOrigin = change !== undefined && !!change.isChangeOrigin
+
+        pluginState.isChangeOrigin = isChangeOrigin
+        pluginState.isUndoRedoOperation = isChangeOrigin && !!change.isUndoRedoOperation
+
+        // Changes applied from Yjs are never written back, so only local changes count
+        if (tr.docChanged && !isChangeOrigin) {
           pluginState.addToHistory = tr.getMeta('addToHistory') !== false
         }
-
-        pluginState.isChangeOrigin = change !== undefined && !!change.isChangeOrigin
-        pluginState.isUndoRedoOperation =
-          change !== undefined && !!change.isChangeOrigin && !!change.isUndoRedoOperation
 
         if (
           binding.prosemirrorView === null ||
