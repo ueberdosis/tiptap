@@ -278,25 +278,16 @@ class EditorInstanceManager {
 
 /**
  * This hook allows you to create an editor instance.
+ *
+ * The instance can be `null` with any `immediatelyRender` value: before the
+ * first client render when it is `false`, and briefly whenever the component
+ * remounts, because the previous instance is destroyed on a timer while the
+ * next one is only created in an effect. Guard every access.
  * @param options The editor options
  * @param deps The dependencies to watch for changes
- * @returns The editor instance
+ * @returns The editor instance, or `null` while there is none
  * @example const editor = useEditor({ extensions: [...] })
  */
-export function useEditor(
-  options: UseEditorOptions & { immediatelyRender: false },
-  deps?: DependencyList,
-): Editor | null
-
-/**
- * This hook allows you to create an editor instance.
- * @param options The editor options
- * @param deps The dependencies to watch for changes
- * @returns The editor instance
- * @example const editor = useEditor({ extensions: [...] })
- */
-export function useEditor(options: UseEditorOptions, deps?: DependencyList): Editor
-
 export function useEditor(
   options: UseEditorOptions = {},
   deps: DependencyList = [],
