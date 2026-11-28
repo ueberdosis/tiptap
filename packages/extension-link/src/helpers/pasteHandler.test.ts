@@ -33,6 +33,18 @@ const LinkedTextParser = Extension.create({
   },
 })
 
+const createLinkedEditor = (selection: { from: number; to: number }) => {
+  const editor = new Editor({
+    element: document.createElement('div'),
+    extensions: [Document, Text, Paragraph, Link],
+    content: '<p><a href="https://old.example">old link text</a></p>',
+  })
+
+  editor.commands.setTextSelection(selection)
+
+  return editor
+}
+
 const createEditor = (options: { extensions?: Extension[]; enablePasteRules?: boolean } = {}) => {
   const editor = new Editor({
     element: document.createElement('div'),
@@ -110,5 +122,50 @@ describe('pasteHandler', () => {
     })
 
     expect(getLinkedText(editor)).toEqual([{ text: 'word', href: 'https://label.example' }])
+  })
+
+  describe('pasting over an existing link', () => {
+    const partiallyRelinked = (href: string) => [
+      { text: 'old ', href: 'https://old.example' },
+      { text: 'link', href },
+      { text: ' text', href: 'https://old.example' },
+    ]
+
+    it('moves the link of the selected part when a bare URL is pasted', () => {
+      editor = createLinkedEditor({ from: 5, to: 9 })
+
+      paste(editor, { text: 'https://new.example' })
+
+      expect(getLinkedText(editor)).toEqual(partiallyRelinked('https://new.example'))
+    })
+
+    it('relinks the whole link when it is fully selected', () => {
+      editor = createLinkedEditor({ from: 1, to: 14 })
+
+      paste(editor, { text: 'https://new.example' })
+
+      expect(getLinkedText(editor)).toEqual([
+        { text: 'old link text', href: 'https://new.example' },
+      ])
+    })
+
+    it('ignores a trailing newline on the pasted URL', () => {
+      editor = createLinkedEditor({ from: 5, to: 9 })
+
+      paste(editor, { text: 'https://new.example\n' })
+
+      expect(getLinkedText(editor)).toEqual(partiallyRelinked('https://new.example'))
+    })
+
+    it('uses the label URL when a differing HTML link is pasted', () => {
+      editor = createLinkedEditor({ from: 5, to: 9 })
+
+      paste(editor, {
+        text: 'https://label.example',
+        html: '<a href="https://target.example">https://label.example</a>',
+      })
+
+      expect(getLinkedText(editor)).toEqual(partiallyRelinked('https://label.example'))
+    })
   })
 })

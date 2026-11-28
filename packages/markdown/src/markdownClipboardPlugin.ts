@@ -48,6 +48,17 @@ function createSlice(content: Fragment, $context: ResolvedPos): Slice {
   return new Slice(Fragment.from(paragraph.copy(inlineContent)), 1, 1)
 }
 
+// ProseMirror re-opens parsed slices, so restore the closed blocks unless a transform broke them
+function closeSlice(slice: Slice): Slice {
+  try {
+    slice.content.forEach(node => node.check())
+  } catch {
+    return slice
+  }
+
+  return new Slice(slice.content, 0, 0)
+}
+
 function parseMarkdownSlice(
   editor: Editor,
   text: string,
@@ -76,7 +87,7 @@ export function createMarkdownClipboardPlugin(
   getOptions: () => ClipboardOptions,
 ): Plugin {
   let state: PasteState = 'idle'
-  let parsedSlice: Slice | null = null
+  let parsedClosed = false
   let pasteEvent: Event | null = null
 
   return new Plugin({
@@ -93,7 +104,7 @@ export function createMarkdownClipboardPlugin(
           const slice = parseMarkdownSlice(editor, text, $context, shouldTransformPastedText)
 
           if (slice) {
-            parsedSlice = slice
+            parsedClosed = slice.openStart === 0 && slice.openEnd === 0
             state = 'parsed'
           }
 
@@ -105,20 +116,22 @@ export function createMarkdownClipboardPlugin(
       },
 
       // Dispatch without the uiEvent meta so paste rules don't convert the text again
-      handlePaste: (view, event) => {
+      handlePaste: (view, event, receivedSlice) => {
         // Programmatic pastes create a new event, so a stale slice never matches
         const wasParsed = state === 'parsed' && event === pasteEvent
-        const slice = parsedSlice
+        const closed = parsedClosed
 
         state = 'idle'
-        parsedSlice = null
+        parsedClosed = false
         pasteEvent = null
 
         const html = (event as ClipboardEvent).clipboardData?.getData('text/html')
 
-        if (!wasParsed || !slice || html) {
+        if (!wasParsed || html) {
           return false
         }
+
+        const slice = closed ? closeSlice(receivedSlice) : receivedSlice
 
         // Our handler short-circuits the core paste handler that normally emits this
         editor.emit('paste', { editor, event, slice })
@@ -131,7 +144,7 @@ export function createMarkdownClipboardPlugin(
       handleDOMEvents: {
         paste: (_view, event) => {
           state = 'pasting'
-          parsedSlice = null
+          parsedClosed = false
           pasteEvent = event
 
           return false
@@ -140,7 +153,7 @@ export function createMarkdownClipboardPlugin(
         // Drops run the text parser too, but must stay plain text
         drop: () => {
           state = 'idle'
-          parsedSlice = null
+          parsedClosed = false
           pasteEvent = null
 
           return false

@@ -48,9 +48,14 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
         let hasConflictingLink = false
 
         if (!hasHtml) {
-          // A link mark on a plain-text paste was added by a text parser, keep it
+          const inheritedMarks = selection.$from.marks()
+
+          // Only links added by a text parser conflict, not ones inherited from the cursor
           slice.content.descendants(node => {
-            const href = node.marks.find(mark => mark.type === options.type)?.attrs.href
+            const mark = node.marks.find(
+              item => item.type === options.type && !item.isInSet(inheritedMarks),
+            )
+            const href = mark?.attrs.href
 
             if (href && href !== link.href && href !== link.value) {
               hasConflictingLink = true

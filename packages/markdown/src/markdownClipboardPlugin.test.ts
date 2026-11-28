@@ -1,4 +1,4 @@
-import { Editor } from '@tiptap/core'
+import { Editor, type EditorOptions } from '@tiptap/core'
 import Bold from '@tiptap/extension-bold'
 import { CodeBlock } from '@tiptap/extension-code-block'
 import Document from '@tiptap/extension-document'
@@ -8,6 +8,7 @@ import Link from '@tiptap/extension-link'
 import { BulletList, ListItem } from '@tiptap/extension-list'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
+import { Fragment, Slice } from '@tiptap/pm/model'
 import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 
 import { Markdown, type MarkdownExtensionOptions } from './Extension.js'
@@ -19,12 +20,14 @@ type CreateEditorOptions = Pick<
   withHeading?: boolean
   withLink?: boolean
   withBlocks?: boolean
+  editorProps?: EditorOptions['editorProps']
 }
 
 const createEditor = ({
   withHeading = true,
   withLink = false,
   withBlocks = false,
+  editorProps = {},
   ...markdownOptions
 }: CreateEditorOptions = {}) =>
   new Editor({
@@ -40,6 +43,7 @@ const createEditor = ({
       Markdown.configure(markdownOptions),
     ],
     content: '<p></p>',
+    editorProps,
   })
 
 const paste = (editor: Editor, text: string, html?: string) => {
@@ -559,6 +563,164 @@ describe('markdown paste event', () => {
     })
   })
 
+  describe('app transformPasted', () => {
+    const stripBold = (slice: Slice): Slice => {
+      const strip = (fragment: Fragment): Fragment => {
+        const children: Parameters<typeof Fragment.fromArray>[0] = []
+
+        fragment.forEach(node => {
+          const marks = node.marks.filter(mark => mark.type.name !== 'bold')
+
+          children.push(node.isText ? node.mark(marks) : node.copy(strip(node.content)))
+        })
+
+        return Fragment.fromArray(children)
+      }
+
+      return new Slice(strip(slice.content), slice.openStart, slice.openEnd)
+    }
+
+    const hasBold = (slice: Slice) => {
+      let found = false
+
+      slice.content.descendants(node => {
+        if (node.marks.some(mark => mark.type.name === 'bold')) {
+          found = true
+        }
+      })
+
+      return found
+    }
+
+    const insertBetweenParagraphs = (editor: Editor) => {
+      editor.commands.setContent('<p>before</p><p>after</p>')
+      editor.commands.setTextSelection(7)
+    }
+
+    it('applies the transform to the inserted markdown and the paste event', () => {
+      editor = createEditor({
+        transformPastedText: true,
+        editorProps: { transformPasted: stripBold },
+      })
+
+      const slices: Slice[] = []
+
+      editor.on('paste', ({ slice }) => slices.push(slice))
+      pasteText(editor, '**bold**')
+
+      expect(editor.getText()).toBe('bold')
+      expect(inlineMarks(editor)).toEqual([['bold', []]])
+      expect(slices).toHaveLength(1)
+      expect(slices[0].content.textBetween(0, slices[0].content.size)).toBe('bold')
+      expect(hasBold(slices[0])).toBe(false)
+    })
+
+    it('runs the transform once per paste', () => {
+      const transformPasted = vi.fn((slice: Slice) => {
+        const upper = (fragment: Fragment): Fragment => {
+          const children: Parameters<typeof Fragment.fromArray>[0] = []
+
+          fragment.forEach(node => {
+            children.push(
+              node.isText
+                ? node.type.schema.text(node.text!.toUpperCase(), node.marks)
+                : node.copy(upper(node.content)),
+            )
+          })
+
+          return Fragment.fromArray(children)
+        }
+
+        return new Slice(upper(slice.content), slice.openStart, slice.openEnd)
+      })
+
+      editor = createEditor({ transformPastedText: true, editorProps: { transformPasted } })
+
+      pasteText(editor, '**bold** text')
+
+      expect(editor.getText()).toBe('BOLD TEXT')
+      expect(transformPasted).toHaveBeenCalledTimes(1)
+    })
+
+    it('keeps a pasted list as a separate block', () => {
+      editor = createEditor({
+        transformPastedText: true,
+        withBlocks: true,
+        editorProps: { transformPasted: stripBold },
+      })
+      insertBetweenParagraphs(editor)
+
+      pasteText(editor, '- a\n- b')
+
+      expect(blockTypes(editor)).toEqual(['paragraph', 'bulletList', 'paragraph'])
+    })
+
+    it('keeps a pasted code block as a separate block', () => {
+      editor = createEditor({
+        transformPastedText: true,
+        withBlocks: true,
+        editorProps: { transformPasted: stripBold },
+      })
+      insertBetweenParagraphs(editor)
+
+      pasteText(editor, '```js\ncode\n```')
+
+      expect(blockTypes(editor)).toEqual(['paragraph', 'codeBlock', 'paragraph'])
+    })
+
+    it('keeps a heading and a paragraph as separate blocks', () => {
+      editor = createEditor({
+        transformPastedText: true,
+        editorProps: { transformPasted: stripBold },
+      })
+
+      pasteText(editor, '# t\n\n**p**')
+
+      expect(blockTypes(editor)).toEqual(['heading', 'paragraph'])
+      expect(inlineMarks(editor, 1)).toEqual([['p', []]])
+    })
+
+    it('still merges a lone paragraph into marked context', () => {
+      editor = createEditor({
+        transformPastedText: true,
+        editorProps: { transformPasted: slice => slice },
+      })
+      editor.commands.setContent('<p><em>text</em></p>')
+      editor.commands.setTextSelection(3)
+
+      pasteText(editor, 'x *y* z')
+
+      expect(blockTypes(editor)).toEqual(['paragraph'])
+      expect(inlineMarks(editor)).toEqual([['tex y zxt', ['italic']]])
+    })
+
+    it('does not throw when a transform breaks the structure of a closed paste', () => {
+      const emptyFirstItem = (slice: Slice) => {
+        const list = slice.content.firstChild
+
+        if (!list || list.type.name !== 'bulletList') {
+          return slice
+        }
+
+        const items = list.children.map((item, index) =>
+          index === 0 ? item.copy(Fragment.empty) : item,
+        )
+
+        return new Slice(Fragment.from(list.copy(Fragment.fromArray(items))), 2, 2)
+      }
+
+      editor = createEditor({
+        transformPastedText: true,
+        withBlocks: true,
+        editorProps: { transformPasted: emptyFirstItem },
+      })
+      insertBetweenParagraphs(editor)
+
+      expect(() => pasteText(editor, '- a\n- b')).not.toThrow()
+      expect(() => editor.state.doc.check()).not.toThrow()
+    })
+  })
+
   describe('together with the Link extension', () => {
     it('keeps the markdown link target when pasting over a selection', () => {
       editor = createEditor({ transformPastedText: true, withLink: true })
@@ -571,6 +733,35 @@ describe('markdown paste event', () => {
 
       expect(editor.getText()).toBe('https://label.example')
       expect(nodes?.[0].marks?.[0].attrs?.href).toBe('https://target.example')
+    })
+
+    it('keeps the markdown link target when pasting inside an existing link', () => {
+      editor = createEditor({ transformPastedText: true, withLink: true })
+      editor.commands.setContent('<p><a href="https://old.example">word</a></p>')
+      editor.commands.setTextSelection({ from: 2, to: 4 })
+
+      pasteText(editor, '[https://label.example](https://target.example)')
+
+      const pasted = editor
+        .getJSON()
+        .content?.[0].content?.find(node => node.text?.includes('label'))
+
+      expect(pasted?.marks?.[0].attrs?.href).toBe('https://target.example')
+    })
+
+    it('relinks the selected text when pasting a bare URL over part of a link', () => {
+      editor = createEditor({ transformPastedText: true, withLink: true })
+      editor.commands.setContent('<p><a href="https://old.example">word</a></p>')
+      editor.commands.setTextSelection({ from: 2, to: 4 })
+
+      pasteText(editor, 'https://new.example')
+
+      const nodes = editor.getJSON().content?.[0].content
+
+      expect(editor.getText()).toBe('word')
+      expect(nodes?.find(node => node.text === 'or')?.marks?.[0].attrs?.href).toBe(
+        'https://new.example',
+      )
     })
   })
 })
