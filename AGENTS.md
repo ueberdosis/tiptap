@@ -27,7 +27,7 @@ Published packages live in `packages/*`. `demos/` is a Vite app used as playgrou
 
 ## Before opening a PR
 
-Agents must read and follow this repository's [create-pr skill](.agents/skills/create-pr/SKILL.md) before preparing or opening any pull request, including drafts and backports.
+Agents must read and follow this repository's [create-pr skill](.agents/skills/create-pr/SKILL.md) before preparing, opening, or updating any pull request, including drafts and backports. Follow the [review policy](CONTRIBUTING.md#reviewing-and-merging-the-pr) before merging.
 
 ```bash
 vp run lint
@@ -43,25 +43,7 @@ Dependency or lockfile errors: `vp run reset`, then rebuild.
 ## PR scope and descriptions
 
 - Each PR solves one clearly named problem. Split unrelated fixes, cleanup and refactors into separate PRs.
-- Agents must read the raw Markdown in `.github/pull_request_template.md` and use the `Agent format` comment. Replace the visible sections and omit template comments from the PR body. Follow that format if other PR-writing guidance differs.
-- The visible template is for human authors. Keep its headings and checklist. Put the explanation in `Changes and Review`.
-- Write the title around the problem fixed or behavior added. A reviewer should understand the purpose without opening the diff.
-- Keep `Changes and Review` to 2–4 short sentences or at most 4 short bullets. Start with the user-visible problem and when it happens, then explain the resulting behavior and how to verify it.
-- Describe behavior in plain English. Include implementation details only when they explain a necessary design choice or risk.
-- Leave file-by-file summaries, function inventories and code walkthroughs in the diff. Use line links for specific review decisions.
-- Use backticks only for literal code, commands and necessary API names. Prefer plain sentences and simple bullets over bold labels, tables, decorative emoji and extra headings.
-- Summarize relevant testing briefly. Name what was checked and the result. Omit test totals, pass/skip counts, terminal output and lists of routine checks.
-- Give a short reproduction step or link to a demo, test or CI result when it helps the reviewer verify the change. For visual bugs, prefer a useful screenshot or short recording.
-- Include performance numbers only with a reproducible benchmark and a link to its setup and results. Include exact dimensions or other measurements only when they explain the bug or requirement.
-- State failed or missing checks, known limitations and breaking changes plainly. Add only the detail needed to explain the impact, risk or migration, even when that requires exceeding the short description limit.
-- Report only checks actually run and results actually observed. Never turn an assumption or an unchecked checklist item into a success claim.
-- Keep AI disclosures brief and honest. The author must review and understand the diff before requesting review. Never check the responsibility box on the author's behalf.
-- Remove work logs, repeated responsibility statements, generic praise for the change and stock offers to do more.
-- Before requesting review, read the description without the diff. It must answer: What breaks or is missing? What changes for the user? How can I check it? Cut anything that does not help answer those questions or explain a material risk.
-
-Example `Changes and Review`:
-
-> Undoing an image resize restored the saved size but left the image at its dragged size on screen. Undo and redo now keep the displayed size in sync. Tested resizing an image and undoing and redoing the resize in the image demo.
+- Follow [CONTRIBUTING.md](CONTRIBUTING.md#choose-a-pull-request-template) for template selection and the [create-pr skill](.agents/skills/create-pr/SKILL.md) for agent PR descriptions.
 
 ## Code style
 
