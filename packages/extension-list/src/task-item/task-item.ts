@@ -1,4 +1,4 @@
-import type { KeyboardShortcutCommand } from '@tiptap/core'
+import type { FocusPosition, KeyboardShortcutCommand } from '@tiptap/core'
 import {
   getRenderedAttributes,
   mergeAttributes,
@@ -244,11 +244,28 @@ export const TaskItem = Node.create<TaskItemOptions>({
         }
 
         const { checked } = event.target as any
+        let focusPosition: FocusPosition = null
 
-        if (editor.isEditable && typeof getPos === 'function') {
+        if (!editor.isEditable && this.options.onReadOnlyChecked) {
+          const position = getPos()
+          const currentNode =
+            typeof position === 'number' ? editor.state.doc.nodeAt(position) : null
+
+          // Call before the transaction starts so the callback can dispatch its own
+          if (!currentNode || !this.options.onReadOnlyChecked(currentNode, checked)) {
+            checkbox.checked = !checkbox.checked
+
+            return
+          }
+
+          // Keep focus where it is in read-only editors
+          focusPosition = false
+        }
+
+        if (typeof getPos === 'function') {
           editor
             .chain()
-            .focus(undefined, { scrollIntoView: false })
+            .focus(focusPosition, { scrollIntoView: false })
             .command(({ tr }) => {
               const position = getPos()
 
@@ -265,12 +282,6 @@ export const TaskItem = Node.create<TaskItemOptions>({
               return true
             })
             .run()
-        }
-        if (!editor.isEditable && this.options.onReadOnlyChecked) {
-          // Reset state if onReadOnlyChecked returns false
-          if (!this.options.onReadOnlyChecked(node, checked)) {
-            checkbox.checked = !checkbox.checked
-          }
         }
       })
 
