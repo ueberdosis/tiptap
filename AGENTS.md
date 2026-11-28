@@ -27,6 +27,8 @@ Published packages live in `packages/*`. `demos/` is a Vite app used as playgrou
 
 ## Before opening a PR
 
+Agents must read and follow this repository's [create-pr skill](.agents/skills/create-pr/SKILL.md) before preparing or opening any pull request, including drafts and backports.
+
 ```bash
 vp run lint
 vp run build
@@ -41,13 +43,14 @@ Dependency or lockfile errors: `vp run reset`, then rebuild.
 ## PR scope and descriptions
 
 - Each PR solves one clearly named problem. Split unrelated fixes, cleanup and refactors into separate PRs.
-- Use `.github/pull_request_template.md` as written. Keep its headings and checklist. Put the explanation in `Changes and Review`.
+- Agents must read the raw Markdown in `.github/pull_request_template.md` and use the `Agent format` comment. Replace the visible sections and omit template comments from the PR body. Follow that format if other PR-writing guidance differs.
+- The visible template is for human authors. Keep its headings and checklist. Put the explanation in `Changes and Review`.
 - Write the title around the problem fixed or behavior added. A reviewer should understand the purpose without opening the diff.
 - Keep `Changes and Review` to 2–4 short sentences or at most 4 short bullets. Start with the user-visible problem and when it happens, then explain the resulting behavior and how to verify it.
 - Describe behavior in plain English. Include implementation details only when they explain a necessary design choice or risk.
-- Leave file-by-file summaries, function inventories, line numbers and code walkthroughs in the diff. Name a file or symbol only when the reviewer needs it to locate a specific concern.
+- Leave file-by-file summaries, function inventories and code walkthroughs in the diff. Use line links for specific review decisions.
 - Use backticks only for literal code, commands and necessary API names. Prefer plain sentences and simple bullets over bold labels, tables, decorative emoji and extra headings.
-- Summarize relevant testing in one short sentence. Name what was checked and the result. Omit test totals, pass/skip counts, terminal output and lists of routine checks.
+- Summarize relevant testing briefly. Name what was checked and the result. Omit test totals, pass/skip counts, terminal output and lists of routine checks.
 - Give a short reproduction step or link to a demo, test or CI result when it helps the reviewer verify the change. For visual bugs, prefer a useful screenshot or short recording.
 - Include performance numbers only with a reproducible benchmark and a link to its setup and results. Include exact dimensions or other measurements only when they explain the bug or requirement.
 - State failed or missing checks, known limitations and breaking changes plainly. Add only the detail needed to explain the impact, risk or migration, even when that requires exceeding the short description limit.

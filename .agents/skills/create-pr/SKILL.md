@@ -29,9 +29,9 @@ Fit the following content into the template's appropriate sections rather than a
 
 ## Link related work
 
-- Include relevant issues and related PRs in the template's link section or the closest existing section. If it has no suitable section, add a small links section only if its guidelines allow it.
-- Include any Linear ticket supplied with the request in that section. Use its supplied URL, or resolve its identifier through available context or tools; never invent a workspace URL.
-- Use closing keywords only for issues this PR actually resolves. Label other issues, tickets, and PRs as related work or dependencies rather than implying that they will close.
+- Link relevant GitHub issues, pull requests, GitHub Discussions, or other public sources in the template's link section or the closest existing section. If it has no suitable section, add a small links section only if its guidelines allow it.
+- Keep internal records and discussions private, even when the author supplies them as context. Omit their links, IDs, titles, quotes, and private details from the PR title and body. This includes Slack, HubSpot, Linear, Notion, and similar tools.
+- Use closing keywords only for issues this PR actually resolves. Label other issues and PRs as related work or dependencies.
 - Do not invent links or issue numbers. If a required link cannot be resolved, ask for the missing information; when no related work is known, follow the template's convention for an empty field.
 
 ## Create the PR
