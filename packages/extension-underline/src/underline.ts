@@ -31,6 +31,32 @@ declare module '@tiptap/core' {
   }
 }
 
+// Remember the scan across calls: the rest passed in is always a suffix of
+// the previous one, so a long paragraph is scanned once, not once per piece.
+function createUnderlineStart(): (src: string) => number {
+  let cachedSrc = ''
+  let cachedIndex = -1
+
+  return src => {
+    if (src.length < cachedSrc.length) {
+      const offset = cachedSrc.length - src.length
+      if (src[0] === cachedSrc[offset] && src[src.length - 1] === cachedSrc[cachedSrc.length - 1]) {
+        return cachedIndex < offset ? -1 : cachedIndex - offset
+      }
+    }
+
+    const index = src.toLowerCase().indexOf('<u>')
+
+    // Nested content is a substring, not a suffix: answer it without losing the cached paragraph
+    if (src.length >= cachedSrc.length || !cachedSrc.includes(src)) {
+      cachedSrc = src
+      cachedIndex = index
+    }
+
+    return index
+  }
+}
+
 /**
  * This extension allows you to create underline text.
  * @see https://www.tiptap.dev/api/marks/underline
@@ -72,9 +98,7 @@ export const Underline = Mark.create<UnderlineOptions>({
   markdownTokenizer: {
     name: 'underline',
     level: 'inline',
-    start(src) {
-      return src.toLowerCase().indexOf('<u>')
-    },
+    start: createUnderlineStart(),
     tokenize(src, _tokens, lexer) {
       if (!/^<u>/i.test(src)) {
         return undefined
