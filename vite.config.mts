@@ -67,12 +67,13 @@ const getPackageAliases = () => {
 
 export default defineConfig({
   fmt: {
-    ignorePatterns: ['CHANGELOG.md'],
+    ignorePatterns: ['CHANGELOG.md', '.agents/skills/**', '.claude/skills/**'],
     semi: false,
     singleQuote: true,
     arrowParens: 'avoid',
   },
   lint: {
+    ignorePatterns: ['.agents/skills/**', '.claude/skills/**'],
     jsPlugins: [{ name: 'vite-plus', specifier: 'vite-plus/oxlint-plugin' }],
     rules: { 'vite-plus/prefer-vite-plus-imports': 'error' },
     // Enable after the existing workspace type errors are resolved.
