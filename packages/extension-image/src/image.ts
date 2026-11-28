@@ -145,8 +145,11 @@ export const Image = Node.create<ImageOptions>({
     const src = node.attrs?.src ?? ''
     const alt = node.attrs?.alt ?? ''
     const title = node.attrs?.title ?? ''
+    // CommonMark allows a space in a destination only inside angle brackets, and there
+    // the brackets themselves have to be escaped to keep the destination readable back.
+    const destination = /\s/.test(src) ? `<${src.replace(/[\\<>]/g, '\\$&')}>` : src
 
-    return title ? `![${alt}](${src} "${title}")` : `![${alt}](${src})`
+    return title ? `![${alt}](${destination} "${title}")` : `![${alt}](${destination})`
   },
 
   addNodeView() {
