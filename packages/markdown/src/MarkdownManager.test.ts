@@ -8,6 +8,7 @@ import {
 import { Bold } from '@tiptap/extension-bold'
 import { Document } from '@tiptap/extension-document'
 import { Heading } from '@tiptap/extension-heading'
+import { HorizontalRule } from '@tiptap/extension-horizontal-rule'
 import { Italic } from '@tiptap/extension-italic'
 import { Link } from '@tiptap/extension-link'
 import { BulletList, ListItem, OrderedList, TaskItem, TaskList } from '@tiptap/extension-list'
@@ -452,6 +453,59 @@ Final paragraph.`
 
       const markdown = markdownManager.serialize(emptyDoc)
       expect(markdown).toBe('')
+    })
+
+    it('should return empty string when serializing two consecutive empty paragraphs', () => {
+      const emptyDoc = {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [],
+          },
+          {
+            type: 'paragraph',
+            content: [],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.serialize(emptyDoc)
+      expect(markdown).toBe('')
+    })
+
+    it('should not throw when serialize() is called with a bare content array', () => {
+      // serialize() accepts a bare content array (not just a `doc` node); the
+      // structural-emptiness check must not throw on it and should render normally.
+      const bareContent = [
+        {
+          type: 'paragraph',
+          content: [{ type: 'text', text: 'Hello world' }],
+        },
+      ]
+
+      expect(() => markdownManager.serialize(bareContent as any)).not.toThrow()
+      expect(markdownManager.serialize(bareContent as any)).toBe('Hello world')
+    })
+
+    it('should render a bare node that is not a document', () => {
+      expect(markdownManager.serialize({ type: 'text', text: 'Hello' })).toBe('Hello')
+      expect(
+        markdownManager.serialize({ type: 'paragraph', content: [{ type: 'text', text: 'Hi' }] }),
+      ).toBe('Hi')
+    })
+
+    it('should render a document whose default block is a leaf', () => {
+      const manager = new MarkdownManager({
+        extensions: [
+          Document.extend({ content: '(horizontalRule | paragraph)+' }),
+          Paragraph,
+          Text,
+          HorizontalRule,
+        ],
+      })
+
+      expect(manager.serialize({ type: 'doc', content: [{ type: 'horizontalRule' }] })).toBe('---')
     })
 
     it('should preserve blank lines between paragraphs with content', () => {

@@ -1,5 +1,6 @@
 import { Editor } from '@tiptap/core'
 import { Bold } from '@tiptap/extension-bold'
+import { CodeBlock } from '@tiptap/extension-code-block'
 import { Document } from '@tiptap/extension-document'
 import { Paragraph } from '@tiptap/extension-paragraph'
 import { Text } from '@tiptap/extension-text'
@@ -84,5 +85,35 @@ describe('empty markdown content', () => {
     expect(textNode.type).toBe('text')
     expect(textNode.text).toBe('bold')
     expect(textNode.marks?.[0]?.type).toBe('bold')
+  })
+
+  it('should keep content when the document holds only a real non-breaking space', () => {
+    // A lone non-breaking space is real content (editor.isEmpty is false), so
+    // getMarkdown() must not silently discard it by returning "".
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, Markdown],
+      content: '<p>&nbsp;</p>',
+    })
+
+    expect(editor.isEmpty).toBe(false)
+    expect(editor.getMarkdown()).toBe(' ')
+  })
+
+  it('should keep the fence and language of an empty code block', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, CodeBlock, Markdown],
+      content: { type: 'doc', content: [{ type: 'codeBlock', attrs: { language: 'js' } }] },
+    })
+
+    expect(editor.getMarkdown()).toBe('```js\n\n```')
+  })
+
+  it('should return an empty string for a document of empty paragraphs', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, Markdown],
+      content: { type: 'doc', content: [{ type: 'paragraph' }, { type: 'paragraph' }] },
+    })
+
+    expect(editor.getMarkdown()).toBe('')
   })
 })
