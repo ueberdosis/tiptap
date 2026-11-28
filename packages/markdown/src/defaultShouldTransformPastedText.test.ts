@@ -31,6 +31,23 @@ describe('defaultShouldTransformPastedText', () => {
     expect(defaultShouldTransformPastedText(marked.lexer(text))).toBe(true)
   })
 
+  it.each([
+    ['a bare URL', 'https://x.example'],
+    ['a www URL', 'www.example.com'],
+    ['an email address', 'me@x.example'],
+    ['a bare URL inside text', 'see https://x.example here'],
+  ])('returns false for %s', (_label, text) => {
+    expect(defaultShouldTransformPastedText(marked.lexer(text))).toBe(false)
+  })
+
+  it.each([
+    ['an angle bracket autolink', '<https://x.example>'],
+    ['a link with a label', '[t](https://x.example)'],
+    ['a bare URL next to bold', 'https://x.example **b**'],
+  ])('returns true for %s', (_label, text) => {
+    expect(defaultShouldTransformPastedText(marked.lexer(text))).toBe(true)
+  })
+
   it('returns true when a later paragraph has inline syntax', () => {
     expect(defaultShouldTransformPastedText(marked.lexer('plain\n\n**bold**'))).toBe(true)
   })

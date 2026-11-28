@@ -90,6 +90,7 @@ export type MarkdownExtensionOptions = {
   /**
    * Parse pasted plain text as markdown. Pastes with HTML use the normal HTML paste,
    * Shift+paste stays raw, and text without markdown syntax is pasted as usual.
+   * Paste rules of other extensions don't run on text pasted as markdown.
    * @default false
    * @example
    * Markdown.configure({ transformPastedText: true })

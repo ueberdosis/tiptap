@@ -37,6 +37,11 @@ import { collectMarkSpanTexts } from './utils/collectMarkSpanTexts.js'
 import { expelMarkWhitespace } from './utils/expelMarkWhitespace.js'
 import { htmlContainsUnrecognizedTag } from './utils/htmlTagDetection.js'
 
+export type MarkdownParseOptions = {
+  /** Create empty paragraphs from extra blank lines. Defaults to `true`. */
+  implicitEmptyParagraphs?: boolean
+}
+
 export class MarkdownManager {
   private markedInstance: typeof marked
   private activeParseLexer: Lexer | null = null
@@ -379,8 +384,15 @@ export class MarkdownManager {
 
   /**
    * Parse markdown string into Tiptap JSON document using registered extension handlers.
+   * @param markdown - The markdown string to parse.
+   * @param options - Parse options.
+   * @returns The Tiptap JSON document.
+   * @example
+   * const doc = editor.markdown.parse('a\n\n\n\nb', { implicitEmptyParagraphs: false })
    */
-  parse(markdown: string): JSONContent {
+  parse(markdown: string, options: MarkdownParseOptions = {}): JSONContent {
+    const { implicitEmptyParagraphs = true } = options
+
     if (!this.hasMarked()) {
       throw new Error('No marked instance available for parsing')
     }
@@ -396,7 +408,7 @@ export class MarkdownManager {
       const tokens = parseLexer.lex(markdown) as MarkdownToken[]
 
       // Convert tokens to Tiptap JSON
-      const content = this.parseTokens(tokens, true)
+      const content = this.parseTokens(tokens, implicitEmptyParagraphs)
 
       // Return a document node containing the parsed content
       return {

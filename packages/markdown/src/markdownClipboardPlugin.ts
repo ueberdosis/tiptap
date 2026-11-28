@@ -1,9 +1,12 @@
-import type { Editor } from '@tiptap/core'
+import { defaultBlockAt, type Editor, isAndroid, selectionToInsertionEnd } from '@tiptap/core'
 import { Fragment, type ResolvedPos, Slice } from '@tiptap/pm/model'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
+import { Plugin, PluginKey, TextSelection, type Transaction } from '@tiptap/pm/state'
+import { handlePaste as handleTablePaste } from '@tiptap/pm/tables'
+import type { EditorView } from '@tiptap/pm/view'
 
 import { defaultShouldTransformPastedText } from './defaultShouldTransformPastedText.js'
 import type { MarkdownExtensionOptions } from './Extension.js'
+import { splitSoftBreaks } from './splitSoftBreaks.js'
 
 const markdownClipboardPluginKey = new PluginKey('markdownClipboard')
 
@@ -29,23 +32,78 @@ function shouldTransformText(
   return shouldTransformPastedText(text, { tokens, editor, defaultShouldTransform })
 }
 
-function createSlice(content: Fragment, $context: ResolvedPos): Slice {
+// Files and VS Code pastes have their own handlers, and edits can't happen when read-only or composing
+function shouldSkipPaste(view: EditorView, event: ClipboardEvent): boolean {
+  const { clipboardData } = event
+
+  return (
+    !view.editable ||
+    (view.composing && !isAndroid()) ||
+    !!clipboardData?.files?.length ||
+    !!clipboardData?.getData('vscode-editor-data')
+  )
+}
+
+function createSlice(content: Fragment, $context: ResolvedPos, text: string): Slice {
   const paragraph = content.firstChild
 
-  if (content.childCount !== 1 || paragraph?.type.name !== 'paragraph') {
-    return new Slice(content, 0, 0)
+  if (!paragraph || content.content.some(child => child.type.name !== 'paragraph')) {
+    return new Slice(splitSoftBreaks(content), 0, 0)
   }
 
   // Inherit the marks at the insertion point, like a plain text paste
   const contextMarks = $context.marks()
-  const inlineContent = Fragment.fromArray(
-    paragraph.children.map(child =>
-      child.mark(child.marks.reduce((set, mark) => mark.addToSet(set), contextMarks)),
+  const lines = splitSoftBreaks(content).content.map(line =>
+    line.copy(
+      Fragment.fromArray(
+        line.children.map(child =>
+          child.mark(child.marks.reduce((set, mark) => mark.addToSet(set), contextMarks)),
+        ),
+      ),
     ),
   )
 
-  // Open a lone paragraph so it merges into the current text
-  return new Slice(Fragment.from(paragraph.copy(inlineContent)), 1, 1)
+  // Like a plain text paste, an edge newline splits the line
+  if (/^(?:\r\n?|\n)/.test(text)) {
+    lines.unshift(paragraph.type.create())
+  }
+
+  if (/(?:\r\n?|\n)$/.test(text)) {
+    lines.push(paragraph.type.create())
+  }
+
+  // Open paragraph-only content so its edges merge into the current text
+  return new Slice(Fragment.fromArray(lines), 1, 1)
+}
+
+// A block leaf at the end of the paste has no place for the caret, so move it below the leaf
+function placeCaretAfterBlockLeaf(tr: Transaction): Transaction {
+  let end = 0
+
+  tr.mapping.maps.at(-1)?.forEach((_from, _to, _newFrom, newTo) => {
+    end = Math.max(end, newTo)
+  })
+
+  const $end = tr.doc.resolve(end)
+
+  if (!$end.nodeBefore?.isBlock || !$end.nodeBefore.isLeaf) {
+    return tr
+  }
+
+  if ($end.nodeAfter?.isTextblock) {
+    return tr.setSelection(TextSelection.create(tr.doc, $end.pos + 1))
+  }
+
+  const node = defaultBlockAt($end.parent.contentMatchAt($end.index()))?.createAndFill()
+
+  if (!node || !$end.parent.canReplaceWith($end.index(), $end.index(), node.type)) {
+    return tr
+  }
+
+  tr.insert($end.pos, node)
+  selectionToInsertionEnd(tr, tr.steps.length - 1, -1)
+
+  return tr
 }
 
 // ProseMirror re-opens parsed slices, so restore the closed blocks unless a transform broke them
@@ -65,17 +123,22 @@ function parseMarkdownSlice(
   $context: ResolvedPos,
   shouldTransformPastedText: ClipboardOptions['shouldTransformPastedText'],
 ): Slice | null {
+  // Code excludes other marks, so converting would drop the markdown syntax
+  if ($context.marks().some(mark => mark.type.spec.code)) {
+    return null
+  }
+
   if (!shouldTransformText(editor, text, shouldTransformPastedText)) {
     return null
   }
 
-  const json = editor.markdown!.parse(text)
+  const json = editor.markdown!.parse(text, { implicitEmptyParagraphs: false })
 
   if (!json.content?.length) {
     return null
   }
 
-  return createSlice(editor.schema.nodeFromJSON(json).content, $context)
+  return createSlice(editor.schema.nodeFromJSON(json).content, $context, text)
 }
 
 /**
@@ -115,11 +178,20 @@ export function createMarkdownClipboardPlugin(
         }
       },
 
+      // The paste handlers get closed blocks, unless a transform broke them
+      transformPasted: slice => {
+        // Consume the flag so it can't close a later paste
+        const closed = state === 'parsed' && parsedClosed
+
+        parsedClosed = false
+
+        return closed ? closeSlice(slice) : slice
+      },
+
       // Dispatch without the uiEvent meta so paste rules don't convert the text again
-      handlePaste: (view, event, receivedSlice) => {
+      handlePaste: (view, event, slice) => {
         // Programmatic pastes create a new event, so a stale slice never matches
         const wasParsed = state === 'parsed' && event === pasteEvent
-        const closed = parsedClosed
 
         state = 'idle'
         parsedClosed = false
@@ -131,18 +203,31 @@ export function createMarkdownClipboardPlugin(
           return false
         }
 
-        const slice = closed ? closeSlice(receivedSlice) : receivedSlice
+        // Our handler runs before the table plugin, so let it fill the selected cells
+        if (handleTablePaste(view, event, slice)) {
+          return true
+        }
 
         // Our handler short-circuits the core paste handler that normally emits this
         editor.emit('paste', { editor, event, slice })
 
-        view.dispatch(view.state.tr.replaceSelection(slice).setMeta('paste', true).scrollIntoView())
+        const tr = view.state.tr.replaceSelection(slice).setMeta('paste', true).scrollIntoView()
+
+        view.dispatch(placeCaretAfterBlockLeaf(tr))
 
         return true
       },
 
       handleDOMEvents: {
-        paste: (_view, event) => {
+        paste: (view, event) => {
+          if (shouldSkipPaste(view, event as ClipboardEvent)) {
+            state = 'idle'
+            parsedClosed = false
+            pasteEvent = null
+
+            return false
+          }
+
           state = 'pasting'
           parsedClosed = false
           pasteEvent = event
