@@ -45,6 +45,20 @@ conflicts. Individual fixes still travel between them, one commit at a time, by 
 - Only target a `release/v*` branch directly if your fix applies exclusively to that old
   version and not to `main` (see "Change only relevant for a maintained version" below).
 
+### Choose a pull request template
+
+GitHub fills in the [human template](.github/pull_request_template.md) by default. To use the [agent template](.github/PULL_REQUEST_TEMPLATE/agent.md) in the web UI, add `?quick_pull=1&template=agent.md` to the compare URL. If the URL already has a query parameter, add `&template=agent.md` instead.
+
+Agents use the [create-pr skill](.agents/skills/create-pr/SKILL.md). Use a short title in sentence case, show evidence reviewers can inspect or reproduce, and use a draft to discuss open tradeoffs.
+
+Use publicly accessible references throughout the PR. Keep internal links, IDs, and private details from Slack, Linear, HubSpot, Notion, and similar tools out of the description. Use `Fixes` or `Closes` only for issues the PR resolves. Disclose AI use in a separate closing paragraph.
+
+### Reviewing and merging the PR
+
+Start every PR with an independent agent review. The human author checks the evidence, resolves findings, and owns the merge decision.
+
+For low-risk changes, such as a focused fix or a refactor with verified behavior, the author can proceed without a second human when checks and GitHub rules allow it. Bring in another human when a material product, architecture, or workflow decision needs their judgment, or when the impact or recovery is uncertain. Changes to authentication, infrastructure, or deployment configuration require a second human reviewer.
+
 ### Does your fix need to reach the current stable release too?
 
 A fix merged into `main` during a pre-release cycle does not reach users on the current stable
@@ -52,7 +66,7 @@ release by itself, because `main` and the maintenance branch never merge. If you
 a critical bug or security issue that also affects the current stable release, it needs a
 second PR that cherry-picks your commit onto the relevant `release/v*` branch.
 
-- Check the box in the pull request template if this applies to your change.
+- Flag the need for a backport in the PR. In the backport PR, link the original PR and name the target branch.
 - Open the backport PR yourself if you can. You know the fix best.
 - If you can't, a maintainer may do it as a last resort, but that's not guaranteed, so try first.
 

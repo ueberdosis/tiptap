@@ -1,44 +1,52 @@
 ---
 name: create-pr
-description: Create a pull request with a clear, concise description that follows the repository's current PR template. Use when asked to open a PR or prepare its title and description.
+description: Prepare a short PR description from the linked context, actual diff, and available verification results. Use the agent template and follow the repository's rules for AI-assisted writing and author sign-off. Surface missing intent or unclear expected behavior for the author to confirm.
 ---
 
-# Create PR
+# Write a pull request
 
-Write for busy developers: make the change and its purpose clear before adding detail.
+Read the [agent template](../../../.github/PULL_REQUEST_TEMPLATE/agent.md) and use its headings and order. For an update, read the current description and reviews. Keep useful author notes and public links.
 
-## Read the current template
+Follow `AGENTS.md` and `CONTRIBUTING.md` for repository checks, release requirements, and reviewer assignment.
 
-- Find and read the repository's applicable PR template every time, including HTML comments, linked guidelines, and contribution instructions. Check the repository root, `.github/`, and `docs/`, including template directories. If several templates exist, choose the one that fits the change.
-- Use the template's current sections, order, length limits, and checklist instructions. Do not copy its structure into this skill or reuse a remembered version.
-- Prefer the actual current PR template over stale copies of its structure in other guidance; still follow any compatible contribution rules.
-- If no local template exists, check the target repository and its shared GitHub defaults. If none exists, use a compact structure suited to the change and say that no template was found.
-- Inspect the full diff against the intended base branch and the relevant issue context. Describe the final change, not the sequence of work or abandoned approaches.
+Use the [examples](references/examples.md) when you need to see how much detail fits the change or how to report limited evidence.
 
-## Write the description
+## Understand the change
 
-Fit the following content into the template's appropriate sections rather than adding a fixed set of headings:
+1. Confirm the base and head. Read the actual diff, linked context, and relevant tests and docs. Include any local changes meant for the PR.
+2. Find who is affected and why the change matters. Ask the author to confirm missing intent or unclear expected behavior. Label any open question in the draft and avoid guessing.
+3. Describe a concrete scenario and what should happen after merge. For an internal change, state what must hold or what outcome can be measured. Include compatibility or migration details that affect the merge decision.
 
-- Start the narrative with a short summary of what changed and why it matters. If the template starts with links or metadata, preserve that order and lead the first explanatory section with the summary.
-- Use short sentences, simple English, and concrete behavior. Put deeper technical detail later, only where the template permits it and reviewers need it.
-- For a bug fix, include the setup and steps to reproduce the original issue, the expected behavior, the observed behavior before the fix, and how the fix closes that gap. Keep these distinct even when expressed in a compact example. Do not claim to have reproduced an issue unless you did; label unverified steps.
-- Include brief notes on the implementation approach: the key decision and how it produces the intended behavior. Mention tradeoffs or consequences only when they affect review or users.
-- Consider a few small diagrams or code examples when they explain reproduction, before/after behavior, the approach, or consequences more clearly than prose. Prefer focused snippets or Mermaid diagrams; omit visuals that only repeat the text. Respect the template's length limits.
-- Do not add a validation or verification section, command logs, or a list of checks or tests run. You may briefly mention tests added to the codebase and the behavior they cover. This restriction concerns the description; still perform repository-required checks.
-- Preserve required checklist items and mark them truthfully. If the template explicitly requires a validation section or execution results, retain its required heading or field but omit the command/test-run report, following the user's preference. Explain that specific conflict to the user outside the PR.
+## Write for a quick read
 
-## Link related work
+Use a short title in sentence case. Lead with concrete impact. Use one bullet per point in each section. Use short sentences and simple words. Keep details that affect the merge decision. Link supporting context once. Remove empty optional sections and unused prompts.
 
-- Include relevant issues and related PRs in the template's link section or the closest existing section. If it has no suitable section, add a small links section only if its guidelines allow it.
-- Include any Linear ticket supplied with the request in that section. Use its supplied URL, or resolve its identifier through available context or tools; never invent a workspace URL.
-- Use closing keywords only for issues this PR actually resolves. Label other issues, tickets, and PRs as related work or dependencies rather than implying that they will close.
-- Do not invent links or issue numbers. If a required link cannot be resolved, ask for the missing information; when no related work is known, follow the template's convention for an empty field.
+Put AI disclosure in a separate closing paragraph. For an agent-created PR, keep the template's notice and say what AI helped with.
 
-## Create the PR
+In References, link only publicly accessible issues, PRs, Discussions, and other sources. Keep internal links, IDs, titles, quotes, and private details out of the title and body, even when supplied as context. This includes Slack, Linear, HubSpot, Notion, and similar tools.
 
-- Confirm the intended repository, base branch, and change scope from the task and repository context. Respect whether the user requested a draft or a ready PR.
-- When opening a PR is requested, carry it through using the available GitHub tools or `gh`. If only a description is requested, return the draft without publishing it. Commit or push only within the user's authorization and exclude unrelated changes.
-- Before publishing, compare the finished description with every template section and instruction. Confirm that claims match the diff, links are accurate, and no placeholders remain.
-- With `gh`, write the exact Markdown to a temporary file and use `--body-file` to preserve newlines and literal code.
-- Check for an existing PR for the branch before creating one. If creation has an ambiguous result, check whether it succeeded before retrying to avoid duplicates. Report unresolved authentication or permission failures instead of repeatedly retrying.
-- Return the PR link and ask the user to review it. Keep execution results and any blockers in the task response, outside the PR description.
+Confirm the assigned public issue before opening, unless the change is a trivial fix. Use `Fixes` or `Closes` only for issues the PR resolves. For a backport, link the original PR and name the target branch. If a critical bug or security fix also affects the current stable release, flag the backport in References. Follow the maintenance rules.
+
+## Point reviewers to decisions
+
+Start every Review bullet with a linked file path and verified line range. Pin the link to the exact head commit, or to the base commit for removed code. Use the smallest range that shows the decision. After the link, say what a human needs to decide and what depends on that decision.
+
+- For security, flag changes to access, permissions, or trust. Say who can do what and which rule a maintainer needs to confirm.
+- For performance, flag frequently run code or work that grows with document size, users, or traffic. Name the workload and the tradeoff. Link measurements when available.
+- For API or implementation choices, flag decisions about public behavior, defaults, compatibility, or how the change fits the codebase. Say what a maintainer would commit to.
+
+Put the highest-impact item first. Aim for one to three starting points and keep every material decision visible. Use the [review policy](../../../CONTRIBUTING.md#reviewing-and-merging-the-pr) to decide when a second human is needed. Omit Review when no point needs human judgment.
+
+## Report checks and get author sign-off
+
+In Verification, say what you checked and what you saw. Link the smallest useful demo, repro, or measurement. Report gaps that could affect the merge decision. Attribute results from other people or CI. Never invent a result, link, or line range. Refresh line links and affected verification when the diff changes.
+
+Name the docs you updated or explain why none are needed. Include the required changeset for package changes. A public API break needs migration notes and a major changeset.
+
+The human author checks the evidence, resolves findings, and owns the merge decision. Get explicit sign-off when the author or repository requires it. Do not claim approval the author has not given.
+
+## Open or update the PR
+
+When authorized, check for an existing PR before creating one. Use the GitHub CLI with `--body-file`. Use a draft to discuss open tradeoffs or while waiting for required author sign-off. Check that the published body and head match the draft, and return the PR link.
+
+Start with an independent agent review. If GitHub has not queued one for a ready PR, request Copilot with `gh pr create --reviewer @copilot` or `gh pr edit <number> --add-reviewer @copilot`. Keep independent findings in the review. Flag a missing review to the author and refresh the review after material changes.
