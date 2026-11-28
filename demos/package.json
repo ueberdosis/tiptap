@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "@floating-ui/dom": "^1.6.13",
-    "@hocuspocus/provider": "^2.15.0",
-    "@hocuspocus/transformer": "^2.15.0",
+    "@hocuspocus/provider": "^3.4.4",
+    "@hocuspocus/transformer": "^3.4.4",
     "@lexical/react": "^0.36.2",
     "@lifeomic/attempt": "3.1.0",
     "@shikijs/core": "1.10.3",
@@ -48,6 +48,7 @@
     "yjs": "13.6.23"
   },
   "devDependencies": {
+    "@hocuspocus/server": "^3.4.4",
     "@sveltejs/vite-plugin-svelte": "7.2.0",
     "@types/node": "^22.12.0",
     "@vitejs/plugin-react": "6.0.5",
