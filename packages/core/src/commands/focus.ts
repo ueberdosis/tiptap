@@ -1,3 +1,4 @@
+import type { Editor } from '../Editor.js'
 import { isTextSelection } from '../helpers/isTextSelection.js'
 import { resolveFocusPosition } from '../helpers/resolveFocusPosition.js'
 import type { FocusPosition, RawCommands } from '../types.js'
@@ -33,6 +34,28 @@ declare module '@tiptap/core' {
   }
 }
 
+function focusDOM(editor: Editor) {
+  const { view } = editor
+
+  if (!editor.isMounted || view.isDestroyed) {
+    return
+  }
+
+  // focus within `requestAnimationFrame` breaks focus on iOS and Android
+  // so we have to call this
+  if (isiOS() || isAndroid()) {
+    ;(view.dom as HTMLElement).focus()
+  }
+
+  // Safari requires preventScroll to avoid the browser scrolling to the
+  // top of the editor when focus is called before the selection is set.
+  // We exclude iOS and Android since they are already handled above.
+  // see: https://github.com/ueberdosis/tiptap/issues/7318
+  if (isSafari() && !isiOS() && !isAndroid()) {
+    ;(view.dom as HTMLElement).focus({ preventScroll: true })
+  }
+}
+
 export const focus: RawCommands['focus'] =
   (position = null, options = {}) =>
   ({ editor, view, tr, dispatch }) => {
@@ -42,19 +65,10 @@ export const focus: RawCommands['focus'] =
     }
 
     const delayedFocus = () => {
-      // focus within `requestAnimationFrame` breaks focus on iOS and Android
-      // so we have to call this
-      if (isiOS() || isAndroid()) {
-        ;(view.dom as HTMLElement).focus()
-      }
-
-      // Safari requires preventScroll to avoid the browser scrolling to the
-      // top of the editor when focus is called before the selection is set.
-      // We exclude iOS and Android since they are already handled above.
-      // see: https://github.com/ueberdosis/tiptap/issues/7318
-      if (isSafari() && !isiOS() && !isAndroid()) {
-        ;(view.dom as HTMLElement).focus({ preventScroll: true })
-      }
+      // Focus after `tr` is dispatched, since the focus event dispatches its own transaction.
+      // A microtask still runs within the user gesture.
+      // see: https://github.com/ueberdosis/tiptap/issues/8546
+      queueMicrotask(() => focusDOM(editor))
 
       // For React we have to focus asynchronously. Otherwise wild things happen.
       // see: https://github.com/ueberdosis/tiptap/issues/1520
