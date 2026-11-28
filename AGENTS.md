@@ -25,6 +25,12 @@ Published packages live in `packages/*`. `demos/` is a Vite app used as playgrou
 - If an existing PR covers the work, stop and report it instead of starting a duplicate implementation.
 - If you cannot verify validity or check for existing PRs, stop and explain what is missing. Do not change code until both checks are complete.
 
+## Review your changes before pushing
+
+1. Run the [review-changes skill](.agents/skills/review-changes/SKILL.md) on your local PR changes in `uncommitted` mode. If the branch already has commits, also apply the skill's review checks to the committed diff against the PR base.
+2. Fix the required findings and run the checks needed to verify the fixes. Review again. Repeat until the changes are ready to release, with no required fixes or verification gaps that block the PR.
+3. Push and open or update the PR after the local review is complete. Maintainers then review the pushed changes with an independent agent and apply the [human review policy](CONTRIBUTING.md#reviewing-and-merging-the-pr).
+
 ## Before opening a PR
 
 Agents must read and follow this repository's [create-pr skill](.agents/skills/create-pr/SKILL.md) before preparing, opening, or updating any pull request, including drafts and backports. Follow the [review policy](CONTRIBUTING.md#reviewing-and-merging-the-pr) before merging.
