@@ -152,6 +152,30 @@ describe('MarkdownManager Direct Tests', () => {
       expect(doc.content![0].content![0].text).toBe('Hello world')
     })
 
+    it('keeps implicit empty paragraphs by default', () => {
+      const doc = markdownManager.parse('a\n\n\n\nb')
+
+      expect(doc.content?.map(node => node.type)).toEqual(['paragraph', 'paragraph', 'paragraph'])
+      expect(doc.content?.[1].content).toEqual([])
+    })
+
+    it('skips implicit empty paragraphs when implicitEmptyParagraphs is false', () => {
+      const doc = markdownManager.parse('a\n\n\n\nb', { implicitEmptyParagraphs: false })
+
+      expect(doc.content).toEqual([
+        { type: 'paragraph', content: [{ type: 'text', text: 'a' }] },
+        { type: 'paragraph', content: [{ type: 'text', text: 'b' }] },
+      ])
+    })
+
+    it('keeps explicit &nbsp; paragraphs when implicitEmptyParagraphs is false', () => {
+      const doc = markdownManager.parse('a\n\n&nbsp;\n\nb', { implicitEmptyParagraphs: false })
+
+      expect(doc.content).toHaveLength(3)
+      expect(doc.content?.[1].type).toBe('paragraph')
+      expect(doc.content?.[1].content).toEqual([])
+    })
+
     it('should parse headings', () => {
       const markdown = `# Heading 1
 

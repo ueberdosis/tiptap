@@ -16,7 +16,7 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
   return new Plugin({
     key: new PluginKey('handlePasteLink'),
     props: {
-      handlePaste: (view, _event, slice) => {
+      handlePaste: (view, event, slice) => {
         const { shouldAutoLink } = options
         const { state } = view
         const { selection } = state
@@ -41,6 +41,31 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
           !link ||
           (shouldAutoLink !== undefined && !shouldAutoLink(link.value))
         ) {
+          return false
+        }
+
+        const hasHtml = !!(event as ClipboardEvent).clipboardData?.getData('text/html')
+        let hasConflictingLink = false
+
+        if (!hasHtml) {
+          const inheritedMarks = selection.$from.marks()
+
+          // Only links added by a text parser conflict, not ones inherited from the cursor
+          slice.content.descendants(node => {
+            const mark = node.marks.find(
+              item => item.type === options.type && !item.isInSet(inheritedMarks),
+            )
+            const href = mark?.attrs.href
+
+            if (href && href !== link.href && href !== link.value) {
+              hasConflictingLink = true
+            }
+
+            return !hasConflictingLink
+          })
+        }
+
+        if (hasConflictingLink) {
           return false
         }
 
