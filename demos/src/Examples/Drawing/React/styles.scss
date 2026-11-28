@@ -1,0 +1,12 @@
+.draw {
+  svg {
+    background: #f1f3f5;
+    cursor: crosshair;
+  }
+
+  path {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
