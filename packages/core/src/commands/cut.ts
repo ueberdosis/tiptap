@@ -1,4 +1,4 @@
-import { TextSelection } from '@tiptap/pm/state'
+import { Selection, TextSelection } from '@tiptap/pm/state'
 
 import type { RawCommands } from '../types.js'
 
@@ -30,7 +30,15 @@ export const cut: RawCommands['cut'] =
 
     tr.insert(newPos, contentSlice.content)
 
-    tr.setSelection(new TextSelection(tr.doc.resolve(Math.max(newPos - 1, 0))))
+    // Position 0 is outside any textblock, so pick the closest valid text position.
+    // Search for text first: `near` alone would select a leaf node such as a horizontal rule.
+    const $pos = tr.doc.resolve(Math.max(newPos - 1, 0))
+    const selection =
+      Selection.findFrom($pos, 1, true) ??
+      Selection.findFrom($pos, -1, true) ??
+      TextSelection.near($pos)
+
+    tr.setSelection(selection)
 
     return true
   }
