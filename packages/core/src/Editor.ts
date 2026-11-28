@@ -262,6 +262,10 @@ export class Editor extends EventEmitter<EditorEvents> {
    * An object of all registered commands.
    */
   public get commands(): SingleCommands {
+    if (!this.commandManager) {
+      return CommandManager.createFallbackCommands()
+    }
+
     return this.commandManager.commands
   }
 
@@ -846,7 +850,14 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Get the document as HTML.
    */
   public getHTML(): string {
-    return getHTMLFromFragment(this.state.doc.content, this.schema)
+    if (!this.editorState) {
+      return ''
+    }
+
+    const { doc } = this.state
+
+    // Use the doc's own schema, `this.schema` is released on destroy
+    return getHTMLFromFragment(doc.content, doc.type.schema)
   }
 
   /**
@@ -856,12 +867,17 @@ export class Editor extends EventEmitter<EditorEvents> {
     blockSeparator?: string
     textSerializers?: Record<string, TextSerializer>
   }): string {
-    const { blockSeparator = '\n\n', textSerializers = {} } = options || {}
+    if (!this.editorState) {
+      return ''
+    }
 
-    return getText(this.state.doc, {
+    const { blockSeparator = '\n\n', textSerializers = {} } = options || {}
+    const { doc } = this.state
+
+    return getText(doc, {
       blockSeparator,
       textSerializers: {
-        ...getTextSerializersFromSchema(this.schema),
+        ...getTextSerializersFromSchema(doc.type.schema),
         ...textSerializers,
       },
     })
