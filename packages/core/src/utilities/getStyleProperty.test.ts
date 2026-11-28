@@ -50,4 +50,69 @@ describe('getStyleProperty', () => {
 
     expect(getStyleProperty(el, 'font-size')).toBe('16px')
   })
+
+  it('keeps semicolons inside double-quoted values', () => {
+    const el = document.createElement('span')
+    el.setAttribute('style', 'font-family: "Times; New Roman", serif; font-size: 16px')
+
+    expect(getStyleProperty(el, 'font-family')).toBe('"Times; New Roman", serif')
+    expect(getStyleProperty(el, 'font-size')).toBe('16px')
+  })
+
+  it('keeps semicolons inside single-quoted values', () => {
+    const el = document.createElement('span')
+    el.setAttribute('style', "font-family: 'Times; New Roman', serif")
+
+    expect(getStyleProperty(el, 'font-family')).toBe("'Times; New Roman', serif")
+  })
+
+  it('does not treat a quoted property-like string as a declaration', () => {
+    const el = document.createElement('span')
+    el.setAttribute('style', 'color: red; content: "a; color: blue"')
+
+    expect(getStyleProperty(el, 'color')).toBe('red')
+  })
+
+  it('ignores semicolons inside parentheses', () => {
+    const el = document.createElement('span')
+    el.setAttribute('style', 'color: red; background: url(data:image/png;base64,AAA); font-size: 12px')
+
+    expect(getStyleProperty(el, 'background')).toBe('url(data:image/png;base64,AAA)')
+    expect(getStyleProperty(el, 'font-size')).toBe('12px')
+  })
+
+  it('keeps escaped quotes from closing a string', () => {
+    const el = document.createElement('span')
+    el.setAttribute('style', 'content: "a\\"; b"; color: red')
+
+    expect(getStyleProperty(el, 'color')).toBe('red')
+  })
+
+  it('keeps escaped parentheses from changing the depth', () => {
+    const el = document.createElement('span')
+    el.setAttribute('style', 'background: url(a\\(b); color: red')
+
+    expect(getStyleProperty(el, 'color')).toBe('red')
+  })
+
+  it('ignores quotes and semicolons inside CSS comments', () => {
+    const el = document.createElement('span')
+    el.setAttribute('style', 'color: red; /* font-size: 99px; " */; font-size: 12px')
+
+    expect(getStyleProperty(el, 'font-size')).toBe('12px')
+  })
+
+  it('closes an unterminated string at a bare newline', () => {
+    const el = document.createElement('span')
+    el.setAttribute('style', 'content: "bad\n; color: red')
+
+    expect(getStyleProperty(el, 'color')).toBe('red')
+  })
+
+  it('keeps an escaped CRLF as one line continuation', () => {
+    const el = document.createElement('span')
+    el.setAttribute('style', 'content: "a\\\r\nb"; color: red')
+
+    expect(getStyleProperty(el, 'color')).toBe('red')
+  })
 })
