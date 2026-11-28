@@ -201,11 +201,33 @@ function matchesDocument($from: ResolvedPos, match: ExtendedRegExpMatchArray, te
 
   const matchStartOffset = $from.parentOffset - matchedDocLength
 
-  return (
-    matchStartOffset >= 0 &&
-    $from.parent.textBetween(matchStartOffset, $from.parentOffset) ===
-      match[0].slice(0, matchedDocLength)
-  )
+  if (matchStartOffset < 0) {
+    return false
+  }
+
+  let matchedDocText = ''
+  let positionsMatch = true
+
+  $from.parent.nodesBetween(matchStartOffset, $from.parentOffset, (node, pos, parent, index) => {
+    if (node.isText) {
+      matchedDocText += node.text!.slice(
+        Math.max(0, matchStartOffset - pos),
+        $from.parentOffset - pos,
+      )
+      return
+    }
+
+    // Each leaf must take as many characters as positions, like a hard break.
+    const nodeText =
+      node.type.spec.toText?.({ node, pos, parent, index }) ??
+      (node.isLeaf ? node.type.spec.leafText?.(node) : undefined) ??
+      ''
+
+    positionsMatch &&= nodeText.length === node.nodeSize
+    matchedDocText += nodeText
+  })
+
+  return positionsMatch && matchedDocText === match[0].slice(0, matchedDocLength)
 }
 
 function run(config: {
