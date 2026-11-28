@@ -62,7 +62,7 @@ export class VueRenderer {
       return this.renderedComponent
     }
 
-    let vNode: ExtendedVNode = h(this.component as DefineComponent, this.props)
+    let vNode: ExtendedVNode = h(this.component as DefineComponent, { ...this.props })
 
     if (this.editor.appContext) {
       vNode.appContext = this.editor.appContext
